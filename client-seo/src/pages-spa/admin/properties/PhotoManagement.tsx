@@ -135,11 +135,11 @@ const PhotoManagement = () => {
 
  const getCategoryBadge = (category: string) => {
  const categoryConfig: Record<string, { color: string; label: string }> = {
- 'EXTERIOR': { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', label: t('admin_photo_exterior', 'Exterior') },
- 'INTERIOR': { color: 'bg-orange-500/10 text-orange-400 border-orange-500/20', label: t('admin_photo_interior', 'Interior') },
- 'AMENITY': { color: 'bg-green-500/10 text-green-400 border-green-500/20', label: t('admin_photo_amenity', 'Amenity') },
- 'FLOOR_PLAN': { color: 'bg-purple-500/10 text-purple-400 border-purple-500/20', label: t('admin_photo_floor_plan', 'Floor Plan') },
- 'NEIGHBORHOOD': { color: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20', label: t('admin_photo_neighborhood', 'Neighborhood') }
+ 'EXTERIOR': { color: 'bg-blue-500/10 text-info border-blue-500/20', label: t('admin_photo_exterior', 'Dış') },
+ 'INTERIOR': { color: 'bg-orange-500/10 text-warning border-orange-500/20', label: t('admin_photo_interior', 'İç') },
+ 'AMENITY': { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', label: t('admin_photo_amenity', 'Olanak') },
+ 'FLOOR_PLAN': { color: 'bg-brand/10 text-brand border-brand/20', label: t('admin_photo_floor_plan', 'Kat Planı') },
+ 'NEIGHBORHOOD': { color: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20', label: t('admin_photo_neighborhood', 'Mahalle') }
  };
  const config = categoryConfig[category] || categoryConfig['EXTERIOR'];
  return <Badge className={config.color}>{config.label}</Badge>;
@@ -167,34 +167,34 @@ const PhotoManagement = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
- {t("admin_photo_title","Photo Management")}
+ {t("admin_photo_title", "Fotoğraf Yönetimi")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_photo_subtitle","Manage property photos and images")}
+ {t("admin_photo_subtitle", "Mülk fotoğraflarını ve resimlerini yönetin")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-white">
+ <Button className="bg-muted hover:bg-muted0 text-white">
  <Plus className="w-4 h-4 mr-2" />
- {t("common.add","Add Photo")}
+ {t("common.add", "Ekle")}
  </Button>
  </DialogTrigger>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_photo_add_title","Add New Photo")}</DialogTitle>
- <DialogDescription>{t("admin_photo_add_desc","Upload a new photo for a property")}</DialogDescription>
+ <DialogTitle>{t("admin_photo_add_title", "Yeni Fotoğraf Ekle")}</DialogTitle>
+ <DialogDescription>{t("admin_photo_add_desc", "Bir mülk için yeni bir fotoğraf yükleyin")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 py-4">
  <div className="space-y-2">
- <Label>{t("admin_photo_property","Property")}</Label>
+ <Label>{t("admin_photo_property", "Mülk")}</Label>
  <Select value={newItem.propertyId} onValueChange={(v) => setNewItem({...newItem, propertyId: v})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder={t("admin_photo_select_property","Select property")} />
+ <SelectValue placeholder={t("admin_photo_select_property", "Mülk seçin")} />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
  {properties.map((p: any) => (
@@ -204,7 +204,7 @@ const PhotoManagement = () => {
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_photo_url","Photo URL")}</Label>
+ <Label>{t("admin_photo_url", "Fotoğraf URL'si")}</Label>
  <Input 
  value={newItem.url} 
  onChange={(e) => setNewItem({...newItem, url: e.target.value})}
@@ -213,33 +213,33 @@ const PhotoManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_photo_caption","Caption")}</Label>
+ <Label>{t("admin_photo_caption", "Açıklama")}</Label>
  <Textarea 
  value={newItem.caption} 
  onChange={(e) => setNewItem({...newItem, caption: e.target.value})}
  className="bg-card border-border"
- placeholder={t("admin_photo_caption_placeholder","Photo description")}
+ placeholder={t("admin_photo_caption_placeholder", "Fotoğraf açıklaması")}
  rows={2}
  />
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_photo_category","Category")}</Label>
+ <Label>{t("admin_photo_category", "Kategori")}</Label>
  <Select value={newItem.category} onValueChange={(v) => setNewItem({...newItem, category: v})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="EXTERIOR">{t("admin_photo_exterior","Exterior")}</SelectItem>
- <SelectItem value="INTERIOR">{t("admin_photo_interior","Interior")}</SelectItem>
- <SelectItem value="AMENITY">{t("admin_photo_amenity","Amenity")}</SelectItem>
- <SelectItem value="FLOOR_PLAN">{t("admin_photo_floor_plan","Floor Plan")}</SelectItem>
- <SelectItem value="NEIGHBORHOOD">{t("admin_photo_neighborhood","Neighborhood")}</SelectItem>
+ <SelectItem value="EXTERIOR">{t("admin_photo_exterior", "Dış")}</SelectItem>
+ <SelectItem value="INTERIOR">{t("admin_photo_interior", "İç")}</SelectItem>
+ <SelectItem value="AMENITY">{t("admin_photo_amenity", "Olanak")}</SelectItem>
+ <SelectItem value="FLOOR_PLAN">{t("admin_photo_floor_plan", "Kat Planı")}</SelectItem>
+ <SelectItem value="NEIGHBORHOOD">{t("admin_photo_neighborhood", "Mahalle")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_photo_order","Display Order")}</Label>
+ <Label>{t("admin_photo_order", "Görüntüleme Sırası")}</Label>
  <Input 
  type="number" 
  value={newItem.order} 
@@ -257,7 +257,7 @@ const PhotoManagement = () => {
  onChange={(e) => setNewItem({...newItem, isPrimary: e.target.checked})}
  className="rounded"
  />
- <Label htmlFor="isPrimary">{t("admin_photo_primary","Primary Photo")}</Label>
+ <Label htmlFor="isPrimary">{t("admin_photo_primary", "Ana Fotoğraf")}</Label>
  </div>
  <div className="flex items-center gap-2">
  <input 
@@ -267,16 +267,16 @@ const PhotoManagement = () => {
  onChange={(e) => setNewItem({...newItem, isFeatured: e.target.checked})}
  className="rounded"
  />
- <Label htmlFor="isFeatured">{t("admin_photo_featured","Featured")}</Label>
+ <Label htmlFor="isFeatured">{t("admin_photo_featured", "Öne Çıkan")}</Label>
  </div>
  </div>
  </form>
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleAddSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleAddSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>
@@ -287,9 +287,9 @@ const PhotoManagement = () => {
  {/* Filters Section */}
  <div className="flex gap-4">
  <div className="relative flex-1 max-w-md">
- <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+ <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
  <Input
- placeholder={t("common.search","Search...")}
+ placeholder={t("common.search", "Ara")}
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  className="pl-10 bg-card border-border"
@@ -300,12 +300,12 @@ const PhotoManagement = () => {
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="ALL">{t("common.all","All")}</SelectItem>
- <SelectItem value="EXTERIOR">{t("admin_photo_exterior","Exterior")}</SelectItem>
- <SelectItem value="INTERIOR">{t("admin_photo_interior","Interior")}</SelectItem>
- <SelectItem value="AMENITIES">{t("admin_photo_amenities","Amenities")}</SelectItem>
- <SelectItem value="FLOOR_PLAN">{t("admin_photo_floor_plan","Floor Plan")}</SelectItem>
- <SelectItem value="NEIGHBORHOOD">{t("admin_photo_neighborhood","Neighborhood")}</SelectItem>
+ <SelectItem value="ALL">{t("common.all", "Tümü")}</SelectItem>
+ <SelectItem value="EXTERIOR">{t("admin_photo_exterior", "Dış")}</SelectItem>
+ <SelectItem value="INTERIOR">{t("admin_photo_interior", "İç")}</SelectItem>
+ <SelectItem value="AMENITIES">{t("admin_photo_amenities", "Olanaklar")}</SelectItem>
+ <SelectItem value="FLOOR_PLAN">{t("admin_photo_floor_plan", "Kat Planı")}</SelectItem>
+ <SelectItem value="NEIGHBORHOOD">{t("admin_photo_neighborhood", "Mahalle")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -314,27 +314,27 @@ const PhotoManagement = () => {
  <CardHeader>
  <CardTitle className="flex items-center gap-2">
  <ImageIcon className="w-5 h-5" />
- {t("admin_photo_list_title","Property Photos")}
+ {t("admin_photo_list_title", "Mülk Fotoğrafları")}
  </CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
- <div className="text-center py-8 text-slate-500">{t("common.loading","Loading...")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("common.loading", "Yükleniyor")}</div>
  ) : filteredPhotos.length === 0 ? (
- <div className="text-center py-8 text-slate-500">{t("admin_photo_empty","No photos found")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("admin_photo_empty", "Fotoğraf bulunamadı")}</div>
  ) : (
  <Table>
  <TableHeader>
  <TableRow>
- <TableHead>{t("admin_photo_preview","Preview")}</TableHead>
- <TableHead>{t("admin_photo_property","Property")}</TableHead>
- <TableHead>{t("admin_photo_category","Category")}</TableHead>
- <TableHead>{t("admin_photo_caption","Caption")}</TableHead>
- <TableHead>{t("admin_photo_order","Order")}</TableHead>
- <TableHead>{t("admin_photo_flags","Flags")}</TableHead>
- <TableHead>{t("admin_photo_info","Info")}</TableHead>
- <TableHead>{t("admin_photo_uploaded","Uploaded")}</TableHead>
- <TableHead className="text-right">{t("common.actions","Actions")}</TableHead>
+ <TableHead>{t("admin_photo_preview", "Önizleme")}</TableHead>
+ <TableHead>{t("admin_photo_property", "Mülk")}</TableHead>
+ <TableHead>{t("admin_photo_category", "Kategori")}</TableHead>
+ <TableHead>{t("admin_photo_caption", "Açıklama")}</TableHead>
+ <TableHead>{t("admin_photo_order", "Görüntüleme Sırası")}</TableHead>
+ <TableHead>{t("admin_photo_flags", "Bayraklar")}</TableHead>
+ <TableHead>{t("admin_photo_info", "Bilgi")}</TableHead>
+ <TableHead>{t("admin_photo_uploaded", "Yüklendi")}</TableHead>
+ <TableHead className="text-right">{t("common.actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -345,7 +345,7 @@ const PhotoManagement = () => {
  {item.url ? (
  <Image src={item.url} alt={item.caption || ''} fill loading="lazy" className="object-cover" sizes="80px" />
  ) : (
- <div className="w-full h-full flex items-center justify-center text-slate-500">
+ <div className="w-full h-full flex items-center justify-center text-muted-foreground">
  <ImageIcon className="w-6 h-6" />
  </div>
  )}
@@ -353,19 +353,19 @@ const PhotoManagement = () => {
  </TableCell>
  <TableCell className="font-medium">{item.property?.name || '-'}</TableCell>
  <TableCell>{getCategoryBadge(item.category)}</TableCell>
- <TableCell className="text-slate-500 max-w-xs truncate">{item.caption || '-'}</TableCell>
- <TableCell className="text-slate-500">{item.order}</TableCell>
+ <TableCell className="text-muted-foreground max-w-xs truncate">{item.caption || '-'}</TableCell>
+ <TableCell className="text-muted-foreground">{item.order}</TableCell>
  <TableCell>
  <div className="flex gap-1">
- {item.isPrimary && <Badge variant="outline" className="text-xs">{t("admin_photo_primary","Primary")}</Badge>}
- {item.isFeatured && <Badge variant="secondary" className="text-xs"><Star className="w-3 h-3 mr-1" />{t("admin_photo_featured","Featured")}</Badge>}
+ {item.isPrimary && <Badge variant="outline" className="text-xs">{t("admin_photo_primary", "Ana Fotoğraf")}</Badge>}
+ {item.isFeatured && <Badge variant="secondary" className="text-xs"><Star className="w-3 h-3 mr-1" />{t("admin_photo_featured", "Öne Çıkan")}</Badge>}
  </div>
  </TableCell>
- <TableCell className="text-slate-500 text-sm">
+ <TableCell className="text-muted-foreground text-sm">
  <div>{item.width && item.height && `${item.width}x${item.height}`}</div>
  <div>{formatFileSize(item.fileSize)}</div>
  </TableCell>
- <TableCell className="text-slate-500 text-sm">
+ <TableCell className="text-muted-foreground text-sm">
  <div className="flex items-center gap-1">
  <Calendar className="w-3 h-3" />
  {new Date(item.uploadedAt).toLocaleDateString()}
@@ -374,14 +374,14 @@ const PhotoManagement = () => {
  <TableCell className="text-right">
  <div className="flex justify-end gap-2">
  {item.url && (
- <Button variant="ghost" size="icon" onClick={() => window.open(item.url, '_blank')}>
+ <Button variant="ghost" size="icon" aria-label={t("common.view")} onClick={() => window.open(item.url, '_blank')}>
  <Eye className="w-4 h-4" />
  </Button>
  )}
- <Button variant="ghost" size="icon" onClick={() => openEditModal(item)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} onClick={() => openEditModal(item)}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(item.id)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} onClick={() => deleteMutation.mutate(item.id)}>
  <Trash2 className="w-4 h-4 text-red-500" />
  </Button>
  </div>
@@ -398,13 +398,13 @@ const PhotoManagement = () => {
  <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_photo_edit_title","Edit Photo")}</DialogTitle>
- <DialogDescription>{t("admin_photo_edit_desc","Update photo details")}</DialogDescription>
+ <DialogTitle>{t("admin_photo_edit_title", "Fotoğrafı Düzenle")}</DialogTitle>
+ <DialogDescription>{t("admin_photo_edit_desc", "Fotoğraf detaylarını güncelleyin")}</DialogDescription>
  </DialogHeader>
  {editingItem && (
  <form onSubmit={handleEditSubmit} className="space-y-4 py-4">
  <div className="space-y-2">
- <Label>{t("admin_photo_url","Photo URL")}</Label>
+ <Label>{t("admin_photo_url", "Fotoğraf URL'si")}</Label>
  <Input 
  value={editingItem.url}
  onChange={(e) => setEditingItem({...editingItem, url: e.target.value})}
@@ -412,7 +412,7 @@ const PhotoManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_photo_caption","Caption")}</Label>
+ <Label>{t("admin_photo_caption", "Açıklama")}</Label>
  <Textarea 
  value={editingItem.caption || ''}
  onChange={(e) => setEditingItem({...editingItem, caption: e.target.value})}
@@ -422,22 +422,22 @@ const PhotoManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_photo_category","Category")}</Label>
+ <Label>{t("admin_photo_category", "Kategori")}</Label>
  <Select value={editingItem.category} onValueChange={(v) => setEditingItem({...editingItem, category: v})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="EXTERIOR">{t("admin_photo_exterior","Exterior")}</SelectItem>
- <SelectItem value="INTERIOR">{t("admin_photo_interior","Interior")}</SelectItem>
- <SelectItem value="AMENITY">{t("admin_photo_amenity","Amenity")}</SelectItem>
- <SelectItem value="FLOOR_PLAN">{t("admin_photo_floor_plan","Floor Plan")}</SelectItem>
- <SelectItem value="NEIGHBORHOOD">{t("admin_photo_neighborhood","Neighborhood")}</SelectItem>
+ <SelectItem value="EXTERIOR">{t("admin_photo_exterior", "Dış")}</SelectItem>
+ <SelectItem value="INTERIOR">{t("admin_photo_interior", "İç")}</SelectItem>
+ <SelectItem value="AMENITY">{t("admin_photo_amenity", "Olanak")}</SelectItem>
+ <SelectItem value="FLOOR_PLAN">{t("admin_photo_floor_plan", "Kat Planı")}</SelectItem>
+ <SelectItem value="NEIGHBORHOOD">{t("admin_photo_neighborhood", "Mahalle")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_photo_order","Display Order")}</Label>
+ <Label>{t("admin_photo_order", "Görüntüleme Sırası")}</Label>
  <Input 
  type="number"
  value={editingItem.order}
@@ -455,7 +455,7 @@ const PhotoManagement = () => {
  onChange={(e) => setEditingItem({...editingItem, isPrimary: e.target.checked})}
  className="rounded"
  />
- <Label htmlFor="editIsPrimary">{t("admin_photo_primary","Primary Photo")}</Label>
+ <Label htmlFor="editIsPrimary">{t("admin_photo_primary", "Ana Fotoğraf")}</Label>
  </div>
  <div className="flex items-center gap-2">
  <input 
@@ -465,17 +465,17 @@ const PhotoManagement = () => {
  onChange={(e) => setEditingItem({...editingItem, isFeatured: e.target.checked})}
  className="rounded"
  />
- <Label htmlFor="editIsFeatured">{t("admin_photo_featured","Featured")}</Label>
+ <Label htmlFor="editIsFeatured">{t("admin_photo_featured", "Öne Çıkan")}</Label>
  </div>
  </div>
  </form>
  )}
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleEditSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleEditSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>

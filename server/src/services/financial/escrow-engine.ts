@@ -35,11 +35,11 @@ export class EscrowEngine {
       }
     });
 
-    await eventBus.publish({
-      type: DomainEvents.ESCROW_CREATED,
-      payload: { id: escrow.id, amount: escrow.totalAmount, orgId: escrow.orgId },
-      source: "FinanceOS",
-    });
+    await eventBus.publish(
+      DomainEvents.ESCROW_CREATED,
+      { id: escrow.id, amount: escrow.totalAmount, orgId: escrow.orgId },
+      "FinanceOS",
+    );
 
     return escrow;
   }
@@ -105,11 +105,11 @@ export class EscrowEngine {
         }
       });
 
-      await eventBus.publish({
-        type: DomainEvents.ESCROW_RELEASED,
-        payload: { id: escrowId, amount: amountToRelease },
-        source: "FinanceOS",
-      });
+      await eventBus.publish(
+        DomainEvents.ESCROW_RELEASED,
+        { id: escrowId, amount: amountToRelease },
+        "FinanceOS",
+      );
 
       return { updatedEscrow, release };
     });

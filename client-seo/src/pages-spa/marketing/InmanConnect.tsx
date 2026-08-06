@@ -184,7 +184,7 @@ export default function InmanConnect() {
                   </div>
 
                   <div className="relative h-64 rounded-2xl overflow-hidden border border-blue-500/30 bg-[#0a0a0c] shadow-xl shadow-blue-500/5">
-                    <span className="absolute top-4 left-4 bg-emerald-500/80 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">
+                    <span className="absolute top-4 left-4 bg-blue-500/80 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">
                       <Sparkles className="w-3 h-3" /> AI Staged & Optimized (After)
                     </span>
                     <Image src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=600&q=80" alt="After Staging" fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
@@ -195,7 +195,7 @@ export default function InmanConnect() {
                       </h4>
                       <p className="text-slate-300 text-xs mt-1">Virtually staged Nordic furniture, optimized warm lighting, and a high-conversion storytelling copy.</p>
                       <div className="mt-3 flex items-center justify-between">
-                        <span className="text-xs text-emerald-400 font-bold flex items-center gap-1">
+                        <span className="text-xs text-blue-400 font-bold flex items-center gap-1">
                           <CheckCircle2 className="w-3.5 h-3.5" /> Listing Score: 98/100
                         </span>
                         <span className="text-xs text-blue-400 font-bold">Estimated Lease Speed: 2.4x Faster!</span>
@@ -216,9 +216,9 @@ export default function InmanConnect() {
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 relative overflow-hidden">
-                      <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-bl-lg uppercase tracking-wide">Recommended</div>
-                      <span className="text-xs text-emerald-400 font-bold uppercase tracking-wider">Reservatior LeaseCare+ Model</span>
+                    <div className="p-4 rounded-xl border border-blue-500/20 bg-blue-500/5 relative overflow-hidden">
+                      <div className="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-bl-lg uppercase tracking-wide">Recommended</div>
+                      <span className="text-xs text-blue-400 font-bold uppercase tracking-wider">Reservatior LeaseCare+ Model</span>
                       <div className="text-2xl font-black text-white mt-2">3.5% Monthly Commission</div>
                       <p className="text-slate-300 text-xs mt-2 leading-relaxed">
                         Zero upfront commission. Spreads commission across monthly rent. Double-sided privacy masking avoids friction between tenant and landlord.
@@ -230,7 +230,7 @@ export default function InmanConnect() {
                 <div className="text-center pt-2">
                   <Button
                     onClick={handleJoinPilot}
-                    className="h-14 px-10 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-base transition-all shadow-xl shadow-emerald-600/20 group"
+                    className="h-14 px-10 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-base transition-all shadow-xl shadow-blue-600/20 group"
                   >
                     Share Listing & Launch Pilot
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -264,7 +264,7 @@ export default function InmanConnect() {
               </div>
               <div className="border-t border-[#24262f] pt-4 mt-4 flex items-center justify-between">
                 <span className="text-xs text-slate-500">Days-to-Lease</span>
-                <span className="text-sm font-bold text-emerald-400">-65% Decrease</span>
+                <span className="text-sm font-bold text-blue-400">-65% Decrease</span>
               </div>
             </div>
 
@@ -282,7 +282,7 @@ export default function InmanConnect() {
               </div>
               <div className="border-t border-[#24262f] pt-4 mt-4 flex items-center justify-between">
                 <span className="text-xs text-slate-500">Inquiry Volume</span>
-                <span className="text-sm font-bold text-emerald-400">+180% Increase</span>
+                <span className="text-sm font-bold text-blue-400">+180% Increase</span>
               </div>
             </div>
 
@@ -300,7 +300,7 @@ export default function InmanConnect() {
               </div>
               <div className="border-t border-[#24262f] pt-4 mt-4 flex items-center justify-between">
                 <span className="text-xs text-slate-500">Agent Productivity</span>
-                <span className="text-sm font-bold text-emerald-400">3x Time Saved</span>
+                <span className="text-sm font-bold text-blue-400">3x Time Saved</span>
               </div>
             </div>
 

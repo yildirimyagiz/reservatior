@@ -85,21 +85,21 @@ export default function HybridRentalEngineDashboard() {
     switch (model) {
       case "REVENUE_SHARE":
         return {
-          label: t("admin_hybrid_rental_engine_model_revenue_share", "REVENUE SHARE MODEL (80-100 SKOR)"),
+          label: t("admin_hybrid_rental_engine_model_revenue_share", "GELİR PAYLAŞIM MODELİ (80-100 SKOR)"),
           sub: "Garanti Minimum Kira + %25 Performans Payı",
           color: "bg-blue-500/10 text-success border-blue-500/30",
           icon: Zap,
         };
       case "CORPORATE_MASTER_LEASE":
         return {
-          label: t("admin_hybrid_rental_engine_model_master_lease", "CORPORATE MASTER LEASE MODEL (50-79 SKOR)"),
+          label: t("admin_hybrid_rental_engine_model_master_lease", "KURUMSAL MASTER KİRALAMA MODELİ (50-79 SKOR)"),
           sub: "Reservatior Kurumsal Kontrat + Sabit Marjlı Alt Kiralama",
           color: "bg-amber-500/10 text-warning border-amber-500/30",
           icon: Building2,
         };
       default:
         return {
-          label: t("admin_hybrid_rental_engine_model_reject", "REJECT / DO NOT OPERATE (0-49 SKOR)"),
+          label: t("admin_hybrid_rental_engine_model_reject", "REDDET / İŞLETME (0-49 SKOR)"),
           sub: "Yetersiz Talep veya Mevzuat Engeli (7464 Kanun)",
           color: "bg-rose-500/10 text-rose-400 border-rose-500/30",
           icon: XCircle,
@@ -108,7 +108,7 @@ export default function HybridRentalEngineDashboard() {
   };
 
   return (
-    <PageShell title={t("admin_hybrid_rental_engine_page_title", "Hybrid Rental & Commission Architecture OS")}>
+    <PageShell title={t("admin_hybrid_rental_engine_page_title", "Hibrit Kiralama & Komisyon Mimarisi İşletim Sistemi")}>
       <div className="space-y-6 animate-in fade-in duration-500">
         {/* Header Hero Banner */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-6 border border-border shadow-2xl">
@@ -116,10 +116,10 @@ export default function HybridRentalEngineDashboard() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/20 text-brand text-xs font-semibold uppercase tracking-wider mb-2">
-                <Brain className="w-3.5 h-3.5" /> {t("admin_hybrid_rental_engine_badge", "PropTech + FinTech + AI Real Estate OS")}
+                <Brain className="w-3.5 h-3.5" /> {t("admin_hybrid_rental_engine_badge", "PropTech + FinTech + AI Gayrimenkul İşletim Sistemi")}
               </div>
               <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-                {t("admin_hybrid_rental_engine_hero_title", "Reservatior Hybrid Rental & Partner Revenue Engine")}
+                {t("admin_hybrid_rental_engine_hero_title", "Reservatior Hibrit Kiralama & Ortak Gelir Motoru")}
               </h1>
               <p className="text-muted-foreground text-sm mt-1 max-w-2xl">
                 Mülk değerlemesi, 7464 Mevzuat Kontrolü, Prisma `Commission` & `EscrowSplitConfig` Veritabanı Entegrasyonu ve Anında Avans (Commission Advance) Altyapısı.
@@ -157,7 +157,7 @@ export default function HybridRentalEngineDashboard() {
                 >
                   <option value="PROPERTY_ACQUISITION">Emlak Danışmanı / Ofisi (Property Acquisition)</option>
                   <option value="COMMUNITY_REFERRAL">Site Görevlisi / Residence Partner (Community)</option>
-                  <option value="CORPORATE_REFERRAL">{t("admin_hybrid_rental_engine_corporate_ref", "Expat HR / Relocation Acentesi (Corporate)")}</option>
+                  <option value="CORPORATE_REFERRAL">{t("admin_hybrid_rental_engine_corporate_ref", "Expat HR / Relocation Acentesi (Kurumsal)")}</option>
                   <option value="PORTFOLIO_MANAGER">Stratejik Bölge Portföy Ortağı (Strategic)</option>
                   <option value="DIRECT_RESERVATIOR">Doğrudan Başvuru (Reservatior Direct - Aracısız)</option>
                 </select>
@@ -271,7 +271,7 @@ export default function HybridRentalEngineDashboard() {
                 <div className="bg-card border border-border p-4 rounded-2xl space-y-2">
                   <div className="flex items-center justify-between border-b border-border pb-2">
                     <span className="text-xs font-bold text-card-foreground flex items-center gap-1">
-                      <Calculator className="w-3.5 h-3.5 text-brand" /> {t("admin_hybrid_rental_engine_prisma_commission", "Prisma `Commission`")}
+                      <Calculator className="w-3.5 h-3.5 text-brand" /> {t("admin_hybrid_rental_engine_prisma_commission", "Prisma `Komisyon Payı`")}
                     </span>
                     <span className="text-[10px] bg-brand/10 text-brand font-mono px-1.5 py-0.5 rounded">
                       {evaluation.commissionEngine.prismaCommissionRecord.collectionType}
@@ -279,19 +279,19 @@ export default function HybridRentalEngineDashboard() {
                   </div>
                   <div className="space-y-1 text-xs">
                     <div className="flex justify-between text-muted-foreground">
-                      <span>{t("admin_hybrid_rental_engine_base_amount", "Base Amount:")}</span>
+                      <span>{t("admin_hybrid_rental_engine_base_amount", "Temel Tutar:")}</span>
                       <span className="font-bold text-card-foreground">{formatCurrency(evaluation.commissionEngine.prismaCommissionRecord.amountBase)}</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground">
-                      <span>{t("admin_hybrid_rental_engine_platform_rate", "Platform Rate / Fee:")}</span>
+                      <span>{t("admin_hybrid_rental_engine_platform_rate", "Platform Oranı / Ücreti:")}</span>
                       <span className="font-medium text-brand">%{evaluation.commissionEngine.prismaCommissionRecord.platformRate} ({formatCurrency(evaluation.commissionEngine.prismaCommissionRecord.platformFee)})</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground">
-                      <span>{t("admin_hybrid_rental_engine_partner_rate", "Partner Rate / Fee:")}</span>
+                      <span>{t("admin_hybrid_rental_engine_partner_rate", "Partner Oranı / Ücreti:")}</span>
                       <span className="font-medium text-success">%{evaluation.commissionEngine.prismaCommissionRecord.partnerRate} ({formatCurrency(evaluation.commissionEngine.prismaCommissionRecord.partnerFee)})</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground">
-                      <span>{t("admin_hybrid_rental_engine_accommodation_tax", "Accommodation Tax (%2):")}</span>
+                      <span>{t("admin_hybrid_rental_engine_accommodation_tax", "Konaklama Vergisi (%2)")}</span>
                       <span className="font-medium text-rose-400">{formatCurrency(evaluation.commissionEngine.prismaCommissionRecord.taxAmount)}</span>
                     </div>
                   </div>
@@ -304,20 +304,20 @@ export default function HybridRentalEngineDashboard() {
                       <Lock className="w-3.5 h-3.5 text-amber-500" /> {t("admin_hybrid_rental_engine_escrow_split", "`EscrowSplitConfig`")}
                     </span>
                     <span className="text-[10px] bg-amber-500/10 text-warning font-mono px-1.5 py-0.5 rounded">
-                      {evaluation.commissionEngine.prismaEscrowSplitConfig.blockageDays} {t("admin_hybrid_rental_engine_days_block", "Days Block")}
+                      {evaluation.commissionEngine.prismaEscrowSplitConfig.blockageDays} {t("admin_hybrid_rental_engine_days_block", "Gün Blok")}
                     </span>
                   </div>
                   <div className="space-y-1 text-xs">
                     <div className="flex justify-between text-muted-foreground">
-                      <span>{t("admin_hybrid_rental_engine_agent_payout_rate", "Agent Payout Rate:")}</span>
+                      <span>{t("admin_hybrid_rental_engine_agent_payout_rate", "Danışman Ödeme Oranı:")}</span>
                       <span className="font-bold text-card-foreground">%{evaluation.commissionEngine.prismaEscrowSplitConfig.agentPayoutRate.toFixed(1)}</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground">
-                      <span>{t("admin_hybrid_rental_engine_reservatior_take_rate", "Reservatior Take Rate:")}</span>
+                      <span>{t("admin_hybrid_rental_engine_reservatior_take_rate", "Reservatior Marj Oranı:")}</span>
                       <span className="font-bold text-brand">%{evaluation.commissionEngine.prismaEscrowSplitConfig.reservatiorFeeRate.toFixed(1)}</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground">
-                      <span>{t("admin_hybrid_rental_engine_upfront_installments", "Upfront / Installments:")}</span>
+                      <span>{t("admin_hybrid_rental_engine_upfront_installments", "Peşin / Taksit:")}</span>
                       <span className="font-medium">%{evaluation.commissionEngine.prismaEscrowSplitConfig.upfrontPercent} / {evaluation.commissionEngine.prismaEscrowSplitConfig.installmentCount} {t("admin_hybrid_rental_engine_installments", "Taksit")}</span>
                     </div>
                   </div>
@@ -332,7 +332,7 @@ export default function HybridRentalEngineDashboard() {
                     <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${
                       evaluation.commissionEngine.prismaCommissionAdvance.isEligible ? "bg-blue-500/10 text-success" : "bg-rose-500/10 text-rose-400"
                     }`}>
-                      {evaluation.commissionEngine.prismaCommissionAdvance.isEligible ? t("admin_hybrid_rental_engine_instant_eligible", "INSTANT ELIGIBLE") : t("admin_hybrid_rental_engine_not_eligible", "NOT ELIGIBLE")}
+                      {evaluation.commissionEngine.prismaCommissionAdvance.isEligible ? t("admin_hybrid_rental_engine_instant_eligible", "ANINDA UYGUN") : t("admin_hybrid_rental_engine_not_eligible", "UYGUN DEĞİL")}
                     </span>
                   </div>
                   <div className="space-y-1 text-xs">
@@ -341,11 +341,11 @@ export default function HybridRentalEngineDashboard() {
                       <span className="font-bold text-card-foreground">{formatCurrency(evaluation.commissionEngine.prismaCommissionAdvance.originalAmount)}</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground">
-                      <span>{t("admin_hybrid_rental_engine_advance_service_fee", "Avans Hizmet Bedeli (%5):")}</span>
+                      <span>{t("admin_hybrid_rental_engine_advance_service_fee", "Avans Hizmet Bedeli (%5)")}</span>
                       <span className="font-medium text-rose-400">- {formatCurrency(evaluation.commissionEngine.prismaCommissionAdvance.feeAmount)}</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground pt-1 border-t border-border">
-                      <span className="font-bold text-success">{t("admin_hybrid_rental_engine_instant_payout", "Anında Ödenen (Payout):")}</span>
+                      <span className="font-bold text-success">{t("admin_hybrid_rental_engine_instant_payout", "Anında Ödenen (Payout)")}</span>
                       <span className="font-extrabold text-success">{formatCurrency(evaluation.commissionEngine.prismaCommissionAdvance.payoutAmount)}</span>
                     </div>
                   </div>
@@ -359,13 +359,13 @@ export default function HybridRentalEngineDashboard() {
                     <Share2 className="w-5 h-5 text-brand" /> {t("admin_hybrid_rental_engine_split_attribution", "Partner Commission Split & Attribution Motoru")}
                   </h3>
                   <span className="text-xs bg-brand/10 text-brand border border-brand/30 px-2.5 py-1 rounded-full font-bold">
-                    {t("admin_hybrid_rental_engine_tier", "Tier:")} {evaluation.partnerAttribution.primaryPartnerTier}
+                    {t("admin_hybrid_rental_engine_tier", "Kademe:")} {evaluation.partnerAttribution.primaryPartnerTier}
                   </span>
                 </div>
 
                 {/* Splits Table */}
                 <div className="space-y-2 text-xs">
-                  <span className="font-bold text-card-foreground block">{t("admin_hybrid_rental_engine_split_ledger", "İşlem Dağıtım Matrisi (Split Ledger):")}</span>
+                  <span className="font-bold text-card-foreground block">{t("admin_hybrid_rental_engine_split_ledger", "İşlem Dağıtım Matrisi (Split Ledger)")}</span>
                   <div className="space-y-2">
                     {evaluation.commissionEngine.splits.map((split: any, idx: number) => (
                       <div key={idx} className="flex items-center justify-between p-2.5 rounded-xl bg-background border border-border">

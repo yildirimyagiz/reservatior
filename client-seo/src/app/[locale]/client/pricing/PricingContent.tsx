@@ -105,7 +105,7 @@ export function PricingContent() {
             </div>
             <Button
               onClick={() => router.push('/client/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("pricing.pricingcontent.auto_ext_3")}
@@ -115,7 +115,7 @@ export function PricingContent() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-[1600px] mx-auto">
           {plans.map((plan, index) => {
-              const { t } = useTranslation();
+
             const isPopular = plan.priceMonthlyCents !== null && plan.priceMonthlyCents > 5000 && plan.priceMonthlyCents < 20000;
             return (
               <m.div
@@ -124,7 +124,7 @@ export function PricingContent() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 className={cn(
-                  "relative p-10 rounded-[48px] bg-white/5 backdrop-blur-xl border border-purple-500/20 flex flex-col h-full transition-all duration-500 hover:bg-white/10 group",
+                  "relative p-10 rounded-[48px] bg-white/5 backdrop-blur-xl border border-brand/20 flex flex-col h-full transition-all duration-500 hover:bg-white/10 group",
                   isPopular && "border-blue-500/50 ring-1 ring-blue-500/20"
                 )}
               >
@@ -151,10 +151,10 @@ export function PricingContent() {
                   <p className="text-xs font-bold text-gray-600 tracking-widest border-b border-white/5 pb-2">{t("pricing.pricingcontent.auto_ext_7")}</p>
                   {generateFeatures(plan.limits).map((feature, fIdx) => (
                     <div key={fIdx} className="flex items-center gap-3">
-                      <div className="h-5 w-5 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 text-blue-400" />
+                      <div className="h-5 w-5 rounded-full bg-brand/100/10 border border-blue-500/20 flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3 text-brand" />
                       </div>
-                      <span className="text-xs font-bold text-white tracking-widest group-hover:text-blue-400 transition-colors">{feature}</span>
+                      <span className="text-xs font-bold text-white tracking-widest group-hover:text-brand transition-colors">{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -170,7 +170,7 @@ export function PricingContent() {
                   className={cn(
                     "w-full h-16 rounded-2xl font-bold text-xs tracking-widest uppercase transition-all duration-300",
                     isPopular 
-                      ? "bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/20" 
+                      ? "bg-blue-600 hover:bg-brand/100 text-white shadow-xl shadow-blue-600/20" 
                       : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
                   )}
                 >
@@ -191,7 +191,7 @@ export function PricingContent() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-20 p-12 rounded-[40px] bg-gradient-to-b from-transparent to-white/5 border border-purple-500/20 text-center"
+          className="mt-20 p-12 rounded-[40px] bg-gradient-to-b from-transparent to-white/5 border border-brand/20 text-center"
         >
           <h2 className="text-xl font-bold text-white tracking-tighter mb-4">{t("pricing.pricingcontent.auto_ext_8")}</h2>
           <p className="text-sm text-gray-500 tracking-widest max-w-2xl mx-auto mb-8">

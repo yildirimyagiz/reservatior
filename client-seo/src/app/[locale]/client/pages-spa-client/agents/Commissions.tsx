@@ -19,15 +19,15 @@ const STATUS: Record<string, {
   cls: string;
 }> = {
   PAID: {
-    label: t("client.src.paid"),
-    cls: "bg-green-100 text-green-700"
+    label: t("common.paid"),
+    cls: "bg-blue-100 text-blue-700"
   },
   PENDING: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     cls: "bg-yellow-100 text-yellow-700"
   },
   DISPUTED: {
-    label: t("client.src.disputed"),
+    label: t("common.disputed"),
     cls: "bg-red-100 text-red-700"
   }
 };
@@ -119,14 +119,14 @@ export default function Commissions() {
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
       <div className="space-y-1.5">
-        <Label>{t("client.src.agent")}</Label>
+        <Label>{t("common.agent")}</Label>
         <Input type="text" value={form.agentName} onChange={e => setForm({
           ...form,
           agentName: e.target.value
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.property")}</Label>
+        <Label>{t("common.property")}</Label>
         <Input type="text" value={form.propertyName} onChange={e => setForm({
           ...form,
           propertyName: e.target.value
@@ -154,13 +154,13 @@ export default function Commissions() {
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.status")}</Label>
+        <Label>{t("common.status")}</Label>
         <Select value={form.status} onValueChange={v => setForm({
           ...form,
           status: v as any
-        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
-          <SelectItem value="PAID">{t("client.src.paid")}</SelectItem>
-          <SelectItem value="DISPUTED">{t("client.src.disputed")}</SelectItem></SelectContent></Select>
+        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
+          <SelectItem value="PAID">{t("common.paid")}</SelectItem>
+          <SelectItem value="DISPUTED">{t("common.disputed")}</SelectItem></SelectContent></Select>
       </div>
       <DialogFooter><Button type="submit">{label}</Button></DialogFooter>
     </form>;
@@ -170,34 +170,34 @@ export default function Commissions() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search commissions..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: MOCK.length
     }, {
-      label: t("client.src.paid"),
+      label: t("common.paid"),
       value: MOCK.filter(r => r.status === 'PAID').length
     }, {
-      label: t("client.src.pending"),
+      label: t("common.processing"),
       value: MOCK.filter(r => r.status === 'PENDING').length
     }, {
       label: t("client.src.total_paid"),
       value: `$${MOCK.filter(r => r.status === 'PAID').reduce((s, r) => s + (r.commissionAmount || 0), 0).toLocaleString()}`
     }]} filters={<Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-40"><SelectValue placeholder={t("client.src.status")} /></SelectTrigger>
-            <SelectContent>              <SelectItem value="all">{t("client.src.all")}</SelectItem>
-              <SelectItem value="PAID">{t("client.src.paid")}</SelectItem>
-              <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
-              <SelectItem value="DISPUTED">{t("client.src.disputed")}</SelectItem></SelectContent>
+            <SelectTrigger className="w-40"><SelectValue placeholder={t("common.status")} /></SelectTrigger>
+            <SelectContent>              <SelectItem value="all">{t("common.all")}</SelectItem>
+              <SelectItem value="PAID">{t("common.paid")}</SelectItem>
+              <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
+              <SelectItem value="DISPUTED">{t("common.disputed")}</SelectItem></SelectContent>
           </Select>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
-              <TableHead>{t("client.src.agent")}</TableHead>
-              <TableHead>{t("client.src.property")}</TableHead>
+              <TableHead>{t("common.agent")}</TableHead>
+              <TableHead>{t("common.property")}</TableHead>
               <TableHead>{t("client.src.sale_price")}</TableHead>
               <TableHead>{t("client.src.commission_rate")}</TableHead>
               <TableHead>{t("client.src.commission_amount")}</TableHead>
-              <TableHead>{t("client.src.status")}</TableHead>
+              <TableHead>{t("common.status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -214,10 +214,10 @@ export default function Commissions() {
                     </TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -230,13 +230,13 @@ export default function Commissions() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_commissions")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_commissions")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

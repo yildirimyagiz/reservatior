@@ -101,7 +101,7 @@ export function InvestmentReportGenerator({ embedded = false }: InvestmentReport
               <Badge
                 className={`text-lg mt-1 ${
                   report.riskLevel === "LOW"
-                    ? "bg-emerald-500/20 text-emerald-400"
+                    ? "bg-success/20 text-success"
                     : report.riskLevel === "MEDIUM"
                     ? "bg-yellow-500/20 text-yellow-400"
                     : "bg-red-500/20 text-red-400"
@@ -114,7 +114,7 @@ export function InvestmentReportGenerator({ embedded = false }: InvestmentReport
           <Card>
             <CardContent className="p-4 text-center">
               <p className="text-sm text-muted-foreground">Expected Return</p>
-              <p className="text-3xl font-bold text-emerald-400">{report.expectedReturn}%</p>
+              <p className="text-3xl font-bold text-success">{report.expectedReturn}%</p>
             </CardContent>
           </Card>
           <Card>
@@ -177,7 +177,7 @@ export function InvestmentReportGenerator({ embedded = false }: InvestmentReport
                         <td className="py-2 font-medium">{comp.name}</td>
                         <td className="text-right py-2">{formatCurrency(comp.price, roiInput.currency)}</td>
                         <td className="text-right py-2">{formatCurrency(comp.rent, roiInput.currency)}/mo</td>
-                        <td className="text-right py-2 text-emerald-400">{comp.yield}%</td>
+                        <td className="text-right py-2 text-success">{comp.yield}%</td>
                       </tr>
                     ))}
                   </tbody>
@@ -199,7 +199,7 @@ export function InvestmentReportGenerator({ embedded = false }: InvestmentReport
             <ul className="space-y-3">
               {report.recommendations.map((rec, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 mt-0.5 text-emerald-400 shrink-0" />
+                  <CheckCircle className="w-4 h-4 mt-0.5 text-success shrink-0" />
                   <span className="text-muted-foreground">{rec}</span>
                 </li>
               ))}

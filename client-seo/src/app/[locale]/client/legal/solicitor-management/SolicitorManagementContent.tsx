@@ -71,15 +71,15 @@ const mockSolicitors: Solicitor[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  ENGAGED: "bg-blue-500/20 text-blue-400",
-  VERIFIED: "bg-green-500/20 text-green-400",
+  ENGAGED: "bg-brand/100/20 text-brand",
+  VERIFIED: "bg-blue-500/20 text-blue-400",
   DISPUTE_OPEN: "bg-red-500/20 text-red-400",
-  COMPLETED: "bg-emerald-500/20 text-emerald-400",
+  COMPLETED: "bg-success/20 text-success",
   TERMINATED: "bg-gray-500/20 text-gray-400",
 };
 
 const SOLICITOR_TYPE_COLORS: Record<string, string> = {
-  LOCAL_LEGAL_COUNSEL: "bg-purple-500/20 text-purple-400",
+  LOCAL_LEGAL_COUNSEL: "bg-brand/20 text-brand",
   TENANT_INTERNATIONAL_LAWYER: "bg-orange-500/20 text-orange-400",
   LANDLORD_REPRESENTATIVE: "bg-cyan-500/20 text-cyan-400",
 };

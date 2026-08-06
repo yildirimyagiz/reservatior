@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect, FormEvent } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -21,7 +21,7 @@ const STATUS: Record<string, {
 }> = {
  PAID: {
  label: t("admin_financial_paid"),
- cls:"bg-green-100 text-green-700"
+ cls:"bg-blue-100 text-blue-700"
  },
  UNPAID: {
  label: t("admin_financial_unpaid"),
@@ -29,7 +29,7 @@ const STATUS: Record<string, {
  },
  PARTIAL: {
  label: t("admin_financial_partial"),
- cls:"bg-slate-100 text-slate-700"
+ cls:"bg-muted text-muted-foreground"
  },
  OVERDUE: {
  label: t("admin_financial_overdue"),
@@ -235,7 +235,7 @@ export default function TaxRecords() {
  </TableCell>
  <TableCell>
  <DropdownMenu>
- <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+ <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end">
  <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin_financial_edit")}</DropdownMenuItem>
  <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin_financial_delete")}</DropdownMenuItem>

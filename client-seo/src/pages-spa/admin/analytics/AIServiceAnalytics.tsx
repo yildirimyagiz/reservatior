@@ -123,7 +123,7 @@ export default function AIServiceAnalytics() {
  </CardHeader>
  <CardContent>
  <div className="text-3xl font-bold text-foreground">482</div>
- <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin_analytics_12_from_last")}{dateRange}</p>
+ <p className="text-xs text-success font-bold mt-1">{t("admin_analytics_12_from_last")}{dateRange}</p>
  </CardContent>
  </Card>
  
@@ -134,25 +134,25 @@ export default function AIServiceAnalytics() {
  </CardHeader>
  <CardContent>
  <div className="text-3xl font-bold text-foreground">{stats?.adoptionRate?.toFixed(1)}%</div>
- <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin_analytics_82_across_platform")}</p>
+ <p className="text-xs text-success font-bold mt-1">{t("admin_analytics_82_across_platform")}</p>
  </CardContent>
  </Card>
 
- <Card className="bg-gradient-to-br from-emerald-500/10 via-slate-900 to-slate-900 border-emerald-500/20">
+ <Card className="bg-gradient-to-br from-blue-500/10 via-slate-900 to-slate-900 border-blue-500/20">
  <CardHeader className="pb-2 flex flex-row items-center justify-between">
  <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_analytics_total_ai_processes")}</CardTitle>
- <CalendarCheck className="w-4 h-4 text-emerald-400" />
+ <CalendarCheck className="w-4 h-4 text-success" />
  </CardHeader>
  <CardContent>
  <div className="text-3xl font-bold text-foreground">{stats?.totalUsage?.toLocaleString()}</div>
- <p className="text-xs text-emerald-400 font-bold mt-1">{t("admin_analytics_global_usage_track")}</p>
+ <p className="text-xs text-success font-bold mt-1">{t("admin_analytics_global_usage_track")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-900 border-amber-500/20">
  <CardHeader className="pb-2 flex flex-row items-center justify-between">
  <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_analytics_avg_revenue_lift")}</CardTitle>
- <TrendingUp className="w-4 h-4 text-amber-400" />
+ <TrendingUp className="w-4 h-4 text-warning" />
  </CardHeader>
  <CardContent>
  <div className="text-3xl font-bold text-foreground">+{stats?.revenueLift}%</div>
@@ -197,7 +197,7 @@ export default function AIServiceAnalytics() {
  <Card className="bg-card border-border">
  <CardHeader>
  <CardTitle className="flex items-center gap-2">
- <Brain className="h-5 w-5 text-emerald-400" />{t("admin_analytics_ai_service_roi_breakdown")}</CardTitle>
+ <Brain className="h-5 w-5 text-success" />{t("admin_analytics_ai_service_roi_breakdown")}</CardTitle>
  </CardHeader>
  <CardContent>
  <ResponsiveContainer width="100%" height={300} minWidth={0}>
@@ -210,7 +210,7 @@ export default function AIServiceAnalytics() {
  borderColor: '#334155'
  }} />
  <Legend />
- <Bar dataKey="value" name={t("admin_analytics_roi_score","ROI Skoru")} fill="#10b981" radius={[4, 4, 0, 0]} />
+ <Bar dataKey="value" name={t("admin_analytics_roi_score","ROI Skoru")} fill="#3b82f6" radius={[4, 4, 0, 0]} />
  </BarChart>
  </ResponsiveContainer>
  </CardContent>
@@ -239,20 +239,20 @@ export default function AIServiceAnalytics() {
  <tbody className="divide-y divide-white/10">
  {stats?.services?.map((row, i) => <tr key={i} className="hover:bg-card transition-colors group">
  <td className="p-4 font-medium flex items-center gap-3 text-foreground">
- <div className="p-2 bg-card rounded-lg group-hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
- {row.name.includes('Stage') ? <Camera className="w-4 h-4 text-muted-foreground" /> : row.name.includes('Valuation') ? <Brain className="w-4 h-4 text-emerald-400" /> : <AlertCircle className="w-4 h-4 text-amber-400" />}
+ <div className="p-2 bg-card rounded-lg group-hover:bg-muted dark:hover:bg-card/10 transition-colors">
+ {row.name.includes('Stage') ? <Camera className="w-4 h-4 text-muted-foreground" /> : row.name.includes('Valuation') ? <Brain className="w-4 h-4 text-success" /> : <AlertCircle className="w-4 h-4 text-warning" />}
  </div>
  {row.name}
  </td>
  <td className="p-4 text-muted-foreground">{row.usage.toLocaleString()}</td>
  <td className="p-4 font-bold text-foreground">{t("currency_symbol", "$")}{row.revenue.toLocaleString()}</td>
  <td className="p-4">
- <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+ <Badge className="bg-blue-500/10 text-success border-blue-500/20">
  {row.efficiency.toFixed(1)}{t("admin_analytics_acc")}</Badge>
  </td>
  <td className="p-4 text-muted-foreground">
  <div className="flex items-center gap-3">
- <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+ <div className="flex-1 h-1.5 bg-card/10 rounded-full overflow-hidden">
  <div className="h-full bg-muted0 rounded-full" style={{
  width: `${row.trend * 5}%`
  }}></div>

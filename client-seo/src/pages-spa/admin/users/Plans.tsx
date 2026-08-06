@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import React, { useState } from"react";
 import { useTranslation } from"react-i18next";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -216,17 +216,17 @@ export default function Plans() {
  label: t('admin_plans_availableTiers'),
  value: plans.length,
  icon: Layers,
- color:"text-slate-500"
+ color:"text-muted-foreground"
  }, {
  label: t('admin_plans_totalSubscribers'),
  value: totalSubscribers,
  icon: Users,
- color:"text-emerald-500"
+ color:"text-success"
  }, {
  label: t('admin_plans_monthlyVelocity'),
  value: `$${(monthlyRevenue / 100).toLocaleString()}`,
  icon: Activity,
- color:"text-slate-500"
+ color:"text-muted-foreground"
  }].map((stat, i) => <m.div key={i} initial={{
  opacity: 0,
  y: 20
@@ -251,10 +251,10 @@ export default function Plans() {
  <div className="flex flex-col lg:flex-row items-center justify-between gap-6 px-4">
  <div className="flex items-center gap-4 flex-1">
  <div className="relative group min-w-[320px]">
- <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-slate-500 transition-colors" />
+ <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-muted-foreground transition-colors" />
  <Input placeholder={t('admin_plans_filterPlaceholder')} value={search} onChange={e => setSearch(e.target.value)} className="bg-card/60 backdrop-blur-md border-border dark:border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-slate-500/20 focus:border-slate-500/40 transition-all font-bold border-l-2 border-t-2 shadow-2xl tracking-tight" />
  </div>
- <Button variant="outline" size="icon" className="h-14 w-14 rounded-2xl border-border dark:border-border bg-card/60 text-muted-foreground hover:text-foreground transition-all shadow-xl hover:bg-card/80" onClick={() => queryClient.invalidateQueries({ queryKey: ['adminPlans'] })}>
+ <Button variant="outline" size="icon" aria-label={t("common.refresh")} className="h-14 w-14 rounded-2xl border-border dark:border-border bg-card/60 text-muted-foreground hover:text-foreground transition-all shadow-xl hover:bg-card/80" onClick={() => queryClient.invalidateQueries({ queryKey: ['adminPlans'] })}>
  <RefreshCw className={cn("w-5 h-5", loading &&"animate-spin")} />
  </Button>
  </div>
@@ -269,7 +269,7 @@ export default function Plans() {
  {/* Pricing Matrix Table */}
  <div className="px-4">
  <div className="bg-card/40 backdrop-blur-xl border-border dark:border-border rounded-4xl overflow-hidden shadow-2xl border-l-2 border-t-2 relative">
- <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-600 via-transparent to-transparent opacity-30"></div>
+ <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent opacity-30"></div>
  <Table>
  <TableHeader className="bg-muted/10 border-b border-border">
  <TableRow className="border-none hover:bg-transparent">
@@ -283,7 +283,7 @@ export default function Plans() {
  <TableBody>
  {loading ? <TableRow>
  <TableCell colSpan={6} className="py-24 text-center">
- <Activity className="w-12 h-12 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
+ <Activity className="w-12 h-12 text-muted-foreground animate-spin mx-auto mb-4 opacity-50" />
  <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t('admin_plans_syncingGrid')}</p>
  </TableCell>
  </TableRow> : filtered.length === 0 ? <TableRow>
@@ -303,34 +303,34 @@ export default function Plans() {
  </div>
  </TableCell>
  <TableCell className="px-8">
- <div className="text-sm font-bold text-emerald-500 leading-tight font-mono">
+ <div className="text-sm font-bold text-success leading-tight font-mono">
  {formatPrice(plan.priceMonthlyCents, t)}
  </div>
  </TableCell>
  <TableCell className="px-8">
  <div className="flex flex-col gap-1.5">
  <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground/70">
- <Users className="w-3 h-3 text-slate-500" /> {plan.limits?.maxUsers ??"∞"} {t('maxUsers')}
+ <Users className="w-3 h-3 text-muted-foreground" /> {plan.limits?.maxUsers ??"∞"} {t('maxUsers')}
  </div>
  <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground/70">
- <Building2 className="w-3 h-3 text-emerald-500" /> {plan.limits?.maxProperties ??"∞"} {t('admin_plans_maxEntityProps')}
+ <Building2 className="w-3 h-3 text-success" /> {plan.limits?.maxProperties ??"∞"} {t('admin_plans_maxEntityProps')}
  </div>
  </div>
  </TableCell>
  <TableCell className="px-8">
  <div className="flex flex-wrap gap-2">
  {plan.limits?.aiFeatures && <Badge className="bg-pink-500/10 text-pink-600 dark:text-pink-400 border-none text-[8px] font-bold px-2 py-0.5 shadow-sm">{t('admin_plans_neuralAi')}</Badge>}
- {plan.limits?.customIntegrations && <Badge className="bg-muted0/10 text-slate-600 dark:text-slate-400 border-none text-[8px] font-bold px-2 py-0.5 shadow-sm">{t('admin_plans_externalSync')}</Badge>}
- {plan.limits?.prioritySupport && <Badge className="bg-muted0/10 text-slate-600 dark:text-slate-400 border-none text-[8px] font-bold px-2 py-0.5 shadow-sm">{t('admin_plans_highPriorityLink')}</Badge>}
+ {plan.limits?.customIntegrations && <Badge className="bg-muted0/10 text-muted-foreground dark:text-muted-foreground border-none text-[8px] font-bold px-2 py-0.5 shadow-sm">{t('admin_plans_externalSync')}</Badge>}
+ {plan.limits?.prioritySupport && <Badge className="bg-muted0/10 text-muted-foreground dark:text-muted-foreground border-none text-[8px] font-bold px-2 py-0.5 shadow-sm">{t('admin_plans_highPriorityLink')}</Badge>}
  {!plan.limits?.aiFeatures && !plan.limits?.customIntegrations && !plan.limits?.prioritySupport && <span className="text-[10px] font-bold text-muted-foreground/30">{t('admin_plans_baseFeaturesOnly')}</span>}
  </div>
  </TableCell>
  <TableCell className="px-8 text-right">
  <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-card hover:text-foreground text-muted-foreground border border-transparent hover:border-border transition-all" onClick={() => openEdit(plan)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} className="h-10 w-10 rounded-xl hover:bg-card hover:text-foreground text-muted-foreground border border-transparent hover:border-border transition-all" onClick={() => openEdit(plan)}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-red-500/10 text-muted-foreground hover:text-red-500 border border-transparent hover:border-red-500/20 transition-all" onClick={() => openDelete(plan)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} className="h-10 w-10 rounded-xl hover:bg-red-500/10 text-muted-foreground hover:text-red-500 border border-transparent hover:border-red-500/20 transition-all" onClick={() => openDelete(plan)}>
  <Trash2 className="w-4 h-4" />
  </Button>
  </div>

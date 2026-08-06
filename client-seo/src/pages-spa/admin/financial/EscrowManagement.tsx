@@ -157,10 +157,10 @@ export default function EscrowManagement() {
 
  const statusColor = (status: string) => {
  const map: Record<string, string> = {
- PENDING: 'bg-amber-500', FUNDED: 'bg-muted0', RELEASED: 'bg-emerald-500',
+ PENDING: 'bg-amber-500', FUNDED: 'bg-muted0', RELEASED: 'bg-blue-500',
  DISPUTED: 'bg-red-500', CLOSED: 'bg-muted0', OPEN: 'bg-red-500',
- INVESTIGATING: 'bg-orange-500', RESOLVED: 'bg-emerald-500',
- APPROVED: 'bg-emerald-600', REJECTED: 'bg-red-600', COMPLETED: 'bg-emerald-500',
+ INVESTIGATING: 'bg-orange-500', RESOLVED: 'bg-blue-500',
+ APPROVED: 'bg-blue-600', REJECTED: 'bg-red-600', COMPLETED: 'bg-blue-500',
  };
  return map[status] || 'bg-muted0';
  };
@@ -176,47 +176,47 @@ export default function EscrowManagement() {
  <div className="p-6 space-y-6 min-h-screen">
  <div className="flex justify-between items-center bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4">
- <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
+ <div className="p-3 bg-muted rounded-xl shadow-lg shadow-slate-600/20">
  <Shield className="w-8 h-8 text-foreground" />
  </div>
  <div>
  <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
- {t("admin_financial_escrow_title","Escrow Management")}
+ {t("admin_financial_escrow_title", "Emanet Yönetimi")}
  </h1>
  <p className="text-muted-foreground">
- {t("admin_financial_escrow_desc","Manage secure payment transactions, releases and disputes")}
+ {t("admin_financial_escrow_desc", "Güvenli ödeme işlemlerini, ibraları ve anlaşmazlıkları yönetin")}
  </p>
  </div>
  </div>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-slate-700 text-foreground shadow-lg shadow-slate-500/20">
+ <Button className="bg-muted hover:bg-muted text-foreground shadow-lg shadow-slate-500/20">
  <Plus className="w-4 h-4 mr-2" />
- {t("admin_financial_new_escrow","New Escrow")}
+ {t("admin_financial_new_escrow", "Yeni Emanet")}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_financial_new_escrow","New Escrow Account")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_financial_escrow_add_desc","Enter the escrow account details")}</DialogDescription>
+ <DialogTitle>{t("admin_financial_new_escrow", "Yeni Emanet")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_financial_escrow_add_desc", "Emanet hesabı ayrıntılarını girin")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="reservationId">{t("admin_financial_reservation_id","Reservation ID")}</Label>
+ <Label htmlFor="reservationId">{t("admin_financial_reservation_id", "Rezervasyon Kimliği")}</Label>
  <Input id="reservationId" className="bg-card border-border text-foreground" value={formData.reservationId} onChange={e => setFormData({ ...formData, reservationId: e.target.value })} required />
  </div>
  <div className="space-y-2">
- <Label htmlFor="totalAmount">{t("admin_financial_total_amount","Total Amount")}</Label>
+ <Label htmlFor="totalAmount">{t("admin_financial_total_amount", "Toplam Tutar")}</Label>
  <Input id="totalAmount" type="number" className="bg-card border-border text-foreground" value={formData.totalAmount} onChange={e => setFormData({ ...formData, totalAmount: Number(e.target.value) })} required />
  </div>
  <div className="space-y-2">
- <Label htmlFor="depositAmount">{t("admin_financial_deposit_amount","Deposit Amount")}</Label>
+ <Label htmlFor="depositAmount">{t("admin_financial_deposit_amount", "Yatırma Tutarı")}</Label>
  <Input id="depositAmount" type="number" className="bg-card border-border text-foreground" value={formData.depositAmount} onChange={e => setFormData({ ...formData, depositAmount: Number(e.target.value) })} required />
  </div>
  <DialogFooter>
- <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)} className="text-slate-300">{t("common.cancel","Cancel")}</Button>
- <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
- {createMutation.isPending ? t("common.saving","Saving...") : t("common.create","Create")}
+ <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)} className="text-muted-foreground">{t("common.cancel", "İptal")}</Button>
+ <Button type="submit" className="bg-muted hover:bg-muted" disabled={createMutation.isPending}>
+ {createMutation.isPending ? t("common.saving", "Kaydediliyor") : t("common.create", "Oluştur")}
  </Button>
  </DialogFooter>
  </form>
@@ -229,62 +229,62 @@ export default function EscrowManagement() {
  <CardContent className="p-6">
  <div className="flex items-center justify-between">
  <div>
- <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_total","Total")}</p>
+ <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_total", "Toplam")}</p>
  <h3 className="text-2xl font-bold text-foreground mt-1">{t("currency_symbol", "$")}{totalEscrowAmount.toLocaleString()}</h3>
  </div>
  <div className="p-3 bg-muted0/20 rounded-lg"><DollarSign className="w-5 h-5 text-muted-foreground" /></div>
  </div>
- <p className="text-xs text-slate-500 mt-2">{accounts.length} {t("admin_financial_active_accounts","accounts")}</p>
+ <p className="text-xs text-muted-foreground mt-2">{accounts.length} {t("admin_financial_active_accounts", "hesaplar")}</p>
  </CardContent>
  </Card>
  <Card className="bg-card border-border">
  <CardContent className="p-6">
  <div className="flex items-center justify-between">
  <div>
- <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_balance","Balance")}</p>
- <h3 className="text-2xl font-bold text-emerald-400 mt-1">{t("currency_symbol", "$")}{totalCurrentBalance.toLocaleString()}</h3>
+ <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_balance", "Bakiye")}</p>
+ <h3 className="text-2xl font-bold text-success mt-1">{t("currency_symbol", "$")}{totalCurrentBalance.toLocaleString()}</h3>
  </div>
- <div className="p-3 bg-emerald-500/20 rounded-lg"><Shield className="w-5 h-5 text-emerald-400" /></div>
+ <div className="p-3 bg-blue-500/20 rounded-lg"><Shield className="w-5 h-5 text-success" /></div>
  </div>
- <p className="text-xs text-slate-500 mt-2">{t("admin_financial_held_funds","Held in escrow")}</p>
+ <p className="text-xs text-muted-foreground mt-2">{t("admin_financial_held_funds", "Emanet altında tutuldu")}</p>
  </CardContent>
  </Card>
  <Card className="bg-card border-border">
  <CardContent className="p-6">
  <div className="flex items-center justify-between">
  <div>
- <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_disputes","Disputes")}</p>
+ <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_disputes", "Anlaşmazlıklar")}</p>
  <h3 className="text-2xl font-bold text-red-400 mt-1">{activeDisputes}</h3>
  </div>
  <div className="p-3 bg-red-500/20 rounded-lg"><AlertTriangle className="w-5 h-5 text-red-400" /></div>
  </div>
- <p className="text-xs text-slate-500 mt-2">{t("admin_financial_require_attention","Requires attention")}</p>
+ <p className="text-xs text-muted-foreground mt-2">{t("admin_financial_require_attention", "Dikkat gerektirir")}</p>
  </CardContent>
  </Card>
  <Card className="bg-card border-border">
  <CardContent className="p-6">
  <div className="flex items-center justify-between">
  <div>
- <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_pending_releases","Pending Releases")}</p>
- <h3 className="text-2xl font-bold text-orange-400 mt-1">{pendingReleases}</h3>
+ <p className="text-xs font-medium text-muted-foreground">{t("admin_financial_pending_releases", "Bekleyen Sürümler")}</p>
+ <h3 className="text-2xl font-bold text-warning mt-1">{pendingReleases}</h3>
  </div>
- <div className="p-3 bg-orange-500/20 rounded-lg"><Clock className="w-5 h-5 text-orange-400" /></div>
+ <div className="p-3 bg-orange-500/20 rounded-lg"><Clock className="w-5 h-5 text-warning" /></div>
  </div>
- <p className="text-xs text-slate-500 mt-2">{t("admin_financial_awaiting_approval","Awaiting approval")}</p>
+ <p className="text-xs text-muted-foreground mt-2">{t("admin_financial_awaiting_approval", "Onay Bekliyor")}</p>
  </CardContent>
  </Card>
  </div>
 
  <Tabs defaultValue="accounts" className="space-y-6">
  <TabsList className="bg-card border border-border">
- <TabsTrigger value="accounts" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
- {t("admin_financial_accounts","Accounts")}
+ <TabsTrigger value="accounts" className="data-[state=active]:bg-muted data-[state=active]:text-white">
+ {t("admin_financial_accounts", "Hesaplar")}
  </TabsTrigger>
- <TabsTrigger value="releases" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
- {t("admin_financial_releases","Releases")}
+ <TabsTrigger value="releases" className="data-[state=active]:bg-muted data-[state=active]:text-white">
+ {t("admin_financial_releases", "Bültenler")}
  </TabsTrigger>
- <TabsTrigger value="disputes" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
- {t("admin_financial_disputes","Disputes")}
+ <TabsTrigger value="disputes" className="data-[state=active]:bg-muted data-[state=active]:text-white">
+ {t("admin_financial_disputes", "Anlaşmazlıklar")}
  </TabsTrigger>
  </TabsList>
 
@@ -292,18 +292,18 @@ export default function EscrowManagement() {
  <div className="flex flex-col md:flex-row items-center justify-between gap-4">
  <div className="flex flex-wrap items-center gap-3 flex-1">
  <div className="relative flex-1 max-w-md">
- <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
- <Input placeholder={t("admin_financial_search","Search...")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="bg-card border-border pl-10 text-foreground placeholder:text-slate-500" />
+ <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+ <Input placeholder={t("admin_financial_search", "Aramak...")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="bg-card border-border pl-10 text-foreground placeholder:text-muted-foreground" />
  </div>
  <Select value={statusFilter} onValueChange={setStatusFilter}>
  <SelectTrigger className="w-36 bg-card border-border text-foreground"><SelectValue /></SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">
- <SelectItem value="ALL">{t("admin_financial_all_status","All")}</SelectItem>
- <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
- <SelectItem value="FUNDED">{t("admin_financial_funded", "Funded")}</SelectItem>
- <SelectItem value="RELEASED">{t("admin_financial_released", "Released")}</SelectItem>
- <SelectItem value="DISPUTED">{t("admin_financial_disputed", "Disputed")}</SelectItem>
- <SelectItem value="CLOSED">{t("admin_financial_closed", "Closed")}</SelectItem>
+ <SelectItem value="ALL">{t("admin_financial_all_status", "Tüm")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_ai_pending", "Bekliyor")}</SelectItem>
+ <SelectItem value="FUNDED">{t("admin_financial_funded", "Fonlandı (Funded)")}</SelectItem>
+ <SelectItem value="RELEASED">{t("admin_financial_released", "Serbest Bırakıldı")}</SelectItem>
+ <SelectItem value="DISPUTED">{t("admin_financial_disputed", "İhtilaflı (Disputed)")}</SelectItem>
+ <SelectItem value="CLOSED">{t("admin_financial_closed", "Kapalı")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -314,13 +314,13 @@ export default function EscrowManagement() {
  <Table>
  <TableHeader className="bg-card border-b border-border">
  <TableRow className="hover:bg-transparent border-none">
- <TableHead className="text-xs font-medium text-muted-foreground py-4 px-6">{t("admin_financial_account","Account")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_property","Property")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_parties","Parties")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_amount","Amount")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_balance","Balance")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_status","Status")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_created","Created")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground py-4 px-6">{t("admin_financial_account", "Hesap")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_property", "Mülk")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_parties", "Taraflar")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_amount", "Tutar")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_balance", "Bakiye")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_status", "Durum")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_created", "Oluşturuldu")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -329,33 +329,33 @@ export default function EscrowManagement() {
  <TableCell className="py-4 px-6 font-mono text-xs text-muted-foreground">#{account.accountNumber}</TableCell>
  <TableCell className="px-6 text-sm text-foreground">{account.propertyName}</TableCell>
  <TableCell className="px-6">
- <div className="text-sm text-slate-300">
+ <div className="text-sm text-muted-foreground">
  <div>{account.buyerName}</div>
- <div className="text-xs text-slate-500">{account.sellerName}</div>
+ <div className="text-xs text-muted-foreground">{account.sellerName}</div>
  </div>
  </TableCell>
  <TableCell className="px-6 font-bold text-foreground">{t("currency_symbol", "$")}{account.totalAmount.toLocaleString()}</TableCell>
- <TableCell className="px-6 text-emerald-400 font-medium">{t("currency_symbol", "$")}{account.currentBalance.toLocaleString()}</TableCell>
+ <TableCell className="px-6 text-success font-medium">{t("currency_symbol", "$")}{account.currentBalance.toLocaleString()}</TableCell>
  <TableCell className="px-6">
  <div className="flex items-center gap-2">
  <div className={cn("w-2 h-2 rounded-full", statusColor(account.status))} />
- <span className="text-sm text-slate-300">{account.status}</span>
+ <span className="text-sm text-muted-foreground">{account.status}</span>
  </div>
  </TableCell>
  <TableCell className="px-6 text-xs text-muted-foreground font-mono">{new Date(account.createdAt).toLocaleDateString()}</TableCell>
  <TableCell className="px-6 text-right">
  <DropdownMenu>
- <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+ <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem onClick={() => setEditingId(account.id)} className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
- <DropdownMenuItem onClick={() => deleteMutation.mutate(account.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => setEditingId(account.id)} className="cursor-pointer hover:bg-muted dark:hover:bg-card/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Düzenle")}</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => deleteMutation.mutate(account.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Sil")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </TableCell>
  </TableRow>
  ))}
  {filteredAccounts.length === 0 && (
- <TableRow><TableCell colSpan={8} className="text-center py-8 text-slate-500">{t("admin_financial_no_accounts","No accounts found")}</TableCell></TableRow>
+ <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">{t("admin_financial_no_accounts", "Hesap bulunamadı")}</TableCell></TableRow>
  )}
  </TableBody>
  </Table>
@@ -369,40 +369,40 @@ export default function EscrowManagement() {
  <Table>
  <TableHeader className="bg-card border-b border-border">
  <TableRow className="hover:bg-transparent border-none">
- <TableHead className="text-xs font-medium text-muted-foreground py-4 px-6">{t("admin_financial_account","Account")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_amount","Amount")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_type","Type")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_recipient","Recipient")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_status","Status")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_requested","Requested")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground py-4 px-6">{t("admin_financial_account", "Hesap")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_amount", "Tutar")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_type", "Tip")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_recipient", "Alıcı")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_status", "Durum")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_requested", "Talep Edildi")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
  {releases.map(release => (
  <TableRow key={release.id} className="border-b border-border hover:bg-card transition-colors">
- <TableCell className="py-4 px-6 font-mono text-xs text-muted-foreground">#{release.escrowAccountId.slice(0, 8)}</TableCell>
+ <TableCell className="py-4 px-6 font-mono text-xs text-muted-foreground">#{(release.escrowAccountId || release.id || "").slice(0, 8)}</TableCell>
  <TableCell className="px-6 font-bold text-foreground">{t("currency_symbol", "$")}{release.amount.toLocaleString()}</TableCell>
- <TableCell className="px-6"><Badge className="bg-card text-slate-300 border-border">{release.releaseType}</Badge></TableCell>
- <TableCell className="px-6 text-sm text-slate-300">{release.recipient}</TableCell>
+ <TableCell className="px-6"><Badge className="bg-card text-muted-foreground border-border">{release.releaseType}</Badge></TableCell>
+ <TableCell className="px-6 text-sm text-muted-foreground">{release.recipient}</TableCell>
  <TableCell className="px-6">
  <div className="flex items-center gap-2">
  <div className={cn("w-2 h-2 rounded-full", statusColor(release.status))} />
- <span className="text-sm text-slate-300">{release.status}</span>
+ <span className="text-sm text-muted-foreground">{release.status}</span>
  </div>
  </TableCell>
  <TableCell className="px-6 text-xs text-muted-foreground">{new Date(release.requestedAt).toLocaleDateString()}</TableCell>
  <TableCell className="px-6 text-right">
  <DropdownMenu>
- <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+ <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem onClick={() => deleteMutation.mutate(release.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => deleteMutation.mutate(release.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Sil")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </TableCell>
  </TableRow>
  ))}
  {releases.length === 0 && (
- <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500">{t("admin_financial_no_releases","No releases found")}</TableCell></TableRow>
+ <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">{t("admin_financial_no_releases", "Yayın bulunamadı")}</TableCell></TableRow>
  )}
  </TableBody>
  </Table>
@@ -416,40 +416,40 @@ export default function EscrowManagement() {
  <Table>
  <TableHeader className="bg-card border-b border-border">
  <TableRow className="hover:bg-transparent border-none">
- <TableHead className="text-xs font-medium text-muted-foreground py-4 px-6">{t("admin_financial_account","Account")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_initiated_by","Initiated By")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_type","Type")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_description","Description")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_status","Status")}</TableHead>
- <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_created","Created")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground py-4 px-6">{t("admin_financial_account", "Hesap")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_initiated_by", "İşlemi Başlatan:")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_type", "Tip")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_description", "Finansal İşlemler, Komisyonlar Ve Nakit Akışı")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_status", "Durum")}</TableHead>
+ <TableHead className="text-xs font-medium text-muted-foreground px-6">{t("admin_financial_created", "Oluşturuldu")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
  {disputes.map(dispute => (
  <TableRow key={dispute.id} className="border-b border-border hover:bg-card transition-colors">
- <TableCell className="py-4 px-6 font-mono text-xs text-muted-foreground">#{dispute.escrowAccountId.slice(0, 8)}</TableCell>
- <TableCell className="px-6 text-sm text-slate-300">{dispute.initiatedBy}</TableCell>
- <TableCell className="px-6"><Badge className="bg-card text-slate-300 border-border">{dispute.disputeType}</Badge></TableCell>
+ <TableCell className="py-4 px-6 font-mono text-xs text-muted-foreground">#{(dispute.escrowAccountId || dispute.id || "").slice(0, 8)}</TableCell>
+ <TableCell className="px-6 text-sm text-muted-foreground">{dispute.initiatedBy}</TableCell>
+ <TableCell className="px-6"><Badge className="bg-card text-muted-foreground border-border">{dispute.disputeType}</Badge></TableCell>
  <TableCell className="px-6 text-sm text-muted-foreground max-w-xs truncate">{dispute.description}</TableCell>
  <TableCell className="px-6">
  <div className="flex items-center gap-2">
  <div className={cn("w-2 h-2 rounded-full", statusColor(dispute.status))} />
- <span className="text-sm text-slate-300">{dispute.status}</span>
+ <span className="text-sm text-muted-foreground">{dispute.status}</span>
  </div>
  </TableCell>
  <TableCell className="px-6 text-xs text-muted-foreground">{new Date(dispute.createdAt).toLocaleDateString()}</TableCell>
  <TableCell className="px-6 text-right">
  <DropdownMenu>
- <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+ <DropdownMenuTrigger asChild><Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem onClick={() => deleteMutation.mutate(dispute.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => deleteMutation.mutate(dispute.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Sil")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </TableCell>
  </TableRow>
  ))}
  {disputes.length === 0 && (
- <TableRow><TableCell colSpan={7} className="text-center py-8 text-slate-500">{t("admin_financial_no_disputes","No disputes found")}</TableCell></TableRow>
+ <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">{t("admin_financial_no_disputes", "Hiçbir anlaşmazlık bulunamadı")}</TableCell></TableRow>
  )}
  </TableBody>
  </Table>
@@ -466,24 +466,24 @@ export default function EscrowManagement() {
  }}>
  <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_edit_escrow_status", "Edit Escrow Status")}</DialogTitle>
+ <DialogTitle>{t("admin_auto_edit_escrow_status", "Emanet Durumunu Düzenle")}</DialogTitle>
  </DialogHeader>
  <div className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label>{t("admin_auto_status", "Status")}</Label>
+ <Label>{t("admin_auto_status", "Durum")}</Label>
  <Select value={editingAccount?.status ||"HOLDING"} onValueChange={v => setEditingAccount({ ...editingAccount, status: v })}>
  <SelectTrigger className="bg-card border-border text-foreground"><SelectValue /></SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">
- <SelectItem value="HOLDING">{t("mobile.finance.escrowHolding", "HOLDING")}</SelectItem>
- <SelectItem value="RELEASED">{t("mobile.finance.escrowReleased", "RELEASED")}</SelectItem>
- <SelectItem value="DISPUTED">{t("mobile.finance.escrowDisputed", "DISPUTED")}</SelectItem>
- <SelectItem value="CLOSED">{t("admin_auto_closed", "CLOSED")}</SelectItem>
+ <SelectItem value="HOLDING">{t("mobile.finance.escrowHolding", "Tutuluyor")}</SelectItem>
+ <SelectItem value="RELEASED">{t("mobile.finance.escrowReleased", "Serbest")}</SelectItem>
+ <SelectItem value="DISPUTED">{t("mobile.finance.escrowDisputed", "İtiraz Edildi")}</SelectItem>
+ <SelectItem value="CLOSED">{t("admin_auto_closed", "KAPALI")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <DialogFooter>
- <Button variant="ghost" onClick={() => setEditingId(null)}>{t("admin_action_cancel", "Cancel")}</Button>
- <Button className="bg-slate-600 hover:bg-slate-700" onClick={() => updateMutation.mutate({ id: editingId, ...editingAccount })}>{t("admin_action_save", "Save")}</Button>
+ <Button variant="ghost" onClick={() => setEditingId(null)}>{t("admin_action_cancel", "İptal")}</Button>
+ <Button className="bg-muted hover:bg-muted" onClick={() => updateMutation.mutate({ id: editingId, ...editingAccount })}>{t("admin_action_save", "Kaydet")}</Button>
  </DialogFooter>
  </div>
  </DialogContent>

@@ -122,26 +122,26 @@ const mockScores: TrustScore[] = [
 ];
 
 const TIER_COLORS: Record<string, string> = {
-  BRONZE: "bg-orange-600/20 text-orange-400",
+  BRONZE: "bg-orange-600/20 text-warning",
   SILVER: "bg-gray-400/20 text-gray-300",
   GOLD: "bg-yellow-500/20 text-yellow-400",
   PLATINUM: "bg-cyan-400/20 text-cyan-300",
-  DIAMOND: "bg-purple-500/20 text-purple-400",
+  DIAMOND: "bg-brand/20 text-brand",
 };
 
 const ENTITY_COLORS: Record<string, string> = {
-  TENANT: "bg-blue-500/20 text-blue-400",
-  LANDLORD: "bg-green-500/20 text-green-400",
-  AGENT: "bg-orange-500/20 text-orange-400",
-  PROPERTY: "bg-purple-500/20 text-purple-400",
+  TENANT: "bg-blue-500/20 text-info",
+  LANDLORD: "bg-blue-500/20 text-blue-400",
+  AGENT: "bg-orange-500/20 text-warning",
+  PROPERTY: "bg-brand/20 text-brand",
   ORGANIZATION: "bg-cyan-500/20 text-cyan-400",
 };
 
 function getScoreColor(score: number): string {
-  if (score >= 90) return "text-green-400";
-  if (score >= 75) return "text-blue-400";
+  if (score >= 90) return "text-blue-400";
+  if (score >= 75) return "text-info";
   if (score >= 60) return "text-yellow-400";
-  if (score >= 40) return "text-orange-400";
+  if (score >= 40) return "text-warning";
   return "text-red-400";
 }
 
@@ -167,12 +167,12 @@ export default function TrustScorePage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_trust_title", "Trust Scores")}</h1>
-              <p className="text-muted-foreground">{t("admin_trust_description", "View and manage trust scores, entity ratings, and score breakdowns")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_trust_title", "Güven Puanları")}</h1>
+              <p className="text-muted-foreground">{t("admin_trust_description", "Varlık güven puanlarını, itibar sinyallerini ve puan dağılımlarını izleyin")}</p>
             </div>
             <Button className="bg-primary hover:bg-primary/90">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin_trust_back_to_dashboard", "Back to Dashboard")}
+              {t("admin_trust_back_to_dashboard", "Panele Dön")}
             </Button>
           </div>
         </m.div>
@@ -184,7 +184,7 @@ export default function TrustScorePage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/10"><Shield className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_trust_total_entities", "Total Entities")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_trust_total_entities", "Toplam Varlık")}</p>
                   <p className="text-2xl font-bold text-foreground">{items.length}</p>
                 </div>
               </div>
@@ -193,9 +193,9 @@ export default function TrustScorePage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10"><TrendingUp className="w-5 h-5 text-green-500" /></div>
+                <div className="p-2 rounded-lg bg-blue-500/10"><TrendingUp className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_trust_avg_score", "Average Score")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_trust_avg_score", "Ort. Puan")}</p>
                   <p className="text-2xl font-bold text-foreground">{Math.round(items.reduce((sum, s) => sum + s.score, 0) / items.length)}</p>
                 </div>
               </div>
@@ -204,9 +204,9 @@ export default function TrustScorePage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-500/10"><BarChart3 className="w-5 h-5 text-purple-500" /></div>
+                <div className="p-2 rounded-lg bg-brand/10"><BarChart3 className="w-5 h-5 text-brand" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_trust_avg_confidence", "Avg Confidence")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_trust_avg_confidence", "Ort. Güven")}</p>
                   <p className="text-2xl font-bold text-foreground">{Math.round(items.reduce((sum, s) => sum + s.confidence, 0) / items.length)}%</p>
                 </div>
               </div>
@@ -223,7 +223,7 @@ export default function TrustScorePage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin_trust_search_placeholder", "Search by entity name or ID...")}
+                      placeholder={t("admin_trust_search_placeholder", "Varlık ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -232,33 +232,33 @@ export default function TrustScorePage() {
                 </div>
                 <Select value={entityFilter} onValueChange={setEntityFilter}>
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_trust_entity_type", "Entity Type")} />
+                    <SelectValue placeholder={t("admin_trust_entity_type", "Varlık Türü")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">All Entities</SelectItem>
-                    <SelectItem value="TENANT">Tenant</SelectItem>
-                    <SelectItem value="LANDLORD">Landlord</SelectItem>
-                    <SelectItem value="AGENT">Agent</SelectItem>
-                    <SelectItem value="PROPERTY">Property</SelectItem>
-                    <SelectItem value="ORGANIZATION">Organization</SelectItem>
+                    <SelectItem value="ALL">{t("admin_trust_all_entities", "Tüm Varlıklar")}</SelectItem>
+                    <SelectItem value="TENANT">{t("admin_trust_entity_tenant", "Kiracı")}</SelectItem>
+                    <SelectItem value="LANDLORD">{t("admin_trust_entity_landlord", "Ev Sahibi")}</SelectItem>
+                    <SelectItem value="AGENT">{t("admin_trust_entity_agent", "Emlakçı")}</SelectItem>
+                    <SelectItem value="PROPERTY">{t("admin_trust_entity_property", "Mülk")}</SelectItem>
+                    <SelectItem value="ORGANIZATION">{t("admin_trust_entity_organization", "Kuruluş")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select value={tierFilter} onValueChange={setTierFilter}>
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_trust_tier", "Tier")} />
+                    <SelectValue placeholder={t("admin_trust_tier", "Seviye")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">All Tiers</SelectItem>
-                    <SelectItem value="BRONZE">Bronze</SelectItem>
-                    <SelectItem value="SILVER">Silver</SelectItem>
-                    <SelectItem value="GOLD">Gold</SelectItem>
-                    <SelectItem value="PLATINUM">Platinum</SelectItem>
-                    <SelectItem value="DIAMOND">Diamond</SelectItem>
+                    <SelectItem value="ALL">{t("admin_trust_all_tiers", "Tüm Seviyeler")}</SelectItem>
+                    <SelectItem value="BRONZE">{t("admin_trust_tier_bronze", "Bronz")}</SelectItem>
+                    <SelectItem value="SILVER">{t("admin_trust_tier_silver", "Gümüş")}</SelectItem>
+                    <SelectItem value="GOLD">{t("admin_trust_tier_gold", "Altın")}</SelectItem>
+                    <SelectItem value="PLATINUM">{t("admin_trust_tier_platinum", "Platin")}</SelectItem>
+                    <SelectItem value="DIAMOND">{t("admin_trust_tier_diamond", "Elmas")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Button onClick={() => setIsEventOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_trust_record_event", "Record Event")}
+                  {t("admin_trust_record_event", "Olay Kaydet")}
                 </Button>
               </div>
             </CardContent>
@@ -284,7 +284,7 @@ export default function TrustScorePage() {
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs">
-                      <span className="text-muted-foreground">{t("admin_trust_confidence", "Confidence")}</span>
+                      <span className="text-muted-foreground">{t("admin_trust_confidence", "Güven")}</span>
                       <span className="text-foreground">{score.confidence}%</span>
                     </div>
                     <div className="h-1.5 bg-muted/50 rounded-full overflow-hidden">
@@ -292,7 +292,7 @@ export default function TrustScorePage() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/50">
-                    <span className="text-xs text-muted-foreground">{t("admin_trust_updated", "Updated")}: {score.lastUpdated}</span>
+                    <span className="text-xs text-muted-foreground">{t("admin_trust_updated", "Güncellendi")}: {score.lastUpdated}</span>
                     <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${expandedItem?.id === score.id ? "rotate-90" : ""}`} />
                   </div>
                 </CardContent>
@@ -308,7 +308,7 @@ export default function TrustScorePage() {
               <CardHeader>
                 <CardTitle className="text-foreground flex items-center gap-2">
                   <BarChart3 className="w-5 h-5" />
-                  {t("admin_trust_score_breakdown", "Score Breakdown")} - {expandedItem.entityName}
+                  {t("admin_trust_score_breakdown", "Puan Dağılımı")} - {expandedItem.entityName}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -322,7 +322,7 @@ export default function TrustScorePage() {
                           <span className={`text-sm font-bold ${getScoreColor(pct)}`}>{factor.value}/{factor.max}</span>
                         </div>
                         <div className="h-2 bg-muted/50 rounded-full overflow-hidden">
-                          <div className={`h-full rounded-full transition-all ${pct >= 80 ? "bg-green-500" : pct >= 60 ? "bg-blue-500" : pct >= 40 ? "bg-yellow-500" : "bg-red-500"}`} style={{ width: `${pct}%` }} />
+                          <div className={`h-full rounded-full transition-all ${pct >= 80 ? "bg-blue-500" : pct >= 60 ? "bg-blue-500" : pct >= 40 ? "bg-yellow-500" : "bg-red-500"}`} style={{ width: `${pct}%` }} />
                         </div>
                       </div>
                     );
@@ -337,54 +337,54 @@ export default function TrustScorePage() {
         <Dialog open={isEventOpen} onOpenChange={setIsEventOpen}>
           <DialogContent className="sm:max-w-[500px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_trust_record_event_title", "Record Trust Event")}</DialogTitle>
-              <DialogDescription className="text-muted-foreground">{t("admin_trust_record_event_desc", "Record an event that affects a trust score.")}</DialogDescription>
+              <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_trust_record_event_title", "Güven Olayı Kaydet")}</DialogTitle>
+              <DialogDescription className="text-muted-foreground">{t("admin_trust_record_event_desc", "Bu varlık için yeni bir güven sinyali olayı kaydedin")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right text-foreground">{t("admin_trust_entity_type", "Entity Type")}</Label>
+                <Label className="text-right text-foreground">{t("admin_trust_entity_type", "Varlık Türü")}</Label>
                 <Select defaultValue="TENANT">
                   <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="TENANT">Tenant</SelectItem>
-                    <SelectItem value="LANDLORD">Landlord</SelectItem>
-                    <SelectItem value="AGENT">Agent</SelectItem>
-                    <SelectItem value="PROPERTY">Property</SelectItem>
-                    <SelectItem value="ORGANIZATION">Organization</SelectItem>
+                    <SelectItem value="TENANT">{t("admin_trust_entity_tenant", "Kiracı")}</SelectItem>
+                    <SelectItem value="LANDLORD">{t("admin_trust_entity_landlord", "Ev Sahibi")}</SelectItem>
+                    <SelectItem value="AGENT">{t("admin_trust_entity_agent", "Emlakçı")}</SelectItem>
+                    <SelectItem value="PROPERTY">{t("admin_trust_entity_property", "Mülk")}</SelectItem>
+                    <SelectItem value="ORGANIZATION">{t("admin_trust_entity_organization", "Kuruluş")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right text-foreground">{t("admin_trust_event_type", "Event Type")}</Label>
+                <Label className="text-right text-foreground">{t("admin_trust_event_type", "Olay Türü")}</Label>
                 <Select defaultValue="PAYMENT_RECEIVED">
                   <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="PAYMENT_RECEIVED">Payment Received</SelectItem>
-                    <SelectItem value="PAYMENT_MISSED">Payment Missed</SelectItem>
-                    <SelectItem value="COMPLAINT_FILED">Complaint Filed</SelectItem>
-                    <SelectItem value="COMPLAINT_RESOLVED">Complaint Resolved</SelectItem>
-                    <SelectItem value="VERIFICATION_PASSED">Verification Passed</SelectItem>
-                    <SelectItem value="SCORE_BOOST">Score Boost</SelectItem>
-                    <SelectItem value="SCORE_PENALTY">Score Penalty</SelectItem>
+                    <SelectItem value="PAYMENT_RECEIVED">{t("admin_trust_event_payment_received", "Ödeme Alındı")}</SelectItem>
+                    <SelectItem value="PAYMENT_MISSED">{t("admin_trust_event_payment_missed", "Ödeme Kaçırıldı")}</SelectItem>
+                    <SelectItem value="COMPLAINT_FILED">{t("admin_trust_event_complaint_filed", "Şikayet Yapıldı")}</SelectItem>
+                    <SelectItem value="COMPLAINT_RESOLVED">{t("admin_trust_event_complaint_resolved", "Şikayet Çözüldü")}</SelectItem>
+                    <SelectItem value="VERIFICATION_PASSED">{t("admin_trust_event_verification_passed", "Doğrulama Başarılı")}</SelectItem>
+                    <SelectItem value="SCORE_BOOST">{t("admin_trust_event_score_boost", "Puan Artışı")}</SelectItem>
+                    <SelectItem value="SCORE_PENALTY">{t("admin_trust_event_score_penalty", "Puan Cezası")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right text-foreground">{t("admin_trust_impact", "Impact")}</Label>
-                <Input type="number" placeholder="+/- score impact" className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
+                <Label className="text-right text-foreground">{t("admin_trust_impact", "Etki")}</Label>
+                <Input type="number" placeholder={t("admin_trust_impact_placeholder", "± puan etkisi")} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right text-foreground">{t("admin_trust_notes", "Notes")}</Label>
-                <Input placeholder="Optional notes..." className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
+                <Label className="text-right text-foreground">{t("admin_trust_notes", "Notlar")}</Label>
+                <Input placeholder={t("admin_trust_notes_placeholder", "İsteğe bağlı notlar...")} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
               </div>
             </div>
             <DialogFooter className="pt-4 border-t border-white/10">
-              <Button variant="outline" onClick={() => setIsEventOpen(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-              <Button onClick={() => setIsEventOpen(false)} className="bg-primary hover:bg-primary/90">{t("admin_trust_record", "Record")}</Button>
+              <Button variant="outline" onClick={() => setIsEventOpen(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+              <Button onClick={() => setIsEventOpen(false)} className="bg-primary hover:bg-primary/90">{t("admin_trust_record", "Kaydet")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

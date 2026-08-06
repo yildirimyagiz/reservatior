@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Badge } from"@/components/ui/badge";
 import { Button } from"@/components/ui/button";
@@ -156,15 +156,15 @@ export default function PropertyPromotions() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case 'ACTIVE':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'PAUSED':
  return 'bg-yellow-500';
  case 'EXPIRED':
  return 'bg-red-500';
  case 'DRAFT':
- return 'bg-white/10';
+ return 'bg-card/10';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  const getPlatformIcon = (_platform: string) => {
@@ -399,7 +399,7 @@ export default function PropertyPromotions() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -476,7 +476,7 @@ export default function PropertyPromotions() {
  <CardContent>
  <div className="space-y-4">
  <div className="text-center">
- <div className="text-2xl font-bold text-green-600">
+ <div className="text-2xl font-bold text-blue-600">
  {promotions.filter(p => p.ctr > 2).length}
  </div>
  <p className="text-sm text-muted-foreground">{t("admin_property_highperforming_campaigns")}</p>

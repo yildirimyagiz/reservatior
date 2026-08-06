@@ -15,6 +15,7 @@
 
 import { PrismaClient } from '@prisma/client';
 import { DomainEvents } from '../core/events/domain-events';
+import { eventBus } from '../core/events/event-bus';
 import { ContentBrief } from './content-intelligence-agent';
 
 const prisma = new PrismaClient();
@@ -61,7 +62,7 @@ export class SEOPageGenerator {
   }
 
   private registerEventHandlers() {
-    DomainEvents.on('content.briefs.generated.v1', async (payload: any) => {
+    eventBus.subscribe('content.briefs.generated.v1', async (payload: any) => {
       console.log(`[SEOPageGenerator] Received content briefs for job ${payload.jobId}`);
       // In production: fetch briefs from storage/DB, then generate
       // Here we emit the trigger event for the multi-channel publisher
@@ -84,10 +85,10 @@ export class SEOPageGenerator {
     const investmentScore = currentScore?.investmentScore ?? 65;
     const rentalScore = currentScore?.rentalScore ?? 65;
 
-    const city = property?.location?.cityName ?? property?.location?.citySlug ?? 'city';
-    const district = property?.location?.districtName ?? property?.location?.districtSlug ?? '';
+    const city = property?.location?.city ?? property?.city ?? 'city';
+    const district = property?.location?.state ?? property?.state ?? '';
     const type = (property?.type ?? 'property').toLowerCase();
-    const price = property?.price ? Number(property.price) : null;
+    const price = (property as any)?.price ? Number((property as any).price) : null;
     const currency = property?.currency ?? 'USD';
     const countryIsoCode = brief.countryIsoCode.toLowerCase();
 
@@ -137,12 +138,12 @@ export class SEOPageGenerator {
     };
 
     // Emit for publisher
-    await DomainEvents.emit('seo.page.generated.v1', {
+    await eventBus.publish('seo.page.generated.v1', {
       propertyId: brief.propertyId,
       slug,
       canonicalUrl,
       format: brief.format,
-    });
+    }, 'SEOPageGenerator');
 
     console.log(`[SEOPageGenerator] Page generated: ${canonicalUrl}`);
     return payload;

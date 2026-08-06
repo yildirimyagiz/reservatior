@@ -17,7 +17,6 @@ export class ReputationEngine {
       include: {
         agentPerformances: { orderBy: { endDate: "desc" }, take: 4 },
         Review: true,
-        assignments: { include: { lead: true } },
       },
     });
     if (!agent) throw new Error("Agent not found");
@@ -42,7 +41,7 @@ export class ReputationEngine {
     const tenantFeedback = reviews.filter(r => r.targetType === "TENANT").reduce((sum, r) => sum + (r.rating || 0), 0) / Math.max(reviews.filter(r => r.targetType === "TENANT").length, 1) / 5;
     const landlordFeedback = reviews.filter(r => r.targetType === "LANDLORD").reduce((sum, r) => sum + (r.rating || 0), 0) / Math.max(reviews.filter(r => r.targetType === "LANDLORD").length, 1) / 5;
 
-    const totalTransactions = agent.assignments?.length || 0;
+    const totalTransactions = totalDeals;
     const disputeRatio = Math.min(disputes.length / Math.max(totalTransactions, 1), 1);
 
     const completedViewings = performances.reduce((sum, p) => sum + p.showingsCompleted, 0);

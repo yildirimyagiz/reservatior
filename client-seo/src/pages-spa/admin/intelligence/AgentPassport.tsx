@@ -71,11 +71,11 @@ export default function AgentPassportDashboard() {
 
   return (
     <PageShell
-      title={t("admin_agent_passport_title", "Danışman Karnesi")}
+      title={t("admin_agent_passport_title", "Danışman Karnesi (Agent Passport)")}
       description={t("admin_agent_passport_desc", "Emlak danışmanlarının performans, portföy ve satış skorları")}
       actions={
         <button className="px-4 py-2 bg-primary text-primary-foreground text-white rounded-lg hover:bg-primary/90 transition flex items-center gap-2">
-          <Download className="w-4 h-4" /> {t("admin_common_export", "Export")}
+          <Download className="w-4 h-4" /> {t("admin_common_export", "Dışa Aktar")}
         </button>
       }
     >
@@ -85,10 +85,10 @@ export default function AgentPassportDashboard() {
         <div className="flex items-center gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input type="text" placeholder={t("admin_agent_passport_search_placeholder", "Search agents…")} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-10 pr-4 py-2 border border-border rounded-lg" />
+            <input type="text" placeholder={t("admin_agent_passport_search_placeholder", "Danışman Ara…")} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-10 pr-4 py-2 border border-border rounded-lg" />
           </div>
           <select value={selectedAgentId} onChange={(e) => setSelectedAgentId(e.target.value)} className="px-4 py-2 border border-border rounded-lg bg-card min-w-[300px]">
-            <option value="">{t("admin_agent_passport_select_placeholder", "Select an agent…")}</option>
+            <option value="">{t("admin_agent_passport_select_placeholder", "Bir danışman seçin…")}</option>
             {(agents || []).filter((a: any) => !searchQuery || a.name?.toLowerCase().includes(searchQuery.toLowerCase())).map((a: any) => (
               <option key={a.id} value={a.id}>{a.name || a.email}</option>
             ))}
@@ -99,7 +99,7 @@ export default function AgentPassportDashboard() {
       {!selectedAgentId && (
         <div className="bg-card rounded-xl shadow-sm p-12 border border-border text-center">
           <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-muted-foreground">{t("admin_agent_passport_empty", "Select an agent to view their Intelligence Passport")}</h2>
+          <h2 className="text-xl font-semibold text-muted-foreground">{t("admin_agent_passport_empty", "Zeka Karnesini görmek için bir danışman seçin")}</h2>
         </div>
       )}
 
@@ -122,7 +122,7 @@ export default function AgentPassportDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-                <Target className="w-5 h-5 text-blue-600" /> {t("admin_agent_passport_performance_radar", "Performance Radar")}
+                <Target className="w-5 h-5 text-blue-600" /> {t("admin_agent_passport_performance_radar", "Performans Radarı")}
               </h2>
               <div className="space-y-4">
                 {performanceMetrics.map((m, i) => (
@@ -141,24 +141,24 @@ export default function AgentPassportDashboard() {
 
             <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-                <Brain className="w-5 h-5 text-brand" /> {t("admin_agent_passport_ai_coaching", "AI Coaching")}
+                <Brain className="w-5 h-5 text-brand" /> {t("admin_agent_passport_ai_coaching", "AI Koçluk")}
               </h2>
               <div className="space-y-3">
                 <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="text-sm font-medium text-blue-800">💪 {t("admin_agent_passport_strength", "Strength")}</p>
-                  <p className="text-xs text-blue-700 mt-1">{t("admin_agent_passport_strength_desc", "Excellent client satisfaction (91%) and market knowledge (88%). Top-tier in luxury segment.")}</p>
+                  <p className="text-sm font-medium text-blue-800">💪 {t("admin_agent_passport_strength", "Güçlü Yön")}</p>
+                  <p className="text-xs text-blue-700 mt-1">{t("admin_agent_passport_strength_desc", "Mükemmel müşteri memnuniyeti (%91) ve pazar bilgisi (%88). Lüks segmentte üst düzey.")}</p>
                 </div>
                 <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
-                  <p className="text-sm font-medium text-orange-800">🎯 {t("admin_agent_passport_opportunity", "Opportunity")}</p>
-                  <p className="text-xs text-orange-700 mt-1">{t("admin_agent_passport_opportunity_desc", "Conversion rate (24%) is below team average (28%). Focus on lead qualification.")}</p>
+                  <p className="text-sm font-medium text-orange-800">🎯 {t("admin_agent_passport_opportunity", "Fırsat")}</p>
+                  <p className="text-xs text-orange-700 mt-1">{t("admin_agent_passport_opportunity_desc", "Dönüşüm oranı (%24) ekip ortalamasının (%28) altında. Lead nitelendirmeye odaklanın.")}</p>
                 </div>
                 <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="text-sm font-medium text-blue-800">📈 {t("admin_agent_passport_action_plan", "Action Plan")}</p>
-                  <p className="text-xs text-blue-700 mt-1">{t("admin_agent_passport_action_plan_desc", "1. Implement follow-up automation. 2. Cross-sell investment properties. 3. Expand to adjacent districts.")}</p>
+                  <p className="text-sm font-medium text-blue-800">📈 {t("admin_agent_passport_action_plan", "Aksiyon Planı")}</p>
+                  <p className="text-xs text-blue-700 mt-1">{t("admin_agent_passport_action_plan_desc", "1. Takip otomasyonunu uygula. 2. Yatırım amaçlı mülkleri çapraz sat. 3. Komşu bölgelere genişle.")}</p>
                 </div>
                 <div className="p-4 bg-brand/10 rounded-lg border border-purple-200">
-                  <p className="text-sm font-medium text-brand">🏆 {t("admin_agent_passport_territory", "Territory")}</p>
-                  <p className="text-xs text-brand mt-1">{t("admin_agent_passport_territory_desc", "Primary: Kensington, Chelsea. Expanding: Notting Hill, Holland Park. Recommended: Mayfair.")}</p>
+                  <p className="text-sm font-medium text-brand">🏆 {t("admin_agent_passport_territory", "Bölge")}</p>
+                  <p className="text-xs text-brand mt-1">{t("admin_agent_passport_territory_desc", "Birincil: Kensington, Chelsea. Genişleyen: Notting Hill, Holland Park. Önerilen: Mayfair.")}</p>
                 </div>
               </div>
             </div>

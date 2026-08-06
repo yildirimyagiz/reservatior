@@ -70,26 +70,26 @@ export class CrossValidator {
     const prisma = prismaManager.getClient(region);
     const discrepancies: string[] = [];
 
-    const tenant = await prisma.tenant.findUnique({
+    const tenant = await (prisma as any).tenant.findUnique({
       where: { id: tenantId },
       include: {
         Payment: true,
         Lease: { include: { contracts: true } },
         disputes: true,
       },
-    });
+    }) as any;
 
     if (!tenant) throw new Error("Tenant not found");
 
     const totalPayments = tenant.Payment.length;
-    const onTime = tenant.Payment.filter(p => p.status === "PAID" && p.paymentDate && p.dueDate && new Date(p.paymentDate) <= new Date(p.dueDate)).length;
+    const onTime = tenant.Payment.filter((p: { status: string; paymentDate: string | number | Date; dueDate: string | number | Date; }) => p.status === "PAID" && p.paymentDate && p.dueDate && new Date(p.paymentDate) <= new Date(p.dueDate)).length;
     const paymentRatio = totalPayments > 0 ? onTime / totalPayments : 0;
 
     if (paymentRatio < 0.5 && totalPayments > 3) {
       discrepancies.push(`Low on-time payment ratio: ${(paymentRatio * 100).toFixed(0)}%`);
     }
 
-    const terminatedLeases = tenant.Lease.filter(l => l.status === "TERMINATED").length;
+    const terminatedLeases = tenant.Lease.filter((l: { status: string; }) => l.status === "TERMINATED").length;
     const totalLeases = tenant.Lease.length;
     if (terminatedLeases > 0 && totalLeases > 1) {
       discrepancies.push(`${terminatedLeases}/${totalLeases} leases terminated early`);
@@ -114,7 +114,7 @@ export class CrossValidator {
     const prisma = prismaManager.getClient(region);
     const discrepancies: string[] = [];
 
-    const organization = await prisma.organization.findUnique({
+    const organization = await (prisma as any).organization.findUnique({
       where: { id: orgId },
       include: {
         properties: {
@@ -124,21 +124,21 @@ export class CrossValidator {
           },
         },
       },
-    });
+    }) as any;
 
     if (!organization) throw new Error("Organization not found");
 
     const properties = organization.properties || [];
-    const totalListings = properties.reduce((s, p) => s + (p.listings?.length || 0), 0);
-    const totalWorkOrders = properties.reduce((s, p) => s + (p.maintenanceWorkOrders?.length || 0), 0);
-    const openWorkOrders = properties.reduce((s, p) => s + (p.maintenanceWorkOrders?.filter(w => !["DONE", "CANCELLED"].includes(w.status)).length || 0), 0);
+    const totalListings = properties.reduce((s: any, p: { listings: string | any[]; }) => s + (p.listings?.length || 0), 0);
+    const totalWorkOrders = properties.reduce((s: any, p: { maintenanceWorkOrders: string | any[]; }) => s + (p.maintenanceWorkOrders?.length || 0), 0);
+    const openWorkOrders = properties.reduce((s: any, p: { maintenanceWorkOrders: { filter: (arg0: (w: any) => boolean) => { (): any; new(): any; length: any; }; }; }) => s + (p.maintenanceWorkOrders?.filter((w: { status: string; }) => !["DONE", "CANCELLED"].includes(w.status)).length || 0), 0);
 
     if (openWorkOrders > 3 && totalWorkOrders > 5) {
       discrepancies.push(`${openWorkOrders}/${totalWorkOrders} maintenance work orders still open`);
     }
 
-    const allReviews = properties.flatMap(p => p.listings?.flatMap(l => l.reviews || []) || []);
-    const lowScoreReviews = allReviews.filter(r => (r.score || 0) < 3);
+    const allReviews = properties.flatMap((p: { listings: any[]; }) => p.listings?.flatMap((l: { reviews: any; }) => l.reviews || []) || []);
+    const lowScoreReviews = allReviews.filter((r: { score: any; }) => (r.score || 0) < 3);
     if (lowScoreReviews.length > 2 && allReviews.length > 5) {
       discrepancies.push(`${lowScoreReviews.length}/${allReviews.length} reviews below 3.0`);
     }

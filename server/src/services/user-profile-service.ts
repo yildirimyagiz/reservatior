@@ -5,7 +5,7 @@ import { DomainEvents } from "../core/events/domain-events";
 
 export class UserProfileService extends BaseService<any, any, any> {
   constructor() {
-    super(prisma.userProfile, "userProfile");
+    super((prisma as any).userProfile, "userProfile");
   }
 
   async getByOrg(orgId: string, params?: { skip?: number; take?: number }) {

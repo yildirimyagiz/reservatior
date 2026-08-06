@@ -122,7 +122,7 @@ export default function Deposits() {
       case 'held':
         return 'bg-blue-100 text-blue-800';
       case 'refunded':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'partial_refund':
         return 'bg-yellow-100 text-yellow-800';
       case 'forfeited':
@@ -148,7 +148,7 @@ export default function Deposits() {
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'security':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-brand/15 text-brand';
       case 'pet':
         return 'bg-orange-100 text-orange-800';
       case 'key':
@@ -181,14 +181,14 @@ export default function Deposits() {
             
             <div className="flex gap-2">
               <select aria-label="Filter by deposit status" value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <option value="all">{t("client.src.all_status")}</option>
+                <option value="all">{t("common.all_status")}</option>
                 <option value="held">{t("client.src.held")}</option>
-                <option value="refunded">{t("client.src.refunded")}</option>
+                <option value="refunded">{t("common.refunded")}</option>
                 <option value="partial_refund">{t("client.src.partial_refund")}</option>
                 <option value="forfeited">{t("client.src.forfeited")}</option>
               </select>
               <select aria-label="Filter by deposit type" value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <option value="all">{t("client.src.all_types")}</option>
+                <option value="all">{t("common.all_types")}</option>
                 <option value="security">{t("client.src.security")}</option>
                 <option value="pet">{t("client.src.pet")}</option>
                 <option value="key">{t("client.src.key")}</option>
@@ -200,7 +200,7 @@ export default function Deposits() {
         
         <ScrollArea className="flex-1">
           <div className="p-2">
-            {filteredDeposits.map(deposit => <div key={deposit.id} onClick={() => setSelectedDeposit(deposit.id)} className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 ${selectedDeposit === deposit.id ? 'bg-purple-50 border border-purple-200' : 'hover:bg-gray-100'}`}>
+            {filteredDeposits.map(deposit => <div key={deposit.id} onClick={() => setSelectedDeposit(deposit.id)} className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 ${selectedDeposit === deposit.id ? 'bg-brand/10 border border-purple-200' : 'hover:bg-gray-100'}`}>
                 <div className="flex items-start gap-3">
                   <Avatar className="w-10 h-10">
                     <AvatarImage src={`/api/placeholder/avatar-${deposit.id}.jpg`} />
@@ -239,7 +239,7 @@ export default function Deposits() {
       <div className="flex-1">
         {currentDeposit && <div className="h-full flex flex-col">
             {/* Deposit Header */}
-            <div className="p-6 border-b bg-white">
+            <div className="p-6 border-b bg-card">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <Avatar className="w-12 h-12">
@@ -262,10 +262,10 @@ export default function Deposits() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Button size="sm">
-                    <Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</Button>
+                    <Edit className="w-4 h-4 mr-2" />{t("common.edit")}</Button>
                   <Button size="sm" variant="outline">
                     <FileText className="w-4 h-4 mr-2" />{t("client.src.receipt")}</Button>
-                  <Button size="sm" variant="outline">
+                  <Button size="sm" variant="outline" aria-label={t("common.more")}>
                     <MoreVertical className="w-4 h-4" />
                   </Button>
                 </div>
@@ -288,11 +288,11 @@ export default function Deposits() {
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <p className="font-medium">{t("client.src.deposit_amount")}</p>
-                            <p className="text-2xl font-bold text-blue-600">{currentDeposit.amount}</p>
+                            <p className="text-2xl font-bold text-brand">{currentDeposit.amount}</p>
                           </div>
                           <div>
                             <p className="font-medium">{t("client.src.refund_amount")}</p>
-                            <p className="text-2xl font-bold text-green-600">{currentDeposit.refundAmount}</p>
+                            <p className="text-2xl font-bold text-blue-600">{currentDeposit.refundAmount}</p>
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
@@ -322,7 +322,7 @@ export default function Deposits() {
                             <p className="text-sm text-red-600">{t("client.src.deducted_for_damagescleaning")}</p>
                           </div>}
                         <div>
-                          <p className="font-medium">{t("client.src.notes")}</p>
+                          <p className="font-medium">{t("common.notes")}</p>
                           <p className="text-sm text-gray-600">{currentDeposit.notes}</p>
                         </div>
                       </div>
@@ -339,7 +339,7 @@ export default function Deposits() {
                       <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <p className="font-medium">{t("client.src.property")}</p>
+                            <p className="font-medium">{t("common.property")}</p>
                             <p className="text-sm text-gray-600">{currentDeposit.property}</p>
                           </div>
                           <div>
@@ -384,8 +384,8 @@ export default function Deposits() {
                             <p className="text-sm text-gray-600">{currentDeposit.depositDate}</p>
                           </div>
                           <div className="text-right">
-                            <p className="font-medium text-green-600">+{currentDeposit.amount}</p>
-                            <Badge className="text-xs bg-green-100 text-green-800">{t("client.src.completed")}</Badge>
+                            <p className="font-medium text-blue-600">+{currentDeposit.amount}</p>
+                            <Badge className="text-xs bg-blue-100 text-blue-800">{t("common.completed")}</Badge>
                           </div>
                         </div>
                         {currentDeposit.deductions > 0 && <div className="flex items-center justify-between p-3 border rounded">
@@ -404,8 +404,8 @@ export default function Deposits() {
                               <p className="text-sm text-gray-600">{currentDeposit.actualReturn}</p>
                             </div>
                             <div className="text-right">
-                              <p className="font-medium text-blue-600">-{currentDeposit.refundAmount}</p>
-                              <Badge className="text-xs bg-blue-100 text-blue-800">{t("client.src.refunded")}</Badge>
+                              <p className="font-medium text-brand">-{currentDeposit.refundAmount}</p>
+                              <Badge className="text-xs bg-blue-100 text-blue-800">{t("common.refunded")}</Badge>
                             </div>
                           </div>}
                       </div>
@@ -440,11 +440,11 @@ export default function Deposits() {
                     <CardContent className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-sm">{t("client.src.total_deposits")}</span>
-                        <span className="font-bold text-blue-600">${totalDeposits.toLocaleString()}</span>
+                        <span className="font-bold text-brand">${totalDeposits.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm">{t("client.src.total_refunded")}</span>
-                        <span className="font-bold text-green-600">${totalRefunds.toLocaleString()}</span>
+                        <span className="font-bold text-blue-600">${totalRefunds.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm">{t("client.src.total_deductions")}</span>
@@ -453,7 +453,7 @@ export default function Deposits() {
                       <div className="pt-2 border-t">
                         <div className="flex items-center justify-between">
                           <span className="text-sm">{t("client.src.net_held")}</span>
-                          <span className="font-bold text-purple-600">
+                          <span className="font-bold text-brand">
                             ${(totalDeposits - totalRefunds).toLocaleString()}
                           </span>
                         </div>
@@ -469,7 +469,7 @@ export default function Deposits() {
                     <CardContent className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-sm">{t("client.src.coverage")}</span>
-                        <Badge className="bg-green-100 text-green-800">
+                        <Badge className="bg-blue-100 text-blue-800">
                           {currentDeposit.insurance}
                         </Badge>
                       </div>

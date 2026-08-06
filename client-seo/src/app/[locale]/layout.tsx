@@ -10,7 +10,7 @@ const siteName = "Reservatior";
 const defaultTitle = "Reservatior - Premium Real Estate Platform with AI";
 const defaultDescription = "Find your perfect property with Reservatior's premium real estate platform. AI-powered property search, valuations, and automated workflows.";
 
-const SUPPORTED_LOCALES = ["en", "tr", "ar", "es", "fr", "de", "ru", "pt", "zh", "ja", "ko", "it", "nl", "pl", "sv", "da", "fi", "el", "hi", "id"] as const;
+const SUPPORTED_LOCALES = ["en", "es", "fr", "de", "tr", "ar", "zh", "ja", "ko", "ru", "pt", "it", "nl", "pl", "sv", "da", "fi", "el", "hi", "nb"] as const;
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -110,12 +110,12 @@ export default function RootLayout({
     <html lang={locale || "en"} dir={locale === "ar" ? "rtl" : "ltr"} suppressHydrationWarning>
       <head>
         <link rel="preload" href="/poster.webp" as="image" fetchPriority="high" />
-        <link rel="preload" href="/llms.txt" as="text" />
+        <link rel="preload" href="/llms.txt" as="fetch" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${inter.variable} ${outfit.variable} antialiased`}>
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg" tabIndex={1}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg" tabIndex={0}>
           Skip to main content
         </a>
         <OrganizationSchema />

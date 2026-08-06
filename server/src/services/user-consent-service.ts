@@ -5,25 +5,54 @@ import { DomainEvents } from "../core/events/domain-events";
 
 export class UserConsentService extends BaseService<any, any, any> {
   constructor() {
-    super(prisma.userConsent, "userConsent");
+    super(prisma.consent as any, "consent");
   }
 
   async getByUser(userId: string) {
-    return this.model.findMany({ where: { userId }, orderBy: { createdAt: "desc" } });
+    return this.model.findMany({ 
+      where: { userId, entityType: "USER" }, 
+      orderBy: { createdAt: "desc" } 
+    });
   }
 
   async grantConsent(userId: string, consentType: string, granted: boolean) {
-    const result = await this.model.upsert({
-      where: { userId_consentType: { userId, consentType } } as any,
-      update: { granted, updatedAt: new Date() },
-      create: { userId, consentType, granted, createdAt: new Date() },
-    }).catch(() => this.model.create({ data: { userId, consentType, granted, createdAt: new Date() } }));
+    const existing = await this.model.findFirst({
+      where: { userId, consentType, entityType: "USER" }
+    });
+
+    const status = granted ? "ACTIVE" : "REVOKED";
+
+    let result;
+    if (existing) {
+      result = await this.model.update({
+        where: { id: existing.id },
+        data: { status, updatedAt: new Date() }
+      });
+    } else {
+      result = await this.model.create({
+        data: {
+          entityId: userId,
+          userId: userId,
+          entityType: "USER",
+          consentType: consentType as any,
+          consentPurpose: "GENERAL",
+          consentChannel: "WEB",
+          consentMethod: "WEB_FORM",
+          status,
+          createdAt: new Date(),
+        }
+      });
+    }
+
     await eventBus.publish("USER_CONSENT_RECORDED", { id: result.id, userId, consentType, granted }, "UserOS");
     return result;
   }
 
   async withdrawConsent(userId: string, consentType: string) {
-    return this.model.updateMany({ where: { userId, consentType }, data: { granted: false, withdrawnAt: new Date() } });
+    return this.model.updateMany({ 
+      where: { userId, consentType, entityType: "USER" }, 
+      data: { status: "REVOKED", revokedAt: new Date() } 
+    });
   }
 
   async bulkGrant(userId: string, consents: { consentType: string; granted: boolean }[]) {

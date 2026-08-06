@@ -55,7 +55,7 @@ enum AgentStatus {
   SUSPENDED = "SUSPENDED",
 }
 const STATUS_COLORS: Record<AgentStatus, string> = {
-  ACTIVE: "bg-green-100 text-green-700",
+  ACTIVE: "bg-blue-100 text-blue-700",
   INACTIVE: "bg-gray-100 text-gray-600",
   PENDING: "bg-yellow-100 text-yellow-700",
   SUSPENDED: "bg-red-100 text-red-700"
@@ -105,7 +105,7 @@ export default function Agents() {
     },
     onError: () => {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_create_agent"),
         variant: "destructive"
       });
@@ -124,7 +124,7 @@ export default function Agents() {
     },
     onError: () => {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_update_agent"),
         variant: "destructive"
       });
@@ -165,21 +165,21 @@ export default function Agents() {
       <div className="space-y-6">
         {/* Summary Cards */}
         <div className="grid gap-4 md:grid-cols-4">
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-card p-6 rounded-lg shadow">
             <h3 className="text-sm font-medium text-gray-500">{t("client.src.total_agents")}</h3>
             <p className="text-2xl font-bold text-gray-900">{totalAgents}</p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-sm font-medium text-gray-500">{t("client.src.active")}</h3>
-            <p className="text-2xl font-bold text-green-600">{activeAgents}</p>
+          <div className="bg-card p-6 rounded-lg shadow">
+            <h3 className="text-sm font-medium text-gray-500">{t("common.active")}</h3>
+            <p className="text-2xl font-bold text-blue-600">{activeAgents}</p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-sm font-medium text-gray-500">{t("client.src.pending")}</h3>
+          <div className="bg-card p-6 rounded-lg shadow">
+            <h3 className="text-sm font-medium text-gray-500">{t("common.processing")}</h3>
             <p className="text-2xl font-bold text-yellow-600">{pendingAgents}</p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-sm font-medium text-gray-500">{t("client.src.total_revenue")}</h3>
-            <p className="text-2xl font-bold text-blue-600">{formatCurrency(totalRevenue)}</p>
+          <div className="bg-card p-6 rounded-lg shadow">
+            <h3 className="text-sm font-medium text-gray-500">{t("common.total_revenue")}</h3>
+            <p className="text-2xl font-bold text-brand">{formatCurrency(totalRevenue)}</p>
           </div>
         </div>
 
@@ -192,10 +192,10 @@ export default function Agents() {
             </div>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("client.src.status")} />
+                <SelectValue placeholder={t("common.status")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("client.src.all_status")}</SelectItem>
+                <SelectItem value="all">{t("common.all_status")}</SelectItem>
                 {Object.values(AgentStatus).map(status => <SelectItem key={status} value={status}>
                     {status}
                   </SelectItem>)}
@@ -203,7 +203,7 @@ export default function Agents() {
             </Select>
             <Select value={filterAgency} onValueChange={setFilterAgency}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("client.src.agency")} />
+                <SelectValue placeholder={t("common.agency")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">{t("client.src.all_agencies")}</SelectItem>
@@ -218,19 +218,19 @@ export default function Agents() {
         </div>
 
         {/* Agents Table */}
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-card rounded-lg shadow">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("client.src.agent")}</TableHead>
+                <TableHead>{t("common.agent")}</TableHead>
                 <TableHead>{t("client.src.contact")}</TableHead>
-                <TableHead>{t("client.src.agency")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.agency")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead>{t("client.src.rating")}</TableHead>
                 <TableHead>{t("client.src.deals")}</TableHead>
-                <TableHead>{t("client.src.revenue")}</TableHead>
+                <TableHead>{t("common.revenue")}</TableHead>
                 <TableHead>{t("client.src.joined")}</TableHead>
-                <TableHead>{t("client.src.actions")}</TableHead>
+                <TableHead>{t("common.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -298,7 +298,7 @@ export default function Agents() {
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" aria-label={t("common.more")}>
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
@@ -307,7 +307,7 @@ export default function Agents() {
                       setSelectedAgent(agent);
                       setEditOpen(true);
                     }}>
-                            <Edit className="h-4 w-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
+                            <Edit className="h-4 w-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
                           <DropdownMenuItem>
                             <Mail className="h-4 w-4 mr-2" />{t("client.src.send_email")}</DropdownMenuItem>
                           <DropdownMenuItem>
@@ -317,7 +317,7 @@ export default function Agents() {
                           <DropdownMenuItem>
                             <MapPin className="h-4 w-4 mr-2" />{t("client.src.view_properties")}</DropdownMenuItem>
                           <DropdownMenuItem className="text-red-600" onClick={() => handleDeleteAgent(agent.id)}>
-                            <Trash2 className="h-4 w-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                            <Trash2 className="h-4 w-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -346,7 +346,7 @@ export default function Agents() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="email">{t("client.src.email")}</Label>
+                  <Label htmlFor="email">{t("common.email")}</Label>
                   <Input id="email" type="email" placeholder={t("client.src.enter_email_address")} />
                 </div>
                 <div>
@@ -359,7 +359,7 @@ export default function Agents() {
                 <Input id="licenseNumber" placeholder={t("client.src.enter_license_number")} />
               </div>
               <div>
-                <Label htmlFor="agency">{t("client.src.agency")}</Label>
+                <Label htmlFor="agency">{t("common.agency")}</Label>
                 <Select>
                   <SelectTrigger>
                     <SelectValue placeholder={t("client.src.select_agency")} />
@@ -394,7 +394,7 @@ export default function Agents() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setCreateOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button variant="outline" onClick={() => setCreateOpen(false)}>{t("common.cancel")}</Button>
               <Button onClick={() => handleCreateAgent({})}>{t("client.src.create_agent")}</Button>
             </DialogFooter>
           </DialogContent>
@@ -411,7 +411,7 @@ export default function Agents() {
               {/* Edit form fields */}
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setEditOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button variant="outline" onClick={() => setEditOpen(false)}>{t("common.cancel")}</Button>
               <Button onClick={() => selectedAgent && handleUpdateAgent(selectedAgent.id, {})}>{t("client.src.update_agent")}</Button>
             </DialogFooter>
           </DialogContent>

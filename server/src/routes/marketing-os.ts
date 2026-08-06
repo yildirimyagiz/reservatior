@@ -146,7 +146,7 @@ export const marketingOSRoutes = new Elysia({ prefix: '/marketing-os' })
     
     const rule = await prisma.campaignAutomationRule.update({
       where: { id: params.id },
-      data: { status },
+      data: { status: status as any },
     });
     
     return rule;

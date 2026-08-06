@@ -24,7 +24,7 @@ const STATUS: Record<string, {
 }> = {
   COMPLIANT: {
     label: t("client.src.compliant"),
-    cls: "bg-green-100 text-green-700"
+    cls: "bg-blue-100 text-blue-700"
   },
   NON_COMPLIANT: {
     label: t("client.src.non_compliant"),
@@ -35,7 +35,7 @@ const STATUS: Record<string, {
     cls: "bg-yellow-100 text-yellow-700"
   },
   PENDING: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     cls: "bg-gray-100 text-gray-500"
   }
 };
@@ -73,7 +73,7 @@ export default function Compliance() {
       setForm(EMPTY_FORM);
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -86,7 +86,7 @@ export default function Compliance() {
       setEditOpen(false);
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -98,7 +98,7 @@ export default function Compliance() {
       toast({ title: t("client.src.compliance_deleted") });
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -142,9 +142,9 @@ export default function Compliance() {
         <Select value={form.entityType} onValueChange={v => setForm({
           ...form,
           entityType: v as any
-        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="Property">{t("client.src.property")}</SelectItem>
-          <SelectItem value="Agent">{t("client.src.agent")}</SelectItem>
-          <SelectItem value="Agency">{t("client.src.agency")}</SelectItem></SelectContent></Select>
+        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="Property">{t("common.property")}</SelectItem>
+          <SelectItem value="Agent">{t("common.agent")}</SelectItem>
+          <SelectItem value="Agency">{t("common.agency")}</SelectItem></SelectContent></Select>
       </div>
       <div className="space-y-1.5">
         <Label>{t("client.src.compliance_type")}</Label>
@@ -158,17 +158,17 @@ export default function Compliance() {
           <SelectItem value="INSURANCE">{t("client.src.insurance")}</SelectItem></SelectContent></Select>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.status")}</Label>
+        <Label>{t("common.status")}</Label>
         <Select value={form.status} onValueChange={v => setForm({
           ...form,
           status: v as any
         })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="COMPLIANT">{t("client.src.compliant")}</SelectItem>
           <SelectItem value="NON_COMPLIANT">{t("client.src.non_compliant")}</SelectItem>
           <SelectItem value="EXPIRING_SOON">{t("client.src.expiring_soon")}</SelectItem>
-          <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem></SelectContent></Select>
+          <SelectItem value="PENDING">{t("common.processing")}</SelectItem></SelectContent></Select>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.expiry_date")}</Label>
+        <Label>{t("common.expiry_date")}</Label>
         <Input type="date" value={form.expiryDate} onChange={e => setForm({
           ...form,
           expiryDate: e.target.value
@@ -182,7 +182,7 @@ export default function Compliance() {
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.notes")}</Label>
+        <Label>{t("common.notes")}</Label>
         <Textarea value={form.notes} onChange={e => setForm({
           ...form,
           notes: e.target.value
@@ -206,7 +206,7 @@ export default function Compliance() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search compliance records..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: (complianceData || []).length
     }, {
       label: t("client.src.compliant"),
@@ -215,8 +215,8 @@ export default function Compliance() {
       label: t("client.src.issues"),
       value: (complianceData || []).filter((r: any) => r.status === 'NON_COMPLIANT' || r.status === 'EXPIRING_SOON').length
     }]} filters={<Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-40"><SelectValue placeholder={t("client.src.status")} /></SelectTrigger>
-            <SelectContent>              <SelectItem value="all">{t("client.src.all")}</SelectItem>
+            <SelectTrigger className="w-40"><SelectValue placeholder={t("common.status")} /></SelectTrigger>
+            <SelectContent>              <SelectItem value="all">{t("common.all")}</SelectItem>
               <SelectItem value="COMPLIANT">{t("client.src.compliant")}</SelectItem>
               <SelectItem value="NON_COMPLIANT">{t("client.src.non_compliant")}</SelectItem>
               <SelectItem value="EXPIRING_SOON">{t("client.src.expiring_soon")}</SelectItem></SelectContent>
@@ -227,10 +227,10 @@ export default function Compliance() {
               <TableRow>
               <TableHead>{t("client.src.entity_type")}</TableHead>
               <TableHead>{t("client.src.compliance_type")}</TableHead>
-              <TableHead>{t("client.src.status")}</TableHead>
+              <TableHead>{t("common.status")}</TableHead>
               <TableHead>{t("client.src.expiry")}</TableHead>
               <TableHead>{t("client.src.verified")}</TableHead>
-              <TableHead>{t("client.src.notes")}</TableHead>
+              <TableHead>{t("common.notes")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -247,10 +247,10 @@ export default function Compliance() {
                     <TableCell className="text-sm">{row.notes ?? "—"}</TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -263,13 +263,13 @@ export default function Compliance() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_compliance")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_compliance")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

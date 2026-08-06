@@ -5,7 +5,7 @@ import { DomainEvents } from "../core/events/domain-events";
 
 export class UserCategoryPreferenceService extends BaseService<any, any, any> {
   constructor() {
-    super(prisma.userCategoryPreference, "userCategoryPreference");
+    super((prisma as any).userCategoryPreference, "userCategoryPreference");
   }
 
   async getByUser(userId: string) {
@@ -23,7 +23,7 @@ export class UserCategoryPreferenceService extends BaseService<any, any, any> {
 
 export class UserInterestService extends BaseService<any, any, any> {
   constructor() {
-    super(prisma.userInterest, "userInterest");
+    super((prisma as any).userInterest, "userInterest");
   }
 
   async getByUser(userId: string) {

@@ -31,11 +31,11 @@ export const b2bHotelsRoutes = new Elysia({ prefix: "/b2b-hotels" })
 
         let apartments: any[] = [];
         if (include_apartments === "true") {
-          const apts = await propertyCrossSellService.findApartmentsByCity({
+          const apts = await propertyCrossSellService.findPropertiesByCity({
             destination,
             maxResults: 5,
           });
-          apartments = apts.map((a) => ({
+          apartments = apts.map((a: any) => ({
             type: "APARTMENT",
             id: a.id,
             name: a.name,

@@ -129,4 +129,68 @@ export const documentOSApi = {
     if (!res.ok) throw new Error('Failed to fetch document types');
     return res.json();
   },
+
+  // ── Contract templates & generation ──────────────────────────────────────
+  getContractTemplates: async () => {
+    const res = await fetch('/api/v1/document-os/contract-templates', {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch contract templates');
+    return res.json();
+  },
+
+  getContractTemplatesByCountry: async (country: string) => {
+    const res = await fetch(`/api/v1/document-os/contract-templates/${country}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch contract templates for country');
+    return res.json();
+  },
+
+  getContractTemplate: async (country: string, type: string) => {
+    const res = await fetch(`/api/v1/document-os/contract-templates/${country}/${type}`, {
+      headers: getLocalizationHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch contract template');
+    return res.json();
+  },
+
+  generateContract: async (payload: {
+    type: string;
+    region: string;
+    language?: string;
+    data: Record<string, any>;
+    persist?: boolean;
+  }) => {
+    const res = await fetch('/api/v1/document-os/contracts/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getLocalizationHeaders(),
+      },
+      body: JSON.stringify(payload),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json?.error || 'Failed to generate contract');
+    return json;
+  },
+
+  generateContractViaML: async (payload: {
+    type: string;
+    region: string;
+    language?: string;
+    data: Record<string, any>;
+  }) => {
+    const res = await fetch('/api/v1/document-os/contracts/ml/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getLocalizationHeaders(),
+      },
+      body: JSON.stringify(payload),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json?.error || 'Failed to generate contract via ML service');
+    return json;
+  },
 };

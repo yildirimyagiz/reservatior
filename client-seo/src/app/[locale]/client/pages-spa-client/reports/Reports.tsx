@@ -45,7 +45,7 @@ export default function Reports() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("client.src.downloads")}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("common.downloads")}</CardTitle>
             <Download className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -123,22 +123,22 @@ export default function Reports() {
               category: "Financial",
               count: 89,
               icon: DollarSign,
-              color: "text-green-600"
+              color: "text-blue-600"
             }, {
               category: "Analytics",
               count: 67,
               icon: TrendingUp,
-              color: "text-blue-600"
+              color: "text-brand"
             }, {
               category: "Property",
               count: 45,
               icon: FileText,
-              color: "text-purple-600"
+              color: "text-brand"
             }, {
               category: "Tenant",
               count: 34,
               icon: Users,
-              color: "text-orange-600"
+              color: "text-warning"
             }, {
               category: "Market",
               count: 12,

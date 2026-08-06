@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocalization } from "@/contexts/LocalizationContext";
 import { useQuery } from "@tanstack/react-query";
@@ -23,6 +24,7 @@ import {
   Layers,
   PieChart
 } from "lucide-react";
+import { tEnum } from "@/lib/admin-enums";
 
 export default function AdsOSDashboard() {
   const { user } = useAuth();
@@ -30,6 +32,7 @@ export default function AdsOSDashboard() {
   const orgId = user?.organizationId || "";
   const [timeRange, setTimeRange] = useState<"7d" | "30d" | "90d">("30d");
   const [selectedNetwork, setSelectedNetwork] = useState<"all" | "google" | "meta" | "tiktok">("all");
+  const { t } = useTranslation();
 
   const { data: adsStats, isLoading } = useQuery({
     queryKey: ["ads-os-dashboard", orgId, timeRange, selectedNetwork],
@@ -57,12 +60,12 @@ export default function AdsOSDashboard() {
   };
 
   const kpis = [
-    { title: "Total Campaigns", value: formatNumber(stats.totalCampaigns), icon: Megaphone, color: "text-blue-600", trend: "+12.5%" },
-    { title: "Active Campaigns", value: formatNumber(stats.activeCampaigns), icon: Play, color: "text-green-600", trend: "+8.3%" },
-    { title: "Total Spend", value: formatCurrency(stats.totalSpend), icon: DollarSign, color: "text-purple-600", trend: "+15.2%" },
-    { title: "Avg CTR", value: formatPercent(stats.averageCTR), icon: TrendingUp, color: "text-orange-600", trend: "+2.1%" },
-    { title: "Total Conversions", value: formatNumber(stats.totalConversions), icon: Target, color: "text-indigo-600", trend: "+18.7%" },
-    { title: "ROAS", value: stats.roas.toFixed(2), icon: BarChart3, color: "text-pink-600", trend: "+5.4%" },
+    { title: t("ads_os.total_campaigns", "Toplam Kampanyalar"), value: formatNumber(stats.totalCampaigns), icon: Megaphone, color: "text-blue-600", trend: "+12.5%" },
+    { title: t("ads_os.active_campaigns", "Aktif Kampanyalar"), value: formatNumber(stats.activeCampaigns), icon: Play, color: "text-blue-600", trend: "+8.3%" },
+    { title: t("ads_os.total_spend", "Toplam Harcama"), value: formatCurrency(stats.totalSpend), icon: DollarSign, color: "text-brand", trend: "+15.2%" },
+    { title: t("ads_os.avg_ctr", "Ort. CTR"), value: formatPercent(stats.averageCTR), icon: TrendingUp, color: "text-orange-600", trend: "+2.1%" },
+    { title: t("ads_os.total_conversions", "Toplam Dönüşümler"), value: formatNumber(stats.totalConversions), icon: Target, color: "text-brand", trend: "+18.7%" },
+    { title: t("ads_os.roas", "ROAS"), value: stats.roas.toFixed(2), icon: BarChart3, color: "text-pink-600", trend: "+5.4%" },
   ];
 
   const networks = [
@@ -82,22 +85,22 @@ export default function AdsOSDashboard() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Ads OS Dashboard</h1>
-          <p className="text-gray-600 mt-1">Multi-network arbitrage and campaign optimization</p>
+          <h1 className="text-3xl font-bold text-foreground">{t("ads_os.title", "Reklam OS")}</h1>
+          <p className="text-muted-foreground mt-1">{t("ads_os.subtitle", "Reklam Kampanyaları")}</p>
         </div>
         <div className="flex gap-3">
           <select 
             value={selectedNetwork} 
             onChange={(e) => setSelectedNetwork(e.target.value as any)}
-            className="px-4 py-2 border border-gray-300 rounded-lg bg-white"
+            className="px-4 py-2 border border-border rounded-lg bg-card"
           >
-            <option value="all">All Networks</option>
-            <option value="google">Google Ads</option>
-            <option value="meta">Meta Ads</option>
-            <option value="tiktok">TikTok Ads</option>
+            <option value="all">{t("ads_os.all_networks", "Tüm Ağlar")}</option>
+            <option value="google">{t("ads_os.google_ads", "Google Reklamları")}</option>
+            <option value="meta">{t("ads_os.meta_ads", "Meta Reklamları")}</option>
+            <option value="tiktok">{t("ads_os.tiktok_ads", "TikTok Reklamları")}</option>
           </select>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
-            <Megaphone className="w-4 h-4" /> Create Campaign
+          <button className="px-4 py-2 bg-primary text-primary-foreground text-white rounded-lg hover:bg-primary/90 transition flex items-center gap-2">
+            <Megaphone className="w-4 h-4" /> {t("admin_ads_os_create_campaign", "Kampanya Oluştur")}
           </button>
         </div>
       </div>
@@ -106,14 +109,14 @@ export default function AdsOSDashboard() {
         {kpis.map((kpi, i) => {
           const Icon = kpi.icon;
           return (
-            <div key={i} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={i} className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">{kpi.value}</p>
-                  <p className="text-sm text-green-600 mt-1">{kpi.trend}</p>
+                  <p className="text-sm font-medium text-muted-foreground">{kpi.title}</p>
+                  <p className="text-2xl font-bold text-foreground mt-2">{kpi.value}</p>
+                  <p className="text-sm text-blue-600 mt-1">{kpi.trend}</p>
                 </div>
-                <div className={`p-3 bg-gray-50 rounded-lg ${kpi.color}`}>
+                <div className={`p-3 bg-muted rounded-lg ${kpi.color}`}>
                   <Icon className="w-6 h-6" />
                 </div>
               </div>
@@ -123,37 +126,37 @@ export default function AdsOSDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Network className="w-5 h-5 text-blue-600" /> Multi-Network Performance
+            <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+              <Network className="w-5 h-5 text-blue-600" /> {t("ads_os.multi_network_performance", "Çoklu Ağ Performansı")}
             </h2>
-            <button className="p-2 hover:bg-gray-100 rounded-lg"><Filter className="w-4 h-4 text-gray-500" /></button>
+            <button className="p-2 hover:bg-gray-100 rounded-lg"><Filter className="w-4 h-4 text-muted-foreground" /></button>
           </div>
           <div className="space-y-3">
             {networks.map((network, i) => (
-              <div key={i} className="p-4 bg-gray-50 rounded-lg">
+              <div key={i} className="p-4 bg-muted rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
-                    <Globe className="w-5 h-5 text-gray-600" />
-                    <span className="font-medium text-gray-900">{network.name}</span>
+                    <Globe className="w-5 h-5 text-muted-foreground" />
+                    <span className="font-medium text-foreground">{network.name}</span>
                     <span className={`text-xs px-2 py-1 rounded-full ${
-                      network.status === "active" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
-                    }`}>{network.status}</span>
+                      network.status === "active" ? "bg-blue-100 text-blue-700" : "bg-yellow-100 text-yellow-700"
+                    }`}>{tEnum(t, network.status)}</span>
                   </div>
-                  <span className="text-sm font-bold text-gray-900">{formatCurrency(network.spend)}</span>
+                  <span className="text-sm font-bold text-foreground">{formatCurrency(network.spend)}</span>
                 </div>
                 <div className="grid grid-cols-3 gap-2 text-sm">
                   <div>
-                    <p className="text-gray-600">Conversions</p>
+                    <p className="text-muted-foreground">{t("ads_os.conversions", "Dönüşümler")}</p>
                     <p className="font-medium">{network.conversions}</p>
                   </div>
                   <div>
-                    <p className="text-gray-600">ROAS</p>
+                    <p className="text-muted-foreground">{t("ads_os.roas", "ROAS")}</p>
                     <p className="font-medium">{network.roas.toFixed(1)}x</p>
                   </div>
                   <div>
-                    <p className="text-gray-600">CPET</p>
+                    <p className="text-muted-foreground">{t("ads_os.cpet", "CPET")}</p>
                     <p className="font-medium">{network.cpET.toFixed(2)}</p>
                   </div>
                 </div>
@@ -162,12 +165,12 @@ export default function AdsOSDashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Zap className="w-5 h-5 text-yellow-600" /> Arbitrage Opportunities
+            <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+              <Zap className="w-5 h-5 text-yellow-600" /> {t("ads_os.arbitrage_opportunities", "Arbitraj Fırsatları")}
             </h2>
-            <button className="p-2 hover:bg-gray-100 rounded-lg"><Settings className="w-4 h-4 text-gray-500" /></button>
+            <button className="p-2 hover:bg-gray-100 rounded-lg"><Settings className="w-4 h-4 text-muted-foreground" /></button>
           </div>
           <div className="space-y-3">
             {arbitrageOpportunities.map((opp, i) => (
@@ -177,7 +180,7 @@ export default function AdsOSDashboard() {
                     <ArrowUpRight className="w-4 h-4 text-yellow-600" />
                     <span className="font-medium text-yellow-900">{opp.from} → {opp.to}</span>
                   </div>
-                  <span className="text-sm font-bold text-green-600">{opp.potential}</span>
+                  <span className="text-sm font-bold text-blue-600">{opp.potential}</span>
                 </div>
                 <p className="text-sm text-yellow-700">{opp.reason}</p>
               </div>
@@ -186,18 +189,18 @@ export default function AdsOSDashboard() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-            <Activity className="w-5 h-5 text-purple-600" /> CPET Optimization Analysis
+          <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+            <Activity className="w-5 h-5 text-brand" /> {t("ads_os.cpet_optimization_analysis", "CPET Optimizasyon Analizi")}
           </h2>
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><Download className="w-4 h-4 text-gray-500" /></button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg"><Download className="w-4 h-4 text-muted-foreground" /></button>
         </div>
-        <div className="h-64 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg flex items-center justify-center">
+        <div className="h-64 bg-gradient-to-br from-brand to-purple-100 rounded-lg flex items-center justify-center">
           <div className="text-center">
-            <BarChart3 className="w-12 h-12 mx-auto mb-3 text-purple-600" />
-            <p className="text-lg font-semibold text-purple-900">CPET Optimization Dashboard</p>
-            <p className="text-sm text-purple-700 mt-1">Real-time budget allocation across ad networks</p>
+            <BarChart3 className="w-12 h-12 mx-auto mb-3 text-brand" />
+            <p className="text-lg font-semibold text-brand">{t("ads_os.cpet_optimization_dashboard", "CPET Optimizasyon Paneli")}</p>
+            <p className="text-sm text-brand mt-1">{t("ads_os.realtime_budget_allocation", "Reklam ağları genelinde gerçek zamanlı bütçe tahsisi")}</p>
           </div>
         </div>
       </div>

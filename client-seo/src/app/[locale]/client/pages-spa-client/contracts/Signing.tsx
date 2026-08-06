@@ -171,7 +171,7 @@ export default function Signing() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'signed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'pending':
         return 'bg-yellow-100 text-yellow-800';
       case 'draft':
@@ -203,13 +203,13 @@ export default function Signing() {
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'lease':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-brand/15 text-brand';
       case 'facility':
         return 'bg-blue-100 text-blue-800';
       case 'services':
         return 'bg-orange-100 text-orange-800';
       case 'management':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -237,15 +237,15 @@ export default function Signing() {
             
             <div className="flex gap-2">
               <select aria-label="Filter by status" value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <option value="all">{t("client.src.all_status")}</option>
-                <option value="signed">{t("client.src.signed")}</option>
-                <option value="pending">{t("client.src.pending")}</option>
-                <option value="draft">{t("client.src.draft")}</option>
-                <option value="expired">{t("client.src.expired")}</option>
-                <option value="cancelled">{t("client.src.cancelled")}</option>
+                <option value="all">{t("common.all_status")}</option>
+                <option value="signed">{t("common.signed")}</option>
+                <option value="pending">{t("common.processing")}</option>
+                <option value="draft">{t("common.draft")}</option>
+                <option value="expired">{t("common.expired")}</option>
+                <option value="cancelled">{t("common.cancelled")}</option>
               </select>
               <select aria-label="Filter by type" value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <option value="all">{t("client.src.all_types")}</option>
+                <option value="all">{t("common.all_types")}</option>
                 <option value="lease">{t("client.src.lease")}</option>
                 <option value="facility">{t("client.src.facility")}</option>
                 <option value="services">{t("client.src.services")}</option>
@@ -257,9 +257,9 @@ export default function Signing() {
         
         <ScrollArea className="flex-1">
           <div className="p-2">
-            {filteredContracts.map(contract => <div key={contract.id} onClick={() => setSelectedContract(contract.id)} className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 ${selectedContract === contract.id ? 'bg-purple-50 border border-purple-200' : 'hover:bg-gray-100'}`}>
+            {filteredContracts.map(contract => <div key={contract.id} onClick={() => setSelectedContract(contract.id)} className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 ${selectedContract === contract.id ? 'bg-brand/10 border border-purple-200' : 'hover:bg-gray-100'}`}>
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-brand to-pink-600 flex items-center justify-center text-white">
                     <FileSignature className="w-5 h-5" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -282,7 +282,7 @@ export default function Signing() {
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
-                      <span>{t("client.src.created")}{contract.createdDate}</span>
+                      <span>{t("common.created")}{contract.createdDate}</span>
                       <span>{contract.duration}</span>
                     </div>
                   </div>
@@ -296,10 +296,10 @@ export default function Signing() {
       <div className="flex-1">
         {currentContract && <div className="h-full flex flex-col">
             {/* Contract Header */}
-            <div className="p-6 border-b bg-white">
+            <div className="p-6 border-b bg-card">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-brand to-pink-600 flex items-center justify-center text-white">
                     <FileSignature className="w-6 h-6" />
                   </div>
                   <div>
@@ -319,12 +319,12 @@ export default function Signing() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Button size="sm">
-                    <Eye className="w-4 h-4 mr-2" />{t("client.src.view")}</Button>
+                    <Eye className="w-4 h-4 mr-2" />{t("common.view")}</Button>
                   <Button size="sm" variant="outline">
-                    <Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</Button>
+                    <Edit className="w-4 h-4 mr-2" />{t("common.edit")}</Button>
                   <Button size="sm" variant="outline">
                     <Send className="w-4 h-4 mr-2" />{t("client.src.send")}</Button>
-                  <Button size="sm" variant="outline">
+                  <Button size="sm" variant="outline" aria-label={t("common.more")}>
                     <MoreVertical className="w-4 h-4" />
                   </Button>
                 </div>
@@ -347,7 +347,7 @@ export default function Signing() {
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <p className="font-medium">{t("client.src.contract_amount")}</p>
-                            <p className="text-2xl font-bold text-purple-600">{currentContract.amount}</p>
+                            <p className="text-2xl font-bold text-brand">{currentContract.amount}</p>
                           </div>
                           <div>
                             <p className="font-medium">{t("client.src.duration")}</p>
@@ -374,7 +374,7 @@ export default function Signing() {
                             </p>
                           </div>
                           <div>
-                            <p className="font-medium">{t("client.src.expiry_date")}</p>
+                            <p className="font-medium">{t("common.expiry_date")}</p>
                             <p className="text-sm text-gray-600">{currentContract.expiryDate}</p>
                           </div>
                         </div>
@@ -389,7 +389,7 @@ export default function Signing() {
                           </div>
                         </div>
                         <div>
-                          <p className="font-medium">{t("client.src.notes")}</p>
+                          <p className="font-medium">{t("common.notes")}</p>
                           <p className="text-sm text-gray-600">{currentContract.notes}</p>
                         </div>
                       </div>
@@ -406,7 +406,7 @@ export default function Signing() {
                       <div className="space-y-4">
                         {currentContract.signatures.map((signature, index) => <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                             <div className="flex items-center gap-3">
-                              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${signature.signed ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
+                              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${signature.signed ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-400'}`}>
                                 {signature.signed ? <CheckCircle className="w-5 h-5" /> : <Clock className="w-5 h-5" />}
                               </div>
                               <div>
@@ -419,7 +419,7 @@ export default function Signing() {
                               <p className="text-sm font-medium">
                                 {signature.signed ? signature.date : 'Pending'}
                               </p>
-                              <Badge className={`text-xs ${signature.signed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                              <Badge className={`text-xs ${signature.signed ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'}`}>
                                 {signature.signed ? 'Signed' : 'Pending'}
                               </Badge>
                             </div>
@@ -433,7 +433,7 @@ export default function Signing() {
                     <CardHeader>
                       <CardTitle className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <FileText className="w-5 h-5" />{t("client.src.documents")}{currentContract.documents.length})
+                          <FileText className="w-5 h-5" />{t("common.documents")}{currentContract.documents.length})
                         </div>
                         <Button size="sm" variant="outline">
                           <Upload className="w-4 h-4 mr-2" />{t("client.src.upload")}</Button>
@@ -450,10 +450,10 @@ export default function Signing() {
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Button size="sm" variant="ghost">
+                              <Button size="sm" variant="ghost" aria-label={t("common.view")}>
                                 <Eye className="w-4 h-4" />
                               </Button>
-                              <Button size="sm" variant="ghost">
+                              <Button size="sm" variant="ghost" aria-label={t("common.download")}>
                                 <Download className="w-4 h-4" />
                               </Button>
                             </div>
@@ -493,17 +493,17 @@ export default function Signing() {
                         <span className="font-bold">{totalContracts}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">{t("client.src.signed")}</span>
-                        <span className="font-bold text-green-600">{signedContracts}</span>
+                        <span className="text-sm">{t("common.signed")}</span>
+                        <span className="font-bold text-blue-600">{signedContracts}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">{t("client.src.pending")}</span>
+                        <span className="text-sm">{t("common.processing")}</span>
                         <span className="font-bold text-yellow-600">{pendingContracts}</span>
                       </div>
                       <div className="pt-2 border-t">
                         <div className="flex items-center justify-between">
                           <span className="text-sm">{t("client.src.monthly_value")}</span>
-                          <span className="font-bold text-purple-600">
+                          <span className="font-bold text-brand">
                             ${totalValue.toLocaleString()}
                           </span>
                         </div>
@@ -517,8 +517,8 @@ export default function Signing() {
                         <CardTitle>{t("client.src.active_reminders")}</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-2">
-                        {currentContract.reminders.map((reminder, index) => <div key={index} className="flex items-center gap-2 p-2 bg-blue-50 border border-blue-200 rounded">
-                            <Clock className="w-4 h-4 text-blue-600" />
+                        {currentContract.reminders.map((reminder, index) => <div key={index} className="flex items-center gap-2 p-2 bg-brand/10 border border-border rounded">
+                            <Clock className="w-4 h-4 text-brand" />
                             <span className="text-sm text-blue-800 capitalize">{reminder.replace('_', ' ')}</span>
                           </div>)}
                       </CardContent>

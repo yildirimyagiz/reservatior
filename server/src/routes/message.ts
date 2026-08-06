@@ -124,7 +124,6 @@ export const messageRoutes = new Elysia({ prefix: "/message" })
       where: {
         ...(orgId && { orgId }),
       },
-      distinct: ["threadId"],
       orderBy: { updatedAt: "desc" },
       skip: (parseInt(page) - 1) * parseInt(limit),
       take: parseInt(limit),

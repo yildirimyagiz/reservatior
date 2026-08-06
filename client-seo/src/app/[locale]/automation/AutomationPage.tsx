@@ -112,7 +112,7 @@ const mockAutomations: Automation[] = [
 
 const triggerTypeConfig: Record<string, { label: string; icon: React.ComponentType<{ className?: string }>; color: string }> = {
   booking: { label: "Booking", icon: CheckCircle, color: "text-blue-400" },
-  payment: { label: "Payment", icon: DollarSign, color: "text-green-400" },
+  payment: { label: "Payment", icon: DollarSign, color: "text-blue-400" },
   property: { label: "Property", icon: Building, color: "text-purple-400" },
   custom: { label: "Custom", icon: Settings, color: "text-yellow-400" }
 };
@@ -191,8 +191,8 @@ export default function AutomationPage() {
                     <div className="text-sm text-gray-400 mb-1">{t("automation.automationpage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">{activeAutomations}</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-green-500/10">
-                    <Zap className="w-6 h-6 text-green-400" />
+                  <div className="p-3 rounded-lg bg-blue-500/10">
+                    <Zap className="w-6 h-6 text-blue-400" />
                   </div>
                 </div>
               </CardContent>
@@ -297,7 +297,7 @@ export default function AutomationPage() {
                               className={cn(
                                 "border",
                                 automation.enabled
-                                  ? "border-green-500/30 text-green-400"
+                                  ? "border-blue-500/30 text-blue-400"
                                   : "border-gray-500/30 text-gray-400"
                               )}
                             >
@@ -311,10 +311,10 @@ export default function AutomationPage() {
                             checked={automation.enabled}
                             onCheckedChange={() => toggleAutomation(automation.id)}
                           />
-                          <Button variant="ghost" size="icon">
+                          <Button variant="ghost" size="icon" aria-label={t("common.edit")}>
                             <Edit className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="icon">
+                          <Button variant="ghost" size="icon" aria-label={t("common.delete")}>
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>

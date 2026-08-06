@@ -89,15 +89,16 @@ model User {
   valuations                     PropertyValuation[]             @relation("UserValuations")
   assignedViewings               PropertyViewing[]
   referrals                      Referral[]
+  referredByUserId               String?
+  referredByUser                 User?                           @relation("UserReferrals", fields: [referredByUserId], references: [id])
+  referredUsers                  User[]                          @relation("UserReferrals")
   reports                        Report[]
   sessions                       Session[]
   signatureSigners               SignatureSigner[]
-  tasks                          Task[]
-  tenants                        Tenant?
-  devices                        Device[]
+  userRevenueProfile              UserRevenueProfile[]
+  userNotificationPreferences     UserNotificationPreferences[]
   userRoles                      UserRole[]
   identityEvents                 IdentityEvent[]
-  notificationPreferences        UserNotificationPreferences[]
   assignedTickets                Ticket[]                        @relation("TicketAgent")
   tickets                        Ticket[]                        @relation("TicketUser")
   conciergeRequests              ConciergeRequest[]
@@ -114,6 +115,12 @@ model User {
   currencies                     Currency[]                      @relation("CurrencyToUser")
   extraCharges                   ExtraCharge[]                   @relation("ExtraChargeToUser")
   includedServices               IncludedService[]               @relation("IncludedServiceToUser")
+  tenantTrustProfiles            TenantTrustProfile[]            @relation("TenantTrustProfiles")
+  landlordTrustProfiles          LandlordTrustProfile[]          @relation("LandlordTrustProfiles")
+  agentReputationProfiles        AgentReputationProfile[]        @relation("AgentReputationProfiles")
+  assignedTasks                  Task[]                          @relation("TaskAssignedUsers")
+  tenants                        Tenant[]                        @relation("UserTenants")
+  devices                        Device[]                        @relation("UserDevices")
   memberships                    OrganizationMember[]
   socialPosts                    SocialPost[]
   socialAIContents               SocialAIContent[]
@@ -124,9 +131,9 @@ model User {
   ownedListings                  Listing[]                       @relation("UserOwnedListings")
   aiintentAuditLogs              AIIntentAuditLog[]
   userAIHabits                   UserAIHabit[]
-  userRevenueProfile             UserRevenueProfile?
   userIntelligenceProfile        UserIntelligenceProfile?
   userInvestmentProfile          UserInvestmentProfile?
+  landlordEntities               LandlordEntity[]
 }
 
 model Session {
@@ -396,6 +403,17 @@ model Organization {
   commissionPolicies CommissionPolicy[]
   settlementPolicies SettlementPolicy[]
   pricingPolicies    PricingPolicy[]
+
+  landlordEntities           LandlordEntity[]              @relation("LandlordOrganization")
+  escrowReleasePolicies      EscrowReleasePolicy[]
+  rentalFinanceEvents        RentalFinanceEvent[]
+  rentalServicePlans         RentalServicePlan[]
+  tenantFinancialProfiles    TenantFinancialProfile[]
+  landlordFinancialProfiles  LandlordFinancialProfile[]
+  rentalPayments             RentalPayment[]
+  rentalEscrowAccounts       RentalEscrowAccount[]
+  insuranceProviders         InsuranceProvider[]
+  rentalInsuranceProducts    RentalInsuranceProduct[]
 }
 
 model ConciergeRequest {
@@ -865,6 +883,7 @@ model Property {
   securityScreenings       BookingSecurityScreening[]
   complianceRecords        ComplianceRecord[]
   contracts                Contract[]
+  rentalServicePlans       RentalServicePlan[]
   deals                    Deal[]
   discounts                Discount[]
   generalDocuments         Document[]
@@ -936,12 +955,13 @@ model Property {
   propertySecurityConfig   PropertySecurityConfig?
   predictionOutcomes       PredictionOutcome[]
   agentTasks               AgentTask[]
-
-  // Phase 1: Property Intelligence Engine Relations
-  propertyIntelligenceProfile PropertyIntelligenceProfile?
-  propertyCurrentScore      PropertyCurrentScore?
-  propertyScoreHistories    PropertyScoreHistory[]
-  propertyDigitalTwin       PropertyDigitalTwin?
+  countryEvaluations       PropertyCountryEvaluation[]
+  trustScore               PropertyTrustScore?
+  trustProfile             PropertyTrustProfile?
+  intelligenceProfile      PropertyIntelligenceProfile?
+  currentScore             PropertyCurrentScore?
+  scoreHistory             PropertyScoreHistory[]
+  digitalTwin              PropertyDigitalTwin?
 
   nzCode                  NZRegion? // Managed field
   legalDescription        String? // Managed field
@@ -1242,7 +1262,6 @@ model Property {
   managementOpportunity Boolean             @default(false) // Yönetim Fırsatı (Yüksek Ciro + Düşük Puan) // Managed field
   county                String? // Managed field
   escrowSplitConfig     EscrowSplitConfig?
-  trustScore            PropertyTrustScore?
 
   @@index([orgId])
   @@index([propertyCategory])
@@ -1522,6 +1541,7 @@ model Lease {
   org                       Organization               @relation(fields: [orgId], references: [id])
   tenant                    Tenant                     @relation(fields: [tenantId], references: [id])
   renewals                  LeaseRenewal[]
+  rentalServicePlan         RentalServicePlan?
   Payment                   Payment[]                  @relation("LeasePayments")
   inventories               PropertyInventory[]
   rentArrears               RentArrears[]
@@ -3204,7 +3224,7 @@ model Task {
   photoLocationMatch  Boolean           @default(false)
   deviceInfo          Json?
   assignedContact     Contact?          @relation(fields: [assignedToContactId], references: [id])
-  assignedUser        User?             @relation(fields: [assignedToUserId], references: [id])
+  assignedUser        User?             @relation("TaskAssignedUsers", fields: [assignedToUserId], references: [id])
   booking             Booking?          @relation(fields: [bookingId], references: [id])
   contract            Contract?         @relation(fields: [contractId], references: [id])
   lease               Lease?            @relation(fields: [leaseId], references: [id])
@@ -3627,6 +3647,9 @@ model Commission {
   totalAmount       Decimal?                 @db.Decimal(14, 2)
   ruleData          Json?
   records           Json?
+  gateway           String?                  // "STRIPE" or "PAYTR" or "OPENBANKING"
+  escrowReleaseDate DateTime?                // When funds will be released to the agent (e.g. 15-21 days)
+  payoutStatus      String                   @default("PENDING") // "PENDING", "RELEASED", "FAILED"
   createdAt         DateTime                 @default(now())
   updatedAt         DateTime                 @updatedAt
   deletedAt         DateTime?
@@ -6179,6 +6202,7 @@ model Agent {
   escrowWallet            AgentEscrowWallet?
   escrowSplitConfigs      EscrowSplitConfig[]
   listingDistributions    ListingDistribution[]
+  reputationProfile       AgentReputationProfile?
   agentIntelligenceProfile AgentIntelligenceProfile?
 
   @@unique([name, agencyId])
@@ -6966,6 +6990,7 @@ model Payment {
   Reservation       Reservation?     @relation(fields: [reservationId], references: [id])
   Subscription      Subscription?    @relation(fields: [subscriptionId], references: [id])
   Tenant            Tenant?          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  rentalPayments    RentalPayment[]
 
   stripePaymentIntentId String? @unique // Managed field
   stripePaymentMethodId String? // Managed field
@@ -7249,10 +7274,14 @@ model Tenant {
   MaintenanceWorkOrder MaintenanceWorkOrder[] @relation("TenantMaintenanceRequests") // Managed field
   Payment              Payment[] // Managed field
   Property             Property               @relation(fields: [propertyId], references: [id], onDelete: Cascade) // Managed field
-  User                 User                   @relation(fields: [userId], references: [id], onDelete: Cascade) // Managed field
+  User                 User                   @relation("UserTenants", fields: [userId], references: [id], onDelete: Cascade) // Managed field
   Contract             Contract[]             @relation("ContractToTenant") // Managed field
   Notification         Notification[]         @relation("NotificationToTenant") // Managed field
   Report               Report[]               @relation("ReportToTenant") // Managed field
+  financialProfile     TenantFinancialProfile?
+  rentalServicePlans   RentalServicePlan[]
+  insurancePolicies    RentalInsurancePolicy[]
+  trustProfile         TenantTrustProfile?
 }
 
 model Ticket {
@@ -13397,7 +13426,7 @@ model Device {
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation("UserDevices", fields: [userId], references: [id])
 
   @@unique([userId, deviceIdentifier])
   @@index([userId])
@@ -17893,3 +17922,1083 @@ model LeadIntelligenceProfile {
 // Lead Intelligence Profile - Lead Qualification & Conversion Intelligence
 
 // Agent Intelligence Profile - Agent Performance & Capability Intelligence
+
+// ─── NEW RENTAL FINANCE OS & INSURANCE INTEGRATION OS ENUMS ───
+
+enum RentalServicePlanStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  TERMINATED
+}
+
+enum RentalPlanScope {
+  GLOBAL
+  ORGANIZATION
+  PROPERTY
+  LEASE
+}
+
+enum RentalPayerType {
+  TENANT
+  LANDLORD
+}
+
+enum RentalPaymentStatus {
+  SCHEDULED
+  PENDING
+  PROCESSING
+  COMPLETED
+  LATE
+  FAILED
+  WAIVED
+}
+
+enum EscrowAccountStatus {
+  OPEN
+  HOLDING
+  RELEASING
+  RELEASED
+  DISPUTED
+  CLOSED
+}
+
+enum RiskLevel {
+  VERY_LOW
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+}
+
+enum LandlordType {
+  INDIVIDUAL
+  COMPANY
+}
+
+enum InsuranceProviderType {
+  INSURANCE_COMPANY
+  BROKER
+  REINSURER
+}
+
+enum InsurancePolicyStatus {
+  QUOTE
+  PENDING
+  ACTIVE
+  CLAIMED
+  EXPIRED
+  CANCELLED
+}
+
+enum ClaimStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  PAID
+  DISPUTED
+}
+
+
+// ─── NEW RENTAL FINANCE OS MODELS ───
+
+model LandlordEntity {
+  id               String   @id @default(cuid())
+  type             LandlordType
+  userId           String?  // If individual
+  organizationId   String?  // If company
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  user             User?         @relation(fields: [userId], references: [id])
+  organization     Organization? @relation("LandlordOrganization", fields: [organizationId], references: [id])
+  financialProfile LandlordFinancialProfile?
+  rentalServicePlans RentalServicePlan[]
+  insurancePolicies  RentalInsurancePolicy[]
+  trustProfile     LandlordTrustProfile?
+
+  @@index([userId])
+  @@index([organizationId])
+}
+
+model RentalServicePlan {
+  id             String                  @id @default(cuid())
+  scope          RentalPlanScope
+  orgId          String?
+  propertyId     String?
+  leaseId        String?                 @unique
+  tenantId       String?
+  landlordEntityId String?
+
+  tenantFeeRate   Decimal                 @default(0.035) @db.Decimal(5, 4)
+  landlordFeeRate Decimal                 @default(0.035) @db.Decimal(5, 4)
+  protectionRate  Decimal                 @default(0.02)  @db.Decimal(5, 4)
+
+  currency       String                  @default("USD")
+  status         RentalServicePlanStatus @default(PENDING)
+  effectiveFrom  DateTime                @default(now())
+  effectiveTo    DateTime?
+  metadata       Json?
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
+
+  // Relations
+  org            Organization?           @relation(fields: [orgId], references: [id])
+  property       Property?               @relation(fields: [propertyId], references: [id])
+  tenant         Tenant?                 @relation(fields: [tenantId], references: [id])
+  lease          Lease?                  @relation(fields: [leaseId], references: [id])
+  landlordEntity LandlordEntity?         @relation(fields: [landlordEntityId], references: [id])
+
+  rentalPayments RentalPayment[]
+  rentalEscrow   RentalEscrowAccount?
+  insurancePolicies RentalInsurancePolicy[]
+
+  @@index([orgId])
+  @@index([tenantId])
+  @@index([propertyId])
+  @@index([status])
+}
+
+model TenantFinancialProfile {
+  id                 String   @id @default(cuid())
+  tenantId           String   @unique
+  orgId              String
+  reliabilityScore   Float    @default(50.0) // 0-100
+  paymentCount       Int      @default(0)
+  successfulPayments Int      @default(0)
+  latePayments       Int      @default(0)
+  failedPayments     Int      @default(0)
+  averageDelayDays   Float    @default(0)
+  totalPaidAmount    Decimal  @default(0) @db.Decimal(14, 2)
+  riskLevel          RiskLevel @default(MEDIUM)
+  aiMatchScore       Float?   // AI-computed match compatibility
+  lastCalculatedAt   DateTime @default(now())
+  scoreFactors       Json?    // breakdown of score components
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  // Relations
+  tenant             Tenant   @relation(fields: [tenantId], references: [id])
+  org                Organization @relation(fields: [orgId], references: [id])
+  
+  @@index([orgId])
+  @@index([reliabilityScore])
+  @@index([riskLevel])
+}
+
+model LandlordFinancialProfile {
+  id               String   @id @default(cuid())
+  landlordEntityId String   @unique
+  orgId            String
+  propertyCount    Int      @default(0)
+  occupancyRate    Float    @default(0)    // 0-1
+  paymentHealth    Float    @default(100.0) // 0-100
+  riskScore        Float    @default(50.0)  // 0-100
+  totalRevenue     Decimal  @default(0) @db.Decimal(14, 2)
+  monthlyRevenue   Decimal  @default(0) @db.Decimal(14, 2)
+  avgTenantScore   Float?
+  riskLevel        RiskLevel @default(MEDIUM)
+  lastCalculatedAt DateTime @default(now())
+  analytics        Json?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  
+  // Relations
+  landlordEntity   LandlordEntity @relation(fields: [landlordEntityId], references: [id])
+  org              Organization @relation(fields: [orgId], references: [id])
+  
+  @@index([orgId])
+  @@index([riskLevel])
+}
+
+model RentalPayment {
+  id            String              @id @default(cuid())
+  orgId         String
+  rentalPlanId  String
+  paymentId     String?             // FK to existing Payment model
+  payerType     RentalPayerType
+  amount        Decimal             @db.Decimal(14, 2)
+  feeAmount     Decimal             @db.Decimal(14, 2)
+  protectionAmount Decimal?         @db.Decimal(14, 2)
+  feeRate       Decimal             @db.Decimal(5, 4)
+  currency      String              @default("USD")
+  status        RentalPaymentStatus @default(SCHEDULED)
+  scheduledDate DateTime
+  paidAt        DateTime?
+  daysLate      Int?
+  idempotencyKey String            @unique
+  metadata      Json?
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  
+  // Relations
+  org           Organization        @relation(fields: [orgId], references: [id])
+  rentalPlan    RentalServicePlan   @relation(fields: [rentalPlanId], references: [id])
+  payment       Payment?            @relation(fields: [paymentId], references: [id])
+  escrowAccount RentalEscrowAccount? @relation(fields: [escrowAccountId], references: [id])
+  escrowAccountId String?
+  
+  @@index([orgId])
+  @@index([rentalPlanId])
+  @@index([status])
+  @@index([scheduledDate])
+  @@index([payerType])
+}
+
+model EscrowReleasePolicy {
+  id              String   @id @default(cuid())
+  orgId           String
+  blockageDays    Int      @default(3)
+  autoRelease     Boolean  @default(true)
+  requireApproval Boolean  @default(false)
+  riskThreshold   Int      @default(70) // 0-100
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  org             Organization @relation(fields: [orgId], references: [id])
+  escrowAccounts  RentalEscrowAccount[]
+
+  @@index([orgId])
+}
+
+model RentalEscrowAccount {
+  id              String             @id @default(cuid())
+  orgId           String
+  rentalPlanId    String             @unique
+  policyId        String?
+  balance         Decimal            @default(0) @db.Decimal(14, 2)
+  heldAmount      Decimal            @default(0) @db.Decimal(14, 2)
+  currency        String             @default("USD")
+  status          EscrowAccountStatus @default(OPEN)
+  releaseDate     DateTime?
+  releasedAt      DateTime?
+  releasedAmount  Decimal?           @db.Decimal(14, 2)
+  metadata        Json?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  
+  // Relations
+  org             Organization       @relation(fields: [orgId], references: [id])
+  rentalPlan      RentalServicePlan  @relation(fields: [rentalPlanId], references: [id])
+  policy          EscrowReleasePolicy? @relation(fields: [policyId], references: [id])
+  payments        RentalPayment[]
+  
+  @@index([orgId])
+  @@index([status])
+  @@index([releaseDate])
+}
+
+model RentalFinanceEvent {
+  id            String   @id @default(cuid())
+  orgId         String
+  eventType     String   // RentalPlanCreated, TenantFeeApplied, etc.
+  entityType    String   // RentalServicePlan, RentalPayment, etc.
+  entityId      String
+  actorId       String?  // userId who triggered
+  payload       Json
+  correlationId String?
+  processedAt   DateTime?
+  createdAt     DateTime @default(now())
+  
+  org           Organization @relation(fields: [orgId], references: [id])
+  
+  @@index([orgId])
+  @@index([eventType])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+
+// ─── NEW INSURANCE INTEGRATION OS MODELS ───
+
+model InsuranceProvider {
+  id                      String   @id @default(cuid())
+  organizationId          String
+  name                    String
+  countryCode             String
+  providerType            InsuranceProviderType
+  status                  String   @default("ACTIVE") // ACTIVE, INACTIVE, SUSPENDED
+  apiEndpoint             String?
+  apiCredentialsReference String?
+  supportedProducts       Json?
+  supportedCountries      Json?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  
+  organization            Organization @relation(fields: [organizationId], references: [id])
+  products                RentalInsuranceProduct[]
+  policies                RentalInsurancePolicy[]
+  paymentTransactions     InsurancePaymentTransaction[]
+
+  @@index([organizationId])
+  @@index([status])
+}
+
+model RentalInsuranceProduct {
+  id                String   @id @default(cuid())
+  providerId        String
+  organizationId    String
+  name              String
+  coverageType      String   // RENT_GUARANTEE, RENT_PAYMENT_PROTECTION, EVICTION_COVER, PROPERTY_DAMAGE
+  maxCoverageAmount Decimal  @db.Decimal(14, 2)
+  currency          String   @default("USD")
+  basePremiumRate   Decimal  @db.Decimal(5, 4)
+  metadata          Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  provider          InsuranceProvider @relation(fields: [providerId], references: [id])
+  organization      Organization      @relation(fields: [organizationId], references: [id])
+  policies          RentalInsurancePolicy[]
+  
+  @@index([providerId])
+}
+
+model RentalInsurancePolicy {
+  id                String   @id @default(cuid())
+  rentalPlanId      String
+  tenantId          String?
+  landlordEntityId  String?
+  providerId        String
+  productId         String
+  status            InsurancePolicyStatus @default(QUOTE)
+  premiumAmount     Decimal  @db.Decimal(14, 2)
+  premiumRate       Decimal  @db.Decimal(5, 4)
+  coverageAmount    Decimal  @db.Decimal(14, 2)
+  currency          String   @default("USD")
+  effectiveFrom     DateTime?
+  effectiveTo       DateTime?
+  externalPolicyId  String?
+  metadata          Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  rentalPlan        RentalServicePlan @relation(fields: [rentalPlanId], references: [id])
+  tenant            Tenant?           @relation(fields: [tenantId], references: [id])
+  landlordEntity    LandlordEntity?   @relation(fields: [landlordEntityId], references: [id])
+  provider          InsuranceProvider @relation(fields: [providerId], references: [id])
+  product           RentalInsuranceProduct  @relation(fields: [productId], references: [id])
+  
+  claims            InsuranceClaim[]
+  paymentTransactions InsurancePaymentTransaction[]
+  
+  @@index([rentalPlanId])
+  @@index([tenantId])
+  @@index([status])
+}
+
+model RiskPricingExplanation {
+  id                String   @id @default(cuid())
+  tenantId          String?
+  landlordEntityId  String?
+  riskEngineScore   Float
+  fraudScore        Float?
+  computedRate      Decimal  @db.Decimal(5, 4)
+  riskBand          String
+  explanation       Json     // e.g. { paymentHistory: +20, incomeStability: +15 }
+  createdAt         DateTime @default(now())
+  
+  @@index([tenantId])
+  @@index([landlordEntityId])
+}
+
+model InsurancePaymentTransaction {
+  id                    String   @id @default(cuid())
+  policyId              String
+  amount                Decimal  @db.Decimal(14, 2)
+  providerId            String
+  status                String   @default("PENDING") // PENDING, SUCCESS, FAILED
+  externalTransactionId String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  
+  policy                RentalInsurancePolicy @relation(fields: [policyId], references: [id])
+  provider              InsuranceProvider     @relation(fields: [providerId], references: [id])
+  
+  @@index([policyId])
+  @@index([providerId])
+}
+
+model InsuranceClaim {
+  id                String   @id @default(cuid())
+  policyId          String
+  legalCaseId       String?
+  claimType         String
+  amountRequested   Decimal  @db.Decimal(14, 2)
+  amountApproved    Decimal? @db.Decimal(14, 2)
+  status            ClaimStatus @default(SUBMITTED)
+  metadata          Json?    // stores evidence: payment history, lease contract, etc.
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  policy            RentalInsurancePolicy @relation(fields: [policyId], references: [id])
+  
+  @@index([policyId])
+  @@index([status])
+}
+
+// =============================================================================
+// Global Hybrid Rental & Revenue OS — Multi-Country Schema
+// Phase 5: 7 new models for country policy, tax rules, market data,
+//          compliance checks, revenue rules, partner country rules,
+//          and property country evaluations
+// =============================================================================
+
+/// Country-specific rental policy for the Global Hybrid Rental OS
+model CountryPolicy {
+  id                     String   @id @default(cuid())
+  countryCode            String   @unique @db.VarChar(2)
+  countryName            String
+  currency               String   @db.VarChar(5)
+  taxSystem              String   @default("INCOME_TAX")
+  shortStayAllowed       Boolean  @default(true)
+  licenseRequired        Boolean  @default(false)
+  maxShortStayDays       Int?
+  corporateHousingAllowed Boolean @default(true)
+  masterLeaseAvailable   Boolean  @default(true)
+  withholdingTaxRate     Float    @default(0)
+  vatRate                Float    @default(0)
+  tourismTaxRate         Float    @default(0)
+  evictionProcessType    String   @default("JUDICIAL_MEDIUM")
+  depositRules           String?
+  contractRules          String   @default("CIVIL_LAW")
+  complianceScore        Float    @default(70)
+  corporateHousingDemand String   @default("MEDIUM")
+  complianceModel        String?  // e.g. '7464' for Turkey
+  notes                  String?
+  isActive               Boolean  @default(true)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  taxRules              CountryTaxRule[]
+  rentalMarkets         CountryRentalMarket[]
+  globalRevenueRules    GlobalRevenueRule[]
+  propertyEvaluations   PropertyCountryEvaluation[]
+  partnerCountryRules   PartnerCountryRule[]
+
+  @@index([countryCode])
+  @@index([isActive])
+  @@map("country_policies")
+}
+
+/// Granular tax rule per country and tax type
+model CountryTaxRule {
+  id          String   @id @default(cuid())
+  countryCode String   @db.VarChar(2)
+  taxType     String   // 'VAT' | 'WITHHOLDING' | 'TOURISM' | 'LOCAL_TAX' | 'INCOME_TAX'
+  taxName     String
+  rate        Float
+  appliesTo   String   // 'GROSS_REVENUE' | 'NET_REVENUE' | 'COMMISSION'
+  notes       String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  country     CountryPolicy @relation(fields: [countryCode], references: [countryCode])
+
+  @@index([countryCode])
+  @@index([taxType])
+  @@map("country_tax_rules")
+}
+
+/// City-level rental market data per country
+model CountryRentalMarket {
+  id                      String   @id @default(cuid())
+  countryCode             String   @db.VarChar(2)
+  city                    String
+  demandLevel             String   @default("MEDIUM") // 'VERY_HIGH' | 'HIGH' | 'MEDIUM' | 'LOW'
+  avgAdrUsd               Float?   // Average Daily Rate in USD
+  avgOccupancyPct         Float?   // Average occupancy %
+  avgMonthlyRentUsd       Float?   // Average long-term monthly rent USD
+  corporateHousingDemand  String   @default("MEDIUM")
+  primaryRentalModel      String   @default("REVENUE_SHARE")
+  keyNeighbourhoods       Json?
+  isActive                Boolean  @default(true)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  country     CountryPolicy @relation(fields: [countryCode], references: [countryCode])
+
+  @@unique([countryCode, city])
+  @@index([countryCode])
+  @@index([demandLevel])
+  @@map("country_rental_markets")
+}
+
+/// Revenue split rules per country (owner%, platform%, partner%)
+model GlobalRevenueRule {
+  id                     String   @id @default(cuid())
+  countryCode            String   @db.VarChar(2)
+  rentalModel            String   // 'REVENUE_SHARE' | 'MASTER_LEASE' | 'CORPORATE_HOUSING' etc.
+  ownerRate              Float    @default(55)  // % of net revenue to owner
+  platformRate           Float    @default(25)  // % to Reservatior
+  partnerRate            Float    @default(12)  // % to partner
+  operatingCostRate      Float    @default(8)   // % for operations
+  currency               String   @db.VarChar(5)
+  effectiveFrom          DateTime @default(now())
+  isActive               Boolean  @default(true)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  country     CountryPolicy @relation(fields: [countryCode], references: [countryCode])
+
+  @@unique([countryCode, rentalModel])
+  @@index([countryCode])
+  @@map("global_revenue_rules")
+}
+
+/// Per-property country compliance evaluation result
+model PropertyCountryEvaluation {
+  id                    String   @id @default(cuid())
+  propertyId            String
+  countryCode           String   @db.VarChar(2)
+  sagaId                String?
+  recommendedModel      String
+  totalScore            Float
+  countryComplianceScore Float
+  legalRiskScore        Float
+  estimatedRevenueLiftPct Float
+  marketOpportunity     String
+  complianceBlockers    Json?
+  complianceRecommendations Json?
+  dagTransactionId      String?
+  swarmConsensusScore   Float?
+  evaluatedAt           DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  country     CountryPolicy @relation(fields: [countryCode], references: [countryCode])
+  property    Property?    @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId])
+  @@index([countryCode])
+  @@index([evaluatedAt])
+  @@map("property_country_evaluations")
+}
+
+/// Partner-level commission rules per country
+model PartnerCountryRule {
+  id                   String   @id @default(cuid())
+  partnerId            String
+  countryCode          String   @db.VarChar(2)
+  tier                 String   @default("GOLD")
+  role                 String
+  baseCommissionRate   Float
+  bonusThresholdDeals  Int      @default(30)
+  bonusCommissionRate  Float
+  maxCommissionRate    Float    @default(18)
+  currency             String   @db.VarChar(5)
+  isActive             Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  country     CountryPolicy @relation(fields: [countryCode], references: [countryCode])
+
+  @@unique([partnerId, countryCode])
+  @@index([partnerId])
+  @@index([countryCode])
+  @@map("partner_country_rules")
+}
+
+/// Compliance check record — tracks per-property legal status per country
+model ComplianceCheck {
+  id              String   @id @default(cuid())
+  propertyId      String
+  countryCode     String   @db.VarChar(2)
+  checkType       String   @default("FULL") // 'FULL' | 'LICENSE' | 'REGISTRATION' | 'TAX'
+  passed          Boolean
+  complianceScore Float
+  legalRiskScore  Float
+  blockers        Json?
+  recommendations Json?
+  hasLicense      Boolean  @default(false)
+  hasRegistration Boolean  @default(false)
+  checkedAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([propertyId])
+  @@index([countryCode])
+  @@index([passed])
+  @@map("compliance_checks")
+}
+
+/// Invitation tracking logs for property claim links
+model InvitationLog {
+  id              String   @id @default(cuid())
+  invitationId    String   @unique
+  propertyId      String?
+  userId          String?
+  status          String   @default("SENT") // SENT, CLICKED, CONVERTED, EXPIRED
+  sentAt          DateTime @default(now())
+  clickedAt       DateTime?
+  convertedAt     DateTime?
+  expiredAt       DateTime?
+  ipAddress       String?  @db.Inet
+  userAgent       String?  @db.Text
+  utmSource       String?  @db.VarChar(100)
+  utmMedium       String?  @db.VarChar(100)
+  utmCampaign     String?  @db.VarChar(100)
+  utmTerm         String?  @db.VarChar(100)
+  utmContent      String?  @db.VarChar(100)
+  metadata        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([invitationId])
+  @@index([propertyId])
+  @@index([userId])
+  @@index([status])
+  @@index([sentAt])
+  @@map("invitation_logs")
+}
+
+// ==========================================
+// Trust OS - Entity Trust Profiles
+// AI-native Real Estate Trust Operating System
+// ==========================================
+
+model TenantTrustProfile {
+  id              String   @id @default(cuid())
+  tenantId        String   @unique
+  userId          String
+  
+  // Trust Score Components
+  overallScore    Float    @default(0) // 0-100
+  paymentScore    Float    @default(0)
+  behaviorScore   Float    @default(0)
+  complianceScore Float    @default(0)
+  identityScore   Float    @default(0)
+  
+  // Risk Assessment
+  riskLevel       String   @default("UNKNOWN") // LOW, MEDIUM, HIGH, CRITICAL
+  riskFactors     Json?
+  
+  // Payment History
+  onTimePaymentRate     Float @default(0)
+  averageDelayDays      Float @default(0)
+  missedPayments       Int   @default(0)
+  totalPayments        Int   @default(0)
+  
+  // Lease Compliance
+  leaseComplianceRate   Float @default(0)
+  leaseViolations       Int   @default(0)
+  earlyTerminations     Int   @default(0)
+  
+  // Behavior Tracking
+  maintenanceResponsiveness Float @default(0)
+  communicationQuality     Float @default(0)
+  disputeRate              Float @default(0)
+  
+  // Verification
+  identityVerified    Boolean @default(false)
+  incomeVerified      Boolean @default(false)
+  employmentVerified  Boolean @default(false)
+  
+  // Badge System
+  badges             Json? // ["Reliable Tenant", "Excellent Payer", "Verified Resident"]
+  
+  // Historical Tracking
+  scoreHistory       Json? // [{ date, score, reason }]
+  previousScore      Float?
+  scoreTrend         String? // IMPROVING, STABLE, DECLINING
+  
+  // Recommendations
+  improvementSuggestions Json?
+  
+  // Audit
+  lastCalculatedAt   DateTime @default(now())
+  calculationVersion Int      @default(1)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  tenant   Tenant   @relation(fields: [tenantId], references: [id])
+  user     User     @relation("TenantTrustProfiles", fields: [userId], references: [id])
+  
+  @@index([tenantId])
+  @@index([userId])
+  @@index([overallScore])
+  @@index([riskLevel])
+  @@map("tenant_trust_profiles")
+}
+
+model LandlordTrustProfile {
+  id              String   @id @default(cuid())
+  landlordId      String   @unique
+  userId          String
+  
+  // Trust Score Components
+  overallScore    Float    @default(0) // 0-100
+  listingScore    Float    @default(0)
+  contractScore   Float    @default(0)
+  maintenanceScore Float  @default(0)
+  paymentScore    Float    @default(0)
+  
+  // Risk Assessment
+  riskLevel       String   @default("UNKNOWN") // LOW, MEDIUM, HIGH, CRITICAL
+  riskFactors     Json?
+  
+  // Listing Accuracy
+  listingAccuracyRate   Float @default(0)
+  priceAccuracyRate     Float @default(0)
+  descriptionAccuracy   Float @default(0)
+  
+  // Contract Transparency
+  contractComplianceRate Float @default(0)
+  depositReturnRate      Float @default(0)
+  fairContractRate       Float @default(0)
+  
+  // Maintenance Performance
+  maintenanceResponseTime Float @default(0) // hours
+  maintenanceResolutionRate Float @default(0)
+  maintenanceQualityScore   Float @default(0)
+  
+  // Tenant Satisfaction
+  tenantSatisfactionRate  Float @default(0)
+  tenantRetentionRate     Float @default(0)
+  positiveReviewRate      Float @default(0)
+  
+  // Dispute Management
+  disputeRate        Float @default(0)
+  disputeResolutionRate Float @default(0)
+  averageDisputeTime  Float @default(0) // days
+  
+  // Payment Behavior
+  onTimeDepositReturn  Float @default(0)
+  paymentReliability   Float @default(0)
+  
+  // Badge System
+  badges             Json? // ["Trusted Landlord", "Responsive Owner", "Fair Contract Provider"]
+  
+  // Historical Tracking
+  scoreHistory       Json?
+  previousScore      Float?
+  scoreTrend         String?
+  
+  // Recommendations
+  improvementSuggestions Json?
+  
+  // Audit
+  lastCalculatedAt   DateTime @default(now())
+  calculationVersion Int      @default(1)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  landlordEntity LandlordEntity @relation(fields: [landlordId], references: [id])
+  user          User          @relation("LandlordTrustProfiles", fields: [userId], references: [id])
+  
+  @@index([landlordId])
+  @@index([userId])
+  @@index([overallScore])
+  @@index([riskLevel])
+  @@map("landlord_trust_profiles")
+}
+
+model AgentReputationProfile {
+  id              String   @id @default(cuid())
+  agentId         String   @unique
+  userId          String
+  
+  // Reputation Score Components
+  overallScore    Float    @default(0) // 0-100
+  performanceScore Float   @default(0)
+  reliabilityScore Float  @default(0)
+  serviceScore    Float    @default(0)
+  
+  // Lead Management
+  leadResponseTime       Float @default(0) // hours
+  leadConversionRate     Float @default(0)
+  leadFollowUpRate       Float @default(0)
+  
+  // Transaction Performance
+  transactionCompletionRate Float @default(0)
+  averageTransactionTime     Float @default(0) // days
+  transactionValue          Float @default(0)
+  
+  // Customer Satisfaction
+  customerSatisfactionScore Float @default(0)
+  positiveReviewRate        Float @default(0)
+  repeatClientRate          Float @default(0)
+  
+  // Contract Accuracy
+  contractAccuracyRate   Float @default(0)
+  contractComplianceRate  Float @default(0)
+  disputeRate            Float @default(0)
+  
+  // After-Sale Support
+  afterSaleSupportRating  Float @default(0)
+  issueResolutionRate    Float @default(0)
+  averageResolutionTime  Float @default(0) // days
+  
+  // Commission Reliability
+  commissionAccuracyRate  Float @default(0)
+  commissionDisputeRate   Float @default(0)
+  
+  // Badge System
+  badges             Json? // ["Verified Agent", "Top Performer", "Trusted Advisor", "Market Expert"]
+  
+  // Historical Tracking
+  scoreHistory       Json?
+  previousScore      Float?
+  scoreTrend         String?
+  
+  // Recommendations
+  improvementSuggestions Json?
+  
+  // Audit
+  lastCalculatedAt   DateTime @default(now())
+  calculationVersion Int      @default(1)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  agent Agent @relation(fields: [agentId], references: [id])
+  user  User  @relation("AgentReputationProfiles", fields: [userId], references: [id])
+  
+  @@index([agentId])
+  @@index([userId])
+  @@index([overallScore])
+  @@map("agent_reputation_profiles")
+}
+
+model PropertyTrustProfile {
+  id              String   @id @default(cuid())
+  propertyId      String   @unique
+  
+  // Trust Score Components
+  overallScore    Float    @default(0) // 0-100
+  accuracyScore   Float    @default(0)
+  conditionScore  Float    @default(0)
+  locationScore   Float    @default(0)
+  legalScore      Float    @default(0)
+  
+  // Property Verification
+  ownershipVerified    Boolean @default(false)
+  descriptionVerified  Boolean @default(false)
+  amenitiesVerified   Boolean @default(false)
+  photosVerified      Boolean @default(false)
+  
+  // Maintenance History
+  maintenanceQualityScore Float @default(0)
+  maintenanceFrequency   Float @default(0)
+  lastMaintenanceDate    DateTime?
+  
+  // Price Accuracy
+  priceAccuracyRate      Float @default(0)
+  marketPriceDeviation   Float @default(0) // percentage
+  priceHistory           Json?
+  
+  // Location Analysis
+  locationSafetyScore    Float @default(0)
+  locationAmenityScore   Float @default(0)
+  locationTransportScore Float @default(0)
+  
+  // Rental Performance
+  rentalYield            Float @default(0)
+  occupancyRate          Float @default(0)
+  averageTenantRating    Float @default(0)
+  
+  // Legal Status
+  legalComplianceScore   Float @default(0)
+  zoningVerified         Boolean @default(false)
+  buildingPermitsVerified Boolean @default(false)
+  
+  // Energy/Quality
+  energyEfficiencyRating String?
+  environmentalScore     Float @default(0)
+  
+  // Badge System
+  badges             Json? // ["Verified Property", "Prime Location", "Well-Maintained", "Energy Efficient"]
+  
+  // Historical Tracking
+  scoreHistory       Json?
+  previousScore      Float?
+  scoreTrend         String?
+  
+  // Recommendations
+  improvementSuggestions Json?
+  
+  // Audit
+  lastCalculatedAt   DateTime @default(now())
+  calculationVersion Int      @default(1)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  property Property @relation(fields: [propertyId], references: [id])
+  
+  @@index([propertyId])
+  @@index([overallScore])
+  @@map("property_trust_profiles")
+}
+
+model TransactionTrustProfile {
+  id              String   @id @default(cuid())
+  transactionId   String   @unique
+  transactionType String   // RENTAL, SALES, LEASE
+  
+  // Trust Score Components
+  overallScore    Float    @default(0) // 0-100
+  partyScore      Float    @default(0)
+  paymentScore    Float    @default(0)
+  contractScore   Float    @default(0)
+  documentScore   Float    @default(0)
+  
+  // Party Verification
+  tenantVerified      Boolean @default(false)
+  landlordVerified    Boolean @default(false)
+  agentVerified       Boolean @default(false)
+  propertyVerified    Boolean @default(false)
+  
+  // Payment Security
+  paymentMethodVerified Boolean @default(false)
+  paymentEscrowEnabled  Boolean @default(false)
+  paymentInsurance      Boolean @default(false)
+  
+  // Contract Accuracy
+  contractTermsVerified Boolean @default(false)
+  contractCompliance    Boolean @default(false)
+  contractFairness      Float @default(0)
+  
+  // Document Control
+  documentsVerified     Boolean @default(false)
+  documentsComplete     Boolean @default(false)
+  documentAuthenticity  Float @default(0)
+  
+  // Risk Analysis
+  riskLevel       String   @default("UNKNOWN") // LOW, MEDIUM, HIGH, CRITICAL
+  riskFactors     Json?
+  riskMitigation  Json?
+  
+  // Historical Data
+  similarTransactions Json?
+  historicalSuccessRate Float @default(0)
+  
+  // Badge System
+  badges             Json? // ["Verified Rental", "Secure Sale", "Low Risk Transaction"]
+  
+  // Audit
+  lastCalculatedAt   DateTime @default(now())
+  calculationVersion Int      @default(1)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([transactionId])
+  @@index([transactionType])
+  @@index([overallScore])
+  @@index([riskLevel])
+  @@map("transaction_trust_profiles")
+}
+
+model TrustGraphNode {
+  id          String   @id @default(cuid())
+  entityType  String   // TENANT, LANDLORD, AGENT, PROPERTY, CONTRACT, PAYMENT, MAINTENANCE, TRANSACTION
+  entityId    String
+  nodeData    Json?
+  
+  trustScore  Float    @default(0)
+  riskLevel   String   @default("UNKNOWN")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  outgoingEdges TrustGraphEdge[] @relation("OutgoingEdges")
+  incomingEdges TrustGraphEdge[] @relation("IncomingEdges")
+  
+  @@unique([entityType, entityId])
+  @@index([entityType, entityId])
+  @@index([trustScore])
+  @@map("trust_graph_nodes")
+}
+
+model TrustGraphEdge {
+  id          String   @id @default(cuid())
+  fromNodeId  String
+  toNodeId    String
+  edgeType    String   // TENANT_RENTED_PROPERTY, LANDLORD_OWNS_PROPERTY, AGENT_MANAGED_TRANSACTION, etc.
+  edgeData    Json?
+  
+  trustWeight Float    @default(0) // 0-1, strength of relationship
+  riskLevel   String   @default("UNKNOWN")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  fromNode TrustGraphNode @relation("OutgoingEdges", fields: [fromNodeId], references: [id])
+  toNode   TrustGraphNode @relation("IncomingEdges", fields: [toNodeId], references: [id])
+  
+  @@index([fromNodeId])
+  @@index([toNodeId])
+  @@index([edgeType])
+  @@index([trustWeight])
+  @@map("trust_graph_edges")
+}
+
+/// Legal audit logs for KVKK/GDPR compliance tracking
+model LegalAuditLog {
+  id              String   @id @default(cuid())
+  userId          String?
+  consentId       String?
+  contractVersion String   // e.g., KVKK_v2.4, TERMS_v1.8
+  contractType    String   // KVKK, TERMS, MARKETING, PRIVACY
+  action          String   // ACCEPTED, REVOKED, UPDATED
+  ipAddress       String   @db.Inet
+  userAgent       String   @db.Text
+  timestamp       DateTime @default(now()) @db.Timestamptz(6)
+  metadata        Json?
+  
+  @@index([userId])
+  @@index([consentId])
+  @@index([contractVersion])
+  @@index([contractType])
+  @@index([timestamp])
+  @@map("legal_audit_logs")
+}
+
+/// Compliance rules for country-specific rental regulations
+model ComplianceRule {
+  id            String   @id @default(cuid())
+  country       String   // ISO country code (US, TR, AE, etc.)
+  region        String?  // State/region for country-specific rules (e.g., CA for California)
+  category      String   // RENTAL_LAW, TAX, PAYMENT_REGULATION, CONTRACT_RULES, DATA_PROTECTION, DISPUTE_RESOLUTION, SECURITY_DEPOSIT, EVICTION_PROCESS
+  ruleKey       String   @unique // Unique identifier for the rule
+  description   String   @db.Text
+  severity      String   @default("INFO") // INFO, WARNING, ERROR, CRITICAL
+  isActive      Boolean  @default(true)
+  effectiveFrom DateTime @default(now())
+  effectiveTo   DateTime?
+  metadata      Json?    // Rule-specific parameters (maxDepositRatio, minLeaseDuration, etc.)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([country])
+  @@index([category])
+  @@index([isActive])
+  @@index([effectiveFrom])
+  @@index([effectiveTo])
+  @@map("compliance_rules")
+}
+
+/// Compliance rule check results for transactions
+model ComplianceRuleCheck {
+  id             String   @id @default(cuid())
+  ruleId         String
+  entityType     String   // TENANT, LANDLORD, PROPERTY, TRANSACTION
+  entityId       String
+  passed         Boolean
+  severity       String   // INFO, WARNING, ERROR, CRITICAL
+  message        String   @db.Text
+  recommendation String?  @db.Text
+  metadata       Json?
+  checkedAt      DateTime @default(now())
+  
+  @@index([entityType, entityId])
+  @@index([ruleId])
+  @@index([passed])
+  @@index([severity])
+  @@index([checkedAt])
+  @@map("compliance_rule_checks")
+}

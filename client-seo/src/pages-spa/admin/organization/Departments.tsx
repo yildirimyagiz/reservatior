@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Badge } from"@/components/ui/badge";
 import { Button } from"@/components/ui/button";
@@ -276,7 +276,7 @@ export default function Departments() {
  <Building className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{activeDepartments}</div>
+ <div className="text-2xl font-bold text-blue-600">{activeDepartments}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_currently_active")}</p>
  </CardContent>
  </Card>
@@ -287,7 +287,7 @@ export default function Departments() {
  <ArrowRight className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{rootDepartments}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{rootDepartments}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_toplevel_units")}</p>
  </CardContent>
  </Card>
@@ -298,7 +298,7 @@ export default function Departments() {
  <Users className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{totalUsers}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{totalUsers}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_across_departments")}</p>
  </CardContent>
  </Card>
@@ -575,7 +575,7 @@ export default function Departments() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -630,7 +630,7 @@ export default function Departments() {
  <CardContent>
  <div className="space-y-4">
  <div className="text-center">
- <div className="text-2xl font-bold text-green-600">
+ <div className="text-2xl font-bold text-blue-600">
  {totalUsers}
  </div>
  <p className="text-sm text-muted-foreground">{t("admin_organization_total_users")}</p>
@@ -638,7 +638,7 @@ export default function Departments() {
  {totalDepartments > 0 ? Math.round(totalUsers / totalDepartments) : 0}{t("admin_organization_avg_per_department")}</div>
  </div>
  <div className="text-center">
- <div className="text-2xl font-bold text-slate-600">
+ <div className="text-2xl font-bold text-muted-foreground">
  {totalTeams}
  </div>
  <p className="text-sm text-muted-foreground">{t("admin_organization_total_teams")}</p>

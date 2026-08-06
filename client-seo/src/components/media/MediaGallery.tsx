@@ -145,7 +145,7 @@ export default function MediaGallery({
           <div className="flex items-center justify-between">
             <DialogTitle className="flex items-center gap-2">
               <Camera className="w-5 h-5" />{t("client.src.property_media_gallery")}</DialogTitle>
-            <Button variant="ghost" size="sm" onClick={onClose}>
+            <Button variant="ghost" size="sm" onClick={onClose} aria-label={t("common.close")}>
               <X className="w-4 h-4" />
             </Button>
           </div>
@@ -154,7 +154,7 @@ export default function MediaGallery({
         <div className="flex-1 overflow-hidden">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="all" className="flex items-center gap-2">{t("client.src.all")}{allMedia.length})
+              <TabsTrigger value="all" className="flex items-center gap-2">{t("common.all")}{allMedia.length})
               </TabsTrigger>
               <TabsTrigger value="photos" className="flex items-center gap-2">
                 <Camera className="w-4 h-4" />{t("client.src.photos")}{photos.length})
@@ -227,9 +227,9 @@ export default function MediaGallery({
                 <p className="text-sm text-gray-600">{selectedMedia.caption}</p>
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm">
-                    <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
+                    <Download className="w-4 h-4 mr-2" />{t("common.download")}</Button>
                   <Button variant="outline" size="sm">
-                    <Share2 className="w-4 h-4 mr-2" />{t("client.src.share")}</Button>
+                    <Share2 className="w-4 h-4 mr-2" />{t("common.share")}</Button>
                 </div>
               </div>
             </DialogContent>

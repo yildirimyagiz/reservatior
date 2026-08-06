@@ -2,8 +2,9 @@
 
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
+import { tEnum } from"@/lib/admin-enums";
 import React, { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Card, CardContent } from"@/components/ui/card";
@@ -76,7 +77,7 @@ const ACTION_ICONS: Record<string, React.ComponentType<any>> = {
 const SEVERITY_CONFIG = {
  INFO: {
  label: t("admin_security_info"),
- color:"bg-slate-100 text-slate-700",
+ color:"bg-muted text-muted-foreground",
  icon: Info
  },
  WARNING: {
@@ -200,7 +201,7 @@ export default function AuditLogs() {
  };
  const getSeverityColor = (severity: string) => {
  const config = SEVERITY_CONFIG[severity as keyof typeof SEVERITY_CONFIG];
- return config ? config.color :"bg-card text-slate-300";
+ return config ? config.color :"bg-card text-muted-foreground";
  };
  const getSeverityLabel = (severity: string) => {
  const config = SEVERITY_CONFIG[severity as keyof typeof SEVERITY_CONFIG];
@@ -219,7 +220,7 @@ export default function AuditLogs() {
  <div className="flex items-center space-x-2">
  <span className="text-red-600 line-through">{String(value.from)}</span>
  <span>→</span>
- <span className="text-green-600">{String(value.to)}</span>
+ <span className="text-blue-600">{String(value.to)}</span>
  </div>
  </div>);
  };
@@ -239,13 +240,13 @@ export default function AuditLogs() {
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Activity className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_security_diurnal_cycle_events")}</p>
  <h3 className="text-xl font-bold text-muted-foreground">{stats.todayLogs}</h3>
- <p className="text-[10px] font-bold text-slate-500 mt-4">{t("admin_security_active_today")}</p>
+ <p className="text-[10px] font-bold text-muted-foreground mt-4">{t("admin_security_active_today")}</p>
  </CardContent>
  </Card>
 
@@ -261,13 +262,13 @@ export default function AuditLogs() {
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <Users className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_security_unique_entity_access")}</p>
- <h3 className="text-xl font-bold text-emerald-400">{stats.uniqueUsers}</h3>
- <p className="text-[10px] font-bold text-emerald-500 mt-4">{t("admin_security_verified_syncs")}</p>
+ <h3 className="text-xl font-bold text-success">{stats.uniqueUsers}</h3>
+ <p className="text-[10px] font-bold text-success mt-4">{t("admin_security_verified_syncs")}</p>
  </CardContent>
  </Card>
  </div>}
@@ -285,7 +286,7 @@ export default function AuditLogs() {
  </SelectTrigger>
  <SelectContent className="bg-card border-border rounded-2xl text-muted-foreground">
  <SelectItem value="all">{t("admin_security_all_actions")}</SelectItem>
- {Object.keys(ACTION_ICONS).map(action => <SelectItem key={action} value={action} className="rounded-lg">{action}</SelectItem>)}
+  {Object.keys(ACTION_ICONS).map(action => <SelectItem key={action} value={action} className="rounded-lg">{tEnum(t, action)}</SelectItem>)}
  </SelectContent>
  </Select>
  <Select value={filterSeverity} onValueChange={setFilterSeverity}>
@@ -333,7 +334,7 @@ export default function AuditLogs() {
  </TableRow> : filteredLogs.map((log: AuditLog) => <tr key={log.id} className="border-b border-border hover:bg-muted/50 transition-all group">
  <td className="py-8 px-8">
  <div className="text-sm font-bold text-muted-foreground">{formatDateTime(log.createdAt)}</div>
- <p className="text-[10px] font-bold text-slate-600 mt-1">{log.ipAddress}</p>
+ <p className="text-[10px] font-bold text-muted-foreground mt-1">{log.ipAddress}</p>
  </td>
  <td className="px-8">
  <div>
@@ -347,13 +348,13 @@ export default function AuditLogs() {
  {getActionIcon(log.action)}
  </div>
  <div>
- <p className="text-[10px] font-bold text-foreground">{log.action}</p>
- <p className="text-[10px] font-bold text-muted-foreground">{log.entityType}</p>
+  <p className="text-[10px] font-bold text-foreground">{tEnum(t, log.action)}</p>
+  <p className="text-[10px] font-bold text-muted-foreground">{tEnum(t, log.entityType)}</p>
  </div>
  </div>
  </td>
  <td className="px-8">
- <Badge className={cn("text-[9px] font-bold px-3 py-1 rounded-full border-none shadow-lg", log.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : log.severity === 'WARNING' ? 'bg-orange-500/20 text-orange-400' : 'bg-muted0/20 text-muted-foreground')}>
+ <Badge className={cn("text-[9px] font-bold px-3 py-1 rounded-full border-none shadow-lg", log.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : log.severity === 'WARNING' ? 'bg-orange-500/20 text-warning' : 'bg-muted0/20 text-muted-foreground')}>
  {getSeverityLabel(log.severity)}
  </Badge>
  </td>
@@ -361,7 +362,7 @@ export default function AuditLogs() {
  <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground hover:text-foreground transition-all shadow-xl" onClick={() => {
  setSelected(log);
  setDetailOpen(true);
- }}>
+ }} aria-label={t("common.view")}>
  <Eye className="w-5 h-5" />
  </Button>
  </td>
@@ -400,16 +401,16 @@ export default function AuditLogs() {
  <div>
  <div className="font-medium">{selected.user?.name}</div>
  <div className="text-sm text-muted-foreground">{selected.user?.email}</div>
- <Badge variant="outline" className="text-xs">
- {selected.user?.role}
- </Badge>
+  <Badge variant="outline" className="text-xs">
+  {tEnum(t, selected.user?.role)}
+  </Badge>
  </div>
  </div>
  <div>
  <label className="text-sm font-medium">{t("admin_security_action")}</label>
  <div className="flex items-center space-x-2">
  {getActionIcon(selected.action)}
- <span className="font-medium">{selected.action}</span>
+  <span className="font-medium">{tEnum(t, selected.action)}</span>
  </div>
  </div>
  </div>
@@ -417,7 +418,7 @@ export default function AuditLogs() {
  <div>
  <label className="text-sm font-medium">{t("admin_security_entity")}</label>
  <div>
- <div className="font-medium">{selected.entityType}</div>
+  <div className="font-medium">{tEnum(t, selected.entityType)}</div>
  {selected.entityName && <div className="text-sm text-muted-foreground">{selected.entityName}</div>}
  <div className="text-xs text-muted-foreground font-mono">{t("admin_security_id")}{selected.entityId}</div>
  </div>
@@ -425,7 +426,7 @@ export default function AuditLogs() {
  <div>
  <label className="text-sm font-medium">{t("admin_security_category")}</label>
  <div className="text-sm">
- {CATEGORIES[selected.category as keyof typeof CATEGORIES] || selected.category}
+  {CATEGORIES[selected.category as keyof typeof CATEGORIES] || tEnum(t, selected.category)}
  </div>
  </div>
  </div>
@@ -465,7 +466,7 @@ export default function AuditLogs() {
  <div>→</div>
  <div>
  <label className="text-xs text-muted-foreground">{t("admin_security_after")}</label>
- <div className="text-green-600">{String(selected.newValue)}</div>
+ <div className="text-blue-600">{String(selected.newValue)}</div>
  </div>
  </div>
  </div>}

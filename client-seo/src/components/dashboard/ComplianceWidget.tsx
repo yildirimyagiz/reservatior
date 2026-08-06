@@ -26,7 +26,7 @@ export function ComplianceWidget() {
           {regions.map((reg) => (
             <div key={reg.code} className="p-3 bg-background/50 border border-white/5 rounded-xl text-center flex flex-col items-center gap-1.5 group cursor-pointer hover:border-blue-500/30 transition-all">
               <span className="text-xs font-bold text-slate-500">{reg.code}</span>
-              {reg.status === "COMPLIANT" ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <AlertTriangle className="w-4 h-4 text-amber-500 animate-pulse" />}
+              {reg.status === "COMPLIANT" ? <CheckCircle2 className="w-4 h-4 text-blue-500" /> : <AlertTriangle className="w-4 h-4 text-amber-500 animate-pulse" />}
               <span className="text-[10px] text-slate-400">{t("taxStatus", { tax: reg.tax })}</span>
             </div>
           ))}
@@ -39,7 +39,7 @@ export function ComplianceWidget() {
               <p className="text-xs font-bold">{t("audit")}</p>
               <p className="text-[10px] text-slate-500 italic">{t("nextCheck", { date: "12 April 2026" })}</p>
             </div>
-            <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 text-[10px] uppercase font-bold">{t("admin.verification.labels.status")}</Badge>
+            <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20 text-[10px] uppercase font-bold">{t("admin.verification.labels.status")}</Badge>
           </div>
           
           <div className="flex items-center gap-3 p-3 bg-secondary/20 rounded-xl border border-white/5">

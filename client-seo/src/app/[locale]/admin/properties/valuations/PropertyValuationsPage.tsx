@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { tEnum } from "@/lib/admin-enums";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -34,18 +35,18 @@ const mockValuations: Valuation[] = [
 ];
 
 const TYPE_COLORS: Record<string, string> = {
-  APPRAISAL: "bg-blue-500/10 text-blue-400 border border-blue-500/20",
+  APPRAISAL: "bg-blue-500/10 text-info border border-blue-500/20",
   MARKET: "bg-violet-500/10 text-violet-400 border border-violet-500/20",
-  AI_ESTIMATE: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+  AI_ESTIMATE: "bg-blue-500/10 text-success border border-blue-500/20"
 };
 
 function GlassModal({ open, onOpenChange, title, description, children, footer }: any) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[480px] bg-slate-900/90 backdrop-blur-xl border border-white/10 shadow-2xl">
+      <DialogContent className="sm:max-w-[480px] bg-card/90 backdrop-blur-xl border border-white/10 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">{title}</DialogTitle>
-          {description && <DialogDescription className="text-slate-400">{description}</DialogDescription>}
+          {description && <DialogDescription className="text-muted-foreground">{description}</DialogDescription>}
         </DialogHeader>
         <div className="py-4 space-y-4">{children}</div>
         {footer && <DialogFooter className="pt-4 border-t border-white/10">{footer}</DialogFooter>}
@@ -67,48 +68,48 @@ function CreateValuationDialog({ open, onOpenChange, onSubmit }: any) {
   };
 
   return (
-    <GlassModal open={open} onOpenChange={onOpenChange} title={t("admin_properties_valuations_add", "Add Valuation")}
+    <GlassModal open={open} onOpenChange={onOpenChange} title={t("admin_properties_valuations_add", "Değerleme Ekle")}
       footer={
         <div className="flex justify-end gap-2 w-full">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => {
             const { change, changePercent } = calcChange(formData.currentValue, formData.previousValue);
             onSubmit({ ...formData, change, changePercent });
           }} className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-            <Check className="w-4 h-4 mr-2" />{t("admin_action_create", "Create")}
+            <Check className="w-4 h-4 mr-2" />{t("admin_action_create", "Oluştur")}
           </Button>
         </div>
       }
     >
       <div className="grid gap-4 text-white">
         <div className="grid gap-2">
-          <Label>{t("admin_ai_property", "Property Name")}</Label>
+          <Label>{t("admin_ai_property", "Mülk")}</Label>
           <Input value={formData.propertyName} onChange={e => setFormData({ ...formData, propertyName: e.target.value })} className="bg-white/5 border-white/10 focus:border-primary/50" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_auto_current_value", "Current Value")}</Label>
+            <Label>{t("admin_auto_current_value", "Güncel Değer")}</Label>
             <Input type="number" value={formData.currentValue} onChange={e => setFormData({ ...formData, currentValue: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_auto_previous_value", "Previous Value")}</Label>
+            <Label>{t("admin_auto_previous_value", "Önceki Değer")}</Label>
             <Input type="number" value={formData.previousValue} onChange={e => setFormData({ ...formData, previousValue: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_ai_type", "Type")}</Label>
+            <Label>{t("admin_ai_type", "Tip")}</Label>
             <Select value={formData.type} onValueChange={(v: any) => setFormData({ ...formData, type: v })}>
               <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="APPRAISAL">{t("admin_auto_appraisal", "Appraisal")}</SelectItem>
-                <SelectItem value="MARKET">{t("admin_auto_market", "Market")}</SelectItem>
-                <SelectItem value="AI_ESTIMATE">{t("admin_auto_ai_estimate", "AI Estimate")}</SelectItem>
+                <SelectItem value="APPRAISAL">{t("admin_auto_appraisal", "Ekspertiz")}</SelectItem>
+                <SelectItem value="MARKET">{t("admin_auto_market", "Piyasa")}</SelectItem>
+                <SelectItem value="AI_ESTIMATE">{t("admin_auto_ai_estimate", "AI Tahmini")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_auto_date", "Date")}</Label>
+            <Label>{t("admin_auto_date", "Tarih")}</Label>
             <Input type="date" value={formData.lastUpdated} onChange={e => setFormData({ ...formData, lastUpdated: e.target.value })} className="bg-white/5 border-white/10 [&::-webkit-calendar-picker-indicator]:invert" />
           </div>
         </div>
@@ -128,48 +129,48 @@ function EditValuationDialog({ open, onOpenChange, item, onSubmit }: any) {
   };
 
   return (
-    <GlassModal open={open} onOpenChange={onOpenChange} title={t("admin_action_edit", "Edit")}
+    <GlassModal open={open} onOpenChange={onOpenChange} title={t("admin_action_edit", "Düzenle")}
       footer={
         <div className="flex justify-end gap-2 w-full">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => {
             const { change, changePercent } = calcChange(formData.currentValue, formData.previousValue);
             onSubmit({ ...formData, change, changePercent });
           }} className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-            <Check className="w-4 h-4 mr-2" />{t("admin_action_save", "Save")}
+            <Check className="w-4 h-4 mr-2" />{t("admin_action_save", "Kaydet")}
           </Button>
         </div>
       }
     >
       <div className="grid gap-4 text-white">
         <div className="grid gap-2">
-          <Label>{t("admin_ai_property", "Property Name")}</Label>
+          <Label>{t("admin_ai_property", "Mülk")}</Label>
           <Input value={formData.propertyName} onChange={e => setFormData({ ...formData, propertyName: e.target.value })} className="bg-white/5 border-white/10 focus:border-primary/50" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_auto_current_value", "Current Value")}</Label>
+            <Label>{t("admin_auto_current_value", "Güncel Değer")}</Label>
             <Input type="number" value={formData.currentValue} onChange={e => setFormData({ ...formData, currentValue: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_auto_previous_value", "Previous Value")}</Label>
+            <Label>{t("admin_auto_previous_value", "Önceki Değer")}</Label>
             <Input type="number" value={formData.previousValue} onChange={e => setFormData({ ...formData, previousValue: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_ai_type", "Type")}</Label>
+            <Label>{t("admin_ai_type", "Tip")}</Label>
             <Select value={formData.type} onValueChange={(v: any) => setFormData({ ...formData, type: v })}>
               <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="APPRAISAL">{t("admin_auto_appraisal", "Appraisal")}</SelectItem>
-                <SelectItem value="MARKET">{t("admin_auto_market", "Market")}</SelectItem>
-                <SelectItem value="AI_ESTIMATE">{t("admin_auto_ai_estimate", "AI Estimate")}</SelectItem>
+                <SelectItem value="APPRAISAL">{t("admin_auto_appraisal", "Ekspertiz")}</SelectItem>
+                <SelectItem value="MARKET">{t("admin_auto_market", "Piyasa")}</SelectItem>
+                <SelectItem value="AI_ESTIMATE">{t("admin_auto_ai_estimate", "AI Tahmini")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_auto_date", "Date")}</Label>
+            <Label>{t("admin_auto_date", "Tarih")}</Label>
             <Input type="date" value={formData.lastUpdated} onChange={e => setFormData({ ...formData, lastUpdated: e.target.value })} className="bg-white/5 border-white/10 [&::-webkit-calendar-picker-indicator]:invert" />
           </div>
         </div>
@@ -182,18 +183,18 @@ function DeleteValuationDialog({ open, onOpenChange, item, onConfirm }: any) {
   const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-slate-900/90 backdrop-blur-xl border border-red-500/20 shadow-2xl">
+      <DialogContent className="sm:max-w-[425px] bg-card/90 backdrop-blur-xl border border-red-500/20 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-red-500">
-            <AlertTriangle className="w-5 h-5" />{t("admin_action_delete", "Delete")}
+            <AlertTriangle className="w-5 h-5" />{t("admin_action_delete", "Sil")}
           </DialogTitle>
-          <DialogDescription className="pt-2 text-slate-300">
-            {t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")} <span className="font-bold text-white">{item?.propertyName}</span>? {t("admin_auto_this_action_cannot_be_undone", "This action cannot be undone.")}
+          <DialogDescription className="pt-2 text-muted-foreground">
+            {t("admin_auto_are_you_sure_you_want_to_delete", "Silmek istediğinizden emin misiniz:")} <span className="font-bold text-white">{item?.propertyName}</span>? {t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="pt-4 border-t border-white/5">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+        <DialogFooter className="pt-4 border-t border-border">
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -235,7 +236,7 @@ export default function PropertyValuationsPage() {
               <h1 className="text-3xl font-bold text-white mb-2">{t("admin_properties_valuations_title")}</h1>
               <p className="text-gray-400">{t("admin_properties_valuations_description")}</p>
             </div>
-            <Button onClick={() => router.push('/admin/dashboard')} className="bg-slate-600 hover:bg-slate-700">
+            <Button onClick={() => router.push('/admin/dashboard')} className="bg-muted hover:bg-muted">
               <ArrowUpRight className="w-4 h-4 mr-2" />{t("admin_properties_valuations_back_to_dashboard")}
             </Button>
           </div>
@@ -252,7 +253,7 @@ export default function PropertyValuationsPage() {
                   </div>
                 </div>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90 shadow-md">
-                  <Plus className="w-4 h-4 mr-2" />{t("admin_properties_valuations_add", "Add Valuation")}
+                  <Plus className="w-4 h-4 mr-2" />{t("admin_properties_valuations_add", "Değerleme Ekle")}
                 </Button>
               </div>
             </CardContent>
@@ -276,7 +277,7 @@ export default function PropertyValuationsPage() {
                     >
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-slate-500/20 to-slate-500/10 border border-slate-500/20 flex items-center justify-center">
-                          <Building2 className="w-6 h-6 text-slate-400" />
+                          <Building2 className="w-6 h-6 text-muted-foreground" />
                         </div>
                         <div>
                           <div className="text-white font-semibold text-lg">{valuation.propertyName}</div>
@@ -286,19 +287,19 @@ export default function PropertyValuationsPage() {
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <Badge className={TYPE_COLORS[valuation.type]}>{valuation.type.replace("_", " ")}</Badge>
+                        <Badge className={TYPE_COLORS[valuation.type]}>{tEnum(t, valuation.type)}</Badge>
                         <div className="text-right">
                           <div className="text-white font-bold"><DollarSign className="w-4 h-4 inline" />{valuation.currentValue.toLocaleString()}</div>
-                          <div className={`text-sm flex items-center gap-1 justify-end ${valuation.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                          <div className={`text-sm flex items-center gap-1 justify-end ${valuation.change >= 0 ? 'text-blue-400' : 'text-red-400'}`}>
                             <TrendingUp className={`w-3 h-3 ${valuation.change < 0 ? 'rotate-180' : ''}`} />
                             {valuation.change >= 0 ? '+' : ''}{valuation.changePercent}%
                           </div>
                         </div>
                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Button onClick={() => setEditingItem(valuation)} variant="outline" size="icon" className="h-9 w-9 bg-white/5 hover:bg-white/10 border-slate-500/30">
+                          <Button onClick={() => setEditingItem(valuation)} variant="outline" size="icon" aria-label={t("common.edit")} className="h-9 w-9 bg-white/5 hover:bg-white/10 border-slate-500/30">
                             <Edit className="w-4 h-4 text-white/70" />
                           </Button>
-                          <Button onClick={() => setDeletingItem(valuation)} variant="outline" size="icon" className="h-9 w-9 bg-white/5 hover:bg-red-500/10 border-slate-500/30 hover:border-red-500/30 group/btn">
+                          <Button onClick={() => setDeletingItem(valuation)} variant="outline" size="icon" aria-label={t("common.delete")} className="h-9 w-9 bg-white/5 hover:bg-red-500/10 border-slate-500/30 hover:border-red-500/30 group/btn">
                             <Trash2 className="w-4 h-4 text-red-500/70 group-hover/btn:text-red-500" />
                           </Button>
                         </div>
@@ -307,7 +308,7 @@ export default function PropertyValuationsPage() {
                   ))}
                 </AnimatePresence>
                 {filteredValuations.length === 0 && (
-                  <div className="py-12 text-center text-slate-500">{t("admin_auto_no_results_found", "No results found")}</div>
+                  <div className="py-12 text-center text-muted-foreground">{t("admin_auto_no_results_found", "Sonuç bulunamadı")}</div>
                 )}
               </div>
             </CardContent>

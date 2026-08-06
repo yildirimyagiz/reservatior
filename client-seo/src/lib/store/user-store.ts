@@ -19,6 +19,7 @@ export interface User {
   permissions: string[];
   originRegion?: string;
   orgId?: string | null;
+  organizationId?: string | null;
   preferences?: {
     theme?: "light" | "dark" | "system";
     language?: string;
@@ -43,7 +44,6 @@ export interface UserState {
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   login: (email: string, password: string) => Promise<void>;
-  devLogin: (email: string, role?: User["role"]) => void;
   register: (
     email: string,
     password: string,

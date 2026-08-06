@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { tEnum } from "@/lib/admin-enums";
 import {
   Dialog,
   DialogContent,
@@ -114,16 +115,16 @@ const mockDeposits: KumbaraDeposit[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-blue-500/20 text-blue-400",
-  COMPLETED: "bg-green-500/20 text-green-400",
+  ACTIVE: "bg-blue-500/20 text-info",
+  COMPLETED: "bg-blue-500/20 text-blue-400",
   DEFAULTED: "bg-red-500/20 text-red-400",
-  REFUNDED: "bg-amber-500/20 text-amber-400",
+  REFUNDED: "bg-amber-500/20 text-warning",
 };
 
 const RULE_COLORS: Record<string, string> = {
-  FIXED_MONTHLY: "bg-purple-500/20 text-purple-400",
+  FIXED_MONTHLY: "bg-brand/20 text-brand",
   PERCENTAGE_OF_RENT: "bg-cyan-500/20 text-cyan-400",
-  CUSTOM_SCHEDULE: "bg-orange-500/20 text-orange-400",
+  CUSTOM_SCHEDULE: "bg-orange-500/20 text-warning",
 };
 
 export default function KumbaraPage() {
@@ -176,12 +177,12 @@ export default function KumbaraPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_kumbara_title", "Kumbara Deposits")}</h1>
-              <p className="text-muted-foreground">{t("admin_kumbara_description", "Manage tenant deposit savings accounts and contribution tracking")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_kumbara_title", "Kumbara & Birikim Havuzları")}</h1>
+              <p className="text-muted-foreground">{t("admin_kumbara_description", "Kullanıcı birikim havuzlarını ve mevduat bakiyelerini yönetin")}</p>
             </div>
             <Button className="bg-primary hover:bg-primary/90">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin_kumbara_back_to_dashboard", "Back to Dashboard")}
+              {t("admin_kumbara_back_to_dashboard", "Panele Dön")}
             </Button>
           </div>
         </m.div>
@@ -193,7 +194,7 @@ export default function KumbaraPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/10"><PiggyBank className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_kumbara_total_deposits", "Total Deposits")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_kumbara_total_deposits", "Toplam Depozito")}</p>
                   <p className="text-2xl font-bold text-foreground">{totalDeposits}</p>
                 </div>
               </div>
@@ -202,9 +203,9 @@ export default function KumbaraPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10"><TrendingUp className="w-5 h-5 text-green-500" /></div>
+                <div className="p-2 rounded-lg bg-blue-500/10"><TrendingUp className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_kumbara_active", "Active")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_kumbara_active", "Aktif")}</p>
                   <p className="text-2xl font-bold text-foreground">{activeDeposits}</p>
                 </div>
               </div>
@@ -213,9 +214,9 @@ export default function KumbaraPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-emerald-500/10"><CheckCircle className="w-5 h-5 text-emerald-500" /></div>
+                <div className="p-2 rounded-lg bg-blue-500/10"><CheckCircle className="w-5 h-5 text-success" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_kumbara_completed", "Completed")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_kumbara_completed", "Tamamlandı")}</p>
                   <p className="text-2xl font-bold text-foreground">{completedDeposits}</p>
                 </div>
               </div>
@@ -226,7 +227,7 @@ export default function KumbaraPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-amber-500/10"><RotateCcw className="w-5 h-5 text-amber-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_kumbara_total_contributed", "Total Contributed")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_kumbara_total_contributed", "Toplam Katkı")}</p>
                   <p className="text-2xl font-bold text-foreground">${totalContributed.toLocaleString()}</p>
                 </div>
               </div>
@@ -243,7 +244,7 @@ export default function KumbaraPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin_kumbara_search_placeholder", "Search by tenant, property, or lease ID...")}
+                      placeholder={t("admin_kumbara_search_placeholder", "Depozito ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -252,19 +253,19 @@ export default function KumbaraPage() {
                 </div>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_kumbara_filter_status", "Filter Status")} />
+                    <SelectValue placeholder={t("admin_kumbara_filter_status", "Duruma Göre Filtrele")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">{t("admin_kumbara_all_status", "All Status")}</SelectItem>
-                    <SelectItem value="ACTIVE">Active</SelectItem>
-                    <SelectItem value="COMPLETED">Completed</SelectItem>
-                    <SelectItem value="DEFAULTED">Defaulted</SelectItem>
-                    <SelectItem value="REFUNDED">Refunded</SelectItem>
+                    <SelectItem value="ALL">{t("admin_kumbara_all_status", "Tüm Durumlar")}</SelectItem>
+                    <SelectItem value="ACTIVE">{tEnum(t, "ACTIVE")}</SelectItem>
+                    <SelectItem value="COMPLETED">{tEnum(t, "COMPLETED")}</SelectItem>
+                    <SelectItem value="DEFAULTED">{tEnum(t, "DEFAULTED")}</SelectItem>
+                    <SelectItem value="REFUNDED">{tEnum(t, "REFUNDED")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_kumbara_add_deposit", "Add Deposit")}
+                  {t("admin_kumbara_add_deposit", "Depozito Ekle")}
                 </Button>
               </div>
             </CardContent>
@@ -277,7 +278,7 @@ export default function KumbaraPage() {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <PiggyBank className="w-5 h-5" />
-                {t("admin_kumbara_list_title", "Deposits")} ({filtered.length})
+                {t("admin_kumbara_list_title", "Kumbara Depozitoları")} ({filtered.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -285,12 +286,12 @@ export default function KumbaraPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_tenant", "Tenant")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_property", "Property")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_rule_type", "Rule Type")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_progress", "Progress")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_status", "Status")}</th>
-                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_actions", "Actions")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_tenant", "Kiracı")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_property", "Emlak")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_rule_type", "Kural Türü")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_progress", "İlerleme")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_status", "Durum")}</th>
+                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_actions", "İşlemler")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -304,22 +305,22 @@ export default function KumbaraPage() {
                           </td>
                           <td className="py-3 px-4 text-foreground">{deposit.propertyName}</td>
                           <td className="py-3 px-4">
-                            <Badge className={RULE_COLORS[deposit.ruleType]}>{deposit.ruleType.replace(/_/g, " ")}</Badge>
+                            <Badge className={RULE_COLORS[deposit.ruleType]}>{tEnum(t, deposit.ruleType)}</Badge>
                           </td>
                           <td className="py-3 px-4 min-w-[180px]">
                             <div className="flex items-center gap-3">
-                              <Progress value={progress} className="flex-1" indicatorClassName={progress >= 100 ? "bg-green-500" : progress >= 50 ? "bg-blue-500" : "bg-amber-500"} />
+                              <Progress value={progress} className="flex-1" indicatorClassName={progress >= 100 ? "bg-blue-500" : progress >= 50 ? "bg-blue-500" : "bg-amber-500"} />
                               <span className="text-xs text-muted-foreground whitespace-nowrap">${deposit.totalContributed.toLocaleString()} / ${deposit.totalTarget.toLocaleString()}</span>
                             </div>
                           </td>
                           <td className="py-3 px-4">
-                            <Badge className={STATUS_COLORS[deposit.status]}>{deposit.status}</Badge>
+                            <Badge className={STATUS_COLORS[deposit.status]}>{tEnum(t, deposit.status)}</Badge>
                           </td>
                           <td className="py-3 px-4">
                             <div className="flex justify-end gap-2">
-                              <Button onClick={() => setHistoryItem(deposit)} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><History className="w-4 h-4" /></Button>
-                              <Button onClick={() => { setEditingItem(deposit); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                              <Button onClick={() => { setDeletingItem(deposit); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                              <Button onClick={() => setHistoryItem(deposit)} variant="ghost" size="icon" aria-label={t("common.history")} className="min-h-10 min-w-10 h-10 w-10"><History className="w-4 h-4" /></Button>
+                              <Button onClick={() => { setEditingItem(deposit); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                              <Button onClick={() => { setDeletingItem(deposit); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                             </div>
                           </td>
                         </tr>
@@ -336,7 +337,7 @@ export default function KumbaraPage() {
         <Sheet open={!!historyItem} onOpenChange={() => setHistoryItem(null)}>
           <SheetContent className="w-[400px] sm:w-[540px]">
             <SheetHeader>
-              <SheetTitle className="text-foreground">{t("admin_kumbara_contribution_history", "Contribution History")}</SheetTitle>
+              <SheetTitle className="text-foreground">{t("admin_kumbara_contribution_history", "Katkı Geçmişi")}</SheetTitle>
             </SheetHeader>
             {historyItem && (
               <div className="mt-6 space-y-4">
@@ -352,7 +353,7 @@ export default function KumbaraPage() {
                         <div className="text-sm text-foreground font-medium">${c.amount.toLocaleString()}</div>
                         <div className="text-xs text-muted-foreground">{c.date}</div>
                       </div>
-                      <Badge variant="secondary">{c.method.replace(/_/g, " ")}</Badge>
+                      <Badge variant="secondary">{tEnum(t, c.method)}</Badge>
                     </div>
                   ))}
                 </div>
@@ -386,69 +387,69 @@ function CreateDepositDialog({ open, onOpenChange, onSubmit }: { open: boolean; 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_kumbara_create_deposit", "Create Deposit")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_kumbara_create_deposit_desc", "Set up a new savings deposit for a tenant.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_kumbara_create_deposit", "Depozito Oluştur")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_kumbara_create_deposit_desc", "Kiracı için yeni bir kumbara depozito hesabı ayarlayın")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_lease_id", "Lease ID")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_lease_id", "Kira Sözleşmesi ID")}</Label>
             <Input value={leaseId} onChange={(e) => setLeaseId(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_property_id", "Property ID")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_property_id", "Emlak ID")}</Label>
             <Input value={propertyId} onChange={(e) => setPropertyId(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_tenant_id", "Tenant ID")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_tenant_id", "Kiracı ID")}</Label>
             <Input value={tenantId} onChange={(e) => setTenantId(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_tenant_name", "Tenant Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_tenant_name", "Kiracı Adı")}</Label>
             <Input value={tenantName} onChange={(e) => setTenantName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_property_name", "Property Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_property_name", "Emlak Adı")}</Label>
             <Input value={propertyName} onChange={(e) => setPropertyName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_total_target", "Total Target")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_total_target", "Hedef Tutar")}</Label>
             <Input type="number" value={totalTarget} onChange={(e) => setTotalTarget(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_rule_type", "Rule Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_rule_type", "Kural Türü")}</Label>
             <Select value={ruleType} onValueChange={(v) => setRuleType(v as "FIXED_MONTHLY" | "PERCENTAGE_OF_RENT" | "CUSTOM_SCHEDULE")}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="FIXED_MONTHLY">Fixed Monthly</SelectItem>
-                <SelectItem value="PERCENTAGE_OF_RENT">Percentage of Rent</SelectItem>
-                <SelectItem value="CUSTOM_SCHEDULE">Custom Schedule</SelectItem>
+                <SelectItem value="FIXED_MONTHLY">{tEnum(t, "FIXED_MONTHLY")}</SelectItem>
+                <SelectItem value="PERCENTAGE_OF_RENT">{tEnum(t, "PERCENTAGE_OF_RENT")}</SelectItem>
+                <SelectItem value="CUSTOM_SCHEDULE">{tEnum(t, "CUSTOM_SCHEDULE")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_contribution_rate", "Contribution Rate")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_contribution_rate", "Katkı Oranı")}</Label>
             <Input type="number" value={contributionRate} onChange={(e) => setContributionRate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={(v) => setStatus(v as "ACTIVE" | "COMPLETED" | "DEFAULTED" | "REFUNDED")}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ACTIVE">Active</SelectItem>
-                <SelectItem value="COMPLETED">Completed</SelectItem>
-                <SelectItem value="DEFAULTED">Defaulted</SelectItem>
-                <SelectItem value="REFUNDED">Refunded</SelectItem>
+                <SelectItem value="ACTIVE">{tEnum(t, "ACTIVE")}</SelectItem>
+                <SelectItem value="COMPLETED">{tEnum(t, "COMPLETED")}</SelectItem>
+                <SelectItem value="DEFAULTED">{tEnum(t, "DEFAULTED")}</SelectItem>
+                <SelectItem value="REFUNDED">{tEnum(t, "REFUNDED")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ leaseId, propertyId, tenantId, tenantName, propertyName, totalTarget: Number(totalTarget), ruleType, contributionRate: Number(contributionRate), status, totalContributed: 0, createdAt: new Date().toISOString().split("T")[0] })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ leaseId, propertyId, tenantId, tenantName, propertyName, totalTarget: Number(totalTarget), ruleType, contributionRate: Number(contributionRate), status, totalContributed: 0, createdAt: new Date().toISOString().split("T")[0] })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -468,57 +469,57 @@ function EditDepositDialog({ open, onOpenChange, item, onSubmit }: { open: boole
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_kumbara_edit_deposit", "Edit Deposit")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_kumbara_edit_deposit_desc", "Update deposit details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_kumbara_edit_deposit", "Depozito Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_kumbara_edit_deposit_desc", "Depozito yapılandırmasını güncelleyin")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_tenant_name", "Tenant Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_tenant_name", "Kiracı Adı")}</Label>
             <Input value={tenantName} onChange={(e) => setTenantName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_property_name", "Property Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_property_name", "Emlak Adı")}</Label>
             <Input value={propertyName} onChange={(e) => setPropertyName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_total_target", "Total Target")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_total_target", "Hedef Tutar")}</Label>
             <Input type="number" value={totalTarget} onChange={(e) => setTotalTarget(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_rule_type", "Rule Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_rule_type", "Kural Türü")}</Label>
             <Select value={ruleType} onValueChange={(v) => setRuleType(v as "FIXED_MONTHLY" | "PERCENTAGE_OF_RENT" | "CUSTOM_SCHEDULE")}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="FIXED_MONTHLY">Fixed Monthly</SelectItem>
-                <SelectItem value="PERCENTAGE_OF_RENT">Percentage of Rent</SelectItem>
-                <SelectItem value="CUSTOM_SCHEDULE">Custom Schedule</SelectItem>
+                <SelectItem value="FIXED_MONTHLY">{tEnum(t, "FIXED_MONTHLY")}</SelectItem>
+                <SelectItem value="PERCENTAGE_OF_RENT">{tEnum(t, "PERCENTAGE_OF_RENT")}</SelectItem>
+                <SelectItem value="CUSTOM_SCHEDULE">{tEnum(t, "CUSTOM_SCHEDULE")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_kumbara_contribution_rate", "Contribution Rate")}</Label>
+            <Label className="text-right text-foreground">{t("admin_kumbara_contribution_rate", "Katkı Oranı")}</Label>
             <Input type="number" value={contributionRate} onChange={(e) => setContributionRate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={(v) => setStatus(v as "ACTIVE" | "COMPLETED" | "DEFAULTED" | "REFUNDED")}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ACTIVE">Active</SelectItem>
-                <SelectItem value="COMPLETED">Completed</SelectItem>
-                <SelectItem value="DEFAULTED">Defaulted</SelectItem>
-                <SelectItem value="REFUNDED">Refunded</SelectItem>
+                <SelectItem value="ACTIVE">{tEnum(t, "ACTIVE")}</SelectItem>
+                <SelectItem value="COMPLETED">{tEnum(t, "COMPLETED")}</SelectItem>
+                <SelectItem value="DEFAULTED">{tEnum(t, "DEFAULTED")}</SelectItem>
+                <SelectItem value="REFUNDED">{tEnum(t, "REFUNDED")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ ...item, tenantName, propertyName, totalTarget: Number(totalTarget), ruleType, contributionRate: Number(contributionRate), status })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ ...item, tenantName, propertyName, totalTarget: Number(totalTarget), ruleType, contributionRate: Number(contributionRate), status })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -531,12 +532,12 @@ function DeleteDepositDialog({ open, onOpenChange, item, onConfirm }: { open: bo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_kumbara_delete_deposit", "Delete Deposit")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_kumbara_delete_deposit_desc", "Are you sure you want to delete the deposit for")}{item.tenantName}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_kumbara_delete_deposit", "Depozito Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_kumbara_delete_deposit_desc", "Bu depozitoyu silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.")}{item.tenantName}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

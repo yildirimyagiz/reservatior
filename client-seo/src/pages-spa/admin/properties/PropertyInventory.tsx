@@ -194,7 +194,7 @@ export default function PropertyInventory() {
  <SelectContent className="max-h-[400px] bg-card border-border text-foreground">
  <SelectItem value="all">{t("admin_inventory_types_all")}</SelectItem>
  <SelectGroup>
- <SelectLabel className="text-muted-foreground font-bold uppercase tracking-widest text-[9px] px-2 py-1">{t("client.property.portfolio.filters.type.residential")} {t("admin_auto_houses", "- HOUSES")}</SelectLabel>
+ <SelectLabel className="text-muted-foreground font-bold uppercase tracking-widest text-[9px] px-2 py-1">{t("client.property.portfolio.filters.type.residential")} {t("admin_auto_houses", "- EVLER")}</SelectLabel>
  <SelectItem value="DETACHED_HOUSE">{t("client.property.types.DETACHED_HOUSE")}</SelectItem>
  <SelectItem value="SEMI_DETACHED_HOUSE">{t("client.property.types.SEMI_DETACHED_HOUSE")}</SelectItem>
  <SelectItem value="TERRACED_HOUSE">{t("client.property.types.TERRACED_HOUSE")}</SelectItem>
@@ -209,7 +209,7 @@ export default function PropertyInventory() {
  <SelectItem value="COMPOUND">{t("client.property.types.COMPOUND")}</SelectItem>
  </SelectGroup>
  <SelectGroup>
- <SelectLabel className="text-muted-foreground font-bold uppercase tracking-widest text-[9px] px-2 py-1 mt-2">{t("client.property.portfolio.filters.type.residential")} {t("admin_auto_apartments", "- APARTMENTS")}</SelectLabel>
+ <SelectLabel className="text-muted-foreground font-bold uppercase tracking-widest text-[9px] px-2 py-1 mt-2">{t("client.property.portfolio.filters.type.residential")} {t("admin_auto_apartments", "- DAİRELER")}</SelectLabel>
  <SelectItem value="APARTMENT">{t("client.property.types.APARTMENT")}</SelectItem>
  <SelectItem value="CONDO_APARTMENT">{t("client.property.types.CONDO_APARTMENT")}</SelectItem>
  <SelectItem value="FLAT_MAISONETTE">{t("client.property.types.FLAT_MAISONETTE")}</SelectItem>
@@ -296,7 +296,7 @@ export default function PropertyInventory() {
  </TableCell>
  <TableCell>
  <div className="flex items-center gap-2 text-foreground">
- <div className={`w-2 h-2 rounded-full ${property.status === 'AVAILABLE' ? 'bg-green-500' : property.status === 'PENDING' ? 'bg-yellow-500' : property.status === 'UNDER_CONTRACT' ? 'bg-muted0' : property.status === 'SOLD' ? 'bg-muted0' : property.status === 'WITHDRAWN' ? 'bg-red-500' : 'bg-white/10'}`} />
+ <div className={`w-2 h-2 rounded-full ${property.status === 'AVAILABLE' ? 'bg-blue-500' : property.status === 'PENDING' ? 'bg-yellow-500' : property.status === 'UNDER_CONTRACT' ? 'bg-muted0' : property.status === 'SOLD' ? 'bg-muted0' : property.status === 'WITHDRAWN' ? 'bg-red-500' : 'bg-card/10'}`} />
  <span className="capitalize">{getStatusLabel(property.status)}</span>
  </div>
  </TableCell>
@@ -331,7 +331,7 @@ export default function PropertyInventory() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground">
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -367,7 +367,7 @@ export default function PropertyInventory() {
  <div className="space-y-3">
  <div className="flex justify-between items-center">
  <span className="text-sm text-foreground flex items-center gap-2">
- <div className="w-2 h-2 rounded-full bg-green-500" />{t("admin_property_available")}</span>
+ <div className="w-2 h-2 rounded-full bg-blue-500" />{t("admin_property_available")}</span>
  <span className="font-medium text-foreground">{properties.filter(p => p.status === 'AVAILABLE').length}</span>
  </div>
  <div className="flex justify-between items-center">
@@ -426,7 +426,7 @@ export default function PropertyInventory() {
  <p className="text-sm text-muted-foreground">{t("admin_property_avg_days_on_market")}</p>
  </div>
  <div className="text-center">
- <div className="text-2xl font-bold text-green-400">{totalViews}</div>
+ <div className="text-2xl font-bold text-blue-400">{totalViews}</div>
  <p className="text-sm text-muted-foreground">{t("admin_property_total_views")}</p>
  </div>
  <div className="text-center">

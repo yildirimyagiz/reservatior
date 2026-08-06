@@ -47,7 +47,7 @@ const VERIFICATION_TIERS = [
   {
     tier: 'silver',
     name: 'Verified Guest',
-    icon: <ShieldCheck className="w-8 h-8 text-slate-300" />,
+    icon: <ShieldCheck className="w-8 h-8 text-muted-foreground" />,
     time: '5 minutes',
     color: 'from-slate-500/10 to-gray-500/5',
     borderColor: 'border-slate-500/20',
@@ -99,10 +99,10 @@ const VERIFICATION_TIERS = [
   {
     tier: 'platinum',
     name: 'Elite Member',
-    icon: <Crown className="w-8 h-8 text-purple-400" />,
+    icon: <Crown className="w-8 h-8 text-brand" />,
     time: '15 minutes',
-    color: 'from-purple-500/10 to-pink-500/5',
-    borderColor: 'border-purple-500/20',
+    color: 'from-brand/10 to-pink-500/5',
+    borderColor: 'border-brand/20',
     title: 'Elite Membership',
     subtitle: 'VIP treatment awaits',
     description: 'Complete verification for luxury residence access',
@@ -127,7 +127,7 @@ const VERIFICATION_TIERS = [
 const EVALUATION_CRITERIA = [
   {
     category: 'Identity Verification',
-    icon: <User className="w-5 h-5 text-blue-400" />,
+    icon: <User className="w-5 h-5 text-brand" />,
     items: [
       { name: 'Government ID', required: true, time: '2 min', benefit: 'Verified identity ensures safe community' },
       { name: 'Email Verification', required: true, time: '1 min', benefit: 'Secure communication channel' },
@@ -136,7 +136,7 @@ const EVALUATION_CRITERIA = [
   },
   {
     category: 'Financial Reliability',
-    icon: <CreditCard className="w-5 h-5 text-emerald-400" />,
+    icon: <CreditCard className="w-5 h-5 text-success" />,
     items: [
       { name: 'Payment Method', required: true, time: '2 min', benefit: 'Seamless booking experience' },
       { name: 'Security Deposit', required: true, time: '3 min', benefit: 'Protects your stay' },
@@ -177,9 +177,9 @@ const MARKETING_ANGLES = [
     angle: 'Security First',
     title: 'Your Safety is Our Priority',
     description: 'Every guest is verified to ensure a safe community for everyone. Book with peace of mind knowing your neighbors are equally vetted.',
-    icon: <Shield className="w-8 h-8 text-emerald-400" />,
-    color: 'from-emerald-500/10 to-green-500/5',
-    borderColor: 'border-emerald-500/20'
+    icon: <Shield className="w-8 h-8 text-success" />,
+    color: 'from-blue-500/10 to-blue-500/5',
+    borderColor: 'border-success/20'
   },
   {
     angle: 'Benefit Driven',
@@ -193,15 +193,15 @@ const MARKETING_ANGLES = [
     angle: 'Exclusivity',
     title: 'Elite Access for Verified Guests',
     description: 'Luxury residences and premium properties are exclusively available to verified travelers. Stand out from the crowd.',
-    icon: <Crown className="w-8 h-8 text-purple-400" />,
-    color: 'from-purple-500/10 to-pink-500/5',
-    borderColor: 'border-purple-500/20'
+    icon: <Crown className="w-8 h-8 text-brand" />,
+    color: 'from-brand/10 to-pink-500/5',
+    borderColor: 'border-brand/20'
   },
   {
     angle: 'Trust Building',
     title: 'Build Trust, Get Booked',
     description: 'Hosts prefer verified guests. Your reliability score builds trust and leads to better acceptance rates and preferred treatment.',
-    icon: <TrendingUp className="w-8 h-8 text-blue-400" />,
+    icon: <TrendingUp className="w-8 h-8 text-brand" />,
     color: 'from-blue-500/10 to-cyan-500/5',
     borderColor: 'border-blue-500/20'
   }
@@ -209,14 +209,14 @@ const MARKETING_ANGLES = [
 
 const TRUST_METRICS = [
   { value: '2 min', label: 'Quick Start Time', color: 'text-amber-400', icon: <Clock className="w-5 h-5" /> },
-  { value: '4 stages', label: 'Verification Levels', color: 'text-blue-400', icon: <Target className="w-5 h-5" /> },
-  { value: '100%', label: 'Host Preference', color: 'text-emerald-400', icon: <Heart className="w-5 h-5" /> },
-  { value: 'VIP', label: 'Elite Benefits', color: 'text-purple-400', icon: <Gem className="w-5 h-5" /> }
+  { value: '4 stages', label: 'Verification Levels', color: 'text-brand', icon: <Target className="w-5 h-5" /> },
+  { value: '100%', label: 'Host Preference', color: 'text-success', icon: <Heart className="w-5 h-5" /> },
+  { value: 'VIP', label: 'Elite Benefits', color: 'text-brand', icon: <Gem className="w-5 h-5" /> }
 ];
 
 export default function TenantVerification() {
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0c] selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0c] selection:bg-black selection:text-white dark:selection:bg-card dark:selection:text-black">
       <SEOMetadata
         data={{
           title: "Tenant Verification | Reservatior",
@@ -231,19 +231,19 @@ export default function TenantVerification() {
 
         {/* ─── HERO ─────────────────────────────────────────────────────── */}
         <div className="text-center relative">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-500/8 blur-[160px] pointer-events-none rounded-full" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand/8 blur-[160px] pointer-events-none rounded-full" />
 
           <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <Badge className="mb-6 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-5 py-1.5 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="mb-6 bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-5 py-1.5 text-xs font-bold tracking-wider rounded-full">
               <Sparkles className="w-3 h-3 mr-2" /> PROGRESSIVE VERIFICATION
             </Badge>
             <h1 className="text-5xl md:text-8xl font-black tracking-tight text-neutral-900 dark:text-white mb-8 leading-[0.9]">
               Verify as You Go, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500 dark:from-indigo-400 dark:to-purple-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-brand dark:from-brand dark:to-brand">
                 Unlock as You Grow
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-neutral-500 dark:text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed">
+            <p className="text-lg md:text-xl text-neutral-500 dark:text-muted-foreground max-w-3xl mx-auto font-medium leading-relaxed">
               Start browsing in 2 minutes. Add verification when you&apos;re ready to book. 
               Each step unlocks better properties, lower rates, and exclusive benefits.
             </p>
@@ -258,14 +258,14 @@ export default function TenantVerification() {
           className="grid grid-cols-2 md:grid-cols-4 gap-6"
         >
           {TRUST_METRICS.map((m, i) => (
-            <div key={i} className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-2xl p-8 text-center group hover:bg-white/70 dark:hover:bg-[#14151a]/70 transition-all">
+            <div key={i} className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-2xl p-8 text-center group hover:bg-white/70 dark:hover:bg-background/70 transition-all">
               <div className={`flex items-center justify-center gap-2 mb-3 ${m.color}`}>
                 {m.icon}
               </div>
               <h3 className={`text-4xl md:text-5xl font-black tracking-tight mb-2 ${m.color} group-hover:scale-110 transition-transform`}>
                 {m.value}
               </h3>
-              <p className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase">{m.label}</p>
+              <p className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase">{m.label}</p>
             </div>
           ))}
         </m.div>
@@ -273,13 +273,13 @@ export default function TenantVerification() {
         {/* ─── MARKETING ANGLES ──────────────────────────────────────────── */}
         <section>
           <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
-            <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               WHY VERIFY?
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
               Security as a Benefit
             </h2>
-            <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+            <p className="text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto font-medium">
               We&apos;ve designed verification to enhance your experience, not restrict it.
             </p>
           </m.div>
@@ -294,20 +294,20 @@ export default function TenantVerification() {
                 viewport={{ once: true }}
                 variants={fadeUp}
               >
-                <Card className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-[2rem] overflow-hidden shadow-xl group h-full hover:bg-white/70 dark:hover:bg-[#14151a]/70 transition-all duration-500">
+                <Card className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-[2rem] overflow-hidden shadow-xl group h-full hover:bg-white/70 dark:hover:bg-background/70 transition-all duration-500">
                   <CardHeader className="p-8 pb-4">
                     <div className="flex items-start justify-between mb-6">
-                      <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+                      <div className="p-4 rounded-2xl bg-gradient-to-br from-brand to-brand shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
                         {angle.icon}
                       </div>
-                      <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 text-xs font-bold tracking-wider rounded-full px-3 py-1">
+                      <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 text-xs font-bold tracking-wider rounded-full px-3 py-1">
                         0{idx + 1}
                       </Badge>
                     </div>
                     <CardTitle className="text-2xl font-black text-neutral-900 dark:text-white tracking-tight">{angle.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="p-8 pt-2">
-                    <p className="text-sm font-medium text-neutral-600 dark:text-slate-400 leading-relaxed">{angle.description}</p>
+                    <p className="text-sm font-medium text-neutral-600 dark:text-muted-foreground leading-relaxed">{angle.description}</p>
                   </CardContent>
                 </Card>
               </m.div>
@@ -318,13 +318,13 @@ export default function TenantVerification() {
         {/* ─── VERIFICATION TIERS ───────────────────────────────────────── */}
         <section>
           <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
-            <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               PROGRESSION PATH
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
               Four Stages to Elite
             </h2>
-            <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+            <p className="text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto font-medium">
               Start simple, add more verification as you need. Each stage unlocks new benefits.
             </p>
           </m.div>
@@ -339,22 +339,22 @@ export default function TenantVerification() {
                 viewport={{ once: true }}
                 variants={fadeUp}
               >
-                <Card className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-[2rem] overflow-hidden shadow-xl group hover:bg-white/70 dark:hover:bg-[#14151a]/70 transition-all duration-500">
+                <Card className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-[2rem] overflow-hidden shadow-xl group hover:bg-white/70 dark:hover:bg-background/70 transition-all duration-500">
                   <div className="p-8">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                       <div className="flex items-center gap-6">
-                        <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+                        <div className="p-4 rounded-2xl bg-gradient-to-br from-brand to-brand shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
                           {tier.icon}
                         </div>
                         <div>
                           <div className="flex items-center gap-3 mb-2">
-                            <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 text-xs font-bold tracking-wider rounded-full px-3 py-1">
+                            <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 text-xs font-bold tracking-wider rounded-full px-3 py-1">
                               STAGE {idx + 1}
                             </Badge>
-                            <span className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase">{tier.time}</span>
+                            <span className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase">{tier.time}</span>
                           </div>
                           <h3 className="text-2xl font-black text-neutral-900 dark:text-white tracking-tight">{tier.name}</h3>
-                          <p className="text-sm font-medium text-neutral-500 dark:text-slate-400">{tier.subtitle}</p>
+                          <p className="text-sm font-medium text-neutral-500 dark:text-muted-foreground">{tier.subtitle}</p>
                         </div>
                       </div>
                       {tier.conversionGate && (
@@ -364,25 +364,25 @@ export default function TenantVerification() {
                       )}
                     </div>
 
-                    <p className="text-sm font-medium text-neutral-600 dark:text-slate-400 leading-relaxed mb-8">{tier.description}</p>
+                    <p className="text-sm font-medium text-neutral-600 dark:text-muted-foreground leading-relaxed mb-8">{tier.description}</p>
 
                     <div className="grid md:grid-cols-2 gap-8">
                       <div>
-                        <h4 className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase mb-4">Features</h4>
+                        <h4 className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase mb-4">Features</h4>
                         <ul className="space-y-3">
                           {tier.features.map((f, i) => (
-                            <li key={i} className="flex items-start gap-3 text-sm font-semibold text-neutral-700 dark:text-slate-300 transition-colors">
-                              <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5 shadow-[0_0_8px_#10b981]" />
+                            <li key={i} className="flex items-start gap-3 text-sm font-semibold text-neutral-700 dark:text-muted-foreground transition-colors">
+                              <CheckCircle className="w-4 h-4 text-success shrink-0 mt-0.5 shadow-[0_0_8px_#3b82f6]" />
                               {f}
                             </li>
                           ))}
                         </ul>
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase mb-4">Benefits</h4>
+                        <h4 className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase mb-4">Benefits</h4>
                         <ul className="space-y-3">
                           {tier.benefits.map((b, i) => (
-                            <li key={i} className="flex items-start gap-3 text-sm font-semibold text-neutral-700 dark:text-slate-300 transition-colors">
+                            <li key={i} className="flex items-start gap-3 text-sm font-semibold text-neutral-700 dark:text-muted-foreground transition-colors">
                               <Gift className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
                               {b}
                             </li>
@@ -391,8 +391,8 @@ export default function TenantVerification() {
                       </div>
                     </div>
 
-                    <div className="mt-8 p-4 bg-neutral-50 dark:bg-white/[0.02] rounded-2xl border border-neutral-200 dark:border-slate-800">
-                      <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 tracking-wide text-center">
+                    <div className="mt-8 p-4 bg-neutral-50 dark:bg-white/[0.02] rounded-2xl border border-neutral-200 dark:border-border">
+                      <p className="text-xs font-bold text-success dark:text-success tracking-wide text-center">
                         {tier.marketingMessage}
                       </p>
                     </div>
@@ -406,13 +406,13 @@ export default function TenantVerification() {
         {/* ─── EVALUATION CRITERIA ─────────────────────────────────────── */}
         <section>
           <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
-            <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               EVALUATION CRITERIA
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
               What We Evaluate
             </h2>
-            <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+            <p className="text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto font-medium">
               Clear, transparent criteria with visible benefits for each verification step.
             </p>
           </m.div>
@@ -427,10 +427,10 @@ export default function TenantVerification() {
                 viewport={{ once: true }}
                 variants={fadeUp}
               >
-                <Card className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-2xl overflow-hidden group hover:bg-white/70 dark:hover:bg-[#14151a]/70 transition-all">
+                <Card className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-2xl overflow-hidden group hover:bg-white/70 dark:hover:bg-background/70 transition-all">
                   <CardHeader className="p-6 pb-4">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="p-3 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+                      <div className="p-3 rounded-xl bg-gradient-to-br from-brand to-brand shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
                         {category.icon}
                       </div>
                       <CardTitle className="text-lg font-black text-neutral-900 dark:text-white tracking-tight">{category.category}</CardTitle>
@@ -438,15 +438,15 @@ export default function TenantVerification() {
                   </CardHeader>
                   <CardContent className="p-6 pt-2 space-y-4">
                     {category.items.map((item, i) => (
-                      <div key={i} className="flex items-start justify-between p-4 bg-neutral-50/50 dark:bg-white/[0.02] rounded-xl border border-neutral-200/60 dark:border-slate-800/60 hover:bg-neutral-50 dark:hover:bg-white/[0.04] transition-colors">
+                      <div key={i} className="flex items-start justify-between p-4 bg-neutral-50/50 dark:bg-white/[0.02] rounded-xl border border-neutral-200/60 dark:border-border/60 hover:bg-neutral-50 dark:hover:bg-white/[0.04] transition-colors">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             {item.required && <Badge className="bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-bold tracking-wider rounded-full px-2 py-0.5">REQUIRED</Badge>}
                             <span className="text-sm font-semibold text-neutral-700 dark:text-white tracking-wide">{item.name}</span>
                           </div>
-                          <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 tracking-wide">{item.benefit}</p>
+                          <p className="text-xs font-medium text-success dark:text-success tracking-wide">{item.benefit}</p>
                         </div>
-                        <span className="text-xs font-bold text-neutral-500 dark:text-slate-400">{item.time}</span>
+                        <span className="text-xs font-bold text-neutral-500 dark:text-muted-foreground">{item.time}</span>
                       </div>
                     ))}
                   </CardContent>
@@ -459,13 +459,13 @@ export default function TenantVerification() {
         {/* ─── TRAVEL PURPOSES ─────────────────────────────────────────── */}
         <section>
           <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
-            <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               PERSONALIZATION
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
               Tell Us Your Purpose
             </h2>
-            <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+            <p className="text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto font-medium">
               Your travel purpose helps us match you with the perfect property and provide personalized recommendations.
             </p>
           </m.div>
@@ -479,13 +479,13 @@ export default function TenantVerification() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeUp}
-                className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-2xl p-6 text-center hover:bg-white/70 dark:hover:bg-[#14151a]/70 transition-all group cursor-pointer"
+                className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-2xl p-6 text-center hover:bg-white/70 dark:hover:bg-background/70 transition-all group cursor-pointer"
               >
-                <div className="p-3 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white mx-auto mb-4 shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-brand to-brand flex items-center justify-center text-white mx-auto mb-4 shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
                   {purpose.icon}
                 </div>
                 <h3 className="text-sm font-bold text-neutral-900 dark:text-white tracking-tight mb-2">{purpose.label}</h3>
-                <p className="text-xs font-medium text-neutral-500 dark:text-slate-400 leading-relaxed">{purpose.description}</p>
+                <p className="text-xs font-medium text-neutral-500 dark:text-muted-foreground leading-relaxed">{purpose.description}</p>
               </m.div>
             ))}
           </div>
@@ -498,26 +498,26 @@ export default function TenantVerification() {
           viewport={{ once: true }}
           className="text-center space-y-8"
         >
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto shadow-lg shadow-indigo-500/20">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand to-brand flex items-center justify-center mx-auto shadow-lg shadow-indigo-500/20">
             <Zap className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-3xl md:text-5xl font-black tracking-tight text-neutral-900 dark:text-white">
             Ready to Get Started?
           </h2>
-          <p className="text-neutral-500 dark:text-slate-400 max-w-xl mx-auto font-medium text-sm leading-relaxed">
+          <p className="text-neutral-500 dark:text-muted-foreground max-w-xl mx-auto font-medium text-sm leading-relaxed">
             Begin your verification journey in just 2 minutes. Browse properties, save favorites, and unlock benefits as you go.
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-4">
             <Button
               onClick={() => window.location.href = "/property"}
-              className="h-14 px-10 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg shadow-indigo-500/25 font-bold tracking-wider text-xs"
+              className="h-14 px-10 rounded-2xl bg-gradient-to-r from-brand to-brand text-white hover:from-brand hover:to-brand shadow-lg shadow-indigo-500/25 font-bold tracking-wider text-xs"
             >
               Start Browsing <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
             <Button
               variant="outline"
               onClick={() => window.location.href = "/short-term-rental-safety"}
-              className="h-14 px-10 rounded-2xl border-indigo-200/60 dark:border-slate-800/60 bg-white/50 dark:bg-[#14151a]/50 text-neutral-900 dark:text-white hover:bg-white/70 dark:hover:bg-[#14151a]/70 font-bold tracking-wider text-xs"
+              className="h-14 px-10 rounded-2xl border-brand/60 dark:border-border/60 bg-white/50 dark:bg-background/50 text-neutral-900 dark:text-white hover:bg-white/70 dark:hover:bg-background/70 font-bold tracking-wider text-xs"
             >
               Learn About Security
             </Button>

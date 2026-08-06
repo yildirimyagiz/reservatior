@@ -6,6 +6,7 @@ import { adminRoutes } from "./routes/admin";
 import { dynamicAdminRoutes } from "./routes/dynamic_admin";
 import { configRoutes } from "./routes/config";
 import { systemRoutes } from "./routes/system";
+import { sagaRoutes } from "./routes/saga";
 import { feedRoutes } from "./routes/feed";
 import { aiRoutes } from "./routes/ai";
 import { aiSearchRoutes } from "./routes/ai-search";
@@ -364,6 +365,9 @@ import { documentOSRoutes } from "./routes/document-os";
 import { notificationOSRoutes } from "./routes/notification-os";
 import { userOSRoutes } from "./routes/user-os";
 import { adsOSRoutes } from "./routes/ads-os";
+import { aiOSRoutes } from "./routes/ai-os";
+import { devApiOSRoutes } from "./routes/devapi-os";
+import { trustOSRoutes } from "./routes/trust-os";
 import { identityOSRoutes } from "./routes/identity-os";
 import { localizationOSRoutes } from "./routes/localization-os";
 import { commerceOSRoutes } from "./routes/commerce-os";
@@ -371,6 +375,15 @@ import { crmOSRoutes } from "./routes/crm-os";
 import { portfolioOSRoutes } from "./routes/portfolio-os";
 import { platformOSRoutes } from "./routes/platform-os";
 import { spatialAnalysisRoutes, propertyHealthReportRoutes, insuranceRiskRoutes, insuranceProductRoutes, insuranceAttachmentRoutes, spatialAssetRoutes, mediaLocalizationRoutes, brochureRoutes } from "./routes/spatial-analysis";
+import { securityEngineRoutes } from "./routes/security-engine";
+import { insuranceRoutes } from "./routes/insurance";
+import { insuranceOSRoutes } from "./routes/insurance-os";
+import { rentalFinanceRoutes } from "./routes/rental-finance-os";
+import { rentalFinanceOSDashboardRoutes } from "./routes/rental-finance-os-dashboard";
+import { tenantFinanceRoutes } from "./routes/tenant-financial-profile";
+import { landlordFinanceRoutes } from "./routes/landlord-financial-profile";
+import { aiMatchingRoutes } from "./routes/ai-matching";
+import { rentalRiskRoutes } from "./routes/rental-risk";
 import { adRouterRoutes } from "./routes/ad-router";
 import { creatorCommerceRoutes } from "./routes/creator-commerce";
 import { growthEngineRoutes } from "./routes/growth-engine";
@@ -698,6 +711,7 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(dynamicAdminRoutes)
   .use(configRoutes)
   .use(systemRoutes)
+  .use(sagaRoutes)
   .use(feedRoutes)
   .use(aiRoutes)
   .use(aiArbitrageRoutes)
@@ -783,12 +797,24 @@ export const router = new Elysia({ prefix: "/api/v1" })
   .use(notificationOSRoutes)
   .use(userOSRoutes)
   .use(adsOSRoutes)
+  .use(aiOSRoutes)
+  .use(devApiOSRoutes)
+  .use(trustOSRoutes)
   .use(identityOSRoutes)
   .use(localizationOSRoutes)
   .use(commerceOSRoutes)
   .use(crmOSRoutes)
   .use(portfolioOSRoutes)
   .use(platformOSRoutes)
+  .use(securityEngineRoutes)
+  .use(insuranceRoutes)
+  .use(insuranceOSRoutes)
+  .use(rentalFinanceRoutes)
+  .use(rentalFinanceOSDashboardRoutes)
+  .use(tenantFinanceRoutes)
+  .use(landlordFinanceRoutes)
+  .use(aiMatchingRoutes)
+  .use(rentalRiskRoutes)
   .use(spatialAnalysisRoutes)
   .use(propertyHealthReportRoutes)
   .use(insuranceRiskRoutes)

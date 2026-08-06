@@ -80,12 +80,12 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
       case "COMPLETED":
         return {
           label: t('client.property.valuations.statuses.completed'),
-          cls: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+          cls: "bg-success/10 text-success border-success/20"
         };
       case "PROCESSING":
         return {
           label: t('client.property.valuations.statuses.processing'),
-          cls: "bg-blue-500/10 text-blue-400 border-blue-500/20"
+          cls: "bg-brand/100/10 text-brand border-blue-500/20"
         };
       case "FAILED":
         return {
@@ -95,7 +95,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
       case "EXPIRED":
         return {
           label: t('client.property.valuations.statuses.expired'),
-          cls: "bg-slate-500/10 text-slate-400 border-slate-500/20"
+          cls: "bg-muted text-muted-foreground border-slate-500/20"
         };
       default:
         return {
@@ -109,22 +109,22 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
       case "BASIC":
         return {
           label: t('client.property.valuations.types.basic'),
-          color: "text-slate-400"
+          color: "text-muted-foreground"
         };
       case "PROFESSIONAL":
         return {
           label: t('client.property.valuations.types.professional'),
-          color: "text-blue-400"
+          color: "text-brand"
         };
       case "ENTERPRISE":
         return {
           label: t('client.property.valuations.types.enterprise'),
-          color: "text-purple-400"
+          color: "text-brand"
         };
       case "INSTANT":
         return {
           label: t('client.property.valuations.types.instant'),
-          color: "text-emerald-400"
+          color: "text-success"
         };
       case "DETAILED":
         return {
@@ -134,15 +134,15 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
       default:
         return {
           label: type,
-          color: "text-slate-400"
+          color: "text-muted-foreground"
         };
     }
   };
-  return <div className="min-h-screen bg-[#14151a] p-8 lg:p-12 relative overflow-hidden">
+  return <div className="min-h-screen bg-background p-8 lg:p-12 relative overflow-hidden">
       {/* Background Cybernetic Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/5 blur-[120px] rounded-full"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 blur-[120px] rounded-full"></div>
         <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       </div>
 
@@ -156,7 +156,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
         y: 0
       }} className="flex flex-col md:flex-row md:items-center justify-between gap-10">
           <div className="flex items-center gap-8">
-            <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="h-14 px-8 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 font-black italic text-[10px] tracking-[0.25em] transition-all group">
+            <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="h-14 px-8 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground font-black italic text-[10px] tracking-[0.25em] transition-all group">
               <ArrowLeft className="w-4 h-4 mr-3 group-hover:-translate-x-1 transition-transform" />
               {t('common.back', {
               defaultValue: 'BACK'
@@ -167,35 +167,35 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
               <h1 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">
                 {t('client.property.valuations.title')}
               </h1>
-              <p className="text-slate-500 text-sm font-black tracking-widest italic">{t('client.property.valuations.subtitle')}</p>
+              <p className="text-muted-foreground text-sm font-black tracking-widest italic">{t('client.property.valuations.subtitle')}</p>
             </div>
           </div>
 
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="h-16 px-10 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95">
+              <Button className="h-16 px-10 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95">
                 <Plus className="w-5 h-5 mr-3" />
                 {t('client.property.valuations.new')}
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl bg-[#1a1b1e] border-white/10 text-white rounded-[40px] p-0 overflow-hidden backdrop-blur-3xl shadow-3xl">
+            <DialogContent className="max-w-2xl bg-card border-white/10 text-white rounded-[40px] p-0 overflow-hidden backdrop-blur-3xl shadow-3xl">
               <DialogHeader className="p-10 pb-0">
-                <DialogTitle className="text-3xl font-black italic tracking-tighter text-blue-400">{t('client.property.valuations.dialog.title')}</DialogTitle>
-                <DialogDescription className="text-slate-500 font-black italic tracking-widest text-[10px] pt-4 leading-relaxed">
+                <DialogTitle className="text-3xl font-black italic tracking-tighter text-brand">{t('client.property.valuations.dialog.title')}</DialogTitle>
+                <DialogDescription className="text-muted-foreground font-black italic tracking-widest text-[10px] pt-4 leading-relaxed">
                   {t('client.property.valuations.dialog.desc')}
                 </DialogDescription>
               </DialogHeader>
               <div className="p-10 space-y-8">
                 <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.valuations.dialog.propertyId')}</Label>
-                    <Input className="h-16 bg-black/40 border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={createData.propertyId} onChange={e => setCreateData(prev => ({
+                    <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.valuations.dialog.propertyId')}</Label>
+                    <Input className="h-16 bg-black/40 border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-foreground" value={createData.propertyId} onChange={e => setCreateData(prev => ({
                     ...prev,
                     propertyId: e.target.value
                   }))} placeholder={t('client.property.valuations.dialog.propertyIdPlaceholder')} />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.valuations.dialog.valType')}</Label>
+                    <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.valuations.dialog.valType')}</Label>
                     <Select value={createData.valuationType} onValueChange={(value: ValuationType) => setCreateData(prev => ({
                     ...prev,
                     valuationType: value
@@ -203,7 +203,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                       <SelectTrigger className="h-16 bg-black/40 border-white/5 rounded-[24px] text-white font-black italic text-[10px] tracking-widest px-6 shadow-inner">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-[#1a1b1e] border-white/10 text-white font-black italic">
+                      <SelectContent className="bg-card border-white/10 text-white font-black italic">
                         <SelectItem value="BASIC" className="focus:bg-white/5">{t('client.property.valuations.types.basic')}</SelectItem>
                         <SelectItem value="PROFESSIONAL" className="focus:bg-white/5">{t('client.property.valuations.types.professional')}</SelectItem>
                         <SelectItem value="ENTERPRISE" className="focus:bg-white/5">{t('client.property.valuations.types.enterprise')}</SelectItem>
@@ -214,7 +214,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.valuations.dialog.priority')}</Label>
+                  <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.valuations.dialog.priority')}</Label>
                   <Select value={createData.priority} onValueChange={value => setCreateData(prev => ({
                   ...prev,
                   priority: value
@@ -222,7 +222,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                     <SelectTrigger className="h-16 bg-black/40 border-white/5 rounded-[24px] text-white font-black italic text-[10px] tracking-widest px-6 shadow-inner">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#1a1b1e] border-white/10 text-white font-black italic">
+                    <SelectContent className="bg-card border-white/10 text-white font-black italic">
                       <SelectItem value="low" className="focus:bg-white/5">{t('client.property.valuations.dialog.priorities.low')}</SelectItem>
                       <SelectItem value="normal" className="focus:bg-white/5">{t('client.property.valuations.dialog.priorities.normal')}</SelectItem>
                       <SelectItem value="high" className="focus:bg-white/5">{t('client.property.valuations.dialog.priorities.high')}</SelectItem>
@@ -231,24 +231,24 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.valuations.dialog.video')}</Label>
-                  <Input className="h-16 bg-black/40 border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={createData.videoUrl} onChange={e => setCreateData(prev => ({
+                  <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.valuations.dialog.video')}</Label>
+                  <Input className="h-16 bg-black/40 border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-foreground" value={createData.videoUrl} onChange={e => setCreateData(prev => ({
                   ...prev,
                   videoUrl: e.target.value
                 }))} placeholder={t('client.property.valuations.dialog.videoPlaceholder')} />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.valuations.dialog.reqs')}</Label>
-                  <Textarea className="bg-black/40 border-white/5 rounded-[32px] text-white placeholder:text-slate-800 font-black italic text-[10px] tracking-widest p-6 min-h-[120px] focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all" value={createData.requirements.join("\n")} onChange={e => setCreateData(prev => ({
+                  <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.valuations.dialog.reqs')}</Label>
+                  <Textarea className="bg-black/40 border-white/5 rounded-[32px] text-white placeholder:text-foreground font-black italic text-[10px] tracking-widest p-6 min-h-[120px] focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all" value={createData.requirements.join("\n")} onChange={e => setCreateData(prev => ({
                   ...prev,
                   requirements: e.target.value.split("\n").filter(r => r.trim())
                 }))} placeholder={t('client.property.valuations.dialog.reqsPlaceholder')} />
                 </div>
                 <DialogFooter className="pt-8 flex gap-4">
-                  <Button variant="ghost" onClick={() => setIsCreateDialogOpen(false)} className="h-16 px-8 text-[10px] font-black italic text-slate-500">
+                  <Button variant="ghost" onClick={() => setIsCreateDialogOpen(false)} className="h-16 px-8 text-[10px] font-black italic text-muted-foreground">
                     {t('client.property.valuations.dialog.cancel')}
                   </Button>
-                  <Button className="flex-1 h-16 rounded-[24px] bg-blue-600 hover:bg-blue-500 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20" onClick={handleCreateValuation} disabled={createMutation.isPending}>
+                  <Button className="flex-1 h-16 rounded-[24px] bg-blue-600 hover:bg-brand/100 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20" onClick={handleCreateValuation} disabled={createMutation.isPending}>
                     {createMutation.isPending ? t('common.loading') : t('client.property.valuations.dialog.create')}
                   </Button>
                 </DialogFooter>
@@ -264,29 +264,29 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
           value: stats?.totalValuations || 0,
           desc: t('client.property.valuations.stats.totalDesc'),
           icon: Activity,
-          color: "text-blue-400",
-          bg: "bg-blue-500/10"
+          color: "text-brand",
+          bg: "bg-brand/100/10"
         }, {
           label: t('client.property.valuations.stats.totalValue'),
           value: `$${stats?.totalValue?.toLocaleString() || 0}`,
           desc: t('client.property.valuations.stats.valueDesc'),
           icon: TrendingUp,
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/10"
+          color: "text-success",
+          bg: "bg-success/10"
         }, {
           label: t('client.property.valuations.stats.completion'),
           value: `${((stats?.completionRate || 0) * 100).toFixed(1)}%`,
           desc: t('client.property.valuations.stats.completionDesc'),
           icon: CheckCircle2,
-          color: "text-purple-400",
-          bg: "bg-purple-500/10"
+          color: "text-brand",
+          bg: "bg-brand/10"
         }, {
           label: t('client.property.valuations.stats.avgTime'),
           value: `${(stats?.averageProcessingTime || 0).toFixed(1)}h`,
           desc: t('client.property.valuations.stats.timeDesc'),
           icon: Clock,
           color: "text-orange-400",
-          bg: "bg-orange-500/10"
+          bg: "bg-warning/10"
         }].map((s, i) => <m.div key={i} initial={{
           opacity: 0,
           y: 20
@@ -296,15 +296,15 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
         }} transition={{
           delay: i * 0.1
         }}>
-               <Card className="bg-[#1a1b1e]/60 border-white/5 border-l border-t rounded-[32px] overflow-hidden p-8 hover:bg-white/5 transition-all shadow-2xl relative backdrop-blur-3xl group">
+               <Card className="bg-card/60 border-white/5 border-l border-t rounded-[32px] overflow-hidden p-8 hover:bg-white/5 transition-all shadow-2xl relative backdrop-blur-3xl group">
                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
                     <s.icon className="w-16 h-16" />
                  </div>
                  <div className="flex justify-between items-start relative z-10">
                    <div className="space-y-1">
-                      <p className="text-[10px] font-black tracking-widest text-slate-500 italic">{s.label}</p>
+                      <p className="text-[10px] font-black tracking-widest text-muted-foreground italic">{s.label}</p>
                       <h3 className="text-4xl font-black text-white italic tracking-tighter leading-none">{s.value}</h3>
-                      <p className="text-[10px] font-black text-slate-600 tracking-widest italic">{s.desc}</p>
+                      <p className="text-[10px] font-black text-muted-foreground tracking-widest italic">{s.desc}</p>
                    </div>
                    <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center border border-white/5 shadow-inner backdrop-blur-md", s.bg)}>
                       <s.icon className={cn("w-6 h-6 shadow-[0_0_15px_currentColor]", s.color)} />
@@ -322,11 +322,11 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
         opacity: 1,
         scale: 1
       }}>
-          <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
+          <Card className="bg-card/40 border-white/5 border-l border-t rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
             <div className="flex flex-col lg:flex-row items-center gap-8">
                <div className="flex-1 w-full relative group">
-                  <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-                   <input placeholder={t('client.property.valuations.filters.search')} aria-label="Search valuations" className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={filters.search} onChange={e => setFilters(prev => ({
+                  <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-brand transition-colors" />
+                   <input placeholder={t('client.property.valuations.filters.search')} aria-label="Search valuations" className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-foreground" value={filters.search} onChange={e => setFilters(prev => ({
                 ...prev,
                 search: e.target.value
               }))} />
@@ -339,7 +339,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                     <SelectTrigger className="w-full sm:w-56 h-16 bg-black/40 border-white/5 rounded-[24px] text-white font-black italic text-[10px] tracking-widest px-6 shadow-inner">
                       <SelectValue placeholder={t('client.property.valuations.filters.status')} />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#1a1b1e] border-white/10 text-white font-black italic">
+                    <SelectContent className="bg-card border-white/10 text-white font-black italic">
                       <SelectItem value="" className="focus:bg-white/5">{t('client.property.valuations.filters.allStatuses')}</SelectItem>
                       <SelectItem value="PENDING" className="focus:bg-white/5">{t('client.property.valuations.statuses.pending')}</SelectItem>
                       <SelectItem value="PROCESSING" className="focus:bg-white/5">{t('client.property.valuations.statuses.processing')}</SelectItem>
@@ -356,7 +356,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                     <SelectTrigger className="w-full sm:w-56 h-16 bg-black/40 border-white/5 rounded-[24px] text-white font-black italic text-[10px] tracking-widest px-6 shadow-inner">
                       <SelectValue placeholder={t('client.property.valuations.filters.type')} />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#1a1b1e] border-white/10 text-white font-black italic">
+                    <SelectContent className="bg-card border-white/10 text-white font-black italic">
                       <SelectItem value="" className="focus:bg-white/5">{t('client.property.valuations.filters.allTypes')}</SelectItem>
                       <SelectItem value="BASIC" className="focus:bg-white/5">{t('client.property.valuations.types.basic')}</SelectItem>
                       <SelectItem value="PROFESSIONAL" className="focus:bg-white/5">{t('client.property.valuations.types.professional')}</SelectItem>
@@ -366,7 +366,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                     </SelectContent>
                   </Select>
 
-                  <Button variant="ghost" className="h-16 w-16 rounded-[24px] bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all shadow-xl">
+                  <Button variant="ghost" className="h-16 w-16 rounded-[24px] bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground hover:text-white transition-all shadow-xl" aria-label={t("common.filter")}>
                     <Filter className="w-6 h-6" />
                   </Button>
                </div>
@@ -382,35 +382,35 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
         opacity: 1,
         y: 0
       }}>
-          <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] overflow-hidden backdrop-blur-3xl shadow-3xl">
+          <Card className="bg-card/40 border-white/5 border-l border-t rounded-[40px] overflow-hidden backdrop-blur-3xl shadow-3xl">
             <CardHeader className="bg-white/5 border-b border-white/5 p-10 flex flex-row items-center justify-between">
               <div className="space-y-1">
                 <CardTitle className="text-2xl font-black text-white italic tracking-tighter leading-none">{t('client.property.valuations.table.title')}</CardTitle>
-                <CardDescription className="text-[10px] font-black text-slate-500 tracking-widest italic">{t('client.property.valuations.table.found', {
+                <CardDescription className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t('client.property.valuations.table.found', {
                   count: (valuations as any)?.total || (Array.isArray(valuations) ? valuations.length : (valuations as any)?.data?.length) || 0
                 })}</CardDescription>
               </div>
               <div className="flex gap-4">
-                 <Button variant="ghost" className="h-12 px-6 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 font-black italic text-[10px] tracking-widest">
+                 <Button variant="ghost" className="h-12 px-6 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground font-black italic text-[10px] tracking-widest">
                    <Download className="w-4 h-4 mr-3" /> {t('client.property.valuations.table.export')}
                  </Button>
               </div>
             </CardHeader>
             <CardContent className="p-0">
               {isLoading ? <div className="py-32 flex flex-col items-center justify-center gap-6">
-                  <Activity className="w-12 h-12 text-blue-500 animate-spin opacity-40" />
-                  <p className="text-[10px] font-black tracking-[0.3em] italic text-slate-600">{t('common.loading')}</p>
+                  <Activity className="w-12 h-12 text-brand animate-spin opacity-40" />
+                  <p className="text-[10px] font-black tracking-[0.3em] italic text-muted-foreground">{t('common.loading')}</p>
                 </div> : <div className="overflow-x-auto">
                   <Table>
                     <TableHeader className="bg-white/2 border-b border-white/5">
                       <TableRow className="hover:bg-transparent border-none">
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 py-8 italic">{t('client.property.valuations.table.property')}</TableHead>
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.valuations.table.type')}</TableHead>
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.valuations.table.status')}</TableHead>
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.valuations.table.value')}</TableHead>
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.valuations.table.confidence')}</TableHead>
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.valuations.table.created')}</TableHead>
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 text-right italic">{t('client.property.valuations.table.actions')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 py-8 italic">{t('client.property.valuations.table.property')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.valuations.table.type')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.valuations.table.status')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.valuations.table.value')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.valuations.table.confidence')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.valuations.table.created')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 text-right italic">{t('client.property.valuations.table.actions')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -421,14 +421,14 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                             <TableCell className="px-10 py-10">
                               <div className="flex items-center gap-8">
                                 <div className="w-16 h-16 rounded-[20px] bg-black/40 border border-white/5 flex items-center justify-center shadow-inner group-hover/row:scale-110 transition-transform duration-500">
-                                   <Building className="w-8 h-8 text-slate-800" />
+                                   <Building className="w-8 h-8 text-foreground" />
                                 </div>
                                 <div className="space-y-1">
-                                  <div className="font-black text-white text-lg italic tracking-tighter leading-none group-hover/row:text-blue-400 transition-colors">
+                                  <div className="font-black text-white text-lg italic tracking-tighter leading-none group-hover/row:text-brand transition-colors">
                                     {valuation.property?.name || t('common.unnamed')}
                                   </div>
-                                  <div className="text-[10px] font-black text-slate-500 tracking-widest italic flex items-center gap-2">
-                                    <MapPin className="w-3 h-3 text-blue-500" /> {valuation.property?.address || "SURFACE_GRID_7"}
+                                  <div className="text-[10px] font-black text-muted-foreground tracking-widest italic flex items-center gap-2">
+                                    <MapPin className="w-3 h-3 text-brand" /> {valuation.property?.address || "SURFACE_GRID_7"}
                                   </div>
                                 </div>
                               </div>
@@ -445,7 +445,7 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                             </TableCell>
                             <TableCell className="px-10">
                               <div className="space-y-1">
-                                <p className="text-[9px] font-black text-slate-500 tracking-widest italic leading-none">{t('client.property.valuations.table.value')}</p>
+                                <p className="text-[9px] font-black text-muted-foreground tracking-widest italic leading-none">{t('client.property.valuations.table.value')}</p>
                                 <span className="font-black text-white text-2xl italic tracking-tighter leading-none">
                                   {valuation.value ? `$${valuation.value.toLocaleString()}` : "N/A"}
                                 </span>
@@ -454,28 +454,28 @@ export default function Valuations({ propertyId }: { propertyId?: string }) {
                             <TableCell className="px-10">
                               {valuation.confidence ? <div className="flex items-center gap-3">
                                   <div className="w-10 h-1.5 bg-black/40 rounded-full border border-white/5 overflow-hidden">
-                                     <div className="h-full bg-blue-500 shadow-[0_0_8px_#3b82f6]" style={{
+                                     <div className="h-full bg-brand/100 shadow-[0_0_8px_#3b82f6]" style={{
                               width: `${valuation.confidence * 100}%`
                             }} />
                                   </div>
                                   <span className="text-[10px] font-black text-white italic tracking-tighter">{(valuation.confidence * 100).toFixed(1)}%</span>
-                                </div> : <span className="text-[10px] font-black text-slate-800 italic">{t("client.src.nullscore")}</span>}
+                                </div> : <span className="text-[10px] font-black text-foreground italic">{t("client.src.nullscore")}</span>}
                             </TableCell>
                             <TableCell className="px-10">
                               <div className="space-y-1">
-                                <p className="text-[9px] font-black text-slate-500 tracking-widest italic leading-none">{t('client.property.valuations.table.created')}</p>
-                                <span className="text-[10px] font-black text-slate-400 italic tracking-widest">
+                                <p className="text-[9px] font-black text-muted-foreground tracking-widest italic leading-none">{t('client.property.valuations.table.created')}</p>
+                                <span className="text-[10px] font-black text-muted-foreground italic tracking-widest">
                                   {format(new Date(valuation.createdAt), "MMM dd, yyyy")}
                                 </span>
                               </div>
                             </TableCell>
                             <TableCell className="px-10 text-right">
                               <div className="flex justify-end gap-3">
-                                {valuation.status === "PENDING" && <Button size="sm" onClick={() => handleProcessValuation(valuation.id)} disabled={processMutation.isPending} className="h-12 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black italic text-[10px] tracking-widest gap-3 shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95">
+                                {valuation.status === "PENDING" && <Button size="sm" onClick={() => handleProcessValuation(valuation.id)} disabled={processMutation.isPending} className="h-12 px-6 rounded-xl bg-blue-600 hover:bg-brand/100 text-white font-black italic text-[10px] tracking-widest gap-3 shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95">
                                     <Play className="w-4 h-4 fill-white" />
                                     {t('client.property.valuations.table.process')}
                                   </Button>}
-                                <Button size="sm" variant="ghost" className="h-12 w-12 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all">
+                                <Button size="sm" variant="ghost" className="h-12 w-12 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground hover:text-white transition-all" aria-label={t("common.next")}>
                                   <ChevronRight className="w-5 h-5" />
                                 </Button>
                               </div>

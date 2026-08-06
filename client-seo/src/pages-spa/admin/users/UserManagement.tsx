@@ -239,7 +239,7 @@ export default function UserManagement() {
  case 'MEDIUM': return 'bg-orange-500';
  case 'HIGH': return 'bg-red-500';
  case 'CRITICAL': return 'bg-red-600';
- default: return 'bg-white/10';
+ default: return 'bg-card/10';
  }
  };
 
@@ -259,7 +259,7 @@ export default function UserManagement() {
  'LOW': t('admin_users_severity_low', 'Düşük'),
  'MEDIUM': t('admin_users_severity_medium', 'Orta'),
  'HIGH': t('admin_users_severity_high', 'Yüksek'),
- 'CRITICAL': t('admin_users_severity_critical', 'Kritik')
+ 'CRITICAL': t('admin_users_severity_critical', 'eleştiri')
  };
  return map[severity] || severity;
  };
@@ -278,7 +278,7 @@ const getRoleLevelColor = (level: number) => {
  if (level >= 70) return 'bg-red-500';
  if (level >= 50) return 'bg-orange-500';
  if (level >= 30) return 'bg-yellow-500';
- return 'bg-green-500';
+ return 'bg-blue-500';
  };
  const filteredPermissions = permissions.filter(permission => {
  const matchesSearch = permission.userName.toLowerCase().includes(searchTerm.toLowerCase()) || permission.userEmail.toLowerCase().includes(searchTerm.toLowerCase()) || permission.role.toLowerCase().includes(searchTerm.toLowerCase());
@@ -307,7 +307,7 @@ const getRoleLevelColor = (level: number) => {
  <UserCheck className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{activeUsers}</div>
+ <div className="text-2xl font-bold text-blue-600">{activeUsers}</div>
  <p className="text-xs text-muted-foreground">
  {t('admin_users_ofTotal', {
  count: permissions.length
@@ -350,7 +350,7 @@ const getRoleLevelColor = (level: number) => {
  <Clock className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{recentLogins}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{recentLogins}</div>
  <p className="text-xs text-muted-foreground">
  {t('admin_users_last24Hours')}
  </p>
@@ -405,48 +405,48 @@ const getRoleLevelColor = (level: number) => {
  
  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_create_new_user", "Create New User")}</DialogTitle>
- <DialogDescription>{t("admin_auto_fill_in_the_user_details_this_maps_direc", "Fill in the user details. This maps directly to the backend User model.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_user", "Yeni Kullanıcı Oluştur")}</DialogTitle>
+ <DialogDescription>{t("admin_auto_fill_in_the_user_details_this_maps_direc", "Kullanıcı ayrıntılarını doldurun. Bu doğrudan arka uç Kullanıcı modeliyle eşleşir.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="email" className="text-right text-xs">{t("admin_auto_email", "Email *")}</Label>
- <Input id="email" type="email" className="col-span-3 h-10" value={newUser.email} onChange={e => setNewUser({...newUser, email: e.target.value})} placeholder={t("admin_auto_user_example_com", "user@example.com")} />
+ <Label htmlFor="email" className="text-right text-xs">{t("admin_auto_email", "E-posta")}</Label>
+ <Input id="email" type="email" className="col-span-3 h-10" value={newUser.email} onChange={e => setNewUser({...newUser, email: e.target.value})} placeholder={t("admin_auto_user_example_com", "kullanıcı@example.com")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-xs">{t("admin_auto_name", "Name")}</Label>
- <Input id="name" className="col-span-3 h-10" value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} placeholder={t("admin_payments_john_doe", "John Doe")} />
+ <Label htmlFor="name" className="text-right text-xs">{t("admin_auto_name", "İsim")}</Label>
+ <Input id="name" className="col-span-3 h-10" value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} placeholder={t("admin_payments_john_doe", "Ahmet Yılmaz")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="phone" className="text-right text-xs">{t("admin_auto_phone", "Phone")}</Label>
+ <Label htmlFor="phone" className="text-right text-xs">{t("admin_auto_phone", "Telefon")}</Label>
  <Input id="phone" className="col-span-3 h-10" value={newUser.phone} onChange={e => setNewUser({...newUser, phone: e.target.value})} placeholder="+1 555-0123" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="locale" className="text-right text-xs">{t("admin_auto_locale", "Locale")}</Label>
+ <Label htmlFor="locale" className="text-right text-xs">{t("admin_auto_locale", "Yerel ayar")}</Label>
  <Select value={newUser.locale} onValueChange={(v) => setNewUser({...newUser, locale: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_locale", "Select Locale")} /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_locale", "Yerel Ayarı Seçin")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="en-US">{t("admin_settings_english_us", "English (US)")}</SelectItem>
- <SelectItem value="tr-TR">{t("admin_ai_turkish", "Turkish")}</SelectItem>
- <SelectItem value="fr-FR">{t("admin_ai_french", "French")}</SelectItem>
- <SelectItem value="de-DE">{t("admin_communication_german", "German")}</SelectItem>
+ <SelectItem value="en-US">{t("admin_settings_english_us", "İngilizce (Us)")}</SelectItem>
+ <SelectItem value="tr-TR">{t("admin_ai_turkish", "Türkçe")}</SelectItem>
+ <SelectItem value="fr-FR">{t("admin_ai_french", "Fransızca")}</SelectItem>
+ <SelectItem value="de-DE">{t("admin_communication_german", "Almanca")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="timezone" className="text-right text-xs">{t("admin_auto_timezone", "Timezone")}</Label>
+ <Label htmlFor="timezone" className="text-right text-xs">{t("admin_auto_timezone", "Saat dilimi")}</Label>
  <Select value={newUser.timezone} onValueChange={(v) => setNewUser({...newUser, timezone: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_timezone", "Select Timezone")} /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_timezone", "Saat Dilimini Seçin")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="America/New_York">{t("admin_auto_eastern_time_et", "Eastern Time (ET)")}</SelectItem>
+ <SelectItem value="America/New_York">{t("admin_auto_eastern_time_et", "Doğu Saati (ET)")}</SelectItem>
  <SelectItem value="Europe/Istanbul">{t("admin_auto_istanbul_trt", "Istanbul (TRT)")}</SelectItem>
- <SelectItem value="Europe/London">{t("admin_auto_london_gmt", "London (GMT)")}</SelectItem>
+ <SelectItem value="Europe/London">{t("admin_auto_london_gmt", "Londra (GMT)")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(newUser)} disabled={createMutation.isPending || !newUser.email}>
  {createMutation.isPending ?"Saving..." :"Create User"}
  </Button>
@@ -458,48 +458,48 @@ const getRoleLevelColor = (level: number) => {
  <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_edit_user", "Edit User")}</DialogTitle>
- <DialogDescription>{t("admin_auto_update_the_user_details", "Update the user details.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_edit_user", "Kullanıcıyı Düzenle")}</DialogTitle>
+ <DialogDescription>{t("admin_auto_update_the_user_details", "Kullanıcı ayrıntılarını güncelleyin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-email" className="text-right text-xs">{t("admin_auto_email", "Email *")}</Label>
- <Input id="edit-email" type="email" className="col-span-3 h-10" value={editFormData.email} onChange={e => setEditFormData({...editFormData, email: e.target.value})} placeholder={t("admin_auto_user_example_com", "user@example.com")} />
+ <Label htmlFor="edit-email" className="text-right text-xs">{t("admin_auto_email", "E-posta")}</Label>
+ <Input id="edit-email" type="email" className="col-span-3 h-10" value={editFormData.email} onChange={e => setEditFormData({...editFormData, email: e.target.value})} placeholder={t("admin_auto_user_example_com", "kullanıcı@example.com")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-name" className="text-right text-xs">{t("admin_auto_name", "Name")}</Label>
- <Input id="edit-name" className="col-span-3 h-10" value={editFormData.name} onChange={e => setEditFormData({...editFormData, name: e.target.value})} placeholder={t("admin_payments_john_doe", "John Doe")} />
+ <Label htmlFor="edit-name" className="text-right text-xs">{t("admin_auto_name", "İsim")}</Label>
+ <Input id="edit-name" className="col-span-3 h-10" value={editFormData.name} onChange={e => setEditFormData({...editFormData, name: e.target.value})} placeholder={t("admin_payments_john_doe", "Ahmet Yılmaz")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-phone" className="text-right text-xs">{t("admin_auto_phone", "Phone")}</Label>
+ <Label htmlFor="edit-phone" className="text-right text-xs">{t("admin_auto_phone", "Telefon")}</Label>
  <Input id="edit-phone" className="col-span-3 h-10" value={editFormData.phone} onChange={e => setEditFormData({...editFormData, phone: e.target.value})} placeholder="+1 555-0123" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-locale" className="text-right text-xs">{t("admin_auto_locale", "Locale")}</Label>
+ <Label htmlFor="edit-locale" className="text-right text-xs">{t("admin_auto_locale", "Yerel ayar")}</Label>
  <Select value={editFormData.locale} onValueChange={(v) => setEditFormData({...editFormData, locale: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_locale", "Select Locale")} /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_locale", "Yerel Ayarı Seçin")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="en-US">{t("admin_settings_english_us", "English (US)")}</SelectItem>
- <SelectItem value="tr-TR">{t("admin_ai_turkish", "Turkish")}</SelectItem>
- <SelectItem value="fr-FR">{t("admin_ai_french", "French")}</SelectItem>
- <SelectItem value="de-DE">{t("admin_communication_german", "German")}</SelectItem>
+ <SelectItem value="en-US">{t("admin_settings_english_us", "İngilizce (Us)")}</SelectItem>
+ <SelectItem value="tr-TR">{t("admin_ai_turkish", "Türkçe")}</SelectItem>
+ <SelectItem value="fr-FR">{t("admin_ai_french", "Fransızca")}</SelectItem>
+ <SelectItem value="de-DE">{t("admin_communication_german", "Almanca")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-timezone" className="text-right text-xs">{t("admin_auto_timezone", "Timezone")}</Label>
+ <Label htmlFor="edit-timezone" className="text-right text-xs">{t("admin_auto_timezone", "Saat dilimi")}</Label>
  <Select value={editFormData.timezone} onValueChange={(v) => setEditFormData({...editFormData, timezone: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_timezone", "Select Timezone")} /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_auto_select_timezone", "Saat Dilimini Seçin")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="America/New_York">{t("admin_auto_eastern_time_et", "Eastern Time (ET)")}</SelectItem>
+ <SelectItem value="America/New_York">{t("admin_auto_eastern_time_et", "Doğu Saati (ET)")}</SelectItem>
  <SelectItem value="Europe/Istanbul">{t("admin_auto_istanbul_trt", "Istanbul (TRT)")}</SelectItem>
- <SelectItem value="Europe/London">{t("admin_auto_london_gmt", "London (GMT)")}</SelectItem>
+ <SelectItem value="Europe/London">{t("admin_auto_london_gmt", "Londra (GMT)")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={handleEditSubmit} disabled={updateMutation.isPending}>
  {updateMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -554,7 +554,7 @@ const getRoleLevelColor = (level: number) => {
  </TableCell>
  <TableCell>
  <div className="flex items-center gap-2">
- {permission.isActive ? <CheckCircle className="h-4 w-4 text-green-600" /> : <UserX className="h-4 w-4 text-red-600" />}
+ {permission.isActive ? <CheckCircle className="h-4 w-4 text-blue-600" /> : <UserX className="h-4 w-4 text-red-600" />}
  <span className="capitalize">{permission.isActive ? t('active') : t('inactive')}</span>
  </div>
  </TableCell>
@@ -569,10 +569,10 @@ const getRoleLevelColor = (level: number) => {
  </TableCell>
  <TableCell>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm" onClick={() => setEditingId(permission.id)}>
+ <Button variant="ghost" size="sm" onClick={() => setEditingId(permission.id)} aria-label={t("common.view")}>
  <Eye className="h-4 w-4" />
  </Button>
- <Button variant="ghost" size="sm" onClick={() => openEditDialog(permission)}>
+ <Button variant="ghost" size="sm" onClick={() => openEditDialog(permission)} aria-label={t("common.edit")}>
  <Edit className="h-4 w-4" />
  </Button>
  <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(permission.id)}>
@@ -624,23 +624,23 @@ const getRoleLevelColor = (level: number) => {
  <TableCell>
  <div className="space-y-1">
  <div className="flex items-center gap-1">
- <Mail className={`h-3 w-3 ${preference.settings.emailNotifications ? 'text-green-600' : 'text-muted-foreground'}`} />
+ <Mail className={`h-3 w-3 ${preference.settings.emailNotifications ? 'text-blue-600' : 'text-muted-foreground'}`} />
  <span className="text-xs">{t("admin_users_email")}</span>
  </div>
  <div className="flex items-center gap-1">
- <Bell className={`h-3 w-3 ${preference.settings.pushNotifications ? 'text-green-600' : 'text-muted-foreground'}`} />
+ <Bell className={`h-3 w-3 ${preference.settings.pushNotifications ? 'text-blue-600' : 'text-muted-foreground'}`} />
  <span className="text-xs">{t("admin_users_push")}</span>
  </div>
  <div className="flex items-center gap-1">
- <Phone className={`h-3 w-3 ${preference.settings.smsNotifications ? 'text-green-600' : 'text-muted-foreground'}`} />
+ <Phone className={`h-3 w-3 ${preference.settings.smsNotifications ? 'text-blue-600' : 'text-muted-foreground'}`} />
  <span className="text-xs">{t("admin_users_sms")}</span>
  </div>
  </div>
  </TableCell>
  <TableCell>
  <div className="flex items-center gap-2">
- {preference.settings.twoFactorEnabled ? <Shield className="h-4 w-4 text-green-600" /> : <Shield className="h-4 w-4 text-muted-foreground" />}
- <span className={preference.settings.twoFactorEnabled ? 'text-green-600' : 'text-muted-foreground'}>
+ {preference.settings.twoFactorEnabled ? <Shield className="h-4 w-4 text-blue-600" /> : <Shield className="h-4 w-4 text-muted-foreground" />}
+ <span className={preference.settings.twoFactorEnabled ? 'text-blue-600' : 'text-muted-foreground'}>
  {preference.settings.twoFactorEnabled ? t('admin_users_status_enabled') : t('admin_users_status_disabled')}
  </span>
  </div>
@@ -658,10 +658,10 @@ const getRoleLevelColor = (level: number) => {
  <TableCell>{new Date(preference.updatedAt).toLocaleDateString()}</TableCell>
  <TableCell>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.view")}>
  <Eye className="h-4 w-4" />
  </Button>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.edit")}>
  <Edit className="h-4 w-4" />
  </Button>
  </div>
@@ -722,10 +722,10 @@ const getRoleLevelColor = (level: number) => {
  {t('common.created')} {new Date(role.createdAt).toLocaleDateString()}
  </span>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.edit")}>
  <Edit className="h-4 w-4" />
  </Button>
- {!role.systemRole && <Button variant="ghost" size="sm">
+ {!role.systemRole && <Button variant="ghost" size="sm" aria-label={t("common.delete")}>
  <Trash2 className="h-4 w-4" />
  </Button>}
  </div>
@@ -773,15 +773,15 @@ const getRoleLevelColor = (level: number) => {
  </TableCell>
  <TableCell>
  <div className="flex items-center gap-2">
- {log.success ? <CheckCircle className="h-4 w-4 text-green-600" /> : <AlertTriangle className="h-4 w-4 text-red-600" />}
- <span className={log.success ? 'text-green-600' : 'text-red-600'}>
+ {log.success ? <CheckCircle className="h-4 w-4 text-blue-600" /> : <AlertTriangle className="h-4 w-4 text-red-600" />}
+ <span className={log.success ? 'text-blue-600' : 'text-red-600'}>
  {log.success ? t('success') : t('failed')}
  </span>
  </div>
  </TableCell>
  <TableCell>{new Date(log.timestamp).toLocaleString()}</TableCell>
  <TableCell>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.view")}>
  <Eye className="h-4 w-4" />
  </Button>
  </TableCell>
@@ -833,7 +833,7 @@ const getRoleLevelColor = (level: number) => {
  <div className="space-y-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="text-center p-3 border rounded-lg">
- <div className="text-2xl font-bold text-green-600">
+ <div className="text-2xl font-bold text-blue-600">
  {securityAlerts.filter(a => a.status === 'RESOLVED').length}
  </div>
  <div className="text-sm text-muted-foreground">{t('admin_users_status_resolved')}</div>

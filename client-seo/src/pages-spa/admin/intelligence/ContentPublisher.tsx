@@ -119,18 +119,18 @@ export default function ContentPublisherDashboard() {
       <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
         <div className="p-4 border-b border-border">
           <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2">
-            <Share2 className="w-5 h-5 text-blue-600" /> {t("admin_content_channel_performance", "Channel Performance")}
+            <Share2 className="w-5 h-5 text-blue-600" /> {t("admin_content_channel_performance", "Kanal Performansı")}
           </h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-muted text-left">
               <tr>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_channel_col", "Channel")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_published_col", "Published")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_views_col", "Views")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_seo_score_col", "SEO Score")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_status_col", "Status")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_channel_col", "Kanal")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_published_col", "Yayınlanan")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_views_col", "Görüntülenme")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_seo_score_col", "SEO Skoru")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_status_col", "Durum")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -164,20 +164,20 @@ export default function ContentPublisherDashboard() {
       <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
         <div className="p-4 border-b border-border">
           <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2">
-            <FileText className="w-5 h-5 text-brand" /> {t("admin_content_recent_content", "Recent Content")}
+            <FileText className="w-5 h-5 text-brand" /> {t("admin_content_recent_content", "Son İçerikler")}
           </h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-muted text-left">
               <tr>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_title_col", "Title")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_type_col", "Type")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_channels_col", "Channels")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_views_col", "Views")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_title_col", "Başlık")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_type_col", "Tür")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_channels_col", "Kanallar")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_views_col", "Görüntülenme")}</th>
                 <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_seo_col", "SEO")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_status_col", "Status")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_when_col", "When")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_status_col", "Durum")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_content_when_col", "Ne Zaman")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -201,9 +201,9 @@ export default function ContentPublisherDashboard() {
 
       {/* AI Content Pipeline */}
       <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
-        <h2 className="text-lg font-semibold text-card-foreground mb-4">{t("admin_content_ai_pipeline", "AI Content Pipeline")}</h2>
+        <h2 className="text-lg font-semibold text-card-foreground mb-4">{t("admin_content_ai_pipeline", "AI İçerik Hattı")}</h2>
         <div className="flex items-center justify-between">
-          {[t("admin_content_step_brief", "Brief Generated"), t("admin_content_step_created", "Content Created"), t("admin_content_step_seo", "SEO Optimized"), t("admin_content_step_review", "Review & Approve"), t("admin_content_step_publish", "Multi-Channel Publish"), t("admin_content_step_perf", "Performance Track")].map((step, i) => (
+          {[t("admin_content_step_brief", "Brief Oluşturuldu"), t("admin_content_step_created", "İçerik Oluşturuldu"), t("admin_content_step_seo", "SEO Optimize"), t("admin_content_step_review", "İncele ve Onayla"), t("admin_content_step_publish", "Çok Kanallı Yayın"), t("admin_content_step_perf", "Performans Takibi")].map((step, i) => (
             <div key={i} className="flex items-center">
               <div className="flex flex-col items-center">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${

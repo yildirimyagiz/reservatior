@@ -24,20 +24,20 @@ const CONTACT_TYPES = [{
   color: "bg-blue-100 text-blue-800"
 }, {
   value: "CLIENT",
-  label: t("client.src.client"),
-  color: "bg-green-100 text-green-800"
+  label: t("common.client"),
+  color: "bg-blue-100 text-blue-800"
 }, {
   value: "TENANT",
-  label: t("client.src.tenant"),
-  color: "bg-purple-100 text-purple-800"
+  label: t("common.tenant"),
+  color: "bg-brand/15 text-brand"
 }, {
   value: "LANDLORD",
   label: t("client.src.landlord"),
   color: "bg-orange-100 text-orange-800"
 }, {
   value: "AGENT",
-  label: t("client.src.agent"),
-  color: "bg-indigo-100 text-indigo-800"
+  label: t("common.agent"),
+  color: "bg-brand/15 text-brand"
 }, {
   value: "VENDOR",
   label: t("client.src.vendor"),
@@ -45,11 +45,11 @@ const CONTACT_TYPES = [{
 }];
 const CONTACT_STATUS = [{
   value: "ACTIVE",
-  label: t("client.src.active"),
-  color: "bg-green-100 text-green-800"
+  label: t("common.active"),
+  color: "bg-blue-100 text-blue-800"
 }, {
   value: "INACTIVE",
-  label: t("client.src.inactive"),
+  label: t("common.inactive"),
   color: "bg-gray-100 text-gray-800"
 }, {
   value: "PROSPECT",
@@ -104,12 +104,12 @@ export default function Contacts() {
     mutationFn: (data: ContactCreate) => contactsApi.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
-      toast({ title: t("client.src.success"), description: t("client.src.contact_created_successfully") });
+      toast({ title: t("common.success"), description: t("client.src.contact_created_successfully") });
       setCreateOpen(false);
       resetForm();
     },
     onError: () => {
-      toast({ title: t("client.src.error"), description: t("client.src.failed_to_save_contact"), variant: "destructive" });
+      toast({ title: t("common.error"), description: t("client.src.failed_to_save_contact"), variant: "destructive" });
     }
   });
 
@@ -117,12 +117,12 @@ export default function Contacts() {
     mutationFn: ({ id, data }: { id: string, data: ContactUpdate }) => contactsApi.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
-      toast({ title: t("client.src.success"), description: t("client.src.contact_updated_successfully") });
+      toast({ title: t("common.success"), description: t("client.src.contact_updated_successfully") });
       setEditOpen(false);
       resetForm();
     },
     onError: () => {
-      toast({ title: t("client.src.error"), description: t("client.src.failed_to_save_contact"), variant: "destructive" });
+      toast({ title: t("common.error"), description: t("client.src.failed_to_save_contact"), variant: "destructive" });
     }
   });
 
@@ -140,10 +140,10 @@ export default function Contacts() {
     mutationFn: (id: string) => contactsApi.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
-      toast({ title: t("client.src.success"), description: t("client.src.contact_deleted_successfully") });
+      toast({ title: t("common.success"), description: t("client.src.contact_deleted_successfully") });
     },
     onError: () => {
-      toast({ title: t("client.src.error"), description: t("client.src.failed_to_delete_contact"), variant: "destructive" });
+      toast({ title: t("common.error"), description: t("client.src.failed_to_delete_contact"), variant: "destructive" });
     }
   });
 
@@ -210,7 +210,7 @@ export default function Contacts() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-4">
+        <div className="bg-card border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
@@ -223,7 +223,7 @@ export default function Contacts() {
                 <SelectValue placeholder={t("client.src.filter_by_type")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("client.src.all_types")}</SelectItem>
+                <SelectItem value="all">{t("common.all_types")}</SelectItem>
                 {CONTACT_TYPES.map(type => <SelectItem key={type.value} value={type.value}>
                     {type.label}
                   </SelectItem>)}
@@ -246,7 +246,7 @@ export default function Contacts() {
         {/* Main Content */}
         <div className="px-4 sm:px-6 lg:px-8 py-8">
           {isLoading ? <div className="flex items-center justify-center h-64">
-              <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
+              <Loader2 className="w-12 h-12 animate-spin text-brand" />
             </div> : <m.div initial={{
         opacity: 0,
         y: 20
@@ -261,13 +261,13 @@ export default function Contacts() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>{t("client.src.name")}</TableHead>
+                        <TableHead>{t("common.name")}</TableHead>
                         <TableHead>{t("client.src.contact_info")}</TableHead>
-                        <TableHead>{t("client.src.type")}</TableHead>
-                        <TableHead>{t("client.src.status")}</TableHead>
+                        <TableHead>{t("common.type")}</TableHead>
+                        <TableHead>{t("common.status")}</TableHead>
                         <TableHead>{t("client.src.company")}</TableHead>
                         <TableHead>{t("client.src.last_contact")}</TableHead>
-                        <TableHead className="text-right">{t("client.src.actions")}</TableHead>
+                        <TableHead className="text-right">{t("common.actions")}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -275,7 +275,7 @@ export default function Contacts() {
                           <TableCell>
                             <div className="flex items-center">
                               <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                <User className="w-5 h-5 text-blue-600" />
+                                <User className="w-5 h-5 text-brand" />
                               </div>
                               <div className="ml-4">
                                 <div className="text-sm font-medium text-gray-900">
@@ -322,15 +322,15 @@ export default function Contacts() {
                           <TableCell className="text-right">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm">
+                                <Button variant="ghost" size="sm" aria-label={t("common.more")}>
                                   <MoreHorizontal className="w-4 h-4" />
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
                                 <DropdownMenuItem onClick={() => handleEdit(contact)}>
-                                  <Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
+                                  <Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => handleDelete(contact.id)} className="text-red-600">
-                                  <Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                                  <Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </TableCell>
@@ -370,7 +370,7 @@ export default function Contacts() {
               })} required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">{t("client.src.email")}</Label>
+                  <Label htmlFor="email">{t("common.email")}</Label>
                   <Input id="email" type="email" value={formData.email} onChange={e => setFormData({
                 ...formData,
                 email: e.target.value
@@ -414,7 +414,7 @@ export default function Contacts() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="status">{t("client.src.status")}</Label>
+                  <Label htmlFor="status">{t("common.status")}</Label>
                   <Select value={formData.status} onValueChange={value => setFormData({
                 ...formData,
                 status: value
@@ -430,7 +430,7 @@ export default function Contacts() {
                   </Select>
                 </div>
                 <div className="col-span-2 space-y-2">
-                  <Label htmlFor="notes">{t("client.src.notes")}</Label>
+                  <Label htmlFor="notes">{t("common.notes")}</Label>
                   <Textarea id="notes" value={formData.notes || ""} onChange={e => setFormData({
                 ...formData,
                 notes: e.target.value
@@ -442,7 +442,7 @@ export default function Contacts() {
               setCreateOpen(false);
               setEditOpen(false);
               resetForm();
-            }}>{t("client.src.cancel")}</Button>
+            }}>{t("common.cancel")}</Button>
                 <Button type="submit">
                   {selectedContact ? "Update" : "Create"}
                 </Button>

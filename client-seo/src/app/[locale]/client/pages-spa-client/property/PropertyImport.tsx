@@ -84,7 +84,7 @@ export default function PropertyImport() {
   const handleSingleImport = async () => {
     if (!url.trim()) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.please_enter_a_property"),
         variant: "destructive"
       });
@@ -146,7 +146,7 @@ export default function PropertyImport() {
     const urls = bulkUrls.split('\n').map(u => u.trim()).filter(u => u.length > 0);
     if (urls.length === 0) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.please_enter_at_least"),
         variant: "destructive"
       });
@@ -154,7 +154,7 @@ export default function PropertyImport() {
     }
     if (urls.length > 10) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.maximum_10_urls_allowed"),
         variant: "destructive"
       });
@@ -190,7 +190,7 @@ export default function PropertyImport() {
     }
   };
   const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 80) return "bg-green-100 text-green-700";
+    if (confidence >= 80) return "bg-blue-100 text-blue-700";
     if (confidence >= 60) return "bg-yellow-100 text-yellow-700";
     return "bg-red-100 text-red-700";
   };
@@ -265,7 +265,7 @@ export default function PropertyImport() {
               {results.map((result, index) => <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      {result.success ? <CheckCircle2 className="w-5 h-5 text-green-500" /> : <AlertTriangle className="w-5 h-5 text-red-500" />}
+                      {result.success ? <CheckCircle2 className="w-5 h-5 text-blue-500" /> : <AlertTriangle className="w-5 h-5 text-red-500" />}
                       <span className="font-medium">{result.platform || "Unknown"}</span>
                       {result.confidence && <Badge className={getConfidenceColor(result.confidence)}>
                           {result.confidence}{t("client.src.confidence")}</Badge>}

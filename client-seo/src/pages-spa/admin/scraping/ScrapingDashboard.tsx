@@ -45,8 +45,8 @@ export default function ScrapingDashboard() {
  });
  const getStatusBadge = (status: string) => {
  switch (status) {
- case"running": return <Badge className="bg-slate-100 text-slate-700 hover:bg-slate-200 border-0 gap-1"><RefreshCw className="w-3 h-3 animate-spin" />{t("admin_scraping_running")}</Badge>;
- case"completed": return <Badge className="bg-green-100 text-green-700 hover:bg-green-200 border-0 gap-1"><CheckCircle2 className="w-3 h-3" />{t("admin_scraping_completed")}</Badge>;
+ case"running": return <Badge className="bg-muted text-muted-foreground hover:bg-muted border-0 gap-1"><RefreshCw className="w-3 h-3 animate-spin" />{t("admin_scraping_running")}</Badge>;
+ case"completed": return <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-200 border-0 gap-1"><CheckCircle2 className="w-3 h-3" />{t("admin_scraping_completed")}</Badge>;
  case"failed": return <Badge className="bg-red-100 text-red-700 hover:bg-red-200 border-0 gap-1"><AlertCircle className="w-3 h-3" />{t("admin_scraping_failed")}</Badge>;
  default: return <Badge variant="secondary" className="gap-1"><Clock className="w-3 h-3" />{t("admin_scraping_pending")}</Badge>;
  }
@@ -90,9 +90,9 @@ export default function ScrapingDashboard() {
  <Cpu className="w-3 h-3" />{t("admin_scraping_success_rate")}</CardTitle>
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">96.8%</div>
+ <div className="text-2xl font-bold text-blue-600">96.8%</div>
  <p className="text-[10px] text-muted-foreground flex items-center gap-1">
- <ShieldCheck className="w-3 h-3 text-green-500" />{t("admin_scraping_all_systems_healthy")}</p>
+ <ShieldCheck className="w-3 h-3 text-blue-500" />{t("admin_scraping_all_systems_healthy")}</p>
  </CardContent>
  </Card>
  <Card className="bg-card border-border shadow-sm">
@@ -165,7 +165,7 @@ export default function ScrapingDashboard() {
  </div>
  </TableCell>
  <TableCell>
- <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground">
+ <Button variant="ghost" size="icon" aria-label={t("common.next")} className="h-8 w-8 text-muted-foreground">
  <ChevronRight className="w-4 h-4" />
  </Button>
  </TableCell>

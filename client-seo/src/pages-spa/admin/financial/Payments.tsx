@@ -3,7 +3,7 @@ import { apiClient } from '@/lib/api/client';
 
 import { t } from"i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -24,12 +24,12 @@ const STATUS_CONFIG = (t: any) => {
  return {
  PAID: {
  label: t("paid"),
- cls:"bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+ cls:"bg-blue-500/10 text-success border-blue-500/20",
  icon: CheckCircle2
  },
  UNPAID: {
  label: t("financialPayoutsStatusPending"),
- cls:"bg-orange-500/10 text-orange-400 border-orange-500/20",
+ cls:"bg-orange-500/10 text-warning border-orange-500/20",
  icon: Clock
  },
  OVERDUE: {
@@ -190,7 +190,7 @@ export default function Payments() {
  delay: 0.1
  }}>
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-muted/50">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Zap className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
@@ -210,14 +210,14 @@ export default function Payments() {
  }} transition={{
  delay: 0.2
  }}>
- <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t border-l-emerald-500/30 transition-all hover:bg-muted/50">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t border-l-blue-500/30 transition-all hover:bg-muted/50">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <CheckCircle2 className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("paid")}</p>
- <h3 className="text-xl font-bold text-emerald-400 leading-none">{paidCount}</h3>
- <p className="text-[10px] font-bold text-emerald-500/60 mt-4 flex items-center gap-1">{t("admin_financial_synccomplete")}</p>
+ <h3 className="text-xl font-bold text-success leading-none">{paidCount}</h3>
+ <p className="text-[10px] font-bold text-success/60 mt-4 flex items-center gap-1">{t("admin_financial_synccomplete")}</p>
  </CardContent>
  </Card>
  </m.div>
@@ -237,7 +237,7 @@ export default function Payments() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("unpaid")}</p>
- <h3 className="text-xl font-bold text-orange-400 leading-none">{unpaidCount}</h3>
+ <h3 className="text-xl font-bold text-warning leading-none">{unpaidCount}</h3>
  <p className="text-[10px] font-bold text-orange-500/60 mt-4 flex items-center gap-1">{t("admin_financial_awaitingsync")}</p>
  </CardContent>
  </Card>
@@ -270,7 +270,7 @@ export default function Payments() {
  <div className="flex flex-wrap items-center gap-4 flex-1">
  <div className="relative group min-w-[320px]">
  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
- <Input placeholder={t("commonSearch")} value={search} onChange={e => setSearch(e.target.value)} className="pl-12 w-full h-12 bg-muted/50 border-border rounded-xl text-foreground placeholder:text-slate-600 font-bold text-[10px] focus:ring-primary/20 transition-all" />
+ <Input placeholder={t("commonSearch")} value={search} onChange={e => setSearch(e.target.value)} className="pl-12 w-full h-12 bg-muted/50 border-border rounded-xl text-foreground placeholder:text-muted-foreground font-bold text-[10px] focus:ring-primary/20 transition-all" />
  </div>
  <Select value={filterStatus} onValueChange={setFilterStatus}>
  <SelectTrigger className="w-44 h-12 bg-muted/50 border-border rounded-xl text-foreground font-bold text-[10px] hover:bg-muted/50 transition-all">
@@ -338,7 +338,7 @@ export default function Payments() {
  </TableCell>
  <TableCell className="px-8">
  <div className="text-[10px] font-bold text-muted-foreground leading-none">{formatDate(payment.dueDate)}</div>
- {payment.paymentDate && <div className="text-[9px] font-bold text-emerald-500 mt-1 opacity-50">{t("admin_financial_paid")}{formatDate(payment.paymentDate)}</div>}
+ {payment.paymentDate && <div className="text-[9px] font-bold text-success mt-1 opacity-50">{t("admin_financial_paid")}{formatDate(payment.paymentDate)}</div>}
  </TableCell>
  <TableCell className="px-8">
  <Badge className={cn("text-[9px] font-bold px-3 py-1 rounded-full border transition-all", config?.cls)}>
@@ -354,7 +354,7 @@ export default function Payments() {
  <TableCell className="px-8 text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -365,7 +365,7 @@ export default function Payments() {
  setSelectedPayment(payment);
  setEditOpen(true);
  }}>
- <Edit className="h-4 w-4 mr-3 text-emerald-400" />{t("admin_financial_reconfignode")}</DropdownMenuItem>
+ <Edit className="h-4 w-4 mr-3 text-success" />{t("admin_financial_reconfignode")}</DropdownMenuItem>
  <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer" onClick={() => {
  navigator.clipboard.writeText(payment.reference || '');
  toast({
@@ -458,7 +458,7 @@ export default function Payments() {
  </div>
  <DialogFooter className="p-10 pt-0 bg-transparent flex items-center justify-end gap-4 shadow-none">
  <Button variant="ghost" onClick={() => setEditOpen(false)} className="h-12 px-8 rounded-xl text-[10px] font-bold text-muted-foreground hover:text-foreground hover:bg-muted/50">{t("admin_financial_abortreconfig")}</Button>
- <Button onClick={() => selectedPayment && handleUpdatePayment(selectedPayment.id, {})} className="bg-emerald-600 hover:bg-emerald-500 text-foreground h-12 px-8 rounded-xl font-bold text-[10px] shadow-xl shadow-emerald-600/20">{t("admin_financial_executereconfig")}</Button>
+ <Button onClick={() => selectedPayment && handleUpdatePayment(selectedPayment.id, {})} className="bg-blue-600 hover:bg-blue-500 text-foreground h-12 px-8 rounded-xl font-bold text-[10px] shadow-xl shadow-blue-600/20">{t("admin_financial_executereconfig")}</Button>
  </DialogFooter>
  </DialogContent>
  </Dialog>

@@ -3,7 +3,7 @@ import { propertiesApi } from "@/lib/api/properties-eden";
 import { ALL_SEO_LANDING_CONFIGS, ALL_MARKET_DATA } from "@/lib/seo/market-data";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://reservatior.com";
-const SUPPORTED_LOCALES = ["en","tr","ar","es","fr","de","ru","pt","zh","ja","ko","it","nl","pl","sv","da","fi","el","hi","id"];
+const SUPPORTED_LOCALES = ["en","tr","ar","es","fr","de","ru","pt","zh","ja","ko","it","nl","pl","sv","da","fi","el","hi","nb"];
 
 const publicRoutes = [
   { url: "/", priority: 1.0, changeFrequency: "daily" as const },

@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { m, AnimatePresence } from "framer-motion";
-import { MapPin, Bed, Bath, Square, Share2, Heart, PlayCircle, Image as ImageIcon, FileText, Download, Calendar, ChevronRight, Languages, QrCode, Copy, Sofa, Camera, Loader2, Play, X } from "lucide-react";
+import { MapPin, Bed, Bath, Square, Share2, Heart, PlayCircle, Image as ImageIcon, FileText, Download, Calendar, ChevronLeft, ChevronRight, Languages, QrCode, Copy, Sofa, Camera, Loader2, Play, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
@@ -30,6 +30,11 @@ export function StageViewer({
   const [isStaged, setIsStaged] = useState(true);
   const [isExtracting, setIsExtracting] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const photos = (property.photos ?? [])
+    .slice()
+    .sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary) || a.sortOrder - b.sortOrder);
+  const hasPhotos = photos.length > 0;
   const {
     currentLang
   } = useLanguage();
@@ -97,10 +102,10 @@ export function StageViewer({
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" size="icon" className="rounded-full" onClick={() => setShareOpen(true)}>
+                <Button variant="outline" size="icon" aria-label={t("common.share")} className="rounded-full" onClick={() => setShareOpen(true)}>
                   <Share2 className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" className="rounded-full">
+                <Button variant="outline" size="icon" aria-label={t("common.favorite")} className="rounded-full">
                   <Heart className="h-4 w-4" />
                 </Button>
               </div>
@@ -147,16 +152,28 @@ export function StageViewer({
                   opacity: 0
                 }} className="absolute inset-0 grid grid-cols-2 md:grid-cols-4 grid-rows-2 gap-1 p-1">
                       {/* Hero Image */}
-                      <div className="col-span-2 row-span-2 relative group cursor-pointer overflow-hidden rounded-tl-2xl rounded-bl-2xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center" onClick={() => setLightboxOpen(true)}>
-                        <Camera className="w-16 h-16 text-blue-600" />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                      <div className="col-span-2 row-span-2 relative group cursor-pointer overflow-hidden rounded-tl-2xl rounded-bl-2xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center" onClick={() => {
+                        setLightboxIndex(0);
+                        setLightboxOpen(true);
+                      }}>
+                        {hasPhotos ? <Image src={photos[0].url} alt={photos[0].caption ?? property.name ?? t("client.src.photos")} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 50vw" /> : <>
+                            <Camera className="w-16 h-16 text-blue-600" />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                          </>}
                         {!isStaged && <div className="absolute bottom-4 left-4 bg-black/60 px-2 py-1 rounded text-white text-xs">{t("client.src.unstaged_view")}</div>}
                       </div>
 
                       {/* Secondary Images */}
-                      {[1, 2, 3, 4].map(idx => <div key={idx} className={`relative group cursor-pointer overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center ${idx === 1 ? "rounded-tr-2xl" : ""} ${idx === 3 ? "rounded-br-2xl" : ""}`} onClick={() => setLightboxOpen(true)}>
-                          <Camera className="w-8 h-8 text-blue-500" />
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                      {[1, 2, 3, 4].map(idx => <div key={idx} className={`relative group cursor-pointer overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center ${idx === 1 ? "rounded-tr-2xl" : ""} ${idx === 3 ? "rounded-br-2xl" : ""}`} onClick={() => {
+                          if (photos[idx]) {
+                            setLightboxIndex(idx);
+                            setLightboxOpen(true);
+                          }
+                        }}>
+                          {photos[idx] ? <Image src={photos[idx].url} alt={photos[idx].caption ?? property.name ?? t("client.src.photos")} fill className="object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" sizes="(max-width: 768px) 50vw" /> : <>
+                              <Camera className="w-8 h-8 text-blue-500" />
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                            </>}
                         </div>)}
                     </m.div>}
 
@@ -254,7 +271,7 @@ export function StageViewer({
             </div>
 
             <div className="bg-card/50 border border-border rounded-xl p-6 space-y-4">
-              <h3 className="font-semibold mb-2">{t("client.src.downloads")}</h3>
+              <h3 className="font-semibold mb-2">{t("common.downloads")}</h3>
               <Button variant="outline" className="w-full justify-between group">
                 <span>{t("client.src.brochure_pdf")}</span>
                 <Download className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
@@ -324,7 +341,7 @@ export function StageViewer({
                   <p className="font-semibold">{t("client.src.property_manager")}</p>
                   <p className="text-sm text-muted-foreground">{t("client.src.contact_for_details")}</p>
                 </div>
-                <Button variant="ghost" size="icon" className="ml-auto rounded-full">
+                <Button variant="ghost" size="icon" aria-label={t("common.next")} className="ml-auto rounded-full">
                   <ChevronRight className="w-5 h-5 text-muted-foreground" />
                 </Button>
               </div>
@@ -336,12 +353,22 @@ export function StageViewer({
       {/* Lightbox Dialog */}
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent className="max-w-7xl w-[95vw] h-[90vh] p-0 border-none bg-black/95">
-          <div className="w-full h-full flex items-center justify-center relative bg-gradient-to-br from-blue-100 to-blue-200">
-            <Camera className="w-16 h-16 text-blue-600" />
+          <div className="w-full h-full flex items-center justify-center relative">
+            {hasPhotos ? <Image src={photos[lightboxIndex].url} alt={photos[lightboxIndex].caption ?? property.name ?? t("client.src.photos")} fill className="object-contain" sizes="100vw" /> : <div className="bg-gradient-to-br from-blue-100 to-blue-200 w-full h-full flex items-center justify-center">
+                <Camera className="w-16 h-16 text-blue-600" />
+              </div>}
             <Button variant="ghost" size="icon" className="absolute top-4 right-4 text-white hover:bg-white/20 rounded-full" onClick={() => setLightboxOpen(false)}>
-              <span className="sr-only">{t("client.src.close")}</span>
+              <span className="sr-only">{t("common.close")}</span>
               <X className="w-6 h-6" />
             </Button>
+            {hasPhotos && photos.length > 1 && <>
+                <Button variant="ghost" size="icon" className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 rounded-full" onClick={() => setLightboxIndex((lightboxIndex - 1 + photos.length) % photos.length)} aria-label={t("common.previous")}>
+                  <ChevronLeft className="w-6 h-6" />
+                </Button>
+                <Button variant="ghost" size="icon" className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 rounded-full" onClick={() => setLightboxIndex((lightboxIndex + 1) % photos.length)} aria-label={t("common.next")}>
+                  <ChevronRight className="w-6 h-6" />
+                </Button>
+              </>}
           </div>
         </DialogContent>
       </Dialog>
@@ -385,7 +412,7 @@ export function StageViewer({
               <Input id="name" placeholder={t("client.src.john_doe")} required />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="email">{t("client.src.email")}</Label>
+              <Label htmlFor="email">{t("common.email")}</Label>
               <Input id="email" type="email" placeholder={t("client.src.johnexamplecom")} required />
             </div>
             <div className="grid gap-2">

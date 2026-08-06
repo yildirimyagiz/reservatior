@@ -105,11 +105,11 @@ const DOCUMENT_TYPES = {
   },
   LEASE: {
     label: t("client.src.lease_agreement"),
-    color: "bg-green-100 text-green-800"
+    color: "bg-blue-100 text-blue-800"
   },
   IDENTITY: {
     label: t("client.src.identity_document"),
-    color: "bg-purple-100 text-purple-800"
+    color: "bg-brand/15 text-brand"
   },
   INCOME: {
     label: t("client.src.income_proof"),
@@ -121,7 +121,7 @@ const DOCUMENT_TYPES = {
   },
   COMPLIANCE: {
     label: t("client.src.compliance_certificate"),
-    color: "bg-indigo-100 text-indigo-800"
+    color: "bg-brand/15 text-brand"
   },
   CONTRACT: {
     label: t("client.src.contract"),
@@ -133,7 +133,7 @@ const DOCUMENT_TYPES = {
   },
   CERTIFICATE: {
     label: t("client.src.certificate"),
-    color: "bg-indigo-100 text-indigo-800"
+    color: "bg-brand/15 text-brand"
   },
   OTHER: {
     label: t("client.src.other"),
@@ -142,29 +142,29 @@ const DOCUMENT_TYPES = {
 };
 const ANALYSIS_STATUS = {
   PENDING: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     icon: Clock,
     color: "text-yellow-600"
   },
   RUNNING: {
     label: t("client.src.analyzing"),
     icon: Brain,
-    color: "text-blue-600"
+    color: "text-brand"
   },
   COMPLETED: {
-    label: t("client.src.completed"),
+    label: t("common.completed"),
     icon: CheckCircle,
-    color: "text-green-600"
+    color: "text-blue-600"
   },
   FAILED: {
-    label: t("client.src.failed"),
+    label: t("common.failed"),
     icon: XCircle,
     color: "text-red-600"
   }
 };
 const DOCUMENT_STATUS = {
   DRAFT: {
-    label: t("client.src.draft"),
+    label: t("common.draft"),
     color: "bg-gray-100 text-gray-700"
   },
   PENDING_REVIEW: {
@@ -172,15 +172,15 @@ const DOCUMENT_STATUS = {
     color: "bg-yellow-100 text-yellow-700"
   },
   APPROVED: {
-    label: t("client.src.approved"),
-    color: "bg-green-100 text-green-700"
+    label: t("common.approved"),
+    color: "bg-blue-100 text-blue-700"
   },
   REJECTED: {
-    label: t("client.src.rejected"),
+    label: t("common.rejected"),
     color: "bg-red-100 text-red-700"
   },
   EXPIRED: {
-    label: t("client.src.expired"),
+    label: t("common.expired"),
     color: "bg-orange-100 text-orange-700"
   },
   ARCHIVED: {
@@ -217,7 +217,7 @@ export default function DocumentsEnhanced() {
       } catch (error) {
         console.error('Error fetching documents:', error);
         toast({
-          title: t("client.src.error"),
+          title: t("common.error"),
           description: t("client.src.failed_to_load_legal"),
           variant: "destructive"
         });
@@ -259,7 +259,7 @@ export default function DocumentsEnhanced() {
     } catch (error) {
       console.error('Error uploading document:', error);
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_upload_document"),
         variant: "destructive"
       });
@@ -333,12 +333,12 @@ export default function DocumentsEnhanced() {
     const config = DOCUMENT_STATUS[status];
     return config ? config.color : "bg-gray-100 text-gray-700";
   };
-  const getAnalysisIcon = (status: AnalysisStatus) => {
-    const config = ANALYSIS_STATUS[status];
+  const getAnalysisIcon = (status: AnalysisStatus | undefined) => {
+    const config = ANALYSIS_STATUS[status ?? AnalysisStatus.PENDING];
     return config ? <config.icon className="h-4 w-4" /> : null;
   };
-  const getAnalysisColor = (status: AnalysisStatus) => {
-    const config = ANALYSIS_STATUS[status];
+  const getAnalysisColor = (status: AnalysisStatus | undefined) => {
+    const config = ANALYSIS_STATUS[status ?? AnalysisStatus.PENDING];
     return config ? config.color : "text-gray-600";
   };
   return <PageShell title={t("client.src.legal_documents")} description={t("client.src.manage_legal_documents_contracts")}>
@@ -346,9 +346,9 @@ export default function DocumentsEnhanced() {
         {/* Tab Navigation */}
         <div className="flex space-x-1 bg-muted p-1 rounded-lg w-fit">
           <Button variant={activeTab === "documents" ? "default" : "ghost"} size="sm" onClick={() => setActiveTab("documents")}>
-            <FileText className="h-4 w-4 mr-2" />{t("client.src.documents")}</Button>
+            <FileText className="h-4 w-4 mr-2" />{t("common.documents")}</Button>
           <Button variant={activeTab === "analytics" ? "default" : "ghost"} size="sm" onClick={() => setActiveTab("analytics")}>
-            <BarChart3 className="h-4 w-4 mr-2" />{t("client.src.analytics")}</Button>
+            <BarChart3 className="h-4 w-4 mr-2" />{t("common.analytics")}</Button>
         </div>
 
         {/* Summary Cards */}
@@ -366,13 +366,13 @@ export default function DocumentsEnhanced() {
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("client.src.approved")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("common.approved")}</CardTitle>
               <CheckCircle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{approvedDocuments}</div>
+              <div className="text-2xl font-bold text-blue-600">{approvedDocuments}</div>
               <p className="text-xs text-muted-foreground">
-                {totalDocuments > 0 ? (approvedDocuments / totalDocuments * 100).toFixed(1) : 0}{t("client.src.approved")}</p>
+                {totalDocuments > 0 ? (approvedDocuments / totalDocuments * 100).toFixed(1) : 0}{t("common.approved")}</p>
             </CardContent>
           </Card>
           
@@ -393,7 +393,7 @@ export default function DocumentsEnhanced() {
               <Brain className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{analyzedDocuments}</div>
+              <div className="text-2xl font-bold text-brand">{analyzedDocuments}</div>
               <p className="text-xs text-muted-foreground">{t("client.src.ai_processed")}</p>
             </CardContent>
           </Card>
@@ -408,10 +408,10 @@ export default function DocumentsEnhanced() {
             </div>
             <Select value={filterType} onValueChange={setFilterType}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("client.src.type")} />
+                <SelectValue placeholder={t("common.type")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("client.src.all_types")}</SelectItem>
+                <SelectItem value="all">{t("common.all_types")}</SelectItem>
                 {Object.values(DocumentType).map(type => <SelectItem key={type} value={type}>
                     {DOCUMENT_TYPES[type]?.label || type}
                   </SelectItem>)}
@@ -419,10 +419,10 @@ export default function DocumentsEnhanced() {
             </Select>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-32">
-                <SelectValue placeholder={t("client.src.status")} />
+                <SelectValue placeholder={t("common.status")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("client.src.all_status")}</SelectItem>
+                <SelectItem value="all">{t("common.all_status")}</SelectItem>
                 {Object.values(DocumentStatus).map(status => <SelectItem key={status} value={status}>
                     {DOCUMENT_STATUS[status]?.label || status}
                   </SelectItem>)}
@@ -441,13 +441,13 @@ export default function DocumentsEnhanced() {
             </CardHeader>
             <CardContent>
               {loading ? <div className="flex items-center justify-center py-8">
-                  <div className="text-sm text-muted-foreground">{t("client.src.loading")}</div>
+                  <div className="text-sm text-muted-foreground">{t("common.loading")}</div>
                 </div> : <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("client.src.title")}</TableHead>
-                      <TableHead>{t("client.src.type")}</TableHead>
-                      <TableHead>{t("client.src.status")}</TableHead>
+                      <TableHead>{t("common.title")}</TableHead>
+                      <TableHead>{t("common.type")}</TableHead>
+                      <TableHead>{t("common.status")}</TableHead>
                       <TableHead>{t("client.src.uploaded_by")}</TableHead>
                       <TableHead>{t("client.src.file_size")}</TableHead>
                       <TableHead>{t("client.src.uploaded")}</TableHead>
@@ -503,23 +503,23 @@ export default function DocumentsEnhanced() {
                           <TableCell>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm">
+                                <Button variant="ghost" size="sm" aria-label={t("common.more")}>
                                   <MoreHorizontal className="h-4 w-4" />
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent>
                                 <DropdownMenuItem>
-                                  <Eye className="h-4 w-4 mr-2" />{t("client.src.view")}</DropdownMenuItem>
+                                  <Eye className="h-4 w-4 mr-2" />{t("common.view")}</DropdownMenuItem>
                                 <DropdownMenuItem>
-                                  <Download className="h-4 w-4 mr-2" />{t("client.src.download")}</DropdownMenuItem>
+                                  <Download className="h-4 w-4 mr-2" />{t("common.download")}</DropdownMenuItem>
                                 <DropdownMenuItem>
-                                  <Share className="h-4 w-4 mr-2" />{t("client.src.share")}</DropdownMenuItem>
+                                  <Share className="h-4 w-4 mr-2" />{t("common.share")}</DropdownMenuItem>
                                 <DropdownMenuItem>
-                                  <Edit className="h-4 w-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
+                                  <Edit className="h-4 w-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
                                 <DropdownMenu>
                                   <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="sm">
-                                      <FileCheck className="h-4 w-4 mr-2" />{t("client.src.status")}</Button>
+                                      <FileCheck className="h-4 w-4 mr-2" />{t("common.status")}</Button>
                                   </DropdownMenuTrigger>
                                   <DropdownMenuContent>
                                     {Object.values(DocumentStatus).map(status => <DropdownMenuItem key={status} onClick={() => handleUpdateStatus(document.id, status)}>
@@ -528,7 +528,7 @@ export default function DocumentsEnhanced() {
                                   </DropdownMenuContent>
                                 </DropdownMenu>
                                 <DropdownMenuItem className="text-red-600" onClick={() => handleDeleteDocument(document.id)}>
-                                  <Trash2 className="h-4 w-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                                  <Trash2 className="h-4 w-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </TableCell>
@@ -560,7 +560,7 @@ export default function DocumentsEnhanced() {
                           <div className="flex items-center space-x-2">
                             {getAnalysisIcon(document.metadata?.analysisResults?.status)}
                             <Badge variant="outline">
-                              {ANALYSIS_STATUS[document.metadata?.analysisResults?.status]?.label}
+                              {ANALYSIS_STATUS[document.metadata?.analysisResults?.status ?? AnalysisStatus.PENDING]?.label}
                             </Badge>
                           </div>
                         </div>
@@ -628,11 +628,11 @@ export default function DocumentsEnhanced() {
                 <Input id="file" type="file" accept=".pdf,.doc,.docx,.txt,.jpg,.png" className="file:mr-2 file:py-2" />
               </div>
               <div>
-                <Label htmlFor="title">{t("client.src.title")}</Label>
+                <Label htmlFor="title">{t("common.title")}</Label>
                 <Input id="title" placeholder={t("client.src.enter_document_title")} />
               </div>
               <div>
-                <Label htmlFor="description">{t("client.src.description")}</Label>
+                <Label htmlFor="description">{t("common.description")}</Label>
                 <textarea id="description" placeholder={t("client.src.enter_document_description")} className="w-full p-2 border rounded" rows={3} />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -640,7 +640,7 @@ export default function DocumentsEnhanced() {
                   <Label htmlFor="documentType">{t("client.src.document_type")}</Label>
                   <Select>
                     <SelectTrigger>
-                      <SelectValue placeholder={t("client.src.select_type")} />
+                      <SelectValue placeholder={t("common.select_type")} />
                     </SelectTrigger>
                     <SelectContent>
                       {Object.values(DocumentType).map(type => <SelectItem key={type} value={type}>
@@ -653,7 +653,7 @@ export default function DocumentsEnhanced() {
                   <Label htmlFor="property">{t("client.src.property_optional")}</Label>
                   <Select>
                     <SelectTrigger>
-                      <SelectValue placeholder={t("client.src.select_property")} />
+                      <SelectValue placeholder={t("common.select_property")} />
                     </SelectTrigger>
                     <SelectContent>
                       {/* Add property options */}
@@ -671,7 +671,7 @@ export default function DocumentsEnhanced() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setUploadOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button variant="outline" onClick={() => setUploadOpen(false)}>{t("common.cancel")}</Button>
               <Button onClick={() => handleUploadDocument(new File([], "placeholder.pdf"), {})}>{t("client.src.upload_document")}</Button>
             </DialogFooter>
           </DialogContent>

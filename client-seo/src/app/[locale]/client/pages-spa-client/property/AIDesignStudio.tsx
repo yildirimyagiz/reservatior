@@ -30,7 +30,7 @@ export default function AIDesignStudio() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-slate-100 p-6 md:p-12 font-sans">
+    <div className="min-h-screen bg-muted dark:bg-[#050505] text-foreground dark:text-foreground p-6 md:p-12 font-sans">
       
       {/* Header */}
       <m.div 
@@ -38,11 +38,11 @@ export default function AIDesignStudio() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-12 text-center max-w-3xl mx-auto"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 font-bold text-sm mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand/15 dark:bg-brand/30 text-brand dark:text-brand font-bold text-sm mb-6">
           <Sparkles className="w-4 h-4" /> Powered by ControlNet AI
         </div>
         <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4">Style Refresh Studio</h1>
-        <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+        <p className="text-lg text-muted-foreground dark:text-muted-foreground leading-relaxed">
           Bored of your current setup? Snap a photo of your empty room and visualize our premium furniture packages in your space before committing to a style refresh.
         </p>
       </m.div>
@@ -52,9 +52,9 @@ export default function AIDesignStudio() {
         {/* Left: Packages & Controls */}
         <div className="lg:col-span-4 space-y-6">
           
-          <div className="bg-white dark:bg-slate-900/50 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-xl">
+          <div className="bg-card dark:bg-card/50 rounded-3xl p-6 border border-border dark:border-border shadow-xl">
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <Layers className="w-5 h-5 text-blue-600" /> Choose a Vibe
+              <Layers className="w-5 h-5 text-brand" /> Choose a Vibe
             </h3>
             
             <div className="space-y-4">
@@ -64,18 +64,18 @@ export default function AIDesignStudio() {
                   onClick={() => setSelectedPackage(pkg)}
                   className={`relative p-4 rounded-2xl border-2 transition-all cursor-pointer overflow-hidden group ${
                     selectedPackage.id === pkg.id 
-                      ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-900/10' 
-                      : 'border-transparent hover:border-slate-200 dark:hover:border-slate-700 bg-slate-50 dark:bg-slate-800/50'
+                      ? 'border-blue-600 bg-brand/10/50 dark:bg-blue-900/10' 
+                      : 'border-transparent hover:border-border dark:hover:border-border bg-muted dark:bg-muted/50'
                   }`}
                 >
                   <div className="flex gap-4 relative z-10">
                     <Image src={pkg.img} alt={pkg.name} width={80} height={80} className="rounded-xl object-cover" />
                     <div>
-                      <h4 className="font-bold text-slate-900 dark:text-white">{pkg.name}</h4>
-                      <p className="text-sm font-black text-blue-600 dark:text-blue-400 mt-1">{pkg.price} <span className="text-xs font-normal text-slate-500">one-time</span></p>
+                      <h4 className="font-bold text-foreground dark:text-white">{pkg.name}</h4>
+                      <p className="text-sm font-black text-brand dark:text-brand mt-1">{pkg.price} <span className="text-xs font-normal text-muted-foreground">one-time</span></p>
                       <div className="flex gap-1 mt-2 flex-wrap">
                         {pkg.tags.map(tag => (
-                          <span key={tag} className="text-[10px] uppercase font-bold bg-white dark:bg-black/50 px-2 py-0.5 rounded-full text-slate-500">
+                          <span key={tag} className="text-[10px] uppercase font-bold bg-card dark:bg-black/50 px-2 py-0.5 rounded-full text-muted-foreground">
                             {tag}
                           </span>
                         ))}
@@ -97,8 +97,8 @@ export default function AIDesignStudio() {
             disabled={isGenerating}
             className={`w-full py-4 rounded-2xl font-black text-white flex items-center justify-center gap-2 transition-all ${
               isGenerating 
-                ? 'bg-purple-400 cursor-not-allowed' 
-                : 'bg-purple-600 hover:bg-purple-700 shadow-xl shadow-purple-600/30 active:scale-95 hover:-translate-y-1'
+                ? 'bg-brand cursor-not-allowed' 
+                : 'bg-brand hover:bg-brand shadow-xl shadow-purple-600/30 active:scale-95 hover:-translate-y-1'
             }`}
           >
             {isGenerating ? (
@@ -112,19 +112,19 @@ export default function AIDesignStudio() {
 
         {/* Right: AI Canvas */}
         <div className="lg:col-span-8">
-          <Card className="border-none shadow-2xl dark:bg-slate-900/50 h-full min-h-[500px] overflow-hidden rounded-3xl relative">
-            <CardContent className="p-0 h-full flex flex-col items-center justify-center bg-slate-100 dark:bg-black/50 relative">
+          <Card className="border-none shadow-2xl dark:bg-card/50 h-full min-h-[500px] overflow-hidden rounded-3xl relative">
+            <CardContent className="p-0 h-full flex flex-col items-center justify-center bg-muted dark:bg-black/50 relative">
               
               {!isGenerating && !generatedImage && (
                 <div className="text-center p-8">
-                  <div className="w-24 h-24 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                    <Camera className="w-10 h-10 text-slate-400" />
+                  <div className="w-24 h-24 bg-card dark:bg-muted rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <Camera className="w-10 h-10 text-muted-foreground" />
                   </div>
                   <h3 className="text-2xl font-bold mb-2">Upload your room</h3>
-                  <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-sm mx-auto">
+                  <p className="text-muted-foreground dark:text-muted-foreground mb-6 max-w-sm mx-auto">
                     Take a photo of your empty living room or bedroom. Our AI will automatically map the walls, windows, and floors.
                   </p>
-                  <label className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-bold rounded-full shadow-md cursor-pointer hover:scale-105 transition-transform">
+                  <label className="inline-flex items-center gap-2 px-6 py-3 bg-card dark:bg-muted text-foreground dark:text-white font-bold rounded-full shadow-md cursor-pointer hover:scale-105 transition-transform">
                     <ImageIcon className="w-5 h-5" /> Browse Photo
                     <input type="file" className="hidden" accept="image/*" />
                   </label>
@@ -136,10 +136,10 @@ export default function AIDesignStudio() {
                   <m.div 
                     animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
                     transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                    className="w-20 h-20 border-4 border-purple-500/30 border-t-purple-600 rounded-full mx-auto mb-6"
+                    className="w-20 h-20 border-4 border-brand/30 border-t-purple-600 rounded-full mx-auto mb-6"
                   />
-                  <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-200">Applying {selectedPackage.name}...</h3>
-                  <p className="text-slate-500 mt-2">ControlNet is preserving your room's geometry.</p>
+                  <h3 className="text-2xl font-bold text-foreground dark:text-foreground">Applying {selectedPackage.name}...</h3>
+                  <p className="text-muted-foreground mt-2">ControlNet is preserving your room&apos;s geometry.</p>
                 </div>
               )}
 

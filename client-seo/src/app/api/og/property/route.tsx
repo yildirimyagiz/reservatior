@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
               <div
                 style={{
                   fontSize: 50,
-                  color: '#4ade80', // Tailwind green
+                  color: '#60a5fa', // Tailwind green
                   fontWeight: 'bold',
                 }}
               >

@@ -146,7 +146,7 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] bg-[#14151a]/90 backdrop-blur-3xl border border-white/10 text-white rounded-3xl overflow-hidden p-0">
+      <DialogContent className="sm:max-w-[500px] bg-background/90 backdrop-blur-3xl border border-white/10 text-white rounded-3xl overflow-hidden p-0">
         <div className="absolute top-0 left-0 w-full h-1 bg-white/5">
            <div className={cn("h-full bg-orange-500 transition-all duration-500", step === 1 ? "w-1/2" : "w-full")} />
         </div>
@@ -157,7 +157,7 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
               <ShieldCheck className="w-6 h-6 text-orange-500" />
               Mülk Sahipliği Doğrulama
             </DialogTitle>
-            <DialogDescription className="text-slate-400 font-medium italic text-xs">
+            <DialogDescription className="text-muted-foreground font-medium italic text-xs">
               Bu mülkün yasal sahibi veya yetkili temsilcisi olduğunuzu doğrulamak için lütfen gerekli belgeleri yükleyin.
             </DialogDescription>
           </DialogHeader>
@@ -168,19 +168,19 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
                 
                 {/* ID Upload */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 tracking-widest uppercase">Kimlik Belgesi (Önlü Arkalı)</label>
-                  <label className={cn("flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer transition-all", documents.id?.file ? "border-emerald-500 bg-emerald-500/10" : "border-white/10 hover:border-white/30 hover:bg-white/5")}>
+                  <label className="text-[10px] font-black text-muted-foreground tracking-widest uppercase">Kimlik Belgesi (Önlü Arkalı)</label>
+                  <label className={cn("flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer transition-all", documents.id?.file ? "border-blue-500 bg-success/10" : "border-white/10 hover:border-white/30 hover:bg-white/5")}>
                     <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
                       {documents.id?.file ? (
                         <>
-                          <ShieldCheck className="w-8 h-8 text-emerald-500 mb-2" />
-                          <p className="text-xs font-bold text-emerald-400">{documents.id.file.name}</p>
+                          <ShieldCheck className="w-8 h-8 text-success mb-2" />
+                          <p className="text-xs font-bold text-success">{documents.id.file.name}</p>
                         </>
                       ) : (
                         <>
-                          <UploadCloud className="w-8 h-8 text-slate-400 mb-2" />
-                          <p className="text-xs font-medium text-slate-400">Tıklayın veya sürükleyin</p>
-                          <p className="text-[10px] text-slate-500 mt-1">PDF, JPG, PNG (Max 5MB)</p>
+                          <UploadCloud className="w-8 h-8 text-muted-foreground mb-2" />
+                          <p className="text-xs font-medium text-muted-foreground">Tıklayın veya sürükleyin</p>
+                          <p className="text-[10px] text-muted-foreground mt-1">PDF, JPG, PNG (Max 5MB)</p>
                         </>
                       )}
                     </div>
@@ -190,19 +190,19 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
 
                 {/* Deed Upload */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 tracking-widest uppercase">Tapu Belgesi / Yetki Belgesi</label>
-                  <label className={cn("flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer transition-all", documents.deed?.file ? "border-blue-500 bg-blue-500/10" : "border-white/10 hover:border-white/30 hover:bg-white/5")}>
+                  <label className="text-[10px] font-black text-muted-foreground tracking-widest uppercase">Tapu Belgesi / Yetki Belgesi</label>
+                  <label className={cn("flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer transition-all", documents.deed?.file ? "border-blue-500 bg-brand/100/10" : "border-white/10 hover:border-white/30 hover:bg-white/5")}>
                     <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
                       {documents.deed?.file ? (
                         <>
-                          <FileUp className="w-8 h-8 text-blue-500 mb-2" />
-                          <p className="text-xs font-bold text-blue-400">{documents.deed.file.name}</p>
+                          <FileUp className="w-8 h-8 text-brand mb-2" />
+                          <p className="text-xs font-bold text-brand">{documents.deed.file.name}</p>
                         </>
                       ) : (
                         <>
-                          <UploadCloud className="w-8 h-8 text-slate-400 mb-2" />
-                          <p className="text-xs font-medium text-slate-400">Tıklayın veya sürükleyin</p>
-                          <p className="text-[10px] text-slate-500 mt-1">PDF (Tercihen E-Devlet Karekodlu)</p>
+                          <UploadCloud className="w-8 h-8 text-muted-foreground mb-2" />
+                          <p className="text-xs font-medium text-muted-foreground">Tıklayın veya sürükleyin</p>
+                          <p className="text-[10px] text-muted-foreground mt-1">PDF (Tercihen E-Devlet Karekodlu)</p>
                         </>
                       )}
                     </div>
@@ -210,7 +210,7 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
                   </label>
                 </div>
 
-                <Button onClick={handleNext} className="w-full h-14 rounded-2xl bg-white text-black hover:bg-slate-200 font-black tracking-widest text-sm">
+                <Button onClick={handleNext} className="w-full h-14 rounded-2xl bg-card text-black hover:bg-muted font-black tracking-widest text-sm">
                   Devam Et
                 </Button>
 
@@ -218,7 +218,7 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
             ) : (
               <m.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                 
-                <div className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl flex gap-3">
+                <div className="p-4 bg-warning/10 border border-warning/20 rounded-2xl flex gap-3">
                   <AlertCircle className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
                   <p className="text-xs font-medium text-orange-200/80 leading-relaxed italic">
                     Belgeleriniz güvenli bir şekilde saklanacak ve sadece yönetim ekibi tarafından doğrulanmak üzere kullanılacaktır.
@@ -226,12 +226,12 @@ export function OwnershipClaimModal({ propertyId, isOpen, onClose, onSuccess, co
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 tracking-widest uppercase">Ek Notlar (İsteğe Bağlı)</label>
+                  <label className="text-[10px] font-black text-muted-foreground tracking-widest uppercase">Ek Notlar (İsteğe Bağlı)</label>
                   <Textarea 
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Yönetim ekibine iletmek istediğiniz ek bir not varsa buraya yazabilirsiniz..."
-                    className="min-h-[120px] bg-white/5 border-white/10 rounded-2xl text-sm placeholder:text-slate-600"
+                    className="min-h-[120px] bg-white/5 border-white/10 rounded-2xl text-sm placeholder:text-muted-foreground"
                   />
                 </div>
 

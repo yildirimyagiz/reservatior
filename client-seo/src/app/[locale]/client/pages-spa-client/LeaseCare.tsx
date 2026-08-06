@@ -151,30 +151,30 @@ export default function LeaseCare() {
         <meta name="description" content="Automate lease management with AI-powered tools for lease tracking, renewals, and tenant management. Monthly micro-payments instead of traditional upfront commission." />
       </Helmet>
 
-      <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-emerald-500/30">
+      <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-success/30">
 
         {/* ══════ HERO ══════ */}
         <section className="relative pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
-            <div className="absolute top-[-10%] left-[20%] w-[500px] h-[400px] rounded-full bg-emerald-500/8 dark:bg-emerald-500/15 blur-[140px]" />
-            <div className="absolute bottom-0 right-[10%] w-[500px] h-[400px] rounded-full bg-blue-500/6 dark:bg-blue-500/12 blur-[140px]" />
+            <div className="absolute top-[-10%] left-[20%] w-[500px] h-[400px] rounded-full bg-success/8 dark:bg-success/15 blur-[140px]" />
+            <div className="absolute bottom-0 right-[10%] w-[500px] h-[400px] rounded-full bg-brand/100/6 dark:bg-brand/100/12 blur-[140px]" />
           </div>
 
           <div className="relative z-10 container mx-auto px-6 text-center space-y-8">
-            <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider gap-2">
+            <Badge className="bg-success/10 text-success dark:text-success border-success/20 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider gap-2">
               <Sparkles className="w-3.5 h-3.5" /> {t("leasecare.industry_first", "Industry First")}
             </Badge>
 
             <h1 className="text-5xl lg:text-7xl font-black tracking-tight leading-[0.95]">
               <span className="text-foreground">LeaseCare</span>
-              <span className="bg-gradient-to-r from-emerald-500 to-blue-500 bg-clip-text text-transparent">+</span>
+              <span className="bg-gradient-to-r from-blue-500 to-blue-500 bg-clip-text text-transparent">+</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              <span dangerouslySetInnerHTML={{ __html: t("leasecare.hero_desc_hidden", "Traditional <span class='font-bold text-foreground'>upfront deposits</span> and <span class='font-bold text-foreground'>heavy commission burdens</span> are over. Everyone wins with <span class='font-bold text-emerald-600 dark:text-emerald-400'>dynamic micro-payments</span>.") }} />
+              <span dangerouslySetInnerHTML={{ __html: t("leasecare.hero_desc_hidden", "Traditional <span class='font-bold text-foreground'>upfront deposits</span> and <span class='font-bold text-foreground'>heavy commission burdens</span> are over. Everyone wins with <span class='font-bold text-success dark:text-success'>dynamic micro-payments</span>.") }} />
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 pt-2">
-              <Button size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-white h-13 px-8 rounded-2xl font-bold shadow-lg shadow-emerald-600/20 group">
+              <Button size="lg" className="bg-blue-600 hover:bg-success text-white h-13 px-8 rounded-2xl font-bold shadow-lg shadow-blue-600/20 group">
                 {t("leasecare.apply_now", "Apply Now")} <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button size="lg" variant="outline" className="h-13 px-8 rounded-2xl font-semibold">
@@ -189,7 +189,7 @@ export default function LeaseCare() {
           <div className="container mx-auto px-6">
             <div className="text-center mb-14 space-y-3">
               <h2 className="text-3xl lg:text-4xl font-black text-foreground">
-                <span dangerouslySetInnerHTML={{ __html: t("leasecare.traditional_vs_leasecare", "Traditional vs <span class='text-emerald-600 dark:text-emerald-400'>LeaseCare+</span>") }} />
+                <span dangerouslySetInnerHTML={{ __html: t("leasecare.traditional_vs_leasecare", "Traditional vs <span class='text-success dark:text-success'>LeaseCare+</span>") }} />
               </h2>
               <p className="text-muted-foreground max-w-lg mx-auto">{t("leasecare.comparison_desc", "Same home, same rent — but a very different move-in cost")}</p>
             </div>
@@ -214,10 +214,10 @@ export default function LeaseCare() {
               </div>
 
               {/* LeaseCare+ */}
-              <div className="p-8 rounded-3xl bg-emerald-500/5 dark:bg-emerald-500/10 border border-emerald-500/20 space-y-6 relative overflow-hidden">
-                <div className="absolute top-3 right-3"><Badge className="bg-emerald-500 text-white border-0 text-[10px] font-bold">{t("leasecare.recommended", "RECOMMENDED")}</Badge></div>
+              <div className="p-8 rounded-3xl bg-success/5 dark:bg-success/10 border border-success/20 space-y-6 relative overflow-hidden">
+                <div className="absolute top-3 right-3"><Badge className="bg-success text-white border-0 text-[10px] font-bold">{t("leasecare.recommended", "RECOMMENDED")}</Badge></div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center"><Shield className="w-5 h-5 text-emerald-500" /></div>
+                  <div className="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center"><Shield className="w-5 h-5 text-success" /></div>
                   <div>
                     <h3 className="font-bold text-foreground">{t("leasecare.leasecare_model", "LeaseCare+ Model")}</h3>
                     <p className="text-xs text-muted-foreground">{t("leasecare.monthly_micro_payment", "Monthly micro-payment")}</p>
@@ -225,13 +225,13 @@ export default function LeaseCare() {
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.first_month_rent", "First month rent")}</span><span className="font-bold text-foreground">${propertyValue.toLocaleString()}</span></div>
-                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.micro_commission", "Dynamic Micro Commission")}</span><span className="font-bold text-emerald-500">{t("client.src.partner_rate", "Partner Rate")}</span></div>
-                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.micro_deposit", "Dynamic Micro Deposit")}</span><span className="font-bold text-emerald-500">{t("client.src.partner_rate", "Partner Rate")}</span></div>
-                  <div className="h-px bg-emerald-500/20 my-2" />
-                  <div className="flex justify-between items-center text-base"><span className="font-bold text-emerald-600 dark:text-emerald-400">{t("leasecare.total_first_day", "Total First Day")}</span><span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">Minimum</span></div>
+                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.micro_commission", "Dynamic Micro Commission")}</span><span className="font-bold text-success">{t("client.src.partner_rate", "Partner Rate")}</span></div>
+                  <div className="flex justify-between items-center text-sm"><span className="text-muted-foreground">{t("leasecare.micro_deposit", "Dynamic Micro Deposit")}</span><span className="font-bold text-success">{t("client.src.partner_rate", "Partner Rate")}</span></div>
+                  <div className="h-px bg-success/20 my-2" />
+                  <div className="flex justify-between items-center text-base"><span className="font-bold text-success dark:text-success">{t("leasecare.total_first_day", "Total First Day")}</span><span className="text-2xl font-black text-success dark:text-success">Minimum</span></div>
                 </div>
-                <div className="bg-emerald-500/10 rounded-xl p-3 text-center">
-                  <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                <div className="bg-success/10 rounded-xl p-3 text-center">
+                  <span className="text-sm font-bold text-success dark:text-success">
                     💰 {t("leasecare.up_to_85_savings", "Up to 85% Savings on Move-in!")}
                   </span>
                 </div>
@@ -244,13 +244,13 @@ export default function LeaseCare() {
         <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl font-black text-foreground text-center mb-14">
-              <span dangerouslySetInnerHTML={{ __html: t("leasecare.how_it_works", "How it <span class='text-emerald-600 dark:text-emerald-400'>Works?</span>") }} />
+              <span dangerouslySetInnerHTML={{ __html: t("leasecare.how_it_works", "How it <span class='text-success dark:text-success'>Works?</span>") }} />
             </h2>
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {[
-                { icon: Percent, title: t("leasecare.dynamic_commission", "Dynamic Micro Commission"), desc: t("leasecare.dynamic_commission_desc", "No upfront commission! Tenants and landlords benefit from specialized micro-rates determined by partnership levels."), color: "text-blue-500" },
+                { icon: Percent, title: t("leasecare.dynamic_commission", "Dynamic Micro Commission"), desc: t("leasecare.dynamic_commission_desc", "No upfront commission! Tenants and landlords benefit from specialized micro-rates determined by partnership levels."), color: "text-brand" },
                 { icon: PiggyBank, title: t("leasecare.dynamic_deposit", "Dynamic Micro Deposit"), desc: t("leasecare.dynamic_deposit_desc", "Tenants accumulate their deposit dynamically alongside their rent via micro-installments."), color: "text-violet-500" },
-                { icon: Lock, title: t("leasecare.escrow_assurance", "Escrow Assurance"), desc: t("leasecare.escrow_desc", "All deposits are securely held in Reservatior Escrow account. Neutral mediation in case of dispute."), color: "text-emerald-500" },
+                { icon: Lock, title: t("leasecare.escrow_assurance", "Escrow Assurance"), desc: t("leasecare.escrow_desc", "All deposits are securely held in Reservatior Escrow account. Neutral mediation in case of dispute."), color: "text-success" },
               ].map((s, i) => (
                 <div key={i} className="p-7 rounded-2xl bg-card border border-border/50 hover:border-primary/20 hover:shadow-md transition-all space-y-4 text-center">
                   <div className={`w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mx-auto ${s.color}`}>
@@ -267,13 +267,13 @@ export default function LeaseCare() {
               <h4 className="text-sm font-bold text-muted-foreground tracking-wider text-center mb-6">{t("leasecare.payment_flow", "Monthly Payment Flow")}</h4>
               <div className="flex items-center justify-between gap-2">
                 <div className="text-center space-y-2 flex-1">
-                  <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto"><Users className="w-5 h-5 text-blue-500" /></div>
-                  <div className="text-xs font-bold text-foreground">{t("client.src.tenant", "Tenant")}</div>
+                  <div className="w-12 h-12 rounded-full bg-brand/100/10 flex items-center justify-center mx-auto"><Users className="w-5 h-5 text-brand" /></div>
+                  <div className="text-xs font-bold text-foreground">{t("common.tenant", "Tenant")}</div>
                   <div className="text-[10px] text-muted-foreground">{t("leasecare.tenant_calc_dynamic", "Rent + Micro Payments")}</div>
                 </div>
                 <ArrowLeftRight className="w-5 h-5 text-muted-foreground shrink-0" />
                 <div className="text-center space-y-2 flex-1">
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto"><Shield className="w-5 h-5 text-emerald-500" /></div>
+                  <div className="w-12 h-12 rounded-full bg-success/10 flex items-center justify-center mx-auto"><Shield className="w-5 h-5 text-success" /></div>
                   <div className="text-xs font-bold text-foreground">{t("leasecare.escrow", "Reservatior Escrow")}</div>
                   <div className="text-[10px] text-muted-foreground">{t("leasecare.secure_storage", "Secure storage")}</div>
                 </div>
@@ -293,7 +293,7 @@ export default function LeaseCare() {
           <div className="container mx-auto px-4 md:px-6">
             
             <div className="text-center mb-14 space-y-3">
-              <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 px-4 py-1 rounded-full text-xs font-bold tracking-wider">
+              <Badge className="bg-success/10 text-success dark:text-success border-success/20 px-4 py-1 rounded-full text-xs font-bold tracking-wider">
                 <Calculator className="w-3.5 h-3.5 mr-1.5" /> {t("leasecare.interactive_calc", "Interactive Calculator")}
               </Badge>
               <h2 className="text-3xl font-black text-foreground">{t("leasecare.how_much_save", "How much will you save?")}</h2>
@@ -304,13 +304,13 @@ export default function LeaseCare() {
               <div className="bg-muted p-1.5 rounded-full flex gap-2 border border-border shadow-inner">
                 <button 
                   onClick={() => setTransactionMode("RENT")}
-                  className={`px-8 py-2 rounded-full text-sm font-bold transition-all ${transactionMode === "RENT" ? "bg-background text-emerald-600 dark:text-emerald-400 shadow-md" : "text-muted-foreground hover:text-foreground"}`}
+                  className={`px-8 py-2 rounded-full text-sm font-bold transition-all ${transactionMode === "RENT" ? "bg-background text-success dark:text-success shadow-md" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   {t("reoscare.mode_rent", "Kiralık (Rent)")}
                 </button>
                 <button 
                   onClick={() => setTransactionMode("BUY")}
-                  className={`px-8 py-2 rounded-full text-sm font-bold transition-all ${transactionMode === "BUY" ? "bg-background text-emerald-600 dark:text-emerald-400 shadow-md" : "text-muted-foreground hover:text-foreground"}`}
+                  className={`px-8 py-2 rounded-full text-sm font-bold transition-all ${transactionMode === "BUY" ? "bg-background text-success dark:text-success shadow-md" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   {t("reoscare.mode_buy", "Satılık (Buy)")}
                 </button>
@@ -330,10 +330,10 @@ export default function LeaseCare() {
                         : "bg-card text-muted-foreground hover:bg-muted border border-border"
                     }`}
                   >
-                    <role.icon className={`w-5 h-5 ${activeRole === role.id ? "text-emerald-500" : "text-muted-foreground"}`} />
+                    <role.icon className={`w-5 h-5 ${activeRole === role.id ? "text-success" : "text-muted-foreground"}`} />
                     {role.label}
                     {activeRole === role.id && (
-                      <m.div layoutId="activeRoleIndicatorSPA" className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1.5 rounded-full bg-emerald-500" />
+                      <m.div layoutId="activeRoleIndicatorSPA" className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-1.5 rounded-full bg-success" />
                     )}
                   </button>
                 ))}
@@ -360,9 +360,9 @@ export default function LeaseCare() {
                         : t("reoscare.agent_buy_desc", "Satış işlemlerindeki en büyük engel olan alıcı komisyonunu ReosCare ile 12 aya kadar taksitlendir. Likidite sağla ve işlem kapatma hızını uçur.")}
                     </p>
                     <div className="space-y-4">
-                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agent_adv1", "%50 Peşin Komisyon Anında Hesabında")}</span></div>
-                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agent_adv2", "Kalan Bakiyeye %10 Ekstra Getiri (Yield)")}</span></div>
-                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agent_adv3", "Vendor Lock-in ile Kesintisiz Gelir Akışı")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-brand mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agent_adv1", "%50 Peşin Komisyon Anında Hesabında")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-brand mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agent_adv2", "Kalan Bakiyeye %10 Ekstra Getiri (Yield)")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-brand mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.agent_adv3", "Vendor Lock-in ile Kesintisiz Gelir Akışı")}</span></div>
                     </div>
                   </>
                 )}
@@ -378,9 +378,9 @@ export default function LeaseCare() {
                         : t("reoscare.buyer_desc", "Tapu harcı ve peşinatlar zaten zorlayıcı. %2'lik alıcı komisyonunu tek seferde ödemek yerine ReosCare ile aylık taksitlere böl.")}
                     </p>
                     <div className="space-y-4">
-                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{transactionMode === "RENT" ? t("reoscare.tenant_adv1", "Depozito Taksitlendirmesi") : t("reoscare.buyer_adv1", "%2 Komisyon Taksitlendirmesi")}</span></div>
-                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.tenant_adv2", "Güvenli Escrow Hesabı")}</span></div>
-                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.tenant_adv3", "Loyalty (Sadakat) Puanı ve Kredi Notu Avantajı")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-success mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{transactionMode === "RENT" ? t("reoscare.tenant_adv1", "Depozito Taksitlendirmesi") : t("reoscare.buyer_adv1", "%2 Komisyon Taksitlendirmesi")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-success mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.tenant_adv2", "Güvenli Escrow Hesabı")}</span></div>
+                      <div className="flex items-start gap-3"><CheckCircle2 className="w-5 h-5 text-success mt-0.5 shrink-0" /><span className="text-sm font-bold text-foreground">{t("reoscare.tenant_adv3", "Loyalty (Sadakat) Puanı ve Kredi Notu Avantajı")}</span></div>
                     </div>
                   </>
                 )}
@@ -426,11 +426,11 @@ export default function LeaseCare() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="lg:col-span-7 p-8 md:p-12 rounded-[2.5rem] bg-card border border-border shadow-2xl relative overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-bl-full pointer-events-none" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-success/5 rounded-bl-full pointer-events-none" />
                 
                 <div className="flex items-center gap-3 mb-8">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
-                    <Calculator className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                  <div className="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center">
+                    <Calculator className="w-6 h-6 text-success dark:text-success" />
                   </div>
                   <div>
                     <h4 className="text-xl font-bold text-foreground">{t("reoscare.calc_title", "Financial Simulator")}</h4>
@@ -476,14 +476,14 @@ export default function LeaseCare() {
                 <div className="grid gap-4">
                   {activeRole === "AGENT" && (
                     <>
-                      <div className="p-6 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex justify-between items-center">
+                      <div className="p-6 rounded-2xl bg-brand/100/10 border border-blue-500/20 flex justify-between items-center">
                         <span className="font-bold text-foreground">{t("reoscare.total_commission", "Total Commission Base")}</span>
-                        <span className="text-2xl font-black text-blue-600 dark:text-blue-400">{t('currency_symbol', '$')}<AnimatedCounter target={calc.agentTotalCommission} isCurrency={true} /></span>
+                        <span className="text-2xl font-black text-brand dark:text-brand">{t('currency_symbol', '$')}<AnimatedCounter target={calc.agentTotalCommission} isCurrency={true} /></span>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
-                          <span className="block text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">{t("reoscare.upfront_cash", "50% Upfront")}</span>
-                          <span className="text-3xl font-black text-emerald-600 dark:text-emerald-400">{t('currency_symbol', '$')}<AnimatedCounter target={calc.agentUpfront} isCurrency={true} /></span>
+                        <div className="p-6 rounded-2xl bg-success/10 border border-success/20">
+                          <span className="block text-sm font-bold text-success dark:text-success uppercase tracking-widest mb-2">{t("reoscare.upfront_cash", "50% Upfront")}</span>
+                          <span className="text-3xl font-black text-success dark:text-success">{t('currency_symbol', '$')}<AnimatedCounter target={calc.agentUpfront} isCurrency={true} /></span>
                         </div>
                         <div className="p-6 rounded-2xl bg-violet-500/10 border border-violet-500/20">
                           <span className="block text-sm font-bold text-violet-600 dark:text-violet-400 uppercase tracking-widest mb-2">{t("reoscare.installed_yield", "50% Deferred + 10%")}</span>
@@ -501,15 +501,15 @@ export default function LeaseCare() {
                             <span className="block text-sm font-bold text-muted-foreground uppercase tracking-widest mb-2">{t("reoscare.traditional_move_in", "Traditional Cost")}</span>
                             <span className="text-3xl font-black text-muted-foreground line-through decoration-red-500/50">{t('currency_symbol', '$')}<AnimatedCounter target={propertyValue * 3 + calc.agentTotalCommission} isCurrency={true} /></span>
                           </div>
-                          <div className="p-6 rounded-2xl bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 relative overflow-hidden">
-                            <span className="relative z-10 block text-sm font-bold text-emerald-100 uppercase tracking-widest mb-2">{t("reoscare.monthly_payment", "Monthly Installment")}</span>
+                          <div className="p-6 rounded-2xl bg-success text-white shadow-lg shadow-blue-500/30 relative overflow-hidden">
+                            <span className="relative z-10 block text-sm font-bold text-blue-100 uppercase tracking-widest mb-2">{t("reoscare.monthly_payment", "Monthly Installment")}</span>
                             <span className="relative z-10 text-3xl font-black">{t('currency_symbol', '$')}<AnimatedCounter target={calc.tenantMonthlyInstallment} isCurrency={true} /></span>
-                            <div className="relative z-10 mt-2 text-xs font-medium text-emerald-100 bg-black/10 px-3 py-1 rounded-full inline-block">{t("reoscare.includes_premium", "Includes +1% ReosCare Premium")}</div>
+                            <div className="relative z-10 mt-2 text-xs font-medium text-blue-100 bg-black/10 px-3 py-1 rounded-full inline-block">{t("reoscare.includes_premium", "Includes +1% ReosCare Premium")}</div>
                           </div>
                         </div>
                       ) : (
-                        <div className="p-6 rounded-2xl bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 text-center relative overflow-hidden">
-                          <span className="relative z-10 block text-sm font-bold text-emerald-100 uppercase tracking-widest mb-2">{t("reoscare.monthly_buyer_comm", "Monthly 2% Commission Payment")}</span>
+                        <div className="p-6 rounded-2xl bg-success text-white shadow-lg shadow-blue-500/30 text-center relative overflow-hidden">
+                          <span className="relative z-10 block text-sm font-bold text-blue-100 uppercase tracking-widest mb-2">{t("reoscare.monthly_buyer_comm", "Monthly 2% Commission Payment")}</span>
                           <span className="relative z-10 text-5xl font-black">{t('currency_symbol', '$')}<AnimatedCounter target={calc.tenantMonthlyInstallment} isCurrency={true} /></span>
                         </div>
                       )}
@@ -552,7 +552,7 @@ export default function LeaseCare() {
               {/* Tenant Benefits */}
               <div className="p-7 rounded-2xl bg-card border border-border/50 space-y-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center"><Users className="w-5 h-5 text-blue-500" /></div>
+                  <div className="w-10 h-10 rounded-xl bg-brand/100/10 flex items-center justify-center"><Users className="w-5 h-5 text-brand" /></div>
                   <h3 className="font-bold text-foreground text-lg">{t("leasecare.tenant_adv_title", "Tenant Advantages")}</h3>
                 </div>
                 <div className="space-y-3">
@@ -563,7 +563,7 @@ export default function LeaseCare() {
                     t("leasecare.tenant_adv_4", "Reduces moving costs by up to 80%"),
                   ].map((b, i) => (
                     <div key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" /><span>{b}</span>
+                      <CheckCircle2 className="w-4 h-4 text-brand mt-0.5 shrink-0" /><span>{b}</span>
                     </div>
                   ))}
                 </div>
@@ -595,11 +595,11 @@ export default function LeaseCare() {
         <section className="py-24">
           <div className="container mx-auto px-6">
             <div className="max-w-3xl mx-auto rounded-3xl overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 via-indigo-600 to-blue-600" />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-brand" />
               <div className="relative z-10 p-12 md:p-16 text-center space-y-6">
                 <h2 className="text-3xl md:text-4xl font-black text-white">{t("leasecare.cta_title", "Start Renting with LeaseCare+")}</h2>
                 <p className="text-white/70 max-w-md mx-auto">{t("leasecare.cta_desc", "Fair, transparent, and secure rental experience for tenant and landlord from the first month.")}</p>
-                <Button size="lg" className="bg-white text-slate-900 hover:bg-white/90 px-8 h-13 font-bold rounded-2xl shadow-xl">
+                <Button size="lg" className="bg-card text-foreground hover:bg-white/90 px-8 h-13 font-bold rounded-2xl shadow-xl">
                   {t("leasecare.apply_free", "Apply for Free")} <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </div>

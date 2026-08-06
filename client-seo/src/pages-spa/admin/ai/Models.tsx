@@ -139,33 +139,33 @@ export default function AIModels() {
  </Button>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button>{t("admin_auto_register_model", "Register Model")}</Button>
+ <Button>{t("admin_auto_register_model", "Modeli Kaydet")}</Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[500px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_register_new_ai_model", "Register New AI Model")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_register_a_new_model_endpoint_and_metada", "Register a new model endpoint and metadata.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_register_new_ai_model", "Yeni Yapay Zeka Modelini Kaydedin")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_register_a_new_model_endpoint_and_metada", "Yeni bir model uç noktası ve meta verilerini kaydedin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_model_name", "Model Name")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelName} onChange={e => setNewModel({...newModel, modelName: e.target.value})} placeholder={t("admin_auto_property_valuator", "Property Valuator")} />
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_model_name", "Model Adı")}</Label>
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelName} onChange={e => setNewModel({...newModel, modelName: e.target.value})} placeholder={t("admin_auto_property_valuator", "Gayrimenkul Değerleme Uzmanı")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_version", "Version")}</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_version", "Sürüm")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelVersion} onChange={e => setNewModel({...newModel, modelVersion: e.target.value})} placeholder={t("admin_auto_v1_0", "v1.0")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Type")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelType} onChange={e => setNewModel({...newModel, modelType: e.target.value})} placeholder={t("admin_ai_regression", "Regression")} />
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Tip")}</Label>
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.modelType} onChange={e => setNewModel({...newModel, modelType: e.target.value})} placeholder={t("admin_ai_regression", "Regresyon")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_provider", "Provider")}</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_provider", "sağlayıcı")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newModel.provider} onChange={e => setNewModel({...newModel, provider: e.target.value})} placeholder={t("admin_auto_openai", "OpenAI")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(newModel)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Register"}
  </Button>
@@ -230,7 +230,7 @@ export default function AIModels() {
  </Badge>
  </div>
  <div className="w-full bg-card rounded-full h-2">
- <div className="bg-slate-600 h-2 rounded-full" style={{
+ <div className="bg-muted h-2 rounded-full" style={{
  width: `${training.progress}%`
  }}></div>
  </div>

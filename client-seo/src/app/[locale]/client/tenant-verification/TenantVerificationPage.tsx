@@ -16,19 +16,19 @@ import { useTranslation } from "react-i18next";
 
 const verificationSteps = [
   {
-    icon: <Search className="w-6 h-6 text-blue-400" />,
+    icon: <Search className="w-6 h-6 text-brand" />,
     title: "Identity Verification",
     description: "Government ID verification and background checks",
     status: "completed"
   },
   {
-    icon: <FileText className="w-6 h-6 text-purple-400" />,
+    icon: <FileText className="w-6 h-6 text-brand" />,
     title: "Document Review",
     description: "Employment and income verification",
     status: "completed"
   },
   {
-    icon: <Shield className="w-6 h-6 text-emerald-400" />,
+    icon: <Shield className="w-6 h-6 text-success" />,
     title: "Security Check",
     description: "Criminal background and credit history",
     status: "in_progress"
@@ -61,7 +61,7 @@ export default function TenantVerificationPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("tenant_verification.tenantverificationpage.auto_ext_3")}
@@ -78,19 +78,19 @@ export default function TenantVerificationPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
             >
-              <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+              <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="p-3 rounded-xl bg-purple-500/20">
+                      <div className="p-3 rounded-xl bg-brand/20">
                         {step.icon}
                       </div>
                       <CardTitle className="text-white">{step.title}</CardTitle>
                     </div>
                     <Badge 
                       className={
-                        step.status === 'completed' ? 'bg-green-500/20 text-green-400' :
-                        step.status === 'in_progress' ? 'bg-blue-500/20 text-blue-400' :
+                        step.status === 'completed' ? 'bg-blue-500/20 text-blue-400' :
+                        step.status === 'in_progress' ? 'bg-brand/100/20 text-brand' :
                         'bg-gray-500/20 text-gray-400'
                       }
                     >
@@ -120,7 +120,7 @@ export default function TenantVerificationPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 + idx * 0.1 }}
             >
-              <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+              <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
                 <CardContent className="p-6 text-center">
                   <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
                   <div className="text-sm text-gray-400">{stat.label}</div>

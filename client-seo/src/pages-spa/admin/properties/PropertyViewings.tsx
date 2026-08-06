@@ -82,11 +82,11 @@ export default function PropertyViewings() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case 'SCHEDULED': return 'bg-muted0';
- case 'CONFIRMED': return 'bg-green-500';
+ case 'CONFIRMED': return 'bg-blue-500';
  case 'COMPLETED': return 'bg-muted0';
  case 'CANCELLED': return 'bg-red-500';
- case 'NO_SHOW': return 'bg-white/10';
- default: return 'bg-white/10';
+ case 'NO_SHOW': return 'bg-card/10';
+ default: return 'bg-card/10';
  }
  };
  const getTypeIcon = (type: string) => {
@@ -135,7 +135,7 @@ export default function PropertyViewings() {
  <CheckCircle className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-400">{completedViewings}</div>
+ <div className="text-2xl font-bold text-blue-400">{completedViewings}</div>
  <p className="text-xs text-muted-foreground">{t("admin_property_total_completed_this_month")}</p>
  </CardContent>
  </Card>
@@ -257,12 +257,12 @@ export default function PropertyViewings() {
  </div> : <span className="text-muted-foreground">{t(" - ", "-")}</span>}
  </TableCell>
  <TableCell>
- {viewing.feedback ? viewing.feedback.interested ? <CheckCircle className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" /> : <span className="text-muted-foreground">{t(" - ", "-")}</span>}
+ {viewing.feedback ? viewing.feedback.interested ? <CheckCircle className="h-4 w-4 text-blue-500" /> : <XCircle className="h-4 w-4 text-red-500" /> : <span className="text-muted-foreground">{t(" - ", "-")}</span>}
  </TableCell>
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground">
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -333,7 +333,7 @@ export default function PropertyViewings() {
  </div>
  <div className="flex justify-between items-center">
  <span className="text-sm text-foreground">{t("admin_property_completed")}</span>
- <span className="font-medium text-green-400">{completedViewings}</span>
+ <span className="font-medium text-blue-400">{completedViewings}</span>
  </div>
  <div className="flex justify-between items-center">
  <span className="text-sm text-foreground">{t("admin_property_no_show")}</span>

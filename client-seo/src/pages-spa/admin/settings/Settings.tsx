@@ -75,17 +75,17 @@ export default function Settings() {
 
  <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-10 focus-visible:ring-0">
  <TabsList className="bg-card border border-border p-1.5 rounded-2xl h-18 w-full flex overflow-x-auto gap-1">
- <TabsTrigger value="profile" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-white/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
+ <TabsTrigger value="profile" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-card/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
  <User className="w-4 h-4" />{t("admin_settings_profile")}</TabsTrigger>
- <TabsTrigger value="organization" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-white/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
+ <TabsTrigger value="organization" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-card/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
  <Building className="w-4 h-4" />{t("admin_settings_org")}</TabsTrigger>
- <TabsTrigger value="notifications" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-white/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
+ <TabsTrigger value="notifications" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-card/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
  <Bell className="w-4 h-4" />{t("admin_settings_alerts")}</TabsTrigger>
- <TabsTrigger value="security" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-white/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
+ <TabsTrigger value="security" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-card/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
  <Shield className="w-4 h-4" />{t("admin_settings_security")}</TabsTrigger>
- <TabsTrigger value="appearance" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-white/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
+ <TabsTrigger value="appearance" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-card/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
  <Palette className="w-4 h-4" />{t("admin_settings_design")}</TabsTrigger>
- <TabsTrigger value="api" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-white/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
+ <TabsTrigger value="api" className="flex-1 min-w-[100px] rounded-xl font-bold text-[10px] data-[state=active]:bg-card/10 data-[state=active]:text-white text-muted-foreground transition-all gap-2">
  <Database className="w-4 h-4" />{t("admin_settings_api")}</TabsTrigger>
  </TabsList>
 
@@ -118,7 +118,7 @@ export default function Settings() {
  </div>
  </div>
  <div className="flex justify-end pt-4 border-t border-border">
- <Button type="submit" disabled={loading} className="bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-foreground rounded-2xl h-16 px-10 font-bold text-[12px] transition-all border border-border">
+ <Button type="submit" disabled={loading} className="bg-card hover:bg-muted dark:hover:bg-card/10 text-foreground rounded-2xl h-16 px-10 font-bold text-[12px] transition-all border border-border">
  {loading ? <RefreshCw className="w-5 h-5 animate-spin mr-3" /> : <Save className="w-5 h-5 mr-3" />}{t("admin_settings_sync_profile")}</Button>
  </div>
  </form>
@@ -135,7 +135,7 @@ export default function Settings() {
  {[{ id:"emailNotifications", label: t("admin_settings_email_dispatch"), sub:"Mission logs via secondary node", icon: Globe },
  { id:"pushNotifications", label: t("admin_settings_neural_interface_pushes"), sub:"Real-time tactical nodes", icon: Smartphone },
  { id:"leadAlerts", label: t("admin_settings_request_velocity_alerts"), sub:"Immediate portfolio responses", icon: Bell }
- ].map(pref => <div key={pref.id} className="flex items-center justify-between p-6 rounded-3xl bg-card border border-border hover:bg-slate-100 dark:hover:bg-white/10 transition-all">
+ ].map(pref => <div key={pref.id} className="flex items-center justify-between p-6 rounded-3xl bg-card border border-border hover:bg-muted dark:hover:bg-card/10 transition-all">
  <div className="flex items-center gap-6">
  <div className="w-12 h-12 rounded-2xl bg-card flex items-center justify-center text-muted-foreground border border-border transition-all">
  <pref.icon className="w-6 h-6" />
@@ -190,7 +190,7 @@ export default function Settings() {
  <Card className="bg-card border-border rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
  <CardHeader className="pt-8 px-8">
  <div className="space-y-1">
- <CardTitle className="text-xs font-bold text-amber-400">{t("admin_settings_interface_parameters")}</CardTitle>
+ <CardTitle className="text-xs font-bold text-warning">{t("admin_settings_interface_parameters")}</CardTitle>
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_settings_finetune_your_visual_and")}</p>
  </div>
  </CardHeader>
@@ -240,7 +240,7 @@ export default function Settings() {
  </div>
  </div>
  <div className="flex justify-end pt-4 border-t border-border">
- <Button onClick={() => saveSettings("appearance", appearanceSettings)} disabled={loading} className="bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-[#fbbf24] rounded-2xl h-16 px-10 font-bold text-[12px] transition-all border border-[#d97706]/20">
+ <Button onClick={() => saveSettings("appearance", appearanceSettings)} disabled={loading} className="bg-card hover:bg-muted dark:hover:bg-card/10 text-[#fbbf24] rounded-2xl h-16 px-10 font-bold text-[12px] transition-all border border-[#d97706]/20">
  {loading ? <RefreshCw className="w-5 h-5 animate-spin mr-3" /> : <Save className="w-5 h-5 mr-3" />}{t("admin_settings_sync_visual_parameters")}</Button>
  </div>
  </CardContent>
@@ -262,10 +262,10 @@ export default function Settings() {
  <Label className="text-[10px] font-bold text-muted-foreground ml-1">{t("admin_settings_active_neural_key")}</Label>
  <div className="flex gap-3">
  <Input value={apiSettings.apiKey} readOnly className="font-mono bg-card border-border rounded-2xl h-14 text-muted-foreground tracking-[0.3em] overflow-hidden truncate" />
- <Button variant="outline" className="h-14 rounded-2xl px-6 bg-card border-border text-muted-foreground hover:text-foreground hover:bg-slate-800 transition-all font-bold text-[10px]">
+ <Button variant="outline" className="h-14 rounded-2xl px-6 bg-card border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-all font-bold text-[10px]">
  <RefreshCw className="w-4 h-4 mr-2" />{t("admin_settings_revoke_key")}</Button>
  </div>
- <p className="text-[9px] font-bold text-slate-600 px-1">{t("admin_settings_never_share_your_neural")}</p>
+ <p className="text-[9px] font-bold text-muted-foreground px-1">{t("admin_settings_never_share_your_neural")}</p>
  </div>
  </CardContent>
  </Card>

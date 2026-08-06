@@ -54,7 +54,7 @@ export function AiStudioTab() {
       fetchTasks();
     } catch (e) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_start_ai"),
         variant: "destructive"
       });

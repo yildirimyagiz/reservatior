@@ -148,7 +148,7 @@ export function Reports() {
     FAILED: XCircle
   };
   const STATUS_CLS = {
-    READY: "bg-green-100 text-green-700",
+    READY: "bg-blue-100 text-blue-700",
     RUNNING: "bg-blue-100 text-blue-700",
     FAILED: "bg-red-100 text-red-700"
   };
@@ -163,7 +163,7 @@ export function Reports() {
       label: t("client.src.running"),
       value: reports.filter(r => r.status === "RUNNING").length
     }, {
-      label: t("client.src.failed"),
+      label: t("common.failed"),
       value: reports.filter(r => r.status === "FAILED").length
     }]}>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -183,11 +183,11 @@ export function Reports() {
                     </div>
                   </div>
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                    <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => handleRun(r)}><Play className="w-4 h-4 mr-2" />{t("client.src.run_now")}</DropdownMenuItem>
-                      {r.status === "READY" && <DropdownMenuItem onClick={() => handleDownload(r)}><Download className="w-4 h-4 mr-2" />{t("client.src.download")}</DropdownMenuItem>}
-                      <DropdownMenuItem className="text-destructive" onClick={() => handleDelete(r)}><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                      {r.status === "READY" && <DropdownMenuItem onClick={() => handleDownload(r)}><Download className="w-4 h-4 mr-2" />{t("common.download")}</DropdownMenuItem>}
+                      <DropdownMenuItem className="text-destructive" onClick={() => handleDelete(r)}><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -208,13 +208,13 @@ export function Reports() {
               ...form,
               name: e.target.value
             })} required /></div>
-            <div className="space-y-1.5"><Label>{t("client.src.type")}</Label>
+            <div className="space-y-1.5"><Label>{t("common.type")}</Label>
               <Select value={form.type} onValueChange={v => setForm({
               ...form,
               type: v
             })}>
-                <SelectTrigger><SelectValue placeholder={t("client.src.select_type")} /></SelectTrigger>
-                <SelectContent><SelectItem value="Financial">{t("client.src.financial")}</SelectItem><SelectItem value="Property">{t("client.src.property")}</SelectItem><SelectItem value="Sales">{t("client.src.sales")}</SelectItem><SelectItem value="Operational">{t("client.src.operational")}</SelectItem><SelectItem value="Tenant">{t("client.src.tenant")}</SelectItem></SelectContent>
+                <SelectTrigger><SelectValue placeholder={t("common.select_type")} /></SelectTrigger>
+                <SelectContent><SelectItem value="Financial">{t("client.src.financial")}</SelectItem><SelectItem value="Property">{t("common.property")}</SelectItem><SelectItem value="Sales">{t("client.src.sales")}</SelectItem><SelectItem value="Operational">{t("client.src.operational")}</SelectItem><SelectItem value="Tenant">{t("common.tenant")}</SelectItem></SelectContent>
               </Select>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -371,10 +371,10 @@ export function Webhooks() {
       });
       setCreateOpen(true);
     }} stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: webhooks.length
     }, {
-      label: t("client.src.active"),
+      label: t("common.active"),
       value: webhooks.filter(w => w.isActive).length
     }, {
       label: t("client.src.avg_success_rate"),
@@ -401,10 +401,10 @@ export function Webhooks() {
                   <Button variant="outline" size="sm" onClick={() => handleTest(w)}>{t("client.src.test")}</Button>
                   <Button variant="outline" size="sm" onClick={() => handleToggle(w)}>{w.isActive ? "Disable" : "Enable"}</Button>
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                    <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive" onClick={() => handleDelete(w)}><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                      <DropdownMenuItem><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                      <DropdownMenuItem className="text-destructive" onClick={() => handleDelete(w)}><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -415,7 +415,7 @@ export function Webhooks() {
               <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t border-border">
                 <span>{t("client.src.success_rate")}<strong className="text-foreground">{w.successRate}%</strong></span>
                 {w.lastDelivery && <span>{t("client.src.last_delivery")}{w.lastDelivery}</span>}
-                <Badge className={`${w.isActive ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"} border-0 text-xs`}>{w.isActive ? "Active" : "Inactive"}</Badge>
+                <Badge className={`${w.isActive ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500"} border-0 text-xs`}>{w.isActive ? "Active" : "Inactive"}</Badge>
               </div>
             </div>)}
         </div>
@@ -487,18 +487,18 @@ export function MLSConnections() {
     title: `${c.name} Connection Initiated`
   });
   return <PageShell title={t("client.src.mls_connections")} description={t("client.src.manage_mls_feed_connections")} createLabel="Add MLS" onCreateClick={() => toast({
-    title: t("client.src.coming_soon")
+    title: t("common.coming_soon")
   })} stats={[{
     label: t("client.src.total_connections"),
     value: connections.length
   }, {
-    label: t("client.src.active"),
+    label: t("common.active"),
     value: connections.filter(c => c.status === "CONNECTED").length
   }, {
     label: t("client.src.total_listings_synced"),
     value: connections.reduce((s, c) => s + c.listingsCount, 0).toLocaleString()
   }, {
-    label: t("client.src.last_sync"),
+    label: t("common.last_sync"),
     value: "9:00 AM"
   }]}>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -511,15 +511,15 @@ export function MLSConnections() {
                   <p className="text-xs text-muted-foreground">{c.provider} · {c.region}</p>
                 </div>
               </div>
-              <Badge className={`${c.status === "CONNECTED" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"} border-0 text-xs`}>{c.status}</Badge>
+              <Badge className={`${c.status === "CONNECTED" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500"} border-0 text-xs`}>{c.status}</Badge>
             </div>
             <div className="text-sm text-muted-foreground space-y-1">
               <p><strong className="text-foreground">{c.listingsCount.toLocaleString()}</strong>{t("client.src.listings_synced")}</p>
-              {c.lastSync && <p>{t("client.src.last_sync")}{c.lastSync}</p>}
+              {c.lastSync && <p>{t("common.last_sync")}{c.lastSync}</p>}
             </div>
             <div className="flex gap-2">
               {c.status === "CONNECTED" ? <Button variant="outline" size="sm" className="flex-1" onClick={() => handleSync(c)}><RefreshCw className="w-3.5 h-3.5 mr-1.5" />{t("client.src.sync_now")}</Button> : <Button size="sm" className="flex-1" onClick={() => handleConnect(c)}><Globe className="w-3.5 h-3.5 mr-1.5" />{t("client.src.connect")}</Button>}
-              <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="w-3.5 h-3.5" /></Button>
+              <Button variant="ghost" size="icon" aria-label={t("common.edit")} className="h-8 w-8"><Edit className="w-3.5 h-3.5" /></Button>
             </div>
           </div>)}
       </div>
@@ -577,7 +577,7 @@ export function Exports() {
     expiresAt: ""
   }];
   const STATUS_CLS = {
-    COMPLETED: "bg-green-100 text-green-700",
+    COMPLETED: "bg-blue-100 text-blue-700",
     PROCESSING: "bg-blue-100 text-blue-700",
     FAILED: "bg-red-100 text-red-700"
   };
@@ -593,13 +593,13 @@ export function Exports() {
       label: t("client.src.total_exports"),
       value: exports.length
     }, {
-      label: t("client.src.completed"),
+      label: t("common.completed"),
       value: exports.filter(e => e.status === "COMPLETED").length
     }, {
-      label: t("client.src.processing"),
+      label: t("common.processing"),
       value: exports.filter(e => e.status === "PROCESSING").length
     }, {
-      label: t("client.src.failed"),
+      label: t("common.failed"),
       value: exports.filter(e => e.status === "FAILED").length
     }]}>
         <div className="bg-card border border-border rounded-xl overflow-hidden">
@@ -610,9 +610,9 @@ export function Exports() {
                 <TableHead>{t("client.src.entity")}</TableHead>
                 <TableHead>{t("client.src.format")}</TableHead>
                 <TableHead>{t("client.src.size")}</TableHead>
-                <TableHead>{t("client.src.created")}</TableHead>
+                <TableHead>{t("common.created")}</TableHead>
                 <TableHead>{t("client.src.expires")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -626,7 +626,7 @@ export function Exports() {
                   <TableCell className="text-xs text-muted-foreground">{e.expiresAt || "—"}</TableCell>
                   <TableCell><Badge className={`${STATUS_CLS[e.status as keyof typeof STATUS_CLS]} border-0 text-xs`}>{e.status}</Badge></TableCell>
                   <TableCell>
-                    {e.status === "COMPLETED" && <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => toast({
+                    {e.status === "COMPLETED" && <Button variant="ghost" size="icon" aria-label={t("common.download")} className="h-8 w-8" onClick={() => toast({
                   title: t("client.src.downloading")
                 })}><Download className="w-4 h-4" /></Button>}
                   </TableCell>

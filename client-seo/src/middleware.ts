@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export const locales = ["en","tr","ar","es","fr","de","ru","pt","zh","ja","ko","it","nl","pl","sv","da","fi","el","hi","id","gr","se","no"];
+export const locales = ["en","es","fr","de","tr","ar","zh","ja","ko","ru","pt","it","nl","pl","sv","da","fi","el","hi","nb"];
 export const defaultLocale = "en";
 
 // IP → locale haritası (CDN header'larından gelen ISO 3166-1 alpha-2 → i18n dil kodu)
@@ -11,7 +11,7 @@ const COUNTRY_TO_LOCALE: Record<string, string> = {
   AR: "es", JP: "ja", KR: "ko", CN: "zh", IN: "hi",
   GB: "en", UK: "en", AU: "en", NZ: "en", SG: "en",
   CA: "en", MY: "en", TH: "en", PL: "pl", SE: "sv",
-  DK: "da", FI: "fi", GR: "el", NO: "no", RU: "ru",
+  DK: "da", FI: "fi", GR: "el", NO: "nb", RU: "ru",
   US: "en",
 };
 

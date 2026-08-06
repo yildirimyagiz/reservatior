@@ -3,19 +3,17 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const hash = await Bun.password.hash("Parola341", { algorithm: "bcrypt", cost: 10 });
+  const hash = await Bun.password.hash("Parola/341", { algorithm: "bcrypt", cost: 10 });
 
   const user = await prisma.user.upsert({
     where: { email: "info@reservatior.com" },
     update: {
-      role: "OWNER",
       name: "Admin",
     },
     create: {
       email: "info@reservatior.com",
       name: "Admin",
       emailVerified: true,
-      role: "OWNER",
     }
   });
 
@@ -27,9 +25,8 @@ async function main() {
     data: {
       userId: user.id,
       providerId: "credentials",
-      providerAccountId: "info@reservatior.com",
-      type: "credentials",
-      provider: "credentials",
+      accountId: "info@reservatior.com",
+      type: "CREDENTIALS",
       accessToken: hash,
     }
   });

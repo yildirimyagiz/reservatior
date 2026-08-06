@@ -31,7 +31,7 @@ interface LocalAgency {
   createdAt: string;
 }
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-green-100 text-green-700",
+  ACTIVE: "bg-blue-100 text-blue-700",
   PENDING: "bg-yellow-100 text-yellow-700",
   SUSPENDED: "bg-red-100 text-red-700"
 };
@@ -167,7 +167,7 @@ export default function Agencies() {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label>{t("client.src.email")}</Label>
+          <Label>{t("common.email")}</Label>
           <Input type="email" value={form.email} onChange={e => setForm({
             ...form,
             email: e.target.value
@@ -196,21 +196,21 @@ export default function Agencies() {
         })} placeholder={t("client.src.https")} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.status")}</Label>
+        <Label>{t("common.status")}</Label>
         <Select value={form.status} onValueChange={v => setForm({
           ...form,
           status: v as any
         })}>
           <SelectTrigger><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="ACTIVE">{t("client.src.active")}</SelectItem>
-            <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
+            <SelectItem value="ACTIVE">{t("common.active")}</SelectItem>
+            <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
             <SelectItem value="SUSPENDED">{t("client.src.suspended")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.description")}</Label>
+        <Label>{t("common.description")}</Label>
         <Textarea value={form.description} onChange={e => setForm({
           ...form,
           description: e.target.value
@@ -229,7 +229,7 @@ export default function Agencies() {
       label: t("client.src.total_agencies"),
       value: agencies.length
     }, {
-      label: t("client.src.active"),
+      label: t("common.active"),
       value: agencies.filter(a => a.status === "ACTIVE").length
     }, {
       label: t("client.src.total_agents"),
@@ -238,11 +238,11 @@ export default function Agencies() {
       label: t("client.src.total_properties"),
       value: agencies.reduce((s, a) => s + (a.propertyCount || 0), 0)
     }]} filters={<Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-36"><SelectValue placeholder={t("client.src.status")} /></SelectTrigger>
+            <SelectTrigger className="w-36"><SelectValue placeholder={t("common.status")} /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t("client.src.all_statuses")}</SelectItem>
-              <SelectItem value="ACTIVE">{t("client.src.active")}</SelectItem>
-              <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
+              <SelectItem value="ACTIVE">{t("common.active")}</SelectItem>
+              <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
               <SelectItem value="SUSPENDED">{t("client.src.suspended")}</SelectItem>
             </SelectContent>
           </Select>}>
@@ -262,13 +262,13 @@ export default function Agencies() {
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8">
                       <MoreHorizontal className="w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => openEdit(agency)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                    <DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => openEdit(agency)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                    <DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
@@ -287,7 +287,7 @@ export default function Agencies() {
                 </div>
                 <div className="text-center">
                   <p className="text-lg font-bold">{agency.propertyCount}</p>
-                  <p className="text-xs text-muted-foreground">{t("client.src.properties")}</p>
+                  <p className="text-xs text-muted-foreground">{t("common.properties")}</p>
                 </div>
               </div>
             </div>)}
@@ -303,7 +303,7 @@ export default function Agencies() {
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader><DialogTitle>{t("client.src.edit_agency")}</DialogTitle></DialogHeader>
-          <AgencyForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <AgencyForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

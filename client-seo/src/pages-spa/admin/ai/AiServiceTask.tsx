@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -150,11 +150,11 @@ export default function AiServiceTaskPage() {
  const getStatusIcon = (status: AiServiceTask['status']) => {
  switch (status) {
  case 'COMPLETED':
- return <CheckCircle className="h-4 w-4 text-green-500" />;
+ return <CheckCircle className="h-4 w-4 text-blue-500" />;
  case 'FAILED':
  return <XCircle className="h-4 w-4 text-red-500" />;
  case 'PROCESSING':
- return <Settings className="h-4 w-4 text-slate-500 animate-spin" />;
+ return <Settings className="h-4 w-4 text-muted-foreground animate-spin" />;
  case 'PENDING':
  return <Play className="h-4 w-4 text-yellow-500" />;
  default:
@@ -165,15 +165,15 @@ export default function AiServiceTaskPage() {
  const getStatusColor = (status: AiServiceTask['status']) => {
  switch (status) {
  case 'COMPLETED':
- return 'bg-green-100 text-green-800';
+ return 'bg-blue-100 text-blue-800';
  case 'FAILED':
  return 'bg-red-100 text-red-800';
  case 'PROCESSING':
- return 'bg-slate-100 text-slate-800';
+ return 'bg-muted text-muted-foreground';
  case 'PENDING':
  return 'bg-yellow-100 text-yellow-800';
  default:
- return 'bg-card text-slate-300';
+ return 'bg-card text-muted-foreground';
  }
  };
 
@@ -328,7 +328,7 @@ export default function AiServiceTaskPage() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>

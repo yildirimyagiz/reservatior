@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -168,7 +168,7 @@ export default function AIModels() {
  const getDeploymentStatusColor = (status: string) => {
  switch (status) {
  case 'ACTIVE':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'DEPLOYING':
  return 'bg-muted0';
  case 'PENDING':
@@ -176,9 +176,9 @@ export default function AIModels() {
  case 'FAILED':
  return 'bg-red-500';
  case 'INACTIVE':
- return 'bg-white/10';
+ return 'bg-card/10';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  if (loading) {
@@ -278,13 +278,13 @@ export default function AIModels() {
  <TableCell>
  <div className="flex items-center gap-1">
  <span className="text-sm">{activeDeployments}{t("/", "/")}{modelDeployments.length}</span>
- {activeDeployments > 0 && <CheckCircle className="h-3 w-3 text-green-500" />}
+ {activeDeployments > 0 && <CheckCircle className="h-3 w-3 text-blue-500" />}
  </div>
  </TableCell>
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>

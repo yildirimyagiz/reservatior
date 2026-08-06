@@ -206,7 +206,7 @@ export default function GoogleMapView({
       {/* Map Branding Overlay */}
       <div className="absolute top-4 left-1/2 -translate-x-1/2 pointer-events-none group-hover:opacity-100 opacity-60 transition-opacity">
          <div className="bg-slate-900/90 backdrop-blur-md border border-white/10 rounded-xl px-4 py-2 flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
             <span className="text-white text-[9px] font-black uppercase tracking-tighter italic">{t("client.src.google_maps_engine_active")}</span>
          </div>
       </div>
@@ -222,7 +222,7 @@ export default function GoogleMapView({
             <Card className="bg-[#14151a]/95 backdrop-blur-xl border-white/10 rounded-2xl p-4 shadow-3xl">
               <div className="flex justify-between items-start mb-3">
                 <h4 className="font-black text-white text-sm">{selectedProperty.name}</h4>
-                <Button size="icon" variant="ghost" className="min-h-12 min-w-12 text-slate-500" onClick={() => setSelectedProperty(null)}>✕</Button>
+                <Button size="icon" variant="ghost" className="min-h-12 min-w-12 text-slate-500" onClick={() => setSelectedProperty(null)} aria-label={t("common.close")}>✕</Button>
               </div>
               <div className="flex items-center gap-2 mb-4">
                 <div className={cn("px-2 py-0.5 rounded text-[8px] font-black uppercase", selectedProperty.isDoped ? "bg-amber-500 text-black" : "bg-violet-600/20 text-violet-400")}>
@@ -232,7 +232,7 @@ export default function GoogleMapView({
                    ${parseInt(selectedProperty.listingPrice?.toString() || "0").toLocaleString()}
                 </div>
               </div>
-              <Button size="sm" className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl h-9 text-xs" onClick={() => navigate(`/property/${selectedProperty.id}`)}>{t("client.src.view_details")}</Button>
+              <Button size="sm" className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl h-9 text-xs" onClick={() => navigate(`/property/${selectedProperty.id}`)}>{t("common.view_details")}</Button>
             </Card>
           </m.div>
         </div>}

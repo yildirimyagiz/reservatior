@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { PrismaManager } from "../../lib/prisma";
+import { prismaManager } from "../../lib/prisma";
 import { eventBus } from "../../core/events/event-bus";
 import { DomainEvents } from "../../core/events/domain-events";
 import { randomUUID } from "crypto";
@@ -18,7 +18,7 @@ export const adsWebhookPlugin = new Elysia({ prefix: '/api/webhooks/ads' })
         orgId = "mock-org-123" // In reality, mapped from Ad Account ID
       } = body as any;
 
-      const prisma = PrismaManager.getInstance().getClient('US');
+      const prisma = prismaManager.getClient('US');
       const correlationId = randomUUID();
 
       // 1. Create Lead in the DB
@@ -59,7 +59,7 @@ export const adsWebhookPlugin = new Elysia({ prefix: '/api/webhooks/ads' })
       const { leadId } = params;
       const { price = 500000, commissionRate = 3.0 } = (body as any) || {};
 
-      const prisma = PrismaManager.getInstance().getClient('US');
+      const prisma = prismaManager.getClient('US');
       const correlationId = randomUUID();
 
       const lead = await prisma.lead.findUnique({

@@ -23,8 +23,8 @@ export default function SecurityScreening() {
  const getRiskStyle = (level: string) => {
  switch (level) {
  case 'HIGH': return"bg-rose-500/10 text-rose-400 border-rose-500/20";
- case 'MEDIUM': return"bg-orange-500/10 text-orange-400 border-orange-500/20";
- case 'LOW': return"bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+ case 'MEDIUM': return"bg-orange-500/10 text-warning border-orange-500/20";
+ case 'LOW': return"bg-blue-500/10 text-success border-blue-500/20";
  default: return"bg-muted0/10 text-muted-foreground border-slate-500/20";
  }
  };
@@ -38,8 +38,8 @@ export default function SecurityScreening() {
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  {[{ label: t("admin_security_total_screened"), val: screenings.length, icon: Shield, color:"text-muted-foreground" },
  { label: t("admin_security_critical_flags"), val: screenings.filter((s: any) => s.riskLevel === 'HIGH').length, icon: ShieldAlert, color:"text-rose-500" },
- { label: t("admin_security_manual_reviews"), val: screenings.filter((s: any) => s.manualReviewRequired).length, icon: Clock, color:"text-orange-400" },
- { label: t("admin_security_safe_entities"), val: screenings.filter((s: any) => s.riskLevel === 'LOW').length, icon: ShieldCheck, color:"text-emerald-400" }
+ { label: t("admin_security_manual_reviews"), val: screenings.filter((s: any) => s.manualReviewRequired).length, icon: Clock, color:"text-warning" },
+ { label: t("admin_security_safe_entities"), val: screenings.filter((s: any) => s.riskLevel === 'LOW').length, icon: ShieldCheck, color:"text-success" }
  ].map((stat, i) => <Card key={i} className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group">
  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
  <stat.icon className="w-12 h-12" />
@@ -56,9 +56,9 @@ export default function SecurityScreening() {
  <CardTitle className="text-xs font-bold text-foreground flex items-center gap-2">
  <Zap className="w-4 h-4 text-orange-500" />{t("admin_security_assessment_queue")}</CardTitle>
  <div className="flex gap-2">
- <Button variant="outline" className="h-10 rounded-xl border-border bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-muted-foreground hover:text-foreground font-bold text-[9px] gap-2">
+ <Button variant="outline" className="h-10 rounded-xl border-border bg-card hover:bg-muted dark:hover:bg-card/10 text-muted-foreground hover:text-foreground font-bold text-[9px] gap-2">
  <Monitor className="w-3.5 h-3.5" />{t("admin_security_behavioral_analysis")}</Button>
- <Button variant="outline" className="h-10 rounded-xl border-border bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-muted-foreground hover:text-foreground font-bold text-[9px] gap-2">
+ <Button variant="outline" className="h-10 rounded-xl border-border bg-card hover:bg-muted dark:hover:bg-card/10 text-muted-foreground hover:text-foreground font-bold text-[9px] gap-2">
  <Globe className="w-3.5 h-3.5" />{t("admin_security_ip_intel")}</Button>
  </div>
  </CardHeader>
@@ -85,7 +85,7 @@ export default function SecurityScreening() {
  </TableCell>
  <TableCell className="px-8">
  <div className="text-xs font-bold text-muted-foreground">{s.property?.name}</div>
- <div className="text-[10px] font-bold text-slate-600 mt-1">{s.property?.city}</div>
+ <div className="text-[10px] font-bold text-muted-foreground mt-1">{s.property?.city}</div>
  </TableCell>
  <TableCell className="px-8">
  <Badge className={cn("text-[9px] font-bold px-2", getRiskStyle(s.riskLevel))}>{s.riskLevel}</Badge>
@@ -93,13 +93,13 @@ export default function SecurityScreening() {
  <TableCell className="px-8">
  <div className="flex items-center gap-4">
  <div className="w-24 h-1.5 bg-card rounded-full overflow-hidden">
- <div className={cn("h-full rounded-full transition-all duration-1000", s.riskScore > 0.7 ? 'bg-rose-500' : s.riskScore > 0.4 ? 'bg-orange-500' : 'bg-emerald-500')} style={{ width: `${s.riskScore * 100}%` }} />
+ <div className={cn("h-full rounded-full transition-all duration-1000", s.riskScore > 0.7 ? 'bg-rose-500' : s.riskScore > 0.4 ? 'bg-orange-500' : 'bg-blue-500')} style={{ width: `${s.riskScore * 100}%` }} />
  </div>
  <span className="text-xs font-bold text-foreground">{(s.riskScore * 100).toFixed(0)}</span>
  </div>
  </TableCell>
  <TableCell className="px-8 text-right">
- <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground">
+ <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground" aria-label={t("common.view")}>
  <Eye className="w-5 h-5" />
  </Button>
  </TableCell>

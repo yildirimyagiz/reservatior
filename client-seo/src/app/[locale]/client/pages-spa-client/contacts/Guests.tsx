@@ -116,7 +116,7 @@ export default function Guests() {
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.email")}</Label>
+        <Label>{t("common.email")}</Label>
         <Input type="email" value={form.email} onChange={e => setForm({
           ...form,
           email: e.target.value
@@ -180,11 +180,11 @@ export default function Guests() {
           <Table>
             <TableHeader>
               <TableRow>
-              <TableHead>{t("client.src.name")}</TableHead>
-              <TableHead>{t("client.src.email")}</TableHead>
+              <TableHead>{t("common.name")}</TableHead>
+              <TableHead>{t("common.email")}</TableHead>
               <TableHead>{t("client.src.nationality")}</TableHead>
               <TableHead>{t("client.src.gender")}</TableHead>
-              <TableHead>{t("client.src.bookings")}</TableHead>
+              <TableHead>{t("common.bookings")}</TableHead>
               <TableHead>{t("client.src.registered")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
@@ -201,10 +201,10 @@ export default function Guests() {
                     <TableCell className="text-sm">{row.createdAt ?? "—"}</TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -217,13 +217,13 @@ export default function Guests() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_guests")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_guests")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

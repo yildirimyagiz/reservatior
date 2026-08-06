@@ -43,13 +43,13 @@ export class CrossSellEngine {
 
     const similarListings = await prisma.listing.findMany({
       where: {
-        status: "ACTIVE",
+        status: "AVAILABLE",
         NOT: { id: lastLease.listingId },
         property: {
           ...(lastProperty.city ? { city: lastProperty.city } : {}),
-          price: {
-            gte: lastProperty.price ? Number(lastProperty.price) * 0.7 : 0,
-            lte: lastProperty.price ? Number(lastProperty.price) * 1.3 : 999999999,
+          listingPrice: {
+            gte: lastProperty.listingPrice ? Number(lastProperty.listingPrice) * 0.7 : 0,
+            lte: lastProperty.listingPrice ? Number(lastProperty.listingPrice) * 1.3 : 999999999,
           },
         },
       },
@@ -87,13 +87,13 @@ export class CrossSellEngine {
       where: { id: agentId },
       include: {
         agentPerformances: { orderBy: { endDate: "desc" }, take: 4 },
-        subscriptions: true,
+        Subscription: true,
       },
     });
 
     if (!agent) return services;
 
-    const hasSubscription = (agent.subscriptions?.length || 0) > 0;
+    const hasSubscription = (agent.Subscription?.length || 0) > 0;
     const totalDeals = agent.agentPerformances?.reduce((s, p) => s + p.dealsClosed, 0) || 0;
 
     if (!hasSubscription) {
@@ -134,7 +134,7 @@ export class CrossSellEngine {
         properties: {
           include: {
             listings: true,
-            maintenanceWorkOrders: { orderBy: { createdAt: "desc" }, take: 5 },
+            workOrders: { orderBy: { reportedAt: "desc" }, take: 5 },
           },
         },
       },
@@ -144,7 +144,7 @@ export class CrossSellEngine {
 
     const totalProperties = org.properties?.length || 0;
     const openWorkOrders = org.properties?.reduce(
-      (s, p) => s + (p.maintenanceWorkOrders?.filter(w => w.status !== "DONE" && w.status !== "CANCELLED").length || 0),
+      (s, p) => s + (p.workOrders?.filter(w => w.status !== "COMPLETED" && w.status !== "CANCELLED").length || 0),
       0
     ) || 0;
 
@@ -183,7 +183,7 @@ export class CrossSellEngine {
     if (entityType === "TENANT") {
       const tenant = await prisma.tenant.findUnique({
         where: { id: entityId },
-        include: { Lease: { take: 1, include: { listing: true } } },
+        include: { Lease: { take: 1, include: { listing: { include: { property: true } } } } },
       });
 
       if (tenant) {
@@ -215,14 +215,18 @@ export class CrossSellEngine {
     if (entityType === "AGENT") {
       const agent = await prisma.agent.findUnique({
         where: { id: entityId },
-        include: { agentTeams: { include: { members: true } } },
+        select: {
+          id: true,
+          agencyId: true,
+          status: true,
+        },
       });
 
-      if (agent && (!agent.agentTeams || agent.agentTeams.length === 0)) {
+      if (agent && agent.status === "ACTIVE" && !agent.agencyId) {
         const topAgents = await prisma.agent.findMany({
           where: {
             id: { not: entityId },
-            isActive: true,
+            status: "ACTIVE",
           },
           take: 3,
           orderBy: { createdAt: "asc" },

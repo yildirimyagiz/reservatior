@@ -34,53 +34,53 @@ export default function CapExAmortization() {
       
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_auto_zero_capex_amortization", "Zero-CapEx Amortization")}</h1>
-        <p className="text-slate-500 dark:text-slate-400 mt-1">{t("admin_auto_track_furniture_investments_automatic_re", "Track furniture investments, automatic rent deductions, and break-even points.")}</p>
+        <h1 className="text-3xl font-black text-muted-foreground dark:text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_auto_zero_capex_amortization", "Sıfır Sermaye Harcaması Amortismanı")}</h1>
+        <p className="text-muted-foreground dark:text-muted-foreground mt-1">{t("admin_auto_track_furniture_investments_automatic_re", "Mobilya yatırımlarını, otomatik kira kesintilerini ve başabaş noktalarını takip edin.")}</p>
       </div>
 
       {/* Top Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="border-none shadow-sm dark:bg-slate-900/50 bg-gradient-to-br from-blue-600 to-blue-800 text-white">
+        <Card className="border-none shadow-sm dark:bg-card/50 bg-gradient-to-br from-blue-600 to-blue-800 text-white">
           <CardContent className="p-6">
             <div className="flex justify-between items-start mb-4">
-              <div className="p-2 bg-white/20 rounded-lg"><Briefcase className="w-5 h-5 text-white" /></div>
-              <span className="px-2 py-1 bg-white/20 rounded text-xs font-bold">{t("admin_investors_portfolio", "Portfolio")}</span>
+              <div className="p-2 bg-card/20 rounded-lg"><Briefcase className="w-5 h-5 text-white" /></div>
+              <span className="px-2 py-1 bg-card/20 rounded text-xs font-bold">{t("admin_investors_portfolio", "Portföy")}</span>
             </div>
-            <p className="text-blue-100 text-sm font-medium mb-1">{t("admin_auto_total_capex_deployed", "Total CapEx Deployed")}</p>
+            <p className="text-blue-100 text-sm font-medium mb-1">{t("admin_auto_total_capex_deployed", "Dağıtılan Toplam Sermaye Harcaması")}</p>
             <h3 className="text-3xl font-black">$42,000</h3>
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-sm dark:bg-slate-900/50">
+        <Card className="border-none shadow-sm dark:bg-card/50">
           <CardContent className="p-6">
             <div className="flex justify-between items-start mb-4">
-              <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg"><PiggyBank className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /></div>
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg"><PiggyBank className="w-5 h-5 text-blue-600 dark:text-blue-400" /></div>
             </div>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">{t("admin_auto_capital_recovered", "Capital Recovered")}</p>
+            <p className="text-muted-foreground dark:text-muted-foreground text-sm font-medium mb-1">{t("admin_auto_capital_recovered", "Geri Kazanılan Sermaye")}</p>
             <h3 className="text-3xl font-black">$31,200</h3>
-            <p className="text-xs text-emerald-500 font-bold mt-2">{t("admin_auto_74_2_amortized", "74.2% Amortized")}</p>
+            <p className="text-xs text-success font-bold mt-2">{t("admin_auto_74_2_amortized", "%74,2 Amortisman")}</p>
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-sm dark:bg-slate-900/50">
+        <Card className="border-none shadow-sm dark:bg-card/50">
           <CardContent className="p-6">
             <div className="flex justify-between items-start mb-4">
-              <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg"><TrendingUp className="w-5 h-5 text-amber-600 dark:text-amber-400" /></div>
+              <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg"><TrendingUp className="w-5 h-5 text-amber-600 dark:text-warning" /></div>
             </div>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">{t("admin_auto_avg_break_even_time", "Avg Break-Even Time")}</p>
-            <h3 className="text-3xl font-black">{t("admin_auto_8_4_mo", "8.4 mo")}</h3>
-            <p className="text-xs text-amber-500 font-bold mt-2">{t("admin_auto_industry_avg_24_mo", "Industry avg: 24 mo")}</p>
+            <p className="text-muted-foreground dark:text-muted-foreground text-sm font-medium mb-1">{t("admin_auto_avg_break_even_time", "Ortalama Başabaş Süresi")}</p>
+            <h3 className="text-3xl font-black">{t("admin_auto_8_4_mo", "8,4 ay")}</h3>
+            <p className="text-xs text-amber-500 font-bold mt-2">{t("admin_auto_industry_avg_24_mo", "Sektör ortalaması: 24 ay")}</p>
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-sm dark:bg-slate-900/50">
+        <Card className="border-none shadow-sm dark:bg-card/50">
           <CardContent className="p-6">
             <div className="flex justify-between items-start mb-4">
-              <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg"><Zap className="w-5 h-5 text-purple-600 dark:text-purple-400" /></div>
+              <div className="p-2 bg-brand/15 dark:bg-brand/30 rounded-lg"><Zap className="w-5 h-5 text-brand dark:text-brand" /></div>
             </div>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">{t("admin_auto_owner_roi", "Owner ROI")}</p>
+            <p className="text-muted-foreground dark:text-muted-foreground text-sm font-medium mb-1">{t("admin_auto_owner_roi", "Sahip YG'si")}</p>
             <h3 className="text-3xl font-black">13.4%</h3>
-            <p className="text-xs text-purple-500 font-bold mt-2">{t("admin_auto_post_amortization", "Post-Amortization")}</p>
+            <p className="text-xs text-brand font-bold mt-2">{t("admin_auto_post_amortization", "Amortisman Sonrası")}</p>
           </CardContent>
         </Card>
       </div>
@@ -88,9 +88,9 @@ export default function CapExAmortization() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Main Chart */}
-        <Card className="lg:col-span-2 border-none shadow-sm dark:bg-slate-900/50">
+        <Card className="lg:col-span-2 border-none shadow-sm dark:bg-card/50">
           <CardHeader>
-            <CardTitle>{t("admin_auto_capex_payback_trajectory_lakeview_suite", "CapEx Payback Trajectory (Lakeview Suite)")}</CardTitle>
+            <CardTitle>{t("admin_auto_capex_payback_trajectory_lakeview_suite", "Sermaye Harcaması Geri Ödeme Yörüngesi (Lakeview Suite)")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[300px] w-full">
@@ -115,10 +115,10 @@ export default function CapExAmortization() {
             </div>
             <div className="mt-4 flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-900/30">
               <div className="flex items-center gap-3">
-                <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <AlertCircle className="w-5 h-5 text-blue-600 dark:text-info" />
                 <div>
-                  <p className="text-sm font-bold text-blue-900 dark:text-blue-300">{t("admin_auto_break_even_reached_in_september", "Break-Even Reached in September")}</p>
-                  <p className="text-xs text-blue-800/80 dark:text-blue-200/70">{t("admin_auto_from_october_onwards_100_of_the_rent_dis", "From October onwards, 100% of the rent distribution goes to the owner.")}</p>
+                  <p className="text-sm font-bold text-blue-900 dark:text-blue-300">{t("admin_auto_break_even_reached_in_september", "Eylül'de Başabaş Noktasına Ulaşıldı")}</p>
+                  <p className="text-xs text-blue-800/80 dark:text-blue-200/70">{t("admin_auto_from_october_onwards_100_of_the_rent_dis", "Ekim ayından itibaren kira dağıtımının %100'ü ev sahibine gidiyor.")}</p>
                 </div>
               </div>
             </div>
@@ -126,29 +126,29 @@ export default function CapExAmortization() {
         </Card>
 
         {/* Portfolio Status */}
-        <Card className="border-none shadow-sm dark:bg-slate-900/50">
+        <Card className="border-none shadow-sm dark:bg-card/50">
           <CardHeader>
-            <CardTitle>{t("admin_dashboard_action_properties", "Properties")}</CardTitle>
+            <CardTitle>{t("admin_dashboard_action_properties", "Mülkler")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {PORTFOLIO_PROPERTIES.map((prop, i) => (
-              <div key={i} className="p-4 rounded-xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <div key={i} className="p-4 rounded-xl border border-slate-100 dark:border-border hover:bg-muted dark:hover:bg-muted/50 transition-colors">
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <h4 className="font-bold text-sm">{prop.name}</h4>
-                    <p className="text-xs text-slate-500 mt-0.5">{prop.status}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{prop.status}</p>
                   </div>
-                  <span className="text-xs font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded">
-                    {prop.returnRate} {t("admin_financial_roi", "ROI")}</span>
+                  <span className="text-xs font-bold text-success bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded">
+                    {prop.returnRate} {t("admin_financial_roi", "Yatırım Getirisi (Roi)")}</span>
                 </div>
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-500">{t("admin_auto_recovered", "Recovered: $")}{prop.paid.toLocaleString()}</span>
-                    <span className="text-slate-900 dark:text-white font-bold">{t("admin_auto_total", "Total: $")}{prop.cost.toLocaleString()}</span>
+                    <span className="text-muted-foreground">{t("admin_auto_recovered", "Kurtarılan: $")}{prop.paid.toLocaleString()}</span>
+                    <span className="text-muted-foreground dark:text-white font-bold">{t("admin_auto_total", "Toplam: $")}{prop.cost.toLocaleString()}</span>
                   </div>
-                  <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-muted dark:bg-muted rounded-full overflow-hidden">
                     <div 
-                      className={`h-full rounded-full ${prop.paid === prop.cost ? 'bg-emerald-500' : 'bg-blue-500'}`} 
+                      className={`h-full rounded-full ${prop.paid === prop.cost ? 'bg-blue-500' : 'bg-blue-500'}`} 
                       style={{ width: `${(prop.paid / prop.cost) * 100}%` }}
                     />
                   </div>

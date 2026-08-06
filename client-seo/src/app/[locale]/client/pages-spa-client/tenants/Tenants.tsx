@@ -41,7 +41,7 @@ export default function Tenants() {
       toast({ title: t("client.src.score_calculated") });
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -50,7 +50,7 @@ export default function Tenants() {
       case "PAID":
         return {
           label: t("client.src.sync_complete"),
-          color: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]"
+          color: "bg-success/10 text-success border-success/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]"
         };
       case "OVERDUE":
         return {
@@ -60,18 +60,18 @@ export default function Tenants() {
       case "PARTIAL":
         return {
           label: t("client.src.partial_sync"),
-          color: "bg-orange-500/10 text-orange-400 border-orange-500/20"
+          color: "bg-warning/10 text-orange-400 border-warning/20"
         };
       default:
         return {
           label: t("client.src.unverified"),
-          color: "bg-slate-500/10 text-slate-400 border-slate-500/20"
+          color: "bg-muted text-muted-foreground border-slate-500/20"
         };
     }
   };
   const getTrustColor = (score: number) => {
-    if (score > 0.9) return "text-emerald-400";
-    if (score > 0.8) return "text-blue-400";
+    if (score > 0.9) return "text-success";
+    if (score > 0.8) return "text-brand";
     return "text-orange-400";
   };
   const stats = [{
@@ -83,11 +83,11 @@ export default function Tenants() {
   }, {
     label: t("client.src.collection_delta"),
     value: "+4.2%",
-    color: "text-emerald-400"
+    color: "text-success"
   }, {
     label: t("client.src.trust_index"),
     value: "0.89",
-    color: "text-blue-500"
+    color: "text-brand"
   }];
   if (isLoading) {
     return (
@@ -104,21 +104,21 @@ export default function Tenants() {
         {/* Control Layer */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 px-4">
            <div className="flex items-center gap-4 flex-1 w-full max-w-2xl relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-blue-500 transition-colors" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-brand transition-colors" />
               <Input placeholder={t("client.src.scanning_resident_signatures")} value={search} onChange={e => setSearch(e.target.value)} className="bg-black/40 border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-blue-500/20 focus:border-blue-500/40 transition-all font-display border-l border-t" />
            </div>
            <div className="flex items-center gap-4 w-full lg:w-auto">
               <Select value={filterStatus} onValueChange={setFilterStatus}>
-                <SelectTrigger className="h-14 w-48 bg-card border-border rounded-2xl text-[10px] font-bold text-slate-400">
+                <SelectTrigger className="h-14 w-48 bg-card border-border rounded-2xl text-[10px] font-bold text-muted-foreground">
                    <SelectValue placeholder={t("client.src.occupancy_sector")} />
                 </SelectTrigger>
-                <SelectContent className="bg-[#1a1b1e] border-border font-display">
-                   <SelectItem value="all" className="text-slate-400 font-bold">{t("client.src.all_matrices")}</SelectItem>
-                   <SelectItem value="PAID" className="text-slate-400 font-bold">{t("client.src.paid")}</SelectItem>
-                   <SelectItem value="OVERDUE" className="text-slate-400 font-bold">{t("client.src.overdue")}</SelectItem>
+                <SelectContent className="bg-card border-border font-display">
+                   <SelectItem value="all" className="text-muted-foreground font-bold">{t("client.src.all_matrices")}</SelectItem>
+                   <SelectItem value="PAID" className="text-muted-foreground font-bold">{t("common.paid")}</SelectItem>
+                   <SelectItem value="OVERDUE" className="text-muted-foreground font-bold">{t("common.overdue")}</SelectItem>
                 </SelectContent>
               </Select>
-              <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-blue-500 text-foreground font-bold text-[10px] shadow-xl shadow-blue-600/20 border-t border-border shrink-0">
+              <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-brand/100 text-foreground font-bold text-[10px] shadow-xl shadow-blue-600/20 border-t border-border shrink-0">
                  <Plus className="w-4 h-4 mr-2" />{t("client.src.add_occupant")}</Button>
            </div>
         </div>
@@ -140,7 +140,7 @@ export default function Tenants() {
           }} whileHover={{
             y: -5
           }} className="p-8 rounded-[40px] bg-card border border-border backdrop-blur-3xl shadow-3xl group relative overflow-hidden flex flex-col justify-between border-l border-t transition-all">
-                  <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 transition-all pointer-events-none text-blue-500">
+                  <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 transition-all pointer-events-none text-brand">
                      <Fingerprint className="w-32 h-32" />
                   </div>
 
@@ -151,10 +151,10 @@ export default function Tenants() {
                         </Badge>
                         <div className="flex items-center gap-4">
                            <div className="text-right">
-                              <p className="text-[9px] font-bold text-slate-600">{t("client.src.trust_score")}</p>
+                              <p className="text-[9px] font-bold text-muted-foreground">{t("client.src.trust_score")}</p>
                               <p className={cn("text-xs font-bold ", getTrustColor(tenant.overallScore || 0))}>{((tenant.overallScore || 0) / 100).toFixed(2)}</p>
                            </div>
-                           <div className="h-10 w-10 rounded-xl bg-black/40 border border-border flex items-center justify-center text-slate-400 group-hover:text-foreground transition-colors cursor-pointer" onClick={() => calculateScoreMutation.mutate(tenant.id)}>
+                           <div className="h-10 w-10 rounded-xl bg-black/40 border border-border flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors cursor-pointer" onClick={() => calculateScoreMutation.mutate(tenant.id)}>
                               <Brain className="w-4 h-4" />
                            </div>
                         </div>
@@ -162,33 +162,33 @@ export default function Tenants() {
 
                      <div className="flex items-center gap-6">
                         <Avatar className="h-20 w-20 rounded-2xl border border-border shadow-2xl p-0.5 bg-gradient-to-br from-blue-500/20 to-transparent">
-                           <AvatarFallback className="rounded-2xl bg-black/40 text-xl font-bold text-blue-400">
+                           <AvatarFallback className="rounded-2xl bg-black/40 text-xl font-bold text-brand">
                               {tenant.firstName[0]}{tenant.lastName[0]}
                            </AvatarFallback>
                         </Avatar>
                         <div>
-                           <h3 className="text-2xl font-bold text-foreground leading-tight group-hover:text-blue-400 transition-colors">
+                           <h3 className="text-2xl font-bold text-foreground leading-tight group-hover:text-brand transition-colors">
                               {tenant.firstName} {tenant.lastName}
                            </h3>
-                           <p className="text-[10px] font-bold text-slate-500 mt-1 leading-none">{tenant.email}</p>
+                           <p className="text-[10px] font-bold text-muted-foreground mt-1 leading-none">{tenant.email}</p>
                            <div className="flex items-center gap-2 mt-4 px-3 py-1.5 bg-white/5 rounded-full border border-border w-fit">
-                              <Activity className="w-3 h-3 text-blue-500" />
-                              <span className="text-[8px] font-bold text-slate-400">{tenant.professionCategory || "RESIDENTIAL"}</span>
+                              <Activity className="w-3 h-3 text-brand" />
+                              <span className="text-[8px] font-bold text-muted-foreground">{tenant.professionCategory || "RESIDENTIAL"}</span>
                            </div>
                         </div>
                      </div>
 
                      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-6 border-t border-border">
                         <div className="space-y-1">
-                           <p className="text-[8px] font-bold text-slate-600 flex items-center gap-1.5"><Building className="w-2.5 h-2.5" />{t("client.src.domain_node")}</p>
+                           <p className="text-[8px] font-bold text-muted-foreground flex items-center gap-1.5"><Building className="w-2.5 h-2.5" />{t("client.src.domain_node")}</p>
                            <p className="text-[10px] font-bold text-foreground tracking-tight">{tenant.propertyId}</p>
                         </div>
                         <div className="space-y-1">
-                           <p className="text-[8px] font-bold text-slate-600 flex items-center gap-1.5"><CreditCard className="w-2.5 h-2.5" />{t("client.src.fiscal_flow")}</p>
+                           <p className="text-[8px] font-bold text-muted-foreground flex items-center gap-1.5"><CreditCard className="w-2.5 h-2.5" />{t("client.src.fiscal_flow")}</p>
                            <p className="text-[10px] font-bold text-foreground tracking-tight font-mono">{tenant.paymentMethod || "CREDIT_CARD"}</p>
                         </div>
                         <div className="space-y-1">
-                           <p className="text-[8px] font-bold text-slate-600 flex items-center gap-1.5"><Clock className="w-2.5 h-2.5" />{t("client.src.cycle_end")}</p>
+                           <p className="text-[8px] font-bold text-muted-foreground flex items-center gap-1.5"><Clock className="w-2.5 h-2.5" />{t("client.src.cycle_end")}</p>
                            <p className="text-[10px] font-bold text-foreground tracking-tight font-mono">{new Date(tenant.leaseEndDate).toLocaleDateString()}</p>
                         </div>
                      </div>
@@ -196,15 +196,15 @@ export default function Tenants() {
 
                   <div className="mt-8 flex items-center justify-between">
                      <div className="flex items-center gap-4">
-                        <div className={`p-2 rounded-lg border ${tenant.riskLevel === 'LOW' ? 'bg-emerald-500/10 border-emerald-500/20' : tenant.riskLevel === 'MEDIUM' ? 'bg-yellow-500/10 border-yellow-500/20' : tenant.riskLevel === 'HIGH' ? 'bg-orange-500/10 border-orange-500/20' : 'bg-red-500/10 border-red-500/20'}`}>
-                           <Shield className={`w-4 h-4 ${tenant.riskLevel === 'LOW' ? 'text-emerald-400' : tenant.riskLevel === 'MEDIUM' ? 'text-yellow-400' : tenant.riskLevel === 'HIGH' ? 'text-orange-400' : 'text-red-400'}`} />
+                        <div className={`p-2 rounded-lg border ${tenant.riskLevel === 'LOW' ? 'bg-success/10 border-success/20' : tenant.riskLevel === 'MEDIUM' ? 'bg-yellow-500/10 border-yellow-500/20' : tenant.riskLevel === 'HIGH' ? 'bg-warning/10 border-warning/20' : 'bg-red-500/10 border-red-500/20'}`}>
+                           <Shield className={`w-4 h-4 ${tenant.riskLevel === 'LOW' ? 'text-success' : tenant.riskLevel === 'MEDIUM' ? 'text-yellow-400' : tenant.riskLevel === 'HIGH' ? 'text-orange-400' : 'text-red-400'}`} />
                         </div>
                         <div>
-                           <p className={`text-[8px] font-bold ${tenant.riskLevel === 'LOW' ? 'text-emerald-400' : tenant.riskLevel === 'MEDIUM' ? 'text-yellow-400' : tenant.riskLevel === 'HIGH' ? 'text-orange-400' : 'text-red-400'}`}>{t("client.src.risk_level")}: {tenant.riskLevel}</p>
-                           <p className="text-[7px] font-bold text-slate-600 mt-0.5">{t("client.src.score")}: {tenant.overallScore?.toFixed(1) || 0}/100</p>
+                           <p className={`text-[8px] font-bold ${tenant.riskLevel === 'LOW' ? 'text-success' : tenant.riskLevel === 'MEDIUM' ? 'text-yellow-400' : tenant.riskLevel === 'HIGH' ? 'text-orange-400' : 'text-red-400'}`}>{t("client.src.risk_level")}: {tenant.riskLevel}</p>
+                           <p className="text-[7px] font-bold text-muted-foreground mt-0.5">{t("client.src.score")}: {tenant.overallScore?.toFixed(1) || 0}/100</p>
                         </div>
                      </div>
-                     <Button variant="ghost" onClick={() => setSelectedTenant(tenant)} className="h-10 text-xs font-bold text-blue-400 hover:text-foreground gap-2 group/btn">{t("client.src.scan_record")}<ArrowUpRight className="w-3 h-3 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                     <Button variant="ghost" onClick={() => setSelectedTenant(tenant)} className="h-10 text-xs font-bold text-brand hover:text-foreground gap-2 group/btn">{t("client.src.scan_record")}<ArrowUpRight className="w-3 h-3 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                      </Button>
                   </div>
                 </m.div>)}
@@ -245,7 +245,7 @@ export default function Tenants() {
                 </div>
                 <div className="p-4 rounded-xl border border-border bg-muted/50 space-y-1">
                    <div className="text-xs text-muted-foreground font-semibold">Güven Skoru</div>
-                   <div className="font-bold text-emerald-500">{selectedTenant?.overallScore?.toFixed(1) || 0}/100</div>
+                   <div className="font-bold text-success">{selectedTenant?.overallScore?.toFixed(1) || 0}/100</div>
                 </div>
              </div>
              <div className="flex gap-4">
@@ -258,38 +258,38 @@ export default function Tenants() {
 
       {/* Modern Dialogs */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="max-w-2xl bg-[#14151a] border border-border rounded-[32px] shadow-3xl text-foreground font-display overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent opacity-50"></div>
+        <DialogContent className="max-w-2xl bg-background border border-border rounded-[32px] shadow-3xl text-foreground font-display overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand via-transparent to-transparent opacity-50"></div>
           <DialogHeader className="p-8">
             <DialogTitle className="text-3xl font-bold flex items-center gap-4">
                <div className="p-3 bg-blue-600 rounded-2xl shadow-xl shadow-blue-600/20">
                   <Users className="w-6 h-6 text-foreground" />
                </div>{t("client.src.register_occupant")}</DialogTitle>
-            <DialogDescription className="text-[10px] font-bold text-slate-500 mt-4">{t("client.src.onboard_new_resident_identity")}</DialogDescription>
+            <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-4">{t("client.src.onboard_new_resident_identity")}</DialogDescription>
           </DialogHeader>
           
           <div className="p-8 pt-0 space-y-6">
              <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                   <Label className="text-[9px] font-bold text-slate-500">{t("client.src.first_name")}</Label>
+                   <Label className="text-[9px] font-bold text-muted-foreground">{t("client.src.first_name")}</Label>
                    <Input className="h-12 bg-black/40 border-border rounded-xl text-foreground focus:ring-blue-500/20" placeholder={t("client.src.eg_alexander")} />
                 </div>
                 <div className="space-y-2">
-                   <Label className="text-[9px] font-bold text-slate-500">{t("client.src.last_name")}</Label>
+                   <Label className="text-[9px] font-bold text-muted-foreground">{t("client.src.last_name")}</Label>
                    <Input className="h-12 bg-black/40 border-border rounded-xl text-foreground focus:ring-blue-500/20" placeholder={t("client.src.eg_vault")} />
                 </div>
              </div>
              <div className="space-y-2">
-                <Label className="text-[9px] font-bold text-slate-500">{t("client.src.neural_signature_email")}</Label>
+                <Label className="text-[9px] font-bold text-muted-foreground">{t("client.src.neural_signature_email")}</Label>
                 <Input type="email" className="h-12 bg-black/40 border-border rounded-xl text-foreground focus:ring-blue-500/20" placeholder={t("client.src.avaultneuralnet")} />
              </div>
              <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                   <Label className="text-[9px] font-bold text-slate-500">{t("client.src.fiscal_commitment")}</Label>
+                   <Label className="text-[9px] font-bold text-muted-foreground">{t("client.src.fiscal_commitment")}</Label>
                    <Input type="number" className="h-12 bg-black/40 border-border rounded-xl text-foreground focus:ring-blue-500/20" placeholder="4500" />
                 </div>
                 <div className="space-y-2">
-                   <Label className="text-[9px] font-bold text-slate-500">{t("client.src.domain_assignment")}</Label>
+                   <Label className="text-[9px] font-bold text-muted-foreground">{t("client.src.domain_assignment")}</Label>
                    <Select>
                       <SelectTrigger className="h-12 bg-black/40 border-border rounded-xl text-foreground">
                          <SelectValue placeholder={t("client.src.select_node")} />
@@ -304,8 +304,8 @@ export default function Tenants() {
           </div>
 
           <DialogFooter className="p-8 pt-0 flex gap-4">
-            <Button variant="ghost" onClick={() => setCreateOpen(false)} className="h-12 rounded-xl text-[10px] font-bold text-slate-500 hover:text-foreground transition-all">{t("client.src.abort_registration")}</Button>
-            <Button className="h-12 px-8 rounded-xl bg-blue-600 hover:bg-blue-500 text-foreground font-bold text-[10px] shadow-xl shadow-blue-600/20">{t("client.src.confirm_onboarding")}</Button>
+            <Button variant="ghost" onClick={() => setCreateOpen(false)} className="h-12 rounded-xl text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all">{t("client.src.abort_registration")}</Button>
+            <Button className="h-12 px-8 rounded-xl bg-blue-600 hover:bg-brand/100 text-foreground font-bold text-[10px] shadow-xl shadow-blue-600/20">{t("client.src.confirm_onboarding")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

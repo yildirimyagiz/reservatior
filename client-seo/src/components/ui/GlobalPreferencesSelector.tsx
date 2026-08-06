@@ -196,7 +196,7 @@ export default function GlobalPreferencesSelector() {
         <div className="flex bg-white/5 p-1 rounded-xl gap-1 mb-4 border border-white/5">
           <button onClick={() => setActiveSection("country")} className={`flex-1 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${activeSection === "country" ? "bg-white/10 text-white" : "text-slate-500 hover:text-white"}`}>{t("client.src.country")}</button>
           <button onClick={() => setActiveSection("language")} className={`flex-1 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${activeSection === "language" ? "bg-white/10 text-white" : "text-slate-500 hover:text-white"}`}>{t("client.src.language")}</button>
-          <button onClick={() => setActiveSection("currency")} className={`flex-1 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${activeSection === "currency" ? "bg-white/10 text-white" : "text-slate-500 hover:text-white"}`}>{t("client.src.currency")}</button>
+          <button onClick={() => setActiveSection("currency")} className={`flex-1 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${activeSection === "currency" ? "bg-white/10 text-white" : "text-slate-500 hover:text-white"}`}>{t("common.currency")}</button>
         </div>
 
         {/* Section Contents */}

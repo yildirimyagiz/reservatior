@@ -65,7 +65,7 @@ export const kbsReportLogRoutes = new Elysia({ prefix: "/kbs-report-log" })
     try {
       const data = await kbsReportLogService.update(params.id, body);
       const region = headers["x-region"] || "US";
-      if (body.status === "FAILED") {
+      if ((body as any).status === "FAILED") {
         GeminiOpsNotificationCoordinator.trackKbsStatus(params.id, region).catch(err => {
           console.error("❌ Failed to trigger trackKbsStatus in patch handler:", err);
         });

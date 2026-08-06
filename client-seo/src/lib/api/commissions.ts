@@ -214,4 +214,14 @@ export const commissionsApi = {
     const response = await apiClient.patch<Commission[]>(`/organizations/${orgId}/commissions/bulk-pay`, data);
     return response;
   },
+
+  // Create installment plan
+  createInstallmentPlan: async (orgId: string, id: string, data: {
+    installmentCount?: number;
+    startDate?: string;
+  }): Promise<{ data: any[], success: boolean }> => {
+    // In our backend, the route is under /commission/:id/installment-plan
+    const response = await apiClient.post<{ data: any[], success: boolean }>(`/commission/${id}/installment-plan`, data);
+    return response;
+  },
 };

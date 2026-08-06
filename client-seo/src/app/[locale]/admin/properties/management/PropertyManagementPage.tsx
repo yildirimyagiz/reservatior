@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { tEnum } from "@/lib/admin-enums";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -36,18 +37,18 @@ const mockProperties: Property[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  AVAILABLE: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
-  RENTED: "bg-slate-500/10 text-slate-400 border border-slate-500/20",
-  MAINTENANCE: "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+  AVAILABLE: "bg-blue-500/10 text-success border border-blue-500/20",
+  RENTED: "bg-muted text-muted-foreground border border-slate-500/20",
+  MAINTENANCE: "bg-amber-500/10 text-warning border border-amber-500/20"
 };
 
 function GlassModal({ open, onOpenChange, title, description, children, footer }: any) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[480px] bg-slate-900/90 backdrop-blur-xl border border-white/10 shadow-2xl">
+      <DialogContent className="sm:max-w-[480px] bg-card/90 backdrop-blur-xl border border-white/10 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">{title}</DialogTitle>
-          {description && <DialogDescription className="text-slate-400">{description}</DialogDescription>}
+          {description && <DialogDescription className="text-muted-foreground">{description}</DialogDescription>}
         </DialogHeader>
         <div className="py-4 space-y-4">{children}</div>
         {footer && <DialogFooter className="pt-4 border-t border-white/10">{footer}</DialogFooter>}
@@ -66,9 +67,9 @@ function CreatePropertyDialog({ open, onOpenChange, onSubmit }: any) {
     <GlassModal open={open} onOpenChange={onOpenChange} title={t("admin_properties_management_add_property")}
       footer={
         <div className="flex justify-end gap-2 w-full">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => onSubmit(formData)} className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-            <Check className="w-4 h-4 mr-2" />{t("admin_action_create", "Create")}
+            <Check className="w-4 h-4 mr-2" />{t("admin_action_create", "Oluştur")}
           </Button>
         </div>
       }
@@ -76,52 +77,52 @@ function CreatePropertyDialog({ open, onOpenChange, onSubmit }: any) {
       <div className="grid gap-4 text-white">
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_ai_name", "Name")}</Label>
+            <Label>{t("admin_ai_name", "Sistem Adı")}</Label>
             <Input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="bg-white/5 border-white/10 focus:border-primary/50" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_type", "Type")}</Label>
+            <Label>{t("admin_ai_type", "Tip")}</Label>
             <Select value={formData.type} onValueChange={(v: any) => setFormData({ ...formData, type: v })}>
               <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="VILLA">Villa</SelectItem>
-                <SelectItem value="APARTMENT">Apartment</SelectItem>
-                <SelectItem value="CONDO">Condo</SelectItem>
-                <SelectItem value="STUDIO">Studio</SelectItem>
+                <SelectItem value="VILLA">{tEnum(t, "VILLA")}</SelectItem>
+                <SelectItem value="APARTMENT">{tEnum(t, "APARTMENT")}</SelectItem>
+                <SelectItem value="CONDO">{tEnum(t, "CONDO")}</SelectItem>
+                <SelectItem value="STUDIO">{tEnum(t, "STUDIO")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_auto_address", "Address")}</Label>
+          <Label>{t("admin_auto_address", "Adres")}</Label>
           <Input value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} className="bg-white/5 border-white/10" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_auto_city", "City")}</Label>
+            <Label>{t("admin_auto_city", "Şehir")}</Label>
             <Input value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_auto_amount", "Price")}</Label>
+            <Label>{t("admin_auto_amount", "Miktar")}</Label>
             <Input type="number" value={formData.price} onChange={e => setFormData({ ...formData, price: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_auto_bedrooms", "Bedrooms")}</Label>
+            <Label>{t("admin_auto_bedrooms", "Yatak Odası")}</Label>
             <Input type="number" value={formData.bedrooms} onChange={e => setFormData({ ...formData, bedrooms: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_auto_bathrooms", "Bathrooms")}</Label>
+            <Label>{t("admin_auto_bathrooms", "Banyo")}</Label>
             <Input type="number" value={formData.bathrooms} onChange={e => setFormData({ ...formData, bathrooms: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_properties_management_sqft_label", "m²")}</Label>
+            <Label>{t("admin_properties_management_sqft_label", "Metrekare (m²)")}</Label>
             <Input type="number" value={formData.area} onChange={e => setFormData({ ...formData, area: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_ai_status", "Status")}</Label>
+          <Label>{t("admin_ai_status", "Durum")}</Label>
           <Select value={formData.status} onValueChange={(v: any) => setFormData({ ...formData, status: v })}>
             <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
             <SelectContent>
@@ -141,12 +142,12 @@ function EditPropertyDialog({ open, onOpenChange, item, onSubmit }: any) {
   const [formData, setFormData] = useState<Property>(item);
 
   return (
-    <GlassModal open={open} onOpenChange={onOpenChange} title={t("admin_action_edit", "Edit")}
+    <GlassModal open={open} onOpenChange={onOpenChange} title={t("admin_action_edit", "Düzenle")}
       footer={
         <div className="flex justify-end gap-2 w-full">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => onSubmit(formData)} className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-            <Check className="w-4 h-4 mr-2" />{t("admin_action_save", "Save")}
+            <Check className="w-4 h-4 mr-2" />{t("admin_action_save", "Kaydet")}
           </Button>
         </div>
       }
@@ -154,52 +155,52 @@ function EditPropertyDialog({ open, onOpenChange, item, onSubmit }: any) {
       <div className="grid gap-4 text-white">
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_ai_name", "Name")}</Label>
+            <Label>{t("admin_ai_name", "Sistem Adı")}</Label>
             <Input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="bg-white/5 border-white/10 focus:border-primary/50" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_type", "Type")}</Label>
+            <Label>{t("admin_ai_type", "Tip")}</Label>
             <Select value={formData.type} onValueChange={(v: any) => setFormData({ ...formData, type: v })}>
               <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="VILLA">Villa</SelectItem>
-                <SelectItem value="APARTMENT">Apartment</SelectItem>
-                <SelectItem value="CONDO">Condo</SelectItem>
-                <SelectItem value="STUDIO">Studio</SelectItem>
+                <SelectItem value="VILLA">{tEnum(t, "VILLA")}</SelectItem>
+                <SelectItem value="APARTMENT">{tEnum(t, "APARTMENT")}</SelectItem>
+                <SelectItem value="CONDO">{tEnum(t, "CONDO")}</SelectItem>
+                <SelectItem value="STUDIO">{tEnum(t, "STUDIO")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_auto_address", "Address")}</Label>
+          <Label>{t("admin_auto_address", "Adres")}</Label>
           <Input value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} className="bg-white/5 border-white/10" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_auto_city", "City")}</Label>
+            <Label>{t("admin_auto_city", "Şehir")}</Label>
             <Input value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_auto_amount", "Price")}</Label>
+            <Label>{t("admin_auto_amount", "Miktar")}</Label>
             <Input type="number" value={formData.price} onChange={e => setFormData({ ...formData, price: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_auto_bedrooms", "Bedrooms")}</Label>
+            <Label>{t("admin_auto_bedrooms", "Yatak Odası")}</Label>
             <Input type="number" value={formData.bedrooms} onChange={e => setFormData({ ...formData, bedrooms: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_auto_bathrooms", "Bathrooms")}</Label>
+            <Label>{t("admin_auto_bathrooms", "Banyo")}</Label>
             <Input type="number" value={formData.bathrooms} onChange={e => setFormData({ ...formData, bathrooms: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_properties_management_sqft_label", "m²")}</Label>
+            <Label>{t("admin_properties_management_sqft_label", "Metrekare (m²)")}</Label>
             <Input type="number" value={formData.area} onChange={e => setFormData({ ...formData, area: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_ai_status", "Status")}</Label>
+          <Label>{t("admin_ai_status", "Durum")}</Label>
           <Select value={formData.status} onValueChange={(v: any) => setFormData({ ...formData, status: v })}>
             <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
             <SelectContent>
@@ -218,18 +219,18 @@ function DeletePropertyDialog({ open, onOpenChange, item, onConfirm }: any) {
   const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-slate-900/90 backdrop-blur-xl border border-red-500/20 shadow-2xl">
+      <DialogContent className="sm:max-w-[425px] bg-card/90 backdrop-blur-xl border border-red-500/20 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-red-500">
-            <AlertTriangle className="w-5 h-5" />{t("admin_action_delete", "Delete")}
+            <AlertTriangle className="w-5 h-5" />{t("admin_action_delete", "Sil")}
           </DialogTitle>
-          <DialogDescription className="pt-2 text-slate-300">
-            {t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")} <span className="font-bold text-white">{item?.name}</span>? {t("admin_auto_this_action_cannot_be_undone", "This action cannot be undone.")}
+          <DialogDescription className="pt-2 text-muted-foreground">
+            {t("admin_auto_are_you_sure_you_want_to_delete", "Silmek istediğinizden emin misiniz:")} <span className="font-bold text-white">{item?.name}</span>? {t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="pt-4 border-t border-white/5">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+        <DialogFooter className="pt-4 border-t border-border">
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -272,7 +273,7 @@ export default function PropertyManagementPage() {
               <h1 className="text-3xl font-bold text-white mb-2">{t("admin_properties_management_title")}</h1>
               <p className="text-gray-400">{t("admin_properties_management_description")}</p>
             </div>
-            <Button onClick={() => router.push('/admin/dashboard')} className="bg-slate-600 hover:bg-slate-700">
+            <Button onClick={() => router.push('/admin/dashboard')} className="bg-muted hover:bg-muted">
               <ArrowUpRight className="w-4 h-4 mr-2" />{t("admin_properties_management_back_to_dashboard")}
             </Button>
           </div>
@@ -305,7 +306,7 @@ export default function PropertyManagementPage() {
                     <CardHeader>
                       <div className="flex items-start justify-between mb-2">
                         <Badge className={STATUS_COLORS[property.status]}>{t("admin_status_" + String(property.status).toLowerCase())}</Badge>
-                        <Badge variant="outline" className="border-slate-500/30 text-slate-300">{property.type}</Badge>
+                        <Badge variant="outline" className="border-slate-500/30 text-muted-foreground">{tEnum(t, property.type)}</Badge>
                       </div>
                       <CardTitle className="text-white">{property.name}</CardTitle>
                     </CardHeader>
@@ -323,10 +324,10 @@ export default function PropertyManagementPage() {
                         <div className="flex items-center justify-between">
                           <div className="text-xl font-bold text-white"><DollarSign className="w-4 h-4 inline" />{property.price.toLocaleString()}</div>
                           <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button onClick={() => setEditingItem(property)} variant="outline" size="icon" className="h-9 w-9 bg-white/5 hover:bg-white/10 border-slate-500/30">
+                            <Button onClick={() => setEditingItem(property)} variant="outline" size="icon" aria-label={t("common.edit")} className="h-9 w-9 bg-white/5 hover:bg-white/10 border-slate-500/30">
                               <Edit className="w-4 h-4 text-white/70" />
                             </Button>
-                            <Button onClick={() => setDeletingItem(property)} variant="outline" size="icon" className="h-9 w-9 bg-white/5 hover:bg-red-500/10 border-slate-500/30 hover:border-red-500/30 group/btn">
+                            <Button onClick={() => setDeletingItem(property)} variant="outline" size="icon" aria-label={t("common.delete")} className="h-9 w-9 bg-white/5 hover:bg-red-500/10 border-slate-500/30 hover:border-red-500/30 group/btn">
                               <Trash2 className="w-4 h-4 text-red-500/70 group-hover/btn:text-red-500" />
                             </Button>
                           </div>
@@ -339,7 +340,7 @@ export default function PropertyManagementPage() {
             </AnimatePresence>
           </div>
           {filteredProperties.length === 0 && (
-            <div className="py-12 text-center text-slate-500">{t("admin_auto_no_results_found", "No results found")}</div>
+            <div className="py-12 text-center text-muted-foreground">{t("admin_auto_no_results_found", "Sonuç bulunamadı")}</div>
           )}
         </m.div>
 

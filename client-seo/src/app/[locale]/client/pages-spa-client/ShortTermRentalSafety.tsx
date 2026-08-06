@@ -20,7 +20,7 @@ const fadeUp = {
 
 const SECURITY_PILLARS = [
   {
-    icon: <UserCheck className="w-7 h-7 text-blue-400" />,
+    icon: <UserCheck className="w-7 h-7 text-brand" />,
     title: "Guest Identity Verification",
     subtitle: "Know Who You're Hosting",
     description: "Every guest undergoes rigorous identity verification including government ID checks, background screening, and review history analysis before booking approval.",
@@ -32,10 +32,10 @@ const SECURITY_PILLARS = [
       "Previous host reference checks"
     ],
     gradient: "from-blue-500/10 to-cyan-500/5",
-    glowColor: "bg-blue-500/10"
+    glowColor: "bg-brand/100/10"
   },
   {
-    icon: <Building2 className="w-7 h-7 text-emerald-400" />,
+    icon: <Building2 className="w-7 h-7 text-success" />,
     title: "Licensed Operator Network",
     subtitle: "Professional Management Only",
     description: "All short-term rentals must be managed through Reservatior-approved property management companies with verified licenses, insurance, and operational standards.",
@@ -46,8 +46,8 @@ const SECURITY_PILLARS = [
       "Regular compliance audits",
       "Performance score tracking"
     ],
-    gradient: "from-emerald-500/10 to-green-500/5",
-    glowColor: "bg-emerald-500/10"
+    gradient: "from-blue-500/10 to-blue-500/5",
+    glowColor: "bg-success/10"
   },
   {
     icon: <Clock className="w-7 h-7 text-amber-400" />,
@@ -82,9 +82,9 @@ const SECURITY_PILLARS = [
 ];
 
 const SAFETY_METRICS = [
-  { value: "100%", label: "Guest Verification Rate", color: "text-blue-400", icon: <ShieldCheck className="w-5 h-5" /> },
+  { value: "100%", label: "Guest Verification Rate", color: "text-brand", icon: <ShieldCheck className="w-5 h-5" /> },
   { value: "3+", label: "Minimum Night Stay", color: "text-amber-400", icon: <Clock className="w-5 h-5" /> },
-  { value: "24/7", label: "Security Monitoring", color: "text-emerald-400", icon: <Bell className="w-5 h-5" /> },
+  { value: "24/7", label: "Security Monitoring", color: "text-success", icon: <Bell className="w-5 h-5" /> },
   { value: "$500K", label: "Min Operator Insurance", color: "text-rose-400", icon: <Shield className="w-5 h-5" /> }
 ];
 
@@ -121,7 +121,7 @@ const ENFORCEMENT_TIERS = [
     amount: "$1,000 - $2,500",
     description: "Increased fine and mandatory operator retraining required",
     color: "from-orange-500/10 to-red-500/5",
-    borderColor: "border-orange-500/20"
+    borderColor: "border-warning/20"
   },
   {
     tier: "Third Violation",
@@ -143,7 +143,7 @@ const REGIONAL_CONFIG = [
 
 export default function ShortTermRentalSafety() {
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0c] selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0c] selection:bg-black selection:text-white dark:selection:bg-card dark:selection:text-black">
       <SEOMetadata
         data={{
           title: "Short-Term Rental Safety | Reservatior",
@@ -158,19 +158,19 @@ export default function ShortTermRentalSafety() {
 
         {/* ─── HERO ─────────────────────────────────────────────────────── */}
         <div className="text-center relative">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-indigo-500/8 blur-[160px] pointer-events-none rounded-full" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand/8 blur-[160px] pointer-events-none rounded-full" />
 
           <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <Badge className="mb-6 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-5 py-1.5 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="mb-6 bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-5 py-1.5 text-xs font-bold tracking-wider rounded-full">
               <Shield className="w-3 h-3 mr-2" /> SHORT-TERM RENTAL SECURITY
             </Badge>
             <h1 className="text-5xl md:text-8xl font-black tracking-tight text-neutral-900 dark:text-white mb-8 leading-[0.9]">
               Safe Hosting, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500 dark:from-indigo-400 dark:to-purple-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-brand dark:from-brand dark:to-brand">
                 Premium Returns
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-neutral-500 dark:text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed">
+            <p className="text-lg md:text-xl text-neutral-500 dark:text-muted-foreground max-w-3xl mx-auto font-medium leading-relaxed">
               Our comprehensive security framework ensures short-term rentals operate at the highest standards — 
               protecting residents while maximizing owner revenue through quality-focused operations.
             </p>
@@ -185,14 +185,14 @@ export default function ShortTermRentalSafety() {
           className="grid grid-cols-2 md:grid-cols-4 gap-6"
         >
           {SAFETY_METRICS.map((m, i) => (
-            <div key={i} className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-2xl p-8 text-center group hover:bg-white/70 dark:hover:bg-[#14151a]/70 transition-all">
+            <div key={i} className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-2xl p-8 text-center group hover:bg-white/70 dark:hover:bg-background/70 transition-all">
               <div className={`flex items-center justify-center gap-2 mb-3 ${m.color}`}>
                 {m.icon}
               </div>
               <h3 className={`text-4xl md:text-5xl font-black tracking-tight mb-2 ${m.color} group-hover:scale-110 transition-transform`}>
                 {m.value}
               </h3>
-              <p className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase">{m.label}</p>
+              <p className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase">{m.label}</p>
             </div>
           ))}
         </m.div>
@@ -200,13 +200,13 @@ export default function ShortTermRentalSafety() {
         {/* ─── SECURITY PILLARS ─────────────────────────────────────────── */}
         <section>
           <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
-            <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               SECURITY FRAMEWORK
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
               Four Pillars of Protection
             </h2>
-            <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+            <p className="text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto font-medium">
               Every short-term rental on Reservatior must pass through four security layers designed to ensure safety and quality.
             </p>
           </m.div>
@@ -221,25 +221,25 @@ export default function ShortTermRentalSafety() {
                 viewport={{ once: true }}
                 variants={fadeUp}
               >
-                <Card className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-[2rem] overflow-hidden shadow-xl group h-full hover:bg-white/70 dark:hover:bg-[#14151a]/70 transition-all duration-500">
+                <Card className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-[2rem] overflow-hidden shadow-xl group h-full hover:bg-white/70 dark:hover:bg-background/70 transition-all duration-500">
                   <CardHeader className="p-8 pb-4">
                     <div className="flex items-start justify-between mb-6">
-                      <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+                      <div className="p-4 rounded-2xl bg-gradient-to-br from-brand to-brand shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
                         {pillar.icon}
                       </div>
-                      <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 text-xs font-bold tracking-wider rounded-full px-3 py-1">
+                      <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 text-xs font-bold tracking-wider rounded-full px-3 py-1">
                         0{idx + 1}
                       </Badge>
                     </div>
-                    <p className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase mb-1">{pillar.subtitle}</p>
+                    <p className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase mb-1">{pillar.subtitle}</p>
                     <CardTitle className="text-2xl font-black text-neutral-900 dark:text-white tracking-tight">{pillar.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="p-8 pt-2 space-y-6">
-                    <p className="text-sm font-medium text-neutral-600 dark:text-slate-400 leading-relaxed">{pillar.description}</p>
-                    <ul className="space-y-3 pt-4 border-t border-neutral-200 dark:border-slate-800">
+                    <p className="text-sm font-medium text-neutral-600 dark:text-muted-foreground leading-relaxed">{pillar.description}</p>
+                    <ul className="space-y-3 pt-4 border-t border-neutral-200 dark:border-border">
                       {pillar.features.map((f, i) => (
-                        <li key={i} className="flex items-start gap-3 text-sm font-semibold text-neutral-700 dark:text-slate-300 transition-colors">
-                          <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5 shadow-[0_0_8px_#10b981]" />
+                        <li key={i} className="flex items-start gap-3 text-sm font-semibold text-neutral-700 dark:text-muted-foreground transition-colors">
+                          <CheckCircle className="w-4 h-4 text-success shrink-0 mt-0.5 shadow-[0_0_8px_#3b82f6]" />
                           {f}
                         </li>
                       ))}
@@ -254,13 +254,13 @@ export default function ShortTermRentalSafety() {
         {/* ─── VERIFICATION PROCESS ─────────────────────────────────────── */}
         <section>
           <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
-            <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               GUEST VERIFICATION
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
               Six-Step Identity Verification
             </h2>
-            <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+            <p className="text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto font-medium">
               Every guest undergoes comprehensive screening before booking approval.
             </p>
           </m.div>
@@ -276,15 +276,15 @@ export default function ShortTermRentalSafety() {
                 variants={fadeUp}
                 className="relative"
               >
-                <div className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-2xl p-8 h-full hover:bg-white/70 dark:hover:bg-[#14151a]/70 transition-all group">
+                <div className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-2xl p-8 h-full hover:bg-white/70 dark:hover:bg-background/70 transition-all group">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand to-brand flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
                       {step.icon}
                     </div>
-                    <span className="text-3xl font-black text-neutral-200 dark:text-slate-700 tracking-tight">{step.step}</span>
+                    <span className="text-3xl font-black text-neutral-200 dark:text-muted-foreground tracking-tight">{step.step}</span>
                   </div>
                   <h3 className="text-lg font-black text-neutral-900 dark:text-white tracking-tight mb-3">{step.title}</h3>
-                  <p className="text-sm font-medium text-neutral-500 dark:text-slate-400 leading-relaxed">{step.desc}</p>
+                  <p className="text-sm font-medium text-neutral-500 dark:text-muted-foreground leading-relaxed">{step.desc}</p>
                 </div>
               </m.div>
             ))}
@@ -294,13 +294,13 @@ export default function ShortTermRentalSafety() {
         {/* ─── OPERATOR REQUIREMENTS ───────────────────────────────────── */}
         <section>
           <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
-            <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               OPERATOR STANDARDS
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
               Licensed Operator Requirements
             </h2>
-            <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+            <p className="text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto font-medium">
               Property management companies must meet strict criteria to operate on our platform.
             </p>
           </m.div>
@@ -315,14 +315,14 @@ export default function ShortTermRentalSafety() {
                 viewport={{ once: true }}
                 variants={fadeUp}
               >
-                <div className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-2xl p-8 h-full hover:bg-white/70 dark:hover:bg-[#14151a]/70 transition-all group">
+                <div className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-2xl p-8 h-full hover:bg-white/70 dark:hover:bg-background/70 transition-all group">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand to-brand flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
                       {req.icon}
                     </div>
                   </div>
                   <h3 className="text-lg font-black text-neutral-900 dark:text-white tracking-tight mb-3">{req.requirement}</h3>
-                  <p className="text-sm font-medium text-neutral-500 dark:text-slate-400 leading-relaxed">{req.description}</p>
+                  <p className="text-sm font-medium text-neutral-500 dark:text-muted-foreground leading-relaxed">{req.description}</p>
                 </div>
               </m.div>
             ))}
@@ -332,13 +332,13 @@ export default function ShortTermRentalSafety() {
         {/* ─── ENFORCEMENT TIERS ───────────────────────────────────────── */}
         <section>
           <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
-            <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               ENFORCEMENT POLICY
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
               Three-Strike Penalty System
             </h2>
-            <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+            <p className="text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto font-medium">
               Escalating penalties ensure compliance and protect community standards.
             </p>
           </m.div>
@@ -353,16 +353,16 @@ export default function ShortTermRentalSafety() {
                 viewport={{ once: true }}
                 variants={fadeUp}
               >
-                <div className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-2xl p-8 h-full hover:bg-white/70 dark:hover:bg-[#14151a]/70 transition-all">
+                <div className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-2xl p-8 h-full hover:bg-white/70 dark:hover:bg-background/70 transition-all">
                   <div className="text-center mb-6">
-                    <Badge className={`mb-4 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 text-xs font-bold tracking-wider rounded-full px-3 py-1`}>
+                    <Badge className={`mb-4 bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 text-xs font-bold tracking-wider rounded-full px-3 py-1`}>
                       STRIKE {idx + 1}
                     </Badge>
                     <h3 className="text-2xl font-black text-neutral-900 dark:text-white tracking-tight mb-2">{tier.tier}</h3>
-                    <p className="text-indigo-600 dark:text-indigo-400 text-lg font-bold">{tier.penalty}</p>
-                    <p className="text-neutral-400 dark:text-slate-500 text-sm font-medium">{tier.amount}</p>
+                    <p className="text-brand dark:text-brand text-lg font-bold">{tier.penalty}</p>
+                    <p className="text-neutral-400 dark:text-muted-foreground text-sm font-medium">{tier.amount}</p>
                   </div>
-                  <p className="text-sm font-medium text-neutral-500 dark:text-slate-400 leading-relaxed text-center">{tier.description}</p>
+                  <p className="text-sm font-medium text-neutral-500 dark:text-muted-foreground leading-relaxed text-center">{tier.description}</p>
                 </div>
               </m.div>
             ))}
@@ -372,13 +372,13 @@ export default function ShortTermRentalSafety() {
         {/* ─── REGIONAL CONFIGURATION ───────────────────────────────────── */}
         <section>
           <m.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
-            <Badge className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-500/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
+            <Badge className="bg-brand/10 dark:bg-brand/20 text-brand dark:text-brand border border-brand/60 dark:border-brand/20 px-4 py-1 text-xs font-bold tracking-wider rounded-full">
               REGIONAL STANDARDS
             </Badge>
             <h2 className="text-4xl md:text-6xl font-black tracking-tight text-neutral-900 dark:text-white">
               Country-Specific Requirements
             </h2>
-            <p className="text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+            <p className="text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto font-medium">
               Security standards adapted to local regulations and market conditions.
             </p>
           </m.div>
@@ -387,22 +387,22 @@ export default function ShortTermRentalSafety() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 rounded-[2rem] overflow-hidden"
+            className="bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-[2rem] overflow-hidden"
           >
             <div className="grid grid-cols-5 items-center px-8 py-5 bg-neutral-50 dark:bg-white/[0.02]">
-              <span className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase">Country</span>
-              <span className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase text-center">Min Nights</span>
-              <span className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase text-center">Peak Nights</span>
-              <span className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase text-center">Insurance</span>
-              <span className="text-xs font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase text-center">Noise Limit</span>
+              <span className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase">Country</span>
+              <span className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase text-center">Min Nights</span>
+              <span className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase text-center">Peak Nights</span>
+              <span className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase text-center">Insurance</span>
+              <span className="text-xs font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase text-center">Noise Limit</span>
             </div>
             {REGIONAL_CONFIG.map((config, idx) => (
-              <div key={idx} className={`grid grid-cols-5 items-center px-8 py-5 ${idx % 2 === 0 ? "bg-neutral-50/50 dark:bg-white/[0.01]" : ""} border-t border-neutral-200 dark:border-slate-800 hover:bg-neutral-50 dark:hover:bg-white/[0.03] transition-colors`}>
-                <span className="text-sm font-semibold text-neutral-700 dark:text-slate-300 tracking-wide">{config.country}</span>
-                <span className="text-sm font-semibold text-neutral-600 dark:text-slate-400 tracking-wide text-center">{config.minNights}</span>
-                <span className="text-sm font-semibold text-neutral-600 dark:text-slate-400 tracking-wide text-center">{config.peakNights}</span>
-                <span className="text-sm font-semibold text-neutral-600 dark:text-slate-400 tracking-wide text-center">{config.insurance}</span>
-                <span className="text-sm font-semibold text-neutral-600 dark:text-slate-400 tracking-wide text-center">{config.noiseLimit}</span>
+              <div key={idx} className={`grid grid-cols-5 items-center px-8 py-5 ${idx % 2 === 0 ? "bg-neutral-50/50 dark:bg-white/[0.01]" : ""} border-t border-neutral-200 dark:border-border hover:bg-neutral-50 dark:hover:bg-white/[0.03] transition-colors`}>
+                <span className="text-sm font-semibold text-neutral-700 dark:text-muted-foreground tracking-wide">{config.country}</span>
+                <span className="text-sm font-semibold text-neutral-600 dark:text-muted-foreground tracking-wide text-center">{config.minNights}</span>
+                <span className="text-sm font-semibold text-neutral-600 dark:text-muted-foreground tracking-wide text-center">{config.peakNights}</span>
+                <span className="text-sm font-semibold text-neutral-600 dark:text-muted-foreground tracking-wide text-center">{config.insurance}</span>
+                <span className="text-sm font-semibold text-neutral-600 dark:text-muted-foreground tracking-wide text-center">{config.noiseLimit}</span>
               </div>
             ))}
           </m.div>
@@ -415,26 +415,26 @@ export default function ShortTermRentalSafety() {
           viewport={{ once: true }}
           className="text-center space-y-8"
         >
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto shadow-lg shadow-indigo-500/20">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand to-brand flex items-center justify-center mx-auto shadow-lg shadow-indigo-500/20">
             <Crown className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-3xl md:text-5xl font-black tracking-tight text-neutral-900 dark:text-white">
             Ready to List Safely?
           </h2>
-          <p className="text-neutral-500 dark:text-slate-400 max-w-xl mx-auto font-medium text-sm leading-relaxed">
+          <p className="text-neutral-500 dark:text-muted-foreground max-w-xl mx-auto font-medium text-sm leading-relaxed">
             Join our network of verified operators and licensed properties. Generate premium revenue while maintaining the highest security standards.
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-4">
             <Button
               onClick={() => window.location.href = "/property"}
-              className="h-14 px-10 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg shadow-indigo-500/25 font-bold tracking-wider text-xs"
+              className="h-14 px-10 rounded-2xl bg-gradient-to-r from-brand to-brand text-white hover:from-brand hover:to-brand shadow-lg shadow-indigo-500/25 font-bold tracking-wider text-xs"
             >
               Explore Properties <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
             <Button
               variant="outline"
               onClick={() => window.location.href = "/hospitality-standards"}
-              className="h-14 px-10 rounded-2xl border-indigo-200/60 dark:border-slate-800/60 bg-white/50 dark:bg-[#14151a]/50 text-neutral-900 dark:text-white hover:bg-white/70 dark:hover:bg-[#14151a]/70 font-bold tracking-wider text-xs"
+              className="h-14 px-10 rounded-2xl border-brand/60 dark:border-border/60 bg-white/50 dark:bg-background/50 text-neutral-900 dark:text-white hover:bg-white/70 dark:hover:bg-background/70 font-bold tracking-wider text-xs"
             >
               View Hospitality Standards
             </Button>

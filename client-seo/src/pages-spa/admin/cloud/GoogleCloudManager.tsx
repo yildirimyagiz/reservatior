@@ -72,7 +72,7 @@ export default function GoogleCloudManager() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case 'ACTIVE':
- return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+ return 'bg-blue-500/10 text-success border-blue-500/20';
  case 'DEPLOYING':
  return 'bg-muted0/10 text-muted-foreground border-slate-500/20';
  case 'ERROR':
@@ -80,7 +80,7 @@ export default function GoogleCloudManager() {
  case 'STOPPED':
  return 'bg-muted0/10 text-muted-foreground border-slate-500/20';
  default:
- return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
+ return 'bg-orange-500/10 text-warning border-orange-500/20';
  }
  };
 
@@ -139,7 +139,7 @@ export default function GoogleCloudManager() {
  <p className="text-sm text-muted-foreground mt-1">{t("admin_cloud_free_tier_deployment_and")}</p>
  </div>
  <div className="flex items-center gap-4">
- <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/20 px-4 py-2">
+ <Badge className="bg-blue-500/20 text-success border-blue-500/20 px-4 py-2">
  <div className="flex items-center gap-2">
  <Zap className="w-4 h-4" />
  <span className="font-bold text-xs">{t("admin_cloud_free_tier_active")}</span>
@@ -164,8 +164,8 @@ export default function GoogleCloudManager() {
  </Card>
  <Card className="bg-card border-border rounded-3xl p-6">
  <div className="flex items-center gap-3">
- <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
- <DollarSign className="w-5 h-5 text-emerald-400" />
+ <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
+ <DollarSign className="w-5 h-5 text-success" />
  </div>
  <div>
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_cloud_monthly_cost")}</p>
@@ -176,7 +176,7 @@ export default function GoogleCloudManager() {
  <Card className="bg-card border-border rounded-3xl p-6">
  <div className="flex items-center gap-3">
  <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center">
- <TrendingUp className="w-5 h-5 text-orange-400" />
+ <TrendingUp className="w-5 h-5 text-warning" />
  </div>
  <div>
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_cloud_cpu_usage")}</p>
@@ -201,7 +201,7 @@ export default function GoogleCloudManager() {
  <Card className="bg-card border-border rounded-3xl p-8">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <BarChart3 className="w-5 h-5 text-slate-500" />{t("admin_cloud_resource_usage_overview")}</CardTitle>
+ <BarChart3 className="w-5 h-5 text-muted-foreground" />{t("admin_cloud_resource_usage_overview")}</CardTitle>
  </CardHeader>
  <CardContent className="space-y-6">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -257,7 +257,7 @@ export default function GoogleCloudManager() {
  </div>
  {service.url && (
  <div className="mb-4">
- <a href={service.url} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-slate-300 transition-colors">
+ <a href={service.url} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-muted-foreground transition-colors">
  {service.url}
  </a>
  </div>
@@ -292,7 +292,7 @@ export default function GoogleCloudManager() {
  {t("admin_cloud_stop")}
  </Button>
  ) : (
- <Button size="sm" onClick={() => handleDeploy(service.name)} disabled={deploying === service.name} className="bg-emerald-600 hover:bg-emerald-500">
+ <Button size="sm" onClick={() => handleDeploy(service.name)} disabled={deploying === service.name} className="bg-blue-600 hover:bg-blue-500">
  {deploying === service.name ? (
  <><Activity className="w-3 h-3 mr-1 animate-spin" />{t("admin_cloud_deploying")}</>
  ) : (
@@ -312,7 +312,7 @@ export default function GoogleCloudManager() {
  <Card className="bg-gradient-to-r from-slate-600/10 to-slate-600/10 border-border rounded-3xl p-8">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <Shield className="w-5 h-5 text-emerald-400" />{t("admin_cloud_free_tier_benefits")}</CardTitle>
+ <Shield className="w-5 h-5 text-success" />{t("admin_cloud_free_tier_benefits")}</CardTitle>
  </CardHeader>
  <CardContent className="space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -320,15 +320,15 @@ export default function GoogleCloudManager() {
  <h4 className="text-sm font-bold text-foreground">{t("admin_cloud_compute")}</h4>
  <ul className="space-y-2 text-sm text-muted-foreground">
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_1_f1micro_instance_744")}</span>
  </li>
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_shared_cpu_infrastructure")}</span>
  </li>
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_preemptible_vm_instances")}</span>
  </li>
  </ul>
@@ -337,15 +337,15 @@ export default function GoogleCloudManager() {
  <h4 className="text-sm font-bold text-foreground">{t("admin_cloud_storage")}</h4>
  <ul className="space-y-2 text-sm text-muted-foreground">
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_5_gb_standard_storage")}</span>
  </li>
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_5_gb_cloud_storage")}</span>
  </li>
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_30_gb_cloud_sql")}</span>
  </li>
  </ul>
@@ -354,15 +354,15 @@ export default function GoogleCloudManager() {
  <h4 className="text-sm font-bold text-foreground">{t("admin_cloud_networking")}</h4>
  <ul className="space-y-2 text-sm text-muted-foreground">
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_1_gb_egressmonth")}</span>
  </li>
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_load_balancing")}</span>
  </li>
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_ssl_certificates")}</span>
  </li>
  </ul>
@@ -371,26 +371,26 @@ export default function GoogleCloudManager() {
  <h4 className="text-sm font-bold text-foreground">{t("admin_cloud_services")}</h4>
  <ul className="space-y-2 text-sm text-muted-foreground">
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_2m_cloud_functions_invocations")}</span>
  </li>
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_28_instancehoursday_app_engine")}</span>
  </li>
  <li className="flex items-center gap-2">
- <CheckCircle className="w-3 h-3 text-emerald-400" />
+ <CheckCircle className="w-3 h-3 text-success" />
  <span>{t("admin_cloud_180k_vcpusecondsmonth_cloud_run")}</span>
  </li>
  </ul>
  </div>
  </div>
- <div className="mt-6 p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
+ <div className="mt-6 p-4 bg-blue-500/10 rounded-2xl border border-blue-500/20">
  <div className="flex items-center gap-3">
- <DollarSign className="w-5 h-5 text-emerald-400" />
+ <DollarSign className="w-5 h-5 text-success" />
  <div>
- <p className="text-sm font-bold text-emerald-400">{t("admin_cloud_monthly_savings")}</p>
- <p className="text-2xl font-bold text-emerald-400">$100-200+</p>
+ <p className="text-sm font-bold text-success">{t("admin_cloud_monthly_savings")}</p>
+ <p className="text-2xl font-bold text-success">$100-200+</p>
  </div>
  </div>
  </div>

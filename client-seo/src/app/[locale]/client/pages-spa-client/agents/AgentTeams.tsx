@@ -22,11 +22,11 @@ const STATUS: Record<string, {
   cls: string;
 }> = {
   ACTIVE: {
-    label: t("client.src.active"),
-    cls: "bg-green-100 text-green-700"
+    label: t("common.active"),
+    cls: "bg-blue-100 text-blue-700"
   },
   INACTIVE: {
-    label: t("client.src.inactive"),
+    label: t("common.inactive"),
     cls: "bg-gray-100 text-gray-500"
   }
 };
@@ -140,7 +140,7 @@ export default function AgentTeams() {
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.agency")}</Label>
+        <Label>{t("common.agency")}</Label>
         <Input type="text" value={form.agencyName} onChange={e => setForm({
           ...form,
           agencyName: e.target.value
@@ -154,12 +154,12 @@ export default function AgentTeams() {
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.status")}</Label>
+        <Label>{t("common.status")}</Label>
         <Select value={form.status} onValueChange={v => setForm({
           ...form,
           status: v as any
-        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="ACTIVE">{t("client.src.active")}</SelectItem>
-          <SelectItem value="INACTIVE">{t("client.src.inactive")}</SelectItem></SelectContent></Select>
+        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="ACTIVE">{t("common.active")}</SelectItem>
+          <SelectItem value="INACTIVE">{t("common.inactive")}</SelectItem></SelectContent></Select>
       </div>
       <DialogFooter><Button type="submit">{label}</Button></DialogFooter>
     </form>;
@@ -172,7 +172,7 @@ export default function AgentTeams() {
       label: t("client.src.total_teams"),
       value: teams.length
     }, {
-      label: t("client.src.active"),
+      label: t("common.active"),
       value: teams.filter(r => r.status === 'ACTIVE').length
     }, {
       label: t("client.src.total_members"),
@@ -183,10 +183,10 @@ export default function AgentTeams() {
             <TableHeader>
               <TableRow>
               <TableHead>{t("client.src.team_name")}</TableHead>
-              <TableHead>{t("client.src.agency")}</TableHead>
+              <TableHead>{t("common.agency")}</TableHead>
               <TableHead>{t("client.src.members")}</TableHead>
               <TableHead>{t("client.src.lead_agent")}</TableHead>
-              <TableHead>{t("client.src.status")}</TableHead>
+              <TableHead>{t("common.status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -203,10 +203,10 @@ export default function AgentTeams() {
                     </TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -219,13 +219,13 @@ export default function AgentTeams() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_agentteams")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_agentteams")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

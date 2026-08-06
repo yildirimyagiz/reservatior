@@ -85,16 +85,16 @@ const ContactsManagement = () => {
 
  const handleSendContract = async (contact: any, contractType: string) => {
  try {
- toast({ title: t('admin_contracts_sending',"Sending..."), description: t('admin_contracts_sendingDesc',"{{type}} is being sent.", { type: contractType }) });
+ toast({ title: t('admin_contracts_sending', "Gönderiliyor..."), description: t('admin_contracts_sendingDesc',"{{type}} is being sent.", { type: contractType }) });
  await apiClient.post('/crm/request-contract-signature', {
  email: contact.email,
  name: contact.fullName,
  contractType: contractType,
  propertyId:"default_property_id" // Placeholder
  });
- toast({ title: t('success'), description: t('admin_contracts_success',"Legal document successfully sent to client via email.") });
+ toast({ title: t('success'), description: t('admin_contracts_success', "Hukuki belge başarıyla müşteriye e-posta ile gönderildi.") });
  } catch (error) {
- toast({ title: t('error'), description: t('admin_contracts_error',"Failed to send contract."), variant:"destructive" });
+ toast({ title: t('error'), description: t('admin_contracts_error', "Sözleşme gönderilemedi."), variant:"destructive" });
  }
  };
 
@@ -104,31 +104,31 @@ const ContactsManagement = () => {
  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
- <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-slate-400">
- {t("admin_contacts_title","Contacts & Leads")}
+ <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-slate-400">
+ {t("admin_contacts_title", "Kişiler ve Potansiyel Müşteriler")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_contacts_subtitle","Centralized CRM for all property inquiries, leads, and client relations")}
+ {t("admin_contacts_subtitle", "Tüm mülk sorguları, potansiyel müşteriler ve müşteri ilişkileri için merkezi CRM")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export CSV")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
- <Button className="bg-emerald-600 hover:bg-emerald-700 text-foreground shadow-lg shadow-emerald-500/20">
+ <Button className="bg-blue-600 hover:bg-blue-700 text-foreground shadow-lg shadow-blue-500/20">
  <Plus className="w-4 h-4 mr-2" />
- {t("admin_contacts_add","New Contact")}
+ {t("admin_contacts_add", "Yeni Kişi")}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_contacts_add","New Contact")}</DialogTitle>
+ <DialogTitle>{t("admin_contacts_add", "Yeni Kişi")}</DialogTitle>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="fullName">{t("admin_auto_full_name", "Full Name")}</Label>
+ <Label htmlFor="fullName">{t("admin_auto_full_name", "Ad Soyad")}</Label>
  <Input 
  id="fullName" 
  className="bg-card border-border" 
@@ -138,7 +138,7 @@ const ContactsManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="email">{t("admin_auto_email", "Email")}</Label>
+ <Label htmlFor="email">{t("admin_auto_email", "E-posta")}</Label>
  <Input 
  id="email" 
  type="email"
@@ -149,7 +149,7 @@ const ContactsManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label htmlFor="phone">{t("admin_auto_phone", "Phone")}</Label>
+ <Label htmlFor="phone">{t("admin_auto_phone", "Telefon")}</Label>
  <Input 
  id="phone" 
  className="bg-card border-border" 
@@ -158,19 +158,19 @@ const ContactsManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="type">{t("admin_auto_contact_type", "Contact Type")}</Label>
+ <Label htmlFor="type">{t("admin_auto_contact_type", "İletişim Türü")}</Label>
  <Input 
  id="type" 
  className="bg-card border-border" 
  value={newContact.type}
  onChange={e => setNewContact({...newContact, type: e.target.value})}
- placeholder={t("admin_auto_tenant_owner_contact", "TENANT, OWNER_CONTACT...")}
+ placeholder={t("admin_auto_tenant_owner_contact", "KİRACI, SAHİP_İLETİŞİM...")}
  />
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
- <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={createMutation.isPending}>
+ <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
+ <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Create Contact"}
  </Button>
  </div>
@@ -180,11 +180,11 @@ const ContactsManagement = () => {
  <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
  <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_contacts_edit","Edit Contact")}</DialogTitle>
+ <DialogTitle>{t("admin_contacts_edit", "Kişiyi Düzenle")}</DialogTitle>
  </DialogHeader>
  <form onSubmit={handleEditSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="edit-fullName">{t("admin_auto_full_name", "Full Name")}</Label>
+ <Label htmlFor="edit-fullName">{t("admin_auto_full_name", "Ad Soyad")}</Label>
  <Input 
  id="edit-fullName" 
  className="bg-card border-border" 
@@ -194,7 +194,7 @@ const ContactsManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="edit-email">{t("admin_auto_email", "Email")}</Label>
+ <Label htmlFor="edit-email">{t("admin_auto_email", "E-posta")}</Label>
  <Input 
  id="edit-email" 
  type="email"
@@ -205,7 +205,7 @@ const ContactsManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label htmlFor="edit-phone">{t("admin_auto_phone", "Phone")}</Label>
+ <Label htmlFor="edit-phone">{t("admin_auto_phone", "Telefon")}</Label>
  <Input 
  id="edit-phone" 
  className="bg-card border-border" 
@@ -214,19 +214,19 @@ const ContactsManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="edit-type">{t("admin_auto_contact_type", "Contact Type")}</Label>
+ <Label htmlFor="edit-type">{t("admin_auto_contact_type", "İletişim Türü")}</Label>
  <Input 
  id="edit-type" 
  className="bg-card border-border" 
  value={editingContact?.type || 'OTHER'}
  onChange={e => setEditingContact({...editingContact, type: e.target.value})}
- placeholder={t("admin_auto_tenant_owner_contact", "TENANT, OWNER_CONTACT...")}
+ placeholder={t("admin_auto_tenant_owner_contact", "KİRACI, SAHİP_İLETİŞİM...")}
  />
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
- <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={updateMutation.isPending}>
+ <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
+ <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={updateMutation.isPending}>
  {updateMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
  </div>
@@ -239,71 +239,71 @@ const ContactsManagement = () => {
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_total_leads", "Total Leads")}</CardTitle>
- <Contact className="w-4 h-4 text-emerald-400" />
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_auto_total_leads", "Toplam Potansiyel Müşteriler")}</CardTitle>
+ <Contact className="w-4 h-4 text-success" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">45,210</div>
- <p className="text-xs text-green-400 mt-1">{t("admin_auto_1_200_this_week", "+1,200 this week")}</p>
+ <p className="text-xs text-blue-400 mt-1">{t("admin_auto_1_200_this_week", "+1.200 bu hafta")}</p>
  </CardContent>
  </Card>
  
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_emails_sent", "Emails Sent")}</CardTitle>
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_auto_emails_sent", "Gönderilen E-postalar")}</CardTitle>
  <Mail className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-foreground">{t("admin_auto_128k", "128k")}</div>
- <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_98_delivery_rate", "98% delivery rate")}</p>
+ <div className="text-2xl font-bold text-foreground">{t("admin_auto_128k", "128 bin")}</div>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_98_delivery_rate", "%98 teslimat oranı")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_active_calls", "Active Calls")}</CardTitle>
- <PhoneCall className="w-4 h-4 text-amber-400" />
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_auto_active_calls", "Aktif Aramalar")}</CardTitle>
+ <PhoneCall className="w-4 h-4 text-warning" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">342</div>
- <p className="text-xs text-muted-foreground mt-1">{t("client.src.today", "Today")}</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("common.today", "Bugün")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_ai_messages", "Messages")}</CardTitle>
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_ai_messages", "Mesajlar")}</CardTitle>
  <MessageSquare className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">8,901</div>
- <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_unread_12", "Unread: 12")}</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_unread_12", "Okunmamış: 12")}</p>
  </CardContent>
  </Card>
  </div>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader>
- <CardTitle className="text-foreground">{t("admin_contacts_list","Global Directory")}</CardTitle>
+ <CardTitle className="text-foreground">{t("admin_contacts_list", "Küresel Dizin")}</CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
  <div className="flex items-center justify-center py-20 text-muted-foreground">
- {t("common.loading","Loading global CRM data...")}
+ {t("common.loading", "Yükleniyor")}
  </div>
  ) : contacts.length === 0 ? (
  <div className="flex items-center justify-center py-20 text-muted-foreground">
- {t("admin_contacts_empty", "No contacts found.")}</div>
+ {t("admin_contacts_empty", "KİŞİ Bulunamadı.")}</div>
  ) : (
  <div className="rounded-xl border border-border">
  <Table>
  <TableHeader>
  <TableRow className="border-border hover:bg-transparent">
- <TableHead className="text-slate-300">{t("admin_ai_name", "Name")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_auto_email", "Email")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_auto_phone", "Phone")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_auto_type", "Type")}</TableHead>
- <TableHead className="text-slate-300 text-right">{t("admin_ai_actions", "Actions")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_ai_name", "Sistem Adı")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_auto_email", "E-posta")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_auto_phone", "Telefon")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_auto_type", "Tip")}</TableHead>
+ <TableHead className="text-muted-foreground text-right">{t("admin_ai_actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -320,26 +320,26 @@ const ContactsManagement = () => {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 mr-2">
- <FileSignature className="w-4 h-4 mr-2" /> {t('admin_contracts_actions', 'Process')}
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground bg-blue-600/10 hover:bg-blue-600/20 text-success mr-2">
+ <FileSignature className="w-4 h-4 mr-2" /> {t('admin_contracts_actions', 'İşlem Yap')}
  </Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_salesType',"Sales Contract"))}>
- <FileText className="w-4 h-4 mr-2 text-muted-foreground" /> {t('admin_contracts_sendSales', 'Send Sales Contract')}
+ <DropdownMenuItem className="cursor-pointer hover:bg-muted dark:hover:bg-card/10" onClick={() => handleSendContract(c, t('admin_contracts_salesType', "Satış Sözleşmesi"))}>
+ <FileText className="w-4 h-4 mr-2 text-muted-foreground" /> {t('admin_contracts_sendSales', 'Satış Sözleşmesi Gönder')}
  </DropdownMenuItem>
- <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_evictionType',"Eviction Agreement"))}>
- <FileText className="w-4 h-4 mr-2 text-orange-400" /> {t('admin_contracts_sendEviction', 'Send Eviction Agreement')}
+ <DropdownMenuItem className="cursor-pointer hover:bg-muted dark:hover:bg-card/10" onClick={() => handleSendContract(c, t('admin_contracts_evictionType', "Tahliye Taahhüdü"))}>
+ <FileText className="w-4 h-4 mr-2 text-warning" /> {t('admin_contracts_sendEviction', 'Tahliye Taahhüdü Gönder')}
  </DropdownMenuItem>
- <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => handleSendContract(c, t('admin_contracts_rentalType',"Rental Contract"))}>
- <FileText className="w-4 h-4 mr-2 text-emerald-400" /> {t('admin_contracts_sendRental', 'Send Rental Contract')}
+ <DropdownMenuItem className="cursor-pointer hover:bg-muted dark:hover:bg-card/10" onClick={() => handleSendContract(c, t('admin_contracts_rentalType', "Kira Kontratı"))}>
+ <FileText className="w-4 h-4 mr-2 text-success" /> {t('admin_contracts_sendRental', 'Kira Kontratı Gönder')}
  </DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
 
  <Button 
  variant="ghost" 
- size="icon" 
+ size="icon" aria-label={t("common.edit")} 
  className="text-muted-foreground hover:text-foreground"
  onClick={() => openEditModal(c)}
  >
@@ -347,7 +347,7 @@ const ContactsManagement = () => {
  </Button>
  <Button 
  variant="ghost" 
- size="icon" 
+ size="icon" aria-label={t("common.delete")} 
  className="text-red-400 hover:text-red-300 hover:bg-red-400/10"
  onClick={() => deleteMutation.mutate(c.id)}
  disabled={deleteMutation.isPending}

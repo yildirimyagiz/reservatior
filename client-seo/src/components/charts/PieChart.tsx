@@ -11,7 +11,7 @@ interface PieChartProps {
   height?: number;
 }
 
-const DEFAULT_COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
+const DEFAULT_COLORS = ['#3b82f6', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
 
 export function PieChart({ data, dataKey, nameKey, colors = DEFAULT_COLORS, title, height = 300 }: PieChartProps) {
   return (
@@ -24,7 +24,7 @@ export function PieChart({ data, dataKey, nameKey, colors = DEFAULT_COLORS, titl
             cx="50%"
             cy="50%"
             labelLine={false}
-            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+            label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
             outerRadius={80}
             fill="#8884d8"
             dataKey={dataKey}

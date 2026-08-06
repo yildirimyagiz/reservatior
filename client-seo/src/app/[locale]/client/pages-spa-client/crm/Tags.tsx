@@ -142,19 +142,19 @@ const TagsPage: React.FC = () => {
           label: t("client.src.uplink_status"),
           value: "STABLE",
           icon: Shield
-        }].map((stat, idx) => <Card key={idx} className="bg-[#1a1b1e]/60 border-white/5 border-l border-t rounded-[32px] p-10 shadow-3xl relative group hover:bg-white/5 transition-all">
-                <div className="absolute top-0 right-0 p-8 opacity-5 text-blue-500 group-hover:scale-110 transition-transform">
+        }].map((stat, idx) => <Card key={idx} className="bg-card/60 border-white/5 border-l border-t rounded-[32px] p-10 shadow-3xl relative group hover:bg-white/5 transition-all">
+                <div className="absolute top-0 right-0 p-8 opacity-5 text-brand group-hover:scale-110 transition-transform">
                    <stat.icon className="w-16 h-16" />
                 </div>
-                <p className="text-[10px] font-black text-slate-500 tracking-widest italic mb-2 leading-none">{stat.label}</p>
+                <p className="text-[10px] font-black text-muted-foreground tracking-widest italic mb-2 leading-none">{stat.label}</p>
                 <h3 className="text-4xl font-black text-white italic tracking-tighter leading-none">{stat.value}</h3>
              </Card>)}
         </div>
 
         {/* Global Search Component */}
         <div className="relative max-w-2xl mx-auto group mb-12">
-           <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-           <input type="text" aria-label="Search taxonomy streams" placeholder={t("client.src.search_taxonomy_streams")} className="w-full h-16 pl-16 pr-8 bg-[#1a1b1e]/60 border border-white/5 rounded-2xl text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-xl" value={search} onChange={e => setSearch(e.target.value)} />
+           <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-brand transition-colors" />
+           <input type="text" aria-label="Search taxonomy streams" placeholder={t("client.src.search_taxonomy_streams")} className="w-full h-16 pl-16 pr-8 bg-card/60 border border-white/5 rounded-2xl text-[10px] font-black tracking-widest italic text-white placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50 transition-all shadow-xl" value={search} onChange={e => setSearch(e.target.value)} />
         </div>
 
         {/* Tactical Tag Grid */}
@@ -172,7 +172,7 @@ const TagsPage: React.FC = () => {
           }} transition={{
             duration: 0.4,
             delay: idx * 0.05
-          }} className="bg-[#1a1b1e]/40 border border-white/5 border-l border-t rounded-[40px] p-10 backdrop-blur-3xl shadow-3xl relative overflow-hidden group hover:bg-white/5 transition-all">
+          }} className="bg-card/40 border border-white/5 border-l border-t rounded-[40px] p-10 backdrop-blur-3xl shadow-3xl relative overflow-hidden group hover:bg-white/5 transition-all">
                 <div className="absolute top-0 right-0 w-32 h-32 opacity-10 blur-3xl rounded-full transition-all group-hover:scale-150" style={{
               backgroundColor: tag.color
             }} />
@@ -196,14 +196,14 @@ const TagsPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-6 mb-10 min-h-[60px] relative z-10">
-                   <p className="text-[11px] font-bold text-slate-500 tracking-widest leading-relaxed italic">
+                   <p className="text-[11px] font-bold text-muted-foreground tracking-widest leading-relaxed italic">
                      {tag.description || "NO SYSTEM DESCRIPTION REGISTERED"}
                    </p>
                 </div>
 
                 <div className="flex gap-4 relative z-10 pt-8 border-t border-white/5">
-                   <Button variant="outline" className="flex-1 h-12 rounded-xl border-white/10 bg-white/5 text-[9px] font-black italic tracking-widest text-slate-400 hover:text-white transition-all backdrop-blur-xl" onClick={() => handleEdit(tag)}>{t("client.src.recalibrate")}</Button>
-                   <Button variant="outline" className="h-12 w-12 rounded-xl border-white/10 bg-white/5 text-slate-500 hover:text-red-500 hover:bg-red-500/10 transition-all shrink-0" onClick={() => handleDelete(tag.id)}>
+                   <Button variant="outline" className="flex-1 h-12 rounded-xl border-white/10 bg-white/5 text-[9px] font-black italic tracking-widest text-muted-foreground hover:text-white transition-all backdrop-blur-xl" onClick={() => handleEdit(tag)}>{t("client.src.recalibrate")}</Button>
+                   <Button variant="outline" className="h-12 w-12 rounded-xl border-white/10 bg-white/5 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-all shrink-0" onClick={() => handleDelete(tag.id)} aria-label={t("common.delete")}>
                      <Trash2 className="w-4 h-4" />
                    </Button>
                 </div>
@@ -214,23 +214,23 @@ const TagsPage: React.FC = () => {
 
       {/* Modern Interface Dialogs */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-xl bg-[#14151a] border-white/10 text-white rounded-[32px] p-10 font-display">
+        <DialogContent className="max-w-xl bg-background border-white/10 text-white rounded-[32px] p-10 font-display">
            <DialogHeader>
              <DialogTitle className="text-3xl font-black italic tracking-tighter">
                {editingTag ? "Recalibrate Taxon" : "Initialize Tag Node"}
              </DialogTitle>
-             <DialogDescription className="text-[10px] font-black text-slate-500 tracking-widest italic">{t("client.src.configuring_categorical_signal_parameters")}</DialogDescription>
+             <DialogDescription className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t("client.src.configuring_categorical_signal_parameters")}</DialogDescription>
            </DialogHeader>
            <form onSubmit={handleSubmit} className="space-y-8 py-8">
              <div className="space-y-3">
-                <Label className="text-[10px] font-black text-slate-400 italic">{t("client.src.tag_identifier")}</Label>
+                <Label className="text-[10px] font-black text-muted-foreground italic">{t("client.src.tag_identifier")}</Label>
                 <Input required value={formData.name} onChange={e => setFormData({
               ...formData,
               name: e.target.value
-            })} className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-white placeholder:text-slate-800" placeholder={t("client.src.eg_strategicasset")} />
+            })} className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-white placeholder:text-foreground" placeholder={t("client.src.eg_strategicasset")} />
              </div>
              <div className="space-y-3">
-                <Label className="text-[10px] font-black text-slate-400 italic">{t("client.src.color_vector")}</Label>
+                <Label className="text-[10px] font-black text-muted-foreground italic">{t("client.src.color_vector")}</Label>
                 <div className="flex gap-4">
                   <Input type="color" value={formData.color} onChange={e => setFormData({
                 ...formData,
@@ -243,15 +243,15 @@ const TagsPage: React.FC = () => {
                 </div>
              </div>
              <div className="space-y-3">
-                <Label className="text-[10px] font-black text-slate-400 italic">{t("client.src.description_log")}</Label>
+                <Label className="text-[10px] font-black text-muted-foreground italic">{t("client.src.description_log")}</Label>
                 <Textarea value={formData.description} onChange={e => setFormData({
               ...formData,
               description: e.target.value
             })} className="bg-black/40 border-white/5 rounded-2xl text-[10px] font-bold italic text-white min-h-[100px]" placeholder={t("client.src.identity_parameters")} />
              </div>
              <DialogFooter className="gap-6 pt-6 border-t border-white/5">
-                <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="text-[10px] font-black italic text-slate-500 hover:text-white">{t("client.src.abort")}</Button>
-                <Button type="submit" className="h-16 px-12 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-[11px] italic tracking-[0.2em] shadow-2xl shadow-blue-600/30">
+                <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)} className="text-[10px] font-black italic text-muted-foreground hover:text-white">{t("client.src.abort")}</Button>
+                <Button type="submit" className="h-16 px-12 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black text-[11px] italic tracking-[0.2em] shadow-2xl shadow-blue-600/30">
                   {editingTag ? "SYNCHRONIZE NODE" : "MATERIALIZE HUB"}
                 </Button>
              </DialogFooter>

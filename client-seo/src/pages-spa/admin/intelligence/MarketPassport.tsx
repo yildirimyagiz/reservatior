@@ -66,7 +66,7 @@ export default function MarketPassportDashboard() {
 
   return (
     <PageShell
-      title={t("admin_market_passport_title", "Bölge Zekası")}
+      title={t("admin_market_passport_title", "Bölge Zekası (Market Passport)")}
       description={t("admin_market_passport_desc", "Bölgesel talep, rekabet ve fiyatlandırma zekası")}
       actions={
         <div className="flex gap-3">
@@ -74,7 +74,7 @@ export default function MarketPassportDashboard() {
             {markets.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
           </select>
           <button className="px-4 py-2 bg-primary text-primary-foreground text-white rounded-lg hover:bg-primary/90 transition flex items-center gap-2">
-            <Download className="w-4 h-4" /> {t("admin_common_export", "Export")}
+            <Download className="w-4 h-4" /> {t("admin_common_export", "Dışa Aktar")}
           </button>
         </div>
       }
@@ -101,18 +101,18 @@ export default function MarketPassportDashboard() {
       <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
         <div className="p-4 border-b border-border">
           <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-brand" /> {t("admin_market_passport_district_intelligence", "District Intelligence")}
+            <MapPin className="w-5 h-5 text-brand" /> {t("admin_market_passport_district_intelligence", "Bölge Zekası")}
           </h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-muted text-left">
               <tr>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_market_passport_district", "District")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_market_passport_avg_price", "Avg Price")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_market_passport_yield", "Yield")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_market_passport_demand", "Demand")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_market_passport_trend", "Trend")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_market_passport_district", "Bölge")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_market_passport_avg_price", "Ort. Fiyat")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_market_passport_yield", "Getiri")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_market_passport_demand", "Talep")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_market_passport_trend", "Eğilim")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -145,7 +145,7 @@ export default function MarketPassportDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-            <Zap className="w-5 h-5 text-orange-600" /> {t("admin_market_passport_health_score", "Market Health Score")}
+            <Zap className="w-5 h-5 text-orange-600" /> {t("admin_market_passport_health_score", "Pazar Sağlık Skoru")}
           </h2>
           <div className="grid grid-cols-2 gap-4">
             {[
@@ -169,20 +169,20 @@ export default function MarketPassportDashboard() {
 
         <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-            <Star className="w-5 h-5 text-yellow-500" /> {t("admin_market_passport_marketing_strategy", "AI Marketing Strategy")}
+            <Star className="w-5 h-5 text-yellow-500" /> {t("admin_market_passport_marketing_strategy", "AI Pazarlama Stratejisi")}
           </h2>
           <div className="space-y-3">
             <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-              <p className="text-sm font-medium text-blue-800">{t("admin_market_passport_target_audience", "Target Audience")}</p>
-              <p className="text-xs text-blue-600 mt-1">{t("admin_market_passport_target_audience_desc", "Young professionals (25-35), remote workers, international investors")}</p>
+              <p className="text-sm font-medium text-blue-800">{t("admin_market_passport_target_audience", "Hedef Kitle")}</p>
+              <p className="text-xs text-blue-600 mt-1">{t("admin_market_passport_target_audience_desc", "Genç profesyoneller (25-35), uzaktan çalışanlar, uluslararası yatırımcılar")}</p>
             </div>
             <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-              <p className="text-sm font-medium text-blue-800">{t("admin_market_passport_recommended_channels", "Recommended Channels")}</p>
-              <p className="text-xs text-blue-600 mt-1">{t("admin_market_passport_recommended_channels_desc", "Google Ads, Instagram, LinkedIn, Property portals")}</p>
+              <p className="text-sm font-medium text-blue-800">{t("admin_market_passport_recommended_channels", "Önerilen Kanallar")}</p>
+              <p className="text-xs text-blue-600 mt-1">{t("admin_market_passport_recommended_channels_desc", "Google Ads, Instagram, LinkedIn, Emlak portalları")}</p>
             </div>
             <div className="p-3 bg-brand/10 rounded-lg border border-purple-200">
-              <p className="text-sm font-medium text-brand">{t("admin_market_passport_content_focus", "Content Focus")}</p>
-              <p className="text-xs text-brand mt-1">{t("admin_market_passport_content_focus_desc", "Investment returns, lifestyle benefits, transport connectivity")}</p>
+              <p className="text-sm font-medium text-brand">{t("admin_market_passport_content_focus", "İçerik Odağı")}</p>
+              <p className="text-xs text-brand mt-1">{t("admin_market_passport_content_focus_desc", "Yatırım getirileri, yaşam tarzı avantajları, ulaşım bağlantıları")}</p>
             </div>
           </div>
         </div>

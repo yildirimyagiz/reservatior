@@ -92,7 +92,7 @@ export function NotificationRing() {
               <p className="text-[10px] font-black uppercase tracking-widest italic">{t("client.src.neural_log_empty")}</p>
             </div> : <div className="grid divide-y divide-border">
               {notifications.map(notification => <div key={notification.id} className={cn("p-6 flex gap-4 group transition-all duration-300 hover:bg-muted/30 cursor-pointer relative overflow-hidden", !notification.readAt ? "bg-primary/5" : "")} onClick={() => !notification.readAt && markAsRead(notification.id)}>
-                  <div className={cn("mt-1.5 h-3 w-3 rounded-full shrink-0 border-2 border-background shadow-lg transition-transform group-hover:scale-125", notification.type === 'ai_staging' ? 'bg-purple-500 shadow-purple-500/30' : notification.type === 'sales_split' ? 'bg-emerald-500 shadow-emerald-500/30' : notification.type === 'escrow' ? 'bg-amber-500 shadow-amber-500/30' : 'bg-blue-500 shadow-blue-500/30', !notification.readAt ? 'animate-pulse' : 'opacity-40 grayscale-50')} />
+                  <div className={cn("mt-1.5 h-3 w-3 rounded-full shrink-0 border-2 border-background shadow-lg transition-transform group-hover:scale-125", notification.type === 'ai_staging' ? 'bg-purple-500 shadow-purple-500/30' : notification.type === 'sales_split' ? 'bg-blue-500 shadow-blue-500/30' : notification.type === 'escrow' ? 'bg-amber-500 shadow-amber-500/30' : 'bg-blue-500 shadow-blue-500/30', !notification.readAt ? 'animate-pulse' : 'opacity-40 grayscale-50')} />
                   <div className="flex-1 space-y-2 min-w-0">
                     <div className="flex items-center justify-between gap-4">
                       <p className={cn("text-[12px] font-black italic tracking-tight leading-none uppercase truncate", !notification.readAt ? 'text-foreground' : 'text-muted-foreground')}>
@@ -110,7 +110,7 @@ export function NotificationRing() {
                     </p>
                     
                     <div className="flex items-center justify-between pt-2">
-                       <span className="text-[8px] font-black text-muted-foreground/30 uppercase tracking-[0.2em]">{t("client.src.type")}{notification.type || 'SYSTEM'}</span>
+                       <span className="text-[8px] font-black text-muted-foreground/30 uppercase tracking-[0.2em]">{t("common.type")}{notification.type || 'SYSTEM'}</span>
                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                            {!notification.readAt && <Button variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 rounded-lg hover:bg-primary/20 text-primary border border-primary/20" onClick={e => {
                     e.stopPropagation();

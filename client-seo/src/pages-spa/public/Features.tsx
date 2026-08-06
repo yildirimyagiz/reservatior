@@ -1,6 +1,6 @@
 "use client";
 
-import { t } from "i18next";
+
 import { m } from "framer-motion";
 import { Brain, Sparkles, Video, ShieldCheck, Banknote, LayoutDashboard, Zap, Globe, Clock, Scale, Building2, BarChart3, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -47,7 +47,7 @@ export default function Features() {
   }, {
     category: "Financial & Security",
     icon: ShieldCheck,
-    color: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    color: "bg-blue-500/10 text-blue-400 border-blue-500/20",
     items: [{
       title: t("client.src.global_tax_compliance"),
       description: t("client.src.automated_withholding_and_reporting"),
@@ -78,14 +78,31 @@ export default function Features() {
       description: t("client.src.every_event_tracked_and"),
       icon: CheckCircle2
     }]
+  }, {
+    category: "Global Hybrid Rental OS",
+    icon: Globe,
+    color: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    items: [{
+      title: t("features.global_os_multi_country", "Multi-Country Intelligence"),
+      description: t("features.global_os_multi_country_desc", "Operate across 23 countries with automatic compliance, tax optimization, and market opportunity scoring for each jurisdiction."),
+      icon: Globe
+    }, {
+      title: t("features.global_os_neural_swarm", "10-Agent Neural Swarm"),
+      description: t("features.global_os_neural_swarm_desc", "AI consensus engine with 10 specialized agents: compliance, tax, pricing, corporate demand, and market expansion analysis."),
+      icon: Brain
+    }, {
+      title: t("features.global_os_revenue_dag", "Revenue DAG Pipeline"),
+      description: t("features.global_os_revenue_dag_desc", "8-node directed acyclic graph splits every dollar across tax, owner payout, partner commission, and platform margin — in 15+ currencies."),
+      icon: Banknote
+    }]
   }];
   // Stats are shown with fallback values; actual data is loaded after auth
-  return <div className="min-h-screen bg-[#0a0b0d] text-white selection:bg-primary/30">
+  return <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       {/* Background Orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full" />
         <div className="absolute top-[20%] -right-[10%] w-[30%] h-[30%] bg-blue-600/10 blur-[100px] rounded-full" />
-        <div className="absolute -bottom-[10%] left-[20%] w-[50%] h-[30%] bg-emerald-600/10 blur-[150px] rounded-full opacity-50" />
+        <div className="absolute -bottom-[10%] left-[20%] w-[50%] h-[30%] bg-blue-600/10 blur-[150px] rounded-full opacity-50" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 py-24 lg:py-32">
@@ -129,14 +146,14 @@ export default function Features() {
               </div>
 
               <div className="grid grid-cols-1 gap-4">
-                {group.items.map((item, iIdx) => <Card key={item.title} className="bg-[#14151a]/60 backdrop-blur-xl border-white/5 hover:border-primary/20 transition-all group rounded-3xl overflow-hidden cursor-help">
+                {group.items.map((item, _iIdx) => <Card key={item.title} className="bg-card/60 backdrop-blur-xl border-border hover:border-primary/20 transition-all group rounded-3xl overflow-hidden cursor-help">
                     <CardContent className="p-8 flex items-start gap-6">
-                      <div className="p-3 rounded-xl bg-white/5 text-slate-400 group-hover:text-primary transition-colors">
+                      <div className="p-3 rounded-xl bg-muted text-muted-foreground group-hover:text-primary transition-colors">
                         <item.icon className="w-6 h-6" />
                       </div>
                       <div className="space-y-2">
-                        <h3 className="text-xl font-bold italic tracking-tight text-white group-hover:translate-x-2 transition-transform">{item.title}</h3>
-                        <p className="text-sm text-slate-500 leading-relaxed italic">{item.description}</p>
+                        <h3 className="text-xl font-bold italic tracking-tight text-foreground group-hover:translate-x-2 transition-transform">{item.title}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed italic">{item.description}</p>
                       </div>
                     </CardContent>
                   </Card>)}
@@ -153,7 +170,7 @@ export default function Features() {
         y: 0
       }} viewport={{
         once: true
-      }} className="mt-32 p-12 rounded-[3rem] bg-white/5 border border-white/10 backdrop-blur-3xl overflow-hidden relative">
+      }} className="mt-32 p-12 rounded-[3rem] bg-card border border-border backdrop-blur-3xl overflow-hidden relative">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Globe className="w-64 h-64 text-blue-400 animate-spin-slow" />
           </div>
@@ -161,7 +178,7 @@ export default function Features() {
             <div className="space-y-4">
               <h3 className="text-sm font-black text-primary tracking-[0.3em]">{t('stats.liveActivity')}</h3>
               <p className="text-4xl font-black italic tracking-tighter">
-                "12.4K+"
+                &quot;12.4K+&quot;
                 <span className="text-xs ml-2 font-bold text-slate-500 italic">{t("client.src.events")}</span>
               </p>
               <div className="h-1 w-full bg-primary/20 rounded-full overflow-hidden">
@@ -172,20 +189,20 @@ export default function Features() {
               <h3 className="text-sm font-black text-purple-400 tracking-[0.3em]">{t('stats.aiAdoption')}</h3>
               <p className="text-4xl font-black italic tracking-tighter">
                 74.2%
-                <span className="text-xs ml-2 font-bold text-slate-500 italic">{t("client.src.active")}</span>
+                <span className="text-xs ml-2 font-bold text-slate-500 italic">{t("common.active")}</span>
               </p>
               <div className="h-1 w-full bg-purple-400/20 rounded-full overflow-hidden">
                 <div className="h-full bg-purple-400 w-[85%]" />
               </div>
             </div>
             <div className="space-y-4">
-              <h3 className="text-sm font-black text-emerald-400 tracking-[0.3em]">{t('stats.revenueLift')}</h3>
+              <h3 className="text-sm font-black text-blue-400 tracking-[0.3em]">{t('stats.revenueLift')}</h3>
               <p className="text-4xl font-black italic tracking-tighter">
                 +31%
                 <span className="text-xs ml-2 font-bold text-slate-500 italic">{t("client.src.roi")}</span>
               </p>
-              <div className="h-1 w-full bg-emerald-400/20 rounded-full overflow-hidden">
-                <div className="h-full bg-emerald-400 w-[92%]" />
+              <div className="h-1 w-full bg-blue-400/20 rounded-full overflow-hidden">
+                <div className="h-full bg-blue-400 w-[92%]" />
               </div>
             </div>
             <div className="space-y-4">
@@ -242,7 +259,7 @@ export default function Features() {
             <p className="text-xs text-slate-500 leading-loose italic">{t("client.src.with_the_commission_distribution")}</p>
           </div>
           <div>
-            <span className="text-[10px] font-black text-emerald-400 tracking-[0.3em] mb-4 block">{t("client.src.tax_compliance")}</span>
+            <span className="text-[10px] font-black text-blue-400 tracking-[0.3em] mb-4 block">{t("client.src.tax_compliance")}</span>
             <h3 className="text-sm font-black italic mb-4">{t("client.src.global_tax_management")}</h3>
             <p className="text-xs text-slate-500 leading-loose italic">{t("client.src.automatically_track_your_tax")}</p>
           </div>

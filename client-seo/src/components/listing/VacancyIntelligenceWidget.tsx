@@ -70,7 +70,7 @@ export function VacancyIntelligenceWidget({
           </div>
           <div className="bg-white/5 rounded-lg p-3">
             <p className="text-xs text-slate-400 mb-1">Suggested Discount</p>
-            <p className="text-lg font-black text-emerald-400">-{(suggestedDiscount * 100).toFixed(0)}%</p>
+            <p className="text-lg font-black text-blue-400">-{(suggestedDiscount * 100).toFixed(0)}%</p>
           </div>
           <div className="bg-white/5 rounded-lg p-3">
             <p className="text-xs text-slate-400 mb-1">New Price</p>
@@ -88,12 +88,12 @@ export function VacancyIntelligenceWidget({
           <Progress value={projectedOccupancy} className="h-2 bg-white/10" />
         </div>
 
-        <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3">
-          <p className="text-xs text-emerald-300 mb-1">Estimated Monthly Gain</p>
-          <p className="text-xl font-black text-emerald-400">
+        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+          <p className="text-xs text-blue-300 mb-1">Estimated Monthly Gain</p>
+          <p className="text-xl font-black text-blue-400">
             +{formatCurrency(estimatedMonthlyGain)}
           </p>
-          <p className="text-xs text-emerald-300/70 mt-1">
+          <p className="text-xs text-blue-300/70 mt-1">
             Projected additional income after optimization
           </p>
         </div>
@@ -105,7 +105,7 @@ export function VacancyIntelligenceWidget({
                 setActionTaken("accepted");
                 onAccept?.(listingId);
               }}
-              className="flex-1 h-11 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs gap-2"
+              className="flex-1 h-11 bg-blue-500 hover:bg-blue-600 text-white font-bold text-xs gap-2"
             >
               <ThumbsUp className="w-4 h-4" /> Accept Suggestion
             </Button>
@@ -121,7 +121,7 @@ export function VacancyIntelligenceWidget({
             </Button>
           </div>
         ) : (
-          <div className="text-center py-2 text-sm text-emerald-400 font-semibold">
+          <div className="text-center py-2 text-sm text-blue-400 font-semibold">
             {actionTaken === "accepted"
               ? "✅ Optimization Accepted — Your listing is now boosted!"
               : "Suggestion dismissed. You can revisit this anytime."}

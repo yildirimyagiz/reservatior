@@ -23,17 +23,17 @@ import { reportsApi, ReportStatus, ReportExecutionStatus } from "@/lib/api/repor
 const REPORT_TYPES = {
   FINANCIAL: {
     label: t("client.src.fiscal_telemetry"),
-    color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    color: "text-success bg-success/10 border-success/20",
     icon: DollarSign
   },
   PROPERTY: {
     label: t("client.src.node_performance"),
-    color: "text-blue-400 bg-blue-500/10 border-blue-500/20",
+    color: "text-brand bg-brand/100/10 border-blue-500/20",
     icon: Building
   },
   TENANT: {
     label: t("client.src.indentity_matrix"),
-    color: "text-purple-400 bg-purple-500/10 border-purple-500/20",
+    color: "text-brand bg-brand/10 border-brand/20",
     icon: Users
   },
   COMPLIANCE: {
@@ -43,12 +43,12 @@ const REPORT_TYPES = {
   },
   MAINTENANCE: {
     label: t("client.src.grid_maintenance"),
-    color: "text-orange-400 bg-orange-500/10 border-orange-500/20",
+    color: "text-orange-400 bg-warning/10 border-warning/20",
     icon: Cpu
   },
   OCCUPANCY: {
     label: t("client.src.load_balancing"),
-    color: "text-indigo-400 bg-indigo-500/10 border-indigo-500/20",
+    color: "text-brand bg-brand/10 border-brand/20",
     icon: Activity
   }
 };
@@ -56,12 +56,12 @@ const EXECUTION_STATUS = {
   RUNNING: {
     label: t("client.src.syncing"),
     icon: RefreshCw,
-    color: "text-blue-400"
+    color: "text-brand"
   },
   COMPLETED: {
     label: t("client.src.optimized"),
     icon: CheckCircle,
-    color: "text-emerald-400"
+    color: "text-success"
   },
   FAILED: {
     label: t("client.src.aborted"),
@@ -71,7 +71,7 @@ const EXECUTION_STATUS = {
   CANCELLED: {
     label: t("client.src.stalled"),
     icon: Pause,
-    color: "text-slate-500"
+    color: "text-muted-foreground"
   }
 };
 const SCHEDULE_FREQUENCY = {
@@ -173,20 +173,20 @@ export default function ReportsEnhanced() {
   }, {
     label: t("client.src.optimization"),
     value: "98.2%",
-    color: "text-emerald-400"
+    color: "text-success"
   }];
   return <PageShell title={t("client.src.tactical_intelligence")} description={t("client.src.neural_reporting_hub_predictive")} stats={stats} onSearchChange={setSearch} searchValue={search}>
       <div className="space-y-12">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-12 outline-none">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6 px-4">
-             <TabsList className="bg-[#1a1b1e]/60 border border-white/5 p-1.5 rounded-[20px] h-14 shadow-xl">
+             <TabsList className="bg-card/60 border border-white/5 p-1.5 rounded-[20px] h-14 shadow-xl">
                {["REPORTS", "EXECUTIONS", "TELEMETRY"].map(tab => <TabsTrigger key={tab} value={tab.toLowerCase()} className="data-[state=active]:bg-blue-600 data-[state=active]:text-white rounded-[14px] px-8 text-[10px] font-black tracking-widest italic h-full transition-all">
                    {tab}
                  </TabsTrigger>)}
              </TabsList>
 
              <div className="flex items-center gap-4 w-full lg:w-auto">
-                <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] italic tracking-widest shadow-xl shadow-blue-600/20 border-t border-white/10 shrink-0">
+                <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black text-[10px] italic tracking-widest shadow-xl shadow-blue-600/20 border-t border-white/10 shrink-0">
                    <Plus className="w-4 h-4 mr-2" />{t("client.src.initialize_report")}</Button>
              </div>
           </div>
@@ -205,8 +205,8 @@ export default function ReportsEnhanced() {
                   y: 0
                 }} transition={{
                   delay: idx * 0.05
-                }} className="p-8 rounded-[40px] bg-[#1a1b1e]/40 border border-white/5 backdrop-blur-3xl shadow-3xl group relative overflow-hidden flex flex-col justify-between border-l border-t">
-                      <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 transition-all pointer-events-none text-blue-500">
+                }} className="p-8 rounded-[40px] bg-card/40 border border-white/5 backdrop-blur-3xl shadow-3xl group relative overflow-hidden flex flex-col justify-between border-l border-t">
+                      <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 transition-all pointer-events-none text-brand">
                          <Icon className="w-32 h-32" />
                       </div>
 
@@ -216,17 +216,17 @@ export default function ReportsEnhanced() {
                               {rType.label}
                            </Badge>
                            <div className="flex items-center gap-4">
-                              <Badge className={cn("text-[9px] font-black  italic border-none py-1 px-4 rounded-full", report.status === ReportStatus.ACTIVE ? "bg-emerald-400/10 text-emerald-400" : "bg-slate-500/10 text-slate-400")}>
+                              <Badge className={cn("text-[9px] font-black  italic border-none py-1 px-4 rounded-full", report.status === ReportStatus.ACTIVE ? "bg-blue-400/10 text-success" : "bg-muted text-muted-foreground")}>
                                  {report.status === ReportStatus.ACTIVE ? "ONLINE" : "OFFLINE"}
                               </Badge>
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                  <div className="h-10 w-10 rounded-xl bg-black/40 border border-white/5 flex items-center justify-center text-slate-400 group-hover:text-white transition-colors cursor-pointer">
+                                  <div className="h-10 w-10 rounded-xl bg-black/40 border border-white/5 flex items-center justify-center text-muted-foreground group-hover:text-white transition-colors cursor-pointer">
                                     <MoreHorizontal className="w-4 h-4" />
                                   </div>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="bg-black border-white/10 font-display">
-                                   <DropdownMenuItem className="text-slate-400 font-bold italic text-[10px]">{t("client.src.edit_config")}</DropdownMenuItem>
+                                   <DropdownMenuItem className="text-muted-foreground font-bold italic text-[10px]">{t("client.src.edit_config")}</DropdownMenuItem>
                                    <DropdownMenuItem className="text-red-400 font-bold italic text-[10px]">{t("client.src.wipe_record")}</DropdownMenuItem>
                                 </DropdownMenuContent>
                               </DropdownMenu>
@@ -234,21 +234,21 @@ export default function ReportsEnhanced() {
                         </div>
 
                         <div className="space-y-2">
-                           <h3 className="text-2xl font-black text-white italic tracking-tighter leading-tight group-hover:text-blue-400 transition-colors">{report.name}</h3>
-                           <p className="text-[11px] font-bold text-slate-500 tracking-widest leading-relaxed italic max-w-lg">{report.description}</p>
+                           <h3 className="text-2xl font-black text-white italic tracking-tighter leading-tight group-hover:text-brand transition-colors">{report.name}</h3>
+                           <p className="text-[11px] font-bold text-muted-foreground tracking-widest leading-relaxed italic max-w-lg">{report.description}</p>
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-6 border-t border-white/5">
                            <div className="space-y-1">
-                              <p className="text-[8px] font-black text-slate-600 tracking-widest italic flex items-center gap-1.5"><Calendar className="w-2.5 h-2.5" />{t("client.src.cycle_frequency")}</p>
+                              <p className="text-[8px] font-black text-muted-foreground tracking-widest italic flex items-center gap-1.5"><Calendar className="w-2.5 h-2.5" />{t("client.src.cycle_frequency")}</p>
                               <p className="text-[10px] font-black text-white italic tracking-tight">{report.schedule ? SCHEDULE_FREQUENCY[report.schedule as keyof typeof SCHEDULE_FREQUENCY]?.label || "CUSTOM" : "ON-DEMAND"}</p>
                            </div>
                            <div className="space-y-1">
-                              <p className="text-[8px] font-black text-slate-600 tracking-widest italic flex items-center gap-1.5"><RefreshCw className="w-2.5 h-2.5" />{t("client.src.last_sync")}</p>
+                              <p className="text-[8px] font-black text-muted-foreground tracking-widest italic flex items-center gap-1.5"><RefreshCw className="w-2.5 h-2.5" />{t("common.last_sync")}</p>
                               <p className="text-[10px] font-black text-white italic tracking-tight">{report.lastRunAt ? new Date(report.lastRunAt).toLocaleDateString() : "NEVER"}</p>
                            </div>
                            <div className="space-y-1">
-                              <p className="text-[8px] font-black text-slate-600 tracking-widest italic flex items-center gap-1.5"><Layers className="w-2.5 h-2.5" />{t("client.src.recipients")}</p>
+                              <p className="text-[8px] font-black text-muted-foreground tracking-widest italic flex items-center gap-1.5"><Layers className="w-2.5 h-2.5" />{t("client.src.recipients")}</p>
                               <p className="text-[10px] font-black text-white italic tracking-tight">{report.executions?.length || 0} {t("client.src.executions")}</p>
                            </div>
                         </div>
@@ -256,15 +256,15 @@ export default function ReportsEnhanced() {
 
                       <div className="mt-8 flex items-center justify-between">
                          <div className="flex items-center gap-4">
-                            <div className="h-10 w-10 bg-black/40 border border-white/5 rounded-xl flex items-center justify-center text-blue-400">
+                            <div className="h-10 w-10 bg-black/40 border border-white/5 rounded-xl flex items-center justify-center text-brand">
                                <Fingerprint className="w-5 h-5" />
                             </div>
                             <div>
-                               <p className="text-[8px] font-black text-slate-600 italic">{t("client.src.sha256_secured")}</p>
+                               <p className="text-[8px] font-black text-muted-foreground italic">{t("client.src.sha256_secured")}</p>
                                <p className="text-[9px] font-black text-white italic tracking-tighter">{t("client.src.node_id")}{report.id}</p>
                             </div>
                          </div>
-                         <Button disabled={generatingReport === report.id} onClick={() => handleGenerateReport(report.id)} className="h-12 px-8 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] italic tracking-widest gap-2 shadow-xl shadow-blue-600/20">
+                         <Button disabled={generatingReport === report.id} onClick={() => handleGenerateReport(report.id)} className="h-12 px-8 rounded-xl bg-blue-600 hover:bg-brand/100 text-white font-black text-[10px] italic tracking-widest gap-2 shadow-xl shadow-blue-600/20">
                            {generatingReport === report.id ? <RefreshCw className="w-3 h-3 animate-spin" /> : <Play className="w-3 h-3" />}
                            {generatingReport === report.id ? "SYNCING..." : "EXECUTE"}
                          </Button>
@@ -275,29 +275,29 @@ export default function ReportsEnhanced() {
             </TabsContent>
 
             <TabsContent value="executions" className="mt-0 outline-none px-4">
-               <Card className="border-white/5 bg-[#1a1b1e]/40 backdrop-blur-3xl rounded-[40px] shadow-3xl border-l border-t relative overflow-hidden">
+               <Card className="border-white/5 bg-card/40 backdrop-blur-3xl rounded-[40px] shadow-3xl border-l border-t relative overflow-hidden">
                   <CardHeader className="p-10">
                      <CardTitle className="text-xl font-black text-white italic tracking-tighter flex items-center gap-4">
-                        <Activity className="w-5 h-5 text-blue-500" />{t("client.src.historical_execution_log")}</CardTitle>
+                        <Activity className="w-5 h-5 text-brand" />{t("client.src.historical_execution_log")}</CardTitle>
                   </CardHeader>
                   <CardContent className="p-10 pt-0 space-y-4">
                      {executions.map((exec: any) => {
                   const status = EXECUTION_STATUS[exec.status as keyof typeof EXECUTION_STATUS] || EXECUTION_STATUS.FAILED;
                   return <div key={exec.id} className="flex items-center justify-between p-6 rounded-2xl bg-black/20 border border-white/5 group hover:bg-white/5 transition-all">
                              <div className="flex items-center gap-6">
-                                <div className="h-12 w-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                                <div className="h-12 w-12 rounded-xl bg-brand/100/10 border border-blue-500/20 flex items-center justify-center text-brand">
                                    <FileText className="w-5 h-5" />
                                 </div>
                                 <div className="space-y-1">
                                    <p className="text-[11px] font-black text-white italic tracking-tight">{exec.report.name}</p>
-                                   <p className="text-[9px] font-black text-slate-500 tracking-widest italic">{exec.userId || 'SYSTEM'} · {new Date(exec.startedAt).toLocaleString()}</p>
+                                   <p className="text-[9px] font-black text-muted-foreground tracking-widest italic">{exec.userId || 'SYSTEM'} · {new Date(exec.startedAt).toLocaleString()}</p>
                                 </div>
                              </div>
                              <div className="flex items-center gap-8">
                                 <Badge className={cn("text-[9px] font-black  italic border-none py-1 px-4 rounded-full", status.color, "bg-white/5")}>
                                    {status.label}
                                 </Badge>
-                                <Button variant="ghost" size="icon" className="h-10 w-10 text-slate-500 hover:text-white transition-colors">
+                                <Button variant="ghost" size="icon" aria-label={t("common.download")} className="h-10 w-10 text-muted-foreground hover:text-white transition-colors">
                                    <Download className="w-4 h-4" />
                                 </Button>
                              </div>
@@ -311,27 +311,27 @@ export default function ReportsEnhanced() {
       </div>
 
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="max-w-2xl bg-[#14151a] border border-white/10 rounded-[32px] shadow-3xl text-white font-display overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent opacity-50"></div>
+        <DialogContent className="max-w-2xl bg-background border border-white/10 rounded-[32px] shadow-3xl text-white font-display overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand via-transparent to-transparent opacity-50"></div>
           <DialogHeader className="p-8">
             <DialogTitle className="text-3xl font-black italic tracking-tighter flex items-center gap-4">
                <div className="p-3 bg-blue-600 rounded-2xl shadow-xl shadow-blue-600/20">
                   <FileText className="w-6 h-6 text-white" />
                </div>{t("client.src.initialize_protocol")}</DialogTitle>
-            <DialogDescription className="text-[10px] font-black text-slate-500 tracking-widest italic mt-4">{t("client.src.deploy_new_telemetry_extraction")}</DialogDescription>
+            <DialogDescription className="text-[10px] font-black text-muted-foreground tracking-widest italic mt-4">{t("client.src.deploy_new_telemetry_extraction")}</DialogDescription>
           </DialogHeader>
           
           <div className="p-8 pt-0 space-y-6">
              <div className="space-y-2">
-                <Label className="text-[9px] font-black text-slate-500 italic tracking-widest">{t("client.src.report_identifier")}</Label>
+                <Label className="text-[9px] font-black text-muted-foreground italic tracking-widest">{t("client.src.report_identifier")}</Label>
                 <Input className="h-12 bg-black/40 border-white/5 rounded-xl text-white focus:ring-blue-500/20" placeholder={t("client.src.eg_q4_revenue_matrix")} />
              </div>
              <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                   <Label className="text-[9px] font-black text-slate-500 italic tracking-widest">{t("client.src.tactical_sector")}</Label>
+                   <Label className="text-[9px] font-black text-muted-foreground italic tracking-widest">{t("client.src.tactical_sector")}</Label>
                    <Select>
                       <SelectTrigger className="h-12 bg-black/40 border-white/5 rounded-xl text-white">
-                         <SelectValue placeholder={t("client.src.select_type")} />
+                         <SelectValue placeholder={t("common.select_type")} />
                       </SelectTrigger>
                       <SelectContent className="bg-black border-white/10">
                          {Object.entries(REPORT_TYPES).map(([key, c]) => <SelectItem key={key} value={key}>{c.label}</SelectItem>)}
@@ -339,7 +339,7 @@ export default function ReportsEnhanced() {
                    </Select>
                 </div>
                 <div className="space-y-2">
-                   <Label className="text-[9px] font-black text-slate-500 italic tracking-widest">{t("client.src.sync_frequency")}</Label>
+                   <Label className="text-[9px] font-black text-muted-foreground italic tracking-widest">{t("client.src.sync_frequency")}</Label>
                    <Select>
                       <SelectTrigger className="h-12 bg-black/40 border-white/5 rounded-xl text-white">
                          <SelectValue placeholder={t("client.src.select_cycle")} />
@@ -353,8 +353,8 @@ export default function ReportsEnhanced() {
           </div>
 
           <DialogFooter className="p-8 pt-0 flex gap-4">
-            <Button variant="ghost" onClick={() => setCreateOpen(false)} className="h-12 rounded-xl text-[10px] font-black text-slate-500 hover:text-white transition-all italic">{t("client.src.abort_mission")}</Button>
-            <Button className="h-12 px-8 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] italic tracking-widest shadow-xl shadow-blue-600/20">{t("client.src.confirm_deployment")}</Button>
+            <Button variant="ghost" onClick={() => setCreateOpen(false)} className="h-12 rounded-xl text-[10px] font-black text-muted-foreground hover:text-white transition-all italic">{t("client.src.abort_mission")}</Button>
+            <Button className="h-12 px-8 rounded-xl bg-blue-600 hover:bg-brand/100 text-white font-black text-[10px] italic tracking-widest shadow-xl shadow-blue-600/20">{t("client.src.confirm_deployment")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

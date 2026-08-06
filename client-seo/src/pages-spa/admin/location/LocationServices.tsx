@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -250,7 +250,7 @@ export default function LocationServices() {
  },
  onError: (error: any) => {
  toast({
- title: t("admin_location_error","Error"),
+ title: t("admin_location_error", "Hata"),
  description: error.message,
  variant:"destructive"
  });
@@ -259,13 +259,13 @@ export default function LocationServices() {
  const getProviderIcon = (provider: string) => {
  switch (provider) {
  case"GOOGLE":
- return <Globe className="w-4 h-4 text-slate-600" />;
+ return <Globe className="w-4 h-4 text-muted-foreground" />;
  case"OPENSTREETMAP":
- return <Map className="w-4 h-4 text-green-600" />;
+ return <Map className="w-4 h-4 text-blue-600" />;
  case"YANDEX":
  return <Navigation className="w-4 h-4 text-yellow-600" />;
  case"MAPBOX":
- return <MapPin className="w-4 h-4 text-slate-600" />;
+ return <MapPin className="w-4 h-4 text-muted-foreground" />;
  default:
  return <MapIcon className="w-4 h-4 text-muted-foreground" />;
  }
@@ -273,13 +273,13 @@ export default function LocationServices() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case"ACTIVE":
- return"bg-green-100 text-green-700";
+ return"bg-blue-100 text-blue-700";
  case"INACTIVE":
- return"bg-card text-slate-300";
+ return"bg-card text-muted-foreground";
  case"ERROR":
  return"bg-red-100 text-red-700";
  default:
- return"bg-card text-slate-300";
+ return"bg-card text-muted-foreground";
  }
  };
  const getTypeIcon = (type: string) => {
@@ -356,10 +356,10 @@ export default function LocationServices() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_location_active_services")}</p>
- <p className="text-2xl font-bold text-green-600">{stats.activeServices}</p>
+ <p className="text-2xl font-bold text-blue-600">{stats.activeServices}</p>
  <p className="text-xs text-muted-foreground">{t("admin_location_of")}{stats.totalServices}{t("admin_location_total")}</p>
  </div>
- <CheckCircle className="w-8 h-8 text-green-600" />
+ <CheckCircle className="w-8 h-8 text-blue-600" />
  </div>
  </CardContent>
  </Card>
@@ -380,10 +380,10 @@ export default function LocationServices() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_location_map_layers")}</p>
- <p className="text-2xl font-bold text-slate-600">{stats.activeLayers}</p>
+ <p className="text-2xl font-bold text-muted-foreground">{stats.activeLayers}</p>
  <p className="text-xs text-muted-foreground">{t("admin_location_of")}{stats.totalLayers}{t("admin_location_visible")}</p>
  </div>
- <Layers className="w-8 h-8 text-slate-600" />
+ <Layers className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -392,10 +392,10 @@ export default function LocationServices() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_location_active_geofences")}</p>
- <p className="text-2xl font-bold text-slate-600">{stats.activeGeofences}</p>
+ <p className="text-2xl font-bold text-muted-foreground">{stats.activeGeofences}</p>
  <p className="text-xs text-muted-foreground">{t("admin_location_of")}{stats.totalGeofences}{t("admin_location_total")}</p>
  </div>
- <MapPin className="w-8 h-8 text-slate-600" />
+ <MapPin className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -464,7 +464,7 @@ export default function LocationServices() {
  <span>{getQuotaPercentage(service.quota.used, service.quota.daily)}%</span>
  </div>
  <div className="w-full bg-card rounded-full h-2">
- <div className={`h-2 rounded-full ${getQuotaPercentage(service.quota.used, service.quota.daily) > 80 ?"bg-red-600" : getQuotaPercentage(service.quota.used, service.quota.daily) > 60 ?"bg-yellow-600" :"bg-green-600"}`} style={{
+ <div className={`h-2 rounded-full ${getQuotaPercentage(service.quota.used, service.quota.daily) > 80 ?"bg-red-600" : getQuotaPercentage(service.quota.used, service.quota.daily) > 60 ?"bg-yellow-600" :"bg-blue-600"}`} style={{
  width: `${getQuotaPercentage(service.quota.used, service.quota.daily)}%`
  }}></div>
  </div>
@@ -475,7 +475,7 @@ export default function LocationServices() {
  <Switch checked={service.status ==="ACTIVE"} onCheckedChange={() => toggleService(service.id)} />
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="w-4 h-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -514,7 +514,7 @@ export default function LocationServices() {
  <div className="flex items-center justify-between">
  <div className="flex-1">
  <div className="flex items-center gap-3 mb-2">
- <Layers className="w-5 h-5 text-slate-600" />
+ <Layers className="w-5 h-5 text-muted-foreground" />
  <div>
  <h4 className="font-medium">{layer.name}</h4>
  <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -554,7 +554,7 @@ export default function LocationServices() {
  <Switch checked={layer.isVisible} onCheckedChange={() => toggleLayer(layer)} />
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="w-4 h-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -588,7 +588,7 @@ export default function LocationServices() {
  <CardContent className="p-6">
  <div className="flex items-center justify-between mb-4">
  <div className="flex items-center gap-3">
- <MapPin className="w-5 h-5 text-slate-600" />
+ <MapPin className="w-5 h-5 text-muted-foreground" />
  <div>
  <h4 className="font-medium">{geofence.name}</h4>
  <div className="flex items-center gap-2 text-sm text-muted-foreground">

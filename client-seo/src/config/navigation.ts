@@ -15,7 +15,7 @@ export const mainNavigation: NavigationItem[] = [
   },
   {
     title: "Analytics",
-    href: "/analytics",
+    href: '/admin/analytics',
     icon: "BarChart3",
   },
   {
@@ -60,22 +60,22 @@ export const mainNavigation: NavigationItem[] = [
     children: [
       {
         title: "Leases",
-        href: "/leases",
+        href: '/client/leases',
         icon: "FileContract",
       },
       {
         title: "Tenants",
-        href: "/tenants",
+        href: '/client/tenants',
         icon: "Users",
       },
       {
         title: "Applications",
-        href: "/tenant-applications",
+        href: '/client/tenants',
         icon: "UserPlus",
       },
       {
         title: "Rent Schedule",
-        href: "/rent-schedule",
+        href: '/client/leases',
         icon: "CalendarDays",
       },
     ],
@@ -86,17 +86,17 @@ export const mainNavigation: NavigationItem[] = [
     children: [
       {
         title: "Financial Records",
-        href: "/financial",
+        href: '/client/financial',
         icon: "Receipt",
       },
       {
         title: "Tax Records",
-        href: "/financial/taxes",
+        href: '/admin/financial',
         icon: "Calculator",
       },
       {
         title: "Budgets",
-        href: "/financial/budgets",
+        href: '/admin/financial',
         icon: "PieChart",
       },
       {
@@ -117,22 +117,22 @@ export const mainNavigation: NavigationItem[] = [
     children: [
       {
         title: "Contacts",
-        href: "/contacts",
+        href: '/client/contacts',
         icon: "Users",
       },
       {
         title: "Leads",
-        href: "/leads",
+        href: '/client/contacts',
         icon: "Target",
       },
       {
         title: "Referrals",
-        href: "/referrals",
+        href: '/client/contacts',
         icon: "Share2",
       },
       {
         title: "Client Relationships",
-        href: "/client-relationships",
+        href: '/client/crm',
         icon: "Handshake",
       },
     ],
@@ -143,7 +143,7 @@ export const mainNavigation: NavigationItem[] = [
     children: [
       {
         title: "All Deals",
-        href: "/deals",
+        href: '/client/deals',
         icon: "Briefcase",
       },
       {
@@ -169,7 +169,7 @@ export const mainNavigation: NavigationItem[] = [
     children: [
       {
         title: "Tasks",
-        href: "/tasks",
+        href: '/client/tasks',
         icon: "CheckList",
       },
       {
@@ -195,17 +195,17 @@ export const mainNavigation: NavigationItem[] = [
     children: [
       {
         title: "Contracts",
-        href: "/contracts",
+        href: '/client/contracts',
         icon: "FileText",
       },
       {
         title: "Documents",
-        href: "/documents",
+        href: '/client/file-management',
         icon: "File",
       },
       {
         title: "Signatures",
-        href: "/signatures",
+        href: '/client/contracts',
         icon: "PenTool",
       },
       {
@@ -347,7 +347,7 @@ export const mainNavigation: NavigationItem[] = [
   },
   {
     title: "Settings",
-    href: "/settings",
+    href: '/admin/settings',
     icon: "Settings",
   },
 ];
@@ -355,7 +355,7 @@ export const mainNavigation: NavigationItem[] = [
 export const secondaryNavigation: NavigationItem[] = [
   {
     title: "Help Center",
-    href: "/help",
+    href: '/client/support',
     icon: "HelpCircle",
   },
   {
@@ -385,27 +385,27 @@ export const mobileNavigation: NavigationItem[] = [
   },
   {
     title: "Contacts",
-    href: "/contacts",
+    href: '/client/contacts',
     icon: "Users",
   },
   {
     title: "Leads",
-    href: "/leads",
+    href: '/client/contacts',
     icon: "Target",
   },
   {
     title: "Deals",
-    href: "/deals",
+    href: '/client/deals',
     icon: "Briefcase",
   },
   {
     title: "Tasks",
-    href: "/tasks",
+    href: '/client/tasks',
     icon: "CheckList",
   },
   {
     title: "Settings",
-    href: "/settings",
+    href: '/admin/settings',
     icon: "Settings",
   },
 ];

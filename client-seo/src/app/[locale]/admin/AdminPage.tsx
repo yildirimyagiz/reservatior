@@ -30,7 +30,9 @@ import {
   Target,
   TrendingUp,
   HeartHandshake,
-  Key
+  Key,
+  ShieldCheck,
+  Wallet
 } from "lucide-react";
 import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -46,8 +48,8 @@ export default function AdminPage() {
   const stats = [
     { label: "Total Users", value: "2,847", change: "+12%", icon: Users, color: "text-muted-foreground" },
     { label: "Active Properties", value: "1,234", change: "+8%", icon: Building2, color: "text-muted-foreground" },
-    { label: "Revenue", value: "$1.2M", change: "+23%", icon: DollarSign, color: "text-green-400" },
-    { label: "System Health", value: "98.5%", change: "+2%", icon: Activity, color: "text-emerald-400" },
+    { label: "Revenue", value: "$1.2M", change: "+23%", icon: DollarSign, color: "text-blue-400" },
+    { label: "System Health", value: "98.5%", change: "+2%", icon: Activity, color: "text-success" },
   ];
 
   const recentAlerts = [
@@ -57,27 +59,32 @@ export default function AdminPage() {
   ];
 
   const osModules = [
-    { name: "Booking OS", path: "/admin/booking-os", icon: Calendar, color: "text-blue-400", desc: "Manage bookings and reservations", module: "booking-os" },
-    { name: "Finance OS", path: "/admin/finance-os", icon: DollarSign, color: "text-green-400", desc: "Financial operations and commissions", module: "finance-os" },
-    { name: "Listing OS", path: "/admin/listing-os", icon: Building2, color: "text-purple-400", desc: "Property listings management", module: "listing-os" },
-    { name: "Identity OS", path: "/admin/identity-os", icon: Users, color: "text-indigo-400", desc: "User and organization management", module: "identity-os" },
-    { name: "Agent OS", path: "/admin/agent-os", icon: Activity, color: "text-orange-400", desc: "Agent performance and management", module: "agent-os" },
+    { name: "Booking OS", path: "/admin/booking-os", icon: Calendar, color: "text-info", desc: "Manage bookings and reservations", module: "booking-os" },
+    { name: "Finance OS", path: "/admin/finance-os", icon: DollarSign, color: "text-blue-400", desc: "Financial operations and commissions", module: "finance-os" },
+    { name: "Listing OS", path: "/admin/listing-os", icon: Building2, color: "text-brand", desc: "Property listings management", module: "listing-os" },
+    { name: "Identity OS", path: "/admin/identity-os", icon: Users, color: "text-brand", desc: "User and organization management", module: "identity-os" },
+    { name: "Agent OS", path: "/admin/agent-os", icon: Activity, color: "text-warning", desc: "Agent performance and management", module: "agent-os" },
     { name: "Document OS", path: "/admin/document-os", icon: FileText, color: "text-pink-400", desc: "Document and signature management", module: "document-os" },
     { name: "Analytics OS", path: "/admin/analytics-os", icon: BarChart3, color: "text-cyan-400", desc: "Data analytics and insights", module: "analytics-os" },
     { name: "Notification OS", path: "/admin/notification-os", icon: Bell, color: "text-yellow-400", desc: "Notification and communication", module: "notification-os" },
-    { name: "Localization OS", path: "/admin/localization-os", icon: Globe, color: "text-emerald-400", desc: "Multi-country and language support", module: "localization-os" },
+    { name: "Localization OS", path: "/admin/localization-os", icon: Globe, color: "text-success", desc: "Multi-country and language support", module: "localization-os" },
     { name: "AI OS", path: "/admin/ai-os", icon: Brain, color: "text-violet-400", desc: "AI models and predictions", module: "ai-os" },
-    { name: "User OS", path: "/admin/user-os", icon: Users, color: "text-blue-400", desc: "User lifecycle management", module: "user-os" },
-    { name: "Trust OS", path: "/admin/trust-os", icon: Shield, color: "text-emerald-400", desc: "Trust scores and verification", module: "trust-os" },
-    { name: "Ads OS", path: "/admin/ads-os", icon: Megaphone, color: "text-orange-400", desc: "Advertising campaigns", module: "ads-os" },
+    { name: "User OS", path: "/admin/user-os", icon: Users, color: "text-info", desc: "User lifecycle management", module: "user-os" },
+    { name: "Trust OS", path: "/admin/trust-os", icon: Shield, color: "text-success", desc: "Trust scores and verification", module: "trust-os" },
+    { name: "Ads OS", path: "/admin/ads-os", icon: Megaphone, color: "text-warning", desc: "Advertising campaigns", module: "ads-os" },
     { name: "Commerce OS", path: "/admin/commerce-os", icon: ShoppingCart, color: "text-pink-400", desc: "Products and orders", module: "commerce-os" },
     { name: "Operations OS", path: "/admin/operations-os", icon: CheckSquare, color: "text-cyan-400", desc: "Tasks and workflows", module: "operations-os" },
-    { name: "CRM OS", path: "/admin/crm-os", icon: Target, color: "text-indigo-400", desc: "Leads and opportunities", module: "crm-os" },
-    { name: "Investment OS", path: "/admin/investment-os", icon: TrendingUp, color: "text-green-400", desc: "Investments and returns", module: "investment-os" },
-    { name: "Governance OS", path: "/admin/governance-os", icon: FileText, color: "text-amber-400", desc: "Policies and compliance", module: "governance-os" },
-    { name: "Partner OS", path: "/admin/partner-os", icon: HeartHandshake, color: "text-teal-400", desc: "Partner relationships", module: "partner-os" },
-    { name: "Developer API OS", path: "/admin/devapi-os", icon: Key, color: "text-slate-400", desc: "API keys and usage", module: "devapi-os" },
+    { name: "CRM OS", path: "/admin/crm-os", icon: Target, color: "text-brand", desc: "Leads and opportunities", module: "crm-os" },
+    { name: "Investment OS", path: "/admin/investment-os", icon: TrendingUp, color: "text-blue-400", desc: "Investments and returns", module: "investment-os" },
+    { name: "Governance OS", path: "/admin/governance-os", icon: FileText, color: "text-warning", desc: "Policies and compliance", module: "governance-os" },
+    { name: "Partner OS", path: "/admin/partner-os", icon: HeartHandshake, color: "text-blue-400", desc: "Partner relationships", module: "partner-os" },
+    { name: "Developer API OS", path: "/admin/devapi-os", icon: Key, color: "text-muted-foreground", desc: "API keys and usage", module: "devapi-os" },
     { name: "Security OS", path: "/admin/security-os", icon: AlertTriangle, color: "text-red-400", desc: "Security and incidents", module: "security-os" },
+    { name: "Consent OS", path: "/admin/consent-os", icon: Shield, color: "text-success", desc: "Compliance and consent management", module: "consent-os" },
+    { name: "Marketing OS", path: "/admin/marketing-os", icon: Megaphone, color: "text-pink-500", desc: "Marketing campaigns and attribution", module: "marketing-os" },
+    { name: "Insurance OS", path: "/admin/insurance-os", icon: ShieldCheck, color: "text-emerald-400", desc: "Insurance policies, claims and providers", module: "insurance-os" },
+    { name: "Rental Finance OS", path: "/admin/rental-finance-os", icon: Wallet, color: "text-blue-400", desc: "Service plans, escrow and payments", module: "rental-finance-os" },
+    { name: "Landlord OS", path: "/landlord-os", icon: Building2, color: "text-indigo-400", desc: "Landlord portfolios and analytics", module: "landlord-os" },
   ];
 
   const accessibleOSModules = osModules.filter(os => canAccessOSModule(user, os.module));
@@ -125,7 +132,7 @@ export default function AdminPage() {
                     <div>
                       <div className="text-sm text-muted-foreground mb-1">{stat.label}</div>
                       <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                      <div className="text-green-400 text-sm mt-1">{stat.change}</div>
+                      <div className="text-blue-400 text-sm mt-1">{stat.change}</div>
                     </div>
                     <div className="p-3 rounded-lg bg-muted/30">
                       <stat.icon className={`w-6 h-6 ${stat.color}`} />
@@ -141,7 +148,7 @@ export default function AdminPage() {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-muted/30 border-border">
             <TabsTrigger value="overview" className="data-[state=active]:bg-primary">{t("admin_main_tab_overview")}</TabsTrigger>
-            <TabsTrigger value="os-modules" className="data-[state=active]:bg-primary">OS Modules</TabsTrigger>
+            <TabsTrigger value="os-modules" className="data-[state=active]:bg-primary">{t("admin_main_tab_os_modules", "OS Modülleri")}</TabsTrigger>
             {canViewUsers && <TabsTrigger value="users" className="data-[state=active]:bg-primary">{t("admin_main_tab_users")}</TabsTrigger>}
             {canViewTriggers && <TabsTrigger value="triggers" className="data-[state=active]:bg-primary">{t("admin_main_tab_triggers")}</TabsTrigger>}
             {canViewSystem && <TabsTrigger value="system" className="data-[state=active]:bg-primary">{t("admin_main_tab_system")}</TabsTrigger>}
@@ -170,7 +177,7 @@ export default function AdminPage() {
                         >
                           {alert.type === "warning" && <AlertTriangle className="w-5 h-5 text-yellow-400" />}
                           {alert.type === "error" && <AlertTriangle className="w-5 h-5 text-red-400" />}
-                          {alert.type === "success" && <CheckCircle className="w-5 h-5 text-green-400" />}
+                          {alert.type === "success" && <CheckCircle className="w-5 h-5 text-blue-400" />}
                           <div className="flex-1">
                             <div className="text-foreground text-sm">{alert.message}</div>
                             <div className="text-muted-foreground text-xs mt-1">{alert.time}</div>
@@ -236,7 +243,7 @@ export default function AdminPage() {
             >
               <Card className="bg-card border-border">
                 <CardHeader>
-                  <CardTitle className="text-foreground">OS Modules</CardTitle>
+                  <CardTitle className="text-foreground">{t("admin_main_tab_os_modules", "OS Modülleri")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -249,8 +256,8 @@ export default function AdminPage() {
                       >
                         <os.icon className={`w-6 h-6 mb-2 ${os.color}`} />
                         <div className="text-left">
-                          <div className="font-semibold">{os.name}</div>
-                          <div className="text-xs text-muted-foreground">{os.desc}</div>
+                          <div className="font-semibold">{t(`${os.module.replace(/-/g, '_')}.title`, os.name)}</div>
+                          <div className="text-xs text-muted-foreground">{t(`${os.module.replace(/-/g, '_')}.subtitle`, t(`${os.module.replace(/-/g, '_')}.desc`, os.desc))}</div>
                         </div>
                       </Button>
                     ))}
@@ -331,7 +338,7 @@ export default function AdminPage() {
                     </div>
                     <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
                       <div className="flex items-center gap-3">
-                        <Lock className="w-5 h-5 text-green-400" />
+                        <Lock className="w-5 h-5 text-blue-400" />
                         <div>
                           <div className="text-foreground">{t("admin_main_system_security")}</div>
                           <div className="text-muted-foreground text-sm">{t("admin_main_system_security_desc")}</div>

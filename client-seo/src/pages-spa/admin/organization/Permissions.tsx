@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Badge } from"@/components/ui/badge";
 import { Button } from"@/components/ui/button";
@@ -176,7 +176,7 @@ export default function Permissions() {
  <Shield className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{activePermissions}</div>
+ <div className="text-2xl font-bold text-blue-600">{activePermissions}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_not_deleted")}</p>
  </CardContent>
  </Card>
@@ -187,7 +187,7 @@ export default function Permissions() {
  <Users className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{usedPermissions}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{usedPermissions}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_assigned_to_roles")}</p>
  </CardContent>
  </Card>
@@ -339,7 +339,7 @@ export default function Permissions() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -410,13 +410,13 @@ export default function Permissions() {
  <CardContent>
  <div className="space-y-4">
  <div className="text-center">
- <div className="text-2xl font-bold text-slate-600">
+ <div className="text-2xl font-bold text-muted-foreground">
  {permissions.reduce((acc, perm) => acc + perm.roles.length, 0)}
  </div>
  <p className="text-sm text-muted-foreground">{t("admin_organization_total_assignments")}</p>
  </div>
  <div className="text-center">
- <div className="text-2xl font-bold text-green-600">
+ <div className="text-2xl font-bold text-blue-600">
  {usedPermissions}
  </div>
  <p className="text-sm text-muted-foreground">{t("admin_organization_used_permissions")}</p>

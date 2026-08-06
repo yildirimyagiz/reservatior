@@ -18,24 +18,24 @@ const kpis = [{
   change: "+12",
   trend: "up",
   icon: Building2,
-  color: "text-blue-400",
-  bg: "bg-blue-500/10"
+  color: "text-brand",
+  bg: "bg-brand/100/10"
 }, {
   label: t("client.src.active_users"),
   value: "4,821",
   change: "+148",
   trend: "up",
   icon: Users,
-  color: "text-emerald-400",
-  bg: "bg-emerald-500/10"
+  color: "text-success",
+  bg: "bg-success/10"
 }, {
   label: t("client.src.total_properties"),
   value: "1,205",
   change: "+45",
   trend: "up",
   icon: TrendingUp,
-  color: "text-purple-400",
-  bg: "bg-purple-500/10"
+  color: "text-brand",
+  bg: "bg-brand/10"
 }, {
   label: t("client.src.monthly_mrr"),
   value: "$142.5K",
@@ -170,7 +170,7 @@ export default function Organizations() {
                   <div className={`p-3 rounded-xl ${kpi.bg} ${kpi.color} group-hover:scale-110 transition-transform`}>
                     <kpi.icon className="h-6 w-6" />
                   </div>
-                  <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 rounded-full">
+                  <Badge variant="secondary" className="bg-success/10 text-success border-success/20 rounded-full">
                     <ArrowUpRight className="h-3 w-3 mr-1" />
                     {kpi.change}
                   </Badge>
@@ -192,7 +192,7 @@ export default function Organizations() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input placeholder={t("client.src.search_organizations")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-9 bg-background/50 border-white/10 w-full" />
               </div>
-              <Button variant="outline" size="icon" className="border-white/10 shrink-0">
+              <Button variant="outline" size="icon" aria-label={t("common.filter")} className="border-white/10 shrink-0">
                 <Filter className="w-4 h-4" />
               </Button>
             </div>
@@ -206,7 +206,7 @@ export default function Organizations() {
                   <TableHead className="w-[300px]">{t("client.src.organization")}</TableHead>
                   <TableHead>{t("client.src.status_plan")}</TableHead>
                   <TableHead>{t("client.src.users_subs")}</TableHead>
-                  <TableHead>{t("client.src.properties")}</TableHead>
+                  <TableHead>{t("common.properties")}</TableHead>
                   <TableHead className="text-right">{t("client.src.monthly_mrr")}</TableHead>
                   <TableHead className="w-[50px]"></TableHead>
                 </TableRow>
@@ -225,7 +225,7 @@ export default function Organizations() {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col gap-1.5 items-start">
-                          <Badge variant="outline" className={`text-[10px]  tracking-wider ${org.status === 'active' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : org.status === 'pending' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20'}`}>
+                          <Badge variant="outline" className={`text-[10px]  tracking-wider ${org.status === 'active' ? 'bg-success/10 text-success border-success/20' : org.status === 'pending' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20'}`}>
                             {org.status}
                           </Badge>
                           <span className="text-xs font-medium px-2 py-0.5 rounded-md bg-secondary/50 border border-white/5">
@@ -249,20 +249,20 @@ export default function Organizations() {
                         </div>
                       </TableCell>
                       <TableCell className="text-right">
-                        <span className="font-bold text-emerald-400">{org.mrr}</span>
+                        <span className="font-bold text-success">{org.mrr}</span>
                       </TableCell>
                       <TableCell>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/10">
+                            <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8 hover:bg-white/10">
                               <MoreVertical className="w-4 h-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-48">
-                            <DropdownMenuLabel>{t("client.src.actions")}</DropdownMenuLabel>
+                            <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className="cursor-pointer">
-                              <Settings className="w-4 h-4 mr-2" />{t("client.src.view_details")}</DropdownMenuItem>
+                              <Settings className="w-4 h-4 mr-2" />{t("common.view_details")}</DropdownMenuItem>
                             <DropdownMenuItem className="cursor-pointer">
                               <Users className="w-4 h-4 mr-2" />{t("client.src.manage_users")}</DropdownMenuItem>
                             <DropdownMenuItem className="cursor-pointer">
@@ -293,17 +293,17 @@ export default function Organizations() {
             name: "Pro",
             count: 68,
             percent: 55,
-            color: "bg-blue-500"
+            color: "bg-brand/100"
           }, {
             name: "Enterprise",
             count: 32,
             percent: 26,
-            color: "bg-purple-500"
+            color: "bg-brand/100"
           }, {
             name: "Starter",
             count: 20,
             percent: 16,
-            color: "bg-emerald-500"
+            color: "bg-success"
           }, {
             name: "Enterprise Plus",
             count: 4,

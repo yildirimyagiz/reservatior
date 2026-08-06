@@ -7,10 +7,36 @@
  */
 import { refreshRates, getAllRates, syncRatesToDatabase } from '../services/currency-converter';
 import prismaManager from '../lib/prisma';
+import type { PrismaClient } from '@prisma/client';
 
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
 let cronTimer: ReturnType<typeof setInterval> | null = null;
 let isRunning = false;
+
+/**
+ * Persist exchange rates to a single region's CurrencyConfig table.
+ */
+async function syncRatesToRegion(region: string): Promise<void> {
+  try {
+    const prisma = prismaManager.getClient(region);
+    const rates = await getAllRates('USD');
+    for (const rate of rates) {
+      await prisma.currencyConfig.upsert({
+        where: { code: rate.code },
+        update: { exchangeRate: rate.rate, lastUpdated: new Date() },
+        create: {
+          code: rate.code,
+          name: rate.name,
+          symbol: rate.symbol,
+          exchangeRate: rate.rate,
+        },
+      });
+    }
+    console.log(`💱 Rates synced to region [${region}]: ${rates.length} currencies`);
+  } catch (e: any) {
+    console.warn(`💱 Region [${region}] sync skipped: ${e.message.split('\n')[0]}`);
+  }
+}
 
 /**
  * Update exchange rates job
@@ -30,25 +56,15 @@ async function updateRatesJob(): Promise<void> {
     const result = await refreshRates();
     console.log(`✅ Exchange rates updated: ${result.updated} currencies`);
 
-    // Log update to database (optional audit)
-    try {
-      const prisma = prismaManager.getClient('US');
-      // Update the CurrencyConfig model with latest rates
-      const rates = await getAllRates('USD');
-      for (const rate of rates) {
-        await prisma.currencyConfig.upsert({
-          where: { code: rate.code },
-          update: { exchangeRate: rate.rate, lastUpdated: new Date() },
-          create: {
-            code: rate.code,
-            name: rate.name,
-            symbol: rate.symbol,
-            exchangeRate: rate.rate,
-          },
-        });
-      }
-    } catch (e) {
-      // Silent - rates are already cached in memory
+    // Log update to database (optional audit) across all regions
+    const regions = prismaManager.getSupportedRegions();
+    const seenDbUrls = new Set<string>();
+    for (const region of regions) {
+      const envKey = (region === 'USA' ? 'DATABASE_URL_US' : `DATABASE_URL_${region}`);
+      if (!process.env[envKey]) continue;
+      if (seenDbUrls.has(envKey)) continue;
+      seenDbUrls.add(envKey);
+      await syncRatesToRegion(region);
     }
 
     const elapsed = Date.now() - startTime;

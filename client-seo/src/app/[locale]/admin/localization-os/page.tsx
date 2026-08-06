@@ -10,17 +10,17 @@ export default function LocalizationOsAdminPage() {
   const { t } = useTranslation();
   
   return (
-    <PageShell title={t("admin_localization_os_title", "LocalizationOs Management")}>
+    <PageShell title={t("admin_localization_os_title", "LocalizationOs Yönetimi")}>
       <div className="space-y-6">
         <Card className="bg-card border-border">
           <CardHeader>
             <CardTitle className="text-card-foreground flex items-center gap-2">
               <Layers className="w-5 h-5 text-brand" />
-              {t("admin_localization_os_title", "LocalizationOs Management")}
+              {t("admin_localization_os_title", "LocalizationOs Yönetimi")}
             </CardTitle>
           </CardHeader>
           <CardContent className="text-muted-foreground text-sm space-y-2">
-            <p>{t("admin_localization_os_description", "Manage localizationos settings, configurations, and records.")}</p>
+            <p>{t("admin_localization_os_description", "LOCALIZATIONOS modülü ayarlarını, yapılandırmalarını ve sistem kayıtlarını yönetin.")}</p>
           </CardContent>
         </Card>
       </div>

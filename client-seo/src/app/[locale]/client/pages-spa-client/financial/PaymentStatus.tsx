@@ -33,9 +33,9 @@ export default function PaymentStatus() {
         scale: 1,
         opacity: 1
       }} className="relative mb-8">
-          <div className={`absolute inset-0 blur-3xl opacity-20 rounded-full ${isSuccess ? 'bg-emerald-500' : 'bg-rose-500'}`} />
-          {isSuccess ? <div className="bg-emerald-500/10 border border-emerald-500/20 p-8 rounded-full">
-              <CheckCircle2 className="w-20 h-20 text-emerald-400" />
+          <div className={`absolute inset-0 blur-3xl opacity-20 rounded-full ${isSuccess ? 'bg-success' : 'bg-rose-500'}`} />
+          {isSuccess ? <div className="bg-success/10 border border-success/20 p-8 rounded-full">
+              <CheckCircle2 className="w-20 h-20 text-success" />
             </div> : <div className="bg-rose-500/10 border border-rose-500/20 p-8 rounded-full">
               <XCircle className="w-20 h-20 text-rose-400" />
             </div>}
@@ -53,14 +53,14 @@ export default function PaymentStatus() {
           <h1 className="text-4xl font-bold mb-4 tracking-tight">
             {isSuccess ? "Neural Synchronization Complete" : "Synchronization Interrupted"}
           </h1>
-          <p className="text-slate-400 text-lg mb-8 leading-relaxed">
+          <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
             {isSuccess ? "Your transaction has been verified and recorded across the Reservatior ledger. All assets and permissions are now live." : "We encountered a neural handshake error. Please check your payment method or try again. No assets have been modified."}
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row items-center justify-center">
             {isSuccess ? <>
                 <Link to="/admin/dashboard">
-                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 gap-2">
+                  <Button size="lg" className="bg-blue-600 hover:bg-brand gap-2">
                     <Home className="w-4 h-4" />{t("client.src.go_to_dashboard")}</Button>
                 </Link>
                 <Link to="/invoices">
@@ -82,14 +82,14 @@ export default function PaymentStatus() {
         opacity: 1
       }} transition={{
         delay: 1
-      }} className="mt-12 flex items-center gap-6 text-slate-500">
+      }} className="mt-12 flex items-center gap-6 text-muted-foreground">
             <div className="flex items-center gap-2">
-              <Bell className="w-4 h-4 text-emerald-400" />
+              <Bell className="w-4 h-4 text-success" />
               <span className="text-sm italic">{t("client.src.notification_sent_to_stakeholders")}</span>
             </div>
-            <div className="w-px h-4 bg-slate-800" />
+            <div className="w-px h-4 bg-muted" />
             <div className="flex items-center gap-2">
-              <Receipt className="w-4 h-4 text-blue-400" />
+              <Receipt className="w-4 h-4 text-brand" />
               <span className="text-sm italic">{t("client.src.receipt_generated")}{sessionId?.slice(-8).toUpperCase()}</span>
             </div>
           </m.div>}

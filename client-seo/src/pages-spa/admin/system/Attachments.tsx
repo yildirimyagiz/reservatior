@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import React, { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from"@/components/ui/table";
 import { Badge } from"@/components/ui/badge";
@@ -68,32 +68,32 @@ const FILE_TYPE_CONFIG = {
  'image/jpeg': {
  label: t("admin_system_jpeg"),
  icon: Image,
- color: 'bg-green-100 text-green-700'
+ color: 'bg-blue-100 text-blue-700'
  },
  'image/png': {
  label: t("admin_system_png"),
  icon: Image,
- color: 'bg-green-100 text-green-700'
+ color: 'bg-blue-100 text-blue-700'
  },
  'image/gif': {
  label: t("admin_system_gif"),
  icon: Image,
- color: 'bg-green-100 text-green-700'
+ color: 'bg-blue-100 text-blue-700'
  },
  'video/mp4': {
  label: t("admin_system_mp4"),
  icon: Video,
- color: 'bg-slate-100 text-slate-700'
+ color: 'bg-muted text-muted-foreground'
  },
  'video/avi': {
  label: t("admin_system_avi"),
  icon: Video,
- color: 'bg-slate-100 text-slate-700'
+ color: 'bg-muted text-muted-foreground'
  },
  'video/mov': {
  label: t("admin_system_mov"),
  icon: Video,
- color: 'bg-slate-100 text-slate-700'
+ color: 'bg-muted text-muted-foreground'
  },
  'application/pdf': {
  label: t("admin_system_pdf"),
@@ -103,27 +103,27 @@ const FILE_TYPE_CONFIG = {
  'application/msword': {
  label: t("admin_system_doc"),
  icon: FileText,
- color: 'bg-slate-100 text-slate-700'
+ color: 'bg-muted text-muted-foreground'
  },
  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': {
  label: t("admin_system_docx"),
  icon: FileText,
- color: 'bg-slate-100 text-slate-700'
+ color: 'bg-muted text-muted-foreground'
  },
  'application/vnd.ms-excel': {
  label: t("admin_system_xls"),
  icon: FileText,
- color: 'bg-green-100 text-green-700'
+ color: 'bg-blue-100 text-blue-700'
  },
  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': {
  label: t("admin_system_xlsx"),
  icon: FileText,
- color: 'bg-green-100 text-green-700'
+ color: 'bg-blue-100 text-blue-700'
  },
  'text/plain': {
  label: t("admin_system_txt"),
  icon: FileText,
- color: 'bg-card text-slate-300'
+ color: 'bg-card text-muted-foreground'
  },
  'application/zip': {
  label: t("admin_system_zip"),
@@ -140,17 +140,17 @@ const ENTITY_CONFIG = {
  property: {
  label: t("admin_system_property"),
  icon: Home,
- color: 'bg-slate-100 text-slate-700'
+ color: 'bg-muted text-muted-foreground'
  },
  listing: {
  label: t("admin_system_listing"),
  icon: Home,
- color: 'bg-green-100 text-green-700'
+ color: 'bg-blue-100 text-blue-700'
  },
  contract: {
  label: t("admin_system_contract"),
  icon: FileSignature,
- color: 'bg-slate-100 text-slate-700'
+ color: 'bg-muted text-muted-foreground'
  },
  task: {
  label: t("admin_system_task"),
@@ -165,7 +165,7 @@ const ENTITY_CONFIG = {
  user: {
  label: t("admin_system_user"),
  icon: User,
- color: 'bg-card text-slate-300'
+ color: 'bg-card text-muted-foreground'
  }
 };
 export default function Attachments() {
@@ -337,7 +337,7 @@ export default function Attachments() {
  return config || {
  label: t("admin_system_unknown"),
  icon: File,
- color: 'bg-card text-slate-300'
+ color: 'bg-card text-muted-foreground'
  };
  };
  const getEntityInfo = (attachment: Attachment) => {
@@ -384,7 +384,7 @@ export default function Attachments() {
  <Eye className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{publicAttachments}</div>
+ <div className="text-2xl font-bold text-blue-600">{publicAttachments}</div>
  <p className="text-xs text-muted-foreground">{t("admin_system_accessible_to_all")}</p>
  </CardContent>
  </Card>
@@ -406,7 +406,7 @@ export default function Attachments() {
  <File className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{formatFileSize(totalSize)}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{formatFileSize(totalSize)}</div>
  <p className="text-xs text-muted-foreground">{t("admin_system_storage_used")}</p>
  </CardContent>
  </Card>
@@ -516,7 +516,7 @@ export default function Attachments() {
  </div> : <div className="text-sm text-muted-foreground">{t("admin_system_no_entity")}</div>}
  </TableCell>
  <TableCell>
- <Badge className={attachment.isPublic ?"bg-green-100 text-green-700" :"bg-orange-100 text-orange-700"}>
+ <Badge className={attachment.isPublic ?"bg-blue-100 text-blue-700" :"bg-orange-100 text-orange-700"}>
  {attachment.isPublic ?"Public" :"Private"}
  </Badge>
  </TableCell>
@@ -532,7 +532,7 @@ export default function Attachments() {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -617,7 +617,7 @@ export default function Attachments() {
  </div>
  <div>
  <Label>{t("admin_system_visibility")}</Label>
- <Badge className={selectedAttachment.isPublic ?"bg-green-100 text-green-700" :"bg-orange-100 text-orange-700"}>
+ <Badge className={selectedAttachment.isPublic ?"bg-blue-100 text-blue-700" :"bg-orange-100 text-orange-700"}>
  {selectedAttachment.isPublic ?"Public" :"Private"}
  </Badge>
  </div>

@@ -221,7 +221,7 @@ export class SmartRankingService {
 
       const boostScore = Math.min(rate / this.config.optimization.maxOptimizationRate, 1.0);
 
-      const listing = await prisma.listing.update({
+      const listing = await (prisma as any).listing.update({
         where: { id: listingId },
         data: {
           optimizationStatus: "ACTIVE",
@@ -250,7 +250,7 @@ export class SmartRankingService {
         updatedAt: listing.updatedAt,
       });
 
-      await prisma.listing.update({
+      await (prisma as any).listing.update({
         where: { id: listingId },
         data: { rankingScore },
       });
@@ -295,7 +295,7 @@ export class SmartRankingService {
     listingId: string,
   ): Promise<{ listingId: string; rankingScore: number }> {
     try {
-      const listing = await prisma.listing.findUnique({
+      const listing = await (prisma as any).listing.findUnique({
         where: { id: listingId },
       });
 
@@ -306,7 +306,7 @@ export class SmartRankingService {
       const previousBoostScore = listing.boostScore ?? 0.5;
       const newBoostScore = previousBoostScore * 0.5;
 
-      const updatedListing = await prisma.listing.update({
+      const updatedListing = await (prisma as any).listing.update({
         where: { id: listingId },
         data: {
           optimizationStatus: "EXPIRED",
@@ -334,7 +334,7 @@ export class SmartRankingService {
         updatedAt: updatedListing.updatedAt,
       });
 
-      await prisma.listing.update({
+      await (prisma as any).listing.update({
         where: { id: listingId },
         data: { rankingScore },
       });
@@ -370,7 +370,7 @@ export class SmartRankingService {
     thresholdReached: boolean;
   }> {
     try {
-      const statusHistory = await prisma.listingStatusHistory.findMany({
+      const statusHistory = await (prisma as any).listingStatusHistory.findMany({
         where: { listingId },
         orderBy: { createdAt: "desc" },
       });
@@ -381,7 +381,7 @@ export class SmartRankingService {
         const now = new Date();
 
         const lastOccupiedEntry = statusHistory.find(
-          (entry) => entry.status !== "AVAILABLE" && entry.status !== "VACANT",
+          (entry: { status: string; }) => entry.status !== "AVAILABLE" && entry.status !== "VACANT",
         );
 
         if (lastOccupiedEntry) {
@@ -417,7 +417,7 @@ export class SmartRankingService {
         vacancyDays >= highVacancyThresholdDays ||
         vacancyDays >= criticalVacancyThresholdDays;
 
-      await prisma.listing.update({
+      await (prisma as any).listing.update({
         where: { id: listingId },
         data: {
           vacancyDays,
@@ -443,16 +443,17 @@ export class SmartRankingService {
 
         const shouldNotify = this.config.notificationTimingDays.includes(vacancyDays);
 
-        await eventBus.publish({
-          type: DomainEvents.VACANCY_THRESHOLD_REACHED,
-          data: {
+        await eventBus.publish(
+          DomainEvents.VACANCY_THRESHOLD_REACHED,
+          {
             listingId,
             vacancyDays,
             vacancyScore,
             severity,
             shouldNotify,
           },
-        });
+          "SmartRankingService"
+        );
 
         console.log(
           `[SmartRankingService] Published VACANCY_THRESHOLD_REACHED for listing ${listingId}: ` +
@@ -460,15 +461,16 @@ export class SmartRankingService {
         );
       }
 
-      await eventBus.publish({
-        type: DomainEvents.VACANCY_ANALYZED,
-        data: {
+      await eventBus.publish(
+        DomainEvents.VACANCY_ANALYZED,
+        {
           listingId,
           vacancyDays,
           vacancyScore,
           thresholdReached,
         },
-      });
+        "SmartRankingService"
+      );
 
       return { listingId, vacancyDays, vacancyScore, thresholdReached };
     } catch (error) {
@@ -484,7 +486,7 @@ export class SmartRankingService {
     try {
       console.log("[SmartRankingService] Starting batch ranking recalculation...");
 
-      const activeListings = await prisma.listing.findMany({
+      const activeListings: any[] = await (prisma as any).listing.findMany({
         where: {
           status: "ACTIVE",
         },
@@ -513,7 +515,7 @@ export class SmartRankingService {
             chatRequests: listing.chatRequests,
           });
 
-          await prisma.listing.update({
+          await (prisma as any).listing.update({
             where: { id: listing.id },
             data: { rankingScore },
           });
@@ -552,7 +554,7 @@ export class SmartRankingService {
     }>
   > {
     try {
-      const listings = await prisma.listing.findMany({
+      const listings: any[] = await (prisma as any).listing.findMany({
         where: {
           optimizationStatus: "ACTIVE",
         },
@@ -591,7 +593,7 @@ export class SmartRankingService {
 
       setTimeout(async () => {
         try {
-          const listing = await prisma.listing.findUnique({
+          const listing = await (prisma as any).listing.findUnique({
             where: { id: listingId },
           });
 

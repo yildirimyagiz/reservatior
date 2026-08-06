@@ -194,7 +194,7 @@ export default function BulkUploadEngine({ onUploadComplete, corporateAccountId 
               className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg"
             >
               <div className="flex items-center gap-3">
-                <FileSpreadsheet className="w-5 h-5 text-green-600" />
+                <FileSpreadsheet className="w-5 h-5 text-blue-600" />
                 <div>
                   <p className="font-medium text-gray-900">{file.name}</p>
                   <p className="text-sm text-gray-600">{(file.size / 1024).toFixed(2)} KB</p>
@@ -230,11 +230,11 @@ export default function BulkUploadEngine({ onUploadComplete, corporateAccountId 
 
       {/* Status Messages */}
       {uploadStatus === "success" && (
-        <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-          <CheckCircle className="w-5 h-5 text-green-600" />
+        <div className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <CheckCircle className="w-5 h-5 text-blue-600" />
           <div>
-            <p className="font-medium text-green-900">Upload Successful</p>
-            <p className="text-sm text-green-700">Your portfolio is being processed. You can track progress in the dashboard.</p>
+            <p className="font-medium text-blue-900">Upload Successful</p>
+            <p className="text-sm text-blue-700">Your portfolio is being processed. You can track progress in the dashboard.</p>
           </div>
         </div>
       )}

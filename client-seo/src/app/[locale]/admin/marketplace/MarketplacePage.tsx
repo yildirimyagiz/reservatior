@@ -36,15 +36,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAssetMarketplaceStore } from "@/lib/store/asset-marketplace-store";
-import { assetMarketplaceApi, type AssetListing, type InvestmentOpportunity, type PropertyMarketData } from "@/lib/api/asset-marketplace";
+import { assetMarketplaceApi, type AssetListing, type MarketplaceSummary, type InvestmentOpportunity, type PropertyMarketData } from "@/lib/api/asset-marketplace";
+import { tEnum } from "@/lib/admin-enums";
 
 const CERTIFICATE_TIERS = ["MOVE_IN_READY", "INCOME_READY", "INVESTMENT_READY"];
 const SORT_OPTIONS = [
-  { value: "price_desc", label: "Price: High to Low" },
-  { value: "price_asc", label: "Price: Low to High" },
-  { value: "yield_desc", label: "Yield: High to Low" },
-  { value: "trust_desc", label: "Trust Score: High to Low" },
-  { value: "income_desc", label: "Income: High to Low" },
+  { value: "price_desc", i18nKey: "admin_marketplace_sort_price_desc", label: "Price: High to Low" },
+  { value: "price_asc", i18nKey: "admin_marketplace_sort_price_asc", label: "Price: Low to High" },
+  { value: "yield_desc", i18nKey: "admin_marketplace_sort_yield_desc", label: "Yield: High to Low" },
+  { value: "trust_desc", i18nKey: "admin_marketplace_sort_trust_desc", label: "Trust Score: High to Low" },
+  { value: "income_desc", i18nKey: "admin_marketplace_sort_income_desc", label: "Income: High to Low" },
 ];
 
 function formatCurrency(amount: number, currency: string = "USD") {
@@ -56,21 +57,22 @@ function formatCurrency(amount: number, currency: string = "USD") {
 }
 
 function YieldBadge({ yieldRate }: { yieldRate: number }) {
+  const { t } = useTranslation();
   if (yieldRate > 6)
     return (
-      <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
-        {yieldRate.toFixed(1)}% yield
+      <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">
+        {yieldRate.toFixed(1)}% {t("admin_marketplace_yield_badge", "getiri")}
       </Badge>
     );
   if (yieldRate > 4)
     return (
-      <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">
-        {yieldRate.toFixed(1)}% yield
+      <Badge className="bg-amber-500/20 text-warning border-amber-500/30">
+        {yieldRate.toFixed(1)}% {t("admin_marketplace_yield_badge", "getiri")}
       </Badge>
     );
   return (
     <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
-      {yieldRate.toFixed(1)}% yield
+      {yieldRate.toFixed(1)}% {t("admin_marketplace_yield_badge", "getiri")}
     </Badge>
   );
 }
@@ -78,40 +80,37 @@ function YieldBadge({ yieldRate }: { yieldRate: number }) {
 function TrustScoreDisplay({ score }: { score: number }) {
   return (
     <div className="flex items-center gap-1">
-      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+      <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
       <span className="text-sm font-medium text-foreground">{(score / 10).toFixed(1)}</span>
     </div>
   );
 }
 
 function CertificateTierBadge({ tier }: { tier?: string }) {
-  if (!tier) return <Badge variant="outline" className="text-xs">None</Badge>;
+  const { t } = useTranslation();
+  if (!tier) return <Badge variant="outline" className="text-xs">{t("admin_marketplace_none", "Yok")}</Badge>;
   const colors: Record<string, string> = {
-    MOVE_IN_READY: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-    INCOME_READY: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-    INVESTMENT_READY: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-  };
-  const labels: Record<string, string> = {
-    MOVE_IN_READY: "Move-In Ready",
-    INCOME_READY: "Income Ready",
-    INVESTMENT_READY: "Investment Ready",
+    MOVE_IN_READY: "bg-blue-500/20 text-info border-blue-500/30",
+    INCOME_READY: "bg-blue-500/20 text-success border-blue-500/30",
+    INVESTMENT_READY: "bg-brand/20 text-brand border-brand/30",
   };
   return (
     <Badge className={`text-xs ${colors[tier] || "bg-gray-500/20 text-gray-400"}`}>
-      {labels[tier] || tier}
+      {tEnum(t, tier)}
     </Badge>
   );
 }
 
 function RiskBadge({ level }: { level: string }) {
+  const { t } = useTranslation();
   const colors: Record<string, string> = {
-    LOW: "bg-green-500/20 text-green-400 border-green-500/30",
-    MEDIUM: "bg-amber-500/20 text-amber-400 border-amber-500/30",
+    LOW: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+    MEDIUM: "bg-amber-500/20 text-warning border-amber-500/30",
     HIGH: "bg-red-500/20 text-red-400 border-red-500/30",
   };
   return (
     <Badge className={`text-xs ${colors[level] || "bg-gray-500/20 text-gray-400"}`}>
-      {level} Risk
+      {tEnum(t, level)} {t("admin_marketplace_risk", "Risk")}
     </Badge>
   );
 }
@@ -170,8 +169,8 @@ export default function MarketplacePage() {
         setListings(d.data || []);
         setPagination({ page: d.page, limit: d.limit, total: d.total, totalPages: d.totalPages });
       }
-      if (summaryRes.data) setSummary(summaryRes.data as MarketplaceSummary);
-      if (oppsRes.data) setOpportunities(oppsRes.data as InvestmentOpportunity[]);
+      if (summaryRes) setSummary(summaryRes as MarketplaceSummary);
+      if (oppsRes) setOpportunities(oppsRes as InvestmentOpportunity[]);
     } catch (e: any) {
       setError(e.message || "Failed to load marketplace data");
     } finally {
@@ -221,7 +220,7 @@ export default function MarketplacePage() {
     setDetailData(null);
     try {
       const res = await assetMarketplaceApi.getPropertyMarketData(propertyId);
-      if (res.data) setDetailData(res.data as PropertyMarketData);
+      if (res) setDetailData(res as PropertyMarketData);
     } catch (e) {
       console.error("Failed to load property details", e);
     } finally {
@@ -240,13 +239,10 @@ export default function MarketplacePage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">
-                {t("admin_marketplace_title", "Asset Marketplace")}
+                {t("admin_marketplace_title", "Varlık Pazarı (Asset Marketplace)")}
               </h1>
               <p className="text-muted-foreground">
-                {t(
-                  "admin_marketplace_description",
-                  "Income-verified residential property asset trading marketplace"
-                )}
+                {t("admin_marketplace_description", "Gayrimenkul varlıklarını ve yatırım fırsatlarını listeleyin")}
               </p>
             </div>
           </div>
@@ -279,8 +275,8 @@ export default function MarketplacePage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10">
-                  <DollarSign className="w-5 h-5 text-green-500" />
+                <div className="p-2 rounded-lg bg-blue-500/10">
+                  <DollarSign className="w-5 h-5 text-blue-500" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
@@ -301,7 +297,7 @@ export default function MarketplacePage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t("admin_marketplace_avg_yield", "Avg Yield")}
+                    {t("admin_marketplace_avg_yield", "Avg Yatırım Verim Oranı")}
                   </p>
                   <p className="text-2xl font-bold text-foreground">
                     {summary?.averageYield?.toFixed(1) ?? "0"}%
@@ -313,12 +309,12 @@ export default function MarketplacePage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-500/10">
-                  <Shield className="w-5 h-5 text-purple-500" />
+                <div className="p-2 rounded-lg bg-brand/10">
+                  <Shield className="w-5 h-5 text-brand" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t("admin_marketplace_avg_trust", "Avg Trust Score")}
+                    {t("admin_marketplace_avg_trust", "Avg Trust Başarı Skoru")}
                   </p>
                   <p className="text-2xl font-bold text-foreground">
                     {(summary?.averageTrustScore ?? 0) / 10}
@@ -350,46 +346,46 @@ export default function MarketplacePage() {
                 </div>
                 <Input
                   type="number"
-                  placeholder="Min Price"
+                  placeholder={t("admin_marketplace_min_price", "Min Fiyat")}
                   value={minPrice}
                   onChange={(e) => setMinPrice(e.target.value)}
                   className="bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground"
                 />
                 <Input
                   type="number"
-                  placeholder="Max Price"
+                  placeholder={t("admin_marketplace_max_price", "Maks Fiyat")}
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(e.target.value)}
                   className="bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground"
                 />
                 <Input
                   type="number"
-                  placeholder="Min Yield %"
+                  placeholder={t("admin_marketplace_min_yield_pct", "Min Getiri %")}
                   value={minYield}
                   onChange={(e) => setMinYield(e.target.value)}
                   className="bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground"
                 />
                 <Select value={certTier} onValueChange={setCertTier}>
                   <SelectTrigger className="bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder="Certificate Tier" />
+                    <SelectValue placeholder={t("admin_marketplace_filter_tier", "Sertifika & Onay Komisyon Kademesi (Tier)")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Tiers</SelectItem>
+                    <SelectItem value="all">{t("admin_marketplace_all_tiers", "Tüm Kademeler")}</SelectItem>
                     {CERTIFICATE_TIERS.map((tier) => (
                       <SelectItem key={tier} value={tier}>
-                        {tier.replace(/_/g, " ")}
+                        {tEnum(t, tier)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder="Sort By" />
+                    <SelectValue placeholder={t("admin_marketplace_filter_sort", "Sort -")} />
                   </SelectTrigger>
                   <SelectContent>
                     {SORT_OPTIONS.map((opt) => (
                       <SelectItem key={opt.value} value={opt.value}>
-                        {opt.label}
+                        {t(opt.i18nKey, opt.label)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -398,11 +394,11 @@ export default function MarketplacePage() {
               <div className="flex gap-2">
                 <Button onClick={handleApplyFilters} className="bg-primary hover:bg-primary/90">
                   <Filter className="w-4 h-4 mr-2" />
-                  Apply Filters
+                  {t("admin_marketplace_apply_filters", "Filtreleri Uygula")}
                 </Button>
                 <Button onClick={handleClearFilters} variant="outline">
                   <X className="w-4 h-4 mr-2" />
-                  Clear
+                  {t("admin_marketplace_clear", "Temizle")}
                 </Button>
               </div>
             </CardContent>
@@ -420,7 +416,7 @@ export default function MarketplacePage() {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <Store className="w-5 h-5" />
-                {t("admin_marketplace_title", "Asset Marketplace")} ({listings.length})
+                {t("admin_marketplace_title", "Varlık Pazarı (Asset Marketplace)")} ({listings.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -434,7 +430,7 @@ export default function MarketplacePage() {
                 <div className="text-center py-12">
                   <Building2 className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-30" />
                   <p className="text-muted-foreground">
-                    {t("admin_marketplace_no_results", "No properties found matching your criteria")}
+                    {t("admin_marketplace_no_results", "No Gayrimenkul Portföyü found matching your criteria")}
                   </p>
                 </div>
               ) : (
@@ -463,14 +459,14 @@ export default function MarketplacePage() {
 
                           <div className="grid grid-cols-2 gap-3 mb-3">
                             <div>
-                              <p className="text-xs text-muted-foreground mb-0.5">Price</p>
+                              <p className="text-xs text-muted-foreground mb-0.5">{t("admin_marketplace_price", "Fiyat")}</p>
                               <p className="text-lg font-bold text-foreground">
                                 {formatCurrency(listing.price, listing.currency)}
                               </p>
                             </div>
                             <div>
                               <p className="text-xs text-muted-foreground mb-0.5">
-                                {t("admin_marketplace_yield", "Yield")}
+                                {t("admin_marketplace_yield", "Yatırım Verim Oranı")}
                               </p>
                               <YieldBadge yieldRate={listing.yieldRate} />
                             </div>
@@ -479,7 +475,7 @@ export default function MarketplacePage() {
                           <div className="grid grid-cols-2 gap-3 mb-3">
                             <div>
                               <p className="text-xs text-muted-foreground mb-0.5">
-                                {t("admin_marketplace_trust_score", "Trust Score")}
+                                {t("admin_marketplace_trust_score", "Trust Başarı Skoru")}
                               </p>
                               <TrustScoreDisplay score={listing.trustScore} />
                             </div>
@@ -494,11 +490,11 @@ export default function MarketplacePage() {
                           </div>
 
                           <div className="flex items-center gap-2 mb-3 text-xs text-muted-foreground">
-                            <span>{listing.bedrooms} bed</span>
+                            <span>{listing.bedrooms} {t("admin_marketplace_bed", "yatak")}</span>
                             <span>·</span>
                             <span>{listing.squareMeters} m²</span>
                             <span>·</span>
-                            <span>Grade: {listing.investmentGrade}</span>
+                            <span>{t("admin_marketplace_grade", "Derece:")} {tEnum(t, listing.investmentGrade)}</span>
                           </div>
 
                           <div className="mt-auto pt-2 border-t border-border">
@@ -509,7 +505,7 @@ export default function MarketplacePage() {
                               className="w-full"
                             >
                               <Eye className="w-3.5 h-3.5 mr-2" />
-                              {t("admin_marketplace_view_details", "View Details")}
+                              {t("admin_marketplace_view_details", "İncele / Görüntüle Kapsamlı Detaylar")}
                             </Button>
                           </div>
                         </CardContent>
@@ -560,17 +556,17 @@ export default function MarketplacePage() {
 
                         <div className="grid grid-cols-3 gap-4 mb-3">
                           <div>
-                            <p className="text-xs text-muted-foreground">Price</p>
+                            <p className="text-xs text-muted-foreground">{t("admin_marketplace_price", "Fiyat")}</p>
                             <p className="text-sm font-semibold text-foreground">
                               {formatCurrency(opp.price)}
                             </p>
                           </div>
                           <div>
-                            <p className="text-xs text-muted-foreground">Yield</p>
+                            <p className="text-xs text-muted-foreground">{t("admin_marketplace_yield", "Yatırım Verim Oranı")}</p>
                             <p className="text-sm font-semibold text-foreground">{opp.yieldRate.toFixed(1)}%</p>
                           </div>
                           <div>
-                            <p className="text-xs text-muted-foreground">Annual Income</p>
+                            <p className="text-xs text-muted-foreground">{t("admin_marketplace_annual_income", "Annual Income")}</p>
                             <p className="text-sm font-semibold text-foreground">
                               {formatCurrency(opp.estimatedAnnualIncome)}
                             </p>
@@ -580,7 +576,7 @@ export default function MarketplacePage() {
                         {opp.recommendedFor.length > 0 && (
                           <div className="mb-2">
                             <p className="text-xs text-muted-foreground mb-1">
-                              {t("admin_marketplace_recommended_for", "Recommended For")}
+                              {t("admin_marketplace_recommended_for", "Recommended İçin")}
                             </p>
                             <div className="flex flex-wrap gap-1">
                               {opp.recommendedFor.map((r) => (
@@ -601,7 +597,7 @@ export default function MarketplacePage() {
                               {opp.highlights.map((h, i) => (
                                 <span
                                   key={i}
-                                  className="text-xs bg-green-500/10 text-green-400 px-2 py-0.5 rounded-full"
+                                  className="text-xs bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded-full"
                                 >
                                   {h}
                                 </span>
@@ -624,7 +620,7 @@ export default function MarketplacePage() {
             <DialogHeader>
               <DialogTitle className="text-foreground flex items-center gap-2">
                 <Home className="w-5 h-5" />
-                {t("admin_marketplace_property_details", "Property Details")}
+                {t("admin_marketplace_property_details", "Gayrimenkul & Varlık Kapsamlı Detaylar")}
               </DialogTitle>
             </DialogHeader>
 
@@ -660,7 +656,7 @@ export default function MarketplacePage() {
                 {/* Property metrics */}
                 <div className="grid grid-cols-4 gap-3">
                   <div className="p-3 rounded-lg bg-muted/30 text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Trust Score</p>
+                    <p className="text-xs text-muted-foreground mb-1">{t("admin_marketplace_trust_score", "Trust Başarı Skoru")}</p>
                     <p className="text-lg font-bold text-foreground">
                       {(detailData.listing.trustScore / 10).toFixed(1)}
                     </p>
@@ -700,21 +696,21 @@ export default function MarketplacePage() {
                   <div className="grid grid-cols-3 gap-3">
                     <div className="p-3 rounded-lg bg-muted/30 text-center">
                       <p className="text-xs text-muted-foreground mb-1">
-                        {t("admin_marketplace_avg_price_city", "Avg Price in City")}
+                        {t("admin_marketplace_avg_price_city", "Avg Değerleme Fiyatı in City")}
                       </p>
                       <p className="text-lg font-bold text-foreground">
                         {formatCurrency(detailData.marketTrends.averagePriceInCity)}
                       </p>
                     </div>
                     <div className="p-3 rounded-lg bg-muted/30 text-center">
-                      <p className="text-xs text-muted-foreground mb-1">Avg Yield in City</p>
+                      <p className="text-xs text-muted-foreground mb-1">{t("admin_marketplace_avg_yield_city", "Şehirdeki Ort. Getiri")}</p>
                       <p className="text-lg font-bold text-foreground">
                         {detailData.marketTrends.averageYieldInCity.toFixed(1)}%
                       </p>
                     </div>
                     <div className="p-3 rounded-lg bg-muted/30 text-center">
                       <p className="text-xs text-muted-foreground mb-1">
-                        {t("admin_marketplace_price_per_sqm", "Price per m²")}
+                        {t("admin_marketplace_price_per_sqm", "Değerleme Fiyatı per m²")}
                       </p>
                       <p className="text-lg font-bold text-foreground">
                         {formatCurrency(detailData.marketTrends.pricePerSqm)}
@@ -728,7 +724,7 @@ export default function MarketplacePage() {
                   <div>
                     <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
                       <Store className="w-4 h-4" />
-                      {t("admin_marketplace_comparables", "Comparable Properties")} ({detailData.comparables.length})
+                      {t("admin_marketplace_comparables", "Comparable Gayrimenkul Portföyü")} ({detailData.comparables.length})
                     </h4>
                     <div className="space-y-2">
                       {detailData.comparables.map((comp) => (
@@ -754,7 +750,7 @@ export default function MarketplacePage() {
               </div>
             ) : (
               <div className="text-center py-8 text-muted-foreground">
-                Failed to load property details
+                {t("admin_marketplace_load_failed", "Mülk detayları yüklenemedi")}
               </div>
             )}
           </DialogContent>

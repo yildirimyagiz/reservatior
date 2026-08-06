@@ -9,24 +9,24 @@ const features = [{
   title: t("client.src.ai_price_predictions"),
   description: t("client.src.instant_property_valuations_with"),
   highlights: ["Instant Results", "95%+ Accuracy", "Market Analysis"],
-  color: "text-purple-500",
-  bgColor: "bg-purple-500/10",
+  color: "text-brand",
+  bgColor: "bg-brand/10",
   featured: true
 }, {
   icon: Video,
   title: t("client.src.video_vendor_network"),
   description: t("client.src.connect_with_professional_videographers"),
   highlights: ["Professional Videos", "Virtual Tours", "Quick Turnaround"],
-  color: "text-blue-500",
-  bgColor: "bg-blue-500/10",
+  color: "text-brand",
+  bgColor: "bg-brand/100/10",
   featured: true
 }, {
   icon: TrendingUp,
   title: t("client.src.market_intelligence"),
   description: t("client.src.realtime_market_insights_and"),
   highlights: ["Live Data", "Trend Analysis", "Investment Insights"],
-  color: "text-green-500",
-  bgColor: "bg-green-500/10",
+  color: "text-blue-500",
+  bgColor: "bg-blue-500/10",
   featured: true
 }, {
   icon: Shield,
@@ -34,7 +34,7 @@ const features = [{
   description: t("client.src.blockchainverified_property_ownership_for"),
   highlights: ["Blockchain Security", "Fraud Prevention", "Instant Verification"],
   color: "text-orange-500",
-  bgColor: "bg-orange-500/10",
+  bgColor: "bg-warning/10",
   featured: true
 }, {
   icon: Zap,
@@ -48,15 +48,15 @@ const features = [{
   title: t("client.src.agent_collaboration"),
   description: t("client.src.team_management_tools_for"),
   highlights: ["Team Management", "Commission Tracking", "Performance Analytics"],
-  color: "text-blue-500",
-  bgColor: "bg-blue-500/10"
+  color: "text-brand",
+  bgColor: "bg-brand/100/10"
 }, {
   icon: DollarSign,
   title: t("client.src.financial_management"),
   description: t("client.src.complete_financial_tools_for"),
   highlights: ["Transaction Management", "Escrow Services", "Financial Reports"],
-  color: "text-emerald-500",
-  bgColor: "bg-emerald-500/10"
+  color: "text-success",
+  bgColor: "bg-success/10"
 }, {
   icon: Target,
   title: t("client.src.vacation_rentals"),

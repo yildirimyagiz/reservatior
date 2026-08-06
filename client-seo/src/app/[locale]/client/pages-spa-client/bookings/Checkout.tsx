@@ -72,12 +72,12 @@ export default function Checkout() {
             </div>
 
             {/* Escrow Banner */}
-            <div className="p-6 rounded-3xl bg-emerald-500/10 border border-emerald-500/20 space-y-4">
+            <div className="p-6 rounded-3xl bg-success/10 border border-success/20 space-y-4">
               <div className="flex items-center gap-3">
-                <ShieldCheck className="w-8 h-8 text-emerald-400" />
-                <h3 className="font-black text-emerald-400 text-lg">Reservatior SafeStay™ Koruması Aktif</h3>
+                <ShieldCheck className="w-8 h-8 text-success" />
+                <h3 className="font-black text-success text-lg">Reservatior SafeStay™ Koruması Aktif</h3>
               </div>
-              <p className="text-sm text-emerald-100/70 leading-relaxed">
+              <p className="text-sm text-blue-100/70 leading-relaxed">
                 Bu ödeme <b>Açık Bankacılık</b> ile Bloke edilir (Pre-Auth). Tutar, ev sahibine hemen <b>geçmez</b>. Havuz hesabımızda tutulur ve siz tesise giriş yaptıktan (check-in) 24 saat sonra bir sorun bildirmezseniz ev sahibinin hesabına aktarılır (Capture).
               </p>
             </div>
@@ -135,7 +135,7 @@ export default function Checkout() {
                 <Button 
                   onClick={handlePayment} 
                   disabled={isProcessing || isSuccess}
-                  className="w-full h-16 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-lg tracking-widest shadow-2xl shadow-emerald-600/30 flex justify-center items-center gap-2"
+                  className="w-full h-16 rounded-2xl bg-blue-600 hover:bg-success text-white font-black text-lg tracking-widest shadow-2xl shadow-blue-600/30 flex justify-center items-center gap-2"
                 >
                   {isProcessing ? (
                     <m.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
@@ -160,7 +160,7 @@ export default function Checkout() {
 
           {/* RIGHT: Summary */}
           <div className="lg:col-span-5">
-            <div className="bg-[#14151a] rounded-4xl border border-white/5 p-8 sticky top-24 shadow-2xl">
+            <div className="bg-background rounded-4xl border border-white/5 p-8 sticky top-24 shadow-2xl">
               <h3 className="text-xl font-bold mb-6">Rezervasyon Özeti</h3>
               
               <div className="flex gap-4 mb-8">
@@ -174,7 +174,7 @@ export default function Checkout() {
                   </div>
                 )}
                 <div className="flex flex-col justify-center">
-                  <p className="text-xs text-emerald-400 font-bold uppercase tracking-widest mb-1">{property.type}</p>
+                  <p className="text-xs text-success font-bold uppercase tracking-widest mb-1">{property.type}</p>
                   <h4 className="font-bold text-lg leading-tight">{property.name}</h4>
                   <p className="text-sm text-white/50">{property.city}</p>
                 </div>
@@ -183,7 +183,7 @@ export default function Checkout() {
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl">
                   <div className="flex items-center gap-3">
-                    <Calendar className="w-5 h-5 text-emerald-400" />
+                    <Calendar className="w-5 h-5 text-success" />
                     <div>
                       <p className="text-xs text-white/50">Tarihler</p>
                       <p className="text-sm font-semibold">{format(dateRange.from, "MMM d")} - {format(dateRange.to, "MMM d, yyyy")}</p>
@@ -192,7 +192,7 @@ export default function Checkout() {
                 </div>
                 <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl">
                   <div className="flex items-center gap-3">
-                    <Users className="w-5 h-5 text-emerald-400" />
+                    <Users className="w-5 h-5 text-success" />
                     <div>
                       <p className="text-xs text-white/50">Misafir</p>
                       <p className="text-sm font-semibold">{guests} Misafir</p>
@@ -202,10 +202,10 @@ export default function Checkout() {
               </div>
 
               <div className="border-t border-white/5 pt-6 space-y-4">
-                <div className="flex justify-between items-center bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20 mb-4">
+                <div className="flex justify-between items-center bg-success/10 p-3 rounded-xl border border-success/20 mb-4">
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold text-emerald-400">Reservatior Avantajı Aktif!</span>
-                    <span className="text-xs text-emerald-100/70">Komisyon ve depozito yükü aylara bölündü. Peşinat ödemiyorsunuz.</span>
+                    <span className="text-sm font-bold text-success">Reservatior Avantajı Aktif!</span>
+                    <span className="text-xs text-blue-100/70">Komisyon ve depozito yükü aylara bölündü. Peşinat ödemiyorsunuz.</span>
                   </div>
                 </div>
 
@@ -223,7 +223,7 @@ export default function Checkout() {
                 </div>
                 <div className="flex justify-between text-xl font-black pt-4 border-t border-white/5">
                   <span>Bu Ay Ödenecek Toplam</span>
-                  <span className="text-emerald-400">
+                  <span className="text-success">
                     ${(
                       (totalAmount * 0.8) + 
                       ((totalAmount * 0.8) / 12) + 

@@ -64,25 +64,25 @@ export default function LocalizationOSDashboard() {
       title: "Supported Languages",
       value: formatNumber(stats.languages),
       icon: Languages,
-      color: "text-blue-600",
+      color: "text-brand",
     },
     {
       title: "Total Translations",
       value: formatNumber(stats.translations),
       icon: Globe,
-      color: "text-green-600",
+      color: "text-blue-600",
     },
     {
       title: "Active Regions",
       value: formatNumber(stats.regions),
       icon: Globe,
-      color: "text-purple-600",
+      color: "text-brand",
     },
     {
       title: "Translation Completion",
       value: formatPercent(stats.completionRate),
       icon: CheckSquare,
-      color: "text-orange-600",
+      color: "text-warning",
     },
   ];
 
@@ -99,7 +99,7 @@ export default function LocalizationOSDashboard() {
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
@@ -115,7 +115,7 @@ export default function LocalizationOSDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Translation Progress</h2>
             <TrendingUp className="w-5 h-5 text-gray-500" />
@@ -129,7 +129,7 @@ export default function LocalizationOSDashboard() {
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Regional Coverage</h2>
             <BarChart3 className="w-5 h-5 text-gray-500" />
@@ -138,7 +138,7 @@ export default function LocalizationOSDashboard() {
             data={regionalCoverageData} 
             dataKey="coverage" 
             xAxisKey="region" 
-            color="#10b981"
+            color="#3b82f6"
             height={256}
           />
         </div>

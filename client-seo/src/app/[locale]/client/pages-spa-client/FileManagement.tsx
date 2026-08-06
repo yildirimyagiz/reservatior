@@ -306,24 +306,24 @@ export default function FileManagement() {
     setFilteredFiles(filtered);
   }, [files, filter, sortBy, sortOrder]);
   const getFileIcon = (extension?: string, type?: string) => {
-    if (type === 'folder') return <Folder className="w-5 h-5 text-blue-500" />;
+    if (type === 'folder') return <Folder className="w-5 h-5 text-brand" />;
     switch (extension) {
       case 'pdf':
         return <FileText className="w-5 h-5 text-red-500" />;
       case 'doc':
       case 'docx':
-        return <FileText className="w-5 h-5 text-blue-600" />;
+        return <FileText className="w-5 h-5 text-brand" />;
       case 'xls':
       case 'xlsx':
-        return <FileCode className="w-5 h-5 text-green-600" />;
+        return <FileCode className="w-5 h-5 text-blue-600" />;
       case 'ppt':
       case 'pptx':
-        return <FileText className="w-5 h-5 text-orange-600" />;
+        return <FileText className="w-5 h-5 text-warning" />;
       case 'jpg':
       case 'jpeg':
       case 'png':
       case 'gif':
-        return <FileImage className="w-5 h-5 text-purple-500" />;
+        return <FileImage className="w-5 h-5 text-brand" />;
       case 'mp4':
       case 'avi':
       case 'mov':
@@ -348,7 +348,7 @@ export default function FileManagement() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'archived':
         return 'bg-yellow-100 text-yellow-800';
       case 'deleted':
@@ -364,7 +364,7 @@ export default function FileManagement() {
       case 'private':
         return 'bg-gray-100 text-gray-800';
       case 'shared':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-brand/15 text-brand';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -400,12 +400,12 @@ export default function FileManagement() {
     a.click();
     window.URL.revokeObjectURL(url);
   };
-  return <div className="min-h-screen bg-[#14151a] p-8 lg:p-12 overflow-x-hidden">
+  return <div className="min-h-screen bg-background p-8 lg:p-12 overflow-x-hidden">
       <div className="max-w-[1600px] mx-auto space-y-12">
         
         {/* Tactical Header HUD */}
-        <header className="relative py-12 px-10 rounded-[40px] bg-[#1a1b1e]/40 border border-white/5 border-l border-t overflow-hidden shadow-3xl">
-           <div className="absolute top-0 right-0 p-40 opacity-5 pointer-events-none text-blue-600">
+        <header className="relative py-12 px-10 rounded-[40px] bg-card/40 border border-white/5 border-l border-t overflow-hidden shadow-3xl">
+           <div className="absolute top-0 right-0 p-40 opacity-5 pointer-events-none text-brand">
               <Folder className="w-96 h-96" />
            </div>
            <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>
@@ -413,28 +413,28 @@ export default function FileManagement() {
            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
               <div className="flex items-center gap-8">
                  <div className="relative group">
-                    <div className="absolute inset-0 bg-blue-600/20 blur-2xl group-hover:bg-blue-600/40 transition-all rounded-full animate-pulse-slow"></div>
-                    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 backdrop-blur-xl shadow-2xl">
-                       <Folder className="w-10 h-10 text-blue-400" />
+                    <div className="absolute inset-0 bg-blue-600/20 blur-2xl group-hover:bg-brand/40 transition-all rounded-full animate-pulse-slow"></div>
+                    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-blue-500/20 to-brand/20 border border-blue-500/30 backdrop-blur-xl shadow-2xl">
+                       <Folder className="w-10 h-10 text-brand" />
                     </div>
                  </div>
                  <div className="space-y-2">
                     <div className="flex items-center gap-3">
                        <h1 className="text-5xl font-black text-white italic tracking-tighter leading-none">{t("filesTitle")}</h1>
-                       <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/20 font-black italic tracking-widest text-[10px] px-3 py-1 rounded-full">
+                       <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 font-black italic tracking-widest text-[10px] px-3 py-1 rounded-full">
                         {t("filesActivenodes")}
                        </Badge>
                     </div>
-                    <p className="text-lg font-black text-slate-500 italic tracking-widest leading-none mt-2">{t("filesSubtitle")}</p>
+                    <p className="text-lg font-black text-muted-foreground italic tracking-widest leading-none mt-2">{t("filesSubtitle")}</p>
                  </div>
               </div>
               
               <div className="flex gap-4">
-                 <Button onClick={() => setFiles(generateMockFiles())} className="h-16 px-10 rounded-2xl bg-white text-black hover:bg-slate-200 font-black italic text-xs tracking-widest shadow-xl transition-all hover:scale-105 active:scale-95">
+                 <Button onClick={() => setFiles(generateMockFiles())} className="h-16 px-10 rounded-2xl bg-card text-black hover:bg-muted font-black italic text-xs tracking-widest shadow-xl transition-all hover:scale-105 active:scale-95">
                     <RefreshCw className="w-4 h-4 mr-3" />
                     {t("filesControlsRefresh")}
                  </Button>
-                 <Button onClick={exportFileList} variant="outline" className="h-16 w-16 rounded-2xl border-white/5 bg-white/5 text-slate-400 hover:text-white transition-all backdrop-blur-xl">
+                 <Button onClick={exportFileList} variant="outline" className="h-16 w-16 rounded-2xl border-white/5 bg-white/5 text-muted-foreground hover:text-white transition-all backdrop-blur-xl" aria-label={t("common.download")}>
                     <Download className="w-6 h-6" />
                  </Button>
               </div>
@@ -447,45 +447,45 @@ export default function FileManagement() {
           label: t("total"),
           value: files.length,
           icon: FileText,
-          color: "text-blue-400",
-          bg: "bg-blue-500/10"
+          color: "text-brand",
+          bg: "bg-brand/100/10"
         }, {
           label: t("filesCapacity"),
           value: formatFileSize(files.reduce((total, file) => total + (file.size || 0), 0)),
           icon: Archive,
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/10"
+          color: "text-success",
+          bg: "bg-success/10"
         }, {
           label: t("shared"),
           value: files.filter(file => file.access === 'shared' || file.access === 'public').length,
           icon: Users,
-          color: "text-purple-400",
-          bg: "bg-purple-500/10"
+          color: "text-brand",
+          bg: "bg-brand/10"
         }, {
           label: t("archived"),
           value: files.filter(file => file.status === 'archived').length,
           icon: Archive,
           color: "text-orange-400",
-          bg: "bg-orange-500/10"
-        }].map((stat, idx) => <Card key={idx} className="border-white/5 bg-[#1a1b1e]/60 backdrop-blur-3xl rounded-[32px] overflow-hidden shadow-2xl relative border-l border-t">
+          bg: "bg-warning/10"
+        }].map((stat, idx) => <Card key={idx} className="border-white/5 bg-card/60 backdrop-blur-3xl rounded-[32px] overflow-hidden shadow-2xl relative border-l border-t">
                 <CardContent className="p-8">
                    <div className="flex justify-between items-start mb-6">
                       <div className={cn("p-4 rounded-2xl bg-black/40 border border-white/5", stat.color)}>
                          <stat.icon className="h-6 w-6" />
                       </div>
-                      <Badge className="bg-white/5 text-slate-500 border-none text-[8px] font-black italic tracking-widest">{t("client.src.realtime")}</Badge>
+                      <Badge className="bg-white/5 text-muted-foreground border-none text-[8px] font-black italic tracking-widest">{t("client.src.realtime")}</Badge>
                    </div>
-                   <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{stat.label}</p>
+                   <p className="text-[10px] font-black text-muted-foreground tracking-widest italic">{stat.label}</p>
                    <h2 className="text-3xl font-black text-white italic tracking-tighter mt-1">{stat.value}</h2>
                 </CardContent>
              </Card>)}
         </div>
 
         {/* Controls and Search */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-[#1a1b1e]/40 p-8 rounded-[40px] border border-white/5 shadow-2xl">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-card/40 p-8 rounded-[40px] border border-white/5 shadow-2xl">
            <div className="relative w-full md:w-96">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600" />
-               <input type="text" aria-label="Search files" placeholder={t("filesControlsSearch")} className="w-full bg-black/40 border border-white/5 rounded-3xl py-5 pl-16 pr-8 text-xs font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-inner" value={filter.search || ''} onChange={e => setFilter({
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+               <input type="text" aria-label="Search files" placeholder={t("filesControlsSearch")} className="w-full bg-black/40 border border-white/5 rounded-3xl py-5 pl-16 pr-8 text-xs font-black tracking-widest italic text-white placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50 transition-all shadow-inner" value={filter.search || ''} onChange={e => setFilter({
             ...filter,
             search: e.target.value || undefined
           })} />
@@ -519,7 +519,7 @@ export default function FileManagement() {
               val: 'shared',
               label: t("client.src.shared")
             }]
-          }].map(f => <select key={f.key} aria-label={`Filter by ${f.key}`} className="bg-[#1a1b1e] border border-white/5 rounded-2xl px-6 py-4 text-[10px] font-black italic tracking-widest text-slate-400 focus:outline-none focus:border-blue-500/50 transition-all cursor-pointer" value={(filter as any)[f.key] || ''} onChange={e => setFilter({
+          }].map(f => <select key={f.key} aria-label={`Filter by ${f.key}`} className="bg-card border border-white/5 rounded-2xl px-6 py-4 text-[10px] font-black italic tracking-widest text-muted-foreground focus:outline-none focus:border-blue-500/50 transition-all cursor-pointer" value={(filter as any)[f.key] || ''} onChange={e => setFilter({
             ...filter,
             [f.key]: e.target.value || undefined
           })}>
@@ -527,10 +527,10 @@ export default function FileManagement() {
                 </select>)}
               
               <div className="flex bg-black/40 p-1.5 rounded-2xl border border-white/5">
-                 <Button variant="ghost" className={cn("h-12 px-6 rounded-xl font-black  italic text-[10px] tracking-widest transition-all", viewMode === 'list' ? "bg-blue-600 text-white shadow-lg" : "text-slate-500 hover:text-white")} onClick={() => setViewMode('list')}>
+                 <Button variant="ghost" className={cn("h-12 px-6 rounded-xl font-black  italic text-[10px] tracking-widest transition-all", viewMode === 'list' ? "bg-blue-600 text-white shadow-lg" : "text-muted-foreground hover:text-white")} onClick={() => setViewMode('list')}>
                     {t("filesViewList")}
                  </Button>
-                 <Button variant="ghost" className={cn("h-12 px-6 rounded-xl font-black  italic text-[10px] tracking-widest transition-all", viewMode === 'grid' ? "bg-blue-600 text-white shadow-lg" : "text-slate-500 hover:text-white")} onClick={() => setViewMode('grid')}>
+                 <Button variant="ghost" className={cn("h-12 px-6 rounded-xl font-black  italic text-[10px] tracking-widest transition-all", viewMode === 'grid' ? "bg-blue-600 text-white shadow-lg" : "text-muted-foreground hover:text-white")} onClick={() => setViewMode('grid')}>
                     {t("filesViewGrid")}
                  </Button>
               </div>
@@ -586,19 +586,19 @@ export default function FileManagement() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      <Button variant="ghost" size="sm" onClick={() => handleFileAction('view', file)}>
+                      <Button variant="ghost" size="sm" onClick={() => handleFileAction('view', file)} aria-label={t("common.view")}>
                         <Eye className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={() => handleFileAction('download', file)}>
+                      <Button variant="ghost" size="sm" onClick={() => handleFileAction('download', file)} aria-label={t("common.download")}>
                         <Download className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="sm" onClick={() => handleFileAction('share', file)}>
+                      <Button variant="ghost" size="sm" onClick={() => handleFileAction('share', file)} aria-label={t("common.share")}>
                         <Share className="w-4 h-4" />
                       </Button>
-                      {file.permissions.write && <Button variant="ghost" size="sm" onClick={() => handleFileAction('edit', file)}>
+                      {file.permissions.write && <Button variant="ghost" size="sm" onClick={() => handleFileAction('edit', file)} aria-label={t("common.edit")}>
                           <Edit className="w-4 h-4" />
                         </Button>}
-                      {file.permissions.delete && <Button variant="ghost" size="sm" className="text-red-600" onClick={() => handleFileAction('delete', file)}>
+                      {file.permissions.delete && <Button variant="ghost" size="sm" className="text-red-600" onClick={() => handleFileAction('delete', file)} aria-label={t("common.delete")}>
                           <Trash2 className="w-4 h-4" />
                         </Button>}
                     </div>
@@ -637,7 +637,7 @@ export default function FileManagement() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>{t("fileDetail")}</CardTitle>
-                  <Button variant="ghost" size="sm" onClick={() => setSelectedFile(null)}>
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedFile(null)} aria-label={t("common.delete")}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
@@ -660,7 +660,7 @@ export default function FileManagement() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">{t("client.src.type")}</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t("common.type")}</p>
                     <p className="font-medium">{selectedFile.type === 'folder' ? 'Folder' : 'File'}</p>
                   </div>
                   <div>
@@ -676,7 +676,7 @@ export default function FileManagement() {
                     <p className="font-medium">{selectedFile.mimeType || '-'}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">{t("client.src.created")}</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t("common.created")}</p>
                     <p className="font-medium">{selectedFile.createdAt.toLocaleString()}</p>
                   </div>
                   <div>
@@ -694,7 +694,7 @@ export default function FileManagement() {
                 </div>
 
                 {selectedFile.metadata?.description && <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-2">{t("client.src.description")}</p>
+                    <p className="text-sm font-medium text-muted-foreground mb-2">{t("common.description")}</p>
                     <p className="text-sm">{selectedFile.metadata.description}</p>
                   </div>}
 

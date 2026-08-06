@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from"react";
 import { useTranslation } from"react-i18next";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Badge } from"@/components/ui/badge";
@@ -13,10 +13,10 @@ import { systemEventsApi } from"@/lib/api/system-events";
 import { Eye, RefreshCw, Search } from"lucide-react";
 
 const SEVERITY_COLORS: Record<string, string> = {
- INFO:"bg-slate-100 text-slate-800",
+ INFO:"bg-muted text-muted-foreground",
  WARNING:"bg-yellow-100 text-yellow-800",
  ERROR:"bg-red-100 text-red-800",
- CRITICAL:"bg-slate-100 text-slate-800",
+ CRITICAL:"bg-muted text-muted-foreground",
 };
 
 const EVENT_TYPES = ["PROPERTY_CREATED","PROPERTY_UPDATED","PROPERTY_DELETED","BOOKING_CREATED","BOOKING_CONFIRMED","BOOKING_CANCELLED","BOOKING_CHECKED_IN","BOOKING_CHECKED_OUT","PAYMENT_RECEIVED","PAYMENT_REFUNDED","PAYMENT_FAILED","LEASE_CREATED","LEASE_SIGNED","LEASE_EXPIRED","LEASE_TERMINATED","TENANT_ADDED","TENANT_REMOVED","MAINTENANCE_REQUESTED","MAINTENANCE_COMPLETED","INVOICE_CREATED","INVOICE_PAID","INVOICE_OVERDUE","LEAD_CREATED","LEAD_CONVERTED","LEAD_LOST","CONTRACT_CREATED","CONTRACT_SIGNED","CONTRACT_EXPIRED","USER_REGISTERED","USER_LOGIN","USER_LOGGED_OUT","SYSTEM_ERROR","SYSTEM_WARNING","SYSTEM_CONFIG_CHANGED",
@@ -134,7 +134,7 @@ export default function EventLog() {
  </TableCell>
  <TableCell className="text-sm">{event.source ||"-"}</TableCell>
  <TableCell>
- <Button variant="ghost" size="sm" onClick={() => viewDetails(event.id)}>
+ <Button variant="ghost" size="sm" onClick={() => viewDetails(event.id)} aria-label={t("common.view")}>
  <Eye className="h-4 w-4" />
  </Button>
  </TableCell>
@@ -206,7 +206,7 @@ export default function EventLog() {
  {selected.executions.map((ex: any) => (
  <div key={ex.id} className="p-2 bg-card rounded-lg text-xs">
  <span className="font-medium">{ex.rule?.ruleName || ex.ruleId}</span>
- {" -"}{t("admin_property_status", "Status:")}{ex.status} {t(" - ", "-")}{formatDate(ex.executedAt)}
+ {" -"}{t("admin_property_status", "Durum:")}{ex.status} {t(" - ", "-")}{formatDate(ex.executedAt)}
  </div>
  ))}
  </div>

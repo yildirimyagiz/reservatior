@@ -24,7 +24,7 @@ export function ListingBadges({
     badges.push({
       label: "Fast Rental",
       icon: <Zap className="w-3 h-3" />,
-      className: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+      className: "bg-blue-500/20 text-blue-400 border-blue-500/30",
     });
     badges.push({
       label: "Optimized Price",

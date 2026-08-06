@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { tEnum } from "@/lib/admin-enums";
 
 interface User {
   id: string;
@@ -39,14 +40,14 @@ const mockUsers: User[] = [
 ];
 
 const ROLE_COLORS: Record<string, string> = {
-  ADMIN: "bg-slate-500/20 text-slate-400",
-  USER: "bg-slate-500/20 text-slate-400",
-  AGENT: "bg-emerald-500/20 text-emerald-400",
-  TENANT: "bg-amber-500/20 text-amber-400"
+  ADMIN: "bg-muted text-muted-foreground",
+  USER: "bg-muted text-muted-foreground",
+  AGENT: "bg-blue-500/20 text-success",
+  TENANT: "bg-amber-500/20 text-warning"
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-green-500/20 text-green-400",
+  ACTIVE: "bg-blue-500/20 text-blue-400",
   INACTIVE: "bg-gray-500/20 text-gray-400",
   PENDING: "bg-yellow-500/20 text-yellow-400"
 };
@@ -62,53 +63,53 @@ function CreateUserDialog({ open, onOpenChange, onSubmit }: { open: boolean; onO
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_users_addUser", "Add User")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_user_to_the_system", "Add a new user to the system.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_users_addUser", "Kullanıcı Ekle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_user_to_the_system", "Sisteme yeni bir kullanıcı ekleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_name", "Sistem Adı")}</Label>
             <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_email", "E-posta")}</Label>
             <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_organization_role", "Role")}</Label>
+            <Label className="text-right text-foreground">{t("admin_organization_role", "Rol")}</Label>
             <Select value={role} onValueChange={v => setRole(v as User["role"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ADMIN">{t("admin_roles_groups_admin", "Admin")}</SelectItem>
-                <SelectItem value="USER">{t("admin_dashboard_user", "User")}</SelectItem>
-                <SelectItem value="AGENT">{t("admin_organization_agent", "Agent")}</SelectItem>
-                <SelectItem value="TENANT">{t("client.src.tenant", "Tenant")}</SelectItem>
+                <SelectItem value="ADMIN">{t("admin_roles_groups_admin", "Yönetici Grubu")}</SelectItem>
+                <SelectItem value="USER">{t("admin_dashboard_user", "Kullanıcı")}</SelectItem>
+                <SelectItem value="AGENT">{t("admin_organization_agent", "Danışman")}</SelectItem>
+                <SelectItem value="TENANT">{t("common.tenant", "Kiracı")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as User["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
-                <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
-                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
+                <SelectItem value="ACTIVE">{t("admin_ai_active", "Aktif")}</SelectItem>
+                <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Pasif")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Bekliyor")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_integrations_created_at", "Created At")}</Label>
+            <Label className="text-right text-foreground">{t("admin_integrations_created_at", "Oluşturulma Zamanı")}</Label>
             <Input type="date" value={createdAt} onChange={e => setCreatedAt(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ name, email, role, status, createdAt })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ name, email, role, status, createdAt })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -126,53 +127,53 @@ function EditUserDialog({ open, onOpenChange, item, onSubmit }: { open: boolean;
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_user", "Edit User")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_user_details", "Update user details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_user", "Kullanıcıyı Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_user_details", "Kullanıcı detaylarını güncelleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_name", "Sistem Adı")}</Label>
             <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_email", "E-posta")}</Label>
             <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_organization_role", "Role")}</Label>
+            <Label className="text-right text-foreground">{t("admin_organization_role", "Rol")}</Label>
             <Select value={role} onValueChange={v => setRole(v as User["role"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ADMIN">{t("admin_roles_groups_admin", "Admin")}</SelectItem>
-                <SelectItem value="USER">{t("admin_dashboard_user", "User")}</SelectItem>
-                <SelectItem value="AGENT">{t("admin_organization_agent", "Agent")}</SelectItem>
-                <SelectItem value="TENANT">{t("client.src.tenant", "Tenant")}</SelectItem>
+                <SelectItem value="ADMIN">{t("admin_roles_groups_admin", "Yönetici Grubu")}</SelectItem>
+                <SelectItem value="USER">{t("admin_dashboard_user", "Kullanıcı")}</SelectItem>
+                <SelectItem value="AGENT">{t("admin_organization_agent", "Danışman")}</SelectItem>
+                <SelectItem value="TENANT">{t("common.tenant", "Kiracı")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as User["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
-                <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
-                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
+                <SelectItem value="ACTIVE">{t("admin_ai_active", "Aktif")}</SelectItem>
+                <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Pasif")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Bekliyor")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_integrations_created_at", "Created At")}</Label>
+            <Label className="text-right text-foreground">{t("admin_integrations_created_at", "Oluşturulma Zamanı")}</Label>
             <Input type="date" value={createdAt} onChange={e => setCreatedAt(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ id: item.id, name, email, role, status, createdAt })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ id: item.id, name, email, role, status, createdAt })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -185,12 +186,12 @@ function DeleteUserDialog({ open, onOpenChange, item, onConfirm }: { open: boole
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_organization_delete_user", "Delete User")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_organization_delete_user", "Kullanıcıyı Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Silmek istediğinizden emin misiniz:")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -318,13 +319,13 @@ export default function AdminUsersPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <Badge className={ROLE_COLORS[user.role]}>{user.role}</Badge>
+                      <Badge className={ROLE_COLORS[user.role]}>{tEnum(t, user.role)}</Badge>
                       <Badge className={STATUS_COLORS[user.status]}>{t("admin_status_" + String(user.status).toLowerCase())}</Badge>
                       <div className="flex gap-2">
-                        <Button onClick={() => { setEditingItem(user); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10">
+                        <Button onClick={() => { setEditingItem(user); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10">
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button onClick={() => { setDeletingItem(user); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400">
+                        <Button onClick={() => { setDeletingItem(user); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400">
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>

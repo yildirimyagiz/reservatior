@@ -112,14 +112,14 @@ export default function DocumentTemplates() {
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.type")}</Label>
+        <Label>{t("common.type")}</Label>
         <Input type="text" value={form.type} onChange={e => setForm({
           ...form,
           type: e.target.value
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.category")}</Label>
+        <Label>{t("common.category")}</Label>
         <Select value={form.templateType} onValueChange={v => setForm({
           ...form,
           templateType: v as any
@@ -136,7 +136,7 @@ export default function DocumentTemplates() {
         })} />
       </div>
       <div className="flex items-center justify-between rounded-lg border border-border p-3">
-        <Label>{t("client.src.active")}</Label>
+        <Label>{t("common.active")}</Label>
         <Switch checked={form.isActive === "true" || form.isActive === true} onCheckedChange={v => setForm({
           ...form,
           isActive: String(v)
@@ -150,13 +150,13 @@ export default function DocumentTemplates() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search document templates..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: MOCK.length
     }, {
-      label: t("client.src.active"),
+      label: t("common.active"),
       value: MOCK.filter(r => r.isActive).length
     }, {
-      label: t("client.src.inactive"),
+      label: t("common.inactive"),
       value: MOCK.filter(r => !r.isActive).length
     }]}>
         <div className="bg-card border border-border rounded-xl overflow-hidden">
@@ -164,10 +164,10 @@ export default function DocumentTemplates() {
             <TableHeader>
               <TableRow>
               <TableHead>{t("client.src.template_name")}</TableHead>
-              <TableHead>{t("client.src.type")}</TableHead>
-              <TableHead>{t("client.src.category")}</TableHead>
+              <TableHead>{t("common.type")}</TableHead>
+              <TableHead>{t("common.category")}</TableHead>
               <TableHead>{t("client.src.channels")}</TableHead>
-              <TableHead>{t("client.src.active")}</TableHead>
+              <TableHead>{t("common.active")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -181,10 +181,10 @@ export default function DocumentTemplates() {
                     <TableCell className="text-sm">{row.isActive ?? "—"}</TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -197,13 +197,13 @@ export default function DocumentTemplates() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_documenttemplates")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_documenttemplates")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

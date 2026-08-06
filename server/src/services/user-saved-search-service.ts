@@ -5,7 +5,7 @@ import { DomainEvents } from "../core/events/domain-events";
 
 export class UserSavedSearchService extends BaseService<any, any, any> {
   constructor() {
-    super(prisma.userSavedSearch, "userSavedSearch");
+    super((prisma as any).userSavedSearch, "userSavedSearch");
   }
 
   async getByUser(userId: string) {

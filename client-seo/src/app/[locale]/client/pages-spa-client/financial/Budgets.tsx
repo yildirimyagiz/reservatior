@@ -40,7 +40,7 @@ export default function Budgets() {
         return Array.isArray(response) ? response : response?.data || [];
       } catch (error) {
         toast({
-          title: t("client.src.error"),
+          title: t("common.error"),
           description: t("client.src.failed_to_load_budgets"),
           variant: "destructive"
         });
@@ -65,7 +65,7 @@ export default function Budgets() {
       fetchBudgets();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_create_budget"),
         variant: "destructive"
       });
@@ -119,13 +119,13 @@ export default function Budgets() {
             ...form,
             year: e.target.value
           })} required /></div>
-        <div className="space-y-1.5"><Label>{t("client.src.total_amount")}</Label><Input type="number" value={form.totalAmount} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("common.total_amount")}</Label><Input type="number" value={form.totalAmount} onChange={e => setForm({
             ...form,
             totalAmount: e.target.value
           })} required /></div>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.notes")}</Label>
+        <Label>{t("common.notes")}</Label>
         <Input type="text" value={form.notes} onChange={e => setForm({
           ...form,
           notes: e.target.value
@@ -148,14 +148,14 @@ export default function Budgets() {
       label: t("client.src.total_spent"),
       value: `$${budgets.reduce((s, r) => s + (r.spentAmount || 0), 0).toLocaleString()}`
     }]} actions={<Button variant="outline" size="sm" onClick={() => fetchBudgets()} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("client.src.refresh")}</Button>}>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("common.refresh")}</Button>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>{t("client.src.year")}</TableHead>
-                <TableHead>{t("client.src.notes")}</TableHead>
-                <TableHead>{t("client.src.total_amount")}</TableHead>
+                <TableHead>{t("common.notes")}</TableHead>
+                <TableHead>{t("common.total_amount")}</TableHead>
                 <TableHead>{t("client.src.spent_amount")}</TableHead>
                 <TableHead>{t("client.src.utilization")}</TableHead>
                 <TableHead className="w-10" />
@@ -181,10 +181,10 @@ export default function Budgets() {
                       </TableCell>
                       <TableCell>
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -198,13 +198,13 @@ export default function Budgets() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_budget")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_budget")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} isEdit={true} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} isEdit={true} />
         </DialogContent>
       </Dialog>
     </>;

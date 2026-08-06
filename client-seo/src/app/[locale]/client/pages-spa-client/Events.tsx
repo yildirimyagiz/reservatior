@@ -394,19 +394,19 @@ export default function Events() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "scheduled":
-        return "bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]";
+        return "bg-brand/100/10 text-brand border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]";
       case "in_progress":
-        return "bg-orange-500/10 text-orange-400 border-orange-500/20 animate-pulse";
+        return "bg-warning/10 text-orange-400 border-warning/20 animate-pulse";
       case "completed":
-        return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+        return "bg-success/10 text-success border-success/20";
       case "cancelled":
         return "bg-red-500/10 text-red-500 border-red-500/20";
       case "postponed":
-        return "bg-slate-500/10 text-slate-400 border-white/5";
+        return "bg-muted text-muted-foreground border-white/5";
       case "no_show":
-        return "bg-slate-800/50 text-slate-600 border-white/5";
+        return "bg-muted/50 text-muted-foreground border-white/5";
       default:
-        return "bg-slate-500/10 text-slate-500 border-white/5";
+        return "bg-muted text-muted-foreground border-white/5";
     }
   };
   const getPriorityColor = (priority: string) => {
@@ -416,25 +416,25 @@ export default function Events() {
       case "high":
         return "bg-orange-500 shadow-[0_0_10px_#f97316]";
       case "medium":
-        return "bg-blue-500 shadow-[0_0_10px_#3b82f6]";
+        return "bg-brand/100 shadow-[0_0_10px_#3b82f6]";
       case "low":
-        return "bg-emerald-500 shadow-[0_0_10px_#10b981]";
+        return "bg-success shadow-[0_0_10px_#3b82f6]";
       default:
-        return "bg-slate-700";
+        return "bg-muted";
     }
   };
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "business":
-        return "bg-purple-500/10 text-purple-400 border-purple-500/20";
+        return "bg-brand/10 text-brand border-brand/20";
       case "property":
-        return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+        return "bg-success/10 text-success border-success/20";
       case "legal":
         return "bg-red-500/10 text-red-400 border-red-500/20";
       case "financial":
-        return "bg-orange-500/10 text-orange-400 border-orange-500/20";
+        return "bg-warning/10 text-orange-400 border-warning/20";
       default:
-        return "bg-slate-500/10 text-slate-400 border-white/5";
+        return "bg-muted text-muted-foreground border-white/5";
     }
   };
   const getLocationIcon = (location?: Event["location"]) => {
@@ -505,9 +505,9 @@ export default function Events() {
             </div>}
           
           <div className="flex flex-col items-center mb-8 border-b border-white/5 pb-4">
-            <h3 className={cn("text-[10px] font-black  italic tracking-widest leading-none mb-2", isToday ? "text-blue-400" : "text-slate-500")}>{format(currentDay, "EEEE")}</h3>
+            <h3 className={cn("text-[10px] font-black  italic tracking-widest leading-none mb-2", isToday ? "text-brand" : "text-muted-foreground")}>{format(currentDay, "EEEE")}</h3>
             <span className="text-3xl font-black text-white italic tracking-tighter tabular-nums leading-none">{format(currentDay, "dd")}</span>
-            <span className="text-[9px] font-bold text-slate-700 italic mt-1">{format(currentDay, "MMM")}</span>
+            <span className="text-[9px] font-bold text-muted-foreground italic mt-1">{format(currentDay, "MMM")}</span>
           </div>
 
           <div className="space-y-4">
@@ -519,25 +519,25 @@ export default function Events() {
             scale: 1
           }} whileHover={{
             scale: 1.05
-          }} className={cn("relative p-4 rounded-2xl bg-[#1a1b1e]/60 border border-white/5 shadow-xl cursor-pointer group hover:border-blue-500/30 transition-all", event.priority === 'urgent' && "border-red-500/20")} onClick={() => setSelectedEvent(event)}>
+          }} className={cn("relative p-4 rounded-2xl bg-card/60 border border-white/5 shadow-xl cursor-pointer group hover:border-blue-500/30 transition-all", event.priority === 'urgent' && "border-red-500/20")} onClick={() => setSelectedEvent(event)}>
                 <div className="absolute top-2 right-2 flex gap-1">
                    {event.priority === 'urgent' && <div className="h-1.5 w-1.5 bg-red-500 rounded-full animate-pulse" />}
                    <div className={cn("h-1.5 w-1.5 rounded-full", getPriorityColor(event.priority))} />
                 </div>
                 
-                <h4 className="text-[10px] font-black text-white italic tracking-tight line-clamp-1 mb-2 leading-none group-hover:text-blue-400 transition-colors">{event.title}</h4>
+                <h4 className="text-[10px] font-black text-white italic tracking-tight line-clamp-1 mb-2 leading-none group-hover:text-brand transition-colors">{event.title}</h4>
                 
-                <div className="flex items-center justify-between text-[8px] font-black italic tracking-widest text-slate-600">
+                <div className="flex items-center justify-between text-[8px] font-black italic tracking-widest text-muted-foreground">
                    <div className="flex items-center gap-1">
                       <Clock className="w-2.5 h-2.5" />
                       <span>{format(new Date(event.startDate), "HH:mm")}</span>
                    </div>
-                   <Badge className="bg-white/5 text-slate-500 border-none p-0 scale-75 origin-right">{event.type}</Badge>
+                   <Badge className="bg-white/5 text-muted-foreground border-none p-0 scale-75 origin-right">{event.type}</Badge>
                 </div>
               </m.div>)}
             {dayEvents.length === 0 && <div className="flex flex-col items-center justify-center py-10 opacity-10">
-                 <Cpu className="w-8 h-8 text-slate-500 mb-2" />
-                 <p className="text-[8px] font-black text-slate-500 tracking-widest">{t("client.src.stdby")}</p>
+                 <Cpu className="w-8 h-8 text-muted-foreground mb-2" />
+                 <p className="text-[8px] font-black text-muted-foreground tracking-widest">{t("client.src.stdby")}</p>
               </div>}
           </div>
         </div>);
@@ -555,37 +555,37 @@ export default function Events() {
       }} whileHover={{
         scale: 1.01,
         x: 5
-      }} onClick={() => setSelectedEvent(event)} className="group relative p-8 rounded-[32px] bg-[#1a1b1e]/40 border border-white/5 border-l border-t hover:bg-white/5 transition-all shadow-2xl cursor-pointer overflow-hidden">
-              <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none text-blue-500">
+      }} onClick={() => setSelectedEvent(event)} className="group relative p-8 rounded-[32px] bg-card/40 border border-white/5 border-l border-t hover:bg-white/5 transition-all shadow-2xl cursor-pointer overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none text-brand">
                  {getEventIcon(event.type)}
               </div>
               
               <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
                  <div className="flex items-center gap-6">
-                    <div className={cn("h-16 w-16 rounded-2xl flex items-center justify-center border shadow-inner", event.status === 'scheduled' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' : event.status === 'completed' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-slate-500/10 border-white/5 text-slate-500')}>
+                    <div className={cn("h-16 w-16 rounded-2xl flex items-center justify-center border shadow-inner", event.status === 'scheduled' ? 'bg-brand/100/10 border-blue-500/20 text-brand' : event.status === 'completed' ? 'bg-success/10 border-success/20 text-success' : 'bg-muted border-white/5 text-muted-foreground')}>
                        {getEventIcon(event.type)}
                     </div>
                     
                     <div className="space-y-1">
                        <div className="flex items-center gap-3">
                           <h3 className="text-xl font-black text-white italic tracking-tighter leading-none">{event.title}</h3>
-                          <Badge className={cn("text-[8px] font-black italic tracking-widest px-2 py-0.5 rounded-full border", event.priority === 'urgent' ? 'bg-red-500/10 border-red-500/20 text-red-500' : event.priority === 'high' ? 'bg-orange-500/10 border-orange-500/20 text-orange-500' : 'bg-slate-500/10 border-white/5 text-slate-500')}>
+                          <Badge className={cn("text-[8px] font-black italic tracking-widest px-2 py-0.5 rounded-full border", event.priority === 'urgent' ? 'bg-red-500/10 border-red-500/20 text-red-500' : event.priority === 'high' ? 'bg-warning/10 border-warning/20 text-orange-500' : 'bg-muted border-white/5 text-muted-foreground')}>
                             {event.priority}
                           </Badge>
                        </div>
-                       <p className="text-[10px] font-bold text-slate-500 italic tracking-tight">{event.description}</p>
+                       <p className="text-[10px] font-bold text-muted-foreground italic tracking-tight">{event.description}</p>
                     </div>
                  </div>
                  
                  <div className="flex flex-wrap items-center gap-8">
                     <div className="space-y-1 text-right md:text-left">
-                       <p className="text-[8px] font-black text-slate-600 tracking-widest italic group-hover:text-blue-500/50 transition-colors">{t("client.src.temporal_alignment")}</p>
+                       <p className="text-[8px] font-black text-muted-foreground tracking-widest italic group-hover:text-brand/50 transition-colors">{t("client.src.temporal_alignment")}</p>
                        <p className="text-sm font-black text-white italic leading-none">{formatEventTime(event.startDate, event.endDate, event.isAllDay)}</p>
                     </div>
                     
                     <div className="space-y-1 text-right md:text-left">
-                       <p className="text-[8px] font-black text-slate-600 tracking-widest italic">{t("client.src.geospatial_node")}</p>
-                       <div className="flex items-center gap-2 text-sm font-black text-slate-400 italic leading-none">
+                       <p className="text-[8px] font-black text-muted-foreground tracking-widest italic">{t("client.src.geospatial_node")}</p>
+                       <div className="flex items-center gap-2 text-sm font-black text-muted-foreground italic leading-none">
                           <MapPin className="w-3 h-3" />
                           <span>{event.location?.address || 'VIRTUAL NODE'}</span>
                        </div>
@@ -594,19 +594,19 @@ export default function Events() {
                     <div className="flex items-center gap-2">
                        <div className="flex -space-x-3">
                           {event.attendees.slice(0, 3).map((a, i) => <Avatar key={i} className="h-8 w-8 border-2 border-[#1a1b1e] rounded-xl shadow-lg ring-1 ring-white/5">
-                               <AvatarFallback className="bg-slate-800 text-[10px] font-black text-white">{a.name.charAt(0)}</AvatarFallback>
+                               <AvatarFallback className="bg-muted text-[10px] font-black text-white">{a.name.charAt(0)}</AvatarFallback>
                             </Avatar>)}
-                          {event.attendees.length > 3 && <div className="h-8 w-8 rounded-xl bg-black/40 border-2 border-[#1a1b1e] flex items-center justify-center text-[10px] font-black text-slate-500 shadow-lg ring-1 ring-white/5">
+                          {event.attendees.length > 3 && <div className="h-8 w-8 rounded-xl bg-black/40 border-2 border-[#1a1b1e] flex items-center justify-center text-[10px] font-black text-muted-foreground shadow-lg ring-1 ring-white/5">
                                +{event.attendees.length - 3}
                             </div>}
                        </div>
                     </div>
 
                     <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all scale-95 group-hover:scale-100">
-                       <Button variant="ghost" className="h-10 w-10 p-0 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-slate-400 hover:text-white transition-all">
+                       <Button variant="ghost" className="h-10 w-10 p-0 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-muted-foreground hover:text-white transition-all" aria-label={t("common.edit")}>
                           <Edit className="w-4 h-4" />
                        </Button>
-                       <Button variant="ghost" className="h-10 w-10 p-0 rounded-xl bg-white/5 hover:bg-red-500/10 border border-white/5 text-slate-400 hover:text-red-400 transition-all">
+                       <Button variant="ghost" className="h-10 w-10 p-0 rounded-xl bg-white/5 hover:bg-red-500/10 border border-white/5 text-muted-foreground hover:text-red-400 transition-all" aria-label={t("common.delete")}>
                           <Trash2 className="w-4 h-4" />
                        </Button>
                     </div>
@@ -614,8 +614,8 @@ export default function Events() {
               </div>
             </m.div>)}
         {filteredEvents.length === 0 && <div className="py-20 text-center space-y-4 rounded-[40px] border border-dashed border-white/10 bg-black/20">
-             <Layers className="w-12 h-12 text-slate-800 mx-auto opacity-20" />
-             <p className="text-[10px] font-black text-slate-600 tracking-widest italic">{t("noEvents")}</p>
+             <Layers className="w-12 h-12 text-foreground mx-auto opacity-20" />
+             <p className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t("noEvents")}</p>
           </div>}
       </div>;
   };
@@ -623,8 +623,8 @@ export default function Events() {
       <>
         <div className="space-y-12">
           {/* Tactical Header HUD */}
-          <header className="relative py-12 px-10 rounded-[40px] bg-[#1a1b1e]/40 border border-white/5 border-l border-t overflow-hidden shadow-3xl">
-           <div className="absolute top-0 right-0 p-40 opacity-5 pointer-events-none text-blue-600">
+          <header className="relative py-12 px-10 rounded-[40px] bg-card/40 border border-white/5 border-l border-t overflow-hidden shadow-3xl">
+           <div className="absolute top-0 right-0 p-40 opacity-5 pointer-events-none text-brand">
               <CalendarDays className="w-96 h-96" />
            </div>
            <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>
@@ -632,28 +632,28 @@ export default function Events() {
            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
               <div className="flex items-center gap-8">
                  <div className="relative group">
-                    <div className="absolute inset-0 bg-blue-600/20 blur-2xl group-hover:bg-blue-600/40 transition-all rounded-full animate-pulse-slow"></div>
-                    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 backdrop-blur-xl shadow-2xl">
-                       <CalendarIcon className="w-10 h-10 text-blue-400" />
+                    <div className="absolute inset-0 bg-blue-600/20 blur-2xl group-hover:bg-brand/40 transition-all rounded-full animate-pulse-slow"></div>
+                    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-blue-500/20 to-brand/20 border border-blue-500/30 backdrop-blur-xl shadow-2xl">
+                       <CalendarIcon className="w-10 h-10 text-brand" />
                     </div>
                  </div>
                  <div className="space-y-2">
                     <div className="flex items-center gap-3">
                        <h1 className="text-5xl font-black text-white italic tracking-tighter leading-none">{t("eventsTitle")}</h1>
-                       <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/20 font-black italic tracking-widest text-[10px] px-3 py-1 rounded-full">
+                       <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 font-black italic tracking-widest text-[10px] px-3 py-1 rounded-full">
                         {t("eventsSynchronized")}
                        </Badge>
                     </div>
-                    <p className="text-lg font-black text-slate-500 italic tracking-widest leading-none mt-2">{t("eventsSubtitle")}</p>
+                    <p className="text-lg font-black text-muted-foreground italic tracking-widest leading-none mt-2">{t("eventsSubtitle")}</p>
                  </div>
               </div>
               
               <div className="flex gap-4">
-                 <Button className="h-16 px-10 rounded-2xl bg-white text-black hover:bg-slate-200 font-black italic text-xs tracking-widest shadow-xl transition-all hover:scale-105 active:scale-95">
+                 <Button className="h-16 px-10 rounded-2xl bg-card text-black hover:bg-muted font-black italic text-xs tracking-widest shadow-xl transition-all hover:scale-105 active:scale-95">
                     <Plus className="w-4 h-4 mr-3" />
                     {t("initialize")}
                  </Button>
-                 <Button variant="outline" className="h-16 w-16 rounded-2xl border-white/5 bg-white/5 text-slate-400 hover:text-white transition-all backdrop-blur-xl">
+                 <Button variant="outline" className="h-16 w-16 rounded-2xl border-white/5 bg-white/5 text-muted-foreground hover:text-white transition-all backdrop-blur-xl" aria-label={t("common.refresh")}>
                     <RefreshCw className="w-6 h-6" />
                  </Button>
               </div>
@@ -666,42 +666,42 @@ export default function Events() {
             label: t("today"),
             value: getTodayEvents().length,
             icon: CalendarDays,
-            color: "text-blue-400",
-            bg: "bg-blue-500/10"
+            color: "text-brand",
+            bg: "bg-brand/100/10"
           }, {
             label: t("eventsWeekly"),
             value: getWeekEvents().length,
             icon: Activity,
-            color: "text-emerald-400",
-            bg: "bg-emerald-500/10"
+            color: "text-success",
+            bg: "bg-success/10"
           }, {
             label: t("upcoming"),
             value: getUpcomingEvents(7).length,
             icon: Clock,
             color: "text-orange-400",
-            bg: "bg-orange-500/10"
+            bg: "bg-warning/10"
           }, {
             label: t("series"),
             value: eventSeries.length,
             icon: Database,
-            color: "text-purple-400",
-            bg: "bg-purple-500/10"
-          }].map((stat, idx) => <Card key={idx} className="border-white/5 bg-[#1a1b1e]/60 backdrop-blur-3xl rounded-[32px] overflow-hidden shadow-2xl relative border-l border-t">
+            color: "text-brand",
+            bg: "bg-brand/10"
+          }].map((stat, idx) => <Card key={idx} className="border-white/5 bg-card/60 backdrop-blur-3xl rounded-[32px] overflow-hidden shadow-2xl relative border-l border-t">
                 <CardContent className="p-8">
                    <div className="flex justify-between items-start mb-6">
                       <div className={cn("p-4 rounded-2xl bg-black/40 border border-white/5", stat.color)}>
                          <stat.icon className="h-6 w-6" />
                       </div>
-                      <Badge className="bg-white/5 text-slate-500 border-none text-[8px] font-black italic tracking-widest">{t("client.src.realtime")}</Badge>
+                      <Badge className="bg-white/5 text-muted-foreground border-none text-[8px] font-black italic tracking-widest">{t("client.src.realtime")}</Badge>
                    </div>
-                   <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{stat.label}</p>
+                   <p className="text-[10px] font-black text-muted-foreground tracking-widest italic">{stat.label}</p>
                    <h2 className="text-3xl font-black text-white italic tracking-tighter mt-1">{stat.value}</h2>
                 </CardContent>
              </Card>)}
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-12">
-            <TabsList className="bg-[#1a1b1e]/60 border border-white/5 p-2 rounded-[32px] h-auto backdrop-blur-3xl inline-flex">
+            <TabsList className="bg-card/60 border border-white/5 p-2 rounded-[32px] h-auto backdrop-blur-3xl inline-flex">
               {[{
               id: 'events',
               label: t("stream")
@@ -714,29 +714,29 @@ export default function Events() {
             }, {
               id: 'analytics',
               label: t("insights")
-            }].map(tab => <TabsTrigger key={tab.id} value={tab.id} className="px-8 py-4 rounded-2xl data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-500 font-black italic tracking-widest text-xs transition-all">
+            }].map(tab => <TabsTrigger key={tab.id} value={tab.id} className="px-8 py-4 rounded-2xl data-[state=active]:bg-blue-600 data-[state=active]:text-white text-muted-foreground font-black italic tracking-widest text-xs transition-all">
                   {tab.label}
                 </TabsTrigger>)}
             </TabsList>
 
             <TabsContent value="events" className="space-y-12 mt-0">
                {/* Filters Node */}
-               <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[32px] p-8 shadow-2xl">
+               <Card className="bg-card/40 border-white/5 border-l border-t rounded-[32px] p-8 shadow-2xl">
                   <div className="flex flex-wrap items-center gap-8">
                     <div className="flex items-center gap-4 flex-1">
                       <div className="relative group flex-1">
-                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
-                         <input type="text" aria-label="Filter events" placeholder={t("client.src.filter_temporal_data")} className="bg-black/40 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all w-full" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                         <input type="text" aria-label="Filter events" placeholder={t("client.src.filter_temporal_data")} className="bg-black/40 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-[10px] font-black tracking-widest italic text-white placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50 transition-all w-full" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
                       </div>
                     </div>
                     
                     <div className="flex gap-4">
                        <Select value={filterType} onValueChange={setFilterType}>
                           <SelectTrigger className="h-14 px-6 rounded-2xl bg-black/40 border-white/5 text-[10px] font-black italic tracking-widest text-white w-40">
-                             <SelectValue placeholder={t("client.src.type")} />
+                             <SelectValue placeholder={t("common.type")} />
                           </SelectTrigger>
-                          <SelectContent className="bg-[#1a1b1e] border-white/10 rounded-2xl">
-                             <SelectItem value="all">{t("client.src.all_types")}</SelectItem>
+                          <SelectContent className="bg-card border-white/10 rounded-2xl">
+                             <SelectItem value="all">{t("common.all_types")}</SelectItem>
                              <SelectItem value="meeting">{t("client.src.meetings")}</SelectItem>
                              <SelectItem value="viewing">{t("client.src.viewings")}</SelectItem>
                              <SelectItem value="inspection">{t("client.src.inspections")}</SelectItem>
@@ -745,18 +745,18 @@ export default function Events() {
 
                        <Select value={filterStatus} onValueChange={setFilterStatus}>
                           <SelectTrigger className="h-14 px-6 rounded-2xl bg-black/40 border-white/5 text-[10px] font-black italic tracking-widest text-white w-32">
-                             <SelectValue placeholder={t("client.src.status")} />
+                             <SelectValue placeholder={t("common.status")} />
                           </SelectTrigger>
-                          <SelectContent className="bg-[#1a1b1e] border-white/10 rounded-2xl">
-                             <SelectItem value="all">{t("client.src.all_status")}</SelectItem>
-                             <SelectItem value="scheduled">{t("client.src.scheduled")}</SelectItem>
-                             <SelectItem value="completed">{t("client.src.completed")}</SelectItem>
+                          <SelectContent className="bg-card border-white/10 rounded-2xl">
+                             <SelectItem value="all">{t("common.all_status")}</SelectItem>
+                             <SelectItem value="scheduled">{t("common.scheduled")}</SelectItem>
+                             <SelectItem value="completed">{t("common.completed")}</SelectItem>
                           </SelectContent>
                        </Select>
 
                        <div className="flex p-2 bg-black/40 rounded-2xl border border-white/5 gap-2">
-                          <Button onClick={() => setViewMode("list")} variant="ghost" className={cn("h-10 px-6 rounded-xl font-black italic text-[10px]  tracking-widest transition-all", viewMode === "list" ? "bg-white text-black" : "text-slate-500 hover:text-white")}>{t("client.src.listview")}</Button>
-                          <Button onClick={() => setViewMode("week")} variant="ghost" className={cn("h-10 px-6 rounded-xl font-black italic text-[10px]  tracking-widest transition-all", viewMode === "week" ? "bg-white text-black" : "text-slate-500 hover:text-white")}>{t("client.src.weekview")}</Button>
+                          <Button onClick={() => setViewMode("list")} variant="ghost" className={cn("h-10 px-6 rounded-xl font-black italic text-[10px]  tracking-widest transition-all", viewMode === "list" ? "bg-card text-black" : "text-muted-foreground hover:text-white")}>{t("client.src.listview")}</Button>
+                          <Button onClick={() => setViewMode("week")} variant="ghost" className={cn("h-10 px-6 rounded-xl font-black italic text-[10px]  tracking-widest transition-all", viewMode === "week" ? "bg-card text-black" : "text-muted-foreground hover:text-white")}>{t("client.src.weekview")}</Button>
                        </div>
                     </div>
                   </div>
@@ -770,14 +770,14 @@ export default function Events() {
             </TabsContent>
 
             <TabsContent value="calendar" className="mt-0">
-               <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] overflow-hidden shadow-3xl">
+               <Card className="bg-card/40 border-white/5 border-l border-t rounded-[40px] overflow-hidden shadow-3xl">
                   <header className="p-10 border-b border-white/5 flex items-center justify-between">
                      <h2 className="text-3xl font-black text-white italic tracking-tighter">{t("client.src.temporal_grid")}</h2>
                      <div className="flex items-center gap-4">
                         <div className="flex p-2 bg-black/40 rounded-2xl border border-white/5">
-                           <Button onClick={() => setCurrentDate(addWeeks(currentDate, -1))} variant="ghost" className="h-10 w-10 text-slate-500 hover:text-white"><ChevronLeft className="w-5 h-5" /></Button>
-                           <Button onClick={() => setCurrentDate(new Date())} variant="ghost" className="h-10 px-6 font-black italic tracking-widest text-[10px] text-white">{t("client.src.today")}</Button>
-                           <Button onClick={() => setCurrentDate(addWeeks(currentDate, 1))} variant="ghost" className="h-10 w-10 text-slate-500 hover:text-white"><ChevronRight className="w-5 h-5" /></Button>
+                           <Button onClick={() => setCurrentDate(addWeeks(currentDate, -1))} variant="ghost" className="h-10 w-10 text-muted-foreground hover:text-white" aria-label={t("common.previous")}><ChevronLeft className="w-5 h-5" /></Button>
+                           <Button onClick={() => setCurrentDate(new Date())} variant="ghost" className="h-10 px-6 font-black italic tracking-widest text-[10px] text-white">{t("common.today")}</Button>
+                           <Button onClick={() => setCurrentDate(addWeeks(currentDate, 1))} variant="ghost" className="h-10 w-10 text-muted-foreground hover:text-white" aria-label={t("common.next")}><ChevronRight className="w-5 h-5" /></Button>
                         </div>
                      </div>
                   </header>
@@ -790,7 +790,7 @@ export default function Events() {
             <TabsContent value="series" className="mt-0 space-y-8">
                <div className="flex items-center justify-between px-4">
                   <h2 className="text-2xl font-black text-white italic tracking-tighter">{t("client.src.recurring_loops")}</h2>
-                  <Badge className="bg-purple-500/10 text-purple-400 border border-purple-500/20 font-black italic text-[9px] px-3 py-1">{eventSeries.length}{t("client.src.active")}</Badge>
+                  <Badge className="bg-brand/10 text-brand border border-brand/20 font-black italic text-[9px] px-3 py-1">{eventSeries.length}{t("common.active")}</Badge>
                </div>
                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {eventSeries.map(series => <m.div key={series.id} initial={{
@@ -799,22 +799,22 @@ export default function Events() {
               }} animate={{
                 opacity: 1,
                 y: 0
-              }} className="p-8 rounded-[32px] bg-[#1a1b1e]/40 border border-white/5 border-l border-t hover:bg-white/5 transition-all shadow-2xl group flex justify-between gap-8">
+              }} className="p-8 rounded-[32px] bg-card/40 border border-white/5 border-l border-t hover:bg-white/5 transition-all shadow-2xl group flex justify-between gap-8">
                        <div className="flex gap-6">
-                          <div className="h-16 w-16 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                          <div className="h-16 w-16 rounded-2xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand">
                              <RefreshCw className="w-8 h-8" />
                           </div>
                           <div className="space-y-2">
                              <h3 className="text-xl font-black text-white italic tracking-tighter leading-none">{series.title}</h3>
-                             <p className="text-[11px] font-bold text-slate-500 tracking-tight italic line-clamp-1">{series.description}</p>
+                             <p className="text-[11px] font-bold text-muted-foreground tracking-tight italic line-clamp-1">{series.description}</p>
                              <div className="flex items-center gap-4 pt-4">
-                                <Badge className="bg-black/40 border-white/5 text-slate-400 text-[8px] font-black italic tracking-widest">{series.recurrence?.type}</Badge>
-                                <span className="text-[10px] font-black text-slate-600 italic">{series.events.length}{t("client.src.events")}</span>
+                                <Badge className="bg-black/40 border-white/5 text-muted-foreground text-[8px] font-black italic tracking-widest">{series.recurrence?.type}</Badge>
+                                <span className="text-[10px] font-black text-muted-foreground italic">{series.events.length}{t("client.src.events")}</span>
                              </div>
                           </div>
                        </div>
-                       <Button variant="ghost" className="h-12 w-12 rounded-xl bg-white/5 hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-all">
-                          <Settings className="w-5 h-5 text-slate-500" />
+                       <Button variant="ghost" className="h-12 w-12 rounded-xl bg-white/5 hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-all" aria-label={t("common.settings")}>
+                          <Settings className="w-5 h-5 text-muted-foreground" />
                        </Button>
                     </m.div>)}
                </div>
@@ -822,17 +822,17 @@ export default function Events() {
 
             <TabsContent value="analytics" className="mt-0">
                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                  <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] p-10 shadow-3xl">
+                  <Card className="bg-card/40 border-white/5 border-l border-t rounded-[40px] p-10 shadow-3xl">
                      <header className="mb-10 flex items-center justify-between">
                         <h2 className="text-xl font-black text-white italic tracking-tighter leading-none">{t("client.src.temporal_distribution")}</h2>
-                        <Layers className="w-5 h-5 text-blue-500" />
+                        <Layers className="w-5 h-5 text-brand" />
                      </header>
                      <div className="space-y-8">
                         {["meeting", "viewing", "appointment", "inspection"].map(type => {
                     const count = events.filter(e => e.type === type).length;
                     const percentage = events.length > 0 ? count / events.length * 100 : 0;
                     return <div key={type} className="space-y-4">
-                               <div className="flex justify-between items-center text-[10px] font-black italic tracking-widest text-slate-500">
+                               <div className="flex justify-between items-center text-[10px] font-black italic tracking-widest text-muted-foreground">
                                   <span>{type}</span>
                                   <span className="text-white">{count}{t("client.src.units")}{percentage.toFixed(1)}%)</span>
                                </div>
@@ -848,23 +848,23 @@ export default function Events() {
                      </div>
                   </Card>
 
-                  <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] p-10 shadow-3xl">
+                  <Card className="bg-card/40 border-white/5 border-l border-t rounded-[40px] p-10 shadow-3xl">
                      <header className="mb-10 flex items-center justify-between">
                         <h2 className="text-xl font-black text-white italic tracking-tighter leading-none">{t("client.src.upcoming_temporal_cycles")}</h2>
-                        <Activity className="w-5 h-5 text-emerald-500" />
+                        <Activity className="w-5 h-5 text-success" />
                      </header>
                      <div className="space-y-4">
                         {getUpcomingEvents(7).map(event => <div key={event.id} className="p-6 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-between group hover:bg-white/5 transition-all">
                              <div className="flex items-center gap-6">
-                                <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center border", event.status === 'scheduled' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' : 'bg-slate-500/10 border-white/5 text-slate-500')}>
+                                <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center border", event.status === 'scheduled' ? 'bg-brand/100/10 border-blue-500/20 text-brand' : 'bg-muted border-white/5 text-muted-foreground')}>
                                    <Zap className="w-4 h-4" />
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-black text-white italic tracking-widest leading-none mb-1">{event.title}</h3>
-                                   <p className="text-[9px] font-bold text-slate-600 italic">{format(new Date(event.startDate), "MMM d, yyyy @ h:mm a")}</p>
+                                   <p className="text-[9px] font-bold text-muted-foreground italic">{format(new Date(event.startDate), "MMM d, yyyy @ h:mm a")}</p>
                                 </div>
                              </div>
-                             <ChevronRight className="w-4 h-4 text-slate-800 group-hover:text-slate-400 transition-colors" />
+                             <ChevronRight className="w-4 h-4 text-foreground group-hover:text-muted-foreground transition-colors" />
                           </div>)}
                      </div>
                   </Card>
@@ -881,18 +881,18 @@ export default function Events() {
         }} animate={{
           opacity: 1,
           scale: 1
-        }} className="w-full max-w-3xl bg-[#1a1b1e] border border-white/10 rounded-[40px] overflow-hidden shadow-3xl">
+        }} className="w-full max-w-3xl bg-card border border-white/10 rounded-[40px] overflow-hidden shadow-3xl">
               <div className="p-12 space-y-12">
                  <header className="flex items-center justify-between">
                     <div className="space-y-4">
                        <div className="flex gap-2">
-                          <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/10 px-4 py-1.5 text-[9px] font-black italic">{t("client.src.temporal_analysis")}</Badge>
-                          <Badge className={cn("border px-4 py-1.5 text-[9px] font-black  italic", selectedEvent.priority === 'urgent' ? 'bg-red-500/10 border-red-500/20 text-red-500' : selectedEvent.priority === 'high' ? 'bg-orange-500/10 border-orange-500/20 text-orange-500' : 'bg-slate-500/10 border-white/5 text-slate-500')}>
-                             {selectedEvent.priority}{t("client.src.priority")}</Badge>
+                          <Badge className="bg-brand/100/10 text-brand border border-blue-500/10 px-4 py-1.5 text-[9px] font-black italic">{t("client.src.temporal_analysis")}</Badge>
+                          <Badge className={cn("border px-4 py-1.5 text-[9px] font-black  italic", selectedEvent.priority === 'urgent' ? 'bg-red-500/10 border-red-500/20 text-red-500' : selectedEvent.priority === 'high' ? 'bg-warning/10 border-warning/20 text-orange-500' : 'bg-muted border-white/5 text-muted-foreground')}>
+                             {selectedEvent.priority}{t("common.priority")}</Badge>
                        </div>
                        <h2 className="text-5xl font-black text-white italic tracking-tighter leading-none">{selectedEvent.title}</h2>
                     </div>
-                    <Button variant="ghost" onClick={() => setSelectedEvent(null)} className="h-16 w-16 rounded-[24px] bg-white/5 hover:bg-white/10 transition-all">
+                    <Button variant="ghost" onClick={() => setSelectedEvent(null)} className="h-16 w-16 rounded-[24px] bg-white/5 hover:bg-white/10 transition-all" aria-label={t("common.close")}>
                        <XCircle className="w-8 h-8 text-white" />
                     </Button>
                  </header>
@@ -900,21 +900,21 @@ export default function Events() {
                  <div className="grid grid-cols-2 gap-10 py-12 border-y border-white/5">
                     <div className="space-y-6">
                        <div className="flex gap-4 items-center">
-                          <div className="h-12 w-12 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-center text-blue-400">
+                          <div className="h-12 w-12 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-center text-brand">
                              <Clock className="w-5 h-5" />
                           </div>
                           <div>
-                             <p className="text-[9px] font-black text-slate-600 italic tracking-widest mb-1">{t("client.src.time_alignment")}</p>
+                             <p className="text-[9px] font-black text-muted-foreground italic tracking-widest mb-1">{t("client.src.time_alignment")}</p>
                              <p className="text-lg font-black text-white italic leading-none">{format(new Date(selectedEvent.startDate), "MMM d, yyyy")} @ {format(new Date(selectedEvent.startDate), "h:mm a")}</p>
                           </div>
                        </div>
                        
                        <div className="flex gap-4 items-center">
-                          <div className="h-12 w-12 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-center text-emerald-400">
+                          <div className="h-12 w-12 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-center text-success">
                              <MapPin className="w-5 h-5" />
                           </div>
                           <div>
-                             <p className="text-[9px] font-black text-slate-600 italic tracking-widest mb-1">{t("client.src.geospatial_data")}</p>
+                             <p className="text-[9px] font-black text-muted-foreground italic tracking-widest mb-1">{t("client.src.geospatial_data")}</p>
                              <p className="text-lg font-black text-white italic leading-none">{selectedEvent.location?.address || 'VIRTUAL NODE'}</p>
                           </div>
                        </div>
@@ -922,31 +922,31 @@ export default function Events() {
                     
                     <div className="space-y-6 text-right">
                        <div className="flex flex-col items-end">
-                          <p className="text-[9px] font-black text-slate-600 italic tracking-widest mb-2">{t("client.src.protocol_status")}</p>
-                          <Badge className={cn("px-6 py-2 rounded-xl text-xs font-black italic ", selectedEvent.status === 'scheduled' ? 'bg-blue-500 text-white shadow-[0_0_20px_#3b82f6]' : selectedEvent.status === 'completed' ? 'bg-emerald-500 text-white shadow-[0_0_20px_#10b981]' : 'bg-slate-700 text-white')}>
+                          <p className="text-[9px] font-black text-muted-foreground italic tracking-widest mb-2">{t("client.src.protocol_status")}</p>
+                          <Badge className={cn("px-6 py-2 rounded-xl text-xs font-black italic ", selectedEvent.status === 'scheduled' ? 'bg-brand/100 text-white shadow-[0_0_20px_#3b82f6]' : selectedEvent.status === 'completed' ? 'bg-success text-white shadow-[0_0_20px_#3b82f6]' : 'bg-muted text-white')}>
                              {selectedEvent.status}
                           </Badge>
                        </div>
                        
                        <div className="flex flex-col items-end">
-                          <p className="text-[9px] font-black text-slate-600 italic tracking-widest mb-2">{t("client.src.node_category")}</p>
+                          <p className="text-[9px] font-black text-muted-foreground italic tracking-widest mb-2">{t("client.src.node_category")}</p>
                           <p className="text-xl font-black text-white italic tracking-tighter">{selectedEvent.category}</p>
                        </div>
                     </div>
                  </div>
 
                  <div className="space-y-6">
-                    <p className="text-[10px] font-black text-slate-500 italic tracking-widest">{t("client.src.intelligence_summary")}</p>
+                    <p className="text-[10px] font-black text-muted-foreground italic tracking-widest">{t("client.src.intelligence_summary")}</p>
                     <div className="p-8 rounded-3xl bg-black/40 border border-white/5 relative overflow-hidden">
-                       <div className="absolute top-0 right-0 p-8 opacity-5 text-blue-500">
+                       <div className="absolute top-0 right-0 p-8 opacity-5 text-brand">
                           <Fingerprint className="w-24 h-24" />
                        </div>
-                       <p className="text-sm font-bold text-slate-400 italic leading-loose relative z-10">{selectedEvent.description || 'No detailed intel provided for this temporal anchor.'}</p>
+                       <p className="text-sm font-bold text-muted-foreground italic leading-loose relative z-10">{selectedEvent.description || 'No detailed intel provided for this temporal anchor.'}</p>
                     </div>
                  </div>
 
                  <div className="flex gap-4 pt-4">
-                    <Button onClick={() => setSelectedEvent(null)} className="flex-1 h-16 rounded-[24px] bg-white text-black hover:bg-slate-200 font-black italic tracking-widest text-xs shadow-xl transition-all">{t("client.src.close_tactical_hud")}</Button>
+                    <Button onClick={() => setSelectedEvent(null)} className="flex-1 h-16 rounded-[24px] bg-card text-black hover:bg-muted font-black italic tracking-widest text-xs shadow-xl transition-all">{t("client.src.close_tactical_hud")}</Button>
                     <Button variant="outline" className="h-16 px-10 rounded-[24px] border-white/10 bg-white/5 text-white hover:bg-white/10 font-black italic tracking-widest text-xs transition-all">
                        <Edit className="w-4 h-4 mr-3" />{t("client.src.edit_node")}</Button>
                  </div>

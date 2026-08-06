@@ -21,10 +21,10 @@ const events = [
 ];
 
 const EVENT_COLORS: Record<string, string> = {
-  VIEWING: "bg-blue-500/20 text-blue-400",
-  CONTRACT: "bg-green-500/20 text-green-400",
+  VIEWING: "bg-brand/100/20 text-brand",
+  CONTRACT: "bg-blue-500/20 text-blue-400",
   MAINTENANCE: "bg-amber-500/20 text-amber-400",
-  MEETING: "bg-purple-500/20 text-purple-400"
+  MEETING: "bg-brand/20 text-brand"
 };
 
 export default function CalendarPage() {
@@ -54,7 +54,7 @@ export default function CalendarPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("calendar.calendarpage.auto_ext_3")}
@@ -70,17 +70,17 @@ export default function CalendarPage() {
             transition={{ delay: 0.1 }}
             className="lg:col-span-2"
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-white">
                     {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                   </CardTitle>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="icon" className="bg-white/10 border-purple-500/30 text-white">
+                    <Button variant="outline" size="icon" aria-label={t("common.previous")} className="bg-white/10 border-brand/30 text-white">
                       <ChevronLeft className="w-4 h-4" />
                     </Button>
-                    <Button variant="outline" size="icon" className="bg-white/10 border-purple-500/30 text-white">
+                    <Button variant="outline" size="icon" aria-label={t("common.next")} className="bg-white/10 border-brand/30 text-white">
                       <ChevronRight className="w-4 h-4" />
                     </Button>
                   </div>
@@ -101,7 +101,7 @@ export default function CalendarPage() {
                       <div
                         key={idx}
                         className={`p-2 text-center rounded-lg cursor-pointer transition-colors ${
-                          isToday ? 'bg-purple-600 text-white' : 
+                          isToday ? 'bg-brand text-white' : 
                           isCurrentMonth ? 'text-white hover:bg-white/10' : 'text-gray-600'
                         }`}
                       >
@@ -120,11 +120,11 @@ export default function CalendarPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-white">{t("calendar.calendarpage.auto_ext_4")}</CardTitle>
-                  <Button size="icon" className="bg-purple-600 hover:bg-purple-700">
+                  <Button size="icon" aria-label={t("common.add")} className="bg-brand hover:bg-brand">
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>

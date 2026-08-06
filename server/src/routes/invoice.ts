@@ -4,7 +4,7 @@ import { regionMiddleware } from "../middleware/region";
 
 export const invoiceRoutes = new Elysia({ prefix: "/api/v1/invoices" })
   .use(regionMiddleware)
-  .get("/", async ({ orgId, db, query }) => {
+  .get("/", async ({ db, query }: any) => {
     try {
       const { status, customerId, dateFrom, dateTo, page = "1", limit = "50" } = query || {};
       
@@ -37,7 +37,7 @@ export const invoiceRoutes = new Elysia({ prefix: "/api/v1/invoices" })
     }
   })
 
-  .post("/", async ({ orgId, db, body }: { body: any }) => {
+  .post("/", async ({ db, body }: any) => {
     try {
       const invoice = await invoiceService.withDB(db as any).createInvoice(body);
       
@@ -53,7 +53,7 @@ export const invoiceRoutes = new Elysia({ prefix: "/api/v1/invoices" })
     }
   })
 
-  .get("/:id", async ({ orgId, db, params }) => {
+  .get("/:id", async ({ db, params }: any) => {
     try {
       const invoice = await invoiceService.withDB(db as any).getInvoices({ customerId: params.id as string });
       
@@ -75,7 +75,7 @@ export const invoiceRoutes = new Elysia({ prefix: "/api/v1/invoices" })
     }
   })
 
-  .put("/:id/status", async ({ orgId, db, params, body }) => {
+  .put("/:id/status", async ({ db, params, body }: any) => {
     try {
       const invoice = await invoiceService.withDB(db as any).updateInvoiceStatus(
         params.id as string, 
@@ -94,11 +94,11 @@ export const invoiceRoutes = new Elysia({ prefix: "/api/v1/invoices" })
     }
   })
 
-  .get("/:id/pdf", async ({ orgId, db, params }) => {
+  .get("/:id/pdf", async ({ db, params }: any) => {
     try {
       const pdfBuffer = await invoiceService.withDB(db as any).generateInvoicePDF(params.id as string);
       
-      return new Response(pdfBuffer, {
+      return new Response(pdfBuffer as any, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': `attachment; filename="invoice-${params.id}.pdf"`
@@ -112,7 +112,7 @@ export const invoiceRoutes = new Elysia({ prefix: "/api/v1/invoices" })
     }
   })
 
-  .post("/:id/send", async ({ orgId, db, params }) => {
+  .post("/:id/send", async ({ db, params }: any) => {
     try {
       await invoiceService.withDB(db as any).sendInvoiceEmail(params.id as string);
       
@@ -157,7 +157,7 @@ export const invoiceRoutes = new Elysia({ prefix: "/api/v1/invoices" })
     }
   })
 
-  .post("/templates/:templateId/customers/:customerId", async ({ orgId, db, params }) => {
+  .post("/templates/:templateId/customers/:customerId", async ({ db, params }: any) => {
     try {
       const invoice = await invoiceService.withDB(db as any).createInvoiceFromTemplate(
         params.templateId as string,

@@ -91,29 +91,29 @@ export default function BookingsPage() {
   const getStatusColor = (status: BookingStatus) => {
     switch (status) {
       case "CONFIRMED":
-        return "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20";
+        return "bg-blue-50 dark:bg-success/10 text-success dark:text-success border-blue-200 dark:border-success/20";
       case "PENDING":
         return "bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/20";
       case "CANCELLED":
         return "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20";
       case "COMPLETED":
-        return "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-500/20";
+        return "bg-brand/10 dark:bg-brand/100/10 text-brand dark:text-brand border-border dark:border-blue-500/20";
       default:
-        return "bg-slate-100 dark:bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-500/20";
+        return "bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground border-border dark:border-slate-500/20";
     }
   };
   const getRiskIcon = (level: SecurityRiskLevel) => {
     switch (level) {
       case "LOW":
-        return <CheckCircle className="w-3 h-3 text-emerald-400" />;
+        return <CheckCircle className="w-3 h-3 text-success" />;
       case "MEDIUM":
         return <Clock className="w-3 h-3 text-orange-400" />;
       case "HIGH":
         return <AlertTriangle className="w-3 h-3 text-red-400" />;
       case "CRITICAL":
-        return <Fingerprint className="w-3 h-3 text-purple-400" />;
+        return <Fingerprint className="w-3 h-3 text-brand" />;
       default:
-        return <Clock className="w-3 h-3 text-slate-400" />;
+        return <Clock className="w-3 h-3 text-muted-foreground" />;
     }
   };
   const stats = analytics ? [{
@@ -138,49 +138,49 @@ export default function BookingsPage() {
       ...prev,
       status: value as BookingStatus || undefined
     }))}>
-            <SelectTrigger className="h-10 w-48 bg-white dark:bg-slate-900/60 border-slate-200 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-300 focus:ring-blue-500/20">
+            <SelectTrigger className="h-10 w-48 bg-card dark:bg-card border-border dark:border-white/10 rounded-xl text-xs font-semibold text-muted-foreground dark:text-muted-foreground focus:ring-blue-500/20">
                <SelectValue placeholder={t("bookings.filter_status", "Filter by Status")} />
             </SelectTrigger>
-            <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 rounded-xl shadow-lg">
-              <SelectItem value="all" className="text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer">{t("bookings.all_status", "All Statuses")}</SelectItem>
-              {["DRAFT", "PENDING", "CONFIRMED", "CANCELLED", "COMPLETED"].map(s => <SelectItem key={s} value={s} className="text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer">{s}</SelectItem>)}
+            <SelectContent className="bg-card dark:bg-card border-border dark:border-white/10 rounded-xl shadow-lg">
+              <SelectItem value="all" className="text-muted-foreground dark:text-muted-foreground font-medium hover:bg-muted dark:hover:bg-white/5 cursor-pointer">{t("bookings.all_status", "All Statuses")}</SelectItem>
+              {["DRAFT", "PENDING", "CONFIRMED", "CANCELLED", "COMPLETED"].map(s => <SelectItem key={s} value={s} className="text-muted-foreground dark:text-muted-foreground font-medium hover:bg-muted dark:hover:bg-white/5 cursor-pointer">{s}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>}>
       <div className="space-y-6">
-        <div className="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-sm">
+        <div className="bg-card dark:bg-card/40 border border-border dark:border-white/10 rounded-2xl overflow-hidden shadow-sm">
           <Table>
-            <TableHeader className="bg-slate-50/50 dark:bg-white/5">
-              <TableRow className="border-slate-200 dark:border-white/10 hover:bg-transparent">
-                <TableHead className="py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 pl-6">{t("bookings.tenant_info", "Tenant Info")}</TableHead>
-                <TableHead className="text-xs font-semibold text-slate-500 dark:text-slate-400 text-center">{t("bookings.property", "Property")}</TableHead>
-                <TableHead className="text-xs font-semibold text-slate-500 dark:text-slate-400 text-center">{t("bookings.status", "Status")}</TableHead>
-                <TableHead className="text-xs font-semibold text-slate-500 dark:text-slate-400 text-center">{t("bookings.verification", "Verification")}</TableHead>
-                <TableHead className="text-xs font-semibold text-slate-500 dark:text-slate-400 text-center">{t("bookings.risk", "Risk Level")}</TableHead>
-                <TableHead className="text-xs font-semibold text-slate-500 dark:text-slate-400 text-right pr-6">{t("bookings.actions", "Actions")}</TableHead>
+            <TableHeader className="bg-muted/50 dark:bg-white/5">
+              <TableRow className="border-border dark:border-white/10 hover:bg-transparent">
+                <TableHead className="py-4 text-xs font-semibold text-muted-foreground dark:text-muted-foreground pl-6">{t("bookings.tenant_info", "Tenant Info")}</TableHead>
+                <TableHead className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground text-center">{t("bookings.property", "Property")}</TableHead>
+                <TableHead className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground text-center">{t("bookings.status", "Status")}</TableHead>
+                <TableHead className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground text-center">{t("bookings.verification", "Verification")}</TableHead>
+                <TableHead className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground text-center">{t("bookings.risk", "Risk Level")}</TableHead>
+                <TableHead className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground text-right pr-6">{t("bookings.actions", "Actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? <TableRow>
                    <TableCell colSpan={6} className="h-64 text-center">
-                      <Activity className="w-6 h-6 text-blue-500 animate-pulse mx-auto" />
+                      <Activity className="w-6 h-6 text-brand animate-pulse mx-auto" />
                    </TableCell>
-                </TableRow> : bookings?.data?.map((booking, idx) => <TableRow key={booking.id} className="border-slate-200 dark:border-white/10 group hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                </TableRow> : bookings?.data?.map((booking, idx) => <TableRow key={booking.id} className="border-border dark:border-white/10 group hover:bg-muted dark:hover:bg-white/5 transition-all">
                     <TableCell className="py-4 pl-6">
                       <div className="flex items-center gap-4">
-                         <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center font-bold text-blue-600 dark:text-blue-400 shadow-sm group-hover:scale-105 transition-transform">
+                         <div className="w-10 h-10 rounded-full bg-brand/10 dark:bg-brand/100/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center font-bold text-brand dark:text-brand shadow-sm group-hover:scale-105 transition-transform">
                             {booking.contact?.name?.[0] || "U"}
                          </div>
                          <div>
-                            <div className="text-sm font-semibold text-slate-900 dark:text-white leading-tight">{booking.contact?.name}</div>
-                            <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{booking.contact?.email}</div>
+                            <div className="text-sm font-semibold text-foreground dark:text-white leading-tight">{booking.contact?.name}</div>
+                            <div className="text-xs text-muted-foreground dark:text-muted-foreground mt-0.5">{booking.contact?.email}</div>
                          </div>
                       </div>
                     </TableCell>
                     <TableCell className="text-center">
                       <div>
-                        <div className="text-sm font-semibold text-slate-900 dark:text-white">{booking.property?.name}</div>
-                        <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 max-w-[150px] truncate mx-auto">{booking.property?.address}</div>
+                        <div className="text-sm font-semibold text-foreground dark:text-white">{booking.property?.name}</div>
+                        <div className="text-xs text-muted-foreground dark:text-muted-foreground mt-0.5 max-w-[150px] truncate mx-auto">{booking.property?.address}</div>
                       </div>
                     </TableCell>
                     <TableCell className="text-center">
@@ -190,7 +190,7 @@ export default function BookingsPage() {
                     </TableCell>
                     <TableCell className="text-center">
                        <div className="flex items-center justify-center gap-2">
-                          {booking.ownershipVerified ? <div className="flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-md border border-emerald-200 dark:border-emerald-500/20">
+                          {booking.ownershipVerified ? <div className="flex items-center gap-1.5 bg-blue-50 dark:bg-success/10 text-success dark:text-success px-2.5 py-1 rounded-md border border-blue-200 dark:border-success/20">
                               <Shield className="w-3.5 h-3.5" />
                               <span className="text-[10px] font-bold uppercase tracking-wider">{t("bookings.verified", "Verified")}</span>
                             </div> : <div className="flex items-center gap-1.5 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2.5 py-1 rounded-md border border-amber-200 dark:border-amber-500/20">
@@ -200,20 +200,20 @@ export default function BookingsPage() {
                        </div>
                     </TableCell>
                     <TableCell className="text-center">
-                       <div className="inline-flex items-center gap-2 bg-slate-50 dark:bg-slate-900/50 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10">
+                       <div className="inline-flex items-center gap-2 bg-muted dark:bg-card/50 px-3 py-1.5 rounded-lg border border-border dark:border-white/10">
                           {getRiskIcon(booking.securityScreenings?.[0]?.riskLevel || "LOW")}
-                          <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                          <span className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground">
                              {booking.riskScore ? `${(booking.riskScore * 100).toFixed(0)}%` : "N/A"}
                           </span>
                        </div>
                     </TableCell>
                     <TableCell className="text-right pr-6">
                       <div className="flex justify-end gap-2">
-                         <Button variant="outline" className="h-8 px-3 rounded-lg border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/50 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/10 gap-1.5" onClick={() => {
+                         <Button variant="outline" className="h-8 px-3 rounded-lg border-border dark:border-white/10 bg-card dark:bg-card/50 text-xs font-medium text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-white/10 gap-1.5" onClick={() => {
                     setSelectedBooking(booking);
                     setIsSecurityDialogOpen(true);
                   }}>
-                            <Eye className="w-3.5 h-3.5 text-blue-500" />{t("bookings.review", "Review")}
+                            <Eye className="w-3.5 h-3.5 text-brand" />{t("bookings.review", "Review")}
                          </Button>
                       </div>
                     </TableCell>
@@ -226,44 +226,44 @@ export default function BookingsPage() {
       {/* Modern Dialogs */}
       {/* Modern Dialogs */}
       <Dialog open={isOwnershipDialogOpen} onOpenChange={setIsOwnershipDialogOpen}>
-        <DialogContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 rounded-2xl sm:max-w-xl">
+        <DialogContent className="bg-card dark:bg-card border-border dark:border-white/10 rounded-2xl sm:max-w-xl">
           <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-slate-900 dark:text-white">{t("bookings.verify_ownership", "Verify Ownership")}</DialogTitle>
-            <DialogDescription className="text-sm text-slate-500 dark:text-slate-400 mt-1.5">{t("bookings.verify_desc", "Confirm property ownership and validate documents.")}</DialogDescription>
+            <DialogTitle className="text-xl font-semibold text-foreground dark:text-white">{t("bookings.verify_ownership", "Verify Ownership")}</DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground dark:text-muted-foreground mt-1.5">{t("bookings.verify_desc", "Confirm property ownership and validate documents.")}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-6 py-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">{t("bookings.property_id", "Property ID")}</Label>
-                <Input className="h-10 bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white focus-visible:ring-blue-500" value={ownershipData.propertyId} onChange={e => setOwnershipData(prev => ({
+                <Label className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wider">{t("bookings.property_id", "Property ID")}</Label>
+                <Input className="h-10 bg-muted dark:bg-card/50 border-border dark:border-white/10 rounded-lg text-foreground dark:text-white focus-visible:ring-blue-500" value={ownershipData.propertyId} onChange={e => setOwnershipData(prev => ({
                 ...prev,
                 propertyId: e.target.value
               }))} />
               </div>
               <div className="space-y-2">
-                <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">{t("bookings.method", "Verification Method")}</Label>
+                <Label className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wider">{t("bookings.method", "Verification Method")}</Label>
                 <Select value={ownershipData.verificationMethod} onValueChange={(value: VerificationMethod) => setOwnershipData(prev => ({
                 ...prev,
                 verificationMethod: value
               }))}>
-                  <SelectTrigger className="h-10 bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white focus:ring-blue-500"><SelectValue /></SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 rounded-xl">
-                    {["MANUAL", "API", "BLOCKCHAIN", "AI"].map(m => <SelectItem key={m} value={m} className="text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer">{m}</SelectItem>)}
+                  <SelectTrigger className="h-10 bg-muted dark:bg-card/50 border-border dark:border-white/10 rounded-lg text-foreground dark:text-white focus:ring-blue-500"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-card dark:bg-card border-border dark:border-white/10 rounded-xl">
+                    {["MANUAL", "API", "BLOCKCHAIN", "AI"].map(m => <SelectItem key={m} value={m} className="text-muted-foreground dark:text-muted-foreground font-medium hover:bg-muted dark:hover:bg-white/5 cursor-pointer">{m}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <div className="space-y-2">
-              <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">{t("bookings.notes", "Admin Notes")}</Label>
-              <Textarea className="bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white focus-visible:ring-blue-500 resize-none" value={ownershipData.notes} onChange={e => setOwnershipData(prev => ({
+              <Label className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wider">{t("bookings.notes", "Admin Notes")}</Label>
+              <Textarea className="bg-muted dark:bg-card/50 border-border dark:border-white/10 rounded-lg text-foreground dark:text-white focus-visible:ring-blue-500 resize-none" value={ownershipData.notes} onChange={e => setOwnershipData(prev => ({
               ...prev,
               notes: e.target.value
             }))} rows={3} />
             </div>
           </div>
           <DialogFooter className="gap-3 sm:justify-end">
-             <Button variant="outline" onClick={() => setIsOwnershipDialogOpen(false)} className="h-10 rounded-lg text-slate-700 dark:text-slate-300 border-slate-200 dark:border-white/10 bg-transparent hover:bg-slate-50 dark:hover:bg-white/5 font-medium">{t("bookings.cancel", "Cancel")}</Button>
-             <Button className="h-10 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 shadow-sm shadow-blue-600/20" onClick={() => selectedBooking && handleVerifyOwnership(selectedBooking.id)}>
+             <Button variant="outline" onClick={() => setIsOwnershipDialogOpen(false)} className="h-10 rounded-lg text-muted-foreground dark:text-muted-foreground border-border dark:border-white/10 bg-transparent hover:bg-muted dark:hover:bg-white/5 font-medium">{t("bookings.cancel", "Cancel")}</Button>
+             <Button className="h-10 rounded-lg bg-blue-600 hover:bg-brand text-white font-semibold px-6 shadow-sm shadow-blue-600/20" onClick={() => selectedBooking && handleVerifyOwnership(selectedBooking.id)}>
                 {verifyOwnershipMutation.isPending ? t("bookings.processing", "Processing...") : t("bookings.confirm", "Confirm Verification")}
              </Button>
           </DialogFooter>

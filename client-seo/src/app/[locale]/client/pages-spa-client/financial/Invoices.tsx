@@ -19,22 +19,22 @@ const STATUS_CONFIG: Record<string, {
   icon: any;
 }> = {
   paid: {
-    label: t("client.src.paid"),
-    cls: "bg-green-100 text-green-700",
+    label: t("common.paid"),
+    cls: "bg-blue-100 text-blue-700",
     icon: CheckCircle
   },
   pending: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     cls: "bg-blue-100 text-blue-700",
     icon: Clock
   },
   overdue: {
-    label: t("client.src.overdue"),
+    label: t("common.overdue"),
     cls: "bg-red-100 text-red-700",
     icon: AlertCircle
   },
   draft: {
-    label: t("client.src.draft"),
+    label: t("common.draft"),
     cls: "bg-gray-100 text-gray-700",
     icon: FileText
   }
@@ -84,9 +84,9 @@ export default function FinancialInvoices() {
     overdue: records.filter(r => r.paymentStatus === 'overdue').reduce((s, r) => s + r.amount, 0)
   };
   return <PageShell title={t("client.src.invoices")} description={t("client.src.manage_and_track_all")} createLabel="Create Invoice" onCreateClick={() => toast({
-    title: t("client.src.coming_soon"),
+    title: t("common.coming_soon"),
     description: t("client.src.manual_invoice_creation_is")
-  })} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search by ID, client or property..." actions={<Button variant="outline" size="icon" onClick={() => refetch()} disabled={loading}>
+  })} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search by ID, client or property..." actions={<Button variant="outline" size="icon" aria-label={t("common.refresh")} onClick={() => refetch()} disabled={loading}>
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
         </Button>} stats={[{
     label: t("client.src.total_invoices"),
@@ -98,12 +98,12 @@ export default function FinancialInvoices() {
     label: t("client.src.paid_all_time"),
     value: `$${stats.paidThisMonth.toLocaleString()}`
   }, {
-    label: t("client.src.overdue"),
+    label: t("common.overdue"),
     value: `$${stats.overdue.toLocaleString()}`
   }]}>
       <div className="space-y-6">
         <div className="flex items-center space-x-2">
-          <Button variant={filterStatus === "all" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("all")}>{t("client.src.all")}</Button>
+          <Button variant={filterStatus === "all" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("all")}>{t("common.all")}</Button>
           {Object.entries(STATUS_CONFIG).map(([key, config]) => <Button key={key} variant={filterStatus === key ? "default" : "outline"} size="sm" onClick={() => setFilterStatus(key)} className="h-8">
               <config.icon className="w-3.5 h-3.5 mr-2" />
               {config.label}
@@ -115,10 +115,10 @@ export default function FinancialInvoices() {
             <TableHeader>
               <TableRow>
                 <TableHead>{t("client.src.invoice_id_client")}</TableHead>
-                <TableHead>{t("client.src.property")}</TableHead>
-                <TableHead>{t("client.src.amount")}</TableHead>
-                <TableHead>{t("client.src.due_date")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.property")}</TableHead>
+                <TableHead>{t("common.amount")}</TableHead>
+                <TableHead>{t("common.due_date")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -140,11 +140,11 @@ export default function FinancialInvoices() {
                       </TableCell>
                       <TableCell>
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem><Download className="w-4 h-4 mr-2" />{t("client.src.download_pdf")}</DropdownMenuItem>
                             <DropdownMenuItem><Send className="w-4 h-4 mr-2" />{t("client.src.resend_email")}</DropdownMenuItem>
-                            <DropdownMenuItem className="text-destructive font-bold"><Download className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                            <DropdownMenuItem className="text-destructive font-bold"><Download className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>

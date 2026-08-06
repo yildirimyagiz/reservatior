@@ -102,7 +102,7 @@ async function fetchRatesFromAPI(base: string = 'USD'): Promise<Record<string, n
 
 // ─── Database Sync ──────────────────────────────────────────────────────────
 
-async function syncRatesToDatabase(rates: Record<string, number>, base: string = 'USD'): Promise<void> {
+export async function syncRatesToDatabase(rates: Record<string, number>, base: string = 'USD'): Promise<void> {
   const prisma = prismaManager.getClient('US'); // Base DB for currency config
 
   for (const [code, rate] of Object.entries(rates)) {
@@ -170,6 +170,32 @@ async function ensureRatesLoaded(): Promise<void> {
     }
 
     lastFetchTime = now;
+
+    // Fall back to DB rates for currencies the ECB/Frankfurter feed does not
+    // cover (e.g. AED, SAR, ARS) so every supported country currency resolves.
+    const missing = Object.keys(SUPPORTED_CURRENCIES).filter(c => c !== 'USD' && !rateCache.has(c));
+    if (missing.length > 0) {
+      try {
+        const prisma = prismaManager.getClient('US');
+        const dbRates = await prisma.currencyConfig.findMany({ where: { code: { in: missing }, isActive: true } });
+        for (const config of dbRates) {
+          if (config.exchangeRate > 0) {
+            rateCache.set(config.code, {
+              code: config.code,
+              name: config.name,
+              symbol: config.symbol,
+              rate: config.exchangeRate,
+              lastUpdated: config.lastUpdated,
+            });
+          }
+        }
+        if (dbRates.length > 0) {
+          console.log(`📦 Loaded ${dbRates.length} non-ECB rates from database: ${dbRates.map(r => r.code).join(', ')}`);
+        }
+      } catch (e) {
+        console.error('Failed to load non-ECB rates from DB:', e);
+      }
+    }
 
     // Sync to database in background (don't await)
     syncRatesToDatabase(rates).catch(e => console.error('DB sync error:', e));
@@ -256,21 +282,18 @@ export async function convert(amount: number, from: string, to: string): Promise
 export async function getMultiCurrencyPrice(amount: number, currency: string): Promise<MultiCurrencyPrice> {
   await ensureRatesLoaded();
 
-  const usdAmount = currency.toUpperCase() === 'USD' ? amount : await convert(amount, currency, 'USD');
+  const cur = currency.toUpperCase();
+  const usdAmount = cur === 'USD' ? amount : (await convert(amount, cur, 'USD')).convertedAmount;
 
   const all: Record<string, number> = {};
   for (const [code, rateInfo] of rateCache) {
-    if (currency.toUpperCase() === code) {
-      all[code] = amount;
-    } else {
-      all[code] = Math.round(usdAmount.amount * rateInfo.rate * 100) / 100;
-    }
+    all[code] = cur === code ? amount : Math.round(usdAmount * rateInfo.rate * 100) / 100;
   }
 
   return {
-    original: { amount, currency: currency.toUpperCase() },
-    usd: { amount: usdAmount.convertedAmount, currency: 'USD' },
-    local: { amount, currency: currency.toUpperCase() },
+    original: { amount, currency: cur },
+    usd: { amount: Math.round(usdAmount * 100) / 100, currency: 'USD' },
+    local: { amount, currency: cur },
     all,
   };
 }

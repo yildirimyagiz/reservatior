@@ -32,15 +32,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { tEnum } from "@/lib/admin-enums";
 
 const BUNDLE_TYPES = ["STAGING_BASIC", "STAGING_PREMIUM", "STAGING_LUXURY", "FURNITURE_ESSENTIALS", "KITCHEN_STARTER", "BEDROOM_SET", "CUSTOM"];
 
 const BUNDLE_COLORS: Record<string, string> = {
-  STAGING_BASIC: "bg-blue-500/20 text-blue-400",
-  STAGING_PREMIUM: "bg-purple-500/20 text-purple-400",
-  STAGING_LUXURY: "bg-amber-500/20 text-amber-400",
-  FURNITURE_ESSENTIALS: "bg-green-500/20 text-green-400",
-  KITCHEN_STARTER: "bg-orange-500/20 text-orange-400",
+  STAGING_BASIC: "bg-blue-500/20 text-info",
+  STAGING_PREMIUM: "bg-brand/20 text-brand",
+  STAGING_LUXURY: "bg-amber-500/20 text-warning",
+  FURNITURE_ESSENTIALS: "bg-blue-500/20 text-blue-400",
+  KITCHEN_STARTER: "bg-orange-500/20 text-warning",
   BEDROOM_SET: "bg-pink-500/20 text-pink-400",
   CUSTOM: "bg-gray-500/20 text-gray-400",
 };
@@ -78,8 +79,8 @@ export default function BundlesPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_bundles_title", "Product Bundles")}</h1>
-              <p className="text-muted-foreground">{t("admin_bundles_description", "Create and manage staging bundles for properties")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_bundles_title", "Hizmet Paketleri ve Paketler (Bundles)")}</h1>
+              <p className="text-muted-foreground">{t("admin_bundles_description", "Çoklu hizmet paketlerini ve indirimli teklifleri yönetin")}</p>
             </div>
           </div>
         </m.div>
@@ -91,7 +92,7 @@ export default function BundlesPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/10"><Box className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_bundles_total", "Total Bundles")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_bundles_total", "Toplam Paket")}</p>
                   <p className="text-2xl font-bold text-foreground">{totalBundles}</p>
                 </div>
               </div>
@@ -100,9 +101,9 @@ export default function BundlesPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10"><Package className="w-5 h-5 text-green-500" /></div>
+                <div className="p-2 rounded-lg bg-blue-500/10"><Package className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_bundles_active", "Active")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_bundles_active", "Aktif")}</p>
                   <p className="text-2xl font-bold text-foreground">{activeBundles}</p>
                 </div>
               </div>
@@ -113,7 +114,7 @@ export default function BundlesPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-amber-500/10"><Tag className="w-5 h-5 text-amber-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_bundles_total_value", "Total Value")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_bundles_total_value", "Toplam Değer")}</p>
                   <p className="text-2xl font-bold text-foreground">${totalRevenue.toLocaleString()}</p>
                 </div>
               </div>
@@ -130,7 +131,7 @@ export default function BundlesPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin_bundles_search_placeholder", "Search bundles...")}
+                      placeholder={t("admin_bundles_search_placeholder", "Paket ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -139,16 +140,16 @@ export default function BundlesPage() {
                 </div>
                 <Select value={typeFilter} onValueChange={setTypeFilter}>
                   <SelectTrigger className="w-[200px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_bundles_type", "Bundle Type")} />
+                    <SelectValue placeholder={t("admin_bundles_type", "Paket Türü")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">{t("admin_bundles_all_types", "All Types")}</SelectItem>
-                    {BUNDLE_TYPES.map((bt) => <SelectItem key={bt} value={bt}>{bt.replace(/_/g, " ")}</SelectItem>)}
+                    <SelectItem value="all">{t("admin_bundles_all_types", "Tüm Türler")}</SelectItem>
+                    {BUNDLE_TYPES.map((bt) => <SelectItem key={bt} value={bt}>{tEnum(t, bt)}</SelectItem>)}
                   </SelectContent>
                 </Select>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_bundles_add", "Create Bundle")}
+                  {t("admin_bundles_add", "Paket Oluştur")}
                 </Button>
               </div>
             </CardContent>
@@ -163,14 +164,14 @@ export default function BundlesPage() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h2 className="font-semibold text-foreground">{bundle.name}</h2>
-                    <Badge className={`${BUNDLE_COLORS[bundle.bundleType]} mt-1`}>{bundle.bundleType.replace(/_/g, " ")}</Badge>
+                    <Badge className={`${BUNDLE_COLORS[bundle.bundleType]} mt-1`}>{tEnum(t, bundle.bundleType)}</Badge>
                   </div>
-                  {bundle.isActive ? <Badge className="bg-green-500/20 text-green-400">Active</Badge> : <Badge className="bg-gray-500/20 text-gray-400">Inactive</Badge>}
+                  {bundle.isActive ? <Badge className="bg-blue-500/20 text-blue-400">{tEnum(t, "ACTIVE")}</Badge> : <Badge className="bg-gray-500/20 text-gray-400">{tEnum(t, "INACTIVE")}</Badge>}
                 </div>
                 <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{bundle.description}</p>
                 <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
-                  <Package className="w-3.5 h-3.5" />{bundle.items.length} items
-                  {bundle.bedrooms != null && <span>• {bundle.bedrooms} BR</span>}
+                  <Package className="w-3.5 h-3.5" />{bundle.items.length} {t("admin_bundles_items", "ürün")}
+                  {bundle.bedrooms != null && <span>• {bundle.bedrooms} {t("admin_bundles_br", "BR")}</span>}
                 </div>
                 <div className="flex items-baseline gap-2 mb-4">
                   <span className="text-xl font-bold text-foreground">${bundle.totalPrice.toLocaleString()}</span>
@@ -178,8 +179,8 @@ export default function BundlesPage() {
                   {bundle.discountPct && <Badge className="bg-red-500/20 text-red-400 text-xs">-{bundle.discountPct}%</Badge>}
                 </div>
                 <div className="flex gap-2 pt-3 border-t border-border">
-                  <Button onClick={() => { setEditingItem(bundle); setIsEditOpen(true); }} variant="ghost" size="sm" className="flex-1"><Edit className="w-3.5 h-3.5 mr-1" />{t("admin_action_edit", "Edit")}</Button>
-                  <Button onClick={() => { setDeletingItem(bundle); setIsDeleteOpen(true); }} variant="ghost" size="sm" className="text-red-400"><Trash2 className="w-3.5 h-3.5" /></Button>
+                  <Button onClick={() => { setEditingItem(bundle); setIsEditOpen(true); }} variant="ghost" size="sm" className="flex-1"><Edit className="w-3.5 h-3.5 mr-1" />{t("admin_action_edit", "Düzenle")}</Button>
+                  <Button onClick={() => { setDeletingItem(bundle); setIsDeleteOpen(true); }} variant="ghost" size="sm" className="text-red-400" aria-label={t("common.delete")}><Trash2 className="w-3.5 h-3.5" /></Button>
                 </div>
               </CardContent>
             </Card>
@@ -207,33 +208,33 @@ function CreateBundleDialog({ open, onOpenChange }: { open: boolean; onOpenChang
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bundles_create_title", "Create Bundle")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_bundles_create_desc", "Create a new staging bundle.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bundles_create_title", "Paket Oluştur")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_bundles_create_desc", "Yeni bir paket oluşturun.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bundles_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bundles_name", "Ad")}</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bundles_type", "Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bundles_type", "Paket Türü")}</Label>
             <Select value={bundleType} onValueChange={setBundleType}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors"><SelectValue /></SelectTrigger>
-              <SelectContent>{BUNDLE_TYPES.map((bt) => <SelectItem key={bt} value={bt}>{bt.replace(/_/g, " ")}</SelectItem>)}</SelectContent>
+              <SelectContent>{BUNDLE_TYPES.map((bt) => <SelectItem key={bt} value={bt}>{tEnum(t, bt)}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bundles_price", "Price")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bundles_price", "Fiyat")}</Label>
             <Input type="number" value={totalPrice} onChange={(e) => setTotalPrice(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bundles_description", "Description")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bundles_description", "Çoklu hizmet paketlerini ve indirimli teklifleri yönetin")}</Label>
             <Input value={description} onChange={(e) => setDescription(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -250,29 +251,29 @@ function EditBundleDialog({ open, onOpenChange, item }: { open: boolean; onOpenC
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bundles_edit_title", "Edit Bundle")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_bundles_edit_desc", "Update bundle details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bundles_edit_title", "Paketi Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_bundles_edit_desc", "Paket bilgilerini güncelleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bundles_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bundles_name", "Ad")}</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bundles_type", "Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bundles_type", "Paket Türü")}</Label>
             <Select value={bundleType} onValueChange={setBundleType}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors"><SelectValue /></SelectTrigger>
-              <SelectContent>{BUNDLE_TYPES.map((bt) => <SelectItem key={bt} value={bt}>{bt.replace(/_/g, " ")}</SelectItem>)}</SelectContent>
+              <SelectContent>{BUNDLE_TYPES.map((bt) => <SelectItem key={bt} value={bt}>{tEnum(t, bt)}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bundles_price", "Price")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bundles_price", "Fiyat")}</Label>
             <Input type="number" value={totalPrice} onChange={(e) => setTotalPrice(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -285,12 +286,12 @@ function DeleteBundleDialog({ open, onOpenChange, item, onConfirm }: { open: boo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bundles_delete_title", "Delete Bundle")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_bundles_delete_desc", "Are you sure you want to delete")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bundles_delete_title", "Paketi Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_bundles_delete_desc", "Bu kaydı sistemden güvenli şekilde arşivlemek istediğinize emin misiniz?")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

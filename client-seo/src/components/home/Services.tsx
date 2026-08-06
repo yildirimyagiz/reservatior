@@ -7,66 +7,66 @@ const services = [{
   icon: Brain,
   title: t("client.src.ai_price_predictions"),
   description: t("client.src.get_instant_aipowered_property"),
-  color: "text-purple-500",
-  bgColor: "bg-purple-500/10",
+  color: "text-brand",
+  bgColor: "bg-brand/10",
   featured: true
 }, {
   icon: Video,
   title: t("client.src.video_vendor_network"),
   description: t("client.src.connect_with_professional_videographers"),
-  color: "text-blue-500",
-  bgColor: "bg-blue-500/10",
+  color: "text-brand",
+  bgColor: "bg-brand/100/10",
   featured: true
 }, {
   icon: TrendingUp,
   title: t("client.src.market_intelligence"),
   description: t("client.src.realtime_market_insights_and"),
-  color: "text-green-500",
-  bgColor: "bg-green-500/10",
+  color: "text-blue-500",
+  bgColor: "bg-blue-500/10",
   featured: true
 }, {
   icon: Shield,
   title: t("client.src.ownership_verification"),
   description: t("client.src.blockchainverified_property_ownership_for"),
   color: "text-orange-500",
-  bgColor: "bg-orange-500/10",
+  bgColor: "bg-warning/10",
   featured: true
 }, {
   icon: Sparkles,
   title: t("client.src.ai_virtual_staging"),
   description: t("client.src.transform_empty_spaces_into"),
-  color: "text-purple-500",
-  bgColor: "bg-purple-500/10"
+  color: "text-brand",
+  bgColor: "bg-brand/10"
 }, {
   icon: Building,
   title: t("client.src.property_management"),
   description: t("client.src.complete_tools_for_managing"),
-  color: "text-blue-500",
-  bgColor: "bg-blue-500/10"
+  color: "text-brand",
+  bgColor: "bg-brand/100/10"
 }, {
   icon: Users,
   title: t("client.src.lead_generation"),
   description: t("client.src.aipowered_lead_scoring_and"),
-  color: "text-green-500",
-  bgColor: "bg-green-500/10"
+  color: "text-blue-500",
+  bgColor: "bg-blue-500/10"
 }, {
   icon: DollarSign,
   title: t("client.src.financial_tools"),
   description: t("client.src.track_commissions_escrow_and"),
   color: "text-orange-500",
-  bgColor: "bg-orange-500/10"
+  bgColor: "bg-warning/10"
 }, {
   icon: Home,
   title: t("client.src.vacation_rentals"),
   description: t("client.src.manage_shortterm_rentals_with"),
-  color: "text-blue-500",
-  bgColor: "bg-blue-500/10"
+  color: "text-brand",
+  bgColor: "bg-brand/100/10"
 }, {
   icon: Search,
   title: t("client.src.advanced_search"),
   description: t("client.src.aipowered_property_search_with"),
-  color: "text-indigo-500",
-  bgColor: "bg-indigo-500/10"
+  color: "text-brand",
+  bgColor: "bg-brand/10"
 }, {
   icon: MapPin,
   title: t("client.src.location_analytics"),

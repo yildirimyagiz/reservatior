@@ -16,14 +16,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from"@/
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from"@/components/ui/dropdown-menu";
 import { useToast } from"@/hooks/use-toast";
 import { Edit, Trash2, MoreHorizontal } from"lucide-react";
-import { PageShell } from"@/pages-spa/client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 const getStatusConfig = (t: any): Record<string, {
  label: string;
  cls: string;
 }> => ({
  CONFIRMED: {
  label: t("admin_reservations_confirmed","Onaylandı"),
- cls:"bg-green-100 text-green-700"
+ cls:"bg-blue-100 text-blue-700"
  },
  PENDING: {
  label: t("admin_reservations_pending","Bekliyor"),
@@ -31,7 +31,7 @@ const getStatusConfig = (t: any): Record<string, {
  },
  COMPLETED: {
  label: t("admin_reservations_completed","Tamamlandı"),
- cls:"bg-slate-100 text-slate-700"
+ cls:"bg-muted text-muted-foreground"
  },
  CANCELLED: {
  label: t("admin_reservations_cancelled","İptal Edildi"),
@@ -228,7 +228,7 @@ export default function Reservations() {
  <TableCell className="text-sm">{row.totalAmount ??"—"}</TableCell>
  <TableCell>
  <DropdownMenu>
- <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+ <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end">
  <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin_reservations_edit")}</DropdownMenuItem>
  <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin_reservations_delete")}</DropdownMenuItem>

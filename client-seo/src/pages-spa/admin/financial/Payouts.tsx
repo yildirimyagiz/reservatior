@@ -2,7 +2,7 @@
 
 import { t } from"i18next";
 import { useState, useEffect, FormEvent } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -16,6 +16,7 @@ import { financialsApi, type Payout } from"@/lib/api/financials";
 import { Edit, Trash2, MoreHorizontal, Loader2, RefreshCw, CreditCard, Activity, DollarSign, Wallet, Zap, Clock, Shield, Search, Plus } from"lucide-react";
 import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
 import { useTranslation } from"react-i18next";
+import { tEnum } from"@/lib/admin-enums";
 import { cn } from"@/lib/utils";
 import { m, AnimatePresence } from"framer-motion";
 import { Card, CardContent } from"@/components/ui/card";
@@ -23,7 +24,7 @@ const STATUS_CONFIG = (t: any) => {
  return {
  PAID: {
  label: t("paid"),
- cls:"bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+ cls:"bg-blue-500/10 text-success border-blue-500/20"
  },
  PENDING: {
  label: t("financialPayoutsStatusPending"),
@@ -218,12 +219,12 @@ export default function Payouts() {
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <Wallet className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("financialPayoutsCompleted")}</p>
- <h3 className="text-3xl font-bold text-emerald-400 leading-none">{payouts.filter(r => r.status === 'PAID').length}</h3>
+ <h3 className="text-3xl font-bold text-success leading-none">{payouts.filter(r => r.status === 'PAID').length}</h3>
  </CardContent>
  </Card>
 
@@ -233,12 +234,12 @@ export default function Payouts() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("financialPayoutsPending")}</p>
- <h3 className="text-3xl font-bold text-orange-400 leading-none">{payouts.filter(r => r.status === 'PENDING').length}</h3>
+ <h3 className="text-3xl font-bold text-warning leading-none">{payouts.filter(r => r.status === 'PENDING').length}</h3>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <DollarSign className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
@@ -263,7 +264,7 @@ export default function Payouts() {
  <Button onClick={() => {
  setForm(EMPTY_FORM);
  setCreateOpen(true);
- }} className="bg-slate-600 hover:bg-muted0 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
+ }} className="bg-muted hover:bg-muted0 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
  <Plus className="w-4 h-4" />
  {t("financialInitnode")}
  </Button>
@@ -290,12 +291,12 @@ export default function Payouts() {
  <TableCell className="px-8 text-sm text-muted-foreground font-bold">{row.scheduledAt ? new Date(row.scheduledAt).toLocaleDateString() :"—"}</TableCell>
  <TableCell className="px-8">
  <Badge className={cn("text-[9px] font-bold px-4 py-1.5 rounded-full border-none shadow-lg", (statusConfig as any)[row.status]?.cls ||"bg-muted text-muted-foreground")}>
- {(statusConfig as any)[row.status]?.label || row.status}
+  {(statusConfig as any)[row.status]?.label || tEnum(t, row.status)}
  </Badge>
  </TableCell>
  <TableCell className="px-8">
  <DropdownMenu>
- <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+ <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8 text-muted-foreground hover:text-foreground"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border rounded-2xl">
  <DropdownMenuItem onClick={() => window.location.href = `/checkout?type=PAYOUT&amount=${row.amount}&id=${row.id}`} className="font-bold text-[10px]">
  <CreditCard className="w-4 h-4 mr-2 text-muted-foreground" />{t("admin_financial_pay_with_stripe")}</DropdownMenuItem>

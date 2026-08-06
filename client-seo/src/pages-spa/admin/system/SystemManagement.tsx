@@ -93,13 +93,13 @@ export default function SystemManagement() {
  });
  const getStatusColor = (status: string) => {
  switch (status) {
- case 'ACTIVE': case 'COMPLETED': case 'SUCCESS': return 'bg-green-500';
+ case 'ACTIVE': case 'COMPLETED': case 'SUCCESS': return 'bg-blue-500';
  case 'INACTIVE': case 'PENDING': return 'bg-yellow-500';
  case 'PAUSED': case 'PROCESSING': return 'bg-muted0';
  case 'ERROR': case 'FAILED': case 'CRITICAL': return 'bg-red-500';
  case 'TIMEOUT': case 'RETRY': return 'bg-orange-500';
- case 'CANCELLED': return 'bg-white/10';
- default: return 'bg-white/10';
+ case 'CANCELLED': return 'bg-card/10';
+ default: return 'bg-card/10';
  }
  };
  const getPriorityColor = (priority: string) => {
@@ -107,8 +107,8 @@ export default function SystemManagement() {
  case 'CRITICAL': return 'bg-red-500';
  case 'HIGH': return 'bg-orange-500';
  case 'NORMAL': return 'bg-muted0';
- case 'LOW': return 'bg-white/10';
- default: return 'bg-white/10';
+ case 'LOW': return 'bg-card/10';
+ default: return 'bg-card/10';
  }
  };
  const automationRules = systemData?.automationRules || [];
@@ -167,7 +167,7 @@ export default function SystemManagement() {
  <TrendingUp className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-400">{systemMetrics.successRate.toFixed(1)}%</div>
+ <div className="text-2xl font-bold text-blue-400">{systemMetrics.successRate.toFixed(1)}%</div>
  <p className="text-xs text-muted-foreground">{t("admin_system_last_24_hours")}</p>
  </CardContent>
  </Card>
@@ -179,7 +179,7 @@ export default function SystemManagement() {
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">{systemMetrics.queueSize.toLocaleString()}</div>
- <p className="text-xs text-muted-foreground">{systemMetrics.processingRate}{t("admin_auto_min_processing", "/min processing")}</p>
+ <p className="text-xs text-muted-foreground">{systemMetrics.processingRate}{t("admin_auto_min_processing", "/dak işleme")}</p>
  </CardContent>
  </Card>
 
@@ -189,8 +189,8 @@ export default function SystemManagement() {
  <Activity className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className={`text-2xl font-bold ${systemMetrics.systemHealth === 'HEALTHY' ? 'text-green-400' : systemMetrics.systemHealth === 'WARNING' ? 'text-yellow-400' : 'text-red-400'}`}>
- {systemMetrics.systemHealth === 'HEALTHY' ? t("admin_system_health_healthy","Sağlıklı") : systemMetrics.systemHealth === 'WARNING' ? t("admin_system_health_warning","Uyarı") : t("admin_system_health_critical","Kritik")}
+ <div className={`text-2xl font-bold ${systemMetrics.systemHealth === 'HEALTHY' ? 'text-blue-400' : systemMetrics.systemHealth === 'WARNING' ? 'text-yellow-400' : 'text-red-400'}`}>
+ {systemMetrics.systemHealth === 'HEALTHY' ? t("admin_system_health_healthy","Sağlıklı") : systemMetrics.systemHealth === 'WARNING' ? t("admin_system_health_warning","Uyarı") : t("admin_system_health_critical", "eleştiri")}
  </div>
  <p className="text-xs text-muted-foreground">{Math.floor(systemMetrics.uptime / 3600)}{t("admin_system_h_uptime")}</p>
  </CardContent>
@@ -199,11 +199,11 @@ export default function SystemManagement() {
 
  <Tabs defaultValue="automation" className="space-y-4">
  <TabsList className="bg-card border border-border">
- <TabsTrigger value="automation" className="text-muted-foreground data-[state=active]:bg-white/10 data-[state=active]:text-white">{t("admin_system_automation_rules")}</TabsTrigger>
- <TabsTrigger value="executions" className="text-muted-foreground data-[state=active]:bg-white/10 data-[state=active]:text-white">{t("admin_system_executions")}</TabsTrigger>
- <TabsTrigger value="queue" className="text-muted-foreground data-[state=active]:bg-white/10 data-[state=active]:text-white">{t("admin_system_message_queue")}</TabsTrigger>
- <TabsTrigger value="integrations" className="text-muted-foreground data-[state=active]:bg-white/10 data-[state=active]:text-white">{t("admin_system_integration_logs")}</TabsTrigger>
- <TabsTrigger value="metrics" className="text-muted-foreground data-[state=active]:bg-white/10 data-[state=active]:text-white">{t("admin_system_system_metrics")}</TabsTrigger>
+ <TabsTrigger value="automation" className="text-muted-foreground data-[state=active]:bg-card/10 data-[state=active]:text-white">{t("admin_system_automation_rules")}</TabsTrigger>
+ <TabsTrigger value="executions" className="text-muted-foreground data-[state=active]:bg-card/10 data-[state=active]:text-white">{t("admin_system_executions")}</TabsTrigger>
+ <TabsTrigger value="queue" className="text-muted-foreground data-[state=active]:bg-card/10 data-[state=active]:text-white">{t("admin_system_message_queue")}</TabsTrigger>
+ <TabsTrigger value="integrations" className="text-muted-foreground data-[state=active]:bg-card/10 data-[state=active]:text-white">{t("admin_system_integration_logs")}</TabsTrigger>
+ <TabsTrigger value="metrics" className="text-muted-foreground data-[state=active]:bg-card/10 data-[state=active]:text-white">{t("admin_system_system_metrics")}</TabsTrigger>
  </TabsList>
 
  <TabsContent value="automation" className="space-y-4">
@@ -211,7 +211,7 @@ export default function SystemManagement() {
  <div className="flex gap-2">
  <div className="relative">
  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
- <Input placeholder={t("admin_system_search_rules")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64 bg-card border-border text-foreground placeholder:text-slate-500" />
+ <Input placeholder={t("admin_system_search_rules")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64 bg-card border-border text-foreground placeholder:text-muted-foreground" />
  </div>
  <Select value={statusFilter} onValueChange={setStatusFilter}>
  <SelectTrigger className="w-32 bg-card border-border text-foreground">
@@ -266,7 +266,7 @@ export default function SystemManagement() {
  </TableCell>
  <TableCell>
  <div className="flex items-center gap-2">
- <Progress value={rule.successRate} className="w-16 bg-white/10 [&>div]:bg-emerald-500" />
+ <Progress value={rule.successRate} className="w-16 bg-card/10 [&>div]:bg-blue-500" />
  <span className="text-sm text-foreground">{rule.successRate.toFixed(1)}%</span>
  </div>
  </TableCell>
@@ -276,15 +276,15 @@ export default function SystemManagement() {
  <TableCell className="text-muted-foreground">{rule.nextRun ? new Date(rule.nextRun).toLocaleString() : 'Not scheduled'}</TableCell>
  <TableCell>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm" className="text-muted-foreground">
+ <Button variant="ghost" size="sm" className="text-muted-foreground" aria-label={t("common.view")}>
  <Eye className="h-4 w-4" />
  </Button>
- <Button variant="ghost" size="sm" className="text-muted-foreground">
+ <Button variant="ghost" size="sm" className="text-muted-foreground" aria-label={t("common.edit")}>
  <Edit className="h-4 w-4" />
  </Button>
- {rule.status === 'ACTIVE' ? <Button variant="ghost" size="sm" className="text-muted-foreground">
+ {rule.status === 'ACTIVE' ? <Button variant="ghost" size="sm" className="text-muted-foreground" aria-label={t("common.pause")}>
  <Pause className="h-4 w-4" />
- </Button> : <Button variant="ghost" size="sm" className="text-muted-foreground">
+ </Button> : <Button variant="ghost" size="sm" className="text-muted-foreground" aria-label={t("common.play")}>
  <Play className="h-4 w-4" />
  </Button>}
  </div>
@@ -329,10 +329,10 @@ export default function SystemManagement() {
  <TableCell className="text-muted-foreground">{new Date(execution.startedAt).toLocaleString()}</TableCell>
  <TableCell className="text-muted-foreground">{execution.duration ? `${execution.duration}ms` : '-'}</TableCell>
  <TableCell>
- {execution.error ? <span className="text-red-400 text-sm truncate max-w-xs">{execution.error}</span> : <span className="text-green-400 text-sm">{execution.status === 'COMPLETED' ? t("admin_system_success","Başarılı") : t(`admin.system.status_${execution.status.toLowerCase()}`, execution.status)}</span>}
+ {execution.error ? <span className="text-red-400 text-sm truncate max-w-xs">{execution.error}</span> : <span className="text-blue-400 text-sm">{execution.status === 'COMPLETED' ? t("admin_system_success","Başarılı") : t(`admin.system.status_${execution.status.toLowerCase()}`, execution.status)}</span>}
  </TableCell>
  <TableCell>
- <Button variant="ghost" size="sm" className="text-muted-foreground">
+ <Button variant="ghost" size="sm" className="text-muted-foreground" aria-label={t("common.view")}>
  <Eye className="h-4 w-4" />
  </Button>
  </TableCell>
@@ -348,7 +348,7 @@ export default function SystemManagement() {
  <div className="flex gap-2">
  <div className="relative">
  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
- <Input placeholder={t("admin_system_search_messages")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64 bg-card border-border text-foreground placeholder:text-slate-500" />
+ <Input placeholder={t("admin_system_search_messages")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64 bg-card border-border text-foreground placeholder:text-muted-foreground" />
  </div>
  <Select value={statusFilter} onValueChange={setStatusFilter}>
  <SelectTrigger className="w-32 bg-card border-border text-foreground">
@@ -383,7 +383,7 @@ export default function SystemManagement() {
  <CardContent className="p-4">
  <div className="flex items-center justify-between mb-2">
  <div className="font-medium text-foreground">{config.name}</div>
- <Switch checked={config.isActive} className="data-[state=checked]:bg-emerald-600" />
+ <Switch checked={config.isActive} className="data-[state=checked]:bg-blue-600" />
  </div>
  <div className="space-y-1 text-sm">
  <div className="flex justify-between">
@@ -396,7 +396,7 @@ export default function SystemManagement() {
  </div>
  <div className="flex justify-between">
  <span className="text-muted-foreground">{t("admin_system_rate")}</span>
- <span className="text-foreground">{config.processingRate}{t("admin_auto_min", "/min")}</span>
+ <span className="text-foreground">{config.processingRate}{t("admin_auto_min", "/dak")}</span>
  </div>
  </div>
  </CardContent>
@@ -448,10 +448,10 @@ export default function SystemManagement() {
  <TableCell className="text-muted-foreground">{message.processingTime ? `${message.processingTime}ms` : '-'}</TableCell>
  <TableCell>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm" className="text-muted-foreground">
+ <Button variant="ghost" size="sm" className="text-muted-foreground" aria-label={t("common.view")}>
  <Eye className="h-4 w-4" />
  </Button>
- {message.status === 'FAILED' && <Button variant="ghost" size="sm" className="text-muted-foreground">
+ {message.status === 'FAILED' && <Button variant="ghost" size="sm" className="text-muted-foreground" aria-label={t("common.refresh")}>
  <RefreshCw className="h-4 w-4" />
  </Button>}
  </div>
@@ -467,7 +467,7 @@ export default function SystemManagement() {
  <div className="flex gap-2">
  <div className="relative">
  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
- <Input placeholder={t("admin_system_search_logs")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64 bg-card border-border text-foreground placeholder:text-slate-500" />
+ <Input placeholder={t("admin_system_search_logs")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-64 bg-card border-border text-foreground placeholder:text-muted-foreground" />
  </div>
  <Select value={statusFilter} onValueChange={setStatusFilter}>
  <SelectTrigger className="w-32 bg-card border-border text-foreground">
@@ -509,7 +509,7 @@ export default function SystemManagement() {
  <Badge variant="outline" className="text-muted-foreground border-border">{log.integrationType}</Badge>
  </TableCell>
  <TableCell>
- <div className={`flex items-center gap-1 ${log.direction === 'INBOUND' ? 'text-muted-foreground' : 'text-green-400'}`}>
+ <div className={`flex items-center gap-1 ${log.direction === 'INBOUND' ? 'text-muted-foreground' : 'text-blue-400'}`}>
  {log.direction === 'INBOUND' ? <Wifi className="h-3 w-3" /> : <Link className="h-3 w-3" />}
  <span className="capitalize">{t(`admin.system.direction_${log.direction.toLowerCase()}`, log.direction)}</span>
  </div>
@@ -530,7 +530,7 @@ export default function SystemManagement() {
  </div>
  </TableCell>
  <TableCell>
- <Button variant="ghost" size="sm" className="text-muted-foreground">
+ <Button variant="ghost" size="sm" className="text-muted-foreground" aria-label={t("common.view")}>
  <Eye className="h-4 w-4" />
  </Button>
  </TableCell>
@@ -554,14 +554,14 @@ export default function SystemManagement() {
  <span className="text-muted-foreground">{t("admin_system_cpu_usage")}</span>
  <span className="text-foreground">{systemMetrics.cpuUsage.toFixed(1)}%</span>
  </div>
- <Progress value={systemMetrics.cpuUsage} className="bg-white/10 [&>div]:bg-muted0" />
+ <Progress value={systemMetrics.cpuUsage} className="bg-card/10 [&>div]:bg-muted0" />
  </div>
  <div>
  <div className="flex justify-between text-sm">
  <span className="text-muted-foreground">{t("admin_system_memory_usage")}</span>
  <span className="text-foreground">{systemMetrics.memoryUsage.toFixed(1)}%</span>
  </div>
- <Progress value={systemMetrics.memoryUsage} className="bg-white/10 [&>div]:bg-muted0" />
+ <Progress value={systemMetrics.memoryUsage} className="bg-card/10 [&>div]:bg-muted0" />
  </div>
  <div>
  <div className="flex justify-between text-sm">
@@ -586,7 +586,7 @@ export default function SystemManagement() {
  </div>
  <div className="flex justify-between items-center">
  <span className="text-muted-foreground">{t("admin_system_active_integrations")}</span>
- <Badge className="bg-green-600 text-foreground">{systemMetrics.activeIntegrations}</Badge>
+ <Badge className="bg-blue-600 text-foreground">{systemMetrics.activeIntegrations}</Badge>
  </div>
  <div className="flex justify-between items-center">
  <span className="text-muted-foreground">{t("admin_system_average_execution_time")}</span>

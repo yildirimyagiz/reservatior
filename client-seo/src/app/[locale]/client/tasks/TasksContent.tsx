@@ -13,21 +13,21 @@ export function TasksContent() {
       description: "Manage tasks and assignments",
       icon: CheckSquare,
       href: "/client/tasks/management",
-      color: "text-blue-500"
+      color: "text-brand"
     },
     {
       title: "Kanban Board",
       description: "View tasks in kanban board layout",
       icon: LayoutGrid,
       href: "/client/tasks/kanban",
-      color: "text-purple-500"
+      color: "text-brand"
     },
     {
       title: "Appointments",
       description: "Manage appointments and meetings",
       icon: Calendar,
       href: "/client/tasks/appointments",
-      color: "text-emerald-500"
+      color: "text-success"
     },
     {
       title: "Events",

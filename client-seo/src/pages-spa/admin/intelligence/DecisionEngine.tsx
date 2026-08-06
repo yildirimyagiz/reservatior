@@ -84,19 +84,19 @@ export default function DecisionEngineDashboard() {
 
   return (
     <PageShell
-      title={t("admin_decision_engine_title", "Karar Motoru")}
+      title={t("admin_decision_engine_title", "Karar Motoru (Decision Engine)")}
       description={t("admin_decision_engine_desc", "Otonom fiyatlandırma, doluluk ve kabul kararları")}
       actions={
         <div className="flex gap-3">
           <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="px-4 py-2 border border-border rounded-lg bg-card">
-            <option value="ALL">{t("admin_decision_engine_all_status", "All Status")}</option>
-            <option value="PENDING">{t("admin_decision_engine_pending", "Pending")}</option>
-            <option value="ACCEPTED">{t("admin_decision_engine_accepted", "Accepted")}</option>
-            <option value="REJECTED">{t("admin_decision_engine_rejected", "Rejected")}</option>
-            <option value="MONITORING">{t("admin_decision_engine_monitoring", "Monitoring")}</option>
+            <option value="ALL">{t("admin_decision_engine_all_status", "Tüm Durumlar")}</option>
+            <option value="PENDING">{t("admin_decision_engine_pending", "Beklemede")}</option>
+            <option value="ACCEPTED">{t("admin_decision_engine_accepted", "Kabul Edildi")}</option>
+            <option value="REJECTED">{t("admin_decision_engine_rejected", "Reddedildi")}</option>
+            <option value="MONITORING">{t("admin_decision_engine_monitoring", "İzleniyor")}</option>
           </select>
           <button className="px-4 py-2 bg-primary text-primary-foreground text-white rounded-lg hover:bg-primary/90 transition flex items-center gap-2">
-            <Download className="w-4 h-4" /> {t("admin_common_export", "Export")}
+            <Download className="w-4 h-4" /> {t("admin_common_export", "Dışa Aktar")}
           </button>
         </div>
       }
@@ -123,21 +123,21 @@ export default function DecisionEngineDashboard() {
       <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
         <div className="p-4 border-b border-border flex items-center justify-between">
           <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2">
-            <Lightbulb className="w-5 h-5 text-orange-500" /> {t("admin_decision_engine_recent_decisions", "Recent Decisions")}
+            <Lightbulb className="w-5 h-5 text-orange-500" /> {t("admin_decision_engine_recent_decisions", "Son Kararlar")}
           </h2>
-          <span className="text-sm text-muted-foreground">{decisions.length} {t("admin_decision_engine_decisions", "decisions")}</span>
+          <span className="text-sm text-muted-foreground">{decisions.length} {t("admin_decision_engine_decisions", "karar")}</span>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-muted text-left">
               <tr>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_type", "Type")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_decision_engine_property", "Property")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_decision_engine_recommendation", "Recommendation")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_decision_engine_confidence", "Confidence")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_status", "Status")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_decision_engine_impact", "Impact")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_when", "When")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_type", "Tür")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_decision_engine_property", "Mülk")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_decision_engine_recommendation", "Öneri")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_decision_engine_confidence", "Güven")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_status", "Durum")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_decision_engine_impact", "Etki")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_when", "Ne Zaman")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -178,7 +178,7 @@ export default function DecisionEngineDashboard() {
 
       {/* Decision Flow Diagram */}
       <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
-        <h2 className="text-lg font-semibold text-card-foreground mb-4">{t("admin_decision_engine_lifecycle_flow", "Decision Lifecycle Flow")}</h2>
+        <h2 className="text-lg font-semibold text-card-foreground mb-4">{t("admin_decision_engine_lifecycle_flow", "Karar Yaşam Döngüsü")}</h2>
         <div className="flex items-center justify-between">
           {[
             { i18nKey: "admin_decision_engine_flow_ai_proposes", label: "AI Proposes" },

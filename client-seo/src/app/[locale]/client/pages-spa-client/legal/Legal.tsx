@@ -127,6 +127,12 @@ export default function Legal() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [activeTab, setActiveTab] = useState("documents");
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [newDocType, setNewDocType] = useState<string>("contract");
+  const [newDocCategory, setNewDocCategory] = useState<string>("rental");
+  const [newDocTitle, setNewDocTitle] = useState("");
+  const [newDocDescription, setNewDocDescription] = useState("");
+  const [newDocTemplate, setNewDocTemplate] = useState<string>("");
+  const [isCreatingDoc, setIsCreatingDoc] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -166,6 +172,47 @@ export default function Legal() {
     
     fetchLegalData();
   }, []);
+
+  const handleCreateDocument = async () => {
+    if (!newDocTitle.trim()) {
+      toast({
+        title: t("common.error"),
+        description: t("client.src.enter_document_title"),
+        variant: "destructive"
+      });
+      return;
+    }
+    setIsCreatingDoc(true);
+    try {
+      await apiClient.post('/legal/documents', {
+        title: newDocTitle,
+        type: newDocType,
+        category: newDocCategory,
+        description: newDocDescription,
+        status: "draft",
+        priority: "medium",
+        templateId: newDocTemplate || undefined
+      });
+      setShowCreateDialog(false);
+      setNewDocTitle("");
+      setNewDocDescription("");
+      toast({
+        title: t("common.success"),
+        description: t("client.src.legal_document_has_been")
+      });
+      const response = await apiClient.get('/legal/documents');
+      setDocuments((response as any).data || []);
+    } catch (error) {
+      console.error('Create document failed:', error);
+      toast({
+        title: t("common.error"),
+        description: t("common.error_generic"),
+        variant: "destructive"
+      });
+    } finally {
+      setIsCreatingDoc(false);
+    }
+  };
   const getDocumentIcon = (type: string) => {
     switch (type) {
       case "contract":
@@ -193,11 +240,11 @@ export default function Legal() {
       case "draft":
         return "bg-gray-500/10 text-gray-500 border-gray-200";
       case "review":
-        return "bg-blue-500/10 text-blue-500 border-blue-200";
+        return "bg-brand/100/10 text-brand border-border";
       case "approved":
-        return "bg-green-500/10 text-green-500 border-green-200";
+        return "bg-blue-500/10 text-blue-500 border-blue-200";
       case "signed":
-        return "bg-emerald-500/10 text-emerald-500 border-emerald-200";
+        return "bg-success/10 text-success border-blue-200";
       case "expired":
         return "bg-red-500/10 text-red-500 border-red-200";
       case "terminated":
@@ -215,14 +262,14 @@ export default function Legal() {
       case "medium":
         return "bg-yellow-500";
       case "low":
-        return "bg-green-500";
+        return "bg-blue-500";
       default:
         return "bg-gray-500";
     }
   };
   const getComplianceScoreColor = (score: number, maxScore: number) => {
     const percentage = score / maxScore * 100;
-    if (percentage >= 90) return "text-green-500";
+    if (percentage >= 90) return "text-blue-500";
     if (percentage >= 70) return "text-yellow-500";
     return "text-red-500";
   };
@@ -244,7 +291,7 @@ export default function Legal() {
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" onClick={() => toast({ title: t("client.src.templates_coming_soon") })}>
-            <FileText className="w-4 h-4 mr-2" />{t("client.src.templates")}</Button>
+            <FileText className="w-4 h-4 mr-2" />{t("common.templates")}</Button>
           <Button onClick={() => setShowCreateDialog(true)}>
             <Plus className="w-4 h-4 mr-2" />{t("client.src.new_document")}</Button>
         </div>
@@ -259,7 +306,7 @@ export default function Legal() {
                 <p className="text-sm text-muted-foreground">{t("client.src.total_documents")}</p>
                 <p className="text-2xl font-bold">{documents.length}</p>
               </div>
-              <FileText className="w-8 h-8 text-blue-500" />
+              <FileText className="w-8 h-8 text-brand" />
             </div>
           </CardContent>
         </Card>
@@ -289,10 +336,10 @@ export default function Legal() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">{t("client.src.templates")}</p>
+                <p className="text-sm text-muted-foreground">{t("common.templates")}</p>
                 <p className="text-2xl font-bold">{templates.length}</p>
               </div>
-              <FileCheck className="w-8 h-8 text-purple-500" />
+              <FileCheck className="w-8 h-8 text-brand" />
             </div>
           </CardContent>
         </Card>
@@ -300,10 +347,10 @@ export default function Legal() {
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="documents">{t("client.src.documents")}</TabsTrigger>
+          <TabsTrigger value="documents">{t("common.documents")}</TabsTrigger>
           <TabsTrigger value="compliance">{t("client.src.compliance")}</TabsTrigger>
-          <TabsTrigger value="templates">{t("client.src.templates")}</TabsTrigger>
-          <TabsTrigger value="analytics">{t("client.src.analytics")}</TabsTrigger>
+          <TabsTrigger value="templates">{t("common.templates")}</TabsTrigger>
+          <TabsTrigger value="analytics">{t("common.analytics")}</TabsTrigger>
         </TabsList>
 
         {/* Documents Tab */}
@@ -321,8 +368,8 @@ export default function Legal() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">{t("client.src.all_types")}</SelectItem>
-                    <SelectItem value="contract">{t("client.src.contracts")}</SelectItem>
+                    <SelectItem value="all">{t("common.all_types")}</SelectItem>
+                    <SelectItem value="contract">{t("common.contracts")}</SelectItem>
                     <SelectItem value="agreement">{t("client.src.agreements")}</SelectItem>
                     <SelectItem value="lease">{t("client.src.leases")}</SelectItem>
                     <SelectItem value="compliance">{t("client.src.compliance")}</SelectItem>
@@ -335,12 +382,12 @@ export default function Legal() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">{t("client.src.all_status")}</SelectItem>
-                    <SelectItem value="draft">{t("client.src.draft")}</SelectItem>
+                    <SelectItem value="all">{t("common.all_status")}</SelectItem>
+                    <SelectItem value="draft">{t("common.draft")}</SelectItem>
                     <SelectItem value="review">{t("client.src.review")}</SelectItem>
-                    <SelectItem value="approved">{t("client.src.approved")}</SelectItem>
-                    <SelectItem value="signed">{t("client.src.signed")}</SelectItem>
-                    <SelectItem value="expired">{t("client.src.expired")}</SelectItem>
+                    <SelectItem value="approved">{t("common.approved")}</SelectItem>
+                    <SelectItem value="signed">{t("common.signed")}</SelectItem>
+                    <SelectItem value="expired">{t("common.expired")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -373,12 +420,12 @@ export default function Legal() {
                               {doc.status}
                             </Badge>
                             <div className={`w-2 h-2 rounded-full ${getPriorityColor(doc.priority)}`} />
-                            {doc.compliance.isCompliant ? <ShieldCheck className="w-4 h-4 text-green-500" /> : <AlertTriangle className="w-4 h-4 text-red-500" />}
+                            {doc.compliance.isCompliant ? <ShieldCheck className="w-4 h-4 text-blue-500" /> : <AlertTriangle className="w-4 h-4 text-red-500" />}
                           </div>
                           <p className="text-sm text-gray-600 mb-3">{doc.description}</p>
                           <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                            <span>{t("client.src.type")}{doc.type}</span>
-                            <span>{t("client.src.category")}{doc.category}</span>
+                            <span>{t("common.type")}{doc.type}</span>
+                            <span>{t("common.category")}{doc.category}</span>
                             {doc.effectiveDate && <span>{t("client.src.effective")}{format(new Date(doc.effectiveDate), "MMM d, yyyy")}</span>}
                             {doc.expiryDate && <span className="text-orange-500">{t("client.src.expires")}{format(new Date(doc.expiryDate), "MMM d, yyyy")}
                               </span>}
@@ -396,7 +443,7 @@ export default function Legal() {
                                 </div>}
                             </div>
                             <span className="text-xs text-gray-500">
-                              {doc.parties.filter(p => p.signed).length}{t("client.src.of")}{doc.parties.length}{t("client.src.signed")}</span>
+                              {doc.parties.filter(p => p.signed).length}{t("client.src.of")}{doc.parties.length}{t("common.signed")}</span>
                           </div>
                           <div className="flex flex-wrap gap-1">
                             {doc.tags.map(tag => <Badge key={tag} variant="secondary" className="text-xs">
@@ -406,31 +453,31 @@ export default function Legal() {
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" aria-label={t("common.view")}>
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" aria-label={t("common.download")}>
                           <Download className="w-4 h-4" />
                         </Button>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" aria-label={t("common.edit")}>
                           <Edit className="w-4 h-4" />
                         </Button>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button size="sm" variant="outline">
+                            <Button size="sm" variant="outline" aria-label={t("common.more")}>
                               <MoreHorizontal className="w-4 h-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
                             <DropdownMenuItem>
-                              <Share2 className="w-4 h-4 mr-2" />{t("client.src.share")}</DropdownMenuItem>
+                              <Share2 className="w-4 h-4 mr-2" />{t("common.share")}</DropdownMenuItem>
                             <DropdownMenuItem>
                               <FileCheck className="w-4 h-4 mr-2" />{t("client.src.check_compliance")}</DropdownMenuItem>
                             <DropdownMenuItem>
                               <Archive className="w-4 h-4 mr-2" />{t("client.src.archive")}</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>
-                              <Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                              <Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
@@ -465,7 +512,7 @@ export default function Legal() {
                             <h3 className="font-medium">{document?.title}</h3>
                             <p className="text-sm text-gray-500">{check.type}{t("client.src.check")}</p>
                           </div>
-                          <Badge className={check.status === "passed" ? "bg-green-500/10 text-green-500" : check.status === "failed" ? "bg-red-500/10 text-red-500" : check.status === "requires_action" ? "bg-orange-500/10 text-orange-500" : "bg-blue-500/10 text-blue-500"}>
+                          <Badge className={check.status === "passed" ? "bg-blue-500/10 text-blue-500" : check.status === "failed" ? "bg-red-500/10 text-red-500" : check.status === "requires_action" ? "bg-warning/10 text-orange-500" : "bg-brand/100/10 text-brand"}>
                             {check.status.replace("_", " ")}
                           </Badge>
                         </div>
@@ -477,7 +524,7 @@ export default function Legal() {
                             </span>
                           </div>
                           <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div className={`h-2 rounded-full ${check.score / check.maxScore >= 0.9 ? "bg-green-500" : check.score / check.maxScore >= 0.7 ? "bg-yellow-500" : "bg-red-500"}`} style={{
+                            <div className={`h-2 rounded-full ${check.score / check.maxScore >= 0.9 ? "bg-blue-500" : check.score / check.maxScore >= 0.7 ? "bg-yellow-500" : "bg-red-500"}`} style={{
                           width: `${check.score / check.maxScore * 100}%`
                         }} />
                           </div>
@@ -513,7 +560,7 @@ export default function Legal() {
                           <div className="mt-2 space-y-2">
                             {doc.compliance.issues.map((issue, idx) => <div key={idx} className="text-sm">
                                 <div className="flex items-center gap-2 mb-1">
-                                  <div className={`w-2 h-2 rounded-full ${issue.severity === "critical" ? "bg-red-500" : issue.severity === "high" ? "bg-orange-500" : issue.severity === "medium" ? "bg-yellow-500" : "bg-blue-500"}`} />
+                                  <div className={`w-2 h-2 rounded-full ${issue.severity === "critical" ? "bg-red-500" : issue.severity === "high" ? "bg-orange-500" : issue.severity === "medium" ? "bg-yellow-500" : "bg-brand/100"}`} />
                                   <span className="font-medium">{issue.message}</span>
                                 </div>
                                 <p className="text-gray-600 ml-4">{issue.recommendation}</p>
@@ -544,11 +591,11 @@ export default function Legal() {
                 scale: 1
               }} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
                     <div className="flex items-start justify-between mb-3">
-                      <div className="p-2 rounded-lg bg-blue-500/10">
-                        <FileText className="w-6 h-6 text-blue-500" />
+                      <div className="p-2 rounded-lg bg-brand/100/10">
+                        <FileText className="w-6 h-6 text-brand" />
                       </div>
                       <div className="flex items-center gap-1">
-                        {template.isPublic ? <Unlock className="w-4 h-4 text-green-500" /> : <Lock className="w-4 h-4 text-gray-400" />}
+                        {template.isPublic ? <Unlock className="w-4 h-4 text-blue-500" /> : <Lock className="w-4 h-4 text-gray-400" />}
                         <Badge variant="secondary" className="text-xs">
                           {template.type}
                         </Badge>
@@ -581,7 +628,7 @@ export default function Legal() {
                   return <div key={type} className="flex items-center gap-3">
                         <span className="text-sm font-medium w-20">{type}</span>
                         <div className="flex-1 bg-gray-200 rounded-full h-2">
-                          <div className="bg-blue-500 h-2 rounded-full" style={{
+                          <div className="bg-brand/100 h-2 rounded-full" style={{
                         width: `${percentage}%`
                       }} />
                         </div>
@@ -625,9 +672,9 @@ export default function Legal() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label className="text-sm font-medium mb-2 block">{t("client.src.document_type")}</Label>
-                <Select>
+                <Select value={newDocType} onValueChange={setNewDocType}>
                   <SelectTrigger>
-                    <SelectValue placeholder={t("client.src.select_type")} />
+                    <SelectValue placeholder={t("common.select_type")} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="contract">{t("client.src.contract")}</SelectItem>
@@ -640,8 +687,8 @@ export default function Legal() {
                 </Select>
               </div>
               <div>
-                <Label className="text-sm font-medium mb-2 block">{t("client.src.category")}</Label>
-                <Select>
+                <Label className="text-sm font-medium mb-2 block">{t("common.category")}</Label>
+                <Select value={newDocCategory} onValueChange={setNewDocCategory}>
                   <SelectTrigger>
                     <SelectValue placeholder={t("client.src.select_category")} />
                   </SelectTrigger>
@@ -656,19 +703,20 @@ export default function Legal() {
             </div>
             <div>
               <Label className="text-sm font-medium mb-2 block">{t("client.src.document_title")}</Label>
-              <Input placeholder={t("client.src.enter_document_title")} />
+              <Input placeholder={t("client.src.enter_document_title")} value={newDocTitle} onChange={e => setNewDocTitle(e.target.value)} />
             </div>
             <div>
-              <Label className="text-sm font-medium mb-2 block">{t("client.src.description")}</Label>
-              <Textarea placeholder={t("client.src.enter_document_description")} rows={3} />
+              <Label className="text-sm font-medium mb-2 block">{t("common.description")}</Label>
+              <Textarea placeholder={t("client.src.enter_document_description")} rows={3} value={newDocDescription} onChange={e => setNewDocDescription(e.target.value)} />
             </div>
             <div>
               <Label className="text-sm font-medium mb-2 block">{t("client.src.use_template")}</Label>
-              <Select>
+              <Select value={newDocTemplate} onValueChange={setNewDocTemplate}>
                 <SelectTrigger>
                   <SelectValue placeholder={t("client.src.select_template_optional")} />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="">{t("client.src.select_template_optional")}</SelectItem>
                   {templates.map(template => <SelectItem key={template.id} value={template.id}>
                       {template.name}
                     </SelectItem>)}
@@ -677,8 +725,8 @@ export default function Legal() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowCreateDialog(false)}>{t("client.src.cancel")}</Button>
-            <Button onClick={() => setShowCreateDialog(false)}>{t("client.src.create_document")}</Button>
+            <Button variant="outline" onClick={() => setShowCreateDialog(false)}>{t("common.cancel")}</Button>
+            <Button onClick={handleCreateDocument} disabled={isCreatingDoc || !newDocTitle.trim()}>{t("client.src.create_document")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

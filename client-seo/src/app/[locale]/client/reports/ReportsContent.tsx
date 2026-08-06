@@ -13,21 +13,21 @@ export function ReportsContent() {
       description: "View analytics and reports for your property business",
       icon: BarChart3,
       href: "/client/reports/analytics",
-      color: "text-blue-500"
+      color: "text-brand"
     },
     {
       title: "Custom Reports",
       description: "Create and manage custom reports",
       icon: FileText,
       href: "/client/reports/custom",
-      color: "text-purple-500"
+      color: "text-brand"
     },
     {
       title: "Scheduled Reports",
       description: "Manage scheduled and automated reports",
       icon: Clock,
       href: "/client/reports/scheduled",
-      color: "text-emerald-500"
+      color: "text-success"
     },
     {
       title: "Report Settings",

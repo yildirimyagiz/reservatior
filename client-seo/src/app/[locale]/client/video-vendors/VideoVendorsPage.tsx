@@ -86,8 +86,8 @@ const mockVendors: VideoVendor[] = [
 
 const TIER_COLORS: Record<string, string> = {
   basic: "bg-gray-500/20 text-gray-400",
-  standard: "bg-blue-500/20 text-blue-400",
-  premium: "bg-purple-500/20 text-purple-400"
+  standard: "bg-brand/100/20 text-brand",
+  premium: "bg-brand/20 text-brand"
 };
 
 export default function VideoVendorsPage() {
@@ -116,7 +116,7 @@ export default function VideoVendorsPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("video_vendors.videovendorspage.auto_ext_3")}
@@ -131,7 +131,7 @@ export default function VideoVendorsPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -141,11 +141,11 @@ export default function VideoVendorsPage() {
                       placeholder="Search vendors..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
-                <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
+                <Button variant="outline" className="bg-white/10 border-brand/30 text-white">
                   <Filter className="w-4 h-4 mr-2" />
                   {t("video_vendors.videovendorspage.auto_ext_4")}
                                                   </Button>
@@ -164,12 +164,12 @@ export default function VideoVendorsPage() {
             {filteredVendors.map((vendor) => (
               <Card
                 key={vendor.id}
-                className="bg-white/5 backdrop-blur-xl border-purple-500/20 hover:bg-white/10 transition-colors"
+                className="bg-white/5 backdrop-blur-xl border-brand/20 hover:bg-white/10 transition-colors"
               >
                 <CardHeader>
                   <div className="flex items-start gap-4">
                     <Avatar className="h-16 w-16">
-                      <AvatarFallback className="bg-purple-500/20 text-purple-400 text-xl font-bold">
+                      <AvatarFallback className="bg-brand/20 text-brand text-xl font-bold">
                         {vendor.name.split(' ').map(n => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
@@ -201,7 +201,7 @@ export default function VideoVendorsPage() {
 
                   <div className="flex flex-wrap gap-2">
                     {vendor.specialties.slice(0, 3).map((specialty) => (
-                      <Badge key={specialty} variant="outline" className="border-purple-500/30 text-purple-300 text-xs">
+                      <Badge key={specialty} variant="outline" className="border-brand/30 text-brand text-xs">
                         {specialty}
                       </Badge>
                     ))}
@@ -212,12 +212,12 @@ export default function VideoVendorsPage() {
                     <span>{t("video_vendors.videovendorspage.auto_ext_5")} {vendor.responseTime}</span>
                   </div>
 
-                  <div className="flex gap-2 pt-4 border-t border-purple-500/20">
-                    <Button variant="outline" className="flex-1 bg-white/10 border-purple-500/30 text-white">
+                  <div className="flex gap-2 pt-4 border-t border-brand/20">
+                    <Button variant="outline" className="flex-1 bg-white/10 border-brand/30 text-white">
                       <Mail className="w-4 h-4 mr-2" />
                       {t("video_vendors.videovendorspage.auto_ext_6")}
                                                     </Button>
-                    <Button className="flex-1 bg-purple-600 hover:bg-purple-700">
+                    <Button className="flex-1 bg-brand hover:bg-brand">
                       <ArrowUpRight className="w-4 h-4 mr-2" />
                       {t("video_vendors.videovendorspage.auto_ext_7")}
                                                     </Button>

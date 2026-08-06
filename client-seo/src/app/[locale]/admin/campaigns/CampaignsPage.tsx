@@ -34,16 +34,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { tEnum } from "@/lib/admin-enums";
 
 const STATUSES = ["DRAFT", "ACTIVE", "PAUSED", "COMPLETED", "ARCHIVED"];
 const CAMPAIGN_TYPES = ["DISCOUNT", "FLASH_SALE", "SEASONAL", "REFERRAL", "BUNDLE_PROMO", "LOYALTY"];
 
 const STATUS_COLORS: Record<string, string> = {
   DRAFT: "bg-gray-500/20 text-gray-400",
-  ACTIVE: "bg-green-500/20 text-green-400",
-  PAUSED: "bg-amber-500/20 text-amber-400",
-  COMPLETED: "bg-blue-500/20 text-blue-400",
-  ARCHIVED: "bg-slate-500/20 text-slate-400",
+  ACTIVE: "bg-blue-500/20 text-blue-400",
+  PAUSED: "bg-amber-500/20 text-warning",
+  COMPLETED: "bg-blue-500/20 text-info",
+  ARCHIVED: "bg-muted text-muted-foreground",
 };
 
 const mockCampaigns = [
@@ -80,8 +81,8 @@ export default function CampaignsPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_campaigns_title", "Marketing Campaigns")}</h1>
-              <p className="text-muted-foreground">{t("admin_campaigns_description", "Create and manage marketing campaigns and promotions")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_campaigns_title", "Kampanyalar ve İndirimler")}</h1>
+              <p className="text-muted-foreground">{t("admin_campaigns_description", "Pazarlama kampanyalarını ve promosyon kodlarını yönetin")}</p>
             </div>
           </div>
         </m.div>
@@ -93,7 +94,7 @@ export default function CampaignsPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/10"><Megaphone className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_campaigns_total", "Total Campaigns")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_campaigns_total", "Toplam Kampanya")}</p>
                   <p className="text-2xl font-bold text-foreground">{totalCampaigns}</p>
                 </div>
               </div>
@@ -102,9 +103,9 @@ export default function CampaignsPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10"><Play className="w-5 h-5 text-green-500" /></div>
+                <div className="p-2 rounded-lg bg-blue-500/10"><Play className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_campaigns_active", "Active")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_campaigns_active", "Aktif")}</p>
                   <p className="text-2xl font-bold text-foreground">{activeCampaigns}</p>
                 </div>
               </div>
@@ -115,7 +116,7 @@ export default function CampaignsPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-amber-500/10"><TrendingUp className="w-5 h-5 text-amber-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_campaigns_revenue", "Total Revenue")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_campaigns_revenue", "Toplam Gelir")}</p>
                   <p className="text-2xl font-bold text-foreground">${totalRevenue.toLocaleString()}</p>
                 </div>
               </div>
@@ -132,7 +133,7 @@ export default function CampaignsPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin_campaigns_search_placeholder", "Search campaigns...")}
+                      placeholder={t("admin_campaigns_search_placeholder", "Kampanya ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -141,16 +142,16 @@ export default function CampaignsPage() {
                 </div>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_campaigns_status", "Status")} />
+                    <SelectValue placeholder={t("admin_campaigns_status", "Durum")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">{t("admin_campaigns_all_status", "All Status")}</SelectItem>
-                    {STATUSES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                    <SelectItem value="all">{t("admin_campaigns_all_status", "Tüm Durumlar")}</SelectItem>
+                    {STATUSES.map((s) => <SelectItem key={s} value={s}>{tEnum(t, s)}</SelectItem>)}
                   </SelectContent>
                 </Select>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_campaigns_add", "Create Campaign")}
+                  {t("admin_campaigns_add", "Kampanya Oluştur")}
                 </Button>
               </div>
             </CardContent>
@@ -165,35 +166,35 @@ export default function CampaignsPage() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h2 className="font-semibold text-foreground">{campaign.name}</h2>
-                    <Badge className={`${STATUS_COLORS[campaign.status]} mt-1`}>{campaign.status}</Badge>
+                    <Badge className={`${STATUS_COLORS[campaign.status]} mt-1`}>{tEnum(t, campaign.status)}</Badge>
                   </div>
-                  <Badge className="bg-slate-500/20 text-slate-400">{campaign.campaignType.replace(/_/g, " ")}</Badge>
+                  <Badge className="bg-muted text-muted-foreground">{tEnum(t, campaign.campaignType)}</Badge>
                 </div>
                 <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{campaign.description}</p>
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">{t("admin_campaigns_discount", "Discount")}</span>
+                    <span className="text-muted-foreground">{t("admin_campaigns_discount", "İndirim")}</span>
                     <span className="text-foreground font-medium">{campaign.discountType === "PERCENTAGE" ? `${campaign.discountValue}%` : `$${campaign.discountValue}`}</span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">{t("admin_campaigns_redemptions", "Redemptions")}</span>
+                    <span className="text-muted-foreground">{t("admin_campaigns_redemptions", "Kullanımlar")}</span>
                     <span className="text-foreground font-medium">{campaign.currentRedemptions}{campaign.maxRedemptions ? ` / ${campaign.maxRedemptions}` : ""}</span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">{t("admin_campaigns_revenue", "Revenue")}</span>
+                    <span className="text-muted-foreground">{t("admin_campaigns_revenue", "Toplam Gelir")}</span>
                     <span className="text-foreground font-medium">${campaign.totalRevenue.toLocaleString()}</span>
                   </div>
                 </div>
                 <div className="flex gap-2 pt-3 border-t border-border">
                   {campaign.status === "ACTIVE" ? (
-                    <Button variant="ghost" size="sm" className="flex-1 text-amber-400"><Pause className="w-3.5 h-3.5 mr-1" />Pause</Button>
+                    <Button variant="ghost" size="sm" className="flex-1 text-warning"><Pause className="w-3.5 h-3.5 mr-1" />{t("admin_campaigns_pause", "Duraklat")}</Button>
                   ) : campaign.status === "PAUSED" ? (
-                    <Button variant="ghost" size="sm" className="flex-1 text-green-400"><Play className="w-3.5 h-3.5 mr-1" />Activate</Button>
+                    <Button variant="ghost" size="sm" className="flex-1 text-blue-400"><Play className="w-3.5 h-3.5 mr-1" />{t("admin_action_activate", "Etkinleştir")}</Button>
                   ) : (
-                    <Button variant="ghost" size="sm" className="flex-1"><Play className="w-3.5 h-3.5 mr-1" />{t("admin_action_activate", "Activate")}</Button>
+                    <Button variant="ghost" size="sm" className="flex-1"><Play className="w-3.5 h-3.5 mr-1" />{t("admin_action_activate", "Etkinleştir")}</Button>
                   )}
-                  <Button onClick={() => { setEditingItem(campaign); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                  <Button onClick={() => { setDeletingItem(campaign); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                  <Button onClick={() => { setEditingItem(campaign); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                  <Button onClick={() => { setDeletingItem(campaign); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                 </div>
               </CardContent>
             </Card>
@@ -207,12 +208,12 @@ export default function CampaignsPage() {
           <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
             <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
               <DialogHeader>
-                <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_campaigns_delete_title", "Delete Campaign")}</DialogTitle>
-                <DialogDescription className="text-muted-foreground">{t("admin_campaigns_delete_desc", "Are you sure you want to delete")}{deletingItem.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+                <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_campaigns_delete_title", "Kampanyayı Sil")}</DialogTitle>
+                <DialogDescription className="text-muted-foreground">{t("admin_campaigns_delete_desc", "Bu kaydı sistemden güvenli şekilde arşivlemek istediğinize emin misiniz?")}{deletingItem.name}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
               </DialogHeader>
               <DialogFooter className="pt-4 border-t border-white/10">
-                <Button variant="outline" onClick={() => setIsDeleteOpen(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-                <Button onClick={() => setIsDeleteOpen(false)} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+                <Button variant="outline" onClick={() => setIsDeleteOpen(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+                <Button onClick={() => setIsDeleteOpen(false)} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -233,33 +234,33 @@ function CreateCampaignDialog({ open, onOpenChange }: { open: boolean; onOpenCha
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_campaigns_create_title", "Create Campaign")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_campaigns_create_desc", "Launch a new marketing campaign.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_campaigns_create_title", "Kampanya Oluştur")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_campaigns_create_desc", "Yeni bir pazarlama kampanyası başlatın.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_campaigns_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_campaigns_name", "Ad")}</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_campaigns_type", "Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_campaigns_type", "Tür")}</Label>
             <Select value={campaignType} onValueChange={setCampaignType}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors"><SelectValue /></SelectTrigger>
-              <SelectContent>{CAMPAIGN_TYPES.map((ct) => <SelectItem key={ct} value={ct}>{ct.replace(/_/g, " ")}</SelectItem>)}</SelectContent>
+              <SelectContent>{CAMPAIGN_TYPES.map((ct) => <SelectItem key={ct} value={ct}>{tEnum(t, ct)}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_campaigns_discount", "Discount")}</Label>
+            <Label className="text-right text-foreground">{t("admin_campaigns_discount", "İndirim")}</Label>
             <Input type="number" value={discountValue} onChange={(e) => setDiscountValue(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_campaigns_description", "Description")}</Label>
+            <Label className="text-right text-foreground">{t("admin_campaigns_description", "Pazarlama kampanyalarını ve promosyon kodlarını yönetin")}</Label>
             <Input value={description} onChange={(e) => setDescription(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -276,26 +277,26 @@ function EditCampaignDialog({ open, onOpenChange, item }: { open: boolean; onOpe
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_campaigns_edit_title", "Edit Campaign")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_campaigns_edit_desc", "Update campaign details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_campaigns_edit_title", "Kampanyayı Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_campaigns_edit_desc", "Kampanya bilgilerini güncelleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_campaigns_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_campaigns_name", "Ad")}</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_campaigns_discount", "Discount")}</Label>
+            <Label className="text-right text-foreground">{t("admin_campaigns_discount", "İndirim")}</Label>
             <Input type="number" value={discountValue} onChange={(e) => setDiscountValue(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_campaigns_description", "Description")}</Label>
+            <Label className="text-right text-foreground">{t("admin_campaigns_description", "Pazarlama kampanyalarını ve promosyon kodlarını yönetin")}</Label>
             <Input value={description} onChange={(e) => setDescription(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

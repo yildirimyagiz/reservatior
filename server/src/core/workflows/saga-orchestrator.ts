@@ -217,6 +217,15 @@ export abstract class BaseSaga {
   }
 
   /**
+   * Public compensation entrypoint — marks the saga as COMPENSATING, runs the
+   * registered compensation chain in reverse order, then transitions to FAILED.
+   * Used by listeners/external actors (e.g. manual compensation triggers).
+   */
+  public async triggerCompensation(reason: string): Promise<void> {
+    await this.fail(reason);
+  }
+
+  /**
    * Execute all registered compensation steps in reverse order.
    * Override in subclass to add custom compensation before/after.
    */

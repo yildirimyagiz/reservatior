@@ -73,7 +73,7 @@ export function DistrictLandingPageClient({ city, district, districtSlug }: Prop
             </p>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {[
-                { label: "Gross Yield", value: `${district.grossYield}%`, icon: Percent, color: "text-emerald-400" },
+                { label: "Gross Yield", value: `${district.grossYield}%`, icon: Percent, color: "text-blue-400" },
                 { label: "Appreciation", value: `${district.appreciation}%`, icon: TrendingUp, color: "text-blue-400" },
                 { label: "Price/m²", value: `${city.currency} ${district.avgPricePerSqm.toLocaleString()}`, icon: Building2, color: "text-primary" },
                 { label: "Avg Rent/mo", value: `${city.currency} ${district.avgMonthlyRent.toLocaleString()}`, icon: BarChart3, color: "text-yellow-400" },
@@ -127,7 +127,7 @@ export function DistrictLandingPageClient({ city, district, districtSlug }: Prop
                             {d.name === district.name && <Badge className="ml-1 text-xs" variant="outline">Current</Badge>}
                           </span>
                         </td>
-                        <td className="text-right py-3 px-4 text-emerald-400">{d.grossYield}%</td>
+                        <td className="text-right py-3 px-4 text-blue-400">{d.grossYield}%</td>
                         <td className="text-right py-3 px-4">{d.appreciation}%</td>
                         <td className="text-right py-3 px-4">{d.walkabilityScore}/100</td>
                         <td className="text-right py-3 px-4"><Badge variant="outline">{d.investmentGrade}</Badge></td>
@@ -154,7 +154,7 @@ export function DistrictLandingPageClient({ city, district, districtSlug }: Prop
                           <Badge variant="outline">{d.investmentGrade}</Badge>
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-sm">
-                          <div><p className="text-muted-foreground">Yield</p><p className="font-bold text-emerald-400">{d.grossYield}%</p></div>
+                          <div><p className="text-muted-foreground">Yield</p><p className="font-bold text-blue-400">{d.grossYield}%</p></div>
                           <div><p className="text-muted-foreground">Appreciation</p><p className="font-bold">{d.appreciation}%</p></div>
                         </div>
                       </CardContent>

@@ -290,4 +290,32 @@ export const systemRoutes = new Elysia({ prefix: "/system" })
       return { error: "Health check not found" };
     }
     return { data: check };
+  })
+
+  // ─── ACTIVE TRIGGER TASKS ────────────────────────────────────────────────────
+  // Serves the task list the mobile SystemTriggerProvider polls as an SSE fallback.
+
+  .get("/triggers", async ({ query }) => {
+    const { orgId } = query as any;
+    const where: any = {};
+    if (orgId && orgId !== "global") where.orgId = orgId;
+
+    const tasks = await prisma.aiServiceTask.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take: 10,
+    });
+
+    const data = tasks.map((task: any) => ({
+      id: task.id,
+      source: "ai-service-task",
+      type: task.taskType,
+      status: task.status,
+      title: task.taskType,
+      description: task.errorMessage || "AI task in progress",
+      createdAt: task.createdAt.toISOString(),
+      progress: task.progress ?? 0,
+    }));
+
+    return { success: true, data };
   });

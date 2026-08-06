@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import React, { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from"@/components/ui/table";
 import { Badge } from"@/components/ui/badge";
@@ -71,7 +71,7 @@ export default function ApiTokens() {
  const getStatusStyle = (token: ApiToken) => {
  if (!token.isActive) return"bg-muted0/10 text-muted-foreground border-border";
  if (token.expiresAt && new Date(token.expiresAt) < new Date()) return"bg-rose-500/10 text-rose-400 border-rose-500/20";
- return"bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+ return"bg-blue-500/10 text-success border-blue-500/20";
  };
  const filteredTokens = tokens.filter(t => t.name.toLowerCase().includes(searchTerm.toLowerCase()));
  return <PageShell title={t("admin_security_credential_matrix")} description={t("admin_security_programmatic_entry_points_and")}>
@@ -83,7 +83,7 @@ export default function ApiTokens() {
  label: t("admin_security_active_keys"),
  val: tokens.filter(t => t.isActive).length,
  icon: Key,
- color:"text-emerald-400"
+ color:"text-success"
  }, {
  label: t("admin_security_monthly_pulse"),
  val: tokens.reduce((acc, t) => acc + (t.usageStats?.totalRequests || 0), 0).toLocaleString(),
@@ -113,10 +113,10 @@ export default function ApiTokens() {
  {/* INTERFACE ACTIONS */}
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
  <div className="relative flex-1 max-w-md group">
- <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-slate-500 transition-colors" />
+ <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-muted-foreground transition-colors" />
  <Input placeholder={t("admin_security_search_credential_string")} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-slate-500/20 transition-all font-medium" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
  </div>
- <Button className="h-14 px-8 rounded-2xl bg-slate-600 hover:bg-muted0 text-foreground font-bold text-[10px] gap-2 shadow-xl shadow-slate-600/20">
+ <Button className="h-14 px-8 rounded-2xl bg-muted hover:bg-muted0 text-foreground font-bold text-[10px] gap-2 shadow-xl shadow-slate-600/20">
  <Plus className="w-4 h-4" />{t("admin_security_generate_new_key")}</Button>
  </div>
 
@@ -136,7 +136,7 @@ export default function ApiTokens() {
  <TableBody>
  {loading ? <TableRow>
  <TableCell colSpan={5} className="py-20 text-center">
- <Activity className="w-8 h-8 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
+ <Activity className="w-8 h-8 text-muted-foreground animate-spin mx-auto mb-4 opacity-50" />
  <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin_security_syncing_credential_matrix")}</p>
  </TableCell>
  </TableRow> : filteredTokens.map(token => <TableRow key={token.id} className="border-b border-border hover:bg-muted/50 transition-all group">
@@ -172,12 +172,12 @@ export default function ApiTokens() {
  <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground hover:text-foreground" title={t("admin_security_copy_handshake")}>
  <Copy className="w-5 h-5" />
  </Button>
- <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground hover:text-foreground">
+ <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground hover:text-foreground" aria-label={t("common.view")}>
  <Eye className="w-5 h-5" />
  </Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground">
+ <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground" aria-label={t("common.more")}>
  <MoreHorizontal className="w-5 h-5" />
  </Button>
  </DropdownMenuTrigger>

@@ -289,7 +289,7 @@ export class MLBridgeService {
     }
 
     // Write to Extracted Data database if OCR/Extraction completed
-    if (status === "COMPLETED" && result && (task.taskType === "DOCUMENT_OCR" || task.taskType === "FINANCIAL_EXTRACTION")) {
+    if (status === "COMPLETED" && result && (task.taskType === "DOCUMENT_OCR" || task.taskType === "FINANCIAL_EXTRACTION") && task.propertyId) {
       await prisma.aiExtractedData.create({
         data: {
           propertyId: task.propertyId,

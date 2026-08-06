@@ -102,10 +102,10 @@ export default function Pricing() {
   return (
     <>
 
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0c] selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black relative overflow-hidden">
+    <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0c] selection:bg-black selection:text-white dark:selection:bg-card dark:selection:text-black relative overflow-hidden">
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-400/20 dark:bg-indigo-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-lighten" />
-        <div className="absolute top-[20%] -right-[10%] w-[40%] h-[60%] rounded-full bg-purple-400/20 dark:bg-purple-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-lighten" />
+        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-brand/20 dark:bg-brand/10 blur-[120px] mix-blend-multiply dark:mix-blend-lighten" />
+        <div className="absolute top-[20%] -right-[10%] w-[40%] h-[60%] rounded-full bg-brand/20 dark:bg-brand/10 blur-[120px] mix-blend-multiply dark:mix-blend-lighten" />
         <div className="absolute -bottom-[20%] left-[20%] w-[60%] h-[50%] rounded-full bg-blue-400/10 dark:bg-blue-600/10 blur-[120px] mix-blend-multiply dark:mix-blend-lighten" />
       </div>
 
@@ -115,39 +115,39 @@ export default function Pricing() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-20 space-y-6"
         >
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/50 dark:bg-slate-800/50 border border-white/60 dark:border-slate-700/60 backdrop-blur-md">
-            <Sparkles className="w-4 h-4 text-indigo-500" />
-            <span className="text-xs font-bold text-neutral-600 dark:text-slate-300 tracking-wider uppercase">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/50 dark:bg-muted/50 border border-white/60 dark:border-border/60 backdrop-blur-md">
+            <Sparkles className="w-4 h-4 text-brand" />
+            <span className="text-xs font-bold text-neutral-600 dark:text-muted-foreground tracking-wider uppercase">
               {t('pricingTitle', 'PREMIUM LİSANS PAKETLERİ')}
             </span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-black tracking-tight text-neutral-900 dark:text-white leading-[0.95]">
             {t('pricingTitle', 'PREMIUM LİSANS PAKETLERİ').split(' ')[0]}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500 dark:from-indigo-400 dark:to-purple-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-brand dark:from-brand dark:to-brand">
               {t('pricingTitle', 'PREMIUM LİSANS PAKETLERİ').split(' ').slice(1).join(' ')}
             </span>
           </h1>
-          <p className="text-lg text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+          <p className="text-lg text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto font-medium">
             {t('pricingDesc', 'Gayrimenkul portföyünüzü yapay zeka ve otomasyonla ölçeklendirmek için tasarlandı.')}
           </p>
 
           <div className="flex flex-wrap justify-center gap-6 pt-4">
             {[
-              { label: t('nodesDeployed', 'YÖNETİLEN MÜLK'), value: "14.2k", color: "text-indigo-600 dark:text-indigo-400" },
-              { label: t('syncUptime', 'SİSTEM UPTIME'), value: "99.9%", color: "text-emerald-600 dark:text-emerald-400" },
-              { label: t('pricingLatency', 'API GECİKMESİ'), value: "4ms", color: "text-neutral-500 dark:text-slate-400" },
-              { label: t('globalReach', 'KÜRESEL ERİŞİM'), value: "42 BÖLGE", color: "text-purple-600 dark:text-purple-400" }
+              { label: t('nodesDeployed', 'YÖNETİLEN MÜLK'), value: "14.2k", color: "text-brand dark:text-brand" },
+              { label: t('syncUptime', 'SİSTEM UPTIME'), value: "99.9%", color: "text-success dark:text-success" },
+              { label: t('pricingLatency', 'API GECİKMESİ'), value: "4ms", color: "text-neutral-500 dark:text-muted-foreground" },
+              { label: t('globalReach', 'KÜRESEL ERİŞİM'), value: "42 BÖLGE", color: "text-brand dark:text-brand" }
             ].map((stat, i) => (
               <m.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="px-6 py-4 rounded-2xl bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 shadow-sm"
+                className="px-6 py-4 rounded-2xl bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 shadow-sm"
               >
                 <p className="text-2xl font-black tracking-tight text-neutral-900 dark:text-white">{stat.value}</p>
-                <p className="text-xs font-semibold text-neutral-500 dark:text-slate-400 mt-1 tracking-wider">{stat.label}</p>
+                <p className="text-xs font-semibold text-neutral-500 dark:text-muted-foreground mt-1 tracking-wider">{stat.label}</p>
               </m.div>
             ))}
           </div>
@@ -156,14 +156,14 @@ export default function Pricing() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {isLoading ? (
             <div className="col-span-full flex flex-col items-center justify-center py-20">
-              <Activity className="w-10 h-10 text-indigo-500 animate-spin mb-4" />
-              <p className="text-sm font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase">
+              <Activity className="w-10 h-10 text-brand animate-spin mb-4" />
+              <p className="text-sm font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase">
                 {t('loading', 'YÜKLENİYOR...')}
               </p>
             </div>
           ) : plans.length === 0 ? (
             <div className="col-span-full flex flex-col items-center justify-center py-20">
-              <p className="text-sm font-bold text-neutral-500 dark:text-slate-400 tracking-widest uppercase">
+              <p className="text-sm font-bold text-neutral-500 dark:text-muted-foreground tracking-widest uppercase">
                 {t('noPlansAvailable', 'PAKET BULUNAMADI')}
               </p>
             </div>
@@ -176,19 +176,19 @@ export default function Pricing() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 className={cn(
-                  "relative p-8 rounded-[2rem] bg-white/50 dark:bg-[#14151a]/50 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 shadow-xl flex flex-col h-full transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 group",
-                  isPopular && "border-indigo-500/50 dark:border-indigo-500/30 ring-2 ring-indigo-500/10"
+                  "relative p-8 rounded-[2rem] bg-white/50 dark:bg-background/50 backdrop-blur-xl border border-white/60 dark:border-border/60 shadow-xl flex flex-col h-full transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 group",
+                  isPopular && "border-brand/50 dark:border-brand/30 ring-2 ring-indigo-500/10"
                 )}
               >
                 {isPopular && (
-                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-full text-xs font-black tracking-wider shadow-xl shadow-indigo-600/30 flex items-center gap-2 whitespace-nowrap">
+                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand to-brand text-white px-6 py-2 rounded-full text-xs font-black tracking-wider shadow-xl shadow-indigo-600/30 flex items-center gap-2 whitespace-nowrap">
                     <Star className="w-3 h-3 fill-white" />
                     {t('optimizedChoice', 'EN ÇOK TERCİH EDİLEN')}
                   </div>
                 )}
 
                 <div className="space-y-4 mb-10">
-                  <h3 className="text-sm font-black text-neutral-400 dark:text-slate-500 tracking-widest uppercase">
+                  <h3 className="text-sm font-black text-neutral-400 dark:text-muted-foreground tracking-widest uppercase">
                     {plan.name}
                   </h3>
                   <div className="flex items-baseline gap-2">
@@ -196,26 +196,26 @@ export default function Pricing() {
                       {formatPrice(plan.priceMonthlyCents)}
                     </span>
                     {plan.priceMonthlyCents !== null && (
-                      <span className="text-xs font-bold text-neutral-400 dark:text-slate-500 uppercase">
+                      <span className="text-xs font-bold text-neutral-400 dark:text-muted-foreground uppercase">
                         {t('cycle_per_unit', '/ BİRİM BAŞINA AY')}
                       </span>
                     )}
                   </div>
-                  <p className="text-sm font-medium text-neutral-500 dark:text-slate-400 leading-relaxed">
+                  <p className="text-sm font-medium text-neutral-500 dark:text-muted-foreground leading-relaxed">
                     {t(`pricing.desc.${plan.key}`, 'İhtiyaçlarınıza özel gelişmiş yönetim paneli.')}
                   </p>
                 </div>
 
                 <div className="space-y-3 mb-10 flex-1">
-                  <p className="text-xs font-semibold text-neutral-400 dark:text-slate-500 tracking-widest uppercase border-b border-neutral-200 dark:border-slate-800 pb-3">
+                  <p className="text-xs font-semibold text-neutral-400 dark:text-muted-foreground tracking-widest uppercase border-b border-neutral-200 dark:border-border pb-3">
                     {t('specs', 'ÖZELLİKLER')}
                   </p>
                   {generateFeatures(plan.limits).map((feature, fIdx) => (
                     <div key={fIdx} className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 text-indigo-600 dark:text-indigo-400" />
+                      <div className="w-5 h-5 rounded-full bg-brand/10 dark:bg-brand/30 flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3 text-brand dark:text-brand" />
                       </div>
-                      <span className="text-sm font-semibold text-neutral-700 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                      <span className="text-sm font-semibold text-neutral-700 dark:text-muted-foreground group-hover:text-brand dark:group-hover:text-brand transition-colors">
                         {feature}
                       </span>
                     </div>
@@ -233,8 +233,8 @@ export default function Pricing() {
                   className={cn(
                     "w-full h-14 rounded-2xl font-bold text-sm tracking-wider uppercase transition-all duration-300",
                     isPopular
-                      ? "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-xl shadow-indigo-600/20"
-                      : "bg-white/60 dark:bg-slate-800/60 hover:bg-white/80 dark:hover:bg-slate-800/80 text-neutral-700 dark:text-slate-300 border border-white/60 dark:border-slate-700/60"
+                      ? "bg-gradient-to-r from-brand to-brand hover:from-brand hover:to-brand text-white shadow-xl shadow-indigo-600/20"
+                      : "bg-white/60 dark:bg-muted/60 hover:bg-white/80 dark:hover:bg-muted/80 text-neutral-700 dark:text-muted-foreground border border-white/60 dark:border-border/60"
                   )}
                 >
                   <Zap className="w-4 h-4 mr-2" />
@@ -242,9 +242,9 @@ export default function Pricing() {
                 </Button>
 
                 <div className="mt-6 flex items-center justify-center gap-4 opacity-30 group-hover:opacity-60 transition-opacity">
-                  <Shield className="w-4 h-4 text-neutral-400 dark:text-slate-500" />
-                  <Activity className="w-4 h-4 text-neutral-400 dark:text-slate-500" />
-                  <Sparkles className="w-4 h-4 text-indigo-400" />
+                  <Shield className="w-4 h-4 text-neutral-400 dark:text-muted-foreground" />
+                  <Activity className="w-4 h-4 text-neutral-400 dark:text-muted-foreground" />
+                  <Sparkles className="w-4 h-4 text-brand" />
                 </div>
               </m.div>
             );
@@ -255,19 +255,19 @@ export default function Pricing() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-20 p-12 rounded-[2rem] md:rounded-[3rem] bg-white/30 dark:bg-[#14151a]/30 backdrop-blur-xl border border-white/60 dark:border-slate-800/60 text-center"
+          className="mt-20 p-12 rounded-[2rem] md:rounded-[3rem] bg-white/30 dark:bg-background/30 backdrop-blur-xl border border-white/60 dark:border-border/60 text-center"
         >
           <h2 className="text-2xl md:text-3xl font-black text-neutral-900 dark:text-white tracking-tight mb-4">
             {t('securityIncluded', 'ASKERİ DÜZEYDE GÜVENLİK')}
           </h2>
-          <p className="text-sm font-medium text-neutral-500 dark:text-slate-400 max-w-2xl mx-auto mb-8">
+          <p className="text-sm font-medium text-neutral-500 dark:text-muted-foreground max-w-2xl mx-auto mb-8">
             {t('securityDesc', 'Tüm paketlerimiz kurumsal düzeyde şifreleme ve gelişmiş veri güvenliği standartlarıyla korunmaktadır.')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             {["AES-256", "SHA-512", "TLS 1.3", "RBAC", "ISO 27001"].map(auth => (
               <span
                 key={auth}
-                className="text-xs font-black text-indigo-600 dark:text-indigo-400 tracking-widest bg-indigo-50 dark:bg-indigo-900/20 px-4 py-2 rounded-full"
+                className="text-xs font-black text-brand dark:text-brand tracking-widest bg-brand/10 dark:bg-brand/20 px-4 py-2 rounded-full"
               >
                 {auth}
               </span>

@@ -2,7 +2,7 @@
 
 import { t } from"i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Badge } from"@/components/ui/badge";
 import { useTranslation } from"react-i18next";
@@ -178,21 +178,21 @@ export default function VacationRentals() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case 'ACTIVE':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'INACTIVE':
- return 'bg-white/10';
+ return 'bg-card/10';
  case 'SUSPENDED':
  return 'bg-red-500';
  case 'PENDING':
  return 'bg-yellow-500';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  const getSyncStatusColor = (status: string) => {
  switch (status) {
  case 'SYNCED':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'SYNCING':
  return 'bg-muted0';
  case 'OUT_OF_SYNC':
@@ -200,7 +200,7 @@ export default function VacationRentals() {
  case 'ERROR':
  return 'bg-red-500';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  const activeRentals = rentals.filter(r => r.status === 'ACTIVE').length;
@@ -476,7 +476,7 @@ export default function VacationRentals() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -562,7 +562,7 @@ export default function VacationRentals() {
  <div className="space-y-3">
  <div className="flex justify-between items-center">
  <span className="text-sm flex items-center gap-2">
- <div className="w-2 h-2 rounded-full bg-green-500" />{t("admin_property_synced")}</span>
+ <div className="w-2 h-2 rounded-full bg-blue-500" />{t("admin_property_synced")}</span>
  <span className="font-medium">
  {rentals.filter(r => r.syncStatus === 'SYNCED').length}
  </span>

@@ -16,7 +16,7 @@ import { propertiesApi, type Property } from "@/lib/api/properties";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 const STATUS_CONFIG = {
   PENDING: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     icon: Clock,
     cls: "bg-yellow-100 text-yellow-700"
   },
@@ -26,12 +26,12 @@ const STATUS_CONFIG = {
     cls: "bg-blue-100 text-blue-700"
   },
   APPROVED: {
-    label: t("client.src.approved"),
+    label: t("common.approved"),
     icon: CheckCircle,
-    cls: "bg-green-100 text-green-700"
+    cls: "bg-blue-100 text-blue-700"
   },
   REJECTED: {
-    label: t("client.src.rejected"),
+    label: t("common.rejected"),
     icon: XCircle,
     cls: "bg-red-100 text-red-700"
   }
@@ -56,7 +56,7 @@ export default function TenantApplications() {
       toast({ title: t("client.src.lead_score_calculated") });
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -68,7 +68,7 @@ export default function TenantApplications() {
       toast({ title: t("client.src.landlords_matched") });
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
   const fetchData = async () => {
@@ -79,7 +79,7 @@ export default function TenantApplications() {
       setProperties(propRes || []);
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_load_applications"),
         variant: "destructive"
       });
@@ -108,7 +108,7 @@ export default function TenantApplications() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_update_status"),
         variant: "destructive"
       });
@@ -124,7 +124,7 @@ export default function TenantApplications() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_delete_application"),
         variant: "destructive"
       });
@@ -138,19 +138,19 @@ export default function TenantApplications() {
   const handleMatchLandlords = (id: string) => {
     matchLandlordsMutation.mutate(id);
   };
-  return <PageShell title={t("client.src.tenant_applications")} description={t("client.src.manage_and_review_prospective")} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search by applicant name or email..." actions={<Button variant="outline" size="icon" onClick={fetchData} disabled={loading}>
+  return <PageShell title={t("client.src.tenant_applications")} description={t("client.src.manage_and_review_prospective")} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search by applicant name or email..." actions={<Button variant="outline" size="icon" aria-label={t("common.refresh")} onClick={fetchData} disabled={loading}>
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
         </Button>} stats={[{
     label: t("client.src.total_applications"),
     value: applications.length
   }, {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     value: applications.filter(a => a.status === 'PENDING').length
   }, {
     label: t("client.src.under_review"),
     value: applications.filter(a => a.status === 'UNDER_REVIEW').length
   }, {
-    label: t("client.src.approved"),
+    label: t("common.approved"),
     value: applications.filter(a => a.status === 'APPROVED').length
   }]}>
       <div className="space-y-6">
@@ -173,7 +173,7 @@ export default function TenantApplications() {
                 <TableHead>{t("client.src.scoreincome")}</TableHead>
                 <TableHead>{t("client.src.lead_score")}</TableHead>
                 <TableHead>{t("client.src.engagement")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead>{t("client.src.date_submitted")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
@@ -199,12 +199,12 @@ export default function TenantApplications() {
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <Brain className="w-4 h-4 text-blue-500" />
+                          <Brain className="w-4 h-4 text-brand" />
                           <span className="font-bold text-sm">{app.leadScore || "—"}</span>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge className={app.engagementLevel === 'HIGH' ? 'bg-green-100 text-green-700' : app.engagementLevel === 'MEDIUM' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-700'}>
+                        <Badge className={app.engagementLevel === 'HIGH' ? 'bg-blue-100 text-blue-700' : app.engagementLevel === 'MEDIUM' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-700'}>
                           {app.engagementLevel || "LOW"}
                         </Badge>
                       </TableCell>
@@ -218,14 +218,14 @@ export default function TenantApplications() {
                       </TableCell>
                       <TableCell onClick={e => e.stopPropagation()}>
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem onClick={() => handleCalculateScore(app.id)}><Brain className="w-4 h-4 mr-2" />{t("client.src.calculate_lead_score")}</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleMatchLandlords(app.id)}><Users className="w-4 h-4 mr-2" />{t("client.src.match_landlords")}</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleUpdateStatus(app.id, "UNDER_REVIEW")}>{t("client.src.mark_under_review")}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleUpdateStatus(app.id, "APPROVED")} className="text-green-600">{t("client.src.approve")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleUpdateStatus(app.id, "APPROVED")} className="text-blue-600">{t("client.src.approve")}</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleUpdateStatus(app.id, "REJECTED")} className="text-red-600">{t("client.src.reject")}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(app.id)} className="text-destructive font-bold"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(app.id)} className="text-destructive font-bold"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -247,10 +247,10 @@ export default function TenantApplications() {
                     <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                       <span className="text-muted-foreground">{t("client.src.full_name")}</span>
                       <span className="font-medium">{selectedApp.applicant?.firstName} {selectedApp.applicant?.lastName}</span>
-                      <span className="text-muted-foreground">{t("client.src.email")}</span>
+                      <span className="text-muted-foreground">{t("common.email")}</span>
                       <span className="font-medium">{selectedApp.applicant?.email}</span>
                       <span className="text-muted-foreground">{t("client.src.monthly_income")}</span>
-                      <span className="font-medium text-green-700">${selectedApp.income?.toLocaleString() || "N/A"}</span>
+                      <span className="font-medium text-blue-700">${selectedApp.income?.toLocaleString() || "N/A"}</span>
                       <span className="text-muted-foreground">{t("client.src.employment")}</span>
                       <span className="font-medium">{selectedApp.employmentStatus || "N/A"}</span>
                     </div>
@@ -259,7 +259,7 @@ export default function TenantApplications() {
                     <h3 className="font-bold border-b pb-2 flex items-center gap-2"><CheckCircle className="w-4 h-4" />{t("client.src.checks_scores")}</h3>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                       <span className="text-muted-foreground">{t("client.src.credit_score")}</span>
-                      <span className={`font-bold ${(selectedApp.creditScore || 0) > 700 ? 'text-green-600' : 'text-yellow-600'}`}>
+                      <span className={`font-bold ${(selectedApp.creditScore || 0) > 700 ? 'text-blue-600' : 'text-yellow-600'}`}>
                         {selectedApp.creditScore || "Pending"}
                       </span>
                       <span className="text-muted-foreground">{t("client.src.income_verified")}</span>
@@ -287,8 +287,8 @@ export default function TenantApplications() {
                 <div className="space-y-3">
                   <h3 className="font-bold border-b pb-2">{t("client.src.proposed_movein_notes")}</h3>
                   <div className="bg-muted p-4 rounded-lg space-y-2">
-                    <div className="text-sm"><span className="text-muted-foreground mr-2">{t("client.src.property")}</span> {selectedApp.propertyName || "Unknown"}</div>
-                    <div className="text-sm text-muted-foreground italic">"{selectedApp.applicationData?.notes || 'No notes provided'}"</div>
+                    <div className="text-sm"><span className="text-muted-foreground mr-2">{t("common.property")}</span> {selectedApp.propertyName || "Unknown"}</div>
+                    <div className="text-sm text-muted-foreground italic">&quot;{selectedApp.applicationData?.notes || 'No notes provided'}&quot;</div>
                   </div>
                 </div>
 
@@ -297,7 +297,7 @@ export default function TenantApplications() {
                      <Button variant="outline" onClick={() => handleUpdateStatus(selectedApp.id, "REJECTED")} className="text-red-600 border-red-200 hover:bg-red-50">{t("client.src.reject")}</Button>
                      <Button variant="outline" onClick={() => handleUpdateStatus(selectedApp.id, "UNDER_REVIEW")}>{t("client.src.under_review")}</Button>
                    </div>
-                   <Button onClick={() => handleUpdateStatus(selectedApp.id, "APPROVED")} className="bg-green-600 hover:bg-green-700">{t("client.src.approve_generate_lease")}</Button>
+                   <Button onClick={() => handleUpdateStatus(selectedApp.id, "APPROVED")} className="bg-blue-600 hover:bg-blue-700">{t("client.src.approve_generate_lease")}</Button>
                 </DialogFooter>
               </div>}
           </DialogContent>

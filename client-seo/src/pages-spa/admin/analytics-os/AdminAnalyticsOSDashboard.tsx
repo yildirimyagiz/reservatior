@@ -41,22 +41,22 @@ export default function AdminAnalyticsOSDashboard() {
     new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(v);
 
   const kpis = [
-    { title: "Total Revenue", value: fmt(100950), icon: DollarSign, color: "text-emerald-500", trend: "+14.7% this week" },
-    { title: "Total Bookings", value: 133, icon: Activity, color: "text-blue-400", trend: "+18 this week" },
-    { title: "Active Users", value: 448, icon: Users, color: "text-purple-400", trend: "+12% vs last week" },
-    { title: "Avg Conversion", value: "34.2%", icon: Target, color: "text-orange-400", trend: "vs 28% industry avg" },
+    { title: t("analytics_os.total_revenue", "Toplam Gelir"), value: fmt(100950), icon: DollarSign, color: "text-success", trend: "+14.7% this week" },
+    { title: t("analytics_os.total_bookings", "Toplam Rezervasyon"), value: 133, icon: Activity, color: "text-info", trend: "+18 this week" },
+    { title: t("analytics_os.active_users", "Aktif Kullanıcılar"), value: 448, icon: Users, color: "text-brand", trend: "+12% vs last week" },
+    { title: t("analytics_os.avg_conversion", "Ort. Dönüşüm"), value: "34.2%", icon: Target, color: "text-warning", trend: "vs 28% industry avg" },
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-start justify-between">
+    <div className="ui-page">
+      <div className="ui-page-header">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-100">Analytics OS Management</h1>
-          <p className="text-slate-400 mt-1">Business intelligence and performance analytics</p>
+          <h1 className="ui-title">{t("analytics_os.title", "Analitik OS")}</h1>
+          <p className="ui-subtitle">{t("analytics_os.subtitle", "İş zekası ve performans analitikleri")}</p>
         </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700">
+        <Button className="ui-btn-primary">
           <BarChart3 className="h-4 w-4 mr-2" />
-          Generate Report
+          {t("analytics_os.generate_report", "Rapor Oluştur")}
         </Button>
       </div>
 
@@ -64,15 +64,15 @@ export default function AdminAnalyticsOSDashboard() {
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
           <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.title}</CardTitle>
                 <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-slate-100">{kpi.value}</div>
-                <p className="text-xs text-slate-500 mt-1 flex items-center gap-1">
-                  <ArrowUpRight className="h-3 w-3 text-emerald-400" />{kpi.trend}
+                <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
+                <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                  <ArrowUpRight className="h-3 w-3 text-success" />{kpi.trend}
                 </p>
               </CardContent>
             </Card>
@@ -81,23 +81,23 @@ export default function AdminAnalyticsOSDashboard() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="bg-slate-900/60 border-slate-800">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="kpis">KPIs</TabsTrigger>
-          <TabsTrigger value="insights">AI Insights</TabsTrigger>
-          <TabsTrigger value="widgets">Widgets</TabsTrigger>
+        <TabsList className="bg-card border-border">
+          <TabsTrigger value="overview">{t("analytics_os.tabs.overview", "Genel Bakış")}</TabsTrigger>
+          <TabsTrigger value="kpis">{t("analytics_os.tabs.kpis", "KPI'lar")}</TabsTrigger>
+          <TabsTrigger value="insights">{t("analytics_os.tabs.insights", "AI İçgörüler")}</TabsTrigger>
+          <TabsTrigger value="widgets">{t("analytics_os.tabs.widgets", "Widget'lar")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-slate-100 flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-emerald-400" />
-                  Revenue & Bookings (7d)
+                <CardTitle className="text-foreground flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-success" />
+                  {t("analytics_os.revenue_bookings", "Gelir ve Rezervasyonlar (7g)")}
                 </CardTitle>
-                <CardDescription className="text-slate-400">
-                  Weekly performance metrics
+                <CardDescription className="text-muted-foreground">
+                  {t("analytics_os.weekly_metrics", "Haftalık performans metrikleri")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -114,7 +114,7 @@ export default function AdminAnalyticsOSDashboard() {
                           name === "revenue" ? "Revenue" : name === "bookings" ? "Bookings" : "Users",
                         ]}
                       />
-                      <Bar dataKey="revenue" fill="#10b981" radius={[4, 4, 0, 0]} opacity={0.85} />
+                      <Bar dataKey="revenue" fill="#3b82f6" radius={[4, 4, 0, 0]} opacity={0.85} />
                       <Bar dataKey="bookings" fill="#6366f1" radius={[4, 4, 0, 0]} opacity={0.6} />
                     </BarChart>
                   </ResponsiveContainer>
@@ -122,11 +122,11 @@ export default function AdminAnalyticsOSDashboard() {
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-slate-100">User Activity Trend</CardTitle>
-                <CardDescription className="text-slate-400">
-                  Daily active users over the week
+                <CardTitle className="text-foreground">{t("analytics_os.user_activity_trend", "Kullanıcı Aktivite Eğilimi")}</CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  {t("analytics_os.user_activity_desc", "Hafta boyunca günlük aktif kullanıcılar")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -149,26 +149,26 @@ export default function AdminAnalyticsOSDashboard() {
         </TabsContent>
 
         <TabsContent value="kpis">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">KPI Tracking</CardTitle>
-              <CardDescription className="text-slate-400">
-                Monitor key performance indicators against targets
+              <CardTitle className="text-foreground">{t("analytics_os.kpis", "KPI Takibi")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("analytics_os.kpis_desc", "Hedeflere karşı temel performans göstergelerini izleyin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {KPIS.map((kpi) => (
-                  <div key={kpi.id} className="flex items-center justify-between p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div key={kpi.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border">
                     <div className="flex items-center gap-3">
-                      <div className={`w-2 h-2 rounded-full ${kpi.status === 'positive' ? 'bg-emerald-400' : 'bg-yellow-400'}`} />
+                      <div className={`w-2 h-2 rounded-full ${kpi.status === 'positive' ? 'bg-blue-400' : 'bg-yellow-400'}`} />
                       <div>
-                        <p className="text-sm font-medium text-slate-200">{kpi.name}</p>
-                        <p className="text-xs text-slate-500">Target: {kpi.target}</p>
+                        <p className="text-sm font-medium text-foreground">{kpi.name}</p>
+                        <p className="text-xs text-muted-foreground">{t("analytics_os.target_label", "Hedef:")} {kpi.target}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold text-slate-100">{kpi.value}</p>
+                      <p className="text-sm font-bold text-foreground">{kpi.value}</p>
                       <Badge variant={kpi.status === 'positive' ? 'default' : 'secondary'} className="text-xs">
                         {kpi.status}
                       </Badge>
@@ -181,30 +181,30 @@ export default function AdminAnalyticsOSDashboard() {
         </TabsContent>
 
         <TabsContent value="insights">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">AI-Powered Insights</CardTitle>
-              <CardDescription className="text-slate-400">
-                Automated analysis and recommendations
+              <CardTitle className="text-foreground">{t("analytics_os.insights", "AI Destekli İçgörüler")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("analytics_os.insights_desc", "Otomatik analiz ve öneriler")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {INSIGHTS.map((insight) => (
-                  <div key={insight.id} className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div key={insight.id} className="p-4 rounded-lg bg-muted/50 border border-border">
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <Badge variant={insight.impact === 'high' ? 'default' : 'secondary'} className="text-xs">
-                          {insight.impact} impact
+                          {insight.impact} {t("analytics_os.impact", "etki")}
                         </Badge>
                         <Badge variant="outline" className="text-xs">
                           {insight.type}
                         </Badge>
                       </div>
-                      <AlertCircle className="h-4 w-4 text-slate-400" />
+                      <AlertCircle className="h-4 w-4 text-muted-foreground" />
                     </div>
-                    <p className="text-sm font-medium text-slate-200">{insight.title}</p>
-                    <p className="text-xs text-slate-500 mt-1">{insight.description}</p>
+                    <p className="text-sm font-medium text-foreground">{insight.title}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{insight.description}</p>
                   </div>
                 ))}
               </div>
@@ -213,17 +213,17 @@ export default function AdminAnalyticsOSDashboard() {
         </TabsContent>
 
         <TabsContent value="widgets">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Dashboard Widgets</CardTitle>
-              <CardDescription className="text-slate-400">
-                Configure custom dashboard widgets
+              <CardTitle className="text-foreground">{t("analytics_os.widgets", "Panel Bileşenleri")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("analytics_os.widgets_desc", "Özel panel bileşenlerini yapılandırın")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Widget configuration interface</p>
+                <p>{t("analytics_os.widgets_placeholder", "Bileşen yapılandırma arayüzü")}</p>
               </div>
             </CardContent>
           </Card>

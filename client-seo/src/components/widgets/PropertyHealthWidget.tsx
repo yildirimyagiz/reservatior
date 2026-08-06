@@ -30,8 +30,8 @@ export function PropertyHealthWidget({
 }: PropertyHealthWidgetProps) {
   const { t } = useTranslation();
 
-  const scoreColor = overallScore >= 80 ? "text-emerald-400" : overallScore >= 50 ? "text-amber-400" : "text-red-400";
-  const scoreBg = overallScore >= 80 ? "from-emerald-500 to-emerald-700" : overallScore >= 50 ? "from-amber-500 to-amber-700" : "from-red-500 to-red-700";
+  const scoreColor = overallScore >= 80 ? "text-blue-400" : overallScore >= 50 ? "text-amber-400" : "text-red-400";
+  const scoreBg = overallScore >= 80 ? "from-blue-500 to-blue-700" : overallScore >= 50 ? "from-amber-500 to-amber-700" : "from-red-500 to-red-700";
 
   return (
     <Card className="bg-card border-border overflow-hidden">
@@ -63,14 +63,14 @@ export function PropertyHealthWidget({
           </div>
           <div className="flex items-center justify-between pt-2 border-t border-border">
             <div className="flex items-center gap-2">
-              <AlertTriangle className={cn("w-4 h-4", criticalDefects > 0 ? "text-red-400" : "text-emerald-400")} />
-              <span className="text-xs text-foreground">{totalDefects} {t("widget_health_defects", "defects")}{criticalDefects > 0 ? ` (${criticalDefects}!)" : ""}</span>
+              <AlertTriangle className={cn("w-4 h-4", criticalDefects > 0 ? "text-red-400" : "text-blue-400")} />
+              <span className="text-xs text-foreground">{totalDefects} {t("widget_health_defects", "defects")}{criticalDefects > 0 ? ` (${criticalDefects}!)` : ""}</span>
             </div>
             <span className="text-sm font-bold text-foreground">${estimatedRepairCost.toLocaleString()}</span>
           </div>
           {conditionDelta !== undefined && (
             <div className="flex items-center gap-2">
-              <TrendingUp className={cn("w-3 h-3", conditionDelta >= 0 ? "text-emerald-400" : "text-red-400")} />
+              <TrendingUp className={cn("w-3 h-3", conditionDelta >= 0 ? "text-blue-400" : "text-red-400")} />
               <span className="text-xs text-foreground">{conditionDelta >= 0 ? "+" : ""}{conditionDelta} {t("widget_health_delta", "since baseline")}</span>
             </div>
           )}

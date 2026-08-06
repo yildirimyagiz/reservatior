@@ -82,7 +82,7 @@ const mockAgents: Agent[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-green-500/20 text-green-400 border-green-500/30",
+  ACTIVE: "bg-blue-500/20 text-blue-400 border-blue-500/30",
   INACTIVE: "bg-gray-500/20 text-gray-400 border-gray-500/30",
   PENDING: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
 };
@@ -119,7 +119,7 @@ export default function AgentsPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("agents.agentspage.auto_ext_3")}
@@ -134,15 +134,15 @@ export default function AgentsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm text-gray-400 mb-1">{t("agents.agentspage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">{totalAgents}</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-blue-500/10">
-                    <Users className="w-6 h-6 text-blue-400" />
+                  <div className="p-3 rounded-lg bg-brand/100/10">
+                    <Users className="w-6 h-6 text-brand" />
                   </div>
                 </div>
               </CardContent>
@@ -154,15 +154,15 @@ export default function AgentsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm text-gray-400 mb-1">{t("agents.agentspage.auto_ext_5")}</div>
                     <div className="text-2xl font-bold text-white">${(totalRevenue / 1000000).toFixed(1)}M</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-green-500/10">
-                    <TrendingUp className="w-6 h-6 text-green-400" />
+                  <div className="p-3 rounded-lg bg-blue-500/10">
+                    <TrendingUp className="w-6 h-6 text-blue-400" />
                   </div>
                 </div>
               </CardContent>
@@ -174,7 +174,7 @@ export default function AgentsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -197,7 +197,7 @@ export default function AgentsPage() {
           transition={{ delay: 0.4 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -207,22 +207,22 @@ export default function AgentsPage() {
                       placeholder="Search agents..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-40 bg-white/10 border-purple-500/30 text-white">
+                  <SelectTrigger className="w-40 bg-white/10 border-brand/30 text-white">
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-purple-500/30">
+                  <SelectContent className="bg-card border-brand/30">
                     <SelectItem value="ALL">{t("agents.agentspage.auto_ext_7")}</SelectItem>
                     <SelectItem value="ACTIVE">{t("agents.agentspage.auto_ext_8")}</SelectItem>
                     <SelectItem value="INACTIVE">{t("agents.agentspage.auto_ext_9")}</SelectItem>
                     <SelectItem value="PENDING">{t("agents.agentspage.auto_ext_10")}</SelectItem>
                   </SelectContent>
                 </Select>
-                <Button className="bg-purple-600 hover:bg-purple-700">
+                <Button className="bg-brand hover:bg-brand">
                   <Plus className="w-4 h-4 mr-2" />
                   {t("agents.agentspage.auto_ext_11")}
                                                   </Button>
@@ -241,13 +241,13 @@ export default function AgentsPage() {
             {filteredAgents.map((agent) => (
               <Card
                 key={agent.id}
-                className="bg-white/5 backdrop-blur-xl border-purple-500/20 hover:bg-white/10 transition-colors"
+                className="bg-white/5 backdrop-blur-xl border-brand/20 hover:bg-white/10 transition-colors"
               >
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-4">
                       <Avatar className="w-12 h-12 rounded-xl">
-                        <AvatarFallback className="bg-purple-600/20 text-purple-400 font-bold">
+                        <AvatarFallback className="bg-brand/20 text-brand font-bold">
                           {agent.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
@@ -285,13 +285,13 @@ export default function AgentsPage() {
 
                   <div className="flex flex-wrap gap-2">
                     {agent.specialization.map((spec) => (
-                      <Badge key={spec} variant="outline" className="text-xs border-purple-500/30 text-purple-300">
+                      <Badge key={spec} variant="outline" className="text-xs border-brand/30 text-brand">
                         {spec}
                       </Badge>
                     ))}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-purple-500/20">
+                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-brand/20">
                     <div>
                       <div className="text-xs text-gray-400 mb-1">{t("agents.agentspage.auto_ext_12")}</div>
                       <div className="flex items-center gap-1 text-white">
@@ -305,16 +305,16 @@ export default function AgentsPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-purple-500/20">
+                  <div className="flex items-center justify-between pt-4 border-t border-brand/20">
                     <div>
                       <div className="text-xs text-gray-400 mb-1">{t("agents.agentspage.auto_ext_14")}</div>
-                      <div className="text-green-400 font-medium">${(agent.totalRevenue / 1000000).toFixed(1)}M</div>
+                      <div className="text-blue-400 font-medium">${(agent.totalRevenue / 1000000).toFixed(1)}M</div>
                     </div>
                     <div className="flex gap-2">
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Button variant="ghost" size="icon" aria-label={t("common.edit")} className="h-8 w-8">
                         <Edit className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400 hover:text-red-300">
+                      <Button variant="ghost" size="icon" aria-label={t("common.delete")} className="h-8 w-8 text-red-400 hover:text-red-300">
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>

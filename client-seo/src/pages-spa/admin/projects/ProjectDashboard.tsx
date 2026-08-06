@@ -91,31 +91,31 @@ export default function ProjectDashboard() {
  </Button>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-foreground">
+ <Button className="bg-muted hover:bg-muted0 text-foreground">
  <Plus className="w-4 h-4 mr-2" />{t("admin_projects_new_project")}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_create_new_project", "Create New Project")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_project", "Enter the details for the new project.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_project", "Yeni Proje Oluştur")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_project", "Yeni projenin ayrıntılarını girin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_project_name", "Project Name")}</Label>
- <Input id="name" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder={t("admin_auto_enter_project_name", "Enter project name")} />
+ <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_project_name", "Proje Adı")}</Label>
+ <Input id="name" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder={t("admin_auto_enter_project_name", "Proje adını girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
- <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Enter status")} />
+ <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Durum")}</Label>
+ <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Durumu girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="budget" className="text-right text-xs text-muted-foreground">{t("admin_auto_budget", "Budget")}</Label>
- <Input id="budget" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.budget} onChange={e => setFormData({ ...formData, budget: e.target.value })} placeholder={t("admin_auto_enter_budget", "Enter budget")} />
+ <Label htmlFor="budget" className="text-right text-xs text-muted-foreground">{t("admin_auto_budget", "Bütçe")}</Label>
+ <Input id="budget" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.budget} onChange={e => setFormData({ ...formData, budget: e.target.value })} placeholder={t("admin_auto_enter_budget", "Bütçeyi girin")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -188,11 +188,11 @@ export default function ProjectDashboard() {
  <p className="text-muted-foreground text-sm font-medium">{t("admin_projects_reports_generated")}</p>
  <h3 className="text-3xl font-bold mt-1 text-foreground">24</h3>
  </div>
- <div className="p-2 bg-emerald-500/10 rounded-lg">
- <FileText className="w-5 h-5 text-emerald-400" />
+ <div className="p-2 bg-blue-500/10 rounded-lg">
+ <FileText className="w-5 h-5 text-success" />
  </div>
  </div>
- <div className="mt-4 flex items-center gap-2 text-sm text-emerald-400 font-medium">
+ <div className="mt-4 flex items-center gap-2 text-sm text-success font-medium">
  <span>{t("admin_projects_weekly_report_ready")}</span>
  <ArrowRight className="w-4 h-4" />
  </div>
@@ -202,10 +202,10 @@ export default function ProjectDashboard() {
 
  <Tabs defaultValue="projects" className="space-y-6">
  <TabsList className="bg-card border border-border p-1">
- <TabsTrigger value="projects" className="text-muted-foreground data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin_projects_all_projects")}</TabsTrigger>
- <TabsTrigger value="alerts" className="text-muted-foreground data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin_projects_alerts_notifications")}</TabsTrigger>
- <TabsTrigger value="analytics" className="text-muted-foreground data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin_projects_analytics")}</TabsTrigger>
- <TabsTrigger value="reports" className="text-muted-foreground data-[state=active]:bg-slate-600 data-[state=active]:text-white">{t("admin_projects_reports")}</TabsTrigger>
+ <TabsTrigger value="projects" className="text-muted-foreground data-[state=active]:bg-muted data-[state=active]:text-white">{t("admin_projects_all_projects")}</TabsTrigger>
+ <TabsTrigger value="alerts" className="text-muted-foreground data-[state=active]:bg-muted data-[state=active]:text-white">{t("admin_projects_alerts_notifications")}</TabsTrigger>
+ <TabsTrigger value="analytics" className="text-muted-foreground data-[state=active]:bg-muted data-[state=active]:text-white">{t("admin_projects_analytics")}</TabsTrigger>
+ <TabsTrigger value="reports" className="text-muted-foreground data-[state=active]:bg-muted data-[state=active]:text-white">{t("admin_projects_reports")}</TabsTrigger>
  </TabsList>
 
  <TabsContent value="projects" className="space-y-6">
@@ -217,7 +217,7 @@ export default function ProjectDashboard() {
  <CardTitle className="text-foreground">{project.name}</CardTitle>
  <CardDescription className="text-muted-foreground">{project.projectType}</CardDescription>
  </div>
- <Badge variant={project.status ==="ACTIVE" ?"default" :"outline"} className={project.status ==="ACTIVE" ?"bg-slate-600" :"border-border text-muted-foreground"}>
+ <Badge variant={project.status ==="ACTIVE" ?"default" :"outline"} className={project.status ==="ACTIVE" ?"bg-muted" :"border-border text-muted-foreground"}>
  {project.status}
  </Badge>
  </CardHeader>
@@ -240,7 +240,7 @@ export default function ProjectDashboard() {
  </div>
  <div className="pt-4 flex justify-end gap-2">
  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => toast({ title:"Project Details", description: `Viewing details for ${project.name}` })}>{t("admin_projects_details")}</Button>
- <Button size="sm" className="bg-slate-600 hover:bg-muted0 text-foreground" onClick={() => toast({ title:"Manage Project", description: `Managing ${project.name}` })}>{t("admin_projects_manage")}</Button>
+ <Button size="sm" className="bg-muted hover:bg-muted0 text-foreground" onClick={() => toast({ title:"Manage Project", description: `Managing ${project.name}` })}>{t("admin_projects_manage")}</Button>
  </div>
  </div>
  </CardContent>
@@ -271,7 +271,7 @@ export default function ProjectDashboard() {
  </div>
  <p className="text-sm text-muted-foreground mt-1">{alert.message}</p>
  </div>
- <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="text-muted-foreground hover:text-foreground">
  <MoreVertical className="w-4 h-4" />
  </Button>
  </div>

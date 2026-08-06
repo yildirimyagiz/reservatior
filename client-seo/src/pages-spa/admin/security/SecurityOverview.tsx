@@ -45,23 +45,23 @@ export default function SecurityOverview() {
  </div>
 
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
- <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l-emerald-500/30 border-l-2">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l-blue-500/30 border-l-2">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <Lock className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_security_mfa_adoption_dna")}</p>
  <h3 className="text-xl font-bold text-foreground leading-none">68%</h3>
- <p className="text-[10px] font-bold text-emerald-400 mt-4 flex items-center gap-1">
+ <p className="text-[10px] font-bold text-success mt-4 flex items-center gap-1">
  <TrendingUp className="w-3 h-3" />{t("admin_security_5_vs_last_cycle")}</p>
  <div className="mt-4 h-1.5 w-full bg-card rounded-full overflow-hidden">
- <div className="h-full bg-emerald-600 rounded-full" style={{ width:"68%" }}></div>
+ <div className="h-full bg-blue-600 rounded-full" style={{ width:"68%" }}></div>
  </div>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Fingerprint className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
@@ -69,7 +69,7 @@ export default function SecurityOverview() {
  <h3 className="text-xl font-bold text-foreground leading-none">42%</h3>
  <p className="text-[10px] font-bold text-muted-foreground mt-4 flex items-center gap-1">{t("admin_security_mobile_entity_links")}</p>
  <div className="mt-4 h-1.5 w-full bg-card rounded-full overflow-hidden">
- <div className="h-full bg-slate-600 rounded-full" style={{ width:"42%" }}></div>
+ <div className="h-full bg-muted rounded-full" style={{ width:"42%" }}></div>
  </div>
  </CardContent>
  </Card>
@@ -94,7 +94,7 @@ export default function SecurityOverview() {
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_security_auth_failures_24h")}</p>
  <h3 className="text-xl font-bold text-foreground leading-none">124</h3>
- <p className="text-[10px] font-bold text-orange-400 mt-4 flex items-center gap-1">
+ <p className="text-[10px] font-bold text-warning mt-4 flex items-center gap-1">
  <TrendingUp className="w-3 h-3" />{t("admin_security_12_velocity_increase")}</p>
  </CardContent>
  </Card>
@@ -104,7 +104,7 @@ export default function SecurityOverview() {
  <Card className="lg:col-span-8 bg-card backdrop-blur-xl border-border rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
  <CardHeader className="p-8 border-b border-border">
  <CardTitle className="text-xs font-bold text-foreground flex items-center gap-2">
- <Activity className="w-4 h-4 text-slate-500" />{t("admin_security_neural_handshake_velocity")}</CardTitle>
+ <Activity className="w-4 h-4 text-muted-foreground" />{t("admin_security_neural_handshake_velocity")}</CardTitle>
  </CardHeader>
  <CardContent className="p-8 h-[400px]">
  <ResponsiveContainer width="100%" height={300} minWidth={0}>
@@ -144,21 +144,21 @@ export default function SecurityOverview() {
  <p className="text-[10px] font-bold text-foreground tracking-tight">{t("admin_security_bruteforce_blocked")}</p>
  <p className="text-[10px] text-muted-foreground font-bold mt-1">{t("admin_security_ip_1852241102_15m_ago")}</p>
  </div>
- <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground"><Eye className="w-4 h-4" /></Button>
+ <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground" aria-label={t("common.view")}><Eye className="w-4 h-4" /></Button>
  </div>
 
  <div className="p-6 rounded-3xl bg-orange-500/5 border border-orange-500/10 flex items-start gap-4 hover:bg-orange-500/10 transition-all cursor-pointer group">
  <div className="p-3 bg-card border border-orange-500/20 rounded-2xl group-hover:scale-110 transition-all">
- <AlertTriangle className="w-5 h-5 text-orange-400" />
+ <AlertTriangle className="w-5 h-5 text-warning" />
  </div>
  <div className="flex-1">
  <p className="text-[10px] font-bold text-foreground tracking-tight">{t("admin_security_multiple_mfa_fails")}</p>
  <p className="text-[10px] text-muted-foreground font-bold mt-1">{t("admin_security_user_adminpropos_2h_ago")}</p>
  </div>
- <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground"><Eye className="w-4 h-4" /></Button>
+ <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground" aria-label={t("common.view")}><Eye className="w-4 h-4" /></Button>
  </div>
 
- <div className="p-6 rounded-3xl bg-card border border-border flex items-start gap-4 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer group">
+ <div className="p-6 rounded-3xl bg-card border border-border flex items-start gap-4 hover:bg-muted dark:hover:bg-card/10 transition-all cursor-pointer group">
  <div className="p-3 bg-card border border-border rounded-2xl group-hover:scale-110 transition-all">
  <Key className="w-5 h-5 text-muted-foreground" />
  </div>
@@ -166,19 +166,19 @@ export default function SecurityOverview() {
  <p className="text-[10px] font-bold text-foreground tracking-tight">{t("admin_security_token_handshake_revealed")}</p>
  <p className="text-[10px] text-muted-foreground font-bold mt-1">{t("admin_security_system_log_5h_ago")}</p>
  </div>
- <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground"><Eye className="w-4 h-4" /></Button>
+ <Button variant="ghost" size="sm" className="h-8 w-8 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground" aria-label={t("common.view")}><Eye className="w-4 h-4" /></Button>
  </div>
 
- <Button variant="outline" className="w-full mt-4 h-14 rounded-2xl border-border bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-muted-foreground hover:text-foreground font-bold text-[10px] gap-2">{t("admin_security_synchronize_security_logs")}<ArrowRight className="w-4 h-4" />
+ <Button variant="outline" className="w-full mt-4 h-14 rounded-2xl border-border bg-card hover:bg-muted dark:hover:bg-card/10 text-muted-foreground hover:text-foreground font-bold text-[10px] gap-2">{t("admin_security_synchronize_security_logs")}<ArrowRight className="w-4 h-4" />
  </Button>
  </CardContent>
  </Card>
  </div>
 
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
- <Card className="bg-card border-border rounded-3xl p-8 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer group">
+ <Card className="bg-card border-border rounded-3xl p-8 hover:bg-muted dark:hover:bg-card/10 transition-all cursor-pointer group">
  <div className="flex items-center gap-6">
- <div className="p-4 bg-slate-600/10 border border-slate-500/20 rounded-2xl group-hover:scale-110 transition-all">
+ <div className="p-4 bg-muted border border-slate-500/20 rounded-2xl group-hover:scale-110 transition-all">
  <ShieldCheck className="w-8 h-8 text-muted-foreground" />
  </div>
  <div>
@@ -187,9 +187,9 @@ export default function SecurityOverview() {
  </div>
  </div>
  </Card>
- <Card className="bg-card border-border rounded-3xl p-8 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer group">
+ <Card className="bg-card border-border rounded-3xl p-8 hover:bg-muted dark:hover:bg-card/10 transition-all cursor-pointer group">
  <div className="flex items-center gap-6">
- <div className="p-4 bg-slate-600/10 border border-slate-500/20 rounded-2xl group-hover:scale-110 transition-all">
+ <div className="p-4 bg-muted border border-slate-500/20 rounded-2xl group-hover:scale-110 transition-all">
  <Zap className="w-8 h-8 text-muted-foreground" />
  </div>
  <div>
@@ -198,10 +198,10 @@ export default function SecurityOverview() {
  </div>
  </div>
  </Card>
- <Card className="bg-card border-border rounded-3xl p-8 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer group">
+ <Card className="bg-card border-border rounded-3xl p-8 hover:bg-muted dark:hover:bg-card/10 transition-all cursor-pointer group">
  <div className="flex items-center gap-6">
  <div className="p-4 bg-orange-600/10 border border-orange-500/20 rounded-2xl group-hover:scale-110 transition-all">
- <Activity className="w-8 h-8 text-orange-400" />
+ <Activity className="w-8 h-8 text-warning" />
  </div>
  <div>
  <h4 className="text-sm font-bold text-foreground">{t("admin_security_health_snapshot")}</h4>

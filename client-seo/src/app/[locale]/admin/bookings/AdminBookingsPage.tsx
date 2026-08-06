@@ -42,10 +42,10 @@ const mockBookings: Booking[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  CONFIRMED: "bg-green-500/20 text-green-400",
+  CONFIRMED: "bg-blue-500/20 text-blue-400",
   PENDING: "bg-yellow-500/20 text-yellow-400",
   CANCELLED: "bg-red-500/20 text-red-400",
-  COMPLETED: "bg-slate-500/20 text-slate-400"
+  COMPLETED: "bg-muted text-muted-foreground"
 };
 
 const STATUS_ICONS: Record<string, any> = {
@@ -191,8 +191,8 @@ export default function AdminBookingsPage() {
                           ${booking.totalAmount.toLocaleString()}
                         </div>
                         <div className="flex gap-2">
-                          <Button onClick={() => { setEditingItem(booking); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                          <Button onClick={() => { setDeletingItem(booking); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                          <Button onClick={() => { setEditingItem(booking); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10" aria-label={t("common.edit")}><Edit className="w-4 h-4" /></Button>
+                          <Button onClick={() => { setDeletingItem(booking); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400" aria-label={t("common.delete")}><Trash2 className="w-4 h-4" /></Button>
                         </div>
                       </div>
                     </div>
@@ -229,48 +229,48 @@ function CreateBookingDialog({ open, onOpenChange, onSubmit }: { open: boolean; 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_add_booking", "Add Booking")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_booking", "Add a new booking.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_add_booking", "Rezervasyon Ekle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_booking", "Yeni bir rezervasyon ekleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reservations_guest_name", "Guest Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reservations_guest_name", "Misafir Adı")}</Label>
             <Input value={guestName} onChange={e => setGuestName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("client.src.property_name", "Property Name")}</Label>
+            <Label className="text-right text-foreground">{t("client.src.property_name", "Mülk Adı")}</Label>
             <Input value={propertyName} onChange={e => setPropertyName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_inventory_type_check_in", "Check In")}</Label>
+            <Label className="text-right text-foreground">{t("admin_inventory_type_check_in", "Giriş")}</Label>
             <Input type="date" value={checkIn} onChange={e => setCheckIn(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_inventory_type_check_out", "Check Out")}</Label>
+            <Label className="text-right text-foreground">{t("admin_inventory_type_check_out", "Çıkış")}</Label>
             <Input type="date" value={checkOut} onChange={e => setCheckOut(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_total_amount", "Total Amount ($)")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_total_amount", "Toplam Tutar ($)")}</Label>
             <Input type="number" value={totalAmount} onChange={e => setTotalAmount(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Booking["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="CONFIRMED">{t("admin_property_confirmed", "Confirmed")}</SelectItem>
-                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
-                <SelectItem value="CANCELLED">{t("admin_bookings_status_cancelled", "Cancelled")}</SelectItem>
-                <SelectItem value="COMPLETED">{t("admin_ai_completed", "Completed")}</SelectItem>
+                <SelectItem value="CONFIRMED">{t("admin_property_confirmed", "Onaylanmış")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Bekliyor")}</SelectItem>
+                <SelectItem value="CANCELLED">{t("admin_bookings_status_cancelled", "İptal Edildi")}</SelectItem>
+                <SelectItem value="COMPLETED">{t("admin_ai_completed", "Tamamlandı")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ guestName, propertyName, checkIn, checkOut, totalAmount, status })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ guestName, propertyName, checkIn, checkOut, totalAmount, status })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -289,48 +289,48 @@ function EditBookingDialog({ open, onOpenChange, item, onSubmit }: { open: boole
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("mobile.booking.formEdit", "Edit Booking")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_booking_details", "Update booking details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("mobile.booking.formEdit", "Rezervasyonu Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_booking_details", "Rezervasyon detaylarını güncelleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reservations_guest_name", "Guest Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reservations_guest_name", "Misafir Adı")}</Label>
             <Input value={guestName} onChange={e => setGuestName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("client.src.property_name", "Property Name")}</Label>
+            <Label className="text-right text-foreground">{t("client.src.property_name", "Mülk Adı")}</Label>
             <Input value={propertyName} onChange={e => setPropertyName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_inventory_type_check_in", "Check In")}</Label>
+            <Label className="text-right text-foreground">{t("admin_inventory_type_check_in", "Giriş")}</Label>
             <Input type="date" value={checkIn} onChange={e => setCheckIn(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_inventory_type_check_out", "Check Out")}</Label>
+            <Label className="text-right text-foreground">{t("admin_inventory_type_check_out", "Çıkış")}</Label>
             <Input type="date" value={checkOut} onChange={e => setCheckOut(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_total_amount", "Total Amount ($)")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_total_amount", "Toplam Tutar ($)")}</Label>
             <Input type="number" value={totalAmount} onChange={e => setTotalAmount(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Booking["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="CONFIRMED">{t("admin_property_confirmed", "Confirmed")}</SelectItem>
-                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
-                <SelectItem value="CANCELLED">{t("admin_bookings_status_cancelled", "Cancelled")}</SelectItem>
-                <SelectItem value="COMPLETED">{t("admin_ai_completed", "Completed")}</SelectItem>
+                <SelectItem value="CONFIRMED">{t("admin_property_confirmed", "Onaylanmış")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Bekliyor")}</SelectItem>
+                <SelectItem value="CANCELLED">{t("admin_bookings_status_cancelled", "İptal Edildi")}</SelectItem>
+                <SelectItem value="COMPLETED">{t("admin_ai_completed", "Tamamlandı")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ id: item.id, guestName, propertyName, checkIn, checkOut, totalAmount, status })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ id: item.id, guestName, propertyName, checkIn, checkOut, totalAmount, status })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -343,12 +343,12 @@ function DeleteBookingDialog({ open, onOpenChange, item, onConfirm }: { open: bo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_booking", "Delete Booking")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete_the_book", "Are you sure you want to delete the booking for")}{item.guestName}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_booking", "Rezervasyonu Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete_the_book", "Rezervasyonu silmek istediğinizden emin misiniz:")}{item.guestName}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

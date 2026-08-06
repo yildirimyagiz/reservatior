@@ -33,7 +33,7 @@ export default function UnauthorizedPage() {
         >
           <Button
             onClick={() => router.push('/')}
-            className="bg-purple-600 hover:bg-purple-700"
+            className="bg-brand hover:bg-brand"
           >
             <Home className="w-4 h-4 mr-2" />
             {t("unauthorized.unauthorizedpage.auto_ext_3")}
@@ -41,7 +41,7 @@ export default function UnauthorizedPage() {
           <Button
             onClick={() => router.push('/login')}
             variant="outline"
-            className="bg-white/10 border-purple-500/30 text-white"
+            className="bg-white/10 border-brand/30 text-white"
           >
             <LogIn className="w-4 h-4 mr-2" />
             {t("unauthorized.unauthorizedpage.auto_ext_4")}

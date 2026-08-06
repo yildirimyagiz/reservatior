@@ -44,13 +44,13 @@ export function SmartLockWidget() {
       <CardHeader className="bg-slate-900 text-white pb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className={`p-2 rounded-xl ${isLocked ? 'bg-red-500/20' : 'bg-green-500/20'}`}>
-              <Lock className={`w-5 h-5 ${isLocked ? 'text-red-400' : 'text-green-400'}`} />
+            <div className={`p-2 rounded-xl ${isLocked ? 'bg-red-500/20' : 'bg-blue-500/20'}`}>
+              <Lock className={`w-5 h-5 ${isLocked ? 'text-red-400' : 'text-blue-400'}`} />
             </div>
             <div>
               <CardTitle className="text-lg font-black tracking-tight">{t("client.src.main_entrance_smartlock")}</CardTitle>
               <CardDescription className="text-xs text-slate-400 flex items-center gap-1">
-                <Wifi className="w-3 h-3 text-green-400" />{t("client.src.live_connected_to_cloud")}</CardDescription>
+                <Wifi className="w-3 h-3 text-blue-400" />{t("client.src.live_connected_to_cloud")}</CardDescription>
             </div>
           </div>
           <Badge variant="outline" className="bg-white/5 border-white/20 text-white font-bold text-[10px]">{t("client.src.zillowready")}</Badge>
@@ -62,7 +62,7 @@ export function SmartLockWidget() {
           <div className="space-y-1">
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.battery_health")}</p>
             <div className="flex items-center gap-2">
-              <Battery className="w-4 h-4 text-emerald-500" />
+              <Battery className="w-4 h-4 text-blue-500" />
               <span className="text-xl font-black text-slate-900">82%</span>
             </div>
           </div>
@@ -72,7 +72,7 @@ export function SmartLockWidget() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <Button onClick={toggleLock} disabled={isSyncing} variant={isLocked ? "default" : "secondary"} className={`h-16 rounded-2xl font-black text-lg shadow-xl transition-all active:scale-95 ${isLocked ? 'bg-slate-900 border-none' : 'bg-emerald-500 text-white hover:bg-emerald-600 border-none'}`}>
+          <Button onClick={toggleLock} disabled={isSyncing} variant={isLocked ? "default" : "secondary"} className={`h-16 rounded-2xl font-black text-lg shadow-xl transition-all active:scale-95 ${isLocked ? 'bg-slate-900 border-none' : 'bg-blue-500 text-white hover:bg-blue-600 border-none'}`}>
             {isSyncing ? <RefreshCw className="w-6 h-6 animate-spin mr-2" /> : isLocked ? <Unlock className="w-6 h-6 mr-2" /> : <Lock className="w-6 h-6 mr-2" />}
             {isSyncing ? 'SYNCING...' : isLocked ? 'REMOTE UNLOCK' : 'LOCK COMMAND'}
           </Button>

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function AISearchResultsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0A0A0B] flex items-center justify-center"><div className="w-8 h-8 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#0A0A0B] flex items-center justify-center"><div className="w-8 h-8 border-4 border-brand/20 border-t-purple-500 rounded-full animate-spin" /></div>}>
       <AISearchResultsContent />
     </Suspense>
   );

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { m, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { tEnum } from "@/lib/admin-enums";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -35,26 +36,26 @@ const mockListings: Listing[] = [
 ];
 
 const TYPE_COLORS: Record<string, string> = {
-  SALE: "bg-blue-500/10 text-blue-400 border border-blue-500/20",
+  SALE: "bg-blue-500/10 text-info border border-blue-500/20",
   RENT: "bg-violet-500/10 text-violet-400 border border-violet-500/20",
-  SHORT_TERM: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+  SHORT_TERM: "bg-blue-500/10 text-success border border-blue-500/20"
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
-  PENDING: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
-  SOLD: "bg-slate-500/10 text-slate-400 border border-slate-500/20"
+  ACTIVE: "bg-blue-500/10 text-success border border-blue-500/20",
+  PENDING: "bg-amber-500/10 text-warning border border-amber-500/20",
+  SOLD: "bg-muted text-muted-foreground border border-slate-500/20"
 };
 
 function GlassModal({ open, onOpenChange, title, description, children, footer }: any) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[480px] bg-slate-900/90 backdrop-blur-xl border border-white/10 shadow-2xl">
+      <DialogContent className="sm:max-w-[480px] bg-card/90 backdrop-blur-xl border border-white/10 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">
             {title}
           </DialogTitle>
-          {description && <DialogDescription className="text-slate-400">{description}</DialogDescription>}
+          {description && <DialogDescription className="text-muted-foreground">{description}</DialogDescription>}
         </DialogHeader>
         <div className="py-4 space-y-4">{children}</div>
         {footer && <DialogFooter className="pt-4 border-t border-white/10">{footer}</DialogFooter>}
@@ -70,49 +71,49 @@ function CreateListingDialog({ open, onOpenChange, onSubmit }: any) {
   });
 
   return (
-    <GlassModal open={open} onOpenChange={onOpenChange} title={t("listings.propertylistingspage.auto_ext_4", "Add Listing")}
+    <GlassModal open={open} onOpenChange={onOpenChange} title={t("listings.propertylistingspage.auto_ext_4", "İlan Ekle")}
       footer={
         <div className="flex justify-end gap-2 w-full">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => onSubmit(formData)} className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-            <Check className="w-4 h-4 mr-2" />{t("admin_action_create", "Create")}
+            <Check className="w-4 h-4 mr-2" />{t("admin_action_create", "Oluştur")}
           </Button>
         </div>
       }
     >
       <div className="grid gap-4 text-white">
         <div className="grid gap-2">
-          <Label>{t("admin_ai_title", "Title")}</Label>
+          <Label>{t("admin_ai_title", "Yapay Zeka Servisleri")}</Label>
           <Input value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} className="bg-white/5 border-white/10 focus:border-primary/50" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_ai_type", "Type")}</Label>
+            <Label>{t("admin_ai_type", "Tip")}</Label>
             <Select value={formData.type} onValueChange={(v: any) => setFormData({ ...formData, type: v })}>
               <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="SALE">{t("admin_status_sold", "Sale")}</SelectItem>
-                <SelectItem value="RENT">{t("admin_status_rented", "Rent")}</SelectItem>
-                <SelectItem value="SHORT_TERM">{t("admin_auto_short_term", "Short Term")}</SelectItem>
+                <SelectItem value="SALE">{t("admin_status_sold", "Satıldı")}</SelectItem>
+                <SelectItem value="RENT">{t("admin_status_rented", "Kiralandı")}</SelectItem>
+                <SelectItem value="SHORT_TERM">{t("admin_auto_short_term", "Kısa Dönem")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_auto_amount", "Price")}</Label>
+            <Label>{t("admin_auto_amount", "Miktar")}</Label>
             <Input type="number" value={formData.price} onChange={e => setFormData({ ...formData, price: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_auto_address", "Address")}</Label>
+          <Label>{t("admin_auto_address", "Adres")}</Label>
           <Input value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} className="bg-white/5 border-white/10" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_auto_city", "City")}</Label>
+            <Label>{t("admin_auto_city", "Şehir")}</Label>
             <Input value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_status", "Status")}</Label>
+            <Label>{t("admin_ai_status", "Durum")}</Label>
             <Select value={formData.status} onValueChange={(v: any) => setFormData({ ...formData, status: v })}>
               <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -133,49 +134,49 @@ function EditListingDialog({ open, onOpenChange, item, onSubmit }: any) {
   const [formData, setFormData] = useState<Listing>(item);
 
   return (
-    <GlassModal open={open} onOpenChange={onOpenChange} title={t("admin_action_edit", "Edit")}
+    <GlassModal open={open} onOpenChange={onOpenChange} title={t("admin_action_edit", "Düzenle")}
       footer={
         <div className="flex justify-end gap-2 w-full">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => onSubmit(formData)} className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-            <Check className="w-4 h-4 mr-2" />{t("admin_action_save", "Save")}
+            <Check className="w-4 h-4 mr-2" />{t("admin_action_save", "Kaydet")}
           </Button>
         </div>
       }
     >
       <div className="grid gap-4 text-white">
         <div className="grid gap-2">
-          <Label>{t("admin_ai_title", "Title")}</Label>
+          <Label>{t("admin_ai_title", "Yapay Zeka Servisleri")}</Label>
           <Input value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} className="bg-white/5 border-white/10 focus:border-primary/50" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_ai_type", "Type")}</Label>
+            <Label>{t("admin_ai_type", "Tip")}</Label>
             <Select value={formData.type} onValueChange={(v: any) => setFormData({ ...formData, type: v })}>
               <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="SALE">{t("admin_status_sold", "Sale")}</SelectItem>
-                <SelectItem value="RENT">{t("admin_status_rented", "Rent")}</SelectItem>
-                <SelectItem value="SHORT_TERM">{t("admin_auto_short_term", "Short Term")}</SelectItem>
+                <SelectItem value="SALE">{t("admin_status_sold", "Satıldı")}</SelectItem>
+                <SelectItem value="RENT">{t("admin_status_rented", "Kiralandı")}</SelectItem>
+                <SelectItem value="SHORT_TERM">{t("admin_auto_short_term", "Kısa Dönem")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_auto_amount", "Price")}</Label>
+            <Label>{t("admin_auto_amount", "Miktar")}</Label>
             <Input type="number" value={formData.price} onChange={e => setFormData({ ...formData, price: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_auto_address", "Address")}</Label>
+          <Label>{t("admin_auto_address", "Adres")}</Label>
           <Input value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} className="bg-white/5 border-white/10" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_auto_city", "City")}</Label>
+            <Label>{t("admin_auto_city", "Şehir")}</Label>
             <Input value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_status", "Status")}</Label>
+            <Label>{t("admin_ai_status", "Durum")}</Label>
             <Select value={formData.status} onValueChange={(v: any) => setFormData({ ...formData, status: v })}>
               <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -195,18 +196,18 @@ function DeleteListingDialog({ open, onOpenChange, item, onConfirm }: any) {
   const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-slate-900/90 backdrop-blur-xl border border-red-500/20 shadow-2xl">
+      <DialogContent className="sm:max-w-[425px] bg-card/90 backdrop-blur-xl border border-red-500/20 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-red-500">
-            <AlertTriangle className="w-5 h-5" />{t("admin_action_delete", "Delete")}
+            <AlertTriangle className="w-5 h-5" />{t("admin_action_delete", "Sil")}
           </DialogTitle>
-          <DialogDescription className="pt-2 text-slate-300">
-            {t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")} <span className="font-bold text-white">{item?.title}</span>? {t("admin_auto_this_action_cannot_be_undone", "This action cannot be undone.")}
+          <DialogDescription className="pt-2 text-muted-foreground">
+            {t("admin_auto_are_you_sure_you_want_to_delete", "Silmek istediğinizden emin misiniz:")} <span className="font-bold text-white">{item?.title}</span>? {t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="pt-4 border-t border-white/5">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+        <DialogFooter className="pt-4 border-t border-border">
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -246,11 +247,11 @@ export default function PropertyListingsPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("client.src.property_listings", "Property Listings")}</h1>
-              <p className="text-gray-400">{t("listings.propertylistingspage.auto_ext_2", "Manage your property listings")}</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("client.src.property_listings", "Emlak İlanları")}</h1>
+              <p className="text-gray-400">{t("listings.propertylistingspage.auto_ext_2", "Gayrimenkul listelerinizi yönetin")}</p>
             </div>
-            <Button onClick={() => router.push('/admin/dashboard')} className="bg-slate-600 hover:bg-slate-700">
-              <ArrowUpRight className="w-4 h-4 mr-2" />{t("admin_adminpage_auto_ext_3", "Dashboard")}
+            <Button onClick={() => router.push('/admin/dashboard')} className="bg-muted hover:bg-muted">
+              <ArrowUpRight className="w-4 h-4 mr-2" />{t("admin_adminpage_auto_ext_3", "Kontrol Paneli")}
             </Button>
           </div>
         </m.div>
@@ -262,11 +263,11 @@ export default function PropertyListingsPage() {
                 <div className="flex-1">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <Input placeholder={t("client.src.search_listings", "Search listings...")} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400" />
+                    <Input placeholder={t("client.src.search_listings", "İlanları Ara...")} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400" />
                   </div>
                 </div>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90 shadow-md">
-                  <Plus className="w-4 h-4 mr-2" />{t("listings.propertylistingspage.auto_ext_4", "Add Listing")}
+                  <Plus className="w-4 h-4 mr-2" />{t("listings.propertylistingspage.auto_ext_4", "İlan Ekle")}
                 </Button>
               </div>
             </CardContent>
@@ -278,7 +279,7 @@ export default function PropertyListingsPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-primary" />
-                {t("listings.propertylistingspage.auto_ext_5", "All Listings")} ({filteredListings.length})
+                {t("listings.propertylistingspage.auto_ext_5", "Tüm İlanlar (")} ({filteredListings.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -290,7 +291,7 @@ export default function PropertyListingsPage() {
                     >
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-slate-500/20 to-slate-500/10 border border-slate-500/20 flex items-center justify-center">
-                          <Building2 className="w-6 h-6 text-slate-400" />
+                          <Building2 className="w-6 h-6 text-muted-foreground" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
@@ -303,15 +304,15 @@ export default function PropertyListingsPage() {
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <Badge className={TYPE_COLORS[listing.type]}>{listing.type}</Badge>
+                        <Badge className={TYPE_COLORS[listing.type]}>{tEnum(t, listing.type)}</Badge>
                         <Badge className={STATUS_COLORS[listing.status]}>{t("admin_status_" + String(listing.status).toLowerCase())}</Badge>
                         <div className="text-white font-bold"><DollarSign className="w-4 h-4 inline" />{listing.price.toLocaleString()}</div>
-                        <div className="text-sm text-gray-400">{listing.views} {t("listings.propertylistingspage.auto_ext_6", "views")}</div>
+                        <div className="text-sm text-gray-400">{listing.views} {t("listings.propertylistingspage.auto_ext_6", "görünümler")}</div>
                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Button onClick={() => setEditingItem(listing)} variant="outline" size="icon" className="h-9 w-9 bg-white/5 hover:bg-white/10 border-slate-500/30">
+                          <Button onClick={() => setEditingItem(listing)} variant="outline" size="icon" aria-label={t("common.edit")} className="h-9 w-9 bg-white/5 hover:bg-white/10 border-slate-500/30">
                             <Edit className="w-4 h-4 text-white/70" />
                           </Button>
-                          <Button onClick={() => setDeletingItem(listing)} variant="outline" size="icon" className="h-9 w-9 bg-white/5 hover:bg-red-500/10 border-slate-500/30 hover:border-red-500/30 group/btn">
+                          <Button onClick={() => setDeletingItem(listing)} variant="outline" size="icon" aria-label={t("common.delete")} className="h-9 w-9 bg-white/5 hover:bg-red-500/10 border-slate-500/30 hover:border-red-500/30 group/btn">
                             <Trash2 className="w-4 h-4 text-red-500/70 group-hover/btn:text-red-500" />
                           </Button>
                         </div>
@@ -320,7 +321,7 @@ export default function PropertyListingsPage() {
                   ))}
                 </AnimatePresence>
                 {filteredListings.length === 0 && (
-                  <div className="py-12 text-center text-slate-500">{t("admin_auto_no_results_found", "No results found")}</div>
+                  <div className="py-12 text-center text-muted-foreground">{t("admin_auto_no_results_found", "Sonuç bulunamadı")}</div>
                 )}
               </div>
             </CardContent>

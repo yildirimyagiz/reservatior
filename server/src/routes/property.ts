@@ -56,6 +56,10 @@ export const propertyRoutes = new Elysia({ prefix: "/property" })
       where: { propertyId: { in: propertyIds } },
       orderBy: { isPrimary: 'desc' }
     });
+    const videoContents = await regionDb.videoContent.findMany({
+      where: { propertyId: { in: propertyIds } },
+      orderBy: { createdAt: 'asc' }
+    });
     
     // Group photos by propertyId
     const photosByProperty = new Map();
@@ -66,10 +70,20 @@ export const propertyRoutes = new Elysia({ prefix: "/property" })
       photosByProperty.get(photo.propertyId).push(photo);
     });
     
-    // Attach photos to properties
+    // Group videos by propertyId
+    const videosByProperty = new Map();
+    videoContents.forEach((video: any) => {
+      if (!videosByProperty.has(video.propertyId)) {
+        videosByProperty.set(video.propertyId, []);
+      }
+      videosByProperty.get(video.propertyId).push(video);
+    });
+    
+    // Attach photos & videos to properties
     const propertiesWithPhotos = properties.map((property: any) => ({
       ...property,
-      photos: (photosByProperty.get(property.id) || []).slice(0, 5)
+      photos: (photosByProperty.get(property.id) || []).slice(0, 5),
+      videoContents: videosByProperty.get(property.id) || []
     }));
     
     const total = await regionDb.property.count({ where });

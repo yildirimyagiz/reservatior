@@ -34,28 +34,29 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useProductsStore } from "@/lib/store/products-store";
+import { tEnum } from "@/lib/admin-enums";
 
 const CATEGORIES = ["FURNITURE", "APPLIANCE", "ELECTRONICS", "DECOR", "LIGHTING", "TEXTILE", "KITCHEN", "BATHROOM", "OUTDOOR", "OTHER"];
 const STATUSES = ["ACTIVE", "INACTIVE", "DISCONTINUED", "OUT_OF_STOCK"];
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-green-500/20 text-green-400",
+  ACTIVE: "bg-blue-500/20 text-blue-400",
   INACTIVE: "bg-gray-500/20 text-gray-400",
   DISCONTINUED: "bg-red-500/20 text-red-400",
-  OUT_OF_STOCK: "bg-amber-500/20 text-amber-400",
+  OUT_OF_STOCK: "bg-amber-500/20 text-warning",
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  FURNITURE: "bg-blue-500/20 text-blue-400",
-  APPLIANCE: "bg-purple-500/20 text-purple-400",
+  FURNITURE: "bg-blue-500/20 text-info",
+  APPLIANCE: "bg-brand/20 text-brand",
   ELECTRONICS: "bg-cyan-500/20 text-cyan-400",
   DECOR: "bg-pink-500/20 text-pink-400",
-  LIGHTING: "bg-amber-500/20 text-amber-400",
-  TEXTILE: "bg-emerald-500/20 text-emerald-400",
-  KITCHEN: "bg-orange-500/20 text-orange-400",
-  BATHROOM: "bg-teal-500/20 text-teal-400",
+  LIGHTING: "bg-amber-500/20 text-warning",
+  TEXTILE: "bg-blue-500/20 text-success",
+  KITCHEN: "bg-orange-500/20 text-warning",
+  BATHROOM: "bg-blue-500/20 text-blue-400",
   OUTDOOR: "bg-lime-500/20 text-lime-400",
-  OTHER: "bg-slate-500/20 text-slate-400",
+  OTHER: "bg-muted text-muted-foreground",
 };
 
 const mockProducts = [
@@ -95,8 +96,8 @@ export default function ProductsPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_products_title", "Product Catalog")}</h1>
-              <p className="text-muted-foreground">{t("admin_products_description", "Manage products, categories, and pricing")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_products_title", "Ürünler ve Hizmetler Kataloğu")}</h1>
+              <p className="text-muted-foreground">{t("admin_products_description", "Platform ürünlerini, stok durumunu ve fiyatlandırmayı yönetin")}</p>
             </div>
           </div>
         </m.div>
@@ -108,7 +109,7 @@ export default function ProductsPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/10"><Package className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_products_total", "Total Products")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_products_total", "Toplam Ürün")}</p>
                   <p className="text-2xl font-bold text-foreground">{totalProducts}</p>
                 </div>
               </div>
@@ -117,9 +118,9 @@ export default function ProductsPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10"><Tag className="w-5 h-5 text-green-500" /></div>
+                <div className="p-2 rounded-lg bg-blue-500/10"><Tag className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_products_active", "Active")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_products_active", "Aktif Ürünler")}</p>
                   <p className="text-2xl font-bold text-foreground">{activeProducts}</p>
                 </div>
               </div>
@@ -130,7 +131,7 @@ export default function ProductsPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-amber-500/10"><DollarSign className="w-5 h-5 text-amber-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_products_total_value", "Total Value")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_products_total_value", "Toplam Değer")}</p>
                   <p className="text-2xl font-bold text-foreground">${totalValue.toLocaleString()}</p>
                 </div>
               </div>
@@ -147,7 +148,7 @@ export default function ProductsPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin_products_search_placeholder", "Search by name or SKU...")}
+                      placeholder={t("admin_products_search_placeholder", "Ada veya SKU'ya göre ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -156,29 +157,29 @@ export default function ProductsPage() {
                 </div>
                 <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_products_category", "Category")} />
+                    <SelectValue placeholder={t("admin_products_category", "Kategori")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">{t("admin_products_all_categories", "All Categories")}</SelectItem>
+                    <SelectItem value="all">{t("admin_products_all_categories", "Tüm Kategoriler")}</SelectItem>
                     {CATEGORIES.map((cat) => (
-                      <SelectItem key={cat} value={cat}>{cat.replace(/_/g, " ")}</SelectItem>
+                      <SelectItem key={cat} value={cat}>{tEnum(t, cat)}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_products_status", "Status")} />
+                    <SelectValue placeholder={t("admin_products_status", "Durum")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">{t("admin_products_all_status", "All Status")}</SelectItem>
+                    <SelectItem value="all">{t("admin_products_all_status", "Tüm Durumlar")}</SelectItem>
                     {STATUSES.map((s) => (
-                      <SelectItem key={s} value={s}>{s.replace(/_/g, " ")}</SelectItem>
+                      <SelectItem key={s} value={s}>{tEnum(t, s)}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_products_add", "Add Product")}
+                  {t("admin_products_add", "Yeni Ürün Ekle")}
                 </Button>
               </div>
             </CardContent>
@@ -191,7 +192,7 @@ export default function ProductsPage() {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <Package className="w-5 h-5" />
-                {t("admin_products_list_title", "Products")} ({filtered.length})
+                {t("admin_products_list_title", "Ürünler")} ({filtered.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -199,13 +200,13 @@ export default function ProductsPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_products_name", "Name")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_products_name", "Ad")}</th>
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_products_sku", "SKU")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_products_category_col", "Category")}</th>
-                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_products_price", "Price")}</th>
-                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_products_commission", "Commission")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_products_status_col", "Status")}</th>
-                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_products_actions", "Actions")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_products_category_col", "Kategori")}</th>
+                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_products_price", "Fiyat")}</th>
+                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_products_commission", "Komisyon")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_products_status_col", "Durum")}</th>
+                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_products_actions", "İşlemler")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -217,17 +218,17 @@ export default function ProductsPage() {
                         </td>
                         <td className="py-3 px-4 text-muted-foreground font-mono text-xs">{product.sku}</td>
                         <td className="py-3 px-4">
-                          <Badge className={CATEGORY_COLORS[product.category]}>{product.category.replace(/_/g, " ")}</Badge>
+                          <Badge className={CATEGORY_COLORS[product.category]}>{tEnum(t, product.category)}</Badge>
                         </td>
                         <td className="py-3 px-4 text-right font-medium text-foreground">${product.price.toLocaleString()}</td>
                         <td className="py-3 px-4 text-right text-muted-foreground">{product.commissionRate}%</td>
                         <td className="py-3 px-4">
-                          <Badge className={STATUS_COLORS[product.status]}>{product.status.replace(/_/g, " ")}</Badge>
+                          <Badge className={STATUS_COLORS[product.status]}>{tEnum(t, product.status)}</Badge>
                         </td>
                         <td className="py-3 px-4">
                           <div className="flex justify-end gap-2">
-                            <Button onClick={() => { setEditingItem(product); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                            <Button onClick={() => { setDeletingItem(product); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                            <Button onClick={() => { setEditingItem(product); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                            <Button onClick={() => { setDeletingItem(product); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                           </div>
                         </td>
                       </tr>
@@ -261,23 +262,23 @@ function CreateProductDialog({ open, onOpenChange }: { open: boolean; onOpenChan
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_products_create_title", "Add Product")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_products_create_desc", "Add a new product to the catalog.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_products_create_title", "Ürün Ekle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_products_create_desc", "Kataloğa yeni bir ürün ekleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_products_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_products_name", "Ad")}</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_products_category", "Category")}</Label>
+            <Label className="text-right text-foreground">{t("admin_products_category", "Kategori")}</Label>
             <Select value={category} onValueChange={setCategory}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors"><SelectValue /></SelectTrigger>
-              <SelectContent>{CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c.replace(/_/g, " ")}</SelectItem>)}</SelectContent>
+              <SelectContent>{CATEGORIES.map((c) => <SelectItem key={c} value={c}>{tEnum(t, c)}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_products_price", "Price")}</Label>
+            <Label className="text-right text-foreground">{t("admin_products_price", "Fiyat")}</Label>
             <Input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -285,17 +286,17 @@ function CreateProductDialog({ open, onOpenChange }: { open: boolean; onOpenChan
             <Input value={sku} onChange={(e) => setSku(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_products_commission", "Commission %")}</Label>
+            <Label className="text-right text-foreground">{t("admin_products_commission", "Komisyon")}</Label>
             <Input type="number" value={commissionRate} onChange={(e) => setCommissionRate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_products_description", "Description")}</Label>
+            <Label className="text-right text-foreground">{t("admin_products_description", "Platform ürünlerini, stok durumunu ve fiyatlandırmayı yönetin")}</Label>
             <Input value={description} onChange={(e) => setDescription(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -313,33 +314,33 @@ function EditProductDialog({ open, onOpenChange, item }: { open: boolean; onOpen
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_products_edit_title", "Edit Product")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_products_edit_desc", "Update product details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_products_edit_title", "Ürünü Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_products_edit_desc", "Ürün bilgilerini güncelleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_products_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_products_name", "Ad")}</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_products_category", "Category")}</Label>
+            <Label className="text-right text-foreground">{t("admin_products_category", "Kategori")}</Label>
             <Select value={category} onValueChange={setCategory}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors"><SelectValue /></SelectTrigger>
-              <SelectContent>{CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c.replace(/_/g, " ")}</SelectItem>)}</SelectContent>
+              <SelectContent>{CATEGORIES.map((c) => <SelectItem key={c} value={c}>{tEnum(t, c)}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_products_price", "Price")}</Label>
+            <Label className="text-right text-foreground">{t("admin_products_price", "Fiyat")}</Label>
             <Input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_products_commission", "Commission %")}</Label>
+            <Label className="text-right text-foreground">{t("admin_products_commission", "Komisyon")}</Label>
             <Input type="number" value={commissionRate} onChange={(e) => setCommissionRate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onOpenChange(false)} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -352,12 +353,12 @@ function DeleteProductDialog({ open, onOpenChange, item, onConfirm }: { open: bo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_products_delete_title", "Delete Product")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_products_delete_desc", "Are you sure you want to delete")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_products_delete_title", "Ürünü Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_products_delete_desc", "Bu kaydı sistemden güvenli şekilde arşivlemek istediğinize emin misiniz?")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

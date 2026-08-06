@@ -9,16 +9,14 @@ export const dynamicAdminRoutes = new Elysia({ prefix: "/dynamic" })
 
   // GET /admin/dynamic/schema/:model
   .get("/schema/:model", ({ params }) => {
-    const modelName = params.model;
-    const schema = Prisma.dmmf.datamodel.models.find((m) => m.name.toLowerCase() === modelName.toLowerCase());
+    const schema = findModel(params.model);
     if (!schema) return { error: "Model schema not found" };
     return { data: schema };
   })
 
   // GET /admin/dynamic/data/:model
   .get("/data/:model", async ({ params, query }) => {
-    const modelName = params.model;
-    const schema = Prisma.dmmf.datamodel.models.find((m) => m.name.toLowerCase() === modelName.toLowerCase());
+    const schema = findModel(params.model);
     if (!schema) return { error: "Model not found" };
     
     const prismaModelProp = schema.name.charAt(0).toLowerCase() + schema.name.slice(1);
@@ -42,8 +40,7 @@ export const dynamicAdminRoutes = new Elysia({ prefix: "/dynamic" })
 
   // POST /admin/dynamic/data/:model
   .post("/data/:model", async ({ params, body }) => {
-    const modelName = params.model;
-    const schema = Prisma.dmmf.datamodel.models.find((m) => m.name.toLowerCase() === modelName.toLowerCase());
+    const schema = findModel(params.model);
     if (!schema) return { error: "Model not found" };
     
     const prismaModelProp = schema.name.charAt(0).toLowerCase() + schema.name.slice(1);
@@ -59,8 +56,7 @@ export const dynamicAdminRoutes = new Elysia({ prefix: "/dynamic" })
 
   // PATCH /admin/dynamic/data/:model/:id
   .patch("/data/:model/:id", async ({ params, body }) => {
-    const modelName = params.model;
-    const schema = Prisma.dmmf.datamodel.models.find((m) => m.name.toLowerCase() === modelName.toLowerCase());
+    const schema = findModel(params.model);
     if (!schema) return { error: "Model not found" };
     
     const prismaModelProp = schema.name.charAt(0).toLowerCase() + schema.name.slice(1);
@@ -83,8 +79,7 @@ export const dynamicAdminRoutes = new Elysia({ prefix: "/dynamic" })
 
   // DELETE /admin/dynamic/data/:model/:id
   .delete("/data/:model/:id", async ({ params }) => {
-    const modelName = params.model;
-    const schema = Prisma.dmmf.datamodel.models.find((m) => m.name.toLowerCase() === modelName.toLowerCase());
+    const schema = findModel(params.model);
     if (!schema) return { error: "Model not found" };
     
     const prismaModelProp = schema.name.charAt(0).toLowerCase() + schema.name.slice(1);
@@ -100,3 +95,25 @@ export const dynamicAdminRoutes = new Elysia({ prefix: "/dynamic" })
       return { error: error.message };
     }
   });
+
+/** Prisma model lookup tolerant to kebab-case, singular/plural and common suffixes. */
+function findModel(raw: string) {
+  const normalized = raw.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const candidates = [normalized];
+  // Plural -> singular ("leases" -> "lease", "agencies" -> "agency")
+  if (normalized.endsWith("ies")) {
+    candidates.push(normalized.slice(0, -3) + "y");
+  }
+  if (normalized.endsWith("s")) {
+    candidates.push(normalized.slice(0, -1));
+  }
+  // Singular -> plural ("lease" -> "leases")
+  candidates.push(normalized + "s");
+  for (const c of candidates) {
+    const model = Prisma.dmmf.datamodel.models.find(
+      (m) => m.name.toLowerCase() === c
+    );
+    if (model) return model;
+  }
+  return undefined;
+}

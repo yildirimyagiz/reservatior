@@ -278,7 +278,7 @@ export const SEO_LANDING_CONFIGS: Array<{
 ];
 
 export function getCityData(citySlug: string): MarketData | undefined {
-  return MARKET_DATA[citySlug.toLowerCase()];
+  return ALL_MARKET_DATA[citySlug.toLowerCase()];
 }
 
 export function getCityComparison(city1: string, city2: string): CityComparisonData[] {
@@ -288,7 +288,7 @@ export function getCityComparison(city1: string, city2: string): CityComparisonD
 }
 
 export function getDistricts(citySlug: string): DistrictData[] {
-  return MARKET_DATA[citySlug.toLowerCase()]?.districts || [];
+  return ALL_MARKET_DATA[citySlug.toLowerCase()]?.districts || [];
 }
 
 export function formatCurrency(amount: number, currency: string): string {

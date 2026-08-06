@@ -40,6 +40,14 @@ function CallbackHandler() {
         email: decoded.email,
         role: decoded.role,
         name: decoded.name || decoded.email?.split("@")[0],
+        firstName: decoded.name?.split(" ")[0] || decoded.email?.split("@")[0] || "",
+        lastName: decoded.name?.split(" ").slice(1).join(" ") || "",
+        locale: decoded.locale || "en",
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        createdAt: decoded.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        status: "ACTIVE",
+        permissions: decoded.permissions || [],
       });
       setStatus("success");
       const adminRoles = ["OWNER", "ORG_ADMIN", "ADMIN", "SUPER_ADMIN", "AGENCY_ADMIN", "VENDOR_MANAGER", "ACCOUNTANT"];
@@ -52,18 +60,18 @@ function CallbackHandler() {
   }, [searchParams, router]);
 
   return (
-    <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+    <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
       <CardContent className="p-12 text-center">
         {status === "loading" && (
           <>
-            <Loader2 className="w-12 h-12 text-purple-400 animate-spin mx-auto mb-6" />
+            <Loader2 className="w-12 h-12 text-brand animate-spin mx-auto mb-6" />
             <h2 className="text-xl font-bold text-white mb-2">{t("client.src.authenticating")}</h2>
             <p className="text-gray-400">{t("client.src.please_wait")}</p>
           </>
         )}
         {status === "success" && (
           <>
-            <CheckCircle2 className="w-12 h-12 text-green-400 mx-auto mb-6" />
+            <CheckCircle2 className="w-12 h-12 text-blue-400 mx-auto mb-6" />
             <h2 className="text-xl font-bold text-white mb-2">{t("client.src.authentication_successful")}</h2>
             <p className="text-gray-400">{t("client.src.redirecting")}</p>
           </>
@@ -89,9 +97,9 @@ export default function AuthCallbackPage() {
         className="w-full max-w-md"
       >
         <Suspense fallback={
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardContent className="p-12 text-center">
-              <Loader2 className="w-12 h-12 text-purple-400 animate-spin mx-auto mb-6" />
+              <Loader2 className="w-12 h-12 text-brand animate-spin mx-auto mb-6" />
             </CardContent>
           </Card>
         }>

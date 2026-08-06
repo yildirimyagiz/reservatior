@@ -64,10 +64,10 @@ export const LocalComplianceWidget: React.FC = () => {
                  {t("client.src.global_strategy")} {(data.baseCommission * 100).toFixed(1)}% {t("client.src.comm")}
                </Badge>
                <div className="flex gap-1">
-                  <Button variant="ghost" size="icon" className="min-h-12 min-w-12 rounded-full hover:bg-white/10" onClick={handlePrev}>
+                  <Button variant="ghost" size="icon" aria-label={t("common.previous")} className="min-h-12 min-w-12 rounded-full hover:bg-white/10" onClick={handlePrev}>
                     <ChevronLeft className="w-4 h-4 text-white/50" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="min-h-12 min-w-12 rounded-full hover:bg-white/10" onClick={handleNext}>
+                  <Button variant="ghost" size="icon" aria-label={t("common.next")} className="min-h-12 min-w-12 rounded-full hover:bg-white/10" onClick={handleNext}>
                     <ChevronRight className="w-4 h-4 text-white/50" />
                   </Button>
                </div>
@@ -107,7 +107,7 @@ export const LocalComplianceWidget: React.FC = () => {
                        <span className="text-slate-900 font-bold">{data.requiredLicense}</span>.
                      </p>
                   </div>
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 shrink-0" />
                </div>
 
                {/* Tax Logic */}
@@ -123,7 +123,7 @@ export const LocalComplianceWidget: React.FC = () => {
                        {t("client.src.transactions_with_local")}{data.complianceType}{t("client.src.standards")}
                      </p>
                   </div>
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 shrink-0" />
                </div>
             </div>
 

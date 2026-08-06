@@ -22,11 +22,11 @@ const STATUS: Record<string, {
   cls: string;
 }> = {
   PENDING: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     cls: "bg-gray-100 text-gray-500"
   },
   SENT: {
-    label: t("client.src.sent"),
+    label: t("common.sent"),
     cls: "bg-blue-100 text-blue-700"
   },
   VIEWED: {
@@ -34,11 +34,11 @@ const STATUS: Record<string, {
     cls: "bg-yellow-100 text-yellow-700"
   },
   ACCEPTED: {
-    label: t("client.src.accepted"),
-    cls: "bg-green-100 text-green-700"
+    label: t("common.accepted"),
+    cls: "bg-blue-100 text-blue-700"
   },
   REJECTED: {
-    label: t("client.src.rejected"),
+    label: t("common.rejected"),
     cls: "bg-red-100 text-red-700"
   }
 };
@@ -155,14 +155,14 @@ export default function AIRecommendations() {
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
       <div className="space-y-1.5">
-        <Label>{t("client.src.client")}</Label>
+        <Label>{t("common.client")}</Label>
         <Input type="text" value={form.userId} onChange={e => setForm({
           ...form,
           userId: e.target.value
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.property")}</Label>
+        <Label>{t("common.property")}</Label>
         <Input type="text" value={form.propertyIds} onChange={e => setForm({
           ...form,
           propertyIds: e.target.value
@@ -183,15 +183,15 @@ export default function AIRecommendations() {
         })} rows={3} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.status")}</Label>
+        <Label>{t("common.status")}</Label>
         <Select value={form.status} onValueChange={v => setForm({
           ...form,
           status: v as any
-        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
-          <SelectItem value="SENT">{t("client.src.sent")}</SelectItem>
+        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
+          <SelectItem value="SENT">{t("common.sent")}</SelectItem>
           <SelectItem value="VIEWED">{t("client.src.viewed")}</SelectItem>
-          <SelectItem value="ACCEPTED">{t("client.src.accepted")}</SelectItem>
-          <SelectItem value="REJECTED">{t("client.src.rejected")}</SelectItem></SelectContent></Select>
+          <SelectItem value="ACCEPTED">{t("common.accepted")}</SelectItem>
+          <SelectItem value="REJECTED">{t("common.rejected")}</SelectItem></SelectContent></Select>
       </div>
       <DialogFooter><Button type="submit">{label}</Button></DialogFooter>
     </form>;
@@ -201,13 +201,13 @@ export default function AIRecommendations() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search ai recommendations..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: recommendations.length
     }, {
-      label: t("client.src.sent"),
+      label: t("common.sent"),
       value: recommendations.filter((r: any) => r.status === 'SENT' || r.status === 'VIEWED').length
     }, {
-      label: t("client.src.accepted"),
+      label: t("common.accepted"),
       value: recommendations.filter((r: any) => r.status === 'ACCEPTED').length
     }, {
       label: t("client.src.avg_score"),
@@ -217,11 +217,11 @@ export default function AIRecommendations() {
           <Table>
             <TableHeader>
               <TableRow>
-              <TableHead>{t("client.src.client")}</TableHead>
+              <TableHead>{t("common.client")}</TableHead>
               <TableHead>{t("client.src.recommended_property")}</TableHead>
               <TableHead>{t("client.src.score100")}</TableHead>
               <TableHead>{t("client.src.reason")}</TableHead>
-              <TableHead>{t("client.src.status")}</TableHead>
+              <TableHead>{t("common.status")}</TableHead>
               <TableHead>{t("client.src.generated")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
@@ -239,10 +239,10 @@ export default function AIRecommendations() {
                     <TableCell className="text-sm">{row.createdAt ? new Date(row.createdAt).toLocaleDateString() : "—"}</TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -255,13 +255,13 @@ export default function AIRecommendations() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_airecommendations")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_airecommendations")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

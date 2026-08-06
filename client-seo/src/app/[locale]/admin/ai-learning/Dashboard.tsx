@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocalization } from "@/contexts/LocalizationContext";
 import { useQuery } from "@tanstack/react-query";
@@ -22,12 +23,14 @@ import {
   LineChart,
   Layers
 } from "lucide-react";
+import { tEnum } from "@/lib/admin-enums";
 
 export default function AILearningDashboard() {
   const { user } = useAuth();
   const { language } = useLocalization();
   const orgId = user?.organizationId || "";
   const [selectedLoop, setSelectedLoop] = useState<"campaign" | "price" | "negotiation" | "portfolio">("campaign");
+  const { t } = useTranslation();
 
   const { data: learningStats, isLoading } = useQuery({
     queryKey: ["ai-learning-dashboard", orgId, selectedLoop],
@@ -50,12 +53,12 @@ export default function AILearningDashboard() {
   };
 
   const kpis = [
-    { title: "Total Iterations", value: formatNumber(stats.totalIterations), icon: RefreshCw, color: "text-blue-600", trend: "+45.2%" },
-    { title: "Accuracy Improvement", value: formatPercent(stats.accuracyImprovement), icon: TrendingUp, color: "text-green-600", trend: "+12.8%" },
-    { title: "Model Version", value: `v${stats.modelVersion.toFixed(1)}`, icon: Layers, color: "text-purple-600", trend: "Latest" },
-    { title: "Prediction Accuracy", value: formatPercent(stats.predictionAccuracy), icon: Target, color: "text-orange-600", trend: "+5.3%" },
-    { title: "Learning Rate", value: formatPercent(stats.learningRate), icon: Zap, color: "text-indigo-600", trend: "+8.7%" },
-    { title: "Last Retrained", value: stats.lastRetrained, icon: Clock, color: "text-pink-600", trend: "2h ago" },
+    { title: t("admin_ai_learning_total_iterations", "Toplam Yineleme"), value: formatNumber(stats.totalIterations), icon: RefreshCw, color: "text-blue-600", trend: "+45.2%" },
+    { title: t("admin_ai_learning_accuracy_improvement", "Doğruluk İyileştirmesi"), value: formatPercent(stats.accuracyImprovement), icon: TrendingUp, color: "text-blue-600", trend: "+12.8%" },
+    { title: t("admin_ai_learning_model_version", "Model Sürümü"), value: `v${stats.modelVersion.toFixed(1)}`, icon: Layers, color: "text-brand", trend: t("admin_ai_learning_latest", "En Güncel") },
+    { title: t("admin_ai_learning_prediction_accuracy", "Tahmin Doğruluğu"), value: formatPercent(stats.predictionAccuracy), icon: Target, color: "text-orange-600", trend: "+5.3%" },
+    { title: t("admin_ai_learning_learning_rate", "Öğrenme Oranı"), value: formatPercent(stats.learningRate), icon: Zap, color: "text-brand", trend: "+8.7%" },
+    { title: t("admin_ai_learning_last_retrained", "Son Yeniden Eğitim"), value: stats.lastRetrained, icon: Clock, color: "text-pink-600", trend: "2h ago" },
   ];
 
   const learningLoops = [
@@ -83,22 +86,22 @@ export default function AILearningDashboard() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">AI Learning Loops Dashboard</h1>
-          <p className="text-gray-600 mt-1">Continuous AI improvement and model retraining</p>
+          <h1 className="text-3xl font-bold text-foreground">{t("admin_ai_learning_title", "Yapay Zeka Öğrenme Döngüleri Panosu")}</h1>
+          <p className="text-muted-foreground mt-1">{t("admin_ai_learning_desc", "Sürekli yapay zeka iyileştirmesi ve model yeniden eğitimi")}</p>
         </div>
         <div className="flex gap-3">
           <select 
             value={selectedLoop} 
             onChange={(e) => setSelectedLoop(e.target.value as "campaign" | "price" | "negotiation" | "portfolio")}
-            className="px-4 py-2 border border-gray-300 rounded-lg bg-white"
+            className="px-4 py-2 border border-border rounded-lg bg-card"
           >
-            <option value="campaign">Campaign Learning</option>
-            <option value="price">Price Learning</option>
-            <option value="negotiation">Negotiation Learning</option>
-            <option value="portfolio">Portfolio Learning</option>
+            <option value="campaign">{t("admin_ai_learning_campaign_learning", "Kampanya Öğrenmesi")}</option>
+            <option value="price">{t("admin_ai_learning_price_learning", "Fiyat Öğrenmesi")}</option>
+            <option value="negotiation">{t("admin_ai_learning_negotiation_learning", "Müzakere Öğrenmesi")}</option>
+            <option value="portfolio">{t("admin_ai_learning_portfolio_learning", "Portföy Öğrenmesi")}</option>
           </select>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
-            <RefreshCw className="w-4 h-4" /> Retrain Models
+          <button className="px-4 py-2 bg-primary text-primary-foreground text-white rounded-lg hover:bg-primary/90 transition flex items-center gap-2">
+            <RefreshCw className="w-4 h-4" /> {t("admin_ai_learning_retrain_models", "Modelleri Yeniden Eğit")}
           </button>
         </div>
       </div>
@@ -107,14 +110,14 @@ export default function AILearningDashboard() {
         {kpis.map((kpi, i) => {
           const Icon = kpi.icon;
           return (
-            <div key={i} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={i} className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">{kpi.value}</p>
-                  <p className="text-sm text-green-600 mt-1">{kpi.trend}</p>
+                  <p className="text-sm font-medium text-muted-foreground">{kpi.title}</p>
+                  <p className="text-2xl font-bold text-foreground mt-2">{kpi.value}</p>
+                  <p className="text-sm text-blue-600 mt-1">{kpi.trend}</p>
                 </div>
-                <div className={`p-3 bg-gray-50 rounded-lg ${kpi.color}`}>
+                <div className={`p-3 bg-muted rounded-lg ${kpi.color}`}>
                   <Icon className="w-6 h-6" />
                 </div>
               </div>
@@ -124,12 +127,12 @@ export default function AILearningDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Brain className="w-5 h-5 text-purple-600" /> Active Learning Loops
+            <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+              <Brain className="w-5 h-5 text-brand" /> {t("admin_ai_learning_active_loops", "Aktif Öğrenme Döngüleri")}
             </h2>
-            <button className="p-2 hover:bg-gray-100 rounded-lg"><Settings className="w-4 h-4 text-gray-500" /></button>
+            <button className="p-2 hover:bg-gray-100 rounded-lg"><Settings className="w-4 h-4 text-muted-foreground" /></button>
           </div>
           <div className="space-y-3">
             {learningLoops.map((loop) => (
@@ -137,95 +140,95 @@ export default function AILearningDashboard() {
                 key={loop.id}
                 onClick={() => setSelectedLoop(loop.id as "campaign" | "price" | "negotiation" | "portfolio")}
                 className={`p-4 rounded-lg cursor-pointer transition ${
-                  selectedLoop === loop.id ? "bg-blue-50 border-2 border-blue-500" : "bg-gray-50 border-2 border-transparent hover:bg-gray-100"
+                  selectedLoop === loop.id ? "bg-blue-50 border-2 border-blue-500" : "bg-muted border-2 border-transparent hover:bg-gray-100"
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
-                    <span className="font-medium text-gray-900">{loop.name}</span>
+                    <span className="font-medium text-foreground">{loop.name}</span>
                     <span className={`text-xs px-2 py-1 rounded-full ${
-                      loop.status === "active" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"
-                    }`}>{loop.status}</span>
+                      loop.status === "active" ? "bg-blue-100 text-blue-700" : "bg-yellow-100 text-yellow-700"
+                    }`}>{tEnum(t, loop.status)}</span>
                   </div>
-                  <span className="text-sm font-bold text-gray-900">{loop.accuracy.toFixed(0)}%</span>
+                  <span className="text-sm font-bold text-foreground">{loop.accuracy.toFixed(0)}%</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">{loop.iterations} iterations</span>
-                  <span className="text-gray-500">{loop.lastUpdate}</span>
+                  <span className="text-muted-foreground">{loop.iterations} {t("admin_ai_learning_iterations", "yineleme")}</span>
+                  <span className="text-muted-foreground">{loop.lastUpdate}</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Activity className="w-5 h-5 text-orange-600" /> Learning Metrics
+            <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+              <Activity className="w-5 h-5 text-orange-600" /> {t("admin_ai_learning_metrics", "Öğrenme Metrikleri")}
             </h2>
-            <button className="p-2 hover:bg-gray-100 rounded-lg"><Download className="w-4 h-4 text-gray-500" /></button>
+            <button className="p-2 hover:bg-gray-100 rounded-lg"><Download className="w-4 h-4 text-muted-foreground" /></button>
           </div>
           <div className="space-y-3">
             {learningMetrics.map((metric, i) => (
-              <div key={i} className="p-4 bg-gray-50 rounded-lg">
+              <div key={i} className="p-4 bg-muted rounded-lg">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-medium text-gray-900">{metric.metric}</span>
+                  <span className="font-medium text-foreground">{metric.metric}</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-600">{metric.current.toFixed(2)}</span>
-                    {metric.trend === "up" ? <ArrowUpRight className="w-4 h-4 text-green-600" /> : <ArrowDownRight className="w-4 h-4 text-red-600" />}
+                    <span className="text-sm text-muted-foreground">{metric.current.toFixed(2)}</span>
+                    {metric.trend === "up" ? <ArrowUpRight className="w-4 h-4 text-blue-600" /> : <ArrowDownRight className="w-4 h-4 text-red-600" />}
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex-1 bg-gray-200 rounded-full h-2">
                     <div className="bg-orange-500 h-2 rounded-full" style={{ width: `${metric.progress}%` }} />
                   </div>
-                  <span className="text-xs text-gray-600">{metric.progress}%</span>
+                  <span className="text-xs text-muted-foreground">{metric.progress}%</span>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">Target: {metric.target.toFixed(2)}</p>
+                <p className="text-xs text-muted-foreground mt-1">{t("admin_ai_learning_target", "Hedef:")} {metric.target.toFixed(2)}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-yellow-600" /> Recent Improvements
+          <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+            <Zap className="w-5 h-5 text-yellow-600" /> {t("admin_ai_learning_recent_improvements", "Son İyileştirmeler")}
           </h2>
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><RefreshCw className="w-4 h-4 text-gray-500" /></button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg"><RefreshCw className="w-4 h-4 text-muted-foreground" /></button>
         </div>
         <div className="space-y-3">
           {recentImprovements.map((improvement, i) => (
-            <div key={i} className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
+            <div key={i} className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
               <div className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-green-600" />
+                <CheckCircle className="w-5 h-5 text-blue-600" />
                 <div>
-                  <p className="font-medium text-green-900">{improvement.loop}</p>
-                  <p className="text-sm text-green-700">{improvement.metric} improvement</p>
+                  <p className="font-medium text-blue-900">{improvement.loop}</p>
+                  <p className="text-sm text-blue-700">{improvement.metric} {t("admin_ai_learning_improvement", "iyileştirme")}</p>
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-lg font-bold text-green-600">{improvement.improvement}</span>
-                <p className="text-xs text-green-600">{improvement.date}</p>
+                <span className="text-lg font-bold text-blue-600">{improvement.improvement}</span>
+                <p className="text-xs text-blue-600">{improvement.date}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-            <LineChart className="w-5 h-5 text-indigo-600" /> Learning Progress Visualization
+          <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+            <LineChart className="w-5 h-5 text-brand" /> {t("admin_ai_learning_progress_visualization", "Öğrenme İlerleme Görselleştirmesi")}
           </h2>
-          <button className="p-2 hover:bg-gray-100 rounded-lg"><Settings className="w-4 h-4 text-gray-500" /></button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg"><Settings className="w-4 h-4 text-muted-foreground" /></button>
         </div>
-        <div className="h-64 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg flex items-center justify-center">
+        <div className="h-64 bg-gradient-to-br from-brand/10 to-indigo-100 rounded-lg flex items-center justify-center">
           <div className="text-center">
-            <BarChart3 className="w-12 h-12 mx-auto mb-3 text-indigo-600" />
-            <p className="text-lg font-semibold text-indigo-900">AI Learning Progress Chart</p>
-            <p className="text-sm text-indigo-700 mt-1">Model accuracy and performance over time</p>
+            <BarChart3 className="w-12 h-12 mx-auto mb-3 text-brand" />
+            <p className="text-lg font-semibold text-brand">{t("admin_ai_learning_progress_chart", "Yapay Zeka Öğrenme İlerleme Grafiği")}</p>
+            <p className="text-sm text-brand mt-1">{t("admin_ai_learning_progress_chart_desc", "Zaman içinde model doğruluğu ve performansı")}</p>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import { t } from"i18next";
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -322,7 +322,7 @@ export default function AIConfiguration() {
  switch (status) {
  case"ACTIVE":
  case"HEALTHY":
- return"bg-emerald-500/10 text-emerald-400 border-none";
+ return"bg-blue-500/10 text-success border-none";
  case"INACTIVE":
  return"bg-muted0/10 text-muted-foreground border-none";
  case"TRAINING":
@@ -331,7 +331,7 @@ export default function AIConfiguration() {
  case"UNHEALTHY":
  return"bg-red-500/10 text-red-500 border-none";
  case"DEGRADED":
- return"bg-orange-500/10 text-orange-400 border-none";
+ return"bg-orange-500/10 text-warning border-none";
  default:
  return"bg-muted0/10 text-muted-foreground border-none";
  }
@@ -339,11 +339,11 @@ export default function AIConfiguration() {
  const getProviderIcon = (provider: string) => {
  switch (provider) {
  case"OPENAI":
- return <Brain className="w-4 h-4 text-green-600" />;
+ return <Brain className="w-4 h-4 text-blue-600" />;
  case"ANTHROPIC":
- return <Brain className="w-4 h-4 text-slate-600" />;
+ return <Brain className="w-4 h-4 text-muted-foreground" />;
  case"GOOGLE":
- return <Brain className="w-4 h-4 text-slate-600" />;
+ return <Brain className="w-4 h-4 text-muted-foreground" />;
  case"AZURE":
  return <Brain className="w-4 h-4 text-orange-600" />;
  case"HUGGING_FACE":
@@ -425,7 +425,7 @@ export default function AIConfiguration() {
  delay: 0.1
  }}>
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Brain className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
@@ -446,7 +446,7 @@ export default function AIConfiguration() {
  delay: 0.2
  }}>
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l-slate-500/30 border-l border-t">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Zap className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
@@ -473,7 +473,7 @@ export default function AIConfiguration() {
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('tokensUsed')}</p>
  <h3 className="text-xl font-bold text-foreground leading-none">{stats.totalTokens.toLocaleString()}</h3>
- <p className="text-[10px] font-bold text-orange-400 mt-4 flex items-center gap-1">
+ <p className="text-[10px] font-bold text-warning mt-4 flex items-center gap-1">
  <Activity className="w-3 h-3" />{t("admin_ai_alltimesync")}</p>
  </CardContent>
  </Card>
@@ -580,16 +580,16 @@ export default function AIConfiguration() {
  </div>
  
  <div className="flex items-center gap-4">
- <Switch checked={model.status ==="ACTIVE"} onCheckedChange={() => toggleModel(model)} className="data-[state=checked]:bg-emerald-500" />
+ <Switch checked={model.status ==="ACTIVE"} onCheckedChange={() => toggleModel(model)} className="data-[state=checked]:bg-blue-500" />
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
  <MoreHorizontal className="w-5 h-5" />
  </Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border rounded-2xl shadow-2xl p-2 min-w-[180px]">
  <DropdownMenuItem onClick={() => testModel(model)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
- <Play className="w-4 h-4 mr-3 text-emerald-500" /> {t('testModel')}
+ <Play className="w-4 h-4 mr-3 text-success" /> {t('testModel')}
  </DropdownMenuItem>
  {model.provider ==="CUSTOM" && <DropdownMenuItem onClick={() => trainModel(model.id)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
  <RefreshCw className="w-4 h-4 mr-3 text-muted-foreground" /> {t('retrain')}
@@ -663,16 +663,16 @@ export default function AIConfiguration() {
  </div>
  
  <div className="flex items-center gap-4">
- <Switch checked={workflow.status ==="ACTIVE"} onCheckedChange={() => toggleWorkflow(workflow.id)} className="data-[state=checked]:bg-emerald-500" />
+ <Switch checked={workflow.status ==="ACTIVE"} onCheckedChange={() => toggleWorkflow(workflow.id)} className="data-[state=checked]:bg-blue-500" />
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
  <MoreHorizontal className="w-5 h-5" />
  </Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border rounded-2xl shadow-2xl p-2 min-w-[180px]">
  <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
- <Play className="w-4 h-4 mr-3 text-emerald-500" /> {t('runNow')}
+ <Play className="w-4 h-4 mr-3 text-success" /> {t('runNow')}
  </DropdownMenuItem>
  <DropdownMenuItem className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
  <Edit className="w-4 h-4 mr-3 text-muted-foreground" /> {t('edit')}
@@ -744,10 +744,10 @@ export default function AIConfiguration() {
  </div>
  
  <div className="flex items-center gap-4">
- <Switch checked={service.isActive} onCheckedChange={() => toggleService(service.id)} className="data-[state=checked]:bg-emerald-500" />
+ <Switch checked={service.isActive} onCheckedChange={() => toggleService(service.id)} className="data-[state=checked]:bg-blue-500" />
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
  <MoreHorizontal className="w-5 h-5" />
  </Button>
  </DropdownMenuTrigger>
@@ -790,9 +790,9 @@ export default function AIConfiguration() {
  <div className="space-y-2">
  <div className="flex justify-between text-[10px] font-bold text-muted-foreground">
  <span>{t("admin_ai_accuracy")}</span>
- <span className={cn(model.performance.accuracy > 90 ? 'text-emerald-400' : 'text-amber-400')}>{model.performance.accuracy}%</span>
+ <span className={cn(model.performance.accuracy > 90 ? 'text-success' : 'text-warning')}>{model.performance.accuracy}%</span>
  </div>
- <Progress value={model.performance.accuracy} className="h-1 bg-muted/50" indicatorClassName={cn(model.performance.accuracy > 90 ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : 'bg-amber-500')} />
+ <Progress value={model.performance.accuracy} className="h-1 bg-muted/50" indicatorClassName={cn(model.performance.accuracy > 90 ? 'bg-blue-500 shadow-[0_0_8px_#3b82f6]' : 'bg-amber-500')} />
  </div>
  <div className="space-y-2">
  <div className="flex justify-between text-[10px] font-bold text-muted-foreground">
@@ -820,7 +820,7 @@ export default function AIConfiguration() {
  <div className="text-[10px] font-bold text-muted-foreground">
  {model.usage.tokens.toLocaleString()}{t("admin_ai_tokensconsumed")}</div>
  </div>
- <div className="text-xl font-bold text-emerald-400">
+ <div className="text-xl font-bold text-success">
  {t("currency_symbol", "$")}{model.usage.cost.toFixed(2)}
  </div>
  </div>)}
@@ -844,7 +844,7 @@ export default function AIConfiguration() {
  <div className="grid grid-cols-2 gap-8 py-8">
  <div className="space-y-4">
  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_ai_node_name")}</Label>
- <Input placeholder={t("admin_ai_gpt4x_neural_engine")} className="h-12 bg-muted/50 border-border rounded-xl px-4 text-foreground placeholder:text-slate-600 font-bold text-[10px]" />
+ <Input placeholder={t("admin_ai_gpt4x_neural_engine")} className="h-12 bg-muted/50 border-border rounded-xl px-4 text-foreground placeholder:text-muted-foreground font-bold text-[10px]" />
  </div>
  <div className="space-y-4">
  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_ai_provider_atlas")}</Label>
@@ -862,7 +862,7 @@ export default function AIConfiguration() {
  </div>
  <div className="col-span-2 space-y-4">
  <Label className="text-[10px] font-bold text-muted-foreground">{t("admin_ai_operational_logic_description")}</Label>
- <Textarea placeholder={t("admin_ai_define_the_primary_focus")} className="bg-muted/50 border-border rounded-xl p-4 text-foreground placeholder:text-slate-600 min-h-[100px] font-bold text-[10px]" />
+ <Textarea placeholder={t("admin_ai_define_the_primary_focus")} className="bg-muted/50 border-border rounded-xl p-4 text-foreground placeholder:text-muted-foreground min-h-[100px] font-bold text-[10px]" />
  </div>
  </div>
  <DialogFooter className="pt-4 gap-4">

@@ -160,26 +160,26 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
     const {
       t
     } = useTranslation();
-    return <div className="bg-[#1a1b1e] border-white/10 text-white rounded-[40px] overflow-hidden backdrop-blur-3xl shadow-3xl">
+    return <div className="bg-card border-white/10 text-white rounded-[40px] overflow-hidden backdrop-blur-3xl shadow-3xl">
       <div className="p-10 pb-0">
-        <h1 className="text-3xl font-black italic tracking-tighter text-blue-400">{title}</h1>
-        <p className="text-slate-500 font-black italic tracking-widest text-[10px] pt-4 leading-relaxed">{desc}</p>
+        <h1 className="text-3xl font-black italic tracking-tighter text-brand">{title}</h1>
+        <p className="text-muted-foreground font-black italic tracking-widest text-[10px] pt-4 leading-relaxed">{desc}</p>
       </div>
       <form onSubmit={onSubmit} className="p-10 space-y-8">
         <div className="space-y-2">
-          <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.availability.dialog.property')}</Label>
+          <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.availability.dialog.property')}</Label>
           <Select value={form.propertyId} onValueChange={v => setForm({
             ...form,
             propertyId: v
           })}>
              <SelectTrigger className="h-16 bg-black/40 border-white/5 rounded-[24px] text-white font-black italic text-[10px] tracking-widest px-6 shadow-inner"><SelectValue placeholder={t('client.property.availability.dialog.selectProperty')} /></SelectTrigger>
-             <SelectContent className="bg-[#1a1b1e] border-white/10 text-white font-black italic">
+             <SelectContent className="bg-card border-white/10 text-white font-black italic">
                 {properties.map(p => <SelectItem key={p.id} value={p.id} className="focus:bg-white/5">{p.name}</SelectItem>)}
              </SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
-          <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.availability.dialog.date')}</Label>
+          <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.availability.dialog.date')}</Label>
           <Input type="date" className="h-16 bg-black/40 border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest" value={form.date} onChange={e => setForm({
             ...form,
             date: e.target.value
@@ -187,14 +187,14 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
         </div>
         <div className="grid grid-cols-2 gap-8">
           <div className="space-y-2">
-            <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('basePrice')}</Label>
+            <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('basePrice')}</Label>
             <Input type="number" className="h-16 bg-black/40 border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest" value={form.basePrice} onChange={e => setForm({
               ...form,
               basePrice: e.target.value
             })} required />
           </div>
           <div className="space-y-2">
-            <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('currentPrice')}</Label>
+            <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('currentPrice')}</Label>
             <Input type="number" className="h-16 bg-black/40 border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest" value={form.currentPrice} onChange={e => setForm({
               ...form,
               currentPrice: e.target.value
@@ -203,14 +203,14 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
         </div>
         <div className="grid grid-cols-2 gap-8">
           <div className="space-y-2">
-            <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('totalUnits')}</Label>
+            <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('totalUnits')}</Label>
             <Input type="number" className="h-16 bg-black/40 border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest" value={form.totalUnits} onChange={e => setForm({
               ...form,
               totalUnits: e.target.value
             })} />
           </div>
           <div className="space-y-2">
-            <Label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.availability.dialog.availableUnits')}</Label>
+            <Label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.availability.dialog.availableUnits')}</Label>
             <Input type="number" className="h-16 bg-black/40 border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest" value={form.availableUnits} onChange={e => setForm({
               ...form,
               availableUnits: e.target.value
@@ -220,7 +220,7 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
         <div className="flex items-center justify-between rounded-[32px] bg-black/40 border border-white/5 p-6 backdrop-blur-xl">
            <div className="space-y-1">
              <Label className="text-[10px] font-black tracking-widest text-white italic">{t('blockDates')}</Label>
-             <p className="text-[9px] font-black text-slate-500 italic tracking-widest">{t('blockDesc')}</p>
+             <p className="text-[9px] font-black text-muted-foreground italic tracking-widest">{t('blockDesc')}</p>
            </div>
            <Switch checked={form.isBlocked} onCheckedChange={v => setForm({
             ...form,
@@ -231,13 +231,13 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
           <Button type="button" variant="ghost" onClick={() => {
             setCreateOpen(false);
             setEditOpen(false);
-          }} className="h-16 px-8 text-[10px] font-black italic text-slate-500 hover:text-white transition-all">{t('client.property.availability.dialog.cancel')}</Button>
-          <Button type="submit" className="flex-1 h-16 rounded-[24px] bg-blue-600 hover:bg-blue-500 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20 active:scale-95 transition-all">{label}</Button>
+          }} className="h-16 px-8 text-[10px] font-black italic text-muted-foreground hover:text-white transition-all">{t('client.property.availability.dialog.cancel')}</Button>
+          <Button type="submit" className="flex-1 h-16 rounded-[24px] bg-blue-600 hover:bg-brand/100 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20 active:scale-95 transition-all">{label}</Button>
         </DialogFooter>
       </form>
     </div>;
   };
-  return <div className="min-h-screen bg-[#14151a] p-8 lg:p-12 relative overflow-hidden">
+  return <div className="min-h-screen bg-background p-8 lg:p-12 relative overflow-hidden">
       {/* Background Cybernetic Elements */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-size-[40px_40px] z-0" />
       
@@ -251,7 +251,7 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
         y: 0
       }} className="flex flex-col md:flex-row md:items-center justify-between gap-10">
           <div className="flex items-center gap-8">
-            <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="h-14 px-8 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 font-black italic text-[10px] tracking-[0.25em] transition-all group">
+            <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="h-14 px-8 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground font-black italic text-[10px] tracking-[0.25em] transition-all group">
               <ArrowLeft className="w-4 h-4 mr-3 group-hover:-translate-x-1 transition-transform" />
               {t('back', {
               defaultValue: 'BACK'
@@ -259,20 +259,20 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
             </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[9px] font-black tracking-[0.2em] italic">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/100/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
                 <Calendar className="w-3.5 h-3.5" />{t("client.src.reztimegrid")}</div>
               <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">{t('client.property.availability.title')}</h2>
-              <p className="text-slate-500 text-sm font-black tracking-widest italic">{t('client.property.availability.subtitle')}</p>
+              <p className="text-muted-foreground text-sm font-black tracking-widest italic">{t('client.property.availability.subtitle')}</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-             <Button variant="ghost" onClick={fetchData} disabled={loading} className="h-16 w-16 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all shadow-xl">
+             <Button variant="ghost" onClick={fetchData} disabled={loading} className="h-16 w-16 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground hover:text-white transition-all shadow-xl" aria-label={t("common.refresh")}>
                <RefreshCw className={cn("w-5 h-5", loading ? "animate-spin" : "")} />
              </Button>
              <Button onClick={() => {
             setForm(EMPTY_FORM);
             setCreateOpen(true);
-          }} className="h-16 px-10 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95">
+          }} className="h-16 px-10 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95">
                <Plus className="w-5 h-5 mr-3" /> {t('client.property.availability.add')}
              </Button>
           </div>
@@ -284,14 +284,14 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
           label: t('total'),
           value: availabilities.length,
           icon: Calendar,
-          color: "text-blue-400",
-          bg: "bg-blue-500/10"
+          color: "text-brand",
+          bg: "bg-brand/100/10"
         }, {
           label: t('available'),
           value: availabilities.filter(r => !r.isBlocked && !r.isBooked).length,
           icon: CheckCircle2,
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/10"
+          color: "text-success",
+          bg: "bg-success/10"
         }, {
           label: t('booked'),
           value: availabilities.filter(r => r.isBooked).length,
@@ -313,11 +313,11 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
         }} transition={{
           delay: i * 0.1
         }}>
-               <Card className="bg-[#1a1b1e]/60 border-white/5 border-l border-t rounded-[32px] overflow-hidden p-8 hover:bg-white/5 transition-all shadow-2xl relative backdrop-blur-3xl group">
+               <Card className="bg-card/60 border-white/5 border-l border-t rounded-[32px] overflow-hidden p-8 hover:bg-white/5 transition-all shadow-2xl relative backdrop-blur-3xl group">
                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform"><s.icon className="w-16 h-16" /></div>
                  <div className="flex justify-between items-start relative z-10">
                    <div>
-                      <p className="text-[10px] font-black tracking-widest text-slate-500 mb-2 italic">{s.label}</p>
+                      <p className="text-[10px] font-black tracking-widest text-muted-foreground mb-2 italic">{s.label}</p>
                       <p className="text-4xl font-black text-white italic tracking-tighter leading-none">{s.value}</p>
                    </div>
                    <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center border border-white/5 shadow-inner backdrop-blur-md", s.bg)}>
@@ -336,10 +336,10 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
         opacity: 1,
         scale: 1
       }}>
-          <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
+          <Card className="bg-card/40 border-white/5 border-l border-t rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
             <div className="relative group">
-               <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-                <input placeholder={t('client.property.availability.search')} aria-label="Search availability" className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" value={search} onChange={e => setSearch(e.target.value)} />
+               <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-brand transition-colors" />
+                <input placeholder={t('client.property.availability.search')} aria-label="Search availability" className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-foreground" value={search} onChange={e => setSearch(e.target.value)} />
             </div>
           </Card>
         </m.div>
@@ -352,59 +352,59 @@ export default function Availability({ propertyId }: { propertyId?: string }) {
         opacity: 1,
         y: 0
       }}>
-          <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] overflow-hidden backdrop-blur-3xl shadow-3xl">
+          <Card className="bg-card/40 border-white/5 border-l border-t rounded-[40px] overflow-hidden backdrop-blur-3xl shadow-3xl">
             <Table>
               <TableHeader className="bg-white/2 border-b border-white/5">
                 <TableRow className="hover:bg-transparent border-none">
-                  <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 py-8 italic">{t('client.property.availability.property')}</TableHead>
-                  <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.availability.date')}</TableHead>
-                  <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('price')}</TableHead>
-                  <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.availability.status')}</TableHead>
-                  <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.availability.units')}</TableHead>
-                  <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 text-right italic">{t("client.src.actions")}</TableHead>
+                  <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 py-8 italic">{t('client.property.availability.property')}</TableHead>
+                  <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.availability.date')}</TableHead>
+                  <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('price')}</TableHead>
+                  <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.availability.status')}</TableHead>
+                  <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.availability.units')}</TableHead>
+                  <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 text-right italic">{t("common.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {loading ? <TableRow><TableCell colSpan={6} className="text-center py-40"><Activity className="w-12 h-12 text-blue-500 animate-spin mx-auto opacity-20" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-40 text-slate-800 font-black italic tracking-widest text-xs">{t('client.property.availability.noFound')}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="border-b border-white/5 hover:bg-white/2 transition-all group/row">
+                {loading ? <TableRow><TableCell colSpan={6} className="text-center py-40"><Activity className="w-12 h-12 text-brand animate-spin mx-auto opacity-20" /></TableCell></TableRow> : filtered.length === 0 ? <TableRow><TableCell colSpan={6} className="text-center py-40 text-foreground font-black italic tracking-widest text-xs">{t('client.property.availability.noFound')}</TableCell></TableRow> : filtered.map(row => <TableRow key={row.id} className="border-b border-white/5 hover:bg-white/2 transition-all group/row">
                       <TableCell className="px-10 py-8">
                         <div className="flex items-center gap-6">
                            <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center group-hover/row:scale-110 transition-transform duration-500">
-                              <Building className="w-5 h-5 text-blue-500" />
+                              <Building className="w-5 h-5 text-brand" />
                            </div>
                            <div className="space-y-1.5">
-                              <p className="font-black text-white text-lg italic tracking-tighter leading-none group-hover/row:text-blue-400 transition-colors">{row.property?.name || "???"}</p>
-                              <p className="text-[9px] font-mono text-slate-600 tracking-widest">{row.propertyId}</p>
+                              <p className="font-black text-white text-lg italic tracking-tighter leading-none group-hover/row:text-brand transition-colors">{row.property?.name || "???"}</p>
+                              <p className="text-[9px] font-mono text-muted-foreground tracking-widest">{row.propertyId}</p>
                            </div>
                         </div>
                       </TableCell>
                       <TableCell className="px-10">
                         <div className="flex items-center gap-3">
-                           <Calendar className="w-4 h-4 text-slate-500" />
-                           <span className="font-black text-slate-300 text-[10px] italic tracking-widest">{new Date(row.date).toLocaleDateString()}</span>
+                           <Calendar className="w-4 h-4 text-muted-foreground" />
+                           <span className="font-black text-muted-foreground text-[10px] italic tracking-widest">{new Date(row.date).toLocaleDateString()}</span>
                         </div>
                       </TableCell>
                       <TableCell className="px-10">
                         <div className="space-y-1">
-                           <p className="font-black text-white text-xl italic tracking-tighter leading-none group-hover/row:text-blue-400 transition-colors">${row.currentPrice}</p>
-                           <p className="text-[10px] text-slate-600 font-black italic line-through tracking-widest leading-none">${row.basePrice}</p>
+                           <p className="font-black text-white text-xl italic tracking-tighter leading-none group-hover/row:text-brand transition-colors">${row.currentPrice}</p>
+                           <p className="text-[10px] text-muted-foreground font-black italic line-through tracking-widest leading-none">${row.basePrice}</p>
                         </div>
                       </TableCell>
                       <TableCell className="px-10">
-                        {row.isBooked ? <Badge className="bg-blue-600/10 text-blue-400 border-blue-600/20 px-4 h-7 text-[8px] font-black tracking-widest rounded-full italic">{t('booked')}</Badge> : row.isBlocked ? <Badge className="bg-rose-600/10 text-rose-500 border-rose-600/20 px-4 h-7 text-[8px] font-black tracking-widest rounded-full italic">{t('blocked')}</Badge> : <Badge className="bg-emerald-600/10 text-emerald-400 border-emerald-600/20 px-4 h-7 text-[8px] font-black tracking-widest rounded-full italic">{t('available')}</Badge>}
+                        {row.isBooked ? <Badge className="bg-blue-600/10 text-brand border-blue-600/20 px-4 h-7 text-[8px] font-black tracking-widest rounded-full italic">{t('booked')}</Badge> : row.isBlocked ? <Badge className="bg-rose-600/10 text-rose-500 border-rose-600/20 px-4 h-7 text-[8px] font-black tracking-widest rounded-full italic">{t('blocked')}</Badge> : <Badge className="bg-blue-600/10 text-success border-blue-600/20 px-4 h-7 text-[8px] font-black tracking-widest rounded-full italic">{t('available')}</Badge>}
                       </TableCell>
                       <TableCell className="px-10">
                          <div className="flex items-center gap-3">
-                            <Zap className="w-4 h-4 text-slate-600 group-hover/row:text-blue-400 transition-colors" />
-                            <span className="text-xs font-black text-slate-400 italic tracking-widest leading-none">{row.availableUnits} / {row.totalUnits}</span>
+                            <Zap className="w-4 h-4 text-muted-foreground group-hover/row:text-brand transition-colors" />
+                            <span className="text-xs font-black text-muted-foreground italic tracking-widest leading-none">{row.availableUnits} / {row.totalUnits}</span>
                          </div>
                       </TableCell>
                       <TableCell className="px-10 text-right">
                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild><Button variant="ghost" className="h-12 w-12 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all shadow-xl"><MoreHorizontal className="w-5 h-5 text-slate-500" /></Button></DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="bg-[#1a1b1e] border-white/10 text-white w-64 p-3 rounded-2xl shadow-3xl backdrop-blur-3xl">
-                               <DropdownMenuLabel className="text-[10px] font-black text-slate-500 tracking-widest p-4 pb-2 italic">{t("client.src.gridcalibration")}</DropdownMenuLabel>
+                            <DropdownMenuTrigger asChild><Button variant="ghost" className="h-12 w-12 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground hover:text-white transition-all shadow-xl" aria-label={t("common.more")}><MoreHorizontal className="w-5 h-5 text-muted-foreground" /></Button></DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="bg-card border-white/10 text-white w-64 p-3 rounded-2xl shadow-3xl backdrop-blur-3xl">
+                               <DropdownMenuLabel className="text-[10px] font-black text-muted-foreground tracking-widest p-4 pb-2 italic">{t("client.src.gridcalibration")}</DropdownMenuLabel>
                                <DropdownMenuSeparator className="bg-white/5 mx-2" />
-                               <DropdownMenuItem onClick={() => openEdit(row)} className="rounded-xl h-12 gap-4 font-black italic text-[10px] tracking-widest focus:bg-white/5 focus:text-blue-400 cursor-pointer"><Edit className="w-4 h-4" />{t("client.src.trcalibrate")}</DropdownMenuItem>
+                               <DropdownMenuItem onClick={() => openEdit(row)} className="rounded-xl h-12 gap-4 font-black italic text-[10px] tracking-widest focus:bg-white/5 focus:text-brand cursor-pointer"><Edit className="w-4 h-4" />{t("client.src.trcalibrate")}</DropdownMenuItem>
                                <DropdownMenuSeparator className="bg-white/5 mx-2" />
                                <DropdownMenuItem onClick={() => handleDelete(row.id)} className="rounded-xl h-12 gap-4 font-black italic text-[10px] tracking-widest focus:bg-red-500/10 focus:text-red-500 cursor-pointer"><Trash2 className="w-4 h-4" />{t("client.src.trterminate")}</DropdownMenuItem>
                             </DropdownMenuContent>

@@ -22,8 +22,8 @@ const STATUS_CONFIG: Record<string, {
   icon: any;
 }> = {
   PAID: {
-    label: t("client.src.paid"),
-    cls: "bg-green-100 text-green-700",
+    label: t("common.paid"),
+    cls: "bg-blue-100 text-blue-700",
     icon: CheckCircle2
   },
   UNPAID: {
@@ -32,12 +32,12 @@ const STATUS_CONFIG: Record<string, {
     icon: Clock
   },
   OVERDUE: {
-    label: t("client.src.overdue"),
+    label: t("common.overdue"),
     cls: "bg-red-100 text-red-700",
     icon: AlertCircle
   },
   REFUNDED: {
-    label: t("client.src.refunded"),
+    label: t("common.refunded"),
     cls: "bg-blue-100 text-blue-700",
     icon: TrendingUp
   },
@@ -88,7 +88,7 @@ export default function Payments() {
       setCreateOpen(false);
       toast({ title: t("client.src.payment_created"), description: t("client.src.new_payment_has_been") });
     },
-    onError: () => toast({ title: t("client.src.error"), description: t("client.src.failed_to_create_payment"), variant: "destructive" })
+    onError: () => toast({ title: t("common.error"), description: t("client.src.failed_to_create_payment"), variant: "destructive" })
   });
 
   const updateMutation = useMutation({
@@ -98,7 +98,7 @@ export default function Payments() {
       setEditOpen(false);
       toast({ title: t("client.src.payment_updated"), description: t("client.src.payment_has_been_updated") });
     },
-    onError: () => toast({ title: t("client.src.error"), description: t("client.src.failed_to_update_payment"), variant: "destructive" })
+    onError: () => toast({ title: t("common.error"), description: t("client.src.failed_to_update_payment"), variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
@@ -107,7 +107,7 @@ export default function Payments() {
       queryClient.invalidateQueries({ queryKey: ['payments'] });
       toast({ title: t("client.src.payment_deleted"), description: t("client.src.payment_has_been_deleted") });
     },
-    onError: () => toast({ title: t("client.src.error"), description: t("client.src.failed_to_delete_payment"), variant: "destructive" })
+    onError: () => toast({ title: t("common.error"), description: t("client.src.failed_to_delete_payment"), variant: "destructive" })
   });
 
   const handleCreatePayment = (data: any) => createMutation.mutate(data);
@@ -142,15 +142,15 @@ export default function Payments() {
             <p className="text-2xl font-bold text-card-foreground">{totalPayments}</p>
           </div>
           <div className="bg-card border border-border p-6 rounded-xl shadow-sm">
-            <h3 className="text-sm font-medium text-muted-foreground">{t("client.src.paid")}</h3>
-            <p className="text-2xl font-bold text-green-600">{paidCount}</p>
+            <h3 className="text-sm font-medium text-muted-foreground">{t("common.paid")}</h3>
+            <p className="text-2xl font-bold text-blue-600">{paidCount}</p>
           </div>
           <div className="bg-card border border-border p-6 rounded-xl shadow-sm">
             <h3 className="text-sm font-medium text-muted-foreground">{t("client.src.unpaid")}</h3>
             <p className="text-2xl font-bold text-yellow-600">{unpaidCount}</p>
           </div>
           <div className="bg-card border border-border p-6 rounded-xl shadow-sm">
-            <h3 className="text-sm font-medium text-muted-foreground">{t("client.src.overdue")}</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">{t("common.overdue")}</h3>
             <p className="text-2xl font-bold text-red-600">{overdueCount}</p>
           </div>
         </div>
@@ -163,16 +163,16 @@ export default function Payments() {
             </div>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-32 h-9">
-                <SelectValue placeholder={t("client.src.status")} />
+                <SelectValue placeholder={t("common.status")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("client.src.all_status")}</SelectItem>
+                <SelectItem value="all">{t("common.all_status")}</SelectItem>
                 {Object.values(PaymentLedgerStatus).map(status => <SelectItem key={status} value={status}>{STATUS_CONFIG[status]?.label || status}</SelectItem>)}
               </SelectContent>
             </Select>
             <Select value={filterProperty} onValueChange={setFilterProperty}>
               <SelectTrigger className="w-32 h-9">
-                <SelectValue placeholder={t("client.src.property")} />
+                <SelectValue placeholder={t("common.property")} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">{t("client.src.all_properties")}</SelectItem>
@@ -188,12 +188,12 @@ export default function Payments() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("client.src.tenant")}</TableHead>
-                <TableHead>{t("client.src.property")}</TableHead>
-                <TableHead>{t("client.src.amount")}</TableHead>
-                <TableHead>{t("client.src.due_date")}</TableHead>
+                <TableHead>{t("common.tenant")}</TableHead>
+                <TableHead>{t("common.property")}</TableHead>
+                <TableHead>{t("common.amount")}</TableHead>
+                <TableHead>{t("common.due_date")}</TableHead>
                 <TableHead>{t("client.src.payment_date")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead>{t("client.src.reference")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
@@ -230,12 +230,12 @@ export default function Payments() {
                     <TableCell className="text-xs font-mono">{payment.reference || "-"}</TableCell>
                     <TableCell>
                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+                        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-40">
                           <DropdownMenuItem onClick={() => {
                       setSelectedPayment(payment);
                       setEditOpen(true);
-                    }}><Edit className="h-4 w-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
+                    }}><Edit className="h-4 w-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
                           <DropdownMenuItem onClick={() => {
                       navigator.clipboard.writeText(payment.reference || '');
                       toast({
@@ -243,7 +243,7 @@ export default function Payments() {
                         description: t("client.src.reference_copied_to_clipboard")
                       });
                     }}>{t("client.src.copy_reference")}</DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive font-medium" onClick={() => handleDeletePayment(payment.id)}><Trash2 className="h-4 w-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive font-medium" onClick={() => handleDeletePayment(payment.id)}><Trash2 className="h-4 w-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -259,14 +259,14 @@ export default function Payments() {
             <div className="space-y-4 py-2">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5"><Label>{t("client.src.org_id")}</Label><Input placeholder={t("client.src.organization_id")} /></div>
-                <div className="space-y-1.5"><Label>{t("client.src.amount")}</Label><Input type="number" placeholder="0.00" /></div>
+                <div className="space-y-1.5"><Label>{t("common.amount")}</Label><Input type="number" placeholder="0.00" /></div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5"><Label>{t("client.src.currency")}</Label><Input defaultValue="USD" /></div>
-                <div className="space-y-1.5"><Label>{t("client.src.due_date")}</Label><Input type="date" /></div>
+                <div className="space-y-1.5"><Label>{t("common.currency")}</Label><Input defaultValue="USD" /></div>
+                <div className="space-y-1.5"><Label>{t("common.due_date")}</Label><Input type="date" /></div>
               </div>
               <div className="space-y-1.5">
-                <Label>{t("client.src.status")}</Label>
+                <Label>{t("common.status")}</Label>
                 <Select defaultValue="UNPAID">
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -277,7 +277,7 @@ export default function Payments() {
               <div className="space-y-1.5"><Label>{t("client.src.reference")}</Label><Input placeholder={t("client.src.payment_reference")} /></div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setCreateOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button variant="outline" onClick={() => setCreateOpen(false)}>{t("common.cancel")}</Button>
               <Button onClick={() => handleCreatePayment({
               orgId: "org_1",
               amount: 100,
@@ -297,7 +297,7 @@ export default function Payments() {
               <p className="text-sm text-muted-foreground">{t("client.src.editing_payment_for")}{selectedPayment?.id}</p>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setEditOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button variant="outline" onClick={() => setEditOpen(false)}>{t("common.cancel")}</Button>
               <Button onClick={() => selectedPayment && handleUpdatePayment(selectedPayment.id, {})}>{t("client.src.update_payment")}</Button>
             </DialogFooter>
           </DialogContent>

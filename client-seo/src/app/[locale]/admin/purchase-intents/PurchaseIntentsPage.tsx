@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { tEnum } from "@/lib/admin-enums";
 import {
   Dialog,
   DialogContent,
@@ -90,24 +91,24 @@ const mockIntents: PurchaseIntent[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  INTENT_DECLARED: "bg-blue-500/20 text-blue-400",
+  INTENT_DECLARED: "bg-blue-500/20 text-info",
   DOWN_PAYMENT_SAVING: "bg-cyan-500/20 text-cyan-400",
-  MORTGAGE_PREAPPROVED: "bg-purple-500/20 text-purple-400",
-  CONTRACT_EXCHANGED: "bg-amber-500/20 text-amber-400",
-  COMPLETION: "bg-green-500/20 text-green-400",
-  OWNERSHIP_TRANSFERRED: "bg-emerald-500/20 text-emerald-400",
+  MORTGAGE_PREAPPROVED: "bg-brand/20 text-brand",
+  CONTRACT_EXCHANGED: "bg-amber-500/20 text-warning",
+  COMPLETION: "bg-blue-500/20 text-blue-400",
+  OWNERSHIP_TRANSFERRED: "bg-blue-500/20 text-success",
 };
 
 const TIER_COLORS: Record<string, string> = {
   NOT_READY: "bg-gray-500/20 text-gray-400",
-  EARLY_STAGE: "bg-blue-500/20 text-blue-400",
+  EARLY_STAGE: "bg-blue-500/20 text-info",
   MID_STAGE: "bg-cyan-500/20 text-cyan-400",
-  ALMOST_READY: "bg-amber-500/20 text-amber-400",
-  BUYER_READY: "bg-green-500/20 text-green-400",
+  ALMOST_READY: "bg-amber-500/20 text-warning",
+  BUYER_READY: "bg-blue-500/20 text-blue-400",
 };
 
 function getReadinessColor(score: number): string {
-  if (score >= 90) return "bg-green-500";
+  if (score >= 90) return "bg-blue-500";
   if (score >= 70) return "bg-blue-500";
   if (score >= 50) return "bg-cyan-500";
   if (score >= 30) return "bg-amber-500";
@@ -160,12 +161,12 @@ export default function PurchaseIntentsPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_rto_title", "Purchase Intents (RTO)")}</h1>
-              <p className="text-muted-foreground">{t("admin_rto_description", "Manage rent-to-own purchase intents and tenant readiness tracking")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_rto_title", "Kademeli Satın Alma (Rent-to-Own RTO)")}</h1>
+              <p className="text-muted-foreground">{t("admin_rto_description", "Kiralayarak satın alma niyetlerini ve sözleşmelerini yönetin")}</p>
             </div>
             <Button className="bg-primary hover:bg-primary/90">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin_rto_back_to_dashboard", "Back to Dashboard")}
+              {t("admin_rto_back_to_dashboard", "Panele Dön")}
             </Button>
           </div>
         </m.div>
@@ -177,7 +178,7 @@ export default function PurchaseIntentsPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/10"><Home className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_rto_total_intents", "Total Intents")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_rto_total_intents", "Toplam Niyet")}</p>
                   <p className="text-2xl font-bold text-foreground">{items.length}</p>
                 </div>
               </div>
@@ -186,9 +187,9 @@ export default function PurchaseIntentsPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10"><Wallet className="w-5 h-5 text-green-500" /></div>
+                <div className="p-2 rounded-lg bg-blue-500/10"><Wallet className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_rto_total_equity", "Total Equity")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_rto_total_equity", "Toplam Birikim")}</p>
                   <p className="text-2xl font-bold text-foreground">${totalEquity.toLocaleString()}</p>
                 </div>
               </div>
@@ -197,9 +198,9 @@ export default function PurchaseIntentsPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-500/10"><Target className="w-5 h-5 text-purple-500" /></div>
+                <div className="p-2 rounded-lg bg-brand/10"><Target className="w-5 h-5 text-brand" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_rto_avg_readiness", "Avg Readiness")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_rto_avg_readiness", "Ort. Hazırlık")}</p>
                   <p className="text-2xl font-bold text-foreground">{avgReadiness}%</p>
                 </div>
               </div>
@@ -210,7 +211,7 @@ export default function PurchaseIntentsPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-amber-500/10"><TrendingUp className="w-5 h-5 text-amber-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_rto_buyer_ready", "Buyer Ready")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_rto_buyer_ready", "Alıcı Hazır")}</p>
                   <p className="text-2xl font-bold text-foreground">{items.filter((i) => i.readinessTier === "BUYER_READY").length}</p>
                 </div>
               </div>
@@ -227,7 +228,7 @@ export default function PurchaseIntentsPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin_rto_search_placeholder", "Search by tenant or property...")}
+                      placeholder={t("admin_rto_search_placeholder", "Satın alma niyetleri ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -236,34 +237,34 @@ export default function PurchaseIntentsPage() {
                 </div>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger className="w-[200px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_rto_filter_status", "Filter Status")} />
+                    <SelectValue placeholder={t("admin_rto_filter_status", "Duruma Göre Filtrele")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">All Status</SelectItem>
-                    <SelectItem value="INTENT_DECLARED">Intent Declared</SelectItem>
-                    <SelectItem value="DOWN_PAYMENT_SAVING">Down Payment Saving</SelectItem>
-                    <SelectItem value="MORTGAGE_PREAPPROVED">Mortgage Preapproved</SelectItem>
-                    <SelectItem value="CONTRACT_EXCHANGED">Contract Exchanged</SelectItem>
-                    <SelectItem value="COMPLETION">Completion</SelectItem>
-                    <SelectItem value="OWNERSHIP_TRANSFERRED">Ownership Transferred</SelectItem>
+                    <SelectItem value="ALL">{t("admin_rto_all_status", "Tüm Durumlar")}</SelectItem>
+                    <SelectItem value="INTENT_DECLARED">{tEnum(t, "INTENT_DECLARED")}</SelectItem>
+                    <SelectItem value="DOWN_PAYMENT_SAVING">{tEnum(t, "DOWN_PAYMENT_SAVING")}</SelectItem>
+                    <SelectItem value="MORTGAGE_PREAPPROVED">{tEnum(t, "MORTGAGE_PREAPPROVED")}</SelectItem>
+                    <SelectItem value="CONTRACT_EXCHANGED">{tEnum(t, "CONTRACT_EXCHANGED")}</SelectItem>
+                    <SelectItem value="COMPLETION">{tEnum(t, "COMPLETION")}</SelectItem>
+                    <SelectItem value="OWNERSHIP_TRANSFERRED">{tEnum(t, "OWNERSHIP_TRANSFERRED")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select value={tierFilter} onValueChange={setTierFilter}>
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_rto_readiness_tier", "Readiness Tier")} />
+                    <SelectValue placeholder={t("admin_rto_readiness_tier", "Hazırlık Seviyesi")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">All Tiers</SelectItem>
-                    <SelectItem value="NOT_READY">Not Ready</SelectItem>
-                    <SelectItem value="EARLY_STAGE">Early Stage</SelectItem>
-                    <SelectItem value="MID_STAGE">Mid Stage</SelectItem>
-                    <SelectItem value="ALMOST_READY">Almost Ready</SelectItem>
-                    <SelectItem value="BUYER_READY">Buyer Ready</SelectItem>
+                    <SelectItem value="ALL">{t("admin_rto_all_tiers", "Tüm Kademeler")}</SelectItem>
+                    <SelectItem value="NOT_READY">{tEnum(t, "NOT_READY")}</SelectItem>
+                    <SelectItem value="EARLY_STAGE">{tEnum(t, "EARLY_STAGE")}</SelectItem>
+                    <SelectItem value="MID_STAGE">{tEnum(t, "MID_STAGE")}</SelectItem>
+                    <SelectItem value="ALMOST_READY">{tEnum(t, "ALMOST_READY")}</SelectItem>
+                    <SelectItem value="BUYER_READY">{tEnum(t, "BUYER_READY")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_rto_add_intent", "Add Intent")}
+                  {t("admin_rto_add_intent", "Niyet Ekle")}
                 </Button>
               </div>
             </CardContent>
@@ -276,7 +277,7 @@ export default function PurchaseIntentsPage() {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <Home className="w-5 h-5" />
-                {t("admin_rto_list_title", "Purchase Intents")} ({filtered.length})
+                {t("admin_rto_list_title", "Satın Alma Niyetleri")} ({filtered.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -284,13 +285,13 @@ export default function PurchaseIntentsPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_tenant", "Tenant")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_property", "Property")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_readiness", "Readiness")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_equity", "Equity")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_status", "Status")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_tier", "Tier")}</th>
-                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_actions", "Actions")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_tenant", "Kiracı")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_property", "Emlak")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_readiness", "Hazırlık")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_equity", "Birikim")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_status", "Durum")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_rto_tier", "Seviye")}</th>
+                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_kumbara_actions", "İşlemler")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -309,15 +310,15 @@ export default function PurchaseIntentsPage() {
                         </td>
                         <td className="py-3 px-4 text-foreground">${intent.equityAccumulated.toLocaleString()}</td>
                         <td className="py-3 px-4">
-                          <Badge className={STATUS_COLORS[intent.status]}>{intent.status.replace(/_/g, " ")}</Badge>
+                          <Badge className={STATUS_COLORS[intent.status]}>{tEnum(t, intent.status)}</Badge>
                         </td>
                         <td className="py-3 px-4">
-                          <Badge className={TIER_COLORS[intent.readinessTier]}>{intent.readinessTier.replace(/_/g, " ")}</Badge>
+                          <Badge className={TIER_COLORS[intent.readinessTier]}>{tEnum(t, intent.readinessTier)}</Badge>
                         </td>
                         <td className="py-3 px-4">
                           <div className="flex justify-end gap-2">
-                            <Button onClick={() => { setEditingItem(intent); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                            <Button onClick={() => { setDeletingItem(intent); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                            <Button onClick={() => { setEditingItem(intent); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                            <Button onClick={() => { setDeletingItem(intent); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                           </div>
                         </td>
                       </tr>
@@ -354,73 +355,73 @@ function CreateIntentDialog({ open, onOpenChange, onSubmit }: { open: boolean; o
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_rto_create_intent", "Create Purchase Intent")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_rto_create_intent_desc", "Register a new rent-to-own purchase intent.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_rto_create_intent", "Satın Alma Niyeti Oluştur")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_rto_create_intent_desc", "Yeni bir kiracı satın alma niyeti beyan edin")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_tenant_id", "Tenant ID")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_tenant_id", "Kiracı ID")}</Label>
             <Input value={tenantId} onChange={(e) => setTenantId(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_tenant_name", "Tenant Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_tenant_name", "Kiracı Adı")}</Label>
             <Input value={tenantName} onChange={(e) => setTenantName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_property_id", "Property ID")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_property_id", "Emlak ID")}</Label>
             <Input value={propertyId} onChange={(e) => setPropertyId(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_property_name", "Property Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_property_name", "Emlak Adı")}</Label>
             <Input value={propertyName} onChange={(e) => setPropertyName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_readiness_score", "Readiness Score")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_readiness_score", "Hazırlık Puanı")}</Label>
             <Input type="number" value={buyerReadinessScore} onChange={(e) => setBuyerReadinessScore(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_equity", "Equity")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_equity", "Birikim")}</Label>
             <Input type="number" value={equityAccumulated} onChange={(e) => setEquityAccumulated(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_monthly_savings", "Monthly Savings")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_monthly_savings", "Aylık Birikim")}</Label>
             <Input type="number" value={monthlySavings} onChange={(e) => setMonthlySavings(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_status", "Durum")}</Label>
             <Select value={status} onValueChange={(v) => setStatus(v as PurchaseIntent["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="INTENT_DECLARED">Intent Declared</SelectItem>
-                <SelectItem value="DOWN_PAYMENT_SAVING">Down Payment Saving</SelectItem>
-                <SelectItem value="MORTGAGE_PREAPPROVED">Mortgage Preapproved</SelectItem>
-                <SelectItem value="CONTRACT_EXCHANGED">Contract Exchanged</SelectItem>
-                <SelectItem value="COMPLETION">Completion</SelectItem>
-                <SelectItem value="OWNERSHIP_TRANSFERRED">Ownership Transferred</SelectItem>
+                <SelectItem value="INTENT_DECLARED">{tEnum(t, "INTENT_DECLARED")}</SelectItem>
+                <SelectItem value="DOWN_PAYMENT_SAVING">{tEnum(t, "DOWN_PAYMENT_SAVING")}</SelectItem>
+                <SelectItem value="MORTGAGE_PREAPPROVED">{tEnum(t, "MORTGAGE_PREAPPROVED")}</SelectItem>
+                <SelectItem value="CONTRACT_EXCHANGED">{tEnum(t, "CONTRACT_EXCHANGED")}</SelectItem>
+                <SelectItem value="COMPLETION">{tEnum(t, "COMPLETION")}</SelectItem>
+                <SelectItem value="OWNERSHIP_TRANSFERRED">{tEnum(t, "OWNERSHIP_TRANSFERRED")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_readiness_tier", "Readiness Tier")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_readiness_tier", "Hazırlık Seviyesi")}</Label>
             <Select value={readinessTier} onValueChange={(v) => setReadinessTier(v as PurchaseIntent["readinessTier"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="NOT_READY">Not Ready</SelectItem>
-                <SelectItem value="EARLY_STAGE">Early Stage</SelectItem>
-                <SelectItem value="MID_STAGE">Mid Stage</SelectItem>
-                <SelectItem value="ALMOST_READY">Almost Ready</SelectItem>
-                <SelectItem value="BUYER_READY">Buyer Ready</SelectItem>
+                <SelectItem value="NOT_READY">{tEnum(t, "NOT_READY")}</SelectItem>
+                <SelectItem value="EARLY_STAGE">{tEnum(t, "EARLY_STAGE")}</SelectItem>
+                <SelectItem value="MID_STAGE">{tEnum(t, "MID_STAGE")}</SelectItem>
+                <SelectItem value="ALMOST_READY">{tEnum(t, "ALMOST_READY")}</SelectItem>
+                <SelectItem value="BUYER_READY">{tEnum(t, "BUYER_READY")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ tenantId, tenantName, propertyId, propertyName, status, readinessTier, buyerReadinessScore: Number(buyerReadinessScore), equityAccumulated: Number(equityAccumulated), savingsProgress: 0, monthlySavings: Number(monthlySavings), createdAt: new Date().toISOString().split("T")[0] })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ tenantId, tenantName, propertyId, propertyName, status, readinessTier, buyerReadinessScore: Number(buyerReadinessScore), equityAccumulated: Number(equityAccumulated), savingsProgress: 0, monthlySavings: Number(monthlySavings), createdAt: new Date().toISOString().split("T")[0] })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -440,61 +441,61 @@ function EditIntentDialog({ open, onOpenChange, item, onSubmit }: { open: boolea
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_rto_edit_intent", "Edit Purchase Intent")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_rto_edit_intent_desc", "Update purchase intent details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_rto_edit_intent", "Satın Alma Niyetini Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_rto_edit_intent_desc", "Satın alma niyeti detaylarını güncelleyin")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_tenant_name", "Tenant Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_tenant_name", "Kiracı Adı")}</Label>
             <Input value={tenantName} onChange={(e) => setTenantName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_property_name", "Property Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_property_name", "Emlak Adı")}</Label>
             <Input value={propertyName} onChange={(e) => setPropertyName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_readiness_score", "Readiness Score")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_readiness_score", "Hazırlık Puanı")}</Label>
             <Input type="number" value={buyerReadinessScore} onChange={(e) => setBuyerReadinessScore(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_equity", "Equity")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_equity", "Birikim")}</Label>
             <Input type="number" value={equityAccumulated} onChange={(e) => setEquityAccumulated(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_status", "Durum")}</Label>
             <Select value={status} onValueChange={(v) => setStatus(v as PurchaseIntent["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="INTENT_DECLARED">Intent Declared</SelectItem>
-                <SelectItem value="DOWN_PAYMENT_SAVING">Down Payment Saving</SelectItem>
-                <SelectItem value="MORTGAGE_PREAPPROVED">Mortgage Preapproved</SelectItem>
-                <SelectItem value="CONTRACT_EXCHANGED">Contract Exchanged</SelectItem>
-                <SelectItem value="COMPLETION">Completion</SelectItem>
-                <SelectItem value="OWNERSHIP_TRANSFERRED">Ownership Transferred</SelectItem>
+                <SelectItem value="INTENT_DECLARED">{tEnum(t, "INTENT_DECLARED")}</SelectItem>
+                <SelectItem value="DOWN_PAYMENT_SAVING">{tEnum(t, "DOWN_PAYMENT_SAVING")}</SelectItem>
+                <SelectItem value="MORTGAGE_PREAPPROVED">{tEnum(t, "MORTGAGE_PREAPPROVED")}</SelectItem>
+                <SelectItem value="CONTRACT_EXCHANGED">{tEnum(t, "CONTRACT_EXCHANGED")}</SelectItem>
+                <SelectItem value="COMPLETION">{tEnum(t, "COMPLETION")}</SelectItem>
+                <SelectItem value="OWNERSHIP_TRANSFERRED">{tEnum(t, "OWNERSHIP_TRANSFERRED")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_rto_readiness_tier", "Readiness Tier")}</Label>
+            <Label className="text-right text-foreground">{t("admin_rto_readiness_tier", "Hazırlık Seviyesi")}</Label>
             <Select value={readinessTier} onValueChange={(v) => setReadinessTier(v as PurchaseIntent["readinessTier"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="NOT_READY">Not Ready</SelectItem>
-                <SelectItem value="EARLY_STAGE">Early Stage</SelectItem>
-                <SelectItem value="MID_STAGE">Mid Stage</SelectItem>
-                <SelectItem value="ALMOST_READY">Almost Ready</SelectItem>
-                <SelectItem value="BUYER_READY">Buyer Ready</SelectItem>
+                <SelectItem value="NOT_READY">{tEnum(t, "NOT_READY")}</SelectItem>
+                <SelectItem value="EARLY_STAGE">{tEnum(t, "EARLY_STAGE")}</SelectItem>
+                <SelectItem value="MID_STAGE">{tEnum(t, "MID_STAGE")}</SelectItem>
+                <SelectItem value="ALMOST_READY">{tEnum(t, "ALMOST_READY")}</SelectItem>
+                <SelectItem value="BUYER_READY">{tEnum(t, "BUYER_READY")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ ...item, tenantName, propertyName, buyerReadinessScore: Number(buyerReadinessScore), equityAccumulated: Number(equityAccumulated), status, readinessTier })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ ...item, tenantName, propertyName, buyerReadinessScore: Number(buyerReadinessScore), equityAccumulated: Number(equityAccumulated), status, readinessTier })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -507,12 +508,12 @@ function DeleteIntentDialog({ open, onOpenChange, item, onConfirm }: { open: boo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_rto_delete_intent", "Delete Purchase Intent")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_rto_delete_intent_desc", "Are you sure you want to delete the intent for")}{item.tenantName}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_rto_delete_intent", "Satın Alma Niyetini Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_rto_delete_intent_desc", "Bu satın alma niyetini silmek istediğinizden emin misiniz?")}{item.tenantName}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -20,8 +20,8 @@ const STATUS: Record<string, {
   cls: string;
 }> = {
   PAID: {
-    label: t("client.src.paid"),
-    cls: "bg-green-100 text-green-700"
+    label: t("common.paid"),
+    cls: "bg-blue-100 text-blue-700"
   },
   UNPAID: {
     label: t("client.src.unpaid"),
@@ -32,7 +32,7 @@ const STATUS: Record<string, {
     cls: "bg-blue-100 text-blue-700"
   },
   OVERDUE: {
-    label: t("client.src.overdue"),
+    label: t("common.overdue"),
     cls: "bg-red-100 text-red-700"
   }
 };
@@ -80,7 +80,7 @@ export default function TaxRecords() {
       toast({ title: t("client.src.tax_record_created") });
     },
     onError: () => {
-      toast({ title: t("client.src.error"), description: t("client.src.failed_to_create_tax"), variant: "destructive" });
+      toast({ title: t("common.error"), description: t("client.src.failed_to_create_tax"), variant: "destructive" });
     }
   });
   const filtered = records.filter(row => (row.description || "").toLowerCase().includes(search.toLowerCase()) || (row.category || "").toLowerCase().includes(search.toLowerCase()));
@@ -144,20 +144,20 @@ export default function TaxRecords() {
           })} required /></div>
         </>}
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5"><Label>{t("client.src.amount")}</Label><Input type="number" value={form.amount} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("common.amount")}</Label><Input type="number" value={form.amount} onChange={e => setForm({
             ...form,
             amount: e.target.value
           })} required /></div>
-        <div className="space-y-1.5"><Label>{t("client.src.currency")}</Label><Input value={form.currency} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("common.currency")}</Label><Input value={form.currency} onChange={e => setForm({
             ...form,
             currency: e.target.value
           })} /></div>
       </div>
-      <div className="space-y-1.5"><Label>{t("client.src.date")}</Label><Input type="date" value={form.occurredAt} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("common.date")}</Label><Input type="date" value={form.occurredAt} onChange={e => setForm({
           ...form,
           occurredAt: e.target.value
         })} /></div>
-      <div className="space-y-1.5"><Label>{t("client.src.description")}</Label><Input value={form.description} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("common.description")}</Label><Input value={form.description} onChange={e => setForm({
           ...form,
           description: e.target.value
         })} /></div>
@@ -169,25 +169,25 @@ export default function TaxRecords() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search tax records..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: records.length
     }, {
-      label: t("client.src.paid"),
+      label: t("common.paid"),
       value: records.filter(r => r.paymentStatus === 'PAID').length
     }, {
       label: t("client.src.total_paid"),
       value: `$${records.filter(r => r.paymentStatus === 'PAID').reduce((s, r) => s + (r.amount || 0), 0).toLocaleString()}`
     }]} actions={<Button variant="outline" size="sm" onClick={() => fetchRecords()} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("client.src.refresh")}</Button>}>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("common.refresh")}</Button>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("client.src.date")}</TableHead>
-                <TableHead>{t("client.src.type")}</TableHead>
-                <TableHead>{t("client.src.amount")}</TableHead>
-                <TableHead>{t("client.src.description")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.date")}</TableHead>
+                <TableHead>{t("common.type")}</TableHead>
+                <TableHead>{t("common.amount")}</TableHead>
+                <TableHead>{t("common.description")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -202,10 +202,10 @@ export default function TaxRecords() {
                     </TableCell>
                     <TableCell>
                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -218,13 +218,13 @@ export default function TaxRecords() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_tax_record")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_tax_record")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} isEdit={true} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} isEdit={true} />
         </DialogContent>
       </Dialog>
     </>;

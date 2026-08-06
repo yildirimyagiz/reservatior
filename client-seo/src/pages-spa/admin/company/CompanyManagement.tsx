@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -209,9 +209,9 @@ export default function CompanyManagement() {
  const getDocumentStatusColor = (status: string) => {
  switch (status) {
  case 'APPROVED':
- return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+ return 'bg-blue-500/10 text-success border-blue-500/20';
  case 'PENDING':
- return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
+ return 'bg-orange-500/10 text-warning border-orange-500/20';
  case 'EXPIRED':
  return 'bg-red-500/10 text-red-400 border-red-500/20';
  case 'DRAFT':
@@ -223,7 +223,7 @@ export default function CompanyManagement() {
  const getMilestoneStatusColor = (status: string) => {
  switch (status) {
  case 'COMPLETED':
- return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+ return 'bg-blue-500/10 text-success border-blue-500/20';
  case 'IN_PROGRESS':
  return 'bg-muted0/10 text-muted-foreground border-slate-500/20';
  case 'DELAYED':
@@ -239,11 +239,11 @@ export default function CompanyManagement() {
  case 'CRITICAL':
  return 'bg-red-500/20 text-red-400';
  case 'HIGH':
- return 'bg-orange-500/20 text-orange-400';
+ return 'bg-orange-500/20 text-warning';
  case 'MEDIUM':
  return 'bg-yellow-500/20 text-yellow-400';
  case 'LOW':
- return 'bg-green-500/20 text-green-400';
+ return 'bg-blue-500/20 text-blue-400';
  default:
  return 'bg-muted0/20 text-muted-foreground';
  }
@@ -262,7 +262,7 @@ export default function CompanyManagement() {
  </div>
  
  <div className="flex items-center gap-4">
- <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/20 px-4 py-2">
+ <Badge className="bg-blue-500/20 text-success border-blue-500/20 px-4 py-2">
  <div className="flex items-center gap-2">
  <Building className="w-4 h-4" />
  <span className="font-bold text-xs">{t("admin_company_active_setup")}</span>
@@ -275,7 +275,7 @@ export default function CompanyManagement() {
  <Card className="bg-card border-border rounded-3xl p-8">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <Target className="w-5 h-5 text-slate-500" />{t("admin_company_setup_progress")}</CardTitle>
+ <Target className="w-5 h-5 text-muted-foreground" />{t("admin_company_setup_progress")}</CardTitle>
  </CardHeader>
  <CardContent className="space-y-6">
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -344,12 +344,12 @@ export default function CompanyManagement() {
  <Card className="bg-card border-border rounded-3xl p-8">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <Award className="w-5 h-5 text-emerald-500" />{t("admin_company_recent_achievements")}</CardTitle>
+ <Award className="w-5 h-5 text-success" />{t("admin_company_recent_achievements")}</CardTitle>
  </CardHeader>
  <CardContent className="space-y-4">
  <div className="space-y-3">
  <div className="flex items-center gap-3">
- <CheckCircle className="w-5 h-5 text-emerald-400" />
+ <CheckCircle className="w-5 h-5 text-success" />
  <div>
  <h4 className="text-sm font-bold text-foreground">{t("admin_company_company_registered")}</h4>
  <p className="text-xs text-muted-foreground">{t("admin_company_delaware_llc_successfully_incorporated")}</p>
@@ -378,7 +378,7 @@ export default function CompanyManagement() {
  <Card className="bg-card border-border rounded-3xl p-8">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <TrendingUp className="w-5 h-5 text-slate-500" />{t("admin_company_key_metrics")}</CardTitle>
+ <TrendingUp className="w-5 h-5 text-muted-foreground" />{t("admin_company_key_metrics")}</CardTitle>
  </CardHeader>
  <CardContent className="space-y-4">
  <div className="grid grid-cols-2 gap-4">
@@ -416,52 +416,52 @@ export default function CompanyManagement() {
  
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button size="sm" className="bg-slate-600 hover:bg-muted0">
+ <Button size="sm" className="bg-muted hover:bg-muted0">
  <Plus className="w-4 h-4 mr-2" />{t("admin_company_upload_document")}</Button>
  </DialogTrigger>
  
  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_create_new_organization", "Create New Organization")}</DialogTitle>
+ <DialogTitle>{t("admin_auto_create_new_organization", "Yeni Organizasyon Oluştur")}</DialogTitle>
  <DialogDescription>
- {t("admin_auto_register_a_new_organization_company_agen", "Register a new organization (company, agency, vendor) mapped to the backend.")}</DialogDescription>
+ {t("admin_auto_register_a_new_organization_company_agen", "Arka uçla eşlenen yeni bir kuruluşu (şirket, ajans, satıcı) kaydedin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-xs">{t("admin_auto_org_name", "Org Name")}</Label>
- <Input id="name" className="col-span-3 h-10" value={newOrg.name} onChange={e => setNewOrg({...newOrg, name: e.target.value})} placeholder={t("admin_auto_acme_corporation", "Acme Corporation")} />
+ <Label htmlFor="name" className="text-right text-xs">{t("admin_auto_org_name", "Kuruluş Adı")}</Label>
+ <Input id="name" className="col-span-3 h-10" value={newOrg.name} onChange={e => setNewOrg({...newOrg, name: e.target.value})} placeholder={t("admin_auto_acme_corporation", "Acme Şirketi")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="type" className="text-right text-xs">{t("admin_auto_org_type", "Org Type")}</Label>
+ <Label htmlFor="type" className="text-right text-xs">{t("admin_auto_org_type", "Kuruluş Türü")}</Label>
  <Select value={newOrg.type} onValueChange={(v) => setNewOrg({...newOrg, type: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("client.src.select_type", "Select Type")} /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("common.select_type", "Tür seç")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="OWNER_PORTFOLIO">{t("admin_auto_owner_portfolio", "Owner Portfolio")}</SelectItem>
- <SelectItem value="VENDOR_PM">{t("admin_auto_vendor_pm", "Vendor PM")}</SelectItem>
- <SelectItem value="AGENCY">{t("admin_reports_agency", "Agency")}</SelectItem>
- <SelectItem value="ACCOUNTING_FIRM">{t("admin_auto_accounting_firm", "Accounting Firm")}</SelectItem>
- <SelectItem value="PUBLIC_ENTITY">{t("admin_auto_public_entity", "Public Entity")}</SelectItem>
+ <SelectItem value="OWNER_PORTFOLIO">{t("admin_auto_owner_portfolio", "Sahip Portföyü")}</SelectItem>
+ <SelectItem value="VENDOR_PM">{t("admin_auto_vendor_pm", "Satıcı PM'si")}</SelectItem>
+ <SelectItem value="AGENCY">{t("admin_reports_agency", "Ajans")}</SelectItem>
+ <SelectItem value="ACCOUNTING_FIRM">{t("admin_auto_accounting_firm", "Muhasebe Bürosu")}</SelectItem>
+ <SelectItem value="PUBLIC_ENTITY">{t("admin_auto_public_entity", "Kamu Kurumu")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="region" className="text-right text-xs">{t("admin_auto_region", "Region")}</Label>
+ <Label htmlFor="region" className="text-right text-xs">{t("admin_auto_region", "Bölge")}</Label>
  <Select value={newOrg.region} onValueChange={(v) => setNewOrg({...newOrg, region: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("client.src.select_region", "Select Region")} /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("client.src.select_region", "Bölge Seçin")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="GLOBAL">{t("client.src.global", "Global")}</SelectItem>
- <SelectItem value="TR">{t("admin_auto_turkey", "Turkey")}</SelectItem>
- <SelectItem value="USA">{t("admin_auto_usa", "USA")}</SelectItem>
- <SelectItem value="UK">{t("admin_auto_uk", "UK")}</SelectItem>
- <SelectItem value="UAE">{t("admin_auto_uae", "UAE")}</SelectItem>
- <SelectItem value="FR">{t("admin_auto_france", "France")}</SelectItem>
- <SelectItem value="DE">{t("admin_auto_germany", "Germany")}</SelectItem>
+ <SelectItem value="GLOBAL">{t("client.src.global", "Küresel")}</SelectItem>
+ <SelectItem value="TR">{t("admin_auto_turkey", "Türkiye")}</SelectItem>
+ <SelectItem value="USA">{t("admin_auto_usa", "Amerika")}</SelectItem>
+ <SelectItem value="UK">{t("admin_auto_uk", "İngiltere")}</SelectItem>
+ <SelectItem value="UAE">{t("admin_auto_uae", "BAE")}</SelectItem>
+ <SelectItem value="FR">{t("admin_auto_france", "Fransa")}</SelectItem>
+ <SelectItem value="DE">{t("admin_auto_germany", "Almanya")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(newOrg)} disabled={createMutation.isPending || !newOrg.name}>
  {createMutation.isPending ?"Saving..." :"Create Organization"}
  </Button>
@@ -483,7 +483,7 @@ export default function CompanyManagement() {
  <div className="flex-1">
  <div className="flex items-center gap-3 mb-2">
  <div className="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center">
- <FileText className="w-4 h-4 text-orange-400" />
+ <FileText className="w-4 h-4 text-warning" />
  </div>
  <div>
  <h4 className="text-sm font-bold text-foreground">{document.name}</h4>
@@ -515,8 +515,8 @@ export default function CompanyManagement() {
  {activeTab === 'milestones' && <Card className="bg-card border-border rounded-3xl p-8">
  <CardHeader className="flex items-center justify-between">
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <Calendar className="w-5 h-5 text-slate-500" />{t("admin_company_setup_milestones")}</CardTitle>
- <Button size="sm" className="bg-slate-600 hover:bg-muted0">
+ <Calendar className="w-5 h-5 text-muted-foreground" />{t("admin_company_setup_milestones")}</CardTitle>
+ <Button size="sm" className="bg-muted hover:bg-muted0">
  <Plus className="w-4 h-4 mr-2" />{t("admin_company_add_milestone")}</Button>
  </CardHeader>
  <CardContent className="space-y-4">
@@ -561,8 +561,8 @@ export default function CompanyManagement() {
  {activeTab === 'team' && <Card className="bg-card border-border rounded-3xl p-8">
  <CardHeader className="flex items-center justify-between">
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <Users className="w-5 h-5 text-emerald-500" />{t("admin_company_team_members")}</CardTitle>
- <Button size="sm" className="bg-slate-600 hover:bg-muted0">
+ <Users className="w-5 h-5 text-success" />{t("admin_company_team_members")}</CardTitle>
+ <Button size="sm" className="bg-muted hover:bg-muted0">
  <Plus className="w-4 h-4 mr-2" />{t("admin_company_add_team_member")}</Button>
  </CardHeader>
  <CardContent className="space-y-4">
@@ -581,7 +581,7 @@ export default function CompanyManagement() {
  </div>
  
  <div className="flex items-center gap-2">
- <Badge className={cn("text-[9px] font-bold px-2", member.status === 'ACTIVE' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-muted0/10 text-muted-foreground border-slate-500/20')}>
+ <Badge className={cn("text-[9px] font-bold px-2", member.status === 'ACTIVE' ? 'bg-blue-500/10 text-success border-blue-500/20' : 'bg-muted0/10 text-muted-foreground border-slate-500/20')}>
  {member.status}
  </Badge>
  </div>
@@ -597,39 +597,39 @@ export default function CompanyManagement() {
  <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
  <DialogContent className="max-w-md bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_edit_document", "Edit Document")}</DialogTitle>
- <DialogDescription>{t("admin_auto_update_document_details", "Update document details")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_edit_document", "Belgeyi Düzenle")}</DialogTitle>
+ <DialogDescription>{t("admin_auto_update_document_details", "Belge ayrıntılarını güncelle")}</DialogDescription>
  </DialogHeader>
  {editingDoc && (
  <div className="py-4 space-y-4">
  <div className="space-y-2">
- <Label>{t("admin_auto_document_name", "Document Name")}</Label>
+ <Label>{t("admin_auto_document_name", "Belge Adı")}</Label>
  <Input value={editingDoc.name} onChange={e => setEditingDoc({...editingDoc, name: e.target.value})} />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_auto_status", "Status")}</Label>
+ <Label>{t("admin_auto_status", "Durum")}</Label>
  <Select value={editingDoc.status} onValueChange={v => setEditingDoc({...editingDoc, status: v as any})}>
  <SelectTrigger>
  <SelectValue />
  </SelectTrigger>
  <SelectContent>
- <SelectItem value="DRAFT">{t("admin_contract_draft", "Draft")}</SelectItem>
- <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
- <SelectItem value="APPROVED">{t("admin_compliance_status_approved", "Approved")}</SelectItem>
- <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Expired")}</SelectItem>
+ <SelectItem value="DRAFT">{t("admin_contract_draft", "Taslak")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_ai_pending", "Bekliyor")}</SelectItem>
+ <SelectItem value="APPROVED">{t("admin_compliance_status_approved", "Onaylı")}</SelectItem>
+ <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Günü Geçmiş")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_auto_description", "Description")}</Label>
+ <Label>{t("admin_auto_description", "Tanım")}</Label>
  <Input value={editingDoc.description} onChange={e => setEditingDoc({...editingDoc, description: e.target.value})} />
  </div>
  </div>
  )}
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => { setDocuments(documents.map(d => d.id === editingDoc?.id ? editingDoc : d)); setIsEditOpen(false); toast({ title:"Success", description:"Document updated successfully" }); }}>
- {t("admin_ai_save_changes", "Save Changes")}</Button>
+ {t("admin_ai_save_changes", "Değişiklikleri Kaydet")}</Button>
  </DialogFooter>
  </DialogContent>
  </Dialog>

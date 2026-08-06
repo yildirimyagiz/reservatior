@@ -95,7 +95,7 @@ export const ROICalculator = () => {
               <div>
                 <div className="flex justify-between mb-2">
                   <label className="text-sm text-neutral-400">Est. NOI Uplift Target</label>
-                  <span className="font-mono text-emerald-400">+{uplift.toFixed(1)}%</span>
+                  <span className="font-mono text-blue-400">+{uplift.toFixed(1)}%</span>
                 </div>
                 <input 
                   type="range" 
@@ -103,7 +103,7 @@ export const ROICalculator = () => {
                   min="0.5" max="10.0" step="0.1"
                   value={uplift} 
                   onChange={(e) => setUplift(Number(e.target.value))}
-                  className="w-full accent-emerald-500"
+                  className="w-full accent-blue-500"
                 />
                 <p className="text-xs text-neutral-500 mt-2">
                   Conservative estimates range from 1.5% to 3.0% based on reduced vacancy days and optimized lease timing.
@@ -137,19 +137,19 @@ export const ROICalculator = () => {
             {/* Core KPIs Expected */}
             <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl p-4 grid grid-cols-4 gap-4 divide-x divide-white/[0.05] text-center">
               <div>
-                <div className="text-emerald-400 font-bold">+1-3%</div>
+                <div className="text-blue-400 font-bold">+1-3%</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider mt-1">Occupancy</div>
               </div>
               <div>
-                <div className="text-emerald-400 font-bold">-10-25%</div>
+                <div className="text-blue-400 font-bold">-10-25%</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider mt-1">Vacancy Days</div>
               </div>
               <div>
-                <div className="text-emerald-400 font-bold">+1-5%</div>
+                <div className="text-blue-400 font-bold">+1-5%</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider mt-1">Rent Opt.</div>
               </div>
               <div>
-                <div className="text-emerald-400 font-bold">-5-15%</div>
+                <div className="text-blue-400 font-bold">-5-15%</div>
                 <div className="text-[10px] text-neutral-500 uppercase tracking-wider mt-1">Concessions</div>
               </div>
             </div>
@@ -179,14 +179,14 @@ export const ROICalculator = () => {
               </div>
 
               {/* Hybrid */}
-              <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-5 relative overflow-hidden">
-                <div className="absolute top-0 right-0 bg-emerald-500 text-black text-[9px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">Recommended</div>
-                <h4 className="text-emerald-300 text-sm font-semibold mb-1">C) Hybrid</h4>
-                <div className="text-xs text-emerald-500/70 mb-4">$1 / unit + 8% Uplift Share</div>
-                <div className="text-xl font-bold text-emerald-400 mb-2">
-                  {formatCurrency(costHybrid)} <span className="text-xs font-normal text-emerald-500/50">/ yr</span>
+              <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-5 relative overflow-hidden">
+                <div className="absolute top-0 right-0 bg-blue-500 text-black text-[9px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">Recommended</div>
+                <h4 className="text-blue-300 text-sm font-semibold mb-1">C) Hybrid</h4>
+                <div className="text-xs text-blue-500/70 mb-4">$1 / unit + 8% Uplift Share</div>
+                <div className="text-xl font-bold text-blue-400 mb-2">
+                  {formatCurrency(costHybrid)} <span className="text-xs font-normal text-blue-500/50">/ yr</span>
                 </div>
-                <div className="text-xs text-emerald-400">ROI: {(annualUplift / costHybrid).toFixed(1)}x</div>
+                <div className="text-xs text-blue-400">ROI: {(annualUplift / costHybrid).toFixed(1)}x</div>
               </div>
 
             </div>

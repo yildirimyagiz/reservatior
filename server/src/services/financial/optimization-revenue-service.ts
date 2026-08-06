@@ -32,13 +32,14 @@ export class OptimizationRevenueService {
     await prisma.financialRecord.create({
       data: {
         orgId: listing.orgId,
+        propertyId: listing.propertyId,
         listingId: listing.id,
         type: "REVENUE",
         category: "OPTIMIZATION_IMPACT",
         amount: recoveredRevenue,
         currency: listing.priceCurrency || "USD",
         description: `Revenue recovered from price optimization - ${vacancyDaysSaved} days vacancy reduction`,
-        recordedAt: new Date(),
+        occurredAt: new Date(),
       },
     });
 

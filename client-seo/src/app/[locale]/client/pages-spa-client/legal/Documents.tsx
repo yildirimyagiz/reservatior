@@ -80,6 +80,14 @@ export default function Documents() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
+  const [selectedFolder, setSelectedFolder] = useState<string>("root");
+  const [tagsInput, setTagsInput] = useState("");
+  const [visibility, setVisibility] = useState<string>("private");
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [newFolderName, setNewFolderName] = useState("");
+  const [newFolderDescription, setNewFolderDescription] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [isCreatingFolder, setIsCreatingFolder] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -112,6 +120,52 @@ export default function Documents() {
     
     fetchDocumentsAndFolders();
   }, []);
+
+  const handleUpload = async () => {
+    if (!uploadFile) return;
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', uploadFile);
+      formData.append('folderId', selectedFolder);
+      formData.append('tags', tagsInput);
+      formData.append('visibility', visibility);
+      await apiClient.post('/legal/documents/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      setShowUploadDialog(false);
+      setUploadFile(null);
+      setTagsInput("");
+      const response = await apiClient.get('/legal/documents');
+      setDocuments((response as any).data || []);
+    } catch (error) {
+      console.error('Upload failed:', error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleCreateFolder = async () => {
+    if (!newFolderName.trim()) return;
+    setIsCreatingFolder(true);
+    try {
+      await apiClient.post('/legal/folders', {
+        name: newFolderName,
+        description: newFolderDescription
+      });
+      setShowCreateFolderDialog(false);
+      setNewFolderName("");
+      setNewFolderDescription("");
+      const response = await apiClient.get('/legal/folders');
+      setFolders((response as any).data || []);
+    } catch (error) {
+      console.error('Create folder failed:', error);
+    } finally {
+      setIsCreatingFolder(false);
+    }
+  };
   const getDocumentIcon = (type: string) => {
     switch (type) {
       case "contract":
@@ -137,13 +191,13 @@ export default function Documents() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-green-500/10 text-green-500 border-green-200";
+        return "bg-blue-500/10 text-blue-500 border-blue-200";
       case "archived":
         return "bg-gray-500/10 text-gray-500 border-gray-200";
       case "deleted":
         return "bg-red-500/10 text-red-500 border-red-200";
       case "processing":
-        return "bg-blue-500/10 text-blue-500 border-blue-200";
+        return "bg-brand/100/10 text-brand border-border";
       default:
         return "bg-gray-500/10 text-gray-500 border-gray-200";
     }
@@ -206,7 +260,7 @@ export default function Documents() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
-            <FileText className="w-8 h-8" />{t("client.src.documents")}</h1>
+            <FileText className="w-8 h-8" />{t("common.documents")}</h1>
           <p className="text-muted-foreground">{t("client.src.manage_your_documents_contracts")}</p>
         </div>
         <div className="flex items-center gap-2">
@@ -226,7 +280,7 @@ export default function Documents() {
                 <p className="text-sm text-muted-foreground">{t("client.src.total_documents")}</p>
                 <p className="text-2xl font-bold">{documents.length}</p>
               </div>
-              <FileText className="w-8 h-8 text-blue-500" />
+              <FileText className="w-8 h-8 text-brand" />
             </div>
           </CardContent>
         </Card>
@@ -239,7 +293,7 @@ export default function Documents() {
                   {formatFileSize(documents.reduce((acc, doc) => acc + doc.size, 0))}
                 </p>
               </div>
-              <FileArchive className="w-8 h-8 text-green-500" />
+              <FileArchive className="w-8 h-8 text-blue-500" />
             </div>
           </CardContent>
         </Card>
@@ -252,7 +306,7 @@ export default function Documents() {
                   {documents.filter(doc => doc.visibility === "shared").length}
                 </p>
               </div>
-              <Share2 className="w-8 h-8 text-purple-500" />
+              <Share2 className="w-8 h-8 text-brand" />
             </div>
           </CardContent>
         </Card>
@@ -288,8 +342,8 @@ export default function Documents() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("client.src.all_types")}</SelectItem>
-                <SelectItem value="contract">{t("client.src.contracts")}</SelectItem>
+                <SelectItem value="all">{t("common.all_types")}</SelectItem>
+                <SelectItem value="contract">{t("common.contracts")}</SelectItem>
                 <SelectItem value="invoice">{t("client.src.invoices")}</SelectItem>
                 <SelectItem value="report">{t("client.src.reports")}</SelectItem>
                 <SelectItem value="image">{t("client.src.images")}</SelectItem>
@@ -305,11 +359,11 @@ export default function Documents() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("client.src.all_status")}</SelectItem>
-                <SelectItem value="active">{t("client.src.active")}</SelectItem>
+                <SelectItem value="all">{t("common.all_status")}</SelectItem>
+                <SelectItem value="active">{t("common.active")}</SelectItem>
                 <SelectItem value="archived">{t("client.src.archived")}</SelectItem>
                 <SelectItem value="deleted">{t("client.src.deleted")}</SelectItem>
-                <SelectItem value="processing">{t("client.src.processing")}</SelectItem>
+                <SelectItem value="processing">{t("common.processing")}</SelectItem>
               </SelectContent>
             </Select>
             <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
@@ -317,20 +371,20 @@ export default function Documents() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="name">{t("client.src.name")}</SelectItem>
-                <SelectItem value="date">{t("client.src.date")}</SelectItem>
+                <SelectItem value="name">{t("common.name")}</SelectItem>
+                <SelectItem value="date">{t("common.date")}</SelectItem>
                 <SelectItem value="size">{t("client.src.size")}</SelectItem>
-                <SelectItem value="type">{t("client.src.type")}</SelectItem>
+                <SelectItem value="type">{t("common.type")}</SelectItem>
               </SelectContent>
             </Select>
             <Button variant="outline" size="sm" onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}>
               {sortOrder === "asc" ? <SortAsc className="w-4 h-4" /> : <SortDesc className="w-4 h-4" />}
             </Button>
             <div className="flex items-center gap-2 ml-auto">
-              <Button variant={viewMode === "grid" ? "default" : "outline"} size="sm" onClick={() => setViewMode("grid")}>
+              <Button variant={viewMode === "grid" ? "default" : "outline"} size="sm" onClick={() => setViewMode("grid")} aria-label={t("common.grid_view")}>
                 <Grid3X3 className="w-4 h-4" />
               </Button>
-              <Button variant={viewMode === "list" ? "default" : "outline"} size="sm" onClick={() => setViewMode("list")}>
+              <Button variant={viewMode === "list" ? "default" : "outline"} size="sm" onClick={() => setViewMode("list")} aria-label={t("common.list_view")}>
                 <List className="w-4 h-4" />
               </Button>
             </div>
@@ -354,14 +408,14 @@ export default function Documents() {
             y: 0
           }} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
                   <div className="flex items-center gap-3">
-                    <Folder className="w-8 h-8 text-blue-500" />
+                    <Folder className="w-8 h-8 text-brand" />
                     <div className="flex-1">
                       <h3 className="font-medium">{folder.name}</h3>
                       <p className="text-sm text-muted-foreground">
-                        {folder.documentCount}{t("client.src.documents")}{formatFileSize(folder.size)}
+                        {folder.documentCount}{t("common.documents")}{formatFileSize(folder.size)}
                       </p>
                     </div>
-                    {folder.isShared && <Share2 className="w-4 h-4 text-purple-500" />}
+                    {folder.isShared && <Share2 className="w-4 h-4 text-brand" />}
                   </div>
                 </m.div>)}
             </div>
@@ -373,17 +427,17 @@ export default function Documents() {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span className="flex items-center gap-2">
-              <FileText className="w-5 h-5" />{t("client.src.documents")}{sortedDocuments.length})
+              <FileText className="w-5 h-5" />{t("common.documents")}{sortedDocuments.length})
             </span>
             {selectedDocuments.length > 0 && <div className="flex items-center gap-2">
                 <Badge variant="secondary">
                   {selectedDocuments.length}{t("client.src.selected")}</Badge>
                 <Button size="sm" variant="outline">
-                  <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
+                  <Download className="w-4 h-4 mr-2" />{t("common.download")}</Button>
                 <Button size="sm" variant="outline">
-                  <Share2 className="w-4 h-4 mr-2" />{t("client.src.share")}</Button>
+                  <Share2 className="w-4 h-4 mr-2" />{t("common.share")}</Button>
                 <Button size="sm" variant="outline">
-                  <Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</Button>
+                  <Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</Button>
               </div>}
           </CardTitle>
         </CardHeader>
@@ -447,7 +501,7 @@ export default function Documents() {
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <span>{formatFileSize(doc.size)}</span>
                         <span>{format(new Date(doc.createdAt), "MMM d, yyyy")}</span>
-                        <span>{doc.downloadCount}{t("client.src.downloads")}</span>
+                        <span>{doc.downloadCount}{t("common.downloads")}</span>
                         <div className="flex items-center gap-1">
                           {getVisibilityIcon(doc.visibility)}
                           <span>{doc.visibility}</span>
@@ -461,22 +515,22 @@ export default function Documents() {
                     </div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost" size="sm" aria-label={t("common.more")}>
                           <MoreHorizontal className="w-4 h-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
                         <DropdownMenuItem>
-                          <Eye className="w-4 h-4 mr-2" />{t("client.src.view")}</DropdownMenuItem>
+                          <Eye className="w-4 h-4 mr-2" />{t("common.view")}</DropdownMenuItem>
                         <DropdownMenuItem>
-                          <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</DropdownMenuItem>
+                          <Download className="w-4 h-4 mr-2" />{t("common.download")}</DropdownMenuItem>
                         <DropdownMenuItem>
-                          <Share2 className="w-4 h-4 mr-2" />{t("client.src.share")}</DropdownMenuItem>
+                          <Share2 className="w-4 h-4 mr-2" />{t("common.share")}</DropdownMenuItem>
                         <DropdownMenuItem>
-                          <Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
+                          <Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
-                          <Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                          <Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
@@ -497,12 +551,14 @@ export default function Documents() {
               <Upload className="w-12 h-12 mx-auto mb-4 text-gray-400" />
               <p className="text-lg font-medium mb-2">{t("client.src.drop_files_here_or")}</p>
               <p className="text-sm text-gray-500 mb-4">{t("client.src.supported_formats_pdf_doc")}</p>
-              <Button>
+              <input id="legal-doc-file" type="file" className="hidden" onChange={e => setUploadFile(e.target.files?.[0] ?? null)} />
+              <Button onClick={() => document.getElementById("legal-doc-file")?.click()}>
                 <FilePlus className="w-4 h-4 mr-2" />{t("client.src.select_files")}</Button>
+              {uploadFile && <p className="mt-3 text-sm text-muted-foreground truncate">{uploadFile.name}</p>}
             </div>
             <div>
               <Label className="text-sm font-medium mb-2 block">{t("client.src.folder")}</Label>
-              <Select>
+              <Select value={selectedFolder} onValueChange={setSelectedFolder}>
                 <SelectTrigger>
                   <SelectValue placeholder={t("client.src.select_folder")} />
                 </SelectTrigger>
@@ -516,11 +572,11 @@ export default function Documents() {
             </div>
             <div>
               <Label className="text-sm font-medium mb-2 block">{t("client.src.tags")}</Label>
-              <Input placeholder={t("client.src.enter_tags_separated_by")} />
+              <Input placeholder={t("client.src.enter_tags_separated_by")} value={tagsInput} onChange={e => setTagsInput(e.target.value)} />
             </div>
             <div>
               <Label className="text-sm font-medium mb-2 block">{t("client.src.visibility")}</Label>
-              <Select>
+              <Select value={visibility} onValueChange={setVisibility}>
                 <SelectTrigger>
                   <SelectValue placeholder={t("client.src.select_visibility")} />
                 </SelectTrigger>
@@ -533,8 +589,8 @@ export default function Documents() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowUploadDialog(false)}>{t("client.src.cancel")}</Button>
-            <Button onClick={() => setShowUploadDialog(false)}>{t("client.src.upload_files")}</Button>
+            <Button variant="outline" onClick={() => setShowUploadDialog(false)}>{t("common.cancel")}</Button>
+            <Button onClick={handleUpload} disabled={isUploading || !uploadFile}>{t("client.src.upload_files")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -549,16 +605,16 @@ export default function Documents() {
           <div className="grid gap-4 py-4">
             <div>
               <Label className="text-sm font-medium mb-2 block">{t("client.src.folder_name")}</Label>
-              <Input placeholder={t("client.src.enter_folder_name")} />
+              <Input placeholder={t("client.src.enter_folder_name")} value={newFolderName} onChange={e => setNewFolderName(e.target.value)} />
             </div>
             <div>
-              <Label className="text-sm font-medium mb-2 block">{t("client.src.description")}</Label>
-              <Textarea placeholder={t("client.src.enter_folder_description")} rows={3} />
+              <Label className="text-sm font-medium mb-2 block">{t("common.description")}</Label>
+              <Textarea placeholder={t("client.src.enter_folder_description")} rows={3} value={newFolderDescription} onChange={e => setNewFolderDescription(e.target.value)} />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowCreateFolderDialog(false)}>{t("client.src.cancel")}</Button>
-            <Button onClick={() => setShowCreateFolderDialog(false)}>{t("client.src.create_folder")}</Button>
+            <Button variant="outline" onClick={() => setShowCreateFolderDialog(false)}>{t("common.cancel")}</Button>
+            <Button onClick={handleCreateFolder} disabled={isCreatingFolder || !newFolderName.trim()}>{t("client.src.create_folder")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

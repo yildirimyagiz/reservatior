@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma";
-import { SystemEventType, EventSeverity } from "@prisma/client";
+type SystemEventType = string;
+type EventSeverity = string;
 
 type ActionType = "CREATE_TASK" | "SEND_NOTIFICATION" | "SEND_EMAIL" | "SEND_SMS" | "CALL_WEBHOOK" | "UPDATE_ENTITY" | "CREATE_LEAD" | "NOTIFY_AGENT" | "CHAIN_RULE" | "CUSTOM" | "RELEASE_ESCROW" | "TRACK_ANALYTICS_METRIC" | "GENERATE_DOCUMENT" | "REQUEST_SIGNATURE" | "SEND_NOTIFICATION_OS" | "UPDATE_USER_PERMISSIONS" | "CREATE_API_KEY" | "TRANSLATE_CONTENT" | "UPDATE_COUNTRY_CONFIG";
 
@@ -75,7 +76,7 @@ export class TriggerEngine {
     currency?: string;
     timezone?: string;
   }): Promise<{ event: unknown; executions: unknown[] }> {
-    const event = await prisma.systemEvent.create({
+    const event = await (prisma as any).systemEvent.create({
       data: {
         orgId: params.orgId,
         eventType: params.eventType,
@@ -116,7 +117,7 @@ export class TriggerEngine {
   }
 
   private async findMatchingRules(orgId: string, eventType: SystemEventType, countryCode?: string) {
-    const rules = await prisma.automationRule.findMany({
+    const rules: any[] = await (prisma as any).automationRule.findMany({
       where: {
         orgId,
         isActive: true,
@@ -191,7 +192,7 @@ export class TriggerEngine {
       }
     }
 
-    const execution = await prisma.automationExecution.create({
+    const execution = await (prisma as any).automationExecution.create({
       data: {
         orgId: r.orgId,
         ruleId: r.id,
@@ -204,7 +205,7 @@ export class TriggerEngine {
       },
     });
 
-    await prisma.automationRule.update({
+    await (prisma as any).automationRule.update({
       where: { id: r.id },
       data: {
         lastExecutedAt: new Date(),
@@ -290,9 +291,9 @@ export class TriggerEngine {
     rule: { orgId: string; ruleName: string },
     config: Record<string, unknown>,
     payload: Record<string, unknown>,
-    context?: { countryCode?: string; language?: string; timezone?: string }
+    context?: { countryCode?: string; language?: string; timezone?: string; currency?: string }
   ) {
-    const task = await prisma.task.create({
+    const task = await (prisma as any).task.create({
       data: {
         orgId: rule.orgId,
         type: (config.type as string) || "OTHER",
@@ -318,13 +319,13 @@ export class TriggerEngine {
     const templateId = config.templateId as string || rule.notificationTemplateId;
     if (!templateId) return { type: "SEND_NOTIFICATION", skipped: true, reason: "no_template" };
 
-    const template = await prisma.notificationTemplate.findUnique({ where: { id: templateId } });
+    const template = await (prisma as any).notificationTemplate.findUnique({ where: { id: templateId } });
     if (!template) return { type: "SEND_NOTIFICATION", skipped: true, reason: "template_not_found" };
 
     const body = this.interpolate(template.body, payload);
     const subject = template.subject ? this.interpolate(template.subject, payload) : undefined;
 
-    const notification = await prisma.notification.create({
+    const notification = await (prisma as any).notification.create({
       data: {
         orgId: rule.orgId,
         type: "AUTOMATION",
@@ -347,7 +348,7 @@ export class TriggerEngine {
     const subject = this.interpolate((config.subject as string) || "Automation Notification", payload);
     const body = this.interpolate((config.body as string) || "", payload);
 
-    const notification = await prisma.notification.create({
+    const notification = await (prisma as any).notification.create({
       data: {
         orgId: rule.orgId,
         type: "AUTOMATION",
@@ -399,7 +400,7 @@ export class TriggerEngine {
 
     const message = this.interpolate((config.message as string) || "You have a new notification from automation rule", payload);
 
-    const notification = await prisma.notification.create({
+    const notification = await (prisma as any).notification.create({
       data: {
         orgId: rule.orgId,
         userId: agentId,
@@ -452,7 +453,7 @@ export class TriggerEngine {
     payload: Record<string, unknown>,
     context?: { countryCode?: string; language?: string; currency?: string; timezone?: string }
   ) {
-    const lead = await prisma.lead.create({
+    const lead = await (prisma as any).lead.create({
       data: {
         orgId: rule.orgId,
         name: this.interpolate((config.name as string) || (payload.name as string) || "Auto Lead", payload),
@@ -504,7 +505,7 @@ export class TriggerEngine {
     rule: { orgId: string },
     config: Record<string, unknown>,
     payload: Record<string, unknown>,
-    context?: { countryCode?: string; language?: string; timezone?: string }
+    context?: { countryCode?: string; language?: string; timezone?: string; currency?: string }
   ) {
     const { analyticsOSService } = await import("./analytics-os");
     const metricType = (config.metricType as string) || "custom";

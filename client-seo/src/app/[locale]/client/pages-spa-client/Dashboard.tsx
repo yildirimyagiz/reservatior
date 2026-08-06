@@ -14,7 +14,7 @@ import { AIWidget } from "@/components/dashboard/AIWidget";
 import { ComplianceWidget } from "@/components/dashboard/ComplianceWidget";
 import { SmartAccessWidget } from "@/components/dashboard/SmartAccessWidget";
 import { AIOperationsWidget } from "@/components/dashboard/AIOperationsWidget";
-import { NetworkDashboard } from "@/pages-spa/agent_os/NetworkDashboard";
+
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { apiClient } from "@/lib/api/client";
@@ -27,24 +27,24 @@ const stats = (t: any) => [{
   change: "+12.5%",
   trending: "up",
   icon: DollarSign,
-  color: "text-emerald-400",
-  bg: "bg-emerald-500/10"
+  color: "text-success",
+  bg: "bg-success/10"
 }, {
   label: t("client.dashboard.stats.nodes"),
   value: "128",
   change: "+4.3%",
   trending: "up",
   icon: Building,
-  color: "text-blue-400",
-  bg: "bg-blue-500/10"
+  color: "text-brand",
+  bg: "bg-brand/100/10"
 }, {
   label: t("engagement"),
   value: "342",
   change: "-2.1%",
   trending: "down",
   icon: Users,
-  color: "text-purple-400",
-  bg: "bg-purple-500/10"
+  color: "text-brand",
+  bg: "bg-brand/10"
 }, {
   label: t("verification"),
   value: "98.2%",
@@ -77,11 +77,11 @@ const revenueData = [{
   value: 3490
 }];
 const PLAN_CONFIG: Record<string, { label: string; icon: any; color: string; maxProperties: number; maxUsers: number; aiFeatures: boolean }> = {
-  "starter-10": { label: "Starter", icon: Star, color: "text-slate-400", maxProperties: 10, maxUsers: 1, aiFeatures: false },
-  "growth-25": { label: "Growth", icon: TrendingUp, color: "text-blue-400", maxProperties: 25, maxUsers: 3, aiFeatures: false },
-  "professional-50": { label: "Professional", icon: Crown, color: "text-purple-400", maxProperties: 50, maxUsers: 5, aiFeatures: true },
+  "starter-10": { label: "Starter", icon: Star, color: "text-muted-foreground", maxProperties: 10, maxUsers: 1, aiFeatures: false },
+  "growth-25": { label: "Growth", icon: TrendingUp, color: "text-brand", maxProperties: 25, maxUsers: 3, aiFeatures: false },
+  "professional-50": { label: "Professional", icon: Crown, color: "text-brand", maxProperties: 50, maxUsers: 5, aiFeatures: true },
   "agency-100": { label: "Agency", icon: LayoutDashboard, color: "text-amber-400", maxProperties: 100, maxUsers: 10, aiFeatures: true },
-  "enterprise": { label: "Enterprise", icon: Crown, color: "text-emerald-400", maxProperties: 9999, maxUsers: 999, aiFeatures: true },
+  "enterprise": { label: "Enterprise", icon: Crown, color: "text-success", maxProperties: 9999, maxUsers: 999, aiFeatures: true },
 };
 
 export default function Dashboard() {
@@ -147,12 +147,12 @@ export default function Dashboard() {
       {/* Tactical Welcomer */}
       <section className="relative overflow-hidden rounded-[40px] p-12 bg-card/40 border border-border/50 border-l border-t shadow-3xl">
         <div className="absolute -top-24 -right-24 h-[500px] w-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none opacity-50" />
-        <div className="absolute -bottom-24 -left-24 h-[400px] w-[400px] bg-emerald-600/10 rounded-full blur-[100px] pointer-events-none opacity-30" />
+        <div className="absolute -bottom-24 -left-24 h-[400px] w-[400px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none opacity-30" />
         
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-3 flex-wrap">
-              <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-0.5 text-[9px] font-bold tracking-wider">
+              <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 px-3 py-0.5 text-[9px] font-bold tracking-wider">
                 {t("nodeStatus", { node: "Alpha-7" })}
               </Badge>
               {planConfig && (
@@ -163,15 +163,15 @@ export default function Dashboard() {
               )}
             </div>
             <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-              {t("welcome", { name: "" })}<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 ml-1">{user?.name || "Neural Comm"}</span>
+              {t("welcome", { name: "" })}<span className="text-transparent bg-clip-text bg-gradient-to-r from-brand via-indigo-400 to-brand ml-1">{user?.name || "Neural Comm"}</span>
             </h1>
-            <p className="text-slate-400 text-sm font-medium max-w-2xl">
+            <p className="text-muted-foreground text-sm font-medium max-w-2xl">
               {t("syncComplete", { count: 4 })}
             </p>
           </div>
           <div className="flex gap-3">
-            <Button size="default" className="h-12 px-6 rounded-xl bg-white text-black hover:bg-slate-200 font-bold text-xs tracking-wide transition-all shadow-lg hover:scale-[1.02] active:scale-[0.98]">
-              <Sparkles className="mr-2 h-4 w-4 text-blue-600" />
+            <Button size="default" className="h-12 px-6 rounded-xl bg-card text-black hover:bg-muted font-bold text-xs tracking-wide transition-all shadow-lg hover:scale-[1.02] active:scale-[0.98]">
+              <Sparkles className="mr-2 h-4 w-4 text-brand" />
               {t("analyzePulse")}
             </Button>
             <Button size="default" variant="outline" className="h-12 px-6 rounded-xl border-white/10 bg-white/5 text-white font-bold text-xs tracking-wide backdrop-blur-xl hover:bg-white/10 transition-all">
@@ -184,14 +184,14 @@ export default function Dashboard() {
         {planConfig && (
           <div className="mt-8 pt-8 border-t border-white/5 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
-              <div className="flex justify-between text-[10px] font-bold text-slate-500 tracking-wider">
-                <span>{t('client.src.properties')}</span>
+              <div className="flex justify-between text-[10px] font-bold text-muted-foreground tracking-wider">
+                <span>{t("common.properties")}</span>
                 <span>{propertyCount} / {planConfig.maxProperties === 9999 ? '∞' : planConfig.maxProperties}</span>
               </div>
               <Progress value={usagePercent} className="h-2 bg-black/40 rounded-full" />
             </div>
             <div className="space-y-2">
-              <div className="flex justify-between text-[10px] font-bold text-slate-500 tracking-wider">
+              <div className="flex justify-between text-[10px] font-bold text-muted-foreground tracking-wider">
                 <span>{t('client.src.users')}</span>
                 <span>1 / {planConfig.maxUsers === 999 ? '∞' : planConfig.maxUsers}</span>
               </div>
@@ -199,10 +199,10 @@ export default function Dashboard() {
             </div>
             <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5">
               <div className="flex items-center gap-3">
-                <CreditCard className="w-5 h-5 text-blue-400" />
-                <span className="text-[10px] font-bold text-slate-400 tracking-wider">{t('client.src.subscriptions')}</span>
+                <CreditCard className="w-5 h-5 text-brand" />
+                <span className="text-[10px] font-bold text-muted-foreground tracking-wider">{t('client.src.subscriptions')}</span>
               </div>
-              <Button onClick={() => navigate("/pricing")} size="sm" className="h-8 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-[9px]">
+              <Button onClick={() => navigate("/pricing")} size="sm" className="h-8 px-4 rounded-xl bg-blue-600 hover:bg-brand/100 text-white font-bold text-[9px]">
                 {t('client.src.upgrade')}
               </Button>
             </div>
@@ -227,13 +227,13 @@ export default function Dashboard() {
                   <div className={`p-4 rounded-2xl bg-black/40 border border-white/5 ${stat.color} group-hover:scale-110 transition-transform shadow-inner`}>
                     <stat.icon className="h-6 w-6" />
                   </div>
-                  <Badge className={cn("px-3 py-1 rounded-full text-[10px] font-black italic tracking-widest border", stat.trending === 'up' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20')}>
+                  <Badge className={cn("px-3 py-1 rounded-full text-[10px] font-black italic tracking-widest border", stat.trending === 'up' ? 'bg-success/10 text-success border-success/20' : 'bg-red-500/10 text-red-400 border-red-500/20')}>
                     {stat.trending === "up" ? <ArrowUpRight className="h-3 w-3 mr-1" /> : <ArrowDownRight className="h-3 w-3 mr-1" />}
                     {stat.change}
                   </Badge>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-xs font-semibold text-slate-400 tracking-wider">{stat.label}</p>
+                  <p className="text-xs font-semibold text-muted-foreground tracking-wider">{stat.label}</p>
                   <h3 className="text-2xl font-bold text-white tracking-tight">{stat.value}</h3>
                 </div>
               </CardContent>
@@ -247,12 +247,12 @@ export default function Dashboard() {
           <CardHeader className="p-10 flex flex-row items-center justify-between">
             <div className="space-y-1">
               <CardTitle className="text-lg font-bold text-white tracking-tight">{t("client.dashboard.trajectory.title")}</CardTitle>
-              <CardDescription className="text-xs text-slate-400 font-medium">{t("client.dashboard.trajectory.desc")}</CardDescription>
+              <CardDescription className="text-xs text-muted-foreground font-medium">{t("client.dashboard.trajectory.desc")}</CardDescription>
             </div>
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20">
-                <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
-                <span className="text-[10px] font-bold text-emerald-400 tracking-wider">{t("nodeLive")}</span>
+              <div className="flex items-center gap-2 px-3 py-1 bg-success/10 rounded-full border border-success/20">
+                <div className="h-1.5 w-1.5 rounded-full bg-success animate-pulse shadow-[0_0_8px_#3b82f6]" />
+                <span className="text-[10px] font-bold text-success tracking-wider">{t("nodeLive")}</span>
               </div>
             </div>
           </CardHeader>
@@ -299,7 +299,6 @@ export default function Dashboard() {
 
         {/* AI Hub Widgets */}
         <div className="space-y-10 lg:col-span-3">
-          <NetworkDashboard />
           <AIOperationsWidget />
         </div>
 
@@ -315,14 +314,14 @@ export default function Dashboard() {
         <Card className="border-border/50 bg-card/40 backdrop-blur-3xl rounded-[40px] shadow-3xl border-l border-t relative overflow-hidden group">
           <CardHeader className="p-10 pb-6">
             <CardTitle className="text-lg font-bold text-white tracking-tight flex items-center gap-3">
-               <Activity className="w-5 h-5 text-blue-500" /> {t("eventStream")}
+               <Activity className="w-5 h-5 text-brand" /> {t("eventStream")}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-10 pt-0 space-y-6">
             {globalActivity.map((activity, i) => (
               <div key={activity.id || i} className="flex items-center gap-6 py-6 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors -mx-4 px-4 rounded-2xl">
                 <div className="relative">
-                   <div className="absolute inset-0 bg-blue-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                   <div className="absolute inset-0 bg-brand/100/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                    <Avatar className="h-14 w-14 border-2 border-white/5 shadow-2xl relative">
                      <AvatarImage src={`https://flagcdn.com/w160/${activity.region?.toLowerCase() || 'us'}.png`} className="object-cover" />
                      <AvatarFallback className="bg-black/40 font-bold text-xs">{activity.region}</AvatarFallback>
@@ -330,11 +329,11 @@ export default function Dashboard() {
                 </div>
                 <div className="flex-1 space-y-1">
                   <p className="text-xs font-semibold text-white">{activity.title}</p>
-                  <p className="text-[10px] text-slate-400 font-medium">{activity.description}</p>
+                  <p className="text-[10px] text-muted-foreground font-medium">{activity.description}</p>
                 </div>
                 <div className="text-right space-y-2">
-                  <p className="text-xs text-slate-500">{new Date(activity.date).toLocaleDateString()}</p>
-                  <Badge className="bg-blue-500/10 text-blue-400 border-none text-[9px] font-bold tracking-wider">{activity.type}</Badge>
+                  <p className="text-xs text-muted-foreground">{new Date(activity.date).toLocaleDateString()}</p>
+                  <Badge className="bg-brand/100/10 text-brand border-none text-[9px] font-bold tracking-wider">{activity.type}</Badge>
                 </div>
               </div>
             ))}
@@ -344,14 +343,14 @@ export default function Dashboard() {
         <Card className="border-border/50 bg-card/40 backdrop-blur-3xl rounded-[40px] shadow-3xl border-l border-t relative overflow-hidden">
           <CardHeader className="p-10 pb-6">
             <CardTitle className="text-lg font-bold text-white tracking-tight flex items-center gap-3">
-               <Target className="w-5 h-5 text-emerald-500" /> {t("client.dashboard.integrity.title")}
+               <Target className="w-5 h-5 text-success" /> {t("client.dashboard.integrity.title")}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-10 pt-0 space-y-10">
             <div className="space-y-4">
-              <div className="flex justify-between items-center text-xs font-semibold tracking-wider text-slate-400">
+              <div className="flex justify-between items-center text-xs font-semibold tracking-wider text-muted-foreground">
                 <span className="flex items-center gap-3">
-                  <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                  <ShieldCheck className="h-4 w-4 text-success" />
                   {t("client.dashboard.integrity.encryption")}
                 </span>
                 <span className="text-white">{t("secure")}</span>
@@ -361,13 +360,13 @@ export default function Dashboard() {
                 width: 0
               }} animate={{
                 width: '100%'
-              }} className="h-full bg-emerald-500 shadow-[0_0_15px_#10b981]" />
+              }} className="h-full bg-success shadow-[0_0_15px_#3b82f6]" />
               </div>
             </div>
             <div className="space-y-4">
-              <div className="flex justify-between items-center text-xs font-semibold tracking-wider text-slate-400">
+              <div className="flex justify-between items-center text-xs font-semibold tracking-wider text-muted-foreground">
                 <span className="flex items-center gap-3">
-                  <CheckCircle2 className="h-4 w-4 text-blue-400" />
+                  <CheckCircle2 className="h-4 w-4 text-brand" />
                   {t("validation")}
                 </span>
                 <span className="text-white">{t("complete", {
@@ -379,19 +378,19 @@ export default function Dashboard() {
                 width: 0
               }} animate={{
                 width: '85%'
-              }} className="h-full bg-blue-500 shadow-[0_0_15px_#3b82f6]" />
+              }} className="h-full bg-brand/100 shadow-[0_0_15px_#3b82f6]" />
               </div>
             </div>
-            <div className="p-8 rounded-[32px] bg-emerald-500/5 border border-emerald-500/10 flex items-start gap-6 relative overflow-hidden group/alert">
-              <div className="absolute top-0 right-0 p-8 opacity-5 text-emerald-600 group-hover:scale-110 transition-transform">
+            <div className="p-8 rounded-[32px] bg-success/5 border border-blue-500/10 flex items-start gap-6 relative overflow-hidden group/alert">
+              <div className="absolute top-0 right-0 p-8 opacity-5 text-success group-hover:scale-110 transition-transform">
                  <Sparkles className="w-20 h-20" />
               </div>
-              <div className="p-4 rounded-2xl bg-emerald-500/20 shadow-inner">
-                 <AlertCircle className="h-6 w-6 text-emerald-400 shrink-0 animate-pulse" />
+              <div className="p-4 rounded-2xl bg-success/20 shadow-inner">
+                 <AlertCircle className="h-6 w-6 text-success shrink-0 animate-pulse" />
               </div>
               <div className="space-y-1 relative z-10">
-                <p className="text-xs font-bold text-emerald-400 tracking-wide leading-none">{t("client.dashboard.integrity.alert.title")}</p>
-                <p className="text-xs font-medium text-slate-400 leading-relaxed">
+                <p className="text-xs font-bold text-success tracking-wide leading-none">{t("client.dashboard.integrity.alert.title")}</p>
+                <p className="text-xs font-medium text-muted-foreground leading-relaxed">
                   {t("client.dashboard.integrity.alert.desc", {
                   count: 3
                 })}

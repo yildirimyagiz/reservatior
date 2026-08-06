@@ -74,7 +74,7 @@ export function HotelAlternatives({
       className={cn(
         "overflow-hidden border transition-all",
         hasCheaper
-          ? "border-emerald-500/30 bg-emerald-500/5"
+          ? "border-blue-500/30 bg-blue-500/5"
           : "border-white/5 bg-[#14151a]/40",
         className
       )}
@@ -87,13 +87,13 @@ export function HotelAlternatives({
           <div
             className={cn(
               "w-10 h-10 rounded-xl flex items-center justify-center",
-              hasCheaper ? "bg-emerald-500/20" : "bg-white/10"
+              hasCheaper ? "bg-blue-500/20" : "bg-white/10"
             )}
           >
             <Hotel
               className={cn(
                 "w-5 h-5",
-                hasCheaper ? "text-emerald-400" : "text-white/60"
+                hasCheaper ? "text-blue-400" : "text-white/60"
               )}
             />
           </div>
@@ -107,7 +107,7 @@ export function HotelAlternatives({
                 {t("hotel.alternatives.loading", "En iyi fiyatlar araştırılıyor...")}
               </p>
             ) : hasCheaper ? (
-              <p className="text-xs text-emerald-400 font-bold">
+              <p className="text-xs text-blue-400 font-bold">
                 {t("hotel.alternatives.cheaperFound", "✅ Daha ucuz konaklama seçenekleri bulundu!")}
               </p>
             ) : (
@@ -119,7 +119,7 @@ export function HotelAlternatives({
         </div>
         <div className="flex items-center gap-2">
           {!isLoading && hasCheaper && (
-            <Badge className="bg-emerald-500 text-white border-none text-[10px] font-black tracking-widest">
+            <Badge className="bg-blue-500 text-white border-none text-[10px] font-black tracking-widest">
               {t("hotel.alternatives.opportunity", "FIRSAT")}
             </Badge>
           )}
@@ -166,7 +166,7 @@ export function HotelAlternatives({
                         isOwnInventory
                           ? "bg-violet-500/10 border-violet-500/20"
                           : isCheaper
-                            ? "bg-emerald-500/10 border-emerald-500/20"
+                            ? "bg-blue-500/10 border-blue-500/20"
                             : "bg-white/5 border-transparent hover:bg-white/10"
                       )}
                     >
@@ -242,7 +242,7 @@ export function HotelAlternatives({
                               {item.currency} {item.grossPrice}
                             </span>
                             {item.priceComparison.isCheaper && currentPrice && (
-                              <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-0.5">
+                              <span className="text-[10px] text-blue-400 font-bold flex items-center gap-0.5">
                                 <TrendingDown className="w-3 h-3" />
                                 %{Math.abs(item.priceComparison.differencePercent)} {t("hotel.alternatives.cheaper", "ucuz")}
                               </span>

@@ -52,12 +52,12 @@ export default function Offers() {
   };
   const getStatusBadge = (status: string) => {
     const s = status.toUpperCase();
-    if (s === "ACCEPTED") return <Badge className="bg-green-100 text-green-700 border-0">{t("client.src.accepted")}</Badge>;
-    if (s === "REJECTED") return <Badge className="bg-red-100 text-red-700 border-0">{t("client.src.rejected")}</Badge>;
+    if (s === "ACCEPTED") return <Badge className="bg-blue-100 text-blue-700 border-0">{t("common.accepted")}</Badge>;
+    if (s === "REJECTED") return <Badge className="bg-red-100 text-red-700 border-0">{t("common.rejected")}</Badge>;
     if (s === "COUNTERED") return <Badge className="bg-blue-100 text-blue-700 border-0">{t("client.src.countered")}</Badge>;
-    return <Badge className="bg-yellow-100 text-yellow-700 border-0">{t("client.src.pending")}</Badge>;
+    return <Badge className="bg-yellow-100 text-yellow-700 border-0">{t("common.processing")}</Badge>;
   };
-  return <PageShell title={t("client.src.offer_management")} description={t("client.src.track_and_manage_property")} actions={<Button variant="outline" size="icon" onClick={() => refetch()} disabled={loading}>
+  return <PageShell title={t("client.src.offer_management")} description={t("client.src.track_and_manage_property")} actions={<Button variant="outline" size="icon" aria-label={t("common.refresh")} onClick={() => refetch()} disabled={loading}>
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
         </Button>}>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
@@ -71,12 +71,12 @@ export default function Offers() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("client.src.property")}</TableHead>
+                  <TableHead>{t("common.property")}</TableHead>
                   <TableHead>{t("client.src.contact_agent")}</TableHead>
                   <TableHead>{t("client.src.offer_price")}</TableHead>
-                  <TableHead>{t("client.src.status")}</TableHead>
+                  <TableHead>{t("common.status")}</TableHead>
                   <TableHead>{t("client.src.submitted_at")}</TableHead>
-                  <TableHead className="text-right">{t("client.src.actions")}</TableHead>
+                  <TableHead className="text-right">{t("common.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -98,9 +98,9 @@ export default function Offers() {
                       <TableCell className="text-sm text-muted-foreground">{new Date(offer.createdAt).toLocaleDateString()}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-1">
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600" aria-label="Accept"><CheckCircle2 className="w-4 h-4" /></Button>
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600" aria-label="Accept"><CheckCircle2 className="w-4 h-4" /></Button>
                           <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600" aria-label="Reject"><XCircle className="w-4 h-4" /></Button>
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600" aria-label="Send"><Send className="w-4 h-4" /></Button>
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-brand" aria-label="Send"><Send className="w-4 h-4" /></Button>
                         </div>
                       </TableCell>
                     </TableRow>)}
@@ -114,12 +114,12 @@ export default function Offers() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("client.src.property")}</TableHead>
+                  <TableHead>{t("common.property")}</TableHead>
                   <TableHead>{t("client.src.offer_type")}</TableHead>
                   <TableHead>{t("client.src.final_price")}</TableHead>
                   <TableHead>{t("client.src.duration")}</TableHead>
-                  <TableHead>{t("client.src.status")}</TableHead>
-                  <TableHead className="text-right">{t("client.src.actions")}</TableHead>
+                  <TableHead>{t("common.status")}</TableHead>
+                  <TableHead className="text-right">{t("common.actions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -138,7 +138,7 @@ export default function Offers() {
                       <TableCell>{getStatusBadge(offer.status)}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-1">
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600" aria-label="Accept"><CheckCircle2 className="w-4 h-4" /></Button>
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600" aria-label="Accept"><CheckCircle2 className="w-4 h-4" /></Button>
                           <Button size="icon" variant="ghost" className="h-8 w-8 text-red-600" aria-label="Reject"><XCircle className="w-4 h-4" /></Button>
                         </div>
                       </TableCell>

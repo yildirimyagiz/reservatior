@@ -89,7 +89,7 @@ export default function RevenueIntelligenceDashboard() {
 
   return (
     <PageShell
-      title={t("admin_revenue_intelligence_title", "Gelir Zekası")}
+      title={t("admin_revenue_intelligence_title", "Gelir Zekası (Revenue Intelligence)")}
       description={t("admin_revenue_intelligence_desc", "Gelir optimizasyonu, gelir paylaşımı ve tahminleme")}
       actions={
         <div className="flex gap-3">
@@ -98,13 +98,13 @@ export default function RevenueIntelligenceDashboard() {
             onChange={(e) => setTimeRange(e.target.value as any)}
             className="px-4 py-2 border border-border rounded-lg bg-card"
           >
-            <option value="7d">{t("admin_time_last_7d", "Last 7 Days")}</option>
-            <option value="30d">{t("admin_time_last_30d", "Last 30 Days")}</option>
-            <option value="90d">{t("admin_time_last_90d", "Last 90 Days")}</option>
-            <option value="1y">{t("admin_revenue_intelligence_last_year", "Last Year")}</option>
+            <option value="7d">{t("admin_time_last_7d", "Son 7 Gün")}</option>
+            <option value="30d">{t("admin_time_last_30d", "Son 30 Gün")}</option>
+            <option value="90d">{t("admin_time_last_90d", "Son 90 Gün")}</option>
+            <option value="1y">{t("admin_revenue_intelligence_last_year", "Geçen Yıl")}</option>
           </select>
           <button className="px-4 py-2 bg-primary text-primary-foreground text-white rounded-lg hover:bg-primary/90 transition flex items-center gap-2">
-            <Download className="w-4 h-4" /> {t("admin_revenue_intelligence_export_report", "Export Report")}
+            <Download className="w-4 h-4" /> {t("admin_revenue_intelligence_export_report", "Raporu Dışa Aktar")}
           </button>
         </div>
       }
@@ -135,36 +135,36 @@ export default function RevenueIntelligenceDashboard() {
         <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2">
-              <Brain className="w-5 h-5 text-brand" /> {t("admin_revenue_intelligence_noi_analysis", "NOI Optimization Analysis")}
+              <Brain className="w-5 h-5 text-brand" /> {t("admin_revenue_intelligence_noi_analysis", "NOI Optimizasyon Analizi")}
             </h2>
             <button className="p-2 hover:bg-gray-100 rounded-lg"><Settings className="w-4 h-4 text-muted-foreground" /></button>
           </div>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-sm text-muted-foreground">{t("admin_revenue_intelligence_current_noi", "Current NOI")}</p>
+                <p className="text-sm text-muted-foreground">{t("admin_revenue_intelligence_current_noi", "Güncel NOI")}</p>
                 <p className="text-xl font-bold text-blue-700">{formatCurrency(stats.netOperatingIncome)}</p>
               </div>
               <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-sm text-muted-foreground">{t("admin_revenue_intelligence_optimization_potential", "Optimization Potential")}</p>
+                <p className="text-sm text-muted-foreground">{t("admin_revenue_intelligence_optimization_potential", "Optimizasyon Potansiyeli")}</p>
                 <p className="text-xl font-bold text-blue-700">{formatPercent(stats.optimizationPotential)}</p>
               </div>
             </div>
             <div className="space-y-2">
-              <p className="text-sm font-medium text-muted-foreground">{t("admin_revenue_intelligence_ai_recommendations", "AI Recommendations:")}</p>
+              <p className="text-sm font-medium text-muted-foreground">{t("admin_revenue_intelligence_ai_recommendations", "AI Önerileri:")}</p>
               <div className="p-3 bg-brand/10 rounded-lg border border-purple-200">
                 <div className="flex items-center gap-2 mb-1">
                   <Zap className="w-4 h-4 text-brand" />
-                  <span className="font-medium text-brand">{t("admin_revenue_intelligence_dynamic_pricing_adjustment", "Dynamic Pricing Adjustment")}</span>
+                  <span className="font-medium text-brand">{t("admin_revenue_intelligence_dynamic_pricing_adjustment", "Dinamik Fiyatlandırma Ayarlaması")}</span>
                 </div>
-                <p className="text-sm text-brand">{t("admin_revenue_intelligence_dynamic_pricing_desc", "Increase weekend rates by 15% based on demand patterns")}</p>
+                <p className="text-sm text-brand">{t("admin_revenue_intelligence_dynamic_pricing_desc", "Talep modellerine göre hafta sonu oranlarını %15 artırın")}</p>
               </div>
               <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
                 <div className="flex items-center gap-2 mb-1">
                   <Target className="w-4 h-4 text-blue-600" />
-                  <span className="font-medium text-blue-900">{t("admin_revenue_intelligence_expense_optimization", "Expense Optimization")}</span>
+                  <span className="font-medium text-blue-900">{t("admin_revenue_intelligence_expense_optimization", "Gider Optimizasyonu")}</span>
                 </div>
-                <p className="text-sm text-blue-700">{t("admin_revenue_intelligence_expense_optimization_desc", "Reduce maintenance costs by 8% through predictive scheduling")}</p>
+                <p className="text-sm text-blue-700">{t("admin_revenue_intelligence_expense_optimization_desc", "Öngörülü planlama ile bakım maliyetlerini %8 azaltın")}</p>
               </div>
             </div>
           </div>
@@ -173,7 +173,7 @@ export default function RevenueIntelligenceDashboard() {
         <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2">
-              <LineChart className="w-5 h-5 text-blue-600" /> {t("admin_revenue_intelligence_revenue_streams", "Revenue Streams")}
+              <LineChart className="w-5 h-5 text-blue-600" /> {t("admin_revenue_intelligence_revenue_streams", "Gelir Akışları")}
             </h2>
             <button className="p-2 hover:bg-gray-100 rounded-lg"><Filter className="w-4 h-4 text-muted-foreground" /></button>
           </div>
@@ -198,26 +198,26 @@ export default function RevenueIntelligenceDashboard() {
         <div className="lg:col-span-2 bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2">
-              <Activity className="w-5 h-5 text-orange-600" /> {t("admin_revenue_intelligence_yield_arbitrage_analysis", "Yield Arbitrage Analysis")}
+              <Activity className="w-5 h-5 text-orange-600" /> {t("admin_revenue_intelligence_yield_arbitrage_analysis", "Getiri Arbitrajı Analizi")}
             </h2>
             <div className="flex gap-2">
               <button className={`px-3 py-1 rounded-lg text-sm ${selectedMetric === "noi" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-muted-foreground"}`} onClick={() => setSelectedMetric("noi")}>{t("admin_revenue_intelligence_noi", "NOI")}</button>
-              <button className={`px-3 py-1 rounded-lg text-sm ${selectedMetric === "yield" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-muted-foreground"}`} onClick={() => setSelectedMetric("yield")}>{t("admin_revenue_intelligence_yield", "Yield")}</button>
-              <button className={`px-3 py-1 rounded-lg text-sm ${selectedMetric === "arbitrage" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-muted-foreground"}`} onClick={() => setSelectedMetric("arbitrage")}>{t("admin_revenue_intelligence_arbitrage", "Arbitrage")}</button>
+              <button className={`px-3 py-1 rounded-lg text-sm ${selectedMetric === "yield" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-muted-foreground"}`} onClick={() => setSelectedMetric("yield")}>{t("admin_revenue_intelligence_yield", "Getiri")}</button>
+              <button className={`px-3 py-1 rounded-lg text-sm ${selectedMetric === "arbitrage" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-muted-foreground"}`} onClick={() => setSelectedMetric("arbitrage")}>{t("admin_revenue_intelligence_arbitrage", "Arbitraj")}</button>
             </div>
           </div>
           <div className="h-64 bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg flex items-center justify-center">
             <div className="text-center">
               <LineChart className="w-12 h-12 mx-auto mb-3 text-orange-600" />
-              <p className="text-lg font-semibold text-orange-900">{t("admin_revenue_intelligence_yield_arbitrage_viz", "Yield Arbitrage Visualization")}</p>
-              <p className="text-sm text-orange-700 mt-1">{t("admin_revenue_intelligence_yield_arbitrage_viz_desc", "Cross-market yield comparison and optimization opportunities")}</p>
+              <p className="text-lg font-semibold text-orange-900">{t("admin_revenue_intelligence_yield_arbitrage_viz", "Getiri Arbitrajı Görselleştirmesi")}</p>
+              <p className="text-sm text-orange-700 mt-1">{t("admin_revenue_intelligence_yield_arbitrage_viz_desc", "Pazarlar arası getiri karşılaştırması ve optimizasyon fırsatları")}</p>
             </div>
           </div>
         </div>
 
         <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-yellow-600" /> {t("admin_revenue_intelligence_optimization_opportunities", "Optimization Opportunities")}
+            <Zap className="w-5 h-5 text-yellow-600" /> {t("admin_revenue_intelligence_optimization_opportunities", "Optimizasyon Fırsatları")}
           </h2>
           <div className="space-y-3">
             {optimizationOpportunities.map((opp, i) => (
@@ -229,10 +229,10 @@ export default function RevenueIntelligenceDashboard() {
                 <div className="flex items-center gap-2 text-xs">
                   <span className={`px-2 py-1 rounded-full ${
                     opp.impact === "High" ? "bg-red-100 text-red-700" : "bg-yellow-100 text-yellow-700"
-                  }`}>{tEnum(t, opp.impact)} {t("admin_revenue_intelligence_impact", "Impact")}</span>
+                  }`}>{tEnum(t, opp.impact)} {t("admin_revenue_intelligence_impact", "Etki")}</span>
                   <span className={`px-2 py-1 rounded-full ${
                     opp.effort === "Low" ? "bg-blue-100 text-blue-700" : opp.effort === "Medium" ? "bg-blue-100 text-blue-700" : "bg-brand/15 text-brand"
-                  }`}>{tEnum(t, opp.effort)} {t("admin_revenue_intelligence_effort", "Effort")}</span>
+                  }`}>{tEnum(t, opp.effort)} {t("admin_revenue_intelligence_effort", "Efor")}</span>
                 </div>
               </div>
             ))}
@@ -243,7 +243,7 @@ export default function RevenueIntelligenceDashboard() {
       <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2">
-            <Brain className="w-5 h-5 text-brand" /> {t("admin_revenue_intelligence_predictive_insights", "Predictive Revenue Insights")}
+            <Brain className="w-5 h-5 text-brand" /> {t("admin_revenue_intelligence_predictive_insights", "Öngörücü Gelir Analizleri")}
           </h2>
           <button className="p-2 hover:bg-gray-100 rounded-lg"><Calendar className="w-4 h-4 text-muted-foreground" /></button>
         </div>
@@ -259,7 +259,7 @@ export default function RevenueIntelligenceDashboard() {
                 <div className="flex-1 bg-brand rounded-full h-2">
                   <div className="bg-primary text-primary-foreground h-2 rounded-full" style={{ width: `${insight.confidence}%` }} />
                 </div>
-                <span className="text-xs text-brand">{insight.confidence}% {t("admin_revenue_intelligence_confidence", "confidence")}</span>
+                <span className="text-xs text-brand">{insight.confidence}% {t("admin_revenue_intelligence_confidence", "güven")}</span>
               </div>
             </div>
           ))}

@@ -22,7 +22,7 @@ const financialMetrics = [
     change: "+12.5%",
     trend: "up",
     icon: DollarSign,
-    color: "text-green-400"
+    color: "text-blue-400"
   },
   {
     title: "Total Expenses",
@@ -46,7 +46,7 @@ const financialMetrics = [
     change: "+8.1%",
     trend: "up",
     icon: CreditCard,
-    color: "text-amber-400"
+    color: "text-warning"
   }
 ];
 
@@ -98,7 +98,7 @@ export default function AdminFinancialPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <metric.icon className={`w-6 h-6 ${metric.color}`} />
-                  <div className={`flex items-center text-sm ${metric.trend === 'up' ? 'text-green-400' : 'text-red-400'}`}>
+                  <div className={`flex items-center text-sm ${metric.trend === 'up' ? 'text-blue-400' : 'text-red-400'}`}>
                     {metric.trend === 'up' ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingDown className="w-4 h-4 mr-1" />}
                     {metric.change}
                   </div>
@@ -131,7 +131,7 @@ export default function AdminFinancialPage() {
                       <div className="text-foreground font-medium">{transaction.description}</div>
                       <div className="text-sm text-muted-foreground">{transaction.date}</div>
                     </div>
-                    <div className={`font-bold ${transaction.type === 'RECEIPT' ? 'text-green-400' : 'text-red-400'}`}>
+                    <div className={`font-bold ${transaction.type === 'RECEIPT' ? 'text-blue-400' : 'text-red-400'}`}>
                       {transaction.type === 'RECEIPT' ? '+' : '-'}${transaction.amount.toLocaleString()}
                     </div>
                   </div>

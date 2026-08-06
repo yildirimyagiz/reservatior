@@ -87,6 +87,22 @@ const sidebarKeyMap: Record<string, string> = {
   'My Profile': 'sidebar.my_profile',
 };
 
+const itemColorMap: Record<string, string> = {
+  'Dashboard': 'text-emerald-500 dark:text-emerald-400',
+  'Properties': 'text-blue-500 dark:text-blue-400',
+  'Financial': 'text-amber-500 dark:text-amber-400',
+  'Tenants': 'text-purple-500 dark:text-purple-400',
+  'Media Studio': 'text-rose-500 dark:text-rose-400',
+  'AI Analytics': 'text-cyan-500 dark:text-cyan-400',
+  'Legal & Compliance': 'text-slate-400 dark:text-slate-400',
+  'Admin': 'text-orange-500 dark:text-orange-400',
+  'CRM & Agency': 'text-indigo-500 dark:text-indigo-400',
+  'Operations': 'text-red-500 dark:text-red-400',
+  'Advanced Operations': 'text-violet-500 dark:text-violet-400',
+  'Communication': 'text-teal-500 dark:text-teal-400',
+  'My Properties': 'text-blue-500 dark:text-blue-400',
+};
+
 export default function Sidebar() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(true);
@@ -115,25 +131,30 @@ export default function Sidebar() {
     if (!children) return false;
     return children.some(child => isActive(child.href));
   };
+
+  const getItemColor = (title: string, active: boolean) => {
+    if (active) return '';
+    return itemColorMap[title] || 'text-muted-foreground';
+  };
   
-  return <div className={cn('relative bg-slate-900/95 backdrop-blur-xl border-r border-slate-800/50 transition-all duration-300', open ? 'w-64' : 'w-16')}>
+  return <div className={cn('relative bg-card/95 backdrop-blur-xl border-r border-border transition-all duration-300', open ? 'w-64' : 'w-16')}>
       {/* Toggle Button */}
       <div className="absolute -right-3 top-6 z-10">
-        <Button size="sm" variant="outline" className="bg-slate-800 border-slate-700 text-slate-200 shadow-lg hover:bg-slate-700" onClick={() => setOpen(!open)}>
+        <Button size="sm" variant="outline" className="bg-muted border-border text-foreground shadow-lg hover:bg-muted" onClick={() => setOpen(!open)}>
           {open ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
         </Button>
       </div>
 
       {/* Sidebar Header - Simplified without redundant logo */}
-      <div className="p-4 flex items-center justify-end border-b border-slate-800/50 min-h-[65px]">
+      <div className="p-4 flex items-center justify-end border-b border-border min-h-[65px]">
         {/* Toggle button moved here or just kept as is */}
       </div>
 
       {/* Search */}
-      {open && <div className="p-4 border-b border-slate-800/50">
+      {open && <div className="p-4 border-b border-border">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <input type="text" aria-label="Search" placeholder={t("client.src.search")} className="w-full pl-10 pr-4 py-2 text-sm border border-slate-700/50 rounded-lg bg-slate-800/50 text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input type="text" aria-label="Search" placeholder={t("common.search")} className="w-full pl-10 pr-4 py-2 text-sm border border-border/50 rounded-lg bg-muted/50 text-foreground placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
           </div>
         </div>}
 
@@ -152,12 +173,12 @@ export default function Sidebar() {
                 e.preventDefault();
                 toggleExpanded(item.title);
               }
-            }} className={cn('flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors', isItemActive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'text-slate-300 hover:bg-slate-800/50 hover:text-slate-100')}>
-                  <Icon className="w-5 h-5 shrink-0" />
+            }} className={cn('flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors', isItemActive ? 'bg-success/10 text-success border border-success/20' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground')}>
+                  <Icon className={cn("w-5 h-5 shrink-0 transition-colors", getItemColor(item.title, isItemActive))} />
                   {open && <>
                       <span className="flex-1">{tSidebar(item.title)}</span>
                       <div className="flex items-center gap-2">
-                        {item.badge && <Badge variant="secondary" className="text-xs bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
+                        {item.badge && <Badge variant="secondary" className="text-xs bg-success/20 text-blue-300 border-blue-500/30">
                             {item.badge}
                           </Badge>}
                         {hasChildren && (isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />)}
@@ -169,7 +190,7 @@ export default function Sidebar() {
                 {hasChildren && isExpanded && open && <div className="ml-4 mt-1 space-y-1">
                     {item.children?.map(child => {
                 const ChildIcon = child.icon;
-                return <Link key={child.title} href={child.href || '#'} className={cn('flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors', isActive(child.href) ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200')}>
+                return <Link key={child.title} href={child.href || '#'} className={cn('flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors', isActive(child.href) ? 'bg-success/10 text-success border border-success/20' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground')}>
                           <ChildIcon className="w-4 h-4" />
                           <span>{tSidebar(child.title)}</span>
                         </Link>;
@@ -181,15 +202,15 @@ export default function Sidebar() {
       </ScrollArea>
 
       {/* Footer */}
-      {open && <div className="p-4 border-t border-slate-800/50">
+      {open && <div className="p-4 border-t border-border">
           <div className="space-y-3">
-            <Link href="/help" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition-colors">
+            <Link href="/client/support" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors">
               <HelpCircle className="w-5 h-5" />
               <span>{t("client.src.help_support")}</span>
             </Link>
-            <Link href="/settings" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition-colors">
+            <Link href="/admin/settings" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors">
               <Settings className="w-5 h-5" />
-              <span>{t("client.src.settings")}</span>
+              <span>{t("common.settings")}</span>
             </Link>
           </div>
         </div>}

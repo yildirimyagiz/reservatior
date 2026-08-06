@@ -447,13 +447,13 @@ export default function PayoutAndHelpDesk() {
       case 'processing':
         return 'bg-blue-100 text-blue-800';
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'failed':
         return 'bg-red-100 text-red-800';
       case 'cancelled':
         return 'bg-gray-100 text-gray-800';
       case 'refunded':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-brand/15 text-brand';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -542,7 +542,7 @@ export default function PayoutAndHelpDesk() {
                     <p className="text-2xl font-bold">{analytics.payouts?.total || 0}</p>
                     <p className="text-xs text-muted-foreground">{formatCurrency(analytics.payouts?.totalAmount || 0, 'USD')}</p>
                   </div>
-                  <DollarSign className="w-8 h-8 text-green-500" />
+                  <DollarSign className="w-8 h-8 text-blue-500" />
                 </div>
               </CardContent>
             </Card>
@@ -567,7 +567,7 @@ export default function PayoutAndHelpDesk() {
                     <p className="text-2xl font-bold">{analytics.payouts?.processingTime?.average || 0}h</p>
                     <p className="text-xs text-muted-foreground">{t("client.src.average")}</p>
                   </div>
-                  <Activity className="w-8 h-8 text-blue-500" />
+                  <Activity className="w-8 h-8 text-brand" />
                 </div>
               </CardContent>
             </Card>
@@ -579,7 +579,7 @@ export default function PayoutAndHelpDesk() {
                     <p className="text-sm font-medium text-muted-foreground">{t("client.src.failure_rate")}</p>
                     <p className="text-2xl font-bold">{analytics.payouts?.failureRate?.toFixed(1) || 0}%</p>
                     <div className="flex items-center gap-1">
-                      {analytics.payouts?.failureRate && analytics.payouts.failureRate > 5 ? <TrendingUp className="w-3 h-3 text-red-500" /> : <TrendingDown className="w-3 h-3 text-green-500" />}
+                      {analytics.payouts?.failureRate && analytics.payouts.failureRate > 5 ? <TrendingUp className="w-3 h-3 text-red-500" /> : <TrendingDown className="w-3 h-3 text-blue-500" />}
                       <p className="text-xs text-muted-foreground">{t("client.src.vs_last_month")}</p>
                     </div>
                   </div>
@@ -596,7 +596,7 @@ export default function PayoutAndHelpDesk() {
                     <p className="text-sm font-medium text-muted-foreground">{t("client.src.open_support")}</p>
                     <p className="text-2xl font-bold">{analytics.helpDesk?.open || 0}</p>
                   </div>
-                  <Headphones className="w-8 h-8 text-blue-500" />
+                  <Headphones className="w-8 h-8 text-brand" />
                 </div>
               </CardContent>
             </Card>
@@ -609,7 +609,7 @@ export default function PayoutAndHelpDesk() {
                     <p className="text-2xl font-bold">{analytics.helpDesk?.averageResponseTime || 0}h</p>
                     <p className="text-xs text-muted-foreground">{t("client.src.first_response")}</p>
                   </div>
-                  <MessageSquare className="w-8 h-8 text-purple-500" />
+                  <MessageSquare className="w-8 h-8 text-brand" />
                 </div>
               </CardContent>
             </Card>
@@ -621,12 +621,12 @@ export default function PayoutAndHelpDesk() {
                     <p className="text-sm font-medium text-muted-foreground">{t("client.src.satisfaction")}</p>
                     <p className="text-2xl font-bold">
                       {analytics.helpDesk?.satisfactionRate ? <div className="flex items-center gap-1">
-                          <ThumbsUp className="w-3 h-3 text-green-500" />
+                          <ThumbsUp className="w-3 h-3 text-blue-500" />
                           <span>{analytics.helpDesk.satisfactionRate.toFixed(1)}</span>
                         </div> : 'N/A'}
                     </p>
                   </div>
-                  <Smile className="w-8 h-8 text-green-500" />
+                  <Smile className="w-8 h-8 text-blue-500" />
                 </div>
               </CardContent>
             </Card>
@@ -637,32 +637,32 @@ export default function PayoutAndHelpDesk() {
           {[{
           status: 'pending',
           count: analytics.payouts?.pending || 0,
-          label: t("client.src.pending"),
+          label: t("common.processing"),
           color: 'bg-yellow-100 text-yellow-800'
         }, {
           status: 'processing',
           count: analytics.payouts?.processing || 0,
-          label: t("client.src.processing"),
+          label: t("common.processing"),
           color: 'bg-blue-100 text-blue-800'
         }, {
           status: 'completed',
           count: analytics.payouts?.completed || 0,
-          label: t("client.src.completed"),
-          color: 'bg-green-100 text-green-800'
+          label: t("common.completed"),
+          color: 'bg-blue-100 text-blue-800'
         }, {
           status: 'failed',
           count: analytics.payouts?.failed || 0,
-          label: t("client.src.failed"),
+          label: t("common.failed"),
           color: 'bg-red-100 text-red-800'
         }, {
           status: 'refunded',
           count: analytics.payouts?.refunded || 0,
-          label: t("client.src.refunded"),
-          color: 'bg-purple-100 text-purple-800'
+          label: t("common.refunded"),
+          color: 'bg-brand/15 text-brand'
         }, {
           status: 'cancelled',
           count: analytics.payouts?.cancelled || 0,
-          label: t("client.src.cancelled"),
+          label: t("common.cancelled"),
           color: 'bg-gray-100 text-gray-800'
         }].map(({
           status,
@@ -698,10 +698,10 @@ export default function PayoutAndHelpDesk() {
             setHelpDeskTickets(generateMockHelpDeskTickets());
             setAnalytics(generateMockAnalytics());
           }}>
-              <RefreshCw className="w-4 h-4 mr-2" />{t("client.src.refresh")}</Button>
+              <RefreshCw className="w-4 h-4 mr-2" />{t("common.refresh")}</Button>
 
             <Button variant="outline" size="sm" onClick={exportPayouts}>
-              <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
+              <Download className="w-4 h-4 mr-2" />{t("common.download")}</Button>
           </div>
 
           <div className="flex items-center gap-2">
@@ -732,12 +732,12 @@ export default function PayoutAndHelpDesk() {
               status: e.target.value || undefined
             })}>
                 <option value="">{t("client.src.all_statuses")}</option>
-                <option value="pending">{t("client.src.pending")}</option>
-                <option value="processing">{t("client.src.processing")}</option>
-                <option value="completed">{t("client.src.completed")}</option>
-                <option value="failed">{t("client.src.failed")}</option>
-                <option value="cancelled">{t("client.src.cancelled")}</option>
-                <option value="refunded">{t("client.src.refunded")}</option>
+                <option value="pending">{t("common.processing")}</option>
+                <option value="processing">{t("common.processing")}</option>
+                <option value="completed">{t("common.completed")}</option>
+                <option value="failed">{t("common.failed")}</option>
+                <option value="cancelled">{t("common.cancelled")}</option>
+                <option value="refunded">{t("common.refunded")}</option>
               </select>
 
               <select aria-label="Filter by payment method" className="px-3 py-1 border rounded-md text-sm" value={filter.method || ''} onChange={e => setFilter({
@@ -828,10 +828,10 @@ export default function PayoutAndHelpDesk() {
               priority: e.target.value || undefined
             })}>
                 <option value="">{t("client.src.all_priorities")}</option>
-                <option value="low">{t("client.src.low")}</option>
-                <option value="medium">{t("client.src.medium")}</option>
-                <option value="high">{t("client.src.high")}</option>
-                <option value="urgent">{t("client.src.urgent")}</option>
+                <option value="low">{t("common.low")}</option>
+                <option value="medium">{t("common.medium")}</option>
+                <option value="high">{t("common.high")}</option>
+                <option value="urgent">{t("common.urgent")}</option>
               </select>
             </div>
 
@@ -871,18 +871,18 @@ export default function PayoutAndHelpDesk() {
                       <div className="flex items-center gap-2 mt-3">
                         <div className="flex items-center gap-1">
                           {ticket.satisfaction?.rating && <>
-                              <ThumbsUp className="w-3 h-3 text-green-500" />
+                              <ThumbsUp className="w-3 h-3 text-blue-500" />
                               <span className="text-sm">{ticket.satisfaction.rating.toFixed(1)}</span>
                             </>}
                         </div>
                         <div className="flex items-center gap-1">
                           {ticket.timeToFirstResponse && <>
-                              <Clock className="w-3 h-3 text-blue-500" />
+                              <Clock className="w-3 h-3 text-brand" />
                               <span className="text-sm">{ticket.timeToFirstResponse}h</span>
                             </>}
                         </div>
                         {ticket.timeToResolution && <>
-                            <CheckCircle className="w-3 h-3 text-green-500" />
+                            <CheckCircle className="w-3 h-3 text-blue-500" />
                             <span className="text-sm">{ticket.timeToResolution}h</span>
                           </>}
                       </div>
@@ -899,7 +899,7 @@ export default function PayoutAndHelpDesk() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>{t("client.src.payout_detail")}{selectedPayout.transactionId}</CardTitle>
-                  <Button variant="ghost" size="sm" onClick={() => setSelectedPayout(null)}>
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedPayout(null)} aria-label={t("common.close")}>
                     ×
                   </Button>
                 </div>
@@ -913,7 +913,7 @@ export default function PayoutAndHelpDesk() {
                       <CardContent className="p-4">
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="text-sm font-medium text-muted-foreground">{t("client.src.status")}</span>
+                            <span className="text-sm font-medium text-muted-foreground">{t("common.status")}</span>
                             <Badge className={getStatusColor(selectedPayout.status)}>
                               {selectedPayout.status}
                             </Badge>
@@ -933,7 +933,7 @@ export default function PayoutAndHelpDesk() {
                       <CardContent className="p-4">
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="text-sm font-medium text-muted-foreground">{t("client.src.total_amount")}</span>
+                            <span className="text-sm font-medium text-muted-foreground">{t("common.total_amount")}</span>
                             <span className="font-medium">{formatCurrency(selectedPayout.amount.total, selectedPayout.amount.currency)}</span>
                           </div>
                           <div className="flex justify-between">
@@ -960,7 +960,7 @@ export default function PayoutAndHelpDesk() {
                   }}>
                     <FileText className="w-4 h-4 mr-2" />{t("client.src.view_receipt")}</Button>
                   <Button variant="outline" onClick={() => toast({ title: t("client.src.export_started") })}>
-                    <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
+                    <Download className="w-4 h-4 mr-2" />{t("common.download")}</Button>
                 </div>
               </CardContent>
             </Card>
@@ -972,7 +972,7 @@ export default function PayoutAndHelpDesk() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>{t("client.src.support_ticket")}{selectedTicket.ticketNumber}</CardTitle>
-                  <Button variant="ghost" size="sm" onClick={() => setSelectedTicket(null)}>
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedTicket(null)} aria-label={t("common.close")}>
                     ×
                   </Button>
                 </div>
@@ -985,20 +985,20 @@ export default function PayoutAndHelpDesk() {
                     <CardContent className="p-4">
                       <div className="space-y-2">
                         <div className="flex justify-between">
-                          <span className="text-sm font-medium text-muted-foreground">{t("client.src.category")}</span>
+                          <span className="text-sm font-medium text-muted-foreground">{t("common.category")}</span>
                           <div className="flex items-center gap-2">
                             {getCategoryIcon(selectedTicket.category)}
                             <span className="font-medium">{selectedTicket.category.replace('_', ' ')}</span>
                           </div>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm font-medium text-muted-foreground">{t("client.src.priority")}</span>
+                          <span className="text-sm font-medium text-muted-foreground">{t("common.priority")}</span>
                           <Badge className={getPriorityColor(selectedTicket.priority)}>
                             {selectedTicket.priority}
                           </Badge>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm font-medium text-muted-foreground">{t("client.src.status")}</span>
+                          <span className="text-sm font-medium text-muted-foreground">{t("common.status")}</span>
                           <Badge className={getStatusColor(selectedTicket.status)}>
                             {selectedTicket.status}
                           </Badge>
@@ -1044,7 +1044,7 @@ export default function PayoutAndHelpDesk() {
               <Textarea value={ticketActionContent} onChange={e => setTicketActionContent(e.target.value)} rows={4} placeholder={t("client.src.enter_details")} />
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsTicketActionOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button variant="outline" onClick={() => setIsTicketActionOpen(false)}>{t("common.cancel")}</Button>
               <Button onClick={() => {
                 toast({ title: t("client.src.action_completed") });
                 setIsTicketActionOpen(false);

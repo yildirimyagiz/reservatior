@@ -40,6 +40,11 @@ export function PartnerLayout({ children }: { children: React.ReactNode }) {
       icon: FileSignature
     },
     {
+      title: "Contracts",
+      href: "/partner-os/contracts",
+      icon: FileSignature
+    },
+    {
       title: "Suppliers",
       href: "/partner-os/suppliers",
       icon: Truck

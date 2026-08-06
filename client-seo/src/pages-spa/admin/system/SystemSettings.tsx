@@ -4,7 +4,7 @@ import { apiClient } from '@/lib/api/client';
 import { t } from"i18next";
 import { useState } from"react";
 import { m } from"framer-motion";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -324,7 +324,7 @@ export default function SystemSettings() {
  },
  onError: (error: any) => {
  toast({
- title: t("admin_system_error","Error"),
+ title: t("admin_system_error", "Hata"),
  description: error.message,
  variant:"destructive"
  });
@@ -334,10 +334,10 @@ export default function SystemSettings() {
  switch (status) {
  case"HEALTHY":
  case"NORMAL":
- return <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-[10px] font-bold">{t("admin_system_healthy")}</Badge>;
+ return <Badge className="bg-blue-500/10 text-success border-blue-500/20 text-[10px] font-bold">{t("admin_system_healthy")}</Badge>;
  case"DEGRADED":
  case"WARNING":
- return <Badge className="bg-orange-500/10 text-orange-400 border-orange-500/20 text-[10px] font-bold">{t("admin_system_degraded")}</Badge>;
+ return <Badge className="bg-orange-500/10 text-warning border-orange-500/20 text-[10px] font-bold">{t("admin_system_degraded")}</Badge>;
  case"UNHEALTHY":
  case"CRITICAL":
  return <Badge className="bg-red-500/10 text-red-400 border-red-500/20 text-[10px] font-bold">{t("admin_system_critical")}</Badge>;
@@ -381,7 +381,7 @@ export default function SystemSettings() {
  <Card className="bg-card border-border rounded-3xl p-8 relative overflow-hidden group border-l border-t">
  <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-all"><Activity className="w-12 h-12" /></div>
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('systemHubActivenodes')}</p>
- <h3 className="text-xl font-bold text-emerald-500 leading-none">{stats.healthy}</h3>
+ <h3 className="text-xl font-bold text-success leading-none">{stats.healthy}</h3>
  <p className="text-[10px] font-bold text-muted-foreground mt-4">{t("admin_system_of")}{healthChecks.length}{t("admin_system_total_services")}</p>
  </Card>
  <Card className="bg-card border-border rounded-3xl p-8 relative overflow-hidden group border-l-orange-500/30 border-l border-t">
@@ -433,7 +433,7 @@ export default function SystemSettings() {
  <div className="text-[10px] font-bold text-muted-foreground max-w-sm">{s.description}</div>
  </div>
  <div className="flex items-center gap-6">
- {s.type ==="boolean" ? <Switch checked={!!s.value} onCheckedChange={v => updateSetting(s.id, s.key, v)} className="data-[state=checked]:bg-emerald-600" /> : <Input className="w-48 h-12 bg-card border-border rounded-xl text-xs font-bold text-center text-foreground" defaultValue={String(s.value)} onBlur={e => updateSetting(s.id, s.key, e.target.value)} />}
+ {s.type ==="boolean" ? <Switch checked={!!s.value} onCheckedChange={v => updateSetting(s.id, s.key, v)} className="data-[state=checked]:bg-blue-600" /> : <Input className="w-48 h-12 bg-card border-border rounded-xl text-xs font-bold text-center text-foreground" defaultValue={String(s.value)} onBlur={e => updateSetting(s.id, s.key, e.target.value)} />}
  {s.isEncrypted && <Shield className="w-4 h-4 text-primary opacity-50 shadow-[0_0_10px_#ea580c]" />}
  </div>
  </div>)}
@@ -445,8 +445,8 @@ export default function SystemSettings() {
  {healthChecks.map(h => <Card key={h.id} className="bg-card border-border rounded-4xl p-8 relative group border-l border-t">
  <div className="flex justify-between items-start mb-6">
  <div className="flex gap-4">
- <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center border", h.status ==="HEALTHY" ?"bg-emerald-500/10 border-emerald-500/20" :"bg-red-500/10 border-red-500/20")}>
- {h.status ==="HEALTHY" ? <CheckCircle className="w-6 h-6 text-emerald-500" /> : <AlertTriangle className="w-6 h-6 text-red-500" />}
+ <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center border", h.status ==="HEALTHY" ?"bg-blue-500/10 border-blue-500/20" :"bg-red-500/10 border-red-500/20")}>
+ {h.status ==="HEALTHY" ? <CheckCircle className="w-6 h-6 text-success" /> : <AlertTriangle className="w-6 h-6 text-red-500" />}
  </div>
  <div>
  <h4 className="text-lg font-bold text-foreground leading-none">{h.serviceName}</h4>
@@ -471,13 +471,13 @@ export default function SystemSettings() {
  {metrics.map(m => <Card key={m.id} className="bg-card border-border rounded-4xl p-8 border-l border-t shadow-xl">
  <div className="flex justify-between items-center mb-8">
  <div className="flex gap-4 items-center">
- <div className="w-12 h-12 rounded-2xl bg-card border border-border flex items-center justify-center"><Zap className={cn("w-6 h-6", m.status ==="NORMAL" ?"text-emerald-500" :"text-orange-500")} /></div>
+ <div className="w-12 h-12 rounded-2xl bg-card border border-border flex items-center justify-center"><Zap className={cn("w-6 h-6", m.status ==="NORMAL" ?"text-success" :"text-orange-500")} /></div>
  <h4 className="text-lg font-bold text-foreground leading-none">{m.name}</h4>
  </div>
  {getStatusBadge(m.status)}
  </div>
  <div className="space-y-6">
- <div className="text-2xl font-bold text-foreground leading-none">{m.value}<span className="text-2xl text-slate-600 block text-right mt-1 font-bold">{m.unit}</span></div>
+ <div className="text-2xl font-bold text-foreground leading-none">{m.value}<span className="text-2xl text-muted-foreground block text-right mt-1 font-bold">{m.unit}</span></div>
  <div className="space-y-2">
  <div className="flex justify-between text-[9px] font-bold text-muted-foreground"><span>{t("admin_system_load_efficiency")}</span><span>{Math.round(m.value / m.threshold * 100)}%</span></div>
  <Progress value={m.value / m.threshold * 100} className="h-1.5 bg-muted/50" indicatorClassName="bg-primary shadow-[0_0_10px_#ea580c]" />
@@ -503,7 +503,7 @@ export default function SystemSettings() {
  <Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" />
  </TableCell>
  </TableRow>
- ) : logs.map(l => <TableRow key={l.id} className="border-b border-border hover:bg-white/3sition-all font-mono">
+ ) : logs.map(l => <TableRow key={l.id} className="border-b border-border hover:bg-card/3sition-all font-mono">
  <TableCell className="px-8"><Badge className={cn("bg-transparent border text-[9px] font-bold", l.level ==="ERROR" ?"text-red-500 border-red-500/20" :"text-muted-foreground border-slate-400/20")}>{l.level}</Badge></TableCell>
  <TableCell className="px-8 text-[11px] text-muted-foreground font-bold whitespace-pre-wrap">{l.message}</TableCell>
  <TableCell className="px-8 text-[10px] text-muted-foreground">{new Date(l.timestamp).toLocaleString()}</TableCell>
@@ -514,19 +514,19 @@ export default function SystemSettings() {
  </TabsContent>
 
  <TabsContent value="maintenance" className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 pb-10">
- <Card className="bg-card border-border rounded-4xl p-8 hover:bg-muted/50 transition-all text-center border-l border-t border-b-emerald-500/50 border-b-2 shadow-2xl">
- <RefreshCw className="w-10 h-10 text-emerald-500 mx-auto mb-6" />
+ <Card className="bg-card border-border rounded-4xl p-8 hover:bg-muted/50 transition-all text-center border-l border-t border-b-blue-500/50 border-b-2 shadow-2xl">
+ <RefreshCw className="w-10 h-10 text-success mx-auto mb-6" />
  <h4 className="text-xl font-bold text-foreground mb-2 leading-none">{t("admin_system_neural_flush")}</h4>
  <p className="text-[10px] font-bold text-muted-foreground mb-8 tracking-tight">{t("admin_system_synchronize_all_cache_nodes")}</p>
- <Button className="w-full bg-muted/50 hover:bg-emerald-600 rounded-2xl h-14 font-bold text-[10px] transition-all">
+ <Button className="w-full bg-muted/50 hover:bg-blue-600 rounded-2xl h-14 font-bold text-[10px] transition-all">
  {t('flush')}
  </Button>
  </Card>
  <Card className="bg-card border-border rounded-4xl p-8 hover:bg-muted/50 transition-all text-center border-l border-t border-b-slate-500/50 border-b-2 shadow-2xl">
- <Shield className="w-10 h-10 text-slate-500 mx-auto mb-6 shadow-[0_0_20px_#3b82f620]" />
+ <Shield className="w-10 h-10 text-muted-foreground mx-auto mb-6 shadow-[0_0_20px_#3b82f620]" />
  <h4 className="text-xl font-bold text-foreground mb-2 leading-none">{t("admin_system_full_snapshot")}</h4>
  <p className="text-[10px] font-bold text-muted-foreground mb-8 tracking-tight">{t("admin_system_export_global_system_parameters")}</p>
- <Button className="w-full bg-muted/50 hover:bg-slate-600 rounded-2xl h-14 font-bold text-[10px] transition-all">
+ <Button className="w-full bg-muted/50 hover:bg-muted rounded-2xl h-14 font-bold text-[10px] transition-all">
  {t('snapshot')}
  </Button>
  </Card>

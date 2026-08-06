@@ -162,14 +162,14 @@ export default function Signup() {
       
       {/* Background Blobs for modern aesthetic */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-info/10 dark:bg-info/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-brand/10 dark:bg-brand/20 rounded-full blur-3xl" />
       </div>
 
       <div className="flex-1 flex justify-center items-center p-4 sm:p-8 pt-16">
         
         <div className="w-full max-w-xl bg-card/90 backdrop-blur-xl border border-border rounded-[2rem] p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-brand/100" />
           
           <m.div
             initial={{ opacity: 0, y: 20 }}
@@ -181,7 +181,7 @@ export default function Signup() {
                  <Building2 className="w-6 h-6 text-primary" />
               </Link>
               <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-3 tracking-tight">
-                Create Account
+                {t("auth.signup.create_account", "Create Account")}
               </h2>
               <p className="text-muted-foreground text-sm sm:text-base">
                 Join us today
@@ -192,11 +192,11 @@ export default function Signup() {
               <m.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-500/20 backdrop-blur-md"
+                className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-500/10 to-info/10 border border-blue-500/20 backdrop-blur-md"
               >
                 <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center shrink-0">
-                    <Zap className="text-blue-500 w-5 h-5 animate-pulse" />
+                  <div className="w-10 h-10 rounded-xl bg-brand/100/20 flex items-center justify-center shrink-0">
+                    <Zap className="text-brand w-5 h-5 animate-pulse" />
                   </div>
                   <div>
                     <h3 className="text-foreground font-bold text-sm tracking-wide">💼 Eşleşen Müşteri Talebiniz Hazır!</h3>
@@ -388,12 +388,12 @@ export default function Signup() {
 
               <Button
                 type="submit"
-                className="w-full h-14 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-base rounded-xl transition-all shadow-xl shadow-blue-600/20 group relative overflow-hidden mt-4"
+                className="w-full h-14 bg-gradient-to-r from-brand to-info hover:from-blue-700 hover:to-info text-white font-bold text-base rounded-xl transition-all shadow-xl shadow-blue-600/20 group relative overflow-hidden mt-4"
                 disabled={loading || isLoading}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   {loading || isLoading ? "İşleniyor..." : (
-                    <>Create Account<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></>
+                    <>{t("auth.signup.create_account", "Create Account")}<ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></>
                   )}
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
@@ -410,16 +410,16 @@ export default function Signup() {
             </div>
 
             <div className="grid grid-cols-4 gap-3">
-              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("google")}>
+              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("google")} aria-label={t("common.sign_in_with_google")}>
                 <GoogleIcon className="h-5 w-5" />
               </Button>
-              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("facebook")}>
+              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("facebook")} aria-label={t("common.sign_in_with_facebook")}>
                 <Facebook className="h-5 w-5" />
               </Button>
-              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("twitter")}>
+              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("twitter")} aria-label={t("common.sign_in_with_twitter")}>
                 <Twitter className="h-5 w-5" />
               </Button>
-              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("linkedin")}>
+              <Button type="button" variant="outline" className="h-12 bg-background border-input hover:bg-accent hover:text-accent-foreground text-foreground rounded-xl transition-all px-0" onClick={() => handleSocialLogin("linkedin")} aria-label={t("common.sign_in_with_linkedin")}>
                 <Linkedin className="h-5 w-5" />
               </Button>
             </div>

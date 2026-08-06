@@ -48,7 +48,7 @@ export function AdBudgetShiftWidget({
             <div className="flex items-center gap-2">
               <Badge className="border-0 bg-blue-500/20 text-blue-400 text-[10px]">{NETWORK_LABELS[fromNetwork] || fromNetwork}</Badge>
               <span className="text-muted-foreground">→</span>
-              <Badge className="border-0 bg-emerald-500/20 text-emerald-400 text-[10px]">{NETWORK_LABELS[toNetwork] || toNetwork}</Badge>
+              <Badge className="border-0 bg-blue-500/20 text-blue-400 text-[10px]">{NETWORK_LABELS[toNetwork] || toNetwork}</Badge>
             </div>
           </div>
           <span className="text-sm font-bold text-foreground">${amount.toLocaleString()}</span>
@@ -56,8 +56,8 @@ export function AdBudgetShiftWidget({
         <p className="text-xs text-muted-foreground mb-2 truncate">{reason}</p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <TrendingDown className="w-3 h-3 text-emerald-400" />
-            <span className="text-xs font-bold text-emerald-400">
+            <TrendingDown className="w-3 h-3 text-blue-400" />
+            <span className="text-xs font-bold text-blue-400">
               CPET -{improvementPercent.toFixed(0)}%
             </span>
           </div>

@@ -21,15 +21,15 @@ const STATUS: Record<string, {
   cls: string;
 }> = {
   PENDING: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     cls: "bg-yellow-100 text-yellow-700"
   },
   ACCEPTED: {
-    label: t("client.src.accepted"),
-    cls: "bg-green-100 text-green-700"
+    label: t("common.accepted"),
+    cls: "bg-blue-100 text-blue-700"
   },
   REJECTED: {
-    label: t("client.src.rejected"),
+    label: t("common.rejected"),
     cls: "bg-red-100 text-red-700"
   },
   WITHDRAWN: {
@@ -77,7 +77,7 @@ export default function Increases() {
       setError("Failed to fetch data");
       toast({
         variant: "destructive",
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.could_not_load_records")
       });
     } finally {
@@ -110,7 +110,7 @@ export default function Increases() {
     } catch (err: any) {
       toast({
         variant: "destructive",
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_create_record")
       });
     }
@@ -132,7 +132,7 @@ export default function Increases() {
     } catch (err: any) {
       toast({
         variant: "destructive",
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_update_record")
       });
     }
@@ -149,7 +149,7 @@ export default function Increases() {
     } catch (err: any) {
       toast({
         variant: "destructive",
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_delete_record")
       });
     }
@@ -181,7 +181,7 @@ export default function Increases() {
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label>{t("client.src.tenant")}</Label>
+          <Label>{t("common.tenant")}</Label>
           <Select value={form.tenantId} onValueChange={v => setForm({
             ...form,
             tenantId: v
@@ -193,7 +193,7 @@ export default function Increases() {
           </Select>
         </div>
         <div className="space-y-1.5">
-          <Label>{t("client.src.property")}</Label>
+          <Label>{t("common.property")}</Label>
           <Select value={form.propertyId} onValueChange={v => {
             const p = properties.find(prop => prop.id === v);
             setForm({
@@ -202,7 +202,7 @@ export default function Increases() {
               orgId: p?.orgId || ""
             });
           }}>
-            <SelectTrigger><SelectValue placeholder={t("client.src.select_property")} /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder={t("common.select_property")} /></SelectTrigger>
             <SelectContent>
               {properties.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
             </SelectContent>
@@ -225,16 +225,16 @@ export default function Increases() {
             effectiveDate: e.target.value
           })} /></div>
         <div className="space-y-1.5">
-          <Label>{t("client.src.status")}</Label>
+          <Label>{t("common.status")}</Label>
           <Select value={form.status} onValueChange={v => setForm({
             ...form,
             status: v as any
           })}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
-              <SelectItem value="ACCEPTED">{t("client.src.accepted")}</SelectItem>
-              <SelectItem value="REJECTED">{t("client.src.rejected")}</SelectItem>
+              <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
+              <SelectItem value="ACCEPTED">{t("common.accepted")}</SelectItem>
+              <SelectItem value="REJECTED">{t("common.rejected")}</SelectItem>
               <SelectItem value="WITHDRAWN">{t("client.src.withdrawn")}</SelectItem>
             </SelectContent>
           </Select>
@@ -252,21 +252,21 @@ export default function Increases() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search rent increases..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: increases.length
     }, {
-      label: t("client.src.pending"),
+      label: t("common.processing"),
       value: increases.filter(r => r.status === 'PENDING').length
     }, {
-      label: t("client.src.accepted"),
+      label: t("common.accepted"),
       value: increases.filter(r => r.status === 'ACCEPTED').length
     }]} filters={<div className="flex gap-2">
-          <Button variant="outline" size="icon" onClick={fetchData} disabled={loading}>
+          <Button variant="outline" size="icon" aria-label={t("common.refresh")} onClick={fetchData} disabled={loading}>
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
-          <Button variant={filterStatus === "all" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("all")}>{t("client.src.all")}</Button>
-          <Button variant={filterStatus === "PENDING" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("PENDING")}>{t("client.src.pending")}</Button>
-          <Button variant={filterStatus === "ACCEPTED" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("ACCEPTED")}>{t("client.src.accepted")}</Button>
+          <Button variant={filterStatus === "all" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("all")}>{t("common.all")}</Button>
+          <Button variant={filterStatus === "PENDING" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("PENDING")}>{t("common.processing")}</Button>
+          <Button variant={filterStatus === "ACCEPTED" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("ACCEPTED")}>{t("common.accepted")}</Button>
         </div>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           {loading ? <div className="flex flex-col items-center justify-center py-24 text-muted-foreground gap-3">
@@ -279,13 +279,13 @@ export default function Increases() {
             </div> : <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("client.src.tenant")}</TableHead>
-                  <TableHead>{t("client.src.property")}</TableHead>
+                  <TableHead>{t("common.tenant")}</TableHead>
+                  <TableHead>{t("common.property")}</TableHead>
                   <TableHead>{t("client.src.old_rent")}</TableHead>
                   <TableHead>{t("client.src.new_rent")}</TableHead>
                   <TableHead>{t("client.src.increase")}</TableHead>
                   <TableHead>{t("client.src.effective_date")}</TableHead>
-                  <TableHead>{t("client.src.status")}</TableHead>
+                  <TableHead>{t("common.status")}</TableHead>
                   <TableHead className="w-10" />
                 </TableRow>
               </TableHeader>
@@ -300,17 +300,17 @@ export default function Increases() {
                       <TableCell className="text-sm">{propertyName}</TableCell>
                       <TableCell className="text-sm">${row.oldRent.toLocaleString()}</TableCell>
                       <TableCell className="text-sm font-semibold text-primary">${row.newRent.toLocaleString()}</TableCell>
-                      <TableCell className="text-sm text-green-600">+{percentage}%</TableCell>
+                      <TableCell className="text-sm text-blue-600">+{percentage}%</TableCell>
                       <TableCell className="text-sm">{row.effectiveDate.split("T")[0]}</TableCell>
                       <TableCell>
                         {STATUS[row.status] ? <Badge className={`${STATUS[row.status].cls} border-0 text-xs`}>{STATUS[row.status].label}</Badge> : <span className="text-xs text-muted-foreground">{row.status}</span>}
                       </TableCell>
                       <TableCell>
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -324,13 +324,13 @@ export default function Increases() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_increases")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_increases")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

@@ -150,6 +150,17 @@ export default function Templates() {
   const [_showCreateDialog, setShowCreateDialog] = useState(false);
   const [_showFolderDialog, setShowFolderDialog] = useState(false);
   const [showUseDialog, setShowUseDialog] = useState(false);
+  const [variableValues, setVariableValues] = useState<Record<string, string>>({});
+
+  const openUseDialog = (template: Template) => {
+    setSelectedTemplate(template);
+    const initial: Record<string, string> = {};
+    template.variables.forEach(v => {
+      initial[v.key] = v.defaultValue ?? "";
+    });
+    setVariableValues(initial);
+    setShowUseDialog(true);
+  };
   const [activeTab, setActiveTab] = useState("templates");
 
   // Mock data - replace with actual API calls
@@ -556,11 +567,11 @@ export default function Templates() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-green-500/10 text-green-500 border-green-200";
+        return "bg-blue-500/10 text-blue-500 border-blue-200";
       case "draft":
         return "bg-gray-500/10 text-gray-500 border-gray-200";
       case "archived":
-        return "bg-orange-500/10 text-orange-500 border-orange-200";
+        return "bg-warning/10 text-orange-500 border-orange-200";
       case "deprecated":
         return "bg-red-500/10 text-red-500 border-red-200";
       default:
@@ -570,11 +581,11 @@ export default function Templates() {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "Legal":
-        return "bg-purple-500/10 text-purple-500";
+        return "bg-brand/10 text-brand";
       case "Communication":
-        return "bg-blue-500/10 text-blue-500";
+        return "bg-brand/100/10 text-brand";
       case "Inspection":
-        return "bg-green-500/10 text-green-500";
+        return "bg-blue-500/10 text-blue-500";
       case "Financial":
         return "bg-yellow-500/10 text-yellow-500";
       case "Marketing":
@@ -632,7 +643,7 @@ export default function Templates() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
-            <FileText className="w-8 h-8" />{t("client.src.templates")}</h1>
+            <FileText className="w-8 h-8" />{t("common.templates")}</h1>
           <p className="text-muted-foreground">{t("client.src.create_and_manage_document")}</p>
         </div>
         <div className="flex items-center gap-2">
@@ -652,7 +663,7 @@ export default function Templates() {
                 <p className="text-sm text-muted-foreground">{t("client.src.total_templates")}</p>
                 <p className="text-2xl font-bold">{templates.length}</p>
               </div>
-              <FileText className="w-8 h-8 text-blue-500" />
+              <FileText className="w-8 h-8 text-brand" />
             </div>
           </CardContent>
         </Card>
@@ -665,7 +676,7 @@ export default function Templates() {
                   {templates.reduce((acc, t) => acc + t.usage.totalUses, 0)}
                 </p>
               </div>
-              <TrendingUp className="w-8 h-8 text-green-500" />
+              <TrendingUp className="w-8 h-8 text-blue-500" />
             </div>
           </CardContent>
         </Card>
@@ -687,7 +698,7 @@ export default function Templates() {
                 <p className="text-sm text-muted-foreground">{t("client.src.folders")}</p>
                 <p className="text-2xl font-bold">{folders.length}</p>
               </div>
-              <Folder className="w-8 h-8 text-purple-500" />
+              <Folder className="w-8 h-8 text-brand" />
             </div>
           </CardContent>
         </Card>
@@ -695,7 +706,7 @@ export default function Templates() {
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="templates">{t("client.src.templates")}</TabsTrigger>
+          <TabsTrigger value="templates">{t("common.templates")}</TabsTrigger>
           <TabsTrigger value="folders">{t("client.src.folders")}</TabsTrigger>
           <TabsTrigger value="usage">{t("client.src.usage_analytics")}</TabsTrigger>
           <TabsTrigger value="create">{t("client.src.create_new")}</TabsTrigger>
@@ -719,7 +730,7 @@ export default function Templates() {
                   opacity: 1,
                   y: 0
                 }} className="flex items-center gap-3 p-3 border rounded-lg hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedTemplate(template)}>
-                          <div className="p-2 rounded-lg bg-blue-500/10">
+                          <div className="p-2 rounded-lg bg-brand/100/10">
                             {getTemplateIcon(template.type)}
                           </div>
                           <div className="flex-1">
@@ -740,7 +751,7 @@ export default function Templates() {
               {recentlyUsed.length > 0 && <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-blue-500" />{t("client.src.recently_used")}</CardTitle>
+                      <Clock className="w-5 h-5 text-brand" />{t("client.src.recently_used")}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
@@ -751,15 +762,15 @@ export default function Templates() {
                   opacity: 1,
                   y: 0
                 }} className="flex items-center gap-3 p-3 border rounded-lg hover:shadow-md transition-shadow cursor-pointer">
-                          <div className="p-2 rounded-lg bg-green-500/10">
-                            <FileText className="w-6 h-6 text-green-500" />
+                          <div className="p-2 rounded-lg bg-blue-500/10">
+                            <FileText className="w-6 h-6 text-blue-500" />
                           </div>
                           <div className="flex-1">
                             <h4 className="font-medium">{usage.templateName}</h4>
                             <p className="text-sm text-gray-500">{t("client.src.used")}{format(new Date(usage.usedAt), "MMM d, yyyy")}
                             </p>
                           </div>
-                          <Button size="sm" variant="outline">
+                          <Button size="sm" variant="outline" aria-label={t("common.view")}>
                             <Eye className="w-4 h-4" />
                           </Button>
                         </m.div>)}
@@ -781,10 +792,10 @@ export default function Templates() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">{t("client.src.all_types")}</SelectItem>
-                    <SelectItem value="document">{t("client.src.documents")}</SelectItem>
+                    <SelectItem value="all">{t("common.all_types")}</SelectItem>
+                    <SelectItem value="document">{t("common.documents")}</SelectItem>
                     <SelectItem value="email">{t("client.src.emails")}</SelectItem>
-                    <SelectItem value="contract">{t("client.src.contracts")}</SelectItem>
+                    <SelectItem value="contract">{t("common.contracts")}</SelectItem>
                     <SelectItem value="report">{t("client.src.reports")}</SelectItem>
                     <SelectItem value="form">{t("client.src.forms")}</SelectItem>
                   </SelectContent>
@@ -817,17 +828,17 @@ export default function Templates() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="name">{t("client.src.name")}</SelectItem>
-                    <SelectItem value="date">{t("client.src.date")}</SelectItem>
+                    <SelectItem value="name">{t("common.name")}</SelectItem>
+                    <SelectItem value="date">{t("common.date")}</SelectItem>
                     <SelectItem value="usage">{t("client.src.usage")}</SelectItem>
                     <SelectItem value="rating">{t("client.src.rating")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <div className="flex items-center gap-2 ml-auto">
-                  <Button variant={viewMode === "grid" ? "default" : "outline"} size="sm" onClick={() => setViewMode("grid")}>
+                  <Button variant={viewMode === "grid" ? "default" : "outline"} size="sm" onClick={() => setViewMode("grid")} aria-label={t("common.grid_view")}>
                     <Grid3X3 className="w-4 h-4" />
                   </Button>
-                  <Button variant={viewMode === "list" ? "default" : "outline"} size="sm" onClick={() => setViewMode("list")}>
+                  <Button variant={viewMode === "list" ? "default" : "outline"} size="sm" onClick={() => setViewMode("list")} aria-label={t("common.list_view")}>
                     <List className="w-4 h-4" />
                   </Button>
                 </div>
@@ -838,7 +849,7 @@ export default function Templates() {
           {/* Templates Grid/List */}
           <Card>
             <CardHeader>
-              <CardTitle>{t("client.src.templates")}{sortedTemplates.length})</CardTitle>
+              <CardTitle>{t("common.templates")}{sortedTemplates.length})</CardTitle>
             </CardHeader>
             <CardContent>
               {viewMode === "grid" ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -850,12 +861,12 @@ export default function Templates() {
                 scale: 1
               }} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedTemplate(template)}>
                       <div className="flex items-start justify-between mb-3">
-                        <div className="p-2 rounded-lg bg-blue-500/10">
+                        <div className="p-2 rounded-lg bg-brand/100/10">
                           {getTemplateIcon(template.type)}
                         </div>
                         <div className="flex items-center gap-1">
                           {template.isFavorite && <Star className="w-4 h-4 text-yellow-500 fill-current" />}
-                          {template.permissions.isPublic ? <Unlock className="w-4 h-4 text-green-500" /> : <LockKeyhole className="w-4 h-4 text-gray-400" />}
+                          {template.permissions.isPublic ? <Unlock className="w-4 h-4 text-blue-500" /> : <LockKeyhole className="w-4 h-4 text-gray-400" />}
                         </div>
                       </div>
                       <h3 className="font-medium mb-1 line-clamp-2">{template.name}</h3>
@@ -892,7 +903,7 @@ export default function Templates() {
                 x: 0
               }} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedTemplate(template)}>
                       <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-lg bg-blue-500/10">
+                        <div className="p-3 rounded-lg bg-brand/100/10">
                           {getTemplateIcon(template.type)}
                         </div>
                         <div className="flex-1">
@@ -913,7 +924,7 @@ export default function Templates() {
                             <div className="flex items-center gap-1">
                               {getRatingStars(template.usage.averageRating)}
                             </div>
-                            {template.permissions.isPublic ? <Unlock className="w-4 h-4 text-green-500" /> : <LockKeyhole className="w-4 h-4 text-gray-400" />}
+                            {template.permissions.isPublic ? <Unlock className="w-4 h-4 text-blue-500" /> : <LockKeyhole className="w-4 h-4 text-gray-400" />}
                           </div>
                           <div className="flex flex-wrap gap-1 mt-2">
                             {template.tags.map(tag => <Badge key={tag} variant="secondary" className="text-xs">
@@ -924,12 +935,12 @@ export default function Templates() {
                         <div className="flex gap-2">
                           <Button size="sm" variant="outline" onClick={e => {
                       e.stopPropagation();
-                      setShowUseDialog(true);
+                      openUseDialog(template);
                     }}>
                             <FilePlus className="w-4 h-4 mr-2" />{t("client.src.use")}</Button>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button size="sm" variant="outline" onClick={e => e.stopPropagation()}>
+                              <Button size="sm" variant="outline" onClick={e => e.stopPropagation()} aria-label={t("common.more")}>
                                 <MoreHorizontal className="w-4 h-4" />
                               </Button>
                             </DropdownMenuTrigger>
@@ -937,16 +948,16 @@ export default function Templates() {
                               <DropdownMenuItem>
                                 <Eye className="w-4 h-4 mr-2" />{t("client.src.preview")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
+                                <Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
                               <DropdownMenuItem>
                                 <Copy className="w-4 h-4 mr-2" />{t("client.src.duplicate")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</DropdownMenuItem>
+                                <Download className="w-4 h-4 mr-2" />{t("common.download")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Share2 className="w-4 h-4 mr-2" />{t("client.src.share")}</DropdownMenuItem>
+                                <Share2 className="w-4 h-4 mr-2" />{t("common.share")}</DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem>
-                                <Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                                <Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </div>
@@ -973,18 +984,18 @@ export default function Templates() {
                 y: 0
               }} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedFolder(folder.id)}>
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 rounded-lg bg-purple-500/10">
-                        <Folder className="w-6 h-6 text-purple-500" />
+                      <div className="p-2 rounded-lg bg-brand/10">
+                        <Folder className="w-6 h-6 text-brand" />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-medium">{folder.name}</h3>
-                        <p className="text-sm text-gray-500">{folder.templateCount}{t("client.src.templates")}</p>
+                        <p className="text-sm text-gray-500">{folder.templateCount}{t("common.templates")}</p>
                       </div>
-                      {folder.isPublic && <Unlock className="w-4 h-4 text-green-500" />}
+                      {folder.isPublic && <Unlock className="w-4 h-4 text-blue-500" />}
                     </div>
                     <p className="text-sm text-gray-600 mb-3">{folder.description}</p>
                     <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>{t("client.src.created")}{format(new Date(folder.createdAt), "MMM d, yyyy")}</span>
+                      <span>{t("common.created")}{format(new Date(folder.createdAt), "MMM d, yyyy")}</span>
                       <span>{folder.path}</span>
                     </div>
                   </m.div>)}
@@ -1030,7 +1041,7 @@ export default function Templates() {
                           <p className="text-sm text-gray-500">{t("client.src.used_by")}{usage.usedByName}{t("client.src.on")}{format(new Date(usage.usedAt), "MMM d, yyyy")}
                           </p>
                         </div>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" aria-label={t("common.view")}>
                           <Eye className="w-4 h-4" />
                         </Button>
                       </div>)}
@@ -1087,8 +1098,8 @@ export default function Templates() {
                 scale: 1
               }} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setShowCreateDialog(true)}>
                     <div className="flex flex-col items-center text-center">
-                      <div className="p-3 rounded-lg bg-blue-500/10 mb-3">
-                        <templateType.icon className="w-8 h-8 text-blue-500" />
+                      <div className="p-3 rounded-lg bg-brand/100/10 mb-3">
+                        <templateType.icon className="w-8 h-8 text-brand" />
                       </div>
                       <h3 className="font-medium mb-1">{templateType.name}</h3>
                       <p className="text-sm text-gray-600">{templateType.description}</p>
@@ -1110,17 +1121,17 @@ export default function Templates() {
             <div className="grid gap-6 py-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm font-medium">{t("client.src.type")}</Label>
+                  <Label className="text-sm font-medium">{t("common.type")}</Label>
                   <p className="text-sm capitalize">{selectedTemplate.type}</p>
                 </div>
                 <div>
-                  <Label className="text-sm font-medium">{t("client.src.category")}</Label>
+                  <Label className="text-sm font-medium">{t("common.category")}</Label>
                   <Badge className={getCategoryColor(selectedTemplate.category)}>
                     {selectedTemplate.category}
                   </Badge>
                 </div>
                 <div>
-                  <Label className="text-sm font-medium">{t("client.src.status")}</Label>
+                  <Label className="text-sm font-medium">{t("common.status")}</Label>
                   <Badge className={getStatusColor(selectedTemplate.status)}>
                     {selectedTemplate.status}
                   </Badge>
@@ -1131,7 +1142,7 @@ export default function Templates() {
                 </div>
               </div>
               <div>
-                <Label className="text-sm font-medium">{t("client.src.description")}</Label>
+                <Label className="text-sm font-medium">{t("common.description")}</Label>
                 <p className="text-sm">{selectedTemplate.description}</p>
               </div>
               <div>
@@ -1155,7 +1166,7 @@ export default function Templates() {
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold">{selectedTemplate.usage.downloads}</p>
-                    <p className="text-sm text-gray-500">{t("client.src.downloads")}</p>
+                    <p className="text-sm text-gray-500">{t("common.downloads")}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold">{selectedTemplate.usage.shares}</p>
@@ -1179,12 +1190,13 @@ export default function Templates() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setSelectedTemplate(null)}>{t("client.src.close")}</Button>
+              <Button variant="outline" onClick={() => setSelectedTemplate(null)}>{t("common.close")}</Button>
               <Button variant="outline">
                 <Edit className="w-4 h-4 mr-2" />{t("client.src.edit_template")}</Button>
               <Button onClick={() => {
-            setShowUseDialog(true);
+            const current = selectedTemplate;
             setSelectedTemplate(null);
+            if (current) openUseDialog(current);
           }}>
                 <FilePlus className="w-4 h-4 mr-2" />{t("client.src.use_template")}</Button>
             </DialogFooter>
@@ -1204,7 +1216,7 @@ export default function Templates() {
                   {variable.label}
                   {variable.required && <span className="text-red-500 ml-1">*</span>}
                 </Label>
-                {variable.type === "textarea" ? <Textarea placeholder={`Enter ${variable.label.toLowerCase()}`} /> : variable.type === "select" ? <Select>
+                {variable.type === "textarea" ? <Textarea placeholder={`Enter ${variable.label.toLowerCase()}`} value={variableValues[variable.key] ?? ""} onChange={e => setVariableValues(prev => ({ ...prev, [variable.key]: e.target.value }))} /> : variable.type === "select" ? <Select value={variableValues[variable.key] ?? ""} onValueChange={v => setVariableValues(prev => ({ ...prev, [variable.key]: v }))}>
                     <SelectTrigger>
                       <SelectValue placeholder={`Select ${variable.label.toLowerCase()}`} />
                     </SelectTrigger>
@@ -1213,12 +1225,27 @@ export default function Templates() {
                           {option}
                         </SelectItem>)}
                     </SelectContent>
-                  </Select> : <Input type={variable.type === "email" ? "email" : variable.type === "number" ? "number" : "text"} placeholder={`Enter ${variable.label.toLowerCase()}`} />}
+                  </Select> : <Input type={variable.type === "email" ? "email" : variable.type === "number" ? "number" : "text"} placeholder={`Enter ${variable.label.toLowerCase()}`} value={variableValues[variable.key] ?? ""} onChange={e => setVariableValues(prev => ({ ...prev, [variable.key]: e.target.value }))} />}
               </div>)}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowUseDialog(false)}>{t("client.src.cancel")}</Button>
-            <Button onClick={() => setShowUseDialog(false)}>
+            <Button variant="outline" onClick={() => setShowUseDialog(false)}>{t("common.cancel")}</Button>
+            <Button onClick={() => {
+            const template = selectedTemplate;
+            if (!template) return;
+            let rendered = template.content;
+            template.variables.forEach(v => {
+              rendered = rendered.replace(new RegExp(`\\{\\{\\s*${v.key}\\s*\\}\\}`, "g"), variableValues[v.key] ?? "");
+            });
+            const blob = new Blob([rendered], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${template.name.replace(/\s+/g, "_").toLowerCase()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            setShowUseDialog(false);
+          }}>
               <FilePlus className="w-4 h-4 mr-2" />{t("client.src.generate_document")}</Button>
           </DialogFooter>
         </DialogContent>

@@ -21,7 +21,7 @@ export function Hero() {
   const coverImage = featuredProp?.photos?.find(p => p.isPrimary)?.url || featuredProp?.photos?.[0]?.url || "";
   if (!featuredProp) {
     return <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-background">
-        <div className="text-center text-muted-foreground">{t("client.src.loading")}</div>
+        <div className="text-center text-muted-foreground">{t("common.loading")}</div>
       </div>;
   }
   return <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -44,7 +44,7 @@ export function Hero() {
         duration: 0.6
       }}>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md mb-6">
-            <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="flex h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
             <span className="text-xs font-medium text-white/90">
               {t("hero.new")}
             </span>

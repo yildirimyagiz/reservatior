@@ -109,7 +109,6 @@ export default function Videos() {
       else if (q.match(/1\\s*m/)) setPriceMax("1000000");
       
       setIsAiSearching(false);
-      setShowFilters(true); // show the updated filters
     }, 1500);
   };
   
@@ -257,7 +256,7 @@ export default function Videos() {
                     </Badge>
                   </div>
                   <div className="bg-black/60 backdrop-blur-xl rounded-2xl px-4 py-2.5 border border-white/10 text-right">
-                    <div className="text-[9px] text-emerald-400 font-bold tracking-widest uppercase mb-0.5">{video.listingType}</div>
+                    <div className="text-[9px] text-success font-bold tracking-widest uppercase mb-0.5">{video.listingType}</div>
                     <div className="text-xl font-black text-white tracking-tight leading-none">{video.price}</div>
                   </div>
                 </div>
@@ -278,8 +277,8 @@ export default function Videos() {
                     {/* Current Room Label & Selectors */}
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
-                        <Circle className="w-2 h-2 fill-emerald-400 text-emerald-400 animate-pulse" />
-                        <span className="text-[10px] text-emerald-400 font-bold tracking-[0.2em]">{t('videos.now_playing', 'NOW PLAYING')}</span>
+                        <Circle className="w-2 h-2 fill-blue-400 text-success animate-pulse" />
+                        <span className="text-[10px] text-success font-bold tracking-[0.2em]">{t('videos.now_playing', 'NOW PLAYING')}</span>
                       </div>
                       <h2 className="text-2xl lg:text-3xl font-black text-white tracking-tight drop-shadow-md">
                         {t(video.rooms?.[isActive ? activeRoom : 0] || video.rooms?.[0] || "room", (video.rooms?.[isActive ? activeRoom : 0] || video.rooms?.[0] || "room").split('.').pop() || "") as string}
@@ -289,7 +288,7 @@ export default function Videos() {
                         {video.rooms?.map((room: string, i: number) => (
                           <button key={i} onClick={() => setActiveRoom(i)}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border border-transparent
-                              ${(isActive ? activeRoom : 0) === i ? "bg-white text-black shadow-lg" : "bg-black/40 text-white/80 hover:bg-black/60 border-white/10 backdrop-blur-md"}`}>
+                              ${(isActive ? activeRoom : 0) === i ? "bg-card text-black shadow-lg" : "bg-black/40 text-white/80 hover:bg-black/60 border-white/10 backdrop-blur-md"}`}>
                             {t(room, room.split('.').pop() || "") as string}
                           </button>
                         ))}
@@ -301,14 +300,14 @@ export default function Videos() {
                       <div className="flex items-center gap-2 flex-wrap">
                         {video.tags?.slice(0, 3).map((tag: string, i: number) => (
                           <Badge key={i} className={`text-[9px] font-bold tracking-wider px-2.5 py-0.5 rounded-sm border border-white/10
-                            ${i === 0 ? "bg-emerald-500/20 text-emerald-400" : "bg-white/10 text-white/80 backdrop-blur-md"}`}>
+                            ${i === 0 ? "bg-success/20 text-success" : "bg-white/10 text-white/80 backdrop-blur-md"}`}>
                             {i === 0 && <Star className="w-2.5 h-2.5 mr-1" />}
                             {tag}
                           </Badge>
                         ))}
                       </div>
                       <h3 className="text-lg lg:text-xl font-bold text-white tracking-wide leading-snug line-clamp-2 drop-shadow-md">{video.title}</h3>
-                      <div className="flex items-center gap-2 text-xs text-slate-300 font-medium">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
                         <div className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{video.location}</div>
                         <span>•</span>
                         <div className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{video.time}</div>
@@ -318,14 +317,14 @@ export default function Videos() {
                     {/* Agency & CTA */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs shadow-lg shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand flex items-center justify-center text-white font-bold text-xs shadow-lg shrink-0">
                           {video.agency.charAt(0)}
                         </div>
                         <span className="text-sm font-semibold text-white/90 truncate max-w-[120px] sm:max-w-none">{video.agency}</span>
                       </div>
                       <button 
                         onClick={() => router.push(`/${i18n.language}/client/property/${video.id}`)}
-                        className="bg-white text-black px-4 py-2 rounded-xl font-bold text-[10px] sm:text-xs tracking-wider uppercase hover:bg-emerald-400 hover:text-white transition-all shadow-xl shadow-black/20 w-fit shrink-0"
+                        className="bg-card text-black px-4 py-2 rounded-xl font-bold text-[10px] sm:text-xs tracking-wider uppercase hover:bg-blue-400 hover:text-white transition-all shadow-xl shadow-black/20 w-fit shrink-0"
                       >
                         {t('videos.view_details', 'VIEW DETAILS')}
                       </button>
@@ -353,7 +352,7 @@ export default function Videos() {
                       <span className="text-[10px] text-white font-bold drop-shadow-md">{t('videos.share', 'SHARE')}</span>
                     </button>
                     <button onClick={() => setIsAiModalOpen(true)} className="flex flex-col items-center gap-1 group mt-1">
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-white flex items-center justify-center hover:scale-110 transition-transform shadow-xl shadow-violet-600/40 border border-white/20">
+                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-violet-600 to-info text-white flex items-center justify-center hover:scale-110 transition-transform shadow-xl shadow-violet-600/40 border border-white/20">
                         <Sparkles className="w-5.5 h-5.5" />
                       </div>
                       <span className="text-[10px] text-white font-bold drop-shadow-md">AI HUB</span>
@@ -408,7 +407,7 @@ export default function Videos() {
                     }
                   }} 
                   className={`w-full group text-left relative overflow-hidden rounded-2xl transition-all duration-300 border flex gap-3 p-2.5 
-                    ${isActive ? "border-blue-500 bg-blue-500/5 dark:bg-[#1A1B1E] shadow-lg shadow-blue-500/10" : "border-border bg-background hover:bg-accent hover:border-border"}`}>
+                    ${isActive ? "border-blue-500 bg-brand/100/5 dark:bg-[#1A1B1E] shadow-lg shadow-blue-500/10" : "border-border bg-background hover:bg-accent hover:border-border"}`}>
                   
                   {/* Thumbnail */}
                   <div className="relative w-[140px] h-[90px] rounded-lg overflow-hidden shrink-0 bg-black">
@@ -450,7 +449,7 @@ export default function Videos() {
                           <span className="text-[6px] font-bold text-white">{p.agency.charAt(0)}</span>
                         </div>
                         <span className="text-[10px] text-muted-foreground truncate">{p.agency}</span>
-                        {p.verified && <Circle className="w-2.5 h-2.5 fill-blue-500 text-blue-500 shrink-0" />}
+                        {p.verified && <Circle className="w-2.5 h-2.5 fill-blue-500 text-brand shrink-0" />}
                       </div>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
@@ -467,15 +466,15 @@ export default function Videos() {
 
           {/* Premium Search CTA */}
           <div className="p-4 border-t border-white/10 shrink-0">
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-violet-600/10 to-blue-600/10 border border-violet-500/10 cursor-pointer hover:bg-white/10 transition-colors">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-600 to-blue-600 flex items-center justify-center shrink-0 shadow-lg shadow-violet-600/20">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-violet-600/10 to-brand/10 border border-violet-500/10 cursor-pointer hover:bg-white/10 transition-colors">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-600 to-brand flex items-center justify-center shrink-0 shadow-lg shadow-violet-600/20">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <div>
                 <div className="text-xs font-bold text-white">{t('videos.premium_search', 'PREMIUM SEARCH')}</div>
-                <div className="text-[10px] text-slate-400">RESERVATIOR EXCLUSIVE</div>
+                <div className="text-[10px] text-muted-foreground">RESERVATIOR EXCLUSIVE</div>
               </div>
-              <div className="ml-auto w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="ml-auto w-3 h-3 rounded-full bg-success animate-pulse" />
             </div>
           </div>
         </div>

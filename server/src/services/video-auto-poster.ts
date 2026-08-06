@@ -61,8 +61,8 @@ export class VideoAutoPosterService {
   }
 
   private async queuePendingVideos(): Promise<number> {
-    const { getRabbitMQService } = require('./rabbitmq-service');
-    const rabbitMQ = getRabbitMQService();
+    const { rabbitMQService } = require('./rabbitmq-service');
+    const rabbitMQ = rabbitMQService;
 
     const config = await getTokens();
     const videos = await prisma.videoContent.findMany({

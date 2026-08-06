@@ -22,15 +22,15 @@ const STATUS: Record<string, {
   cls: string;
 }> = {
   paid: {
-    label: t("client.src.paid"),
-    cls: "bg-green-100 text-green-700"
+    label: t("common.paid"),
+    cls: "bg-blue-100 text-blue-700"
   },
   pending: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     cls: "bg-blue-100 text-blue-700"
   },
   overdue: {
-    label: t("client.src.overdue"),
+    label: t("common.overdue"),
     cls: "bg-red-100 text-red-700"
   },
   partial: {
@@ -73,7 +73,7 @@ export default function RentSchedule() {
       setProperties(propRes || []);
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_load_data"),
         variant: "destructive"
       });
@@ -118,7 +118,7 @@ export default function RentSchedule() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_record_payment"),
         variant: "destructive"
       });
@@ -161,20 +161,20 @@ export default function RentSchedule() {
       label: t("client.src.total_payments"),
       value: payments.length
     }, {
-      label: t("client.src.pending"),
+      label: t("common.processing"),
       value: payments.filter(r => r.status === 'pending').length
     }, {
-      label: t("client.src.overdue"),
+      label: t("common.overdue"),
       value: payments.filter(r => r.status === 'overdue').length
     }, {
       label: t("client.src.total_received"),
       value: `$${payments.filter(r => r.status === 'paid').reduce((s, r) => s + (Number(r.amount) || 0), 0).toLocaleString()}`
-    }]} actions={<Button variant="outline" size="icon" onClick={fetchData} disabled={loading}>
+    }]} actions={<Button variant="outline" size="icon" aria-label={t("common.refresh")} onClick={fetchData} disabled={loading}>
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>} filters={<Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-40 h-9"><SelectValue placeholder={t("client.src.status")} /></SelectTrigger>
+            <SelectTrigger className="w-40 h-9"><SelectValue placeholder={t("common.status")} /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">{t("client.src.all_status")}</SelectItem>
+              <SelectItem value="all">{t("common.all_status")}</SelectItem>
               {Object.keys(STATUS).map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
             </SelectContent>
           </Select>}>
@@ -184,9 +184,9 @@ export default function RentSchedule() {
               <TableRow>
                 <TableHead>{t("client.src.tenant_property")}</TableHead>
                 <TableHead>{t("client.src.lease_id")}</TableHead>
-                <TableHead>{t("client.src.amount")}</TableHead>
-                <TableHead>{t("client.src.date")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.amount")}</TableHead>
+                <TableHead>{t("common.date")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -206,10 +206,10 @@ export default function RentSchedule() {
                       </TableCell>
                       <TableCell>
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive font-medium"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive font-medium"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -240,11 +240,11 @@ export default function RentSchedule() {
               </Select>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5"><Label>{t("client.src.amount")}</Label><Input type="number" value={form.amount} onChange={e => setForm({
+              <div className="space-y-1.5"><Label>{t("common.amount")}</Label><Input type="number" value={form.amount} onChange={e => setForm({
                 ...form,
                 amount: e.target.value
               })} required placeholder="0.00" /></div>
-              <div className="space-y-1.5"><Label>{t("client.src.date")}</Label><Input type="date" value={form.dueDate} onChange={e => setForm({
+              <div className="space-y-1.5"><Label>{t("common.date")}</Label><Input type="date" value={form.dueDate} onChange={e => setForm({
                 ...form,
                 dueDate: e.target.value
               })} /></div>
@@ -258,11 +258,11 @@ export default function RentSchedule() {
         <DialogContent className="sm:max-w-lg">
           <DialogHeader><DialogTitle>{t("client.src.edit_payment_record")}</DialogTitle></DialogHeader>
           <form onSubmit={handleEdit} className="space-y-4 py-2">
-            <div className="space-y-1.5"><Label>{t("client.src.amount")}</Label><Input type="number" value={form.amount} onChange={e => setForm({
+            <div className="space-y-1.5"><Label>{t("common.amount")}</Label><Input type="number" value={form.amount} onChange={e => setForm({
               ...form,
               amount: e.target.value
             })} required /></div>
-            <div className="space-y-1.5"><Label>{t("client.src.status")}</Label>
+            <div className="space-y-1.5"><Label>{t("common.status")}</Label>
               <Select value={form.status} onValueChange={v => setForm({
               ...form,
               status: v
@@ -273,7 +273,7 @@ export default function RentSchedule() {
                 </SelectContent>
               </Select>
             </div>
-            <DialogFooter className="pt-2"><Button type="submit">{t("client.src.save_changes")}</Button></DialogFooter>
+            <DialogFooter className="pt-2"><Button type="submit">{t("common.save")}</Button></DialogFooter>
           </form>
         </DialogContent>
       </Dialog>

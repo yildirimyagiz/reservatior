@@ -8,6 +8,8 @@ import {
   Building2,
   Star,
   ArrowRight,
+  DollarSign,
+  Scale
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,6 +32,9 @@ export function RentalYieldCalculator({
   const { yieldInput, yieldOutput, setYieldInput, calculatePropertyYield, isCalculating } =
     useInvestmentIntelligenceStore();
   const [selectedCity, setSelectedCity] = useState(initialCity);
+  const [platformCommission, setPlatformCommission] = useState(5);
+  const [maintenancePercent, setMaintenancePercent] = useState(2);
+  const [taxPercent, setTaxPercent] = useState(8);
 
   const handleCalculate = useCallback(() => {
     calculatePropertyYield();
@@ -37,6 +42,11 @@ export function RentalYieldCalculator({
 
   const cityData = getCityData(selectedCity);
   const districts = getDistricts(selectedCity);
+
+  const totalDeductions = platformCommission + maintenancePercent + taxPercent;
+  const customNetYield = yieldOutput
+    ? Math.max(0, Math.round((yieldOutput.grossYield - totalDeductions) * 100) / 100)
+    : 0;
 
   return (
     <div className={embedded ? "" : "max-w-5xl mx-auto px-4 py-8"}>
@@ -155,6 +165,58 @@ export function RentalYieldCalculator({
                 />
               </div>
 
+              <div className="space-y-3 pt-4 border-t border-border/60">
+                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider block">Net Yield Adjusters</span>
+                
+                <div className="space-y-1">
+                  <div className="flex justify-between text-xs font-semibold">
+                    <Label className="text-muted-foreground">Platform Commission</Label>
+                    <span className="text-blue-500 font-bold">{platformCommission}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="15"
+                    step="0.5"
+                    value={platformCommission}
+                    onChange={(e) => setPlatformCommission(parseFloat(e.target.value))}
+                    className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-blue-500"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <div className="flex justify-between text-xs font-semibold">
+                    <Label className="text-muted-foreground">Est. Maintenance & Reserve</Label>
+                    <span className="text-blue-500 font-bold">{maintenancePercent}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="10"
+                    step="0.5"
+                    value={maintenancePercent}
+                    onChange={(e) => setMaintenancePercent(parseFloat(e.target.value))}
+                    className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-blue-500"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <div className="flex justify-between text-xs font-semibold">
+                    <Label className="text-muted-foreground">Taxes & Other Costs</Label>
+                    <span className="text-blue-500 font-bold">{taxPercent}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="20"
+                    step="0.5"
+                    value={taxPercent}
+                    onChange={(e) => setTaxPercent(parseFloat(e.target.value))}
+                    className="w-full h-1.5 bg-muted rounded-lg appearance-none cursor-pointer accent-blue-500"
+                  />
+                </div>
+              </div>
+
               <Button
                 onClick={handleCalculate}
                 disabled={isCalculating}
@@ -175,15 +237,15 @@ export function RentalYieldCalculator({
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <Card>
                   <CardContent className="p-4 text-center">
-                    <Percent className="w-5 h-5 mx-auto mb-1 text-emerald-400" />
-                    <p className="text-2xl font-bold text-emerald-400">{yieldOutput.grossYield}%</p>
+                    <Percent className="w-5 h-5 mx-auto mb-1 text-success" />
+                    <p className="text-2xl font-bold text-success">{yieldOutput.grossYield}%</p>
                     <p className="text-xs text-muted-foreground">Gross Yield</p>
                   </CardContent>
                 </Card>
-                <Card>
+                 <Card>
                   <CardContent className="p-4 text-center">
-                    <TrendingUp className="w-5 h-5 mx-auto mb-1 text-blue-400" />
-                    <p className="text-2xl font-bold text-blue-400">{yieldOutput.netYield}%</p>
+                    <TrendingUp className="w-5 h-5 mx-auto mb-1 text-brand" />
+                    <p className="text-2xl font-bold text-brand">{customNetYield}%</p>
                     <p className="text-xs text-muted-foreground">Net Yield</p>
                   </CardContent>
                 </Card>
@@ -200,7 +262,7 @@ export function RentalYieldCalculator({
                     <Badge
                       className={
                         yieldOutput.riskLevel === "LOW"
-                          ? "bg-emerald-500/20 text-emerald-400"
+                          ? "bg-success/20 text-success"
                           : yieldOutput.riskLevel === "MEDIUM"
                           ? "bg-yellow-500/20 text-yellow-400"
                           : "bg-red-500/20 text-red-400"
@@ -212,6 +274,46 @@ export function RentalYieldCalculator({
                   </CardContent>
                 </Card>
               </div>
+
+              {/* Gross vs Net Breakdown Card */}
+              <Card className="bg-gradient-to-br from-blue-500/5 to-purple-500/5 border border-blue-500/10">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Scale className="w-4 h-4 text-blue-500" />
+                    Gross vs Net Yield Breakdown
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Initial Gross Yield</span>
+                    <span className="font-semibold text-success">{yieldOutput.grossYield}%</span>
+                  </div>
+                  
+                  <div className="space-y-1.5 pt-2 border-t border-border/50 text-xs">
+                    <div className="flex justify-between items-center text-muted-foreground">
+                      <span>- Platform Commission</span>
+                      <span>{platformCommission}%</span>
+                    </div>
+                    <div className="flex justify-between items-center text-muted-foreground">
+                      <span>- Maintenance & Reserves</span>
+                      <span>{maintenancePercent}%</span>
+                    </div>
+                    <div className="flex justify-between items-center text-muted-foreground">
+                      <span>- Local Taxes & Insurance</span>
+                      <span>{taxPercent}%</span>
+                    </div>
+                    <div className="flex justify-between items-center text-red-400 font-medium">
+                      <span>Total Estimated Deductions</span>
+                      <span>-{totalDeductions}%</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2.5 border-t border-border font-bold text-sm">
+                    <span className="text-foreground">Estimated Net Yield</span>
+                    <span className="text-blue-500 text-base">{customNetYield}%</span>
+                  </div>
+                </CardContent>
+              </Card>
 
               {/* Market Benchmark */}
               {cityData && (
@@ -230,13 +332,13 @@ export function RentalYieldCalculator({
                       </div>
                       <div className="text-center">
                         <p className="text-sm text-muted-foreground">Your Yield</p>
-                        <p className={`text-lg font-semibold ${yieldOutput.grossYield >= cityData.grossYield ? "text-emerald-400" : "text-orange-400"}`}>
+                        <p className={`text-lg font-semibold ${yieldOutput.grossYield >= cityData.grossYield ? "text-success" : "text-orange-400"}`}>
                           {yieldOutput.grossYield}%
                         </p>
                       </div>
                       <div className="text-center">
                         <p className="text-sm text-muted-foreground">vs Market</p>
-                        <p className={`text-lg font-semibold ${yieldOutput.grossYield >= cityData.grossYield ? "text-emerald-400" : "text-orange-400"}`}>
+                        <p className={`text-lg font-semibold ${yieldOutput.grossYield >= cityData.grossYield ? "text-success" : "text-orange-400"}`}>
                           {yieldOutput.grossYield >= cityData.grossYield ? "+" : ""}
                           {(yieldOutput.grossYield - cityData.grossYield).toFixed(1)}%
                         </p>
@@ -276,7 +378,7 @@ export function RentalYieldCalculator({
                               }`}
                             >
                               <td className="py-2 font-medium">{d.name}</td>
-                              <td className="text-right py-2 text-emerald-400">{d.grossYield}%</td>
+                              <td className="text-right py-2 text-success">{d.grossYield}%</td>
                               <td className="text-right py-2">{d.appreciation}%</td>
                               <td className="text-right py-2">{d.walkabilityScore}/100</td>
                               <td className="text-right py-2">

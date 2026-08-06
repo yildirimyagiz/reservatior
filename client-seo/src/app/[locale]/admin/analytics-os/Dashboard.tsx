@@ -2,6 +2,8 @@
 
 
 import { useLocalization } from "@/contexts/LocalizationContext";
+import { useTranslation } from "react-i18next";
+import { tEnum } from "@/lib/admin-enums";
 import { useQuery } from "@tanstack/react-query";
 import { analyticsOSApi } from "@/lib/api/analytics-os";
 import { 
@@ -22,6 +24,7 @@ import { useAuth } from "@/lib/auth";
 export default function AnalyticsOSDashboard() {
   const { user } = useAuth();
   const { language } = useLocalization();
+  const { t } = useTranslation();
   const orgId = user?.organizationId || "";
 
   const { data: dashboardStats, isLoading } = useQuery({
@@ -54,67 +57,67 @@ export default function AnalyticsOSDashboard() {
 
   const kpis = [
     {
-      title: "Total Queries",
+      title: t("admin_analytics_os_total_queries", "Toplam Sorgu"),
       value: formatNumber(stats.totalQueries),
       icon: Database,
       color: "text-blue-600",
-      trend: "+32.5% vs last month",
+      trend: `+32.5% ${t("admin_analytics_os_vs_last_month", "geçen aya göre")}`,
       trendUp: true,
     },
     {
-      title: "Successful Queries",
+      title: t("admin_analytics_os_successful_queries", "Başarılı Sorgular"),
       value: formatNumber(stats.successfulQueries),
       icon: CheckCircle,
-      color: "text-green-600",
-      trend: "+28.7% vs last month",
+      color: "text-blue-600",
+      trend: `+28.7% ${t("admin_analytics_os_vs_last_month", "geçen aya göre")}`,
       trendUp: true,
     },
     {
-      title: "Dashboards",
+      title: t("admin_analytics_os_dashboards", "Panolar"),
       value: formatNumber(stats.totalDashboards),
       icon: BarChart3,
-      color: "text-purple-600",
-      trend: "+15.3% vs last month",
+      color: "text-brand",
+      trend: `+15.3% ${t("admin_analytics_os_vs_last_month", "geçen aya göre")}`,
       trendUp: true,
     },
     {
-      title: "Dashboard Views",
+      title: t("admin_analytics_os_dashboard_views", "Pano Görüntülemeleri"),
       value: formatNumber(stats.dashboardViews),
       icon: Activity,
       color: "text-orange-600",
-      trend: "+42.1% vs last month",
+      trend: `+42.1% ${t("admin_analytics_os_vs_last_month", "geçen aya göre")}`,
       trendUp: true,
     },
     {
-      title: "Reports Generated",
+      title: t("admin_analytics_os_reports_generated", "Oluşturulan Raporlar"),
       value: formatNumber(stats.totalReports),
       icon: FileText,
-      color: "text-emerald-600",
-      trend: "+22.8% vs last month",
+      color: "text-blue-600",
+      trend: `+22.8% ${t("admin_analytics_os_vs_last_month", "geçen aya göre")}`,
       trendUp: true,
     },
     {
-      title: "Insights Generated",
+      title: t("admin_analytics_os_insights_generated", "Oluşturulan İçgörüler"),
       value: formatNumber(stats.insightsGenerated),
       icon: TrendingUp,
-      color: "text-indigo-600",
-      trend: "+35.4% vs last month",
+      color: "text-brand",
+      trend: `+35.4% ${t("admin_analytics_os_vs_last_month", "geçen aya göre")}`,
       trendUp: true,
     },
     {
-      title: "Data Points",
+      title: t("admin_analytics_os_data_points", "Veri Noktaları"),
       value: formatNumber(stats.dataPointsProcessed),
       icon: Database,
       color: "text-pink-600",
-      trend: "+55.2% vs last month",
+      trend: `+55.2% ${t("admin_analytics_os_vs_last_month", "geçen aya göre")}`,
       trendUp: true,
     },
     {
-      title: "Cache Hit Rate",
+      title: t("admin_analytics_os_cache_hit_rate", "Önbellek İsabet Oranı"),
       value: `${stats.cacheHitRate.toFixed(1)}%`,
       icon: Zap,
       color: "text-cyan-600",
-      trend: "+8.6% vs last month",
+      trend: `+8.6% ${t("admin_analytics_os_vs_last_month", "geçen aya göre")}`,
       trendUp: true,
     },
   ];
@@ -124,15 +127,15 @@ export default function AnalyticsOSDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Analytics OS Dashboard</h1>
-          <p className="text-gray-600 mt-1">Monitor and manage analytics operations</p>
+          <h1 className="text-3xl font-bold text-foreground">{t("admin_analytics_os_dashboard_title", "Analytics OS Panosu")}</h1>
+          <p className="text-muted-foreground mt-1">{t("admin_analytics_os_dashboard_desc", "Analitik işlemlerini izleyin ve yönetin")}</p>
         </div>
         <div className="flex gap-3">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-            New Query
+          <button className="px-4 py-2 bg-primary text-primary-foreground text-white rounded-lg hover:bg-primary/90 transition">
+            {t("admin_analytics_os_new_query", "Yeni Sorgu")}
           </button>
-          <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-            Create Dashboard
+          <button className="px-4 py-2 border border-border rounded-lg hover:bg-muted transition">
+            {t("admin_analytics_os_create_dashboard", "Pano Oluştur")}
           </button>
         </div>
       </div>
@@ -142,23 +145,23 @@ export default function AnalyticsOSDashboard() {
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">{kpi.value}</p>
+                  <p className="text-sm font-medium text-muted-foreground">{kpi.title}</p>
+                  <p className="text-2xl font-bold text-foreground mt-2">{kpi.value}</p>
                   <div className="flex items-center gap-1 mt-1">
                     {kpi.trendUp ? (
-                      <ArrowUpRight className="w-4 h-4 text-green-600" />
+                      <ArrowUpRight className="w-4 h-4 text-blue-600" />
                     ) : (
                       <ArrowDownRight className="w-4 h-4 text-red-600" />
                     )}
-                    <p className={`text-sm ${kpi.trendUp ? 'text-green-600' : 'text-red-600'}`}>
+                    <p className={`text-sm ${kpi.trendUp ? 'text-blue-600' : 'text-red-600'}`}>
                       {kpi.trend}
                     </p>
                   </div>
                 </div>
-                <div className={`p-3 bg-gray-50 rounded-lg ${kpi.color}`}>
+                <div className={`p-3 bg-muted rounded-lg ${kpi.color}`}>
                   <Icon className="w-6 h-6" />
                 </div>
               </div>
@@ -170,46 +173,46 @@ export default function AnalyticsOSDashboard() {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Query Performance Chart */}
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Query Performance</h2>
-            <Clock className="w-5 h-5 text-gray-500" />
+            <h2 className="text-lg font-semibold text-foreground">{t("admin_analytics_os_query_performance", "Sorgu Performansı")}</h2>
+            <Clock className="w-5 h-5 text-muted-foreground" />
           </div>
-          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <p className="text-gray-500">Query performance chart will be rendered here</p>
+          <div className="h-64 flex items-center justify-center bg-muted rounded-lg">
+            <p className="text-muted-foreground">{t("admin_analytics_os_query_performance_placeholder", "Sorgu performansı grafiği burada gösterilecek")}</p>
           </div>
         </div>
 
         {/* Data Processing Chart */}
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Data Processing</h2>
-            <Database className="w-5 h-5 text-gray-500" />
+            <h2 className="text-lg font-semibold text-foreground">{t("admin_analytics_os_data_processing", "Veri İşleme")}</h2>
+            <Database className="w-5 h-5 text-muted-foreground" />
           </div>
-          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <p className="text-gray-500">Data processing chart will be rendered here</p>
+          <div className="h-64 flex items-center justify-center bg-muted rounded-lg">
+            <p className="text-muted-foreground">{t("admin_analytics_os_data_processing_placeholder", "Veri işleme grafiği burada gösterilecek")}</p>
           </div>
         </div>
       </div>
 
       {/* Recent Queries */}
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Queries</h2>
+      <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
+        <h2 className="text-lg font-semibold text-foreground mb-4">{t("admin_analytics_os_recent_queries", "Son Sorgular")}</h2>
         <div className="space-y-4">
           {[1, 2, 3, 4, 5].map((item) => (
-            <div key={item} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div key={item} className="flex items-center justify-between p-4 bg-muted rounded-lg">
               <div className="flex items-center gap-4">
                 <div className="p-2 bg-blue-100 rounded-lg">
                   <Database className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Query #{1000 + item}</p>
-                  <p className="text-sm text-gray-600">Revenue Analysis • {item * 150}ms</p>
+                  <p className="font-medium text-foreground">{t("admin_analytics_os_query_number", "Sorgu #")}{1000 + item}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_analytics_os_revenue_analysis", "Gelir Analizi")} • {item * 150}ms</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="font-medium text-gray-900">Completed</p>
-                <p className="text-sm text-gray-600">{item} minute(s) ago</p>
+                <p className="font-medium text-foreground">{tEnum(t, "Completed")}</p>
+                <p className="text-sm text-muted-foreground">{item} {t("admin_common_minutes_ago", "dakika önce")}</p>
               </div>
             </div>
           ))}
@@ -217,49 +220,49 @@ export default function AnalyticsOSDashboard() {
       </div>
 
       {/* System Performance */}
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">System Performance</h2>
+      <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
+        <h2 className="text-lg font-semibold text-foreground mb-4">{t("admin_analytics_os_system_performance", "Sistem Performansı")}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-            <h3 className="font-semibold text-green-900">Excellent</h3>
-            <p className="text-sm text-green-700 mt-1">Cache performance</p>
-            <p className="text-2xl font-bold text-green-900 mt-2">92%</p>
-            <p className="text-xs text-green-600">cache hit rate</p>
+          <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <h3 className="font-semibold text-blue-900">{t("admin_common_excellent", "Mükemmel")}</h3>
+            <p className="text-sm text-blue-700 mt-1">{t("admin_analytics_os_cache_performance", "Önbellek performansı")}</p>
+            <p className="text-2xl font-bold text-blue-900 mt-2">92%</p>
+            <p className="text-xs text-blue-600">{t("admin_analytics_os_cache_hit_rate_sub", "önbellek isabet oranı")}</p>
           </div>
           <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <h3 className="font-semibold text-blue-900">Good</h3>
-            <p className="text-sm text-blue-700 mt-1">Query latency</p>
+            <h3 className="font-semibold text-blue-900">{t("admin_common_good", "İyi")}</h3>
+            <p className="text-sm text-blue-700 mt-1">{t("admin_analytics_os_query_latency", "Sorgu gecikmesi")}</p>
             <p className="text-2xl font-bold text-blue-900 mt-2">45ms</p>
-            <p className="text-xs text-blue-600">average response</p>
+            <p className="text-xs text-blue-600">{t("admin_analytics_os_average_response", "ortalama yanıt")}</p>
           </div>
-          <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
-            <h3 className="font-semibold text-purple-900">Optimal</h3>
-            <p className="text-sm text-purple-700 mt-1">Data freshness</p>
-            <p className="text-2xl font-bold text-purple-900 mt-2">5min</p>
-            <p className="text-xs text-purple-600">average data age</p>
+          <div className="p-4 bg-brand/10 border border-purple-200 rounded-lg">
+            <h3 className="font-semibold text-brand">{t("admin_common_optimal", "Optimal")}</h3>
+            <p className="text-sm text-brand mt-1">{t("admin_analytics_os_data_freshness", "Veri tazeliği")}</p>
+            <p className="text-2xl font-bold text-brand mt-2">5min</p>
+            <p className="text-xs text-brand">{t("admin_analytics_os_average_data_age", "ortalama veri yaşı")}</p>
           </div>
         </div>
       </div>
 
       {/* Alerts Section */}
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">System Alerts</h2>
+          <h2 className="text-lg font-semibold text-foreground">{t("admin_analytics_os_system_alerts", "Sistem Uyarıları")}</h2>
           <AlertTriangle className="w-5 h-5 text-yellow-500" />
         </div>
         <div className="space-y-3">
           <div className="flex items-start gap-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
             <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
             <div>
-              <p className="font-medium text-yellow-900">High query latency detected</p>
-              <p className="text-sm text-yellow-700">Query latency increased by 15% in the last hour</p>
+              <p className="font-medium text-yellow-900">{t("admin_analytics_os_high_query_latency_detected", "Yüksek sorgu gecikmesi tespit edildi")}</p>
+              <p className="text-sm text-yellow-700">{t("admin_analytics_os_query_latency_increased", "Sorgu gecikmesi son bir saatte %15 arttı")}</p>
             </div>
           </div>
-          <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+          <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5" />
             <div>
-              <p className="font-medium text-green-900">Insight generation milestone achieved</p>
-              <p className="text-sm text-green-700">Generated 1,000+ insights this week</p>
+              <p className="font-medium text-blue-900">{t("admin_analytics_os_insight_milestone_achieved", "İçgörü üretim hedefine ulaşıldı")}</p>
+              <p className="text-sm text-blue-700">{t("admin_analytics_os_generated_insights", "Bu hafta 1.000+ içgörü üretildi")}</p>
             </div>
           </div>
         </div>

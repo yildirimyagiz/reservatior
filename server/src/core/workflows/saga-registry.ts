@@ -63,6 +63,11 @@ import { registerIntelligenceFeedbackLoopListeners } from './intelligence-feedba
 import { registerIntelligencePipelineListeners }      from './intelligence-pipeline.saga';
 import { registerDecisionExecutionListeners }         from './decision-execution.saga';
 import { registerRevenueLifecycleListeners }          from './revenue-lifecycle.saga';
+import { registerHybridRentalOnboardingListeners }   from './hybrid-rental-onboarding.saga';
+import { registerInsurancePolicyListeners }          from './insurance-policy.saga';
+import { registerInsuranceClaimsListeners }          from './insurance-claims.saga';
+import { registerRentalFinancePaymentListeners }     from './rental-finance-payment.saga';
+import { registerRentalFinanceRiskListeners }        from './rental-finance-risk.saga';
 
 // ── Listeners listener (no BaseSaga) ──────────────────────────────────────────
 import { registerAiMarketingListeners } from './listeners/ai-marketing.listener';
@@ -133,6 +138,15 @@ export async function initAllSagas(): Promise<void> {
   registerPropertyIntelligenceListeners();   // ← NEW: Phase 5 intelligence pipeline
   registerListingPipelineListeners();
   registerListingManagementListeners();
+  registerHybridRentalOnboardingListeners(); // ← NEW: Hybrid Rental & Revenue OS Saga
+
+  // ── Insurance OS ─────────────────────────────────────────────────────────
+  registerInsurancePolicyListeners();        // ← NEW: Insurance OS Policy Lifecycle Saga
+  registerInsuranceClaimsListeners();        // ← NEW: Insurance OS Claims Lifecycle Saga
+
+  // ── Rental Finance OS ────────────────────────────────────────────────────
+  registerRentalFinancePaymentListeners();   // ← NEW: Rental Finance OS Plan Activation Saga
+  registerRentalFinanceRiskListeners();      // ← NEW: Rental Finance OS Late Payment Risk Saga
 
   // ── Agent ────────────────────────────────────────────────────────────────
   registerAgentOnboardingListeners();
@@ -220,7 +234,7 @@ export async function initAllSagas(): Promise<void> {
   registerDecisionExecutionListeners();
   registerRevenueLifecycleListeners();
 
-  console.log('[SagaRegistry] ✅ All saga listeners registered (48 sagas) + Phase 7 agents.');
+  console.log('[SagaRegistry] ✅ All saga listeners registered (52 sagas) + Phase 7 agents.');
 
   // ── Startup Recovery ──────────────────────────────────────────────────────
   await recoverIncompleteSagas();

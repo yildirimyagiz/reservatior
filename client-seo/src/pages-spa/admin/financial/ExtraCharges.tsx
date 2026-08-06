@@ -1,11 +1,11 @@
 "use client";
 import { apiClient } from '@/lib/api/client';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
@@ -255,7 +255,7 @@ export default function ExtraCharges() {
  }, {
  label: t("admin_financial_total_value"),
  value: `$${charges.reduce((s, r) => s + r.amount, 0).toLocaleString()}`
- }]} actions={<Button variant="outline" size="icon" className="h-9 w-9" onClick={fetchCharges} disabled={loading}>
+ }]} actions={<Button variant="outline" size="icon" aria-label={t("common.refresh")} className="h-9 w-9" onClick={fetchCharges} disabled={loading}>
  <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
  </Button>}>
  <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
@@ -300,7 +300,7 @@ export default function ExtraCharges() {
  })}
  </TableCell>
  <TableCell>
- {row.isPaid ? <div className="flex items-center gap-1 text-[11px] text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded-full w-fit">
+ {row.isPaid ? <div className="flex items-center gap-1 text-[11px] text-blue-600 font-medium bg-blue-50 px-2 py-0.5 rounded-full w-fit">
  <CheckCircle2 className="w-3 h-3" />{t("admin_financial_paid")}</div> : <div className="flex items-center gap-1 text-[11px] text-yellow-600 font-medium bg-yellow-50 px-2 py-0.5 rounded-full w-fit">
  <Clock className="w-3 h-3" />{t("admin_financial_unpaid")}</div>}
  </TableCell>
@@ -310,7 +310,7 @@ export default function ExtraCharges() {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button>
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="w-32">
  <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("admin_financial_edit")}</DropdownMenuItem>

@@ -40,10 +40,10 @@ const mockDocuments: DocumentRecord[] = [
 
 const STATUS_COLORS: Record<string, string> = {
   PENDING: "bg-yellow-500/20 text-yellow-400",
-  RECEIVED: "bg-blue-500/20 text-blue-400",
-  VERIFIED: "bg-green-500/20 text-green-400",
+  RECEIVED: "bg-blue-500/20 text-info",
+  VERIFIED: "bg-blue-500/20 text-blue-400",
   EXPIRED: "bg-red-500/20 text-red-400",
-  REJECTED: "bg-slate-500/20 text-slate-400",
+  REJECTED: "bg-muted text-muted-foreground",
 };
 
 export default function AdminImmigrationPage() {
@@ -150,8 +150,8 @@ export default function AdminImmigrationPage() {
                     <div className="flex items-center gap-4">
                       <Badge className={STATUS_COLORS[doc.status]}>{t("admin_immigration_status_" + doc.status.toLowerCase())}</Badge>
                       <div className="flex gap-2">
-                        <Button onClick={() => { setEditingItem(doc); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                        <Button onClick={() => { setDeletingItem(doc); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setEditingItem(doc); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setDeletingItem(doc); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                       </div>
                     </div>
                   </div>

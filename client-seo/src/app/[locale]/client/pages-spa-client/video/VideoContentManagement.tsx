@@ -16,6 +16,7 @@ import { Video, Upload, Wand2, Sparkles, Play, Pause, SkipForward, Download, Tra
 import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { apiClient } from "@/lib/api/client";
+import { videoApi } from "@/lib/api/video";
 import { Share2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -180,11 +181,11 @@ const LORA_STYLES = [{
 }, {
   id: "LUXURY",
   name: "Luxury",
-  color: "from-violet-500 to-purple-600"
+  color: "from-violet-500 to-brand"
 }, {
   id: "MODERN",
   name: "Modern",
-  color: "from-blue-500 to-blue-600"
+  color: "from-blue-500 to-brand"
 }, {
   id: "WARM",
   name: "Warm & Cozy",
@@ -192,11 +193,11 @@ const LORA_STYLES = [{
 }, {
   id: "AERIAL",
   name: "Aerial",
-  color: "from-indigo-500 to-emerald-600"
+  color: "from-brand to-blue-600"
 }, {
   id: "TWILIGHT",
   name: "Twilight",
-  color: "from-indigo-500 to-blue-600"
+  color: "from-brand to-brand"
 }];
 const PLATFORMS = [{
   id: "YOUTUBE",
@@ -312,6 +313,54 @@ export default function VideoContentManagement() {
     prompt: "",
     duration: 30
   });
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleGenerateVideo = async () => {
+    if (!newProject.title.trim()) {
+      toast.error("Lütfen proje başlığı girin");
+      return;
+    }
+    setIsGenerating(true);
+    try {
+      const created = await videoApi.generateVideo({
+        title: newProject.title,
+        platform: newProject.platform,
+        pipeline: newProject.pipeline,
+        primaryLoraStyle: newProject.loraStyle,
+        prompt: newProject.prompt,
+        durationSeconds: newProject.duration,
+        status: "PROCESSING"
+      });
+      setProjects(prev => [{
+        id: created.id,
+        title: created.title || newProject.title,
+        propertyName: "",
+        status: "processing",
+        pipeline: created.pipeline || newProject.pipeline,
+        loraStyle: newProject.loraStyle,
+        platform: created.platform || newProject.platform,
+        progress: 5,
+        aiEngine: "ComfyUI + LoRA",
+        thumbnailUrl: created.thumbnailUrl || "",
+        url: created.url,
+        createdAt: created.createdAt || new Date().toISOString()
+      }, ...prev]);
+      setShowCreateDialog(false);
+      setNewProject({
+        title: "",
+        propertyId: "",
+        pipeline: "COMFYUI",
+        loraStyle: "CINEMATIC",
+        platform: "YOUTUBE",
+        prompt: "",
+        duration: 30
+      });
+    } catch (err: any) {
+      toast.error("Video oluşturulurken bir hata oluştu: " + (err.message || err));
+    } finally {
+      setIsGenerating(false);
+    }
+  };
   useEffect(() => {
     setProjects([{
       id: "v1",
@@ -373,14 +422,14 @@ export default function VideoContentManagement() {
     dot: string;
   }> = {
     draft: {
-      label: t("client.src.draft"),
-      color: "bg-slate-500/10 text-slate-400 border-slate-500/20",
-      dot: "bg-slate-500"
+      label: t("common.draft"),
+      color: "bg-muted text-muted-foreground border-slate-500/20",
+      dot: "bg-muted0"
     },
     processing: {
       label: t("client.src.ai_processing"),
-      color: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-      dot: "bg-blue-500 animate-pulse"
+      color: "bg-brand/100/10 text-brand border-blue-500/20",
+      dot: "bg-brand/100 animate-pulse"
     },
     rendering: {
       label: t("client.src.rendering"),
@@ -388,12 +437,12 @@ export default function VideoContentManagement() {
       dot: "bg-amber-500 animate-pulse"
     },
     completed: {
-      label: t("client.src.completed"),
-      color: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-      dot: "bg-emerald-500"
+      label: t("common.completed"),
+      color: "bg-success/10 text-success border-success/20",
+      dot: "bg-success"
     },
     failed: {
-      label: t("client.src.failed"),
+      label: t("common.failed"),
       color: "bg-rose-500/10 text-rose-400 border-rose-500/20",
       dot: "bg-rose-500"
     }
@@ -408,7 +457,7 @@ export default function VideoContentManagement() {
     setShowEditorPanel(true);
   };
   const toolsByCategory = AI_TOOLS.filter(t => t.category === activeToolCategory);
-  return <div className="p-8 space-y-8 bg-[#0a0b0d] min-h-full text-slate-200 selection:bg-blue-500/30">
+  return <div className="p-8 space-y-8 bg-[#0a0b0d] min-h-full text-foreground selection:bg-brand/100/30">
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1">
@@ -416,7 +465,7 @@ export default function VideoContentManagement() {
             <div className="p-2.5 bg-violet-600/10 rounded-2xl border border-violet-600/20 shadow-lg shadow-violet-600/10">
               <Clapperboard className="w-8 h-8 text-violet-500" />
             </div>{t("client.src.video_content_studio")}</h1>
-          <p className="text-slate-400 font-medium ml-1">{t("client.src.aipowered_cinematic_video_production")}</p>
+          <p className="text-muted-foreground font-medium ml-1">{t("client.src.aipowered_cinematic_video_production")}</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -436,22 +485,22 @@ export default function VideoContentManagement() {
         label: t("client.src.ai_processing"),
         value: projects.filter(p => p.status === "processing" || p.status === "rendering").length,
         icon: <Cpu className="w-4 h-4" />,
-        accent: "text-blue-400"
+        accent: "text-brand"
       }, {
-        label: t("client.src.completed"),
+        label: t("common.completed"),
         value: projects.filter(p => p.status === "completed").length,
         icon: <Play className="w-4 h-4" />,
-        accent: "text-emerald-400"
+        accent: "text-success"
       }, {
         label: t("client.src.avg_duration"),
         value: `${Math.round(projects.reduce((a, p) => a + (p.duration || 0), 0) / Math.max(projects.length, 1))}s`,
         icon: <Clock className="w-4 h-4" />,
         accent: "text-amber-400"
-      }].map((stat, i) => <Card key={i} className="bg-[#14151a]/60 border-slate-800/50 backdrop-blur-xl rounded-2xl p-4">
+      }].map((stat, i) => <Card key={i} className="bg-background/60 border-border backdrop-blur-xl rounded-2xl p-4">
             <div className="flex items-center gap-3">
-              <div className={cn("p-2 rounded-xl bg-slate-900/50 border border-white/5", stat.accent)}>{stat.icon}</div>
+              <div className={cn("p-2 rounded-xl bg-card/50 border border-white/5", stat.accent)}>{stat.icon}</div>
               <div>
-                <div className="text-[10px] font-bold text-slate-500 tracking-widest">{stat.label}</div>
+                <div className="text-[10px] font-bold text-muted-foreground tracking-widest">{stat.label}</div>
                 <div className={cn("text-xl font-bold text-white")}>{stat.value}</div>
               </div>
             </div>
@@ -461,30 +510,30 @@ export default function VideoContentManagement() {
       {/* ── Tabs ───────────────────────────────────────────────────────── */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <div className="flex items-center justify-between">
-          <TabsList className="bg-[#14151a] border border-slate-800/50 rounded-xl p-1">
-            <TabsTrigger value="projects" className="rounded-lg data-[state=active]:bg-violet-600 data-[state=active]:text-white text-slate-400 px-4">
+          <TabsList className="bg-background border border-border rounded-xl p-1">
+            <TabsTrigger value="projects" className="rounded-lg data-[state=active]:bg-violet-600 data-[state=active]:text-white text-muted-foreground px-4">
               <Film className="w-4 h-4 mr-2" />{t("client.src.projects")}</TabsTrigger>
-            <TabsTrigger value="ai-editor" className="rounded-lg data-[state=active]:bg-violet-600 data-[state=active]:text-white text-slate-400 px-4">
+            <TabsTrigger value="ai-editor" className="rounded-lg data-[state=active]:bg-violet-600 data-[state=active]:text-white text-muted-foreground px-4">
               <Wand2 className="w-4 h-4 mr-2" />{t("client.src.ai_editor")}</TabsTrigger>
-            <TabsTrigger value="pipelines" className="rounded-lg data-[state=active]:bg-violet-600 data-[state=active]:text-white text-slate-400 px-4">
+            <TabsTrigger value="pipelines" className="rounded-lg data-[state=active]:bg-violet-600 data-[state=active]:text-white text-muted-foreground px-4">
               <Cpu className="w-4 h-4 mr-2" />{t("client.src.pipelines")}</TabsTrigger>
           </TabsList>
 
           <div className="flex gap-2">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-              <Input placeholder={t("client.src.search_videos")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-9 bg-[#14151a] border-slate-800/50 rounded-xl h-10 w-56 text-sm" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input placeholder={t("client.src.search_videos")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-9 bg-background border-border rounded-xl h-10 w-56 text-sm" />
             </div>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="bg-[#14151a] border-slate-800/50 rounded-xl h-10 w-36 text-sm">
-                <Filter className="w-3 h-3 mr-2 text-slate-500" /><SelectValue />
+              <SelectTrigger className="bg-background border-border rounded-xl h-10 w-36 text-sm">
+                <Filter className="w-3 h-3 mr-2 text-muted-foreground" /><SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-slate-900 border-slate-800 text-white">
-                <SelectItem value="all">{t("client.src.all_status")}</SelectItem>
-                <SelectItem value="draft">{t("client.src.draft")}</SelectItem>
-                <SelectItem value="processing">{t("client.src.processing")}</SelectItem>
+              <SelectContent className="bg-card border-border text-white">
+                <SelectItem value="all">{t("common.all_status")}</SelectItem>
+                <SelectItem value="draft">{t("common.draft")}</SelectItem>
+                <SelectItem value="processing">{t("common.processing")}</SelectItem>
                 <SelectItem value="rendering">{t("client.src.rendering")}</SelectItem>
-                <SelectItem value="completed">{t("client.src.completed")}</SelectItem>
+                <SelectItem value="completed">{t("common.completed")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -504,7 +553,7 @@ export default function VideoContentManagement() {
             }} transition={{
               delay: idx * 0.08
             }}>
-                  <Card className="bg-[#14151a]/60 border-slate-800/50 rounded-3xl overflow-hidden hover:border-violet-600/30 transition-all group cursor-pointer" onClick={() => openEditor(project)}>
+                  <Card className="bg-background/60 border-border rounded-3xl overflow-hidden hover:border-violet-600/30 transition-all group cursor-pointer" onClick={() => openEditor(project)}>
                     {/* Thumbnail Area */}
                     <div className="h-44 bg-gradient-to-br from-slate-900 to-slate-950 relative overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-t from-[#14151a] to-transparent z-10" />
@@ -534,25 +583,25 @@ export default function VideoContentManagement() {
                     <CardContent className="p-5 space-y-3">
                       <div>
                         <h3 className="text-sm font-bold text-white group-hover:text-violet-300 transition-colors truncate">{project.title}</h3>
-                        <p className="text-[10px] text-slate-500 mt-0.5">{project.propertyName} · {project.aiEngine}</p>
+                        <p className="text-[10px] text-muted-foreground mt-0.5">{project.propertyName} · {project.aiEngine}</p>
                       </div>
 
                       {(project.status === "processing" || project.status === "rendering") && <div className="space-y-1.5">
                           <div className="flex justify-between text-[10px]">
-                            <span className="text-slate-500 font-bold tracking-widest">
+                            <span className="text-muted-foreground font-bold tracking-widest">
                               {project.status === "processing" ? "AI Processing" : "GPU Rendering"}
                             </span>
                             <span className="text-violet-400 font-bold">{project.progress}%</span>
                           </div>
-                          <Progress value={project.progress} className="h-1.5 bg-slate-800" />
+                          <Progress value={project.progress} className="h-1.5 bg-muted" />
                         </div>}
 
                       <div className="flex items-center justify-between pt-1">
                         <div className="flex gap-1.5">
-                          <Badge variant="outline" className="text-[8px] font-bold border-slate-700 text-slate-400">
+                          <Badge variant="outline" className="text-[8px] font-bold border-border text-muted-foreground">
                             {project.loraStyle}
                           </Badge>
-                          <Badge variant="outline" className="text-[8px] font-bold border-slate-700 text-slate-400">
+                          <Badge variant="outline" className="text-[8px] font-bold border-border text-muted-foreground">
                             {project.pipeline}
                           </Badge>
                         </div>
@@ -561,7 +610,7 @@ export default function VideoContentManagement() {
                             <Button 
                               variant="ghost" 
                               size="sm" 
-                              className="h-7 px-2.5 text-[10px] text-emerald-400 hover:text-white hover:bg-emerald-600/10 rounded-lg flex items-center"
+                              className="h-7 px-2.5 text-[10px] text-success hover:text-white hover:bg-blue-600/10 rounded-lg flex items-center"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleOpenShareDialog(project);
@@ -572,7 +621,7 @@ export default function VideoContentManagement() {
                             </Button>
                           )}
                           <Button variant="ghost" size="sm" className="h-7 px-3 text-[10px] text-violet-400 hover:text-white hover:bg-violet-600/10 rounded-lg">
-                            <Wand2 className="w-3 h-3 mr-1" />{t("client.src.edit")}</Button>
+                            <Wand2 className="w-3 h-3 mr-1" />{t("common.edit")}</Button>
                         </div>
                       </div>
                     </CardContent>
@@ -587,7 +636,7 @@ export default function VideoContentManagement() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Preview Surface */}
             <div className="lg:col-span-8">
-              <Card className="bg-[#14151a]/60 border-slate-800/50 rounded-4xl overflow-hidden">
+              <Card className="bg-background/60 border-border rounded-4xl overflow-hidden">
                 <div className="aspect-video bg-gradient-to-br from-slate-900 via-slate-950 to-black relative flex items-center justify-center">
                   {selectedProject ? <>
                       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDQwIEwgNDAgNDAgNDAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-50" />
@@ -596,28 +645,28 @@ export default function VideoContentManagement() {
                           <Play className="w-8 h-8 text-violet-400 ml-1" />
                         </div>
                         <h3 className="text-lg font-bold text-white">{selectedProject.title}</h3>
-                        <p className="text-xs text-slate-500">{selectedProject.aiEngine} · {selectedProject.duration}{t("client.src.s")}{selectedProject.platform}</p>
+                        <p className="text-xs text-muted-foreground">{selectedProject.aiEngine} · {selectedProject.duration}{t("client.src.s")}{selectedProject.platform}</p>
                       </div>
                     </> : <div className="text-center space-y-3 z-10">
-                      <div className="w-16 h-16 rounded-2xl bg-slate-800/50 flex items-center justify-center mx-auto border border-white/5">
-                        <Video className="w-7 h-7 text-slate-600" />
+                      <div className="w-16 h-16 rounded-2xl bg-muted/50 flex items-center justify-center mx-auto border border-white/5">
+                        <Video className="w-7 h-7 text-muted-foreground" />
                       </div>
-                      <p className="text-sm text-slate-500">{t("client.src.select_a_project_or")}</p>
+                      <p className="text-sm text-muted-foreground">{t("client.src.select_a_project_or")}</p>
                     </div>}
                 </div>
 
                 {/* Timeline */}
-                <div className="p-4 border-t border-white/5 bg-slate-950/50">
+                <div className="p-4 border-t border-white/5 bg-muted/50">
                   <div className="flex items-center gap-3 mb-3">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-white rounded-lg"><SkipForward className="w-4 h-4 rotate-180" /></Button>
-                    <Button size="icon" className="h-9 w-9 bg-violet-600 hover:bg-violet-500 text-white rounded-full shadow-lg"><Play className="w-4 h-4 ml-0.5" /></Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-white rounded-lg"><SkipForward className="w-4 h-4" /></Button>
-                    <div className="flex-1 h-8 bg-slate-900 rounded-lg border border-white/5 relative overflow-hidden">
+                    <Button variant="ghost" size="icon" aria-label={t("common.skip")} className="h-8 w-8 text-muted-foreground hover:text-white rounded-lg"><SkipForward className="w-4 h-4 rotate-180" /></Button>
+                    <Button size="icon" aria-label={t("common.play")} className="h-9 w-9 bg-violet-600 hover:bg-violet-500 text-white rounded-full shadow-lg"><Play className="w-4 h-4 ml-0.5" /></Button>
+                    <Button variant="ghost" size="icon" aria-label={t("common.skip")} className="h-8 w-8 text-muted-foreground hover:text-white rounded-lg"><SkipForward className="w-4 h-4" /></Button>
+                    <div className="flex-1 h-8 bg-card rounded-lg border border-white/5 relative overflow-hidden">
                       <div className="absolute inset-y-0 left-0 w-1/3 bg-violet-600/20 border-r border-violet-500/50" />
                       <div className="absolute inset-y-0 left-[33%] w-1/4 bg-blue-600/20 border-r border-blue-500/50" />
-                      <div className="absolute inset-y-0 left-[58%] w-1/4 bg-emerald-600/20 border-r border-emerald-500/50" />
+                      <div className="absolute inset-y-0 left-[58%] w-1/4 bg-blue-600/20 border-r border-blue-500/50" />
                     </div>
-                    <span className="text-[10px] text-slate-500 font-mono whitespace-nowrap">00:00 / {selectedProject?.duration || "00"}s</span>
+                    <span className="text-[10px] text-muted-foreground font-mono whitespace-nowrap">00:00 / {selectedProject?.duration || "00"}s</span>
                   </div>
                 </div>
               </Card>
@@ -625,7 +674,7 @@ export default function VideoContentManagement() {
 
             {/* AI Tools Panel */}
             <div className="lg:col-span-4 space-y-4">
-              <Card className="bg-[#14151a]/60 border-slate-800/50 rounded-4xl overflow-hidden">
+              <Card className="bg-background/60 border-border rounded-4xl overflow-hidden">
                 <CardHeader className="pb-3 border-b border-white/5">
                   <CardTitle className="text-sm font-bold text-white flex items-center gap-2">
                     <Wand2 className="w-4 h-4 text-violet-500" />{t("client.src.ai_video_tools")}</CardTitle>
@@ -657,7 +706,7 @@ export default function VideoContentManagement() {
                     id: "3d",
                     label: "3D",
                     icon: <Box className="w-3 h-3" />
-                  }].map(cat => <Button key={cat.id} variant="ghost" size="sm" className={cn("h-7 px-2.5 text-[10px] font-bold rounded-lg transition-all", activeToolCategory === cat.id ? "bg-violet-600 text-white shadow-lg" : "text-slate-500 hover:text-white hover:bg-slate-800")} onClick={() => setActiveToolCategory(cat.id)}>
+                  }].map(cat => <Button key={cat.id} variant="ghost" size="sm" className={cn("h-7 px-2.5 text-[10px] font-bold rounded-lg transition-all", activeToolCategory === cat.id ? "bg-violet-600 text-white shadow-lg" : "text-muted-foreground hover:text-white hover:bg-muted")} onClick={() => setActiveToolCategory(cat.id)}>
                         {cat.icon}<span className="ml-1">{cat.label}</span>
                       </Button>)}
                   </div>
@@ -677,7 +726,7 @@ export default function VideoContentManagement() {
                     }} transition={{
                       delay: idx * 0.05
                     }}>
-                          <div className={cn("flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all group", "bg-slate-900/40 border-white/5 hover:border-violet-600/30 hover:bg-violet-600/5")}>
+                          <div className={cn("flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all group", "bg-card/40 border-white/5 hover:border-violet-600/30 hover:bg-violet-600/5")}>
                             <div className="w-9 h-9 rounded-lg bg-violet-600/10 border border-violet-600/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
                               {tool.icon}
                             </div>
@@ -686,9 +735,9 @@ export default function VideoContentManagement() {
                                 <span className="text-xs font-bold text-white">{tool.name}</span>
                                 {tool.isPremium && <Badge className="bg-amber-500/10 text-amber-400 border-amber-500/20 text-[7px] font-black h-3.5 px-1">{t("client.src.pro")}</Badge>}
                               </div>
-                              <p className="text-[10px] text-slate-500 truncate">{tool.description}</p>
+                              <p className="text-[10px] text-muted-foreground truncate">{tool.description}</p>
                             </div>
-                            <ChevronRight className="w-3.5 h-3.5 text-slate-700 group-hover:text-violet-400 transition-colors" />
+                            <ChevronRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-violet-400 transition-colors" />
                           </div>
                         </m.div>)}
                     </AnimatePresence>
@@ -697,7 +746,7 @@ export default function VideoContentManagement() {
               </Card>
 
               {/* Engine Status */}
-              <Card className="bg-gradient-to-br from-violet-600/10 to-indigo-600/5 border-slate-800/50 rounded-4xl p-5">
+              <Card className="bg-gradient-to-br from-violet-600/10 to-info/5 border-border rounded-4xl p-5">
                 <h4 className="text-xs font-bold text-white mb-3 flex items-center gap-2">
                   <Cpu className="w-3.5 h-3.5 text-violet-400" />{t("client.src.engine_status")}</h4>
                 <div className="space-y-2">
@@ -719,10 +768,10 @@ export default function VideoContentManagement() {
                   latency: "45ms"
                 }].map(engine => <div key={engine.name} className="flex items-center justify-between py-1.5">
                       <div className="flex items-center gap-2">
-                        <div className={cn("w-1.5 h-1.5 rounded-full", engine.status === "online" ? "bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.6)]" : engine.status === "standby" ? "bg-amber-500" : "bg-slate-600")} />
-                        <span className="text-[10px] text-slate-300 font-medium">{engine.name}</span>
+                        <div className={cn("w-1.5 h-1.5 rounded-full", engine.status === "online" ? "bg-success shadow-[0_0_6px_rgba(16,185,129,0.6)]" : engine.status === "standby" ? "bg-amber-500" : "bg-muted")} />
+                        <span className="text-[10px] text-muted-foreground font-medium">{engine.name}</span>
                       </div>
-                      <span className="text-[9px] text-slate-500 font-mono">{engine.latency}</span>
+                      <span className="text-[9px] text-muted-foreground font-mono">{engine.latency}</span>
                     </div>)}
                 </div>
               </Card>
@@ -742,29 +791,29 @@ export default function VideoContentManagement() {
           }} transition={{
             delay: idx * 0.1
           }}>
-                <Card className="bg-[#14151a]/60 border-slate-800/50 rounded-4xl p-6 hover:border-violet-600/30 transition-all group cursor-pointer">
+                <Card className="bg-background/60 border-border rounded-4xl p-6 hover:border-violet-600/30 transition-all group cursor-pointer">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-xl bg-violet-600/10 border border-violet-600/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
                       {pipe.icon}
                     </div>
                     <div className="flex-1">
                       <h3 className="text-sm font-bold text-white mb-1">{pipe.name}</h3>
-                      <p className="text-[10px] text-slate-500 mb-4">{pipe.desc}</p>
+                      <p className="text-[10px] text-muted-foreground mb-4">{pipe.desc}</p>
                       <div className="grid grid-cols-3 gap-3">
-                        <div className="bg-slate-900/50 rounded-xl p-2.5 border border-white/5">
-                          <div className="text-[8px] text-slate-500 tracking-widest">{t("client.src.speed")}</div>
+                        <div className="bg-card/50 rounded-xl p-2.5 border border-white/5">
+                          <div className="text-[8px] text-muted-foreground tracking-widest">{t("client.src.speed")}</div>
                           <div className="text-xs font-bold text-white mt-0.5">
                             {pipe.id === "KREA_REALTIME" ? "⚡ Fast" : pipe.id === "RUNPOD" ? "🔥 Medium" : "⏱️ Standard"}
                           </div>
                         </div>
-                        <div className="bg-slate-900/50 rounded-xl p-2.5 border border-white/5">
-                          <div className="text-[8px] text-slate-500 tracking-widest">{t("client.src.quality")}</div>
+                        <div className="bg-card/50 rounded-xl p-2.5 border border-white/5">
+                          <div className="text-[8px] text-muted-foreground tracking-widest">{t("client.src.quality")}</div>
                           <div className="text-xs font-bold text-white mt-0.5">
                             {pipe.id === "COMFYUI" ? "Ultra" : pipe.id === "RUNPOD" ? "High" : pipe.id === "A1111" ? "High" : "Preview"}
                           </div>
                         </div>
-                        <div className="bg-slate-900/50 rounded-xl p-2.5 border border-white/5">
-                          <div className="text-[8px] text-slate-500 tracking-widest">{t("client.src.cost")}</div>
+                        <div className="bg-card/50 rounded-xl p-2.5 border border-white/5">
+                          <div className="text-[8px] text-muted-foreground tracking-widest">{t("client.src.cost")}</div>
                           <div className="text-xs font-bold text-white mt-0.5">
                             {pipe.id === "KREA_REALTIME" ? "Free" : pipe.id === "A1111" ? "Free" : pipe.id === "COMFYUI" ? "$0.05" : "$0.25"}
                           </div>
@@ -777,13 +826,13 @@ export default function VideoContentManagement() {
           </div>
 
           {/* LoRA Styles Showcase */}
-          <Card className="bg-[#14151a]/60 border-slate-800/50 rounded-4xl p-6">
+          <Card className="bg-background/60 border-border rounded-4xl p-6">
             <h3 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
               <Palette className="w-4 h-4 text-violet-400" />{t("client.src.lora_style_library")}</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
               {LORA_STYLES.map(style => <div key={style.id} className="group cursor-pointer">
                   <div className={cn("h-20 rounded-xl bg-gradient-to-br mb-2 border border-white/10 group-hover:scale-105 transition-transform shadow-lg", style.color)} />
-                  <p className="text-[10px] font-bold text-slate-300 text-center">{style.name}</p>
+                  <p className="text-[10px] font-bold text-muted-foreground text-center">{style.name}</p>
                 </div>)}
             </div>
           </Card>
@@ -792,31 +841,31 @@ export default function VideoContentManagement() {
 
       {/* ── Create New Video Dialog ────────────────────────────────────── */}
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-        <DialogContent className="bg-[#14151a] border-slate-800 text-white rounded-4xl max-w-2xl p-0 shadow-[0_0_60px_rgba(0,0,0,0.5)]">
+        <DialogContent className="bg-background border-border text-white rounded-4xl max-w-2xl p-0 shadow-[0_0_60px_rgba(0,0,0,0.5)]">
           <div className="p-8 space-y-6">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold flex items-center gap-2">
                 <Sparkles className="w-6 h-6 text-violet-500" />{t("client.src.new_ai_video_project")}</DialogTitle>
-              <DialogDescription className="text-slate-400">{t("client.src.configure_your_aipowered_cinematic")}</DialogDescription>
+              <DialogDescription className="text-muted-foreground">{t("client.src.configure_your_aipowered_cinematic")}</DialogDescription>
             </DialogHeader>
 
             <div className="grid gap-5">
               <div className="grid grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">{t("client.src.project_title")}</label>
+                  <label className="text-[10px] font-bold text-muted-foreground tracking-widest ml-1">{t("client.src.project_title")}</label>
                   <Input placeholder={t("client.src.eg_luxury_penthouse_tour")} value={newProject.title} onChange={e => setNewProject({
                   ...newProject,
                   title: e.target.value
-                })} className="bg-slate-950 border-slate-800 rounded-xl h-11" />
+                })} className="bg-muted border-border rounded-xl h-11" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">{t("client.src.target_platform")}</label>
+                  <label className="text-[10px] font-bold text-muted-foreground tracking-widest ml-1">{t("client.src.target_platform")}</label>
                   <Select value={newProject.platform} onValueChange={v => setNewProject({
                   ...newProject,
                   platform: v
                 })}>
-                    <SelectTrigger className="bg-slate-950 border-slate-800 rounded-xl h-11"><SelectValue /></SelectTrigger>
-                    <SelectContent className="bg-slate-900 border-slate-800 text-white">
+                    <SelectTrigger className="bg-muted border-border rounded-xl h-11"><SelectValue /></SelectTrigger>
+                    <SelectContent className="bg-card border-border text-white">
                       {PLATFORMS.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
                     </SelectContent>
                   </Select>
@@ -825,25 +874,25 @@ export default function VideoContentManagement() {
 
               <div className="grid grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">{t("client.src.ai_pipeline")}</label>
+                  <label className="text-[10px] font-bold text-muted-foreground tracking-widest ml-1">{t("client.src.ai_pipeline")}</label>
                   <Select value={newProject.pipeline} onValueChange={v => setNewProject({
                   ...newProject,
                   pipeline: v
                 })}>
-                    <SelectTrigger className="bg-slate-950 border-slate-800 rounded-xl h-11"><SelectValue /></SelectTrigger>
-                    <SelectContent className="bg-slate-900 border-slate-800 text-white">
+                    <SelectTrigger className="bg-muted border-border rounded-xl h-11"><SelectValue /></SelectTrigger>
+                    <SelectContent className="bg-card border-border text-white">
                       {PIPELINES.map(p => <SelectItem key={p.id} value={p.id}>{p.name} — {p.desc}</SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">{t("client.src.lora_style")}</label>
+                  <label className="text-[10px] font-bold text-muted-foreground tracking-widest ml-1">{t("client.src.lora_style")}</label>
                   <Select value={newProject.loraStyle} onValueChange={v => setNewProject({
                   ...newProject,
                   loraStyle: v
                 })}>
-                    <SelectTrigger className="bg-slate-950 border-slate-800 rounded-xl h-11"><SelectValue /></SelectTrigger>
-                    <SelectContent className="bg-slate-900 border-slate-800 text-white">
+                    <SelectTrigger className="bg-muted border-border rounded-xl h-11"><SelectValue /></SelectTrigger>
+                    <SelectContent className="bg-card border-border text-white">
                       {LORA_STYLES.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
                     </SelectContent>
                   </Select>
@@ -851,27 +900,27 @@ export default function VideoContentManagement() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">{t("client.src.ai_prompt_direction")}</label>
+                <label className="text-[10px] font-bold text-muted-foreground tracking-widest ml-1">{t("client.src.ai_prompt_direction")}</label>
                 <Textarea placeholder={t("client.src.describe_the_cinematic_style")} value={newProject.prompt} onChange={e => setNewProject({
                 ...newProject,
                 prompt: e.target.value
-              })} className="bg-slate-950 border-slate-800 rounded-xl min-h-[80px] text-sm" />
+              })} className="bg-muted border-border rounded-xl min-h-[80px] text-sm" />
               </div>
 
               {/* Photo Upload Zone */}
-              <div className="border-2 border-dashed border-slate-700 rounded-2xl p-8 text-center hover:border-violet-600/50 transition-colors cursor-pointer">
+              <div className="border-2 border-dashed border-border rounded-2xl p-8 text-center hover:border-violet-600/50 transition-colors cursor-pointer">
                 <div className="w-12 h-12 rounded-xl bg-violet-600/10 border border-violet-600/20 flex items-center justify-center mx-auto mb-3">
                   <ImagePlus className="w-5 h-5 text-violet-400" />
                 </div>
-                <p className="text-xs font-bold text-slate-300">{t("client.src.drop_property_photos_here")}</p>
-                <p className="text-[10px] text-slate-500 mt-1">{t("client.src.or_click_to_browse")}</p>
+                <p className="text-xs font-bold text-muted-foreground">{t("client.src.drop_property_photos_here")}</p>
+                <p className="text-[10px] text-muted-foreground mt-1">{t("client.src.or_click_to_browse")}</p>
               </div>
             </div>
 
             <DialogFooter className="pt-4 border-t border-white/5">
-              <Button variant="ghost" className="text-slate-400" onClick={() => setShowCreateDialog(false)}>{t("client.src.cancel")}</Button>
-              <Button onClick={() => setShowCreateDialog(false)} className="bg-violet-600 hover:bg-violet-500 px-8 rounded-xl h-11 font-bold shadow-lg shadow-violet-600/20">
-                <Wand2 className="w-4 h-4 mr-2" />{t("client.src.generate_video")}</Button>
+              <Button variant="ghost" className="text-muted-foreground" onClick={() => setShowCreateDialog(false)}>{t("common.cancel")}</Button>
+              <Button onClick={handleGenerateVideo} disabled={isGenerating} className="bg-violet-600 hover:bg-violet-500 px-8 rounded-xl h-11 font-bold shadow-lg shadow-violet-600/20">
+                <Wand2 className="w-4 h-4 mr-2" />{isGenerating ? t("common.processing") : t("client.src.generate_video")}</Button>
             </DialogFooter>
           </div>
         </DialogContent>
@@ -879,14 +928,14 @@ export default function VideoContentManagement() {
 
       {/* ── Share on Social Networks Dialog ──────────────────────────────── */}
       <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
-        <DialogContent className="bg-[#14151a] border-slate-800 text-white rounded-4xl max-w-xl p-0 shadow-[0_0_60px_rgba(0,0,0,0.5)]">
+        <DialogContent className="bg-background border-border text-white rounded-4xl max-w-xl p-0 shadow-[0_0_60px_rgba(0,0,0,0.5)]">
           <div className="p-8 space-y-6">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold flex items-center gap-2">
-                <Share2 className="w-6 h-6 text-emerald-500" />
+                <Share2 className="w-6 h-6 text-success" />
                 Sosyal Ağlarda Paylaş
               </DialogTitle>
-              <DialogDescription className="text-slate-400">
+              <DialogDescription className="text-muted-foreground">
                 AI tarafından oluşturulan video klibi ve ilanı otomatik hashtagler ve mentionlar ile Twitter&apos;da paylaşın.
               </DialogDescription>
             </DialogHeader>
@@ -894,26 +943,26 @@ export default function VideoContentManagement() {
             <div className="space-y-4">
               {/* Project Title */}
               <div>
-                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">Video Başlığı</label>
-                <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-sm text-slate-200 mt-1">
+                <label className="text-[10px] font-bold text-muted-foreground tracking-widest ml-1">Video Başlığı</label>
+                <div className="bg-muted p-3 rounded-xl border border-border text-sm text-foreground mt-1">
                   {sharingProject?.title}
                 </div>
               </div>
 
               {/* Mention Input */}
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">Acente / Ofis Mention Etiketi</label>
+                <label className="text-[10px] font-bold text-muted-foreground tracking-widest ml-1">Acente / Ofis Mention Etiketi</label>
                 <Input 
                   value={customMention} 
                   onChange={e => setCustomMention(e.target.value)} 
                   placeholder="@douglaselliman" 
-                  className="bg-slate-950 border-slate-800 rounded-xl h-11"
+                  className="bg-muted border-border rounded-xl h-11"
                 />
               </div>
 
               {/* AI Generated Hashtags */}
               <div>
-                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">Yapay Zeka Hashtagleri</label>
+                <label className="text-[10px] font-bold text-muted-foreground tracking-widest ml-1">Yapay Zeka Hashtagleri</label>
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   {generatedHashtags.map(tag => {
                     const isSelected = selectedHashtags.includes(tag);
@@ -924,8 +973,8 @@ export default function VideoContentManagement() {
                         className={cn(
                           "cursor-pointer text-[10px] py-1 px-2.5 rounded-lg border transition-all",
                           isSelected 
-                            ? "bg-emerald-600/20 text-emerald-400 border-emerald-500/30" 
-                            : "bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700"
+                            ? "bg-blue-600/20 text-success border-blue-500/30" 
+                            : "bg-muted text-muted-foreground border-border hover:border-border"
                         )}
                       >
                         #{tag}
@@ -937,7 +986,7 @@ export default function VideoContentManagement() {
 
               {/* Trending Hashtags */}
               <div>
-                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">Popüler Hashtag Önerileri</label>
+                <label className="text-[10px] font-bold text-muted-foreground tracking-widest ml-1">Popüler Hashtag Önerileri</label>
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   {trendingHashtags.map(tag => {
                     const isSelected = selectedHashtags.includes(tag);
@@ -948,8 +997,8 @@ export default function VideoContentManagement() {
                         className={cn(
                           "cursor-pointer text-[10px] py-1 px-2.5 rounded-lg border transition-all",
                           isSelected 
-                            ? "bg-blue-600/20 text-blue-400 border-blue-500/30" 
-                            : "bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700"
+                            ? "bg-blue-600/20 text-brand border-blue-500/30" 
+                            : "bg-muted text-muted-foreground border-border hover:border-border"
                         )}
                       >
                         #{tag}
@@ -961,8 +1010,8 @@ export default function VideoContentManagement() {
 
               {/* Preview post content */}
               <div>
-                <label className="text-[10px] font-bold text-slate-500 tracking-widest ml-1">Paylaşım Metni Önizlemesi</label>
-                <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 font-mono mt-1 leading-relaxed">
+                <label className="text-[10px] font-bold text-muted-foreground tracking-widest ml-1">Paylaşım Metni Önizlemesi</label>
+                <div className="bg-muted p-4 rounded-xl border border-border text-xs text-muted-foreground font-mono mt-1 leading-relaxed">
                   🏠 {sharingProject?.title} <br />
                   📍 {sharingProject?.propertyName || "Manhattan, NY"} <br />
                   🔑 Kiralık İlan Videosu yayında! {customMention} <br /><br />
@@ -972,11 +1021,11 @@ export default function VideoContentManagement() {
             </div>
 
             <DialogFooter className="pt-4 border-t border-white/5">
-              <Button variant="ghost" className="text-slate-400" onClick={() => setShowShareDialog(false)}>İptal</Button>
+              <Button variant="ghost" className="text-muted-foreground" onClick={() => setShowShareDialog(false)}>İptal</Button>
               <Button 
                 onClick={handleShareSubmit} 
                 disabled={isSharing}
-                className="bg-emerald-600 hover:bg-emerald-500 px-8 rounded-xl h-11 font-bold shadow-lg shadow-emerald-600/20"
+                className="bg-blue-600 hover:bg-success px-8 rounded-xl h-11 font-bold shadow-lg shadow-blue-600/20"
               >
                 {isSharing ? "Paylaşılıyor..." : "Twitter'da Paylaş"}
               </Button>

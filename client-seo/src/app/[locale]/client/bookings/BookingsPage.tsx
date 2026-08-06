@@ -66,13 +66,13 @@ const mockBookings: Booking[] = [
 
 const statusConfig: Record<BookingStatus, { label: string; color: string }> = {
   PENDING: { label: "Pending", color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" },
-  CONFIRMED: { label: "Confirmed", color: "bg-green-500/20 text-green-400 border-green-500/30" },
+  CONFIRMED: { label: "Confirmed", color: "bg-blue-500/20 text-blue-400 border-blue-500/30" },
   CANCELLED: { label: "Cancelled", color: "bg-red-500/20 text-red-400 border-red-500/30" },
-  COMPLETED: { label: "Completed", color: "bg-blue-500/20 text-blue-400 border-blue-500/30" }
+  COMPLETED: { label: "Completed", color: "bg-brand/100/20 text-brand border-blue-500/30" }
 };
 
 const riskConfig: Record<SecurityRiskLevel, { label: string; icon: React.ComponentType<{ className?: string }>; color: string }> = {
-  LOW: { label: "Low Risk", icon: CheckCircle, color: "text-green-400" },
+  LOW: { label: "Low Risk", icon: CheckCircle, color: "text-blue-400" },
   MEDIUM: { label: "Medium Risk", icon: AlertCircle, color: "text-yellow-400" },
   HIGH: { label: "High Risk", icon: Shield, color: "text-red-400" }
 };
@@ -111,7 +111,7 @@ export default function BookingsPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("bookings.bookingspage.auto_ext_3")}
@@ -126,15 +126,15 @@ export default function BookingsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm text-gray-400 mb-1">{t("bookings.bookingspage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">${totalRevenue.toLocaleString()}</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-green-500/10">
-                    <Zap className="w-6 h-6 text-green-400" />
+                  <div className="p-3 rounded-lg bg-blue-500/10">
+                    <Zap className="w-6 h-6 text-blue-400" />
                   </div>
                 </div>
               </CardContent>
@@ -146,7 +146,7 @@ export default function BookingsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -166,15 +166,15 @@ export default function BookingsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm text-gray-400 mb-1">{t("bookings.bookingspage.auto_ext_6")}</div>
                     <div className="text-2xl font-bold text-white">{verifiedCount}</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-blue-500/10">
-                    <Shield className="w-6 h-6 text-blue-400" />
+                  <div className="p-3 rounded-lg bg-brand/100/10">
+                    <Shield className="w-6 h-6 text-brand" />
                   </div>
                 </div>
               </CardContent>
@@ -189,7 +189,7 @@ export default function BookingsPage() {
           transition={{ delay: 0.4 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -199,7 +199,7 @@ export default function BookingsPage() {
                       placeholder="Search by guest name..."
                       value={filters.search}
                       onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                      className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
@@ -207,10 +207,10 @@ export default function BookingsPage() {
                   value={filters.status}
                   onValueChange={(value) => setFilters({ ...filters, status: value as BookingStatus | undefined })}
                 >
-                  <SelectTrigger className="w-48 bg-white/10 border-purple-500/30 text-white">
+                  <SelectTrigger className="w-48 bg-white/10 border-brand/30 text-white">
                     <SelectValue placeholder="All Status" />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-purple-500/30">
+                  <SelectContent className="bg-card border-brand/30">
                     <SelectItem value="undefined">{t("bookings.bookingspage.auto_ext_7")}</SelectItem>
                     <SelectItem value="PENDING">{t("bookings.bookingspage.auto_ext_8")}</SelectItem>
                     <SelectItem value="CONFIRMED">{t("bookings.bookingspage.auto_ext_9")}</SelectItem>
@@ -229,14 +229,14 @@ export default function BookingsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white">{t("bookings.bookingspage.auto_ext_12")}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
-                  <TableRow className="border-purple-500/20">
+                  <TableRow className="border-brand/20">
                     <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_13")}</TableHead>
                     <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_14")}</TableHead>
                     <TableHead className="text-gray-400">{t("bookings.bookingspage.auto_ext_15")}</TableHead>
@@ -257,7 +257,7 @@ export default function BookingsPage() {
                     return (
                       <TableRow
                         key={booking.id}
-                        className="border-purple-500/10 hover:bg-white/5"
+                        className="border-brand/10 hover:bg-white/5"
                       >
                         <TableCell className="text-white font-medium">{booking.guestName}</TableCell>
                         <TableCell className="text-gray-300">{booking.propertyId}</TableCell>
@@ -277,7 +277,7 @@ export default function BookingsPage() {
                         <TableCell className="text-white font-medium">${booking.amount.toLocaleString()}</TableCell>
                         <TableCell>
                           {booking.ownershipVerified ? (
-                            <CheckCircle className="w-5 h-5 text-green-400" />
+                            <CheckCircle className="w-5 h-5 text-blue-400" />
                           ) : (
                             <AlertCircle className="w-5 h-5 text-yellow-400" />
                           )}

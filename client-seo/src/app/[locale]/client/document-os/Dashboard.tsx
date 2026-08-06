@@ -60,13 +60,13 @@ export default function DocumentOSDashboard() {
       title: "Total Documents",
       value: formatNumber(stats.totalDocuments),
       icon: FileText,
-      color: "text-blue-600",
+      color: "text-brand",
     },
     {
       title: "Processed",
       value: formatNumber(stats.processedDocuments),
       icon: CheckCircle,
-      color: "text-green-600",
+      color: "text-blue-600",
     },
     {
       title: "Pending",
@@ -78,7 +78,7 @@ export default function DocumentOSDashboard() {
       title: "Storage Used",
       value: `${formatNumber(stats.storageUsed)} MB`,
       icon: Activity,
-      color: "text-purple-600",
+      color: "text-brand",
     },
   ];
 
@@ -95,7 +95,7 @@ export default function DocumentOSDashboard() {
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
@@ -111,7 +111,7 @@ export default function DocumentOSDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Document Trends</h2>
             <BarChart3 className="w-5 h-5 text-gray-500" />
@@ -125,7 +125,7 @@ export default function DocumentOSDashboard() {
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Document Types</h2>
             <PieChart className="w-5 h-5 text-gray-500" />

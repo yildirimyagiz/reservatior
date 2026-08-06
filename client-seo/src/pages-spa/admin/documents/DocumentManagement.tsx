@@ -2,7 +2,7 @@
 
 import { useTranslation } from"react-i18next";
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -122,15 +122,15 @@ const MOCK_DOCUMENTS: Document[] = [{
  category:"Financial",
  size: 102400,
  mimeType:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
- url:"/docs/financial-report.xlsx",
- tags: ["financial","report","q1"],
- isPublic: false,
- name:"Templates",
- path:"/Templates",
- documentCount: 8,
- size: 512000,
- createdAt:"2024-03-15",
- isPublic: true
+  url:"/docs/financial-report.xlsx",
+  tags: ["financial","report","q1"],
+  isPublic: false,
+  isEncrypted: false,
+  uploadedBy:"finance-team",
+  uploadedAt:"2024-03-20",
+  lastModified:"2024-03-20",
+  downloadCount: 15,
+  version: 1
 }];
 export default function DocumentManagement() {
  const { toast } = useToast();
@@ -142,7 +142,7 @@ export default function DocumentManagement() {
  toast({ title:"Deleted", description:"Record deleted successfully" });
  queryClient.invalidateQueries({ queryKey: ['documents'] });
  },
- onError: (err: unknown) => toast({ title:"Error", description: err.message, variant:"destructive" })
+ onError: (err: any) => toast({ title:"Error", description: err.message, variant:"destructive" })
  });
  
 
@@ -170,7 +170,7 @@ export default function DocumentManagement() {
  const res = await documentsApi.getDocuments({ orgId:"current" });
  const apiDocs = Array.isArray(res) ? res : ((res as any).data || []);
  
- return apiDocs.map((d: unknown) => ({
+  return apiDocs.map((d: any) => ({
  id: d.id,
  name: d.fileName || d.title ||"Unnamed Document",
  type: d.mimeType?.includes("pdf") ?"PDF" : (d.mimeType?.includes("word") ?"DOCX" : (d.mimeType?.includes("sheet") ?"XLSX" :"File")),
@@ -203,9 +203,9 @@ export default function DocumentManagement() {
  description: t("admin_documents_document_has_been_removed")
  });
  },
- onError: (error: unknown) => {
+ onError: (error: any) => {
  toast({
- title: t("admin_documents_error","Hata"),
+ title: t("admin_documents_error", "Eşit"),
  description: error.message,
  variant:"destructive"
  });
@@ -231,11 +231,11 @@ export default function DocumentManagement() {
  case"PDF":
  return <FileText className="w-4 h-4 text-red-600" />;
  case"DOCX":
- return <FileText className="w-4 h-4 text-slate-600" />;
+ return <FileText className="w-4 h-4 text-muted-foreground" />;
  case"XLSX":
- return <FileText className="w-4 h-4 text-green-600" />;
+ return <FileText className="w-4 h-4 text-blue-600" />;
  case"ZIP":
- return <Archive className="w-4 h-4 text-slate-600" />;
+ return <Archive className="w-4 h-4 text-muted-foreground" />;
  case"MP4":
  return <Video className="w-4 h-4 text-orange-600" />;
  case"JPG":
@@ -257,13 +257,13 @@ export default function DocumentManagement() {
  case"Legal":
  return"bg-red-100 text-red-700";
  case"Media":
- return"bg-slate-100 text-slate-700";
+ return"bg-muted text-muted-foreground";
  case"Financial":
- return"bg-green-100 text-green-700";
+ return"bg-blue-100 text-blue-700";
  case"Template":
- return"bg-slate-100 text-slate-700";
+ return"bg-muted text-muted-foreground";
  default:
- return"bg-card text-slate-300";
+ return"bg-card text-muted-foreground";
  }
  };
  const downloadDocument = async (document: Document) => {
@@ -274,9 +274,9 @@ export default function DocumentManagement() {
  title: t("admin_documents_download_started"),
  description: `Downloading ${document.name}`
  });
- } catch (e: unknown) {
+ } catch (e: any) {
  toast({
- title: t("admin_documents_error","Hata"),
+ title: t("admin_documents_error", "Eşit"),
  description: e.message,
  variant:"destructive"
  });
@@ -314,7 +314,7 @@ export default function DocumentManagement() {
  <p className="text-2xl font-bold">{stats.totalDocuments}</p>
  <p className="text-xs text-muted-foreground">{t("admin_documents_all_files")}</p>
  </div>
- <FileText className="w-8 h-8 text-slate-600" />
+ <FileText className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -326,7 +326,7 @@ export default function DocumentManagement() {
  <p className="text-2xl font-bold">{formatFileSize(stats.totalSize)}</p>
  <p className="text-xs text-muted-foreground">{t("admin_documents_used_space")}</p>
  </div>
- <HardDrive className="w-8 h-8 text-green-600" />
+ <HardDrive className="w-8 h-8 text-blue-600" />
  </div>
  </CardContent>
  </Card>
@@ -335,10 +335,10 @@ export default function DocumentManagement() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_documents_public_documents")}</p>
- <p className="text-2xl font-bold text-slate-600">{stats.publicDocuments}</p>
+ <p className="text-2xl font-bold text-muted-foreground">{stats.publicDocuments}</p>
  <p className="text-xs text-muted-foreground">{t("admin_documents_accessible_to_all")}</p>
  </div>
- <Unlock className="w-8 h-8 text-slate-600" />
+ <Unlock className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -350,7 +350,7 @@ export default function DocumentManagement() {
  <p className="text-2xl font-bold">{stats.totalDownloads}</p>
  <p className="text-xs text-muted-foreground">{t("admin_documents_all_time")}</p>
  </div>
- <Download className="w-8 h-8 text-slate-600" />
+ <Download className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -390,8 +390,8 @@ export default function DocumentManagement() {
  </Select>
  </div>
  <div className="flex gap-2">
- <Button onClick={() => setContractDialogOpen(true)} variant="secondary" className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 border-emerald-500/20">
- <FileText className="w-4 h-4 mr-2" />{t("admin_auto_ai_contract", "AI Contract")}</Button>
+ <Button onClick={() => setContractDialogOpen(true)} variant="secondary" className="bg-blue-500/10 text-success hover:bg-blue-500/20 border-blue-500/20">
+ <FileText className="w-4 h-4 mr-2" />{t("admin_auto_ai_contract", "Yapay Zeka Sözleşmesi")}</Button>
  <Button onClick={() => setFolderDialogOpen(true)} variant="outline">
  <Folder className="w-4 h-4 mr-2" />{t("admin_documents_new_folder")}</Button>
  <Button onClick={() => setUploadDialogOpen(true)}>
@@ -467,21 +467,21 @@ export default function DocumentManagement() {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="w-4 h-4" />
  </Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent>
  <DropdownMenuItem onClick={() => {
- toast({ title: t("admin_documents_ai_analysis_started","AI Analysis Started"), description: t("admin_documents_ai_analysis_desc","Document is being processed by ML OCR Engine.") });
+ toast({ title: t("admin_documents_ai_analysis_started", "Yapay Zeka Analizi Başladı"), description: t("admin_documents_ai_analysis_desc", "Belge ML OCR Motoru tarafından işleniyor.") });
  documentsApi.analyzeDocumentWithAI(document.id).then(() => {
- toast({ title: t("admin_documents_ai_analysis_complete","AI Analysis Complete"), description: t("admin_documents_ai_analysis_success","Data successfully extracted.") });
- }).catch((err: unknown) => {
+ toast({ title: t("admin_documents_ai_analysis_complete", "Yapay Zeka Analizi Tamamlandı"), description: t("admin_documents_ai_analysis_success", "Veriler başarıyla çıkarıldı.") });
+ }).catch((err: any) => {
  toast({ title:"Error", description: err.message, variant:"destructive" });
  });
  }}>
- <Brain className="w-4 h-4 mr-2 text-indigo-400" />
- <span className="text-indigo-400 font-medium">{t("admin_auto_ai_analiz_ocr", "AI Analiz (OCR)")}</span>
+ <Brain className="w-4 h-4 mr-2 text-brand" />
+ <span className="text-brand font-medium">{t("admin_auto_ai_analiz_ocr", "Yapay Zeka Analizi (OCR)")}</span>
  </DropdownMenuItem>
  <DropdownMenuItem onClick={() => downloadDocument(document)}>
  <Download className="w-4 h-4 mr-2" />{t("admin_documents_download")}</DropdownMenuItem>
@@ -515,7 +515,7 @@ export default function DocumentManagement() {
  <CardContent className="p-6">
  <div className="flex items-center justify-between mb-4">
  <div className="flex items-center gap-2">
- {folder.isPublic ? <FolderOpen className="w-5 h-5 text-slate-600" /> : <Folder className="w-5 h-5 text-muted-foreground" />}
+ {folder.isPublic ? <FolderOpen className="w-5 h-5 text-muted-foreground" /> : <Folder className="w-5 h-5 text-muted-foreground" />}
  <span className="font-medium">{folder.name}</span>
  </div>
  {folder.isPublic && <Badge variant="outline">{t("admin_documents_public")}</Badge>}
@@ -570,7 +570,7 @@ export default function DocumentManagement() {
  <Input placeholder={t("admin_auto_ehir_rn_istanbul", "Şehir (örn: ISTANBUL)")} value={uploadData.city} onChange={e => setUploadData({...uploadData, city: e.target.value})} />
  <Input placeholder={t("admin_auto_i_l_e_rn_si_sli", "İlçe (örn: SİSLİ)")} value={uploadData.district} onChange={e => setUploadData({...uploadData, district: e.target.value})} />
  <Input placeholder={t("admin_auto_mahalle", "Mahalle")} value={uploadData.neighborhood} onChange={e => setUploadData({...uploadData, neighborhood: e.target.value})} />
- <Input placeholder={t("admin_auto_proje_rn_queen", "Proje (örn: Queen)")} className="col-span-2" value={uploadData.project} onChange={e => setUploadData({...uploadData, project: e.target.value})} />
+ <Input placeholder={t("admin_auto_proje_rn_queen", "Proje (kartal: Kraliçe)")} className="col-span-2" value={uploadData.project} onChange={e => setUploadData({...uploadData, project: e.target.value})} />
  </div>
  </div>
  <div className="space-y-2">
@@ -655,7 +655,7 @@ export default function DocumentManagement() {
  }}>
  <DialogContent className="max-w-2xl bg-card border-border text-card-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_ai_contract_wizard", "AI Contract Wizard")}</DialogTitle>
+ <DialogTitle>{t("admin_auto_ai_contract_wizard", "Yapay Zeka Sözleşme Sihirbazı")}</DialogTitle>
  <DialogDescription className="text-muted-foreground">
  {contractWizardStep === 1 &&"Generate a localized real estate contract."}
  {contractWizardStep === 2 &&"Review and export your contract."}
@@ -669,16 +669,16 @@ export default function DocumentManagement() {
  <>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label className="text-muted-foreground">{t("admin_auto_country_code_e_g_tr_us_uk", "Country Code (e.g. TR, US, UK)")}</Label>
+ <Label className="text-muted-foreground">{t("admin_auto_country_code_e_g_tr_us_uk", "Ülke Kodu (örn. TR, ABD, İngiltere)")}</Label>
  <Input id="contract-country" defaultValue="TR" className="bg-background border-border text-foreground" />
  </div>
  <div className="space-y-2">
- <Label className="text-muted-foreground">{t("admin_auto_contract_type", "Contract Type")}</Label>
+ <Label className="text-muted-foreground">{t("admin_auto_contract_type", "Sözleşme Türü")}</Label>
  <Select defaultValue="SALES">
  <SelectTrigger id="contract-type" className="bg-background border-border text-foreground"><SelectValue /></SelectTrigger>
  <SelectContent className="bg-card border-border text-card-foreground">
- <SelectItem value="SALES">{t("admin_auto_sales_agreement", "Sales Agreement")}</SelectItem>
- <SelectItem value="RENTAL">{t("admin_auto_rental_agreement", "Rental Agreement")}</SelectItem>
+ <SelectItem value="SALES">{t("admin_auto_sales_agreement", "Satış Sözleşmesi")}</SelectItem>
+ <SelectItem value="RENTAL">{t("admin_auto_rental_agreement", "Kira Sözleşmesi")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -694,13 +694,13 @@ export default function DocumentManagement() {
  {/* Step 2: Export Options */}
  {contractWizardStep === 2 && (
  <div className="flex flex-col items-center justify-center py-8 space-y-6">
- <div className="p-4 bg-emerald-500/10 text-emerald-500 rounded-full">
+ <div className="p-4 bg-blue-500/10 text-success rounded-full">
  <CheckCircle className="w-12 h-12" />
  </div>
- <h3 className="text-xl font-bold">{t("admin_auto_contract_ready", "Contract Ready!")}</h3>
- <p className="text-muted-foreground text-center max-w-sm">{t("admin_auto_your_ai_generated_contract_is_ready_choo", "Your AI-generated contract is ready. Choose a format to download.")}</p>
+ <h3 className="text-xl font-bold">{t("admin_auto_contract_ready", "Sözleşme Hazır!")}</h3>
+ <p className="text-muted-foreground text-center max-w-sm">{t("admin_auto_your_ai_generated_contract_is_ready_choo", "Yapay zeka tarafından oluşturulan sözleşmeniz hazır. İndirilecek formatı seçin.")}</p>
  <div className="flex gap-4">
- <Button variant="outline" className="border-blue-500/50 text-blue-400 hover:bg-blue-500/10" onClick={() => {
+ <Button variant="outline" className="border-blue-500/50 text-info hover:bg-blue-500/10" onClick={() => {
  const blob = new Blob([contractResult], { type: 'application/pdf' });
  const url = URL.createObjectURL(blob);
  const a = document.createElement('a');
@@ -708,8 +708,8 @@ export default function DocumentManagement() {
  a.download = 'Contract.pdf';
  a.click();
  }}>
- <Download className="w-4 h-4 mr-2" /> {t("admin_auto_download_pdf", "Download PDF")}</Button>
- <Button variant="outline" className="border-indigo-500/50 text-indigo-400 hover:bg-indigo-500/10" onClick={() => {
+ <Download className="w-4 h-4 mr-2" /> {t("admin_auto_download_pdf", "PDF'yi indir")}</Button>
+ <Button variant="outline" className="border-brand/50 text-brand hover:bg-brand/10" onClick={() => {
  const blob = new Blob([contractResult], { type: 'application/msword' });
  const url = URL.createObjectURL(blob);
  const a = document.createElement('a');
@@ -717,7 +717,7 @@ export default function DocumentManagement() {
  a.download = 'Contract.docx';
  a.click();
  }}>
- <Download className="w-4 h-4 mr-2" /> {t("admin_auto_download_docx", "Download DOCX")}</Button>
+ <Download className="w-4 h-4 mr-2" /> {t("admin_auto_download_docx", "DOCX'i indirin")}</Button>
  </div>
  </div>
  )}
@@ -727,16 +727,16 @@ export default function DocumentManagement() {
  <div className="space-y-4">
  <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start gap-3 text-amber-500">
  <AlertTriangle className="w-5 h-5 shrink-0" />
- <p className="text-sm">{t("admin_auto_contract_saved_now_securely_store_any_wa", "Contract saved. Now, securely store any walkthrough videos or images of the property before handover.")}</p>
+ <p className="text-sm">{t("admin_auto_contract_saved_now_securely_store_any_wa", "Sözleşme kaydedildi. Artık devir tesliminden önce mülkün tüm tanıtım videolarını veya resimlerini güvenli bir şekilde saklayın.")}</p>
  </div>
  <div className="border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center p-12 hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer">
  <div className="p-4 bg-primary/10 text-primary rounded-full mb-4">
  <Upload className="w-8 h-8" />
  </div>
- <h3 className="text-lg font-bold mb-2">{t("admin_auto_drag_drop_media", "Drag & Drop Media")}</h3>
+ <h3 className="text-lg font-bold mb-2">{t("admin_auto_drag_drop_media", "Medyayı Sürükle ve Bırak")}</h3>
  <p className="text-sm text-muted-foreground text-center max-w-xs mb-6">
- {t("admin_auto_upload_mp4_videos_or_high_res_images_to_", "Upload MP4 videos or high-res images to the secure media vault.")}</p>
- <Button variant="secondary">{t("admin_auto_browse_files", "Browse Files")}</Button>
+ {t("admin_auto_upload_mp4_videos_or_high_res_images_to_", "MP4 videoları veya yüksek çözünürlüklü görüntüleri güvenli medya kasasına yükleyin.")}</p>
+ <Button variant="secondary">{t("admin_auto_browse_files", "Dosyalara Göz Atın")}</Button>
  </div>
  </div>
  )}
@@ -780,11 +780,11 @@ export default function DocumentManagement() {
  )}
  
  {contractWizardStep === 2 && (
- <Button onClick={() => setContractWizardStep(3)}>{t("admin_auto_continue_to_media_vault", "Continue to Media Vault")}</Button>
+ <Button onClick={() => setContractWizardStep(3)}>{t("admin_auto_continue_to_media_vault", "Medya Kasası'na devam et")}</Button>
  )}
  
  {contractWizardStep === 3 && (
- <Button onClick={() => setContractDialogOpen(false)}>{t("admin_auto_done", "Done")}</Button>
+ <Button onClick={() => setContractDialogOpen(false)}>{t("admin_auto_done", "Tamamlamak")}</Button>
  )}
  </DialogFooter>
  </DialogContent>

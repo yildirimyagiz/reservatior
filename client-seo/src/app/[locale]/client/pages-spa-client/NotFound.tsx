@@ -55,7 +55,7 @@ export default function NotFound() {
                 <span className="text-[10px] font-semibold text-muted-foreground tracking-wider">{t("client.src.http_404")}</span>
              </div>
              <div className="flex items-center gap-1.5">
-                <div className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                <div className="w-1.5 h-1.5 rounded-full bg-muted" />
                 <span className="text-[10px] font-semibold text-muted-foreground tracking-wider">{t("client.src.resourcenotfound")}</span>
              </div>
           </div>

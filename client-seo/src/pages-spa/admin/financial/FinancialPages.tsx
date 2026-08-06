@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, FormEvent } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -83,7 +83,7 @@ export function Expenses() {
  <TableCell className="font-semibold text-sm">{t("currency_symbol", "$")}{e.amount.toLocaleString()}</TableCell>
  <TableCell className="text-sm text-muted-foreground">{new Date(e.date).toLocaleDateString()}</TableCell>
  <TableCell className="text-xs text-muted-foreground">{e.description}</TableCell>
- <TableCell><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem><Edit className="w-4 h-4 mr-2" />{t("admin_financial_edit")}</DropdownMenuItem><DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin_financial_delete")}</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell>
+ <TableCell><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem><Edit className="w-4 h-4 mr-2" />{t("admin_financial_edit")}</DropdownMenuItem><DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin_financial_delete")}</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell>
  </TableRow>)}
  </TableBody>
  </Table>
@@ -175,9 +175,9 @@ export function FinancialRecords() {
  <TableCell className="font-medium text-sm">{r.description ||"—"}</TableCell>
  <TableCell><Badge className="bg-secondary border-0 text-xs text-secondary-foreground">{r.category || 'General'}</Badge></TableCell>
  <TableCell>
- {r.type ==="INCOME" ? <span className="text-xs flex items-center gap-1 text-green-600 font-medium"><TrendingUp className="w-3 h-3" />{t("admin_financial_income")}</span> : <span className="text-xs flex items-center gap-1 text-red-600 font-medium"><TrendingDown className="w-3 h-3" />{t("admin_financial_expense")}</span>}
+ {r.type ==="INCOME" ? <span className="text-xs flex items-center gap-1 text-blue-600 font-medium"><TrendingUp className="w-3 h-3" />{t("admin_financial_income")}</span> : <span className="text-xs flex items-center gap-1 text-red-600 font-medium"><TrendingDown className="w-3 h-3" />{t("admin_financial_expense")}</span>}
  </TableCell>
- <TableCell className={`text-right font-semibold text-sm ${r.type ==="INCOME" ?"text-green-600" :"text-red-600"}`}>
+ <TableCell className={`text-right font-semibold text-sm ${r.type ==="INCOME" ?"text-blue-600" :"text-red-600"}`}>
  {r.type ==="INCOME" ?"+" :""}{t("currency_symbol", "$")}{Math.abs(r.amount).toLocaleString()}
  </TableCell>
  </TableRow>)}
@@ -261,9 +261,9 @@ export function Payouts() {
  });
 
  const statusCls: Record<string, string> = {
- PAID:"bg-green-100 text-green-700",
+ PAID:"bg-blue-100 text-blue-700",
  PENDING:"bg-yellow-100 text-yellow-700",
- PROCESSING:"bg-slate-100 text-slate-700",
+ PROCESSING:"bg-muted text-muted-foreground",
  FAILED:"bg-red-100 text-red-700"
  };
 
@@ -282,7 +282,7 @@ export function Payouts() {
  <TableCell className="font-semibold text-sm">{t("currency_symbol", "$")}{p.amount.toLocaleString()}</TableCell>
  <TableCell className="font-mono text-[10px] text-muted-foreground">{p.reference || 'N/A'}</TableCell>
  <TableCell><Badge className={`${statusCls[p.status] || 'bg-card'} border-0 text-xs font-normal`}>{p.status}</Badge></TableCell>
- <TableCell><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></TableCell>
+ <TableCell><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></TableCell>
  </TableRow>)}
  </TableBody>
  </Table>

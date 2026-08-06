@@ -298,10 +298,10 @@ export default function Routes() {
  <Button variant="ghost" size="sm" onClick={() => toggleVisibility(route)}>
  {route.isVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
  </Button>
- <Button variant="ghost" size="sm" onClick={() => openEditDialog(route)}>
+ <Button variant="ghost" size="sm" onClick={() => openEditDialog(route)} aria-label={t("common.edit")}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="sm" onClick={() => handleDelete(route.id)}>
+ <Button variant="ghost" size="sm" onClick={() => handleDelete(route.id)} aria-label={t("common.delete")}>
  <Trash2 className="w-4 h-4" />
  </Button>
  </div>

@@ -73,8 +73,8 @@ export default function DynamicAdminPage() {
  }
  });
 
- if (schemaLoading) return <div className="p-8 flex justify-center"><Loader2 className="animate-spin w-8 h-8 text-slate-500" /></div>;
- if (!schema) return <div className="p-8 text-red-500">{t("admin_auto_model_schema_not_found", "Model schema not found.")}</div>;
+ if (schemaLoading) return <div className="p-8 flex justify-center"><Loader2 className="animate-spin w-8 h-8 text-muted-foreground" /></div>;
+ if (!schema) return <div className="p-8 text-red-500">{t("admin_auto_model_schema_not_found", "Model şeması bulunamadı.")}</div>;
 
  const displayFields = schema.fields.filter((f: any) =>
  f.type === 'String' || f.type === 'Int' || f.type === 'Boolean' || f.type === 'DateTime'
@@ -84,46 +84,46 @@ export default function DynamicAdminPage() {
  <div className="bg-card p-6 rounded-2xl border border-border">
  <div className="flex justify-between items-center">
  <div>
- <h1 className="text-2xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{schema.name} {t("admin_contract_management", "Management")}</h1>
- <p className="text-muted-foreground">{t("admin_auto_dynamically_generated_interface_for", "Dynamically generated interface for")}{schema.name}</p>
+ <h1 className="text-2xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{schema.name} {t("admin_contract_management", "Yönetim")}</h1>
+ <p className="text-muted-foreground">{t("admin_auto_dynamically_generated_interface_for", "Dinamik olarak oluşturulmuş arayüz")}{schema.name}</p>
  </div>
  <div className="flex space-x-2">
- <Button variant="outline" onClick={() => refetch()}><RefreshCw className="w-4 h-4 mr-2" />{t("admin_ai_refresh", "Refresh")}</Button>
+ <Button variant="outline" onClick={() => refetch()}><RefreshCw className="w-4 h-4 mr-2" />{t("admin_ai_refresh", "Yenile")}</Button>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
  <Button>
- <Plus className="w-4 h-4 mr-2" />{t("admin_agencies_add", "Add")}{schema.name}
+ <Plus className="w-4 h-4 mr-2" />{t("admin_agencies_add", "Ajans Ekle")}{schema.name}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_create_new_dynamic_record", "Create New Dynamic Record")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_dynamic_re", "Enter the details for the new dynamic record.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_dynamic_record", "Yeni Dinamik Kayıt Oluştur")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_dynamic_re", "Yeni dinamik kaydın ayrıntılarını girin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_name", "Name")}</Label>
+ <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_name", "İsim")}</Label>
  <Input
  id="name"
  className="col-span-3 h-10 bg-card border-border text-foreground"
  value={formData.name}
  onChange={e => setFormData({ ...formData, name: e.target.value })}
- placeholder={t("admin_auto_enter_name", "Enter name")}
+ placeholder={t("admin_auto_enter_name", "Ad girin")}
  />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Type")}</Label>
+ <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Tip")}</Label>
  <Input
  id="type"
  className="col-span-3 h-10 bg-card border-border text-foreground"
  value={formData.type}
  onChange={e => setFormData({ ...formData, type: e.target.value })}
- placeholder={t("admin_auto_enter_type", "Enter type")}
+ placeholder={t("admin_auto_enter_type", "Türü girin")}
  />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -141,25 +141,25 @@ export default function DynamicAdminPage() {
  {displayFields.map((f: any) => (
  <TableHead key={f.name} className="text-muted-foreground">{f.name}</TableHead>
  ))}
- <TableHead className="text-right text-muted-foreground">{t("admin_ai_actions", "Actions")}</TableHead>
+ <TableHead className="text-right text-muted-foreground">{t("admin_ai_actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
  {dataLoading ? (
- <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8"><Loader2 className="animate-spin w-6 h-6 mx-auto text-slate-500" /></TableCell></TableRow>
+ <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8"><Loader2 className="animate-spin w-6 h-6 mx-auto text-muted-foreground" /></TableCell></TableRow>
  ) : (records as any)?.data?.length === 0 ? (
- <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8 text-slate-500">{t("admin_financial_no_records_found", "No records found")}</TableCell></TableRow>
+ <TableRow><TableCell colSpan={displayFields.length + 1} className="text-center py-8 text-muted-foreground">{t("admin_financial_no_records_found", "Kayıt Bulunamadı")}</TableCell></TableRow>
  ) : (
  (records as any)?.data?.map((row: any, i: number) => (
  <TableRow key={row.id || i} className="border-border hover:bg-card">
  {displayFields.map((f: any) => (
  <TableCell key={f.name} className="text-muted-foreground">
- {row[f.name] !== null ? String(row[f.name]) : <span className="text-slate-600">{t("admin_auto_null", "null")}</span>}
+ {row[f.name] !== null ? String(row[f.name]) : <span className="text-muted-foreground">{t("admin_auto_null", "hükümsüz")}</span>}
  </TableCell>
  ))}
  <TableCell className="text-right">
  <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
- onClick={() => { if (window.confirm('Are you sure?')) deleteMutation.mutate(row.id); }}>
+ onClick={() => { if (window.confirm('Are you sure?')) deleteMutation.mutate(row.id); }} aria-label={t("common.delete")}>
  <Trash className="w-4 h-4" />
  </Button>
  </TableCell>

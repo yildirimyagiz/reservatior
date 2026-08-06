@@ -20,18 +20,18 @@ const STATUS: Record<string, {
 }> = {
   CONFIRMED: {
     label: t("client.src.confirmed"),
-    cls: "bg-green-100 text-green-700"
+    cls: "bg-blue-100 text-blue-700"
   },
   PENDING: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     cls: "bg-yellow-100 text-yellow-700"
   },
   COMPLETED: {
-    label: t("client.src.completed"),
+    label: t("common.completed"),
     cls: "bg-blue-100 text-blue-700"
   },
   CANCELLED: {
-    label: t("client.src.cancelled"),
+    label: t("common.cancelled"),
     cls: "bg-red-100 text-red-700"
   }
 };
@@ -133,21 +133,21 @@ export default function Appointments() {
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
       <div className="space-y-1.5">
-        <Label>{t("client.src.title")}</Label>
+        <Label>{t("common.title")}</Label>
         <Input type="text" value={form.title} onChange={e => setForm({
           ...form,
           title: e.target.value
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.client")}</Label>
+        <Label>{t("common.client")}</Label>
         <Input type="text" value={form.clientName} onChange={e => setForm({
           ...form,
           clientName: e.target.value
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.agent")}</Label>
+        <Label>{t("common.agent")}</Label>
         <Input type="text" value={form.agentName} onChange={e => setForm({
           ...form,
           agentName: e.target.value
@@ -161,7 +161,7 @@ export default function Appointments() {
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.type")}</Label>
+        <Label>{t("common.type")}</Label>
         <Select value={form.type} onValueChange={v => setForm({
           ...form,
           type: v as any
@@ -172,21 +172,21 @@ export default function Appointments() {
           <SelectItem value="INSPECTION">{t("client.src.inspection")}</SelectItem></SelectContent></Select>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.location")}</Label>
+        <Label>{t("common.location")}</Label>
         <Input type="text" value={form.location} onChange={e => setForm({
           ...form,
           location: e.target.value
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.status")}</Label>
+        <Label>{t("common.status")}</Label>
         <Select value={form.status} onValueChange={v => setForm({
           ...form,
           status: v as any
-        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
+        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
           <SelectItem value="CONFIRMED">{t("client.src.confirmed")}</SelectItem>
-          <SelectItem value="COMPLETED">{t("client.src.completed")}</SelectItem>
-          <SelectItem value="CANCELLED">{t("client.src.cancelled")}</SelectItem></SelectContent></Select>
+          <SelectItem value="COMPLETED">{t("common.completed")}</SelectItem>
+          <SelectItem value="CANCELLED">{t("common.cancelled")}</SelectItem></SelectContent></Select>
       </div>
       <DialogFooter><Button type="submit">{label}</Button></DialogFooter>
     </form>;
@@ -196,35 +196,35 @@ export default function Appointments() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search appointments..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: MOCK.length
     }, {
       label: t("client.src.confirmed"),
       value: MOCK.filter(r => r.status === 'CONFIRMED').length
     }, {
-      label: t("client.src.today"),
+      label: t("common.today"),
       value: 0
     }, {
-      label: t("client.src.completed"),
+      label: t("common.completed"),
       value: MOCK.filter(r => r.status === 'COMPLETED').length
     }]} filters={<Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-40"><SelectValue placeholder={t("client.src.status")} /></SelectTrigger>
-            <SelectContent>              <SelectItem value="all">{t("client.src.all")}</SelectItem>
+            <SelectTrigger className="w-40"><SelectValue placeholder={t("common.status")} /></SelectTrigger>
+            <SelectContent>              <SelectItem value="all">{t("common.all")}</SelectItem>
               <SelectItem value="CONFIRMED">{t("client.src.confirmed")}</SelectItem>
-              <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
-              <SelectItem value="COMPLETED">{t("client.src.completed")}</SelectItem>
-              <SelectItem value="CANCELLED">{t("client.src.cancelled")}</SelectItem></SelectContent>
+              <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
+              <SelectItem value="COMPLETED">{t("common.completed")}</SelectItem>
+              <SelectItem value="CANCELLED">{t("common.cancelled")}</SelectItem></SelectContent>
           </Select>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
-              <TableHead>{t("client.src.title")}</TableHead>
-              <TableHead>{t("client.src.client")}</TableHead>
-              <TableHead>{t("client.src.agent")}</TableHead>
-              <TableHead>{t("client.src.scheduled")}</TableHead>
-              <TableHead>{t("client.src.type")}</TableHead>
-              <TableHead>{t("client.src.status")}</TableHead>
+              <TableHead>{t("common.title")}</TableHead>
+              <TableHead>{t("common.client")}</TableHead>
+              <TableHead>{t("common.agent")}</TableHead>
+              <TableHead>{t("common.scheduled")}</TableHead>
+              <TableHead>{t("common.type")}</TableHead>
+              <TableHead>{t("common.status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -241,10 +241,10 @@ export default function Appointments() {
                     </TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -257,13 +257,13 @@ export default function Appointments() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_appointments")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_appointments")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

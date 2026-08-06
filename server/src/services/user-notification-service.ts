@@ -5,7 +5,7 @@ import { DomainEvents } from "../core/events/domain-events";
 
 export class UserNotificationService extends BaseService<any, any, any> {
   constructor() {
-    super(prisma.userNotification, "userNotification");
+    super((prisma as any).userNotification, "userNotification");
   }
 
   async getByUser(userId: string, params?: { unreadOnly?: boolean; limit?: number }) {

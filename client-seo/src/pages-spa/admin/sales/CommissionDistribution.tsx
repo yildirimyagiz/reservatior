@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslation } from"react-i18next";
+import { tEnum } from"@/lib/admin-enums";
 import { useState } from"react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
@@ -57,7 +58,7 @@ export default function CommissionDistribution() {
  }, {
  name:"Agency", value: stats?.agencyShare || 30, color:"#3b82f6"
  }, {
- name:"Agent", value: stats?.agentShare || 60, color:"#10b981"
+ name:"Agent", value: stats?.agentShare || 60, color:"#3b82f6"
  }];
  return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
  <div className="p-6 space-y-6">
@@ -79,7 +80,7 @@ export default function CommissionDistribution() {
  </SelectContent>
  </Select>
  <div className="relative">
- <Input placeholder={t("admin_sales_search_agency_or_agent")} className="w-[300px] bg-card border-border text-foreground placeholder:text-slate-500" />
+ <Input placeholder={t("admin_sales_search_agency_or_agent")} className="w-[300px] bg-card border-border text-foreground placeholder:text-muted-foreground" />
  </div>
  </div>
  <Button variant="outline" className="border-border text-foreground bg-card" onClick={() => refetch()}>
@@ -91,7 +92,7 @@ export default function CommissionDistribution() {
  <Card className="bg-card border-border">
  <CardHeader className="pb-2 flex flex-row items-center justify-between">
  <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_sales_total_net_earnings")}</CardTitle>
- <TrendingUp className="w-4 h-4 text-emerald-400" />
+ <TrendingUp className="w-4 h-4 text-success" />
  </CardHeader>
  <CardContent>
  <div className="text-3xl font-bold text-foreground">{t("currency_symbol", "$")}{stats?.totalEarnings?.toLocaleString()}</div>
@@ -124,10 +125,10 @@ export default function CommissionDistribution() {
  <Card className="bg-card border-border">
  <CardHeader className="pb-2 flex flex-row items-center justify-between">
  <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_sales_agent_weight")}</CardTitle>
- <Users className="w-4 h-4 text-emerald-400" />
+ <Users className="w-4 h-4 text-success" />
  </CardHeader>
  <CardContent>
- <div className="text-3xl font-bold text-emerald-400">{stats?.agentShare}%</div>
+ <div className="text-3xl font-bold text-success">{stats?.agentShare}%</div>
  <p className="text-xs text-muted-foreground mt-1">{t("admin_sales_default_platform_rate")}</p>
  </CardContent>
  </Card>
@@ -159,7 +160,7 @@ export default function CommissionDistribution() {
  <Card className="lg:col-span-2 bg-card border-border">
  <CardHeader>
  <CardTitle className="flex items-center gap-2 text-foreground">
- <Banknote className="w-5 h-5 text-emerald-400" />{t("admin_sales_payout_trending_agency_vs")}
+ <Banknote className="w-5 h-5 text-success" />{t("admin_sales_payout_trending_agency_vs")}
  </CardTitle>
  <CardDescription className="text-muted-foreground">{t("admin_sales_monthly_cleared_commissions_routed")}</CardDescription>
  </CardHeader>
@@ -197,7 +198,7 @@ export default function CommissionDistribution() {
  <TableHead className="bg-red-500/5 text-muted-foreground">{t("admin_sales_tax_deducted")}</TableHead>
  <TableHead className="bg-muted0/5 text-muted-foreground">{t("admin_sales_platform_10")}</TableHead>
  <TableHead className="bg-muted0/5 text-muted-foreground">{t("admin_sales_agency_split")}</TableHead>
- <TableHead className="bg-emerald-500/5 text-muted-foreground">{t("admin_sales_agent_split")}</TableHead>
+ <TableHead className="bg-blue-500/5 text-muted-foreground">{t("admin_sales_agent_split")}</TableHead>
  <TableHead className="text-right text-muted-foreground">{t("admin_sales_status")}</TableHead>
  </TableRow>
  </TableHeader>
@@ -215,17 +216,17 @@ export default function CommissionDistribution() {
  {trx.shares[0]?.value}{t("admin_sales_platform")}
  </TableCell>
  <TableCell className="bg-muted0/5">
- <div className="font-semibold text-muted-foreground">{trx.type}</div>
+  <div className="font-semibold text-muted-foreground">{tEnum(t, trx.type)}</div>
  <div className="text-xs text-muted-foreground">{t("admin_sales_entity_type")}</div>
  </TableCell>
- <TableCell className="bg-emerald-500/5">
- <div className="font-semibold text-emerald-400">{t("admin_sales_detailed")}</div>
+ <TableCell className="bg-blue-500/5">
+ <div className="font-semibold text-success">{t("admin_sales_detailed")}</div>
  <div className="text-xs text-muted-foreground">{t("admin_sales_split_breakdown")}</div>
  </TableCell>
  <TableCell className="text-right">
- <Badge variant={trx.status === 'Cleared' ? 'default' : trx.status === 'Escrow' ? 'secondary' : 'outline'} className={trx.status === 'Cleared' ? 'bg-emerald-600 hover:bg-emerald-700 text-foreground' : ''}>
- {trx.status}
- </Badge>
+ <Badge variant={trx.status === 'Cleared' ? 'default' : trx.status === 'Escrow' ? 'secondary' : 'outline'} className={trx.status === 'Cleared' ? 'bg-blue-600 hover:bg-blue-700 text-foreground' : ''}>
+  {tEnum(t, trx.status)}
+  </Badge>
  </TableCell>
  </TableRow>)}
  </TableBody>

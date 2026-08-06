@@ -52,7 +52,7 @@ export default function Expenses() {
         };
       } catch (error) {
         toast({
-          title: t("client.src.error"),
+          title: t("common.error"),
           description: t("client.src.failed_to_load_expenses"),
           variant: "destructive"
         });
@@ -81,7 +81,7 @@ export default function Expenses() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_save_expense"),
         variant: "destructive"
       });
@@ -105,7 +105,7 @@ export default function Expenses() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_update_expense"),
         variant: "destructive"
       });
@@ -124,7 +124,7 @@ export default function Expenses() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_delete_expense"),
         variant: "destructive"
       });
@@ -163,19 +163,19 @@ export default function Expenses() {
           orgId: e.target.value
         })} required /></div>}
       <div className="space-y-1.5">
-        <Label>{t("client.src.property")}</Label>
+        <Label>{t("common.property")}</Label>
         <Select value={form.propertyId} onValueChange={v => setForm({
           ...form,
           propertyId: v
         })}>
-          <SelectTrigger><SelectValue placeholder={t("client.src.select_property")} /></SelectTrigger>
+          <SelectTrigger><SelectValue placeholder={t("common.select_property")} /></SelectTrigger>
           <SelectContent>
             {properties.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
           </SelectContent>
         </Select>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.category")}</Label>
+        <Label>{t("common.category")}</Label>
         <Select value={form.category} onValueChange={v => setForm({
           ...form,
           category: v as ExpenseCategory
@@ -187,12 +187,12 @@ export default function Expenses() {
         </Select>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5"><Label>{t("client.src.amount")}</Label><Input type="number" step="0.01" value={form.amount} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("common.amount")}</Label><Input type="number" step="0.01" value={form.amount} onChange={e => setForm({
             ...form,
             amount: e.target.value
           })} required /></div>
         <div className="space-y-1.5">
-          <Label>{t("client.src.currency")}</Label>
+          <Label>{t("common.currency")}</Label>
           <Select value={form.currency} onValueChange={v => setForm({
             ...form,
             currency: v
@@ -202,11 +202,11 @@ export default function Expenses() {
           </Select>
         </div>
       </div>
-      <div className="space-y-1.5"><Label>{t("client.src.date")}</Label><Input type="date" value={form.date} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("common.date")}</Label><Input type="date" value={form.date} onChange={e => setForm({
           ...form,
           date: e.target.value
         })} required /></div>
-      <div className="space-y-1.5"><Label>{t("client.src.description")}</Label><Textarea value={form.description} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("common.description")}</Label><Textarea value={form.description} onChange={e => setForm({
           ...form,
           description: e.target.value
         })} rows={3} /></div>
@@ -218,22 +218,22 @@ export default function Expenses() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search expenses..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: expenses.length
     }, {
       label: t("client.src.total_spent"),
       value: `$${expenses.reduce((s, r) => s + r.amount, 0).toLocaleString()}`
     }]} actions={<Button variant="outline" size="sm" onClick={() => fetchData()} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("client.src.refresh")}</Button>}>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("common.refresh")}</Button>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("client.src.category")}</TableHead>
-                <TableHead>{t("client.src.property")}</TableHead>
-                <TableHead>{t("client.src.amount")}</TableHead>
-                <TableHead>{t("client.src.date")}</TableHead>
-                <TableHead>{t("client.src.description")}</TableHead>
+                <TableHead>{t("common.category")}</TableHead>
+                <TableHead>{t("common.property")}</TableHead>
+                <TableHead>{t("common.amount")}</TableHead>
+                <TableHead>{t("common.date")}</TableHead>
+                <TableHead>{t("common.description")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -246,10 +246,10 @@ export default function Expenses() {
                     <TableCell className="text-xs text-muted-foreground max-w-xs truncate">{row.description || "—"}</TableCell>
                     <TableCell>
                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -262,13 +262,13 @@ export default function Expenses() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_expense")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_expense")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} isEdit={true} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} isEdit={true} />
         </DialogContent>
       </Dialog>
     </>;

@@ -74,7 +74,7 @@ const MOCK_TIERS: MembershipTier[] = [{
  id:"tier_basic", name:"Basic", price: 29.99, currency:"USD", billingCycle:"MONTHLY",
  features: ["Up to 10 properties","Basic analytics","Email support","Mobile app access"],
  isActive: true, maxProperties: 10, maxUsers: 3, supportLevel:"BASIC",
- color:"bg-white/10/10 text-muted-foreground border-gray-500/20", icon:"Users"
+ color:"bg-card/10/10 text-muted-foreground border-gray-500/20", icon:"Users"
 }, {
  id:"tier_standard", name:"Standard", price: 79.99, currency:"USD", billingCycle:"MONTHLY",
  features: ["Up to 50 properties","Advanced analytics","Priority support","API access","Custom branding"],
@@ -89,7 +89,7 @@ const MOCK_TIERS: MembershipTier[] = [{
  id:"tier_enterprise", name:"Enterprise", price: 499.99, currency:"USD", billingCycle:"MONTHLY",
  features: ["Everything in Premium","Custom development","On-premise deployment","SLA guarantee","Dedicated account manager"],
  isActive: true, maxProperties: -1, maxUsers: -1, supportLevel:"ENTERPRISE",
- color:"bg-emerald-500/10 text-emerald-400 border-emerald-500/20", icon:"Shield"
+ color:"bg-blue-500/10 text-success border-blue-500/20", icon:"Shield"
 }];
 
 const MOCK_MEMBERS: Member[] = [{
@@ -236,13 +236,13 @@ export default function MembershipManagement() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case 'ACTIVE':
- return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+ return 'bg-blue-500/10 text-success border-blue-500/20';
  case 'EXPIRED':
  return 'bg-red-500/10 text-red-400 border-red-500/20';
  case 'CANCELLED':
  return 'bg-muted0/10 text-muted-foreground border-slate-500/20';
  case 'SUSPENDED':
- return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
+ return 'bg-orange-500/10 text-warning border-orange-500/20';
  default:
  return 'bg-muted0/10 text-muted-foreground border-slate-500/20';
  }
@@ -293,31 +293,31 @@ export default function MembershipManagement() {
  <div className="flex items-center gap-4">
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-foreground font-bold text-xs">
+ <Button className="bg-muted hover:bg-muted0 text-foreground font-bold text-xs">
  <Plus className="w-4 h-4 mr-2" />{t('addMember')}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_create_new_membership", "Create New Membership")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_membership", "Enter the details for the new membership.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_membership", "Yeni Üyelik Oluştur")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_membership", "Yeni üyeliğin ayrıntılarını girin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="userId" className="text-right text-xs text-muted-foreground">{t("admin_auto_user_id", "User ID")}</Label>
- <Input id="userId" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.userId} onChange={e => setFormData({ ...formData, userId: e.target.value })} placeholder={t("admin_auto_enter_user_id", "Enter user id")} />
+ <Label htmlFor="userId" className="text-right text-xs text-muted-foreground">{t("admin_auto_user_id", "Kullanıcı kimliği")}</Label>
+ <Input id="userId" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.userId} onChange={e => setFormData({ ...formData, userId: e.target.value })} placeholder={t("admin_auto_enter_user_id", "Kullanıcı kimliğini girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="planId" className="text-right text-xs text-muted-foreground">{t("admin_auto_plan_id", "Plan ID")}</Label>
- <Input id="planId" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.planId} onChange={e => setFormData({ ...formData, planId: e.target.value })} placeholder={t("admin_auto_enter_plan_id", "Enter plan id")} />
+ <Label htmlFor="planId" className="text-right text-xs text-muted-foreground">{t("admin_auto_plan_id", "Plan Kimliği")}</Label>
+ <Input id="planId" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.planId} onChange={e => setFormData({ ...formData, planId: e.target.value })} placeholder={t("admin_auto_enter_plan_id", "Plan kimliğini girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
- <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Enter status")} />
+ <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Durum")}</Label>
+ <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Durumu girin")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -331,7 +331,7 @@ export default function MembershipManagement() {
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  <Card className="bg-card border-border rounded-3xl p-6">
  <div className="flex items-center gap-3">
- <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center"><Users className="w-5 h-5 text-emerald-400" /></div>
+ <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center"><Users className="w-5 h-5 text-success" /></div>
  <div><p className="text-[10px] font-bold text-muted-foreground">{t('activeMembers')}</p><p className="text-2xl font-bold text-foreground">{activeMembers}</p></div>
  </div>
  </Card>
@@ -349,7 +349,7 @@ export default function MembershipManagement() {
  </Card>
  <Card className="bg-card border-border rounded-3xl p-6">
  <div className="flex items-center gap-3">
- <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center"><Gift className="w-5 h-5 text-orange-400" /></div>
+ <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center"><Gift className="w-5 h-5 text-warning" /></div>
  <div><p className="text-[10px] font-bold text-muted-foreground">{t('avgMemberValue')}</p><p className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{activeMembers > 0 ? (totalRevenue / activeMembers).toFixed(0) : '0'}</p></div>
  </div>
  </Card>
@@ -403,7 +403,7 @@ export default function MembershipManagement() {
  <Card className="bg-card border-border rounded-3xl p-8">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <Users className="w-5 h-5 text-emerald-500" />{t("admin_membership_members")} ({filteredMembers.length})
+ <Users className="w-5 h-5 text-success" />{t("admin_membership_members")} ({filteredMembers.length})
  </CardTitle>
  </CardHeader>
  <CardContent>
@@ -466,7 +466,7 @@ export default function MembershipManagement() {
  <Card className="bg-card border-border rounded-3xl p-8">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <Crown className="w-5 h-5 text-slate-500" />{t("admin_membership_membership_tiers")}
+ <Crown className="w-5 h-5 text-muted-foreground" />{t("admin_membership_membership_tiers")}
  </CardTitle>
  </CardHeader>
  <CardContent>
@@ -482,7 +482,7 @@ export default function MembershipManagement() {
  </div>
  </div>
  <div className="text-right">
- <Badge className={cn("text-[9px] font-bold px-2", tier.isActive ?"bg-emerald-500/20 text-emerald-400 border-emerald-500/20" :"bg-muted0/20 text-muted-foreground border-slate-500/20")}>
+ <Badge className={cn("text-[9px] font-bold px-2", tier.isActive ?"bg-blue-500/20 text-success border-blue-500/20" :"bg-muted0/20 text-muted-foreground border-slate-500/20")}>
  {tier.isActive ?"ACTIVE" :"INACTIVE"}
  </Badge>
  </div>
@@ -493,7 +493,7 @@ export default function MembershipManagement() {
  <div className="space-y-2">
  <ul className="text-sm text-muted-foreground">
  {tier.features.map((feature, index) => (
- <li key={index} className="flex items-center gap-2"><CheckCircle className="w-3 h-3 text-emerald-400" /><span>{feature}</span></li>
+ <li key={index} className="flex items-center gap-2"><CheckCircle className="w-3 h-3 text-success" /><span>{feature}</span></li>
  ))}
  </ul>
  </div>
@@ -534,7 +534,7 @@ export default function MembershipManagement() {
  <p className="text-xs text-muted-foreground">{t("admin_membership_available_for")}{feature.tier}</p>
  </div>
  <div className="text-right">
- <Badge className={cn("text-[9px] font-bold px-2", feature.isActive ?"bg-emerald-500/20 text-emerald-400 border-emerald-500/20" :"bg-muted0/20 text-muted-foreground border-slate-500/20")}>
+ <Badge className={cn("text-[9px] font-bold px-2", feature.isActive ?"bg-blue-500/20 text-success border-blue-500/20" :"bg-muted0/20 text-muted-foreground border-slate-500/20")}>
  {feature.isActive ?"ACTIVE" :"INACTIVE"}
  </Badge>
  </div>
@@ -563,7 +563,7 @@ export default function MembershipManagement() {
  <Card className="bg-card border-border rounded-3xl p-6">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <TrendingUp className="w-5 h-5 text-emerald-500" />{t("admin_membership_revenue_analytics")}
+ <TrendingUp className="w-5 h-5 text-success" />{t("admin_membership_revenue_analytics")}
  </CardTitle>
  </CardHeader>
  <CardContent className="space-y-4">
@@ -577,22 +577,22 @@ export default function MembershipManagement() {
  </div>
  <div className="mt-4">
  <p className="text-sm text-muted-foreground">{t("admin_membership_growth_rate")}</p>
- <div className="text-2xl font-bold text-emerald-400">+15.3%</div>
+ <div className="text-2xl font-bold text-success">+15.3%</div>
  </div>
  </CardContent>
  </Card>
  <Card className="bg-card border-border rounded-3xl p-6">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
- <Users className="w-5 h-5 text-slate-500" />{t("admin_membership_member_analytics")}
+ <Users className="w-5 h-5 text-muted-foreground" />{t("admin_membership_member_analytics")}
  </CardTitle>
  </CardHeader>
  <CardContent className="space-y-4">
  <div className="grid grid-cols-2 gap-4 text-sm">
  <div><p className="text-muted-foreground">{t("admin_membership_active_members")}</p><p className="text-lg font-bold text-foreground">{activeMembers}</p></div>
  <div><p className="text-muted-foreground">{t("admin_membership_expired_members")}</p><p className="text-lg font-bold text-foreground">{expiredMembers}</p></div>
- <div><p className="text-muted-foreground">{t("admin_membership_churn_rate")}</p><p className="text-lg font-bold text-orange-400">{activeMembers > 0 ? (expiredMembers / activeMembers * 100).toFixed(1) : '0'}%</p></div>
- <div><p className="text-muted-foreground">{t("admin_membership_retention_rate")}</p><p className="text-lg font-bold text-emerald-400">{activeMembers > 0 ? ((activeMembers - expiredMembers) / activeMembers * 100).toFixed(1) : '0'}%</p></div>
+ <div><p className="text-muted-foreground">{t("admin_membership_churn_rate")}</p><p className="text-lg font-bold text-warning">{activeMembers > 0 ? (expiredMembers / activeMembers * 100).toFixed(1) : '0'}%</p></div>
+ <div><p className="text-muted-foreground">{t("admin_membership_retention_rate")}</p><p className="text-lg font-bold text-success">{activeMembers > 0 ? ((activeMembers - expiredMembers) / activeMembers * 100).toFixed(1) : '0'}%</p></div>
  </div>
  </CardContent>
  </Card>

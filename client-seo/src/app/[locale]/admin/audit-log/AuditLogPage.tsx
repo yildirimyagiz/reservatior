@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { tEnum } from "@/lib/admin-enums";
 import {
   Select,
   SelectContent,
@@ -94,19 +95,19 @@ const mockEntries: AuditEntry[] = [
 ];
 
 const ACTION_COLORS: Record<string, string> = {
-  DEPOSIT_CREATED: "bg-blue-500/20 text-blue-400",
-  PAYMENT_PROCESSED: "bg-green-500/20 text-green-400",
-  TRUST_SCORE_UPDATED: "bg-purple-500/20 text-purple-400",
+  DEPOSIT_CREATED: "bg-blue-500/20 text-info",
+  PAYMENT_PROCESSED: "bg-blue-500/20 text-blue-400",
+  TRUST_SCORE_UPDATED: "bg-brand/20 text-brand",
   TRANSFER_FAILED: "bg-red-500/20 text-red-400",
   PORTFOLIO_CREATED: "bg-cyan-500/20 text-cyan-400",
-  INTENT_DECLARED: "bg-amber-500/20 text-amber-400",
-  DEPOSIT_DEFAULTED: "bg-orange-500/20 text-orange-400",
+  INTENT_DECLARED: "bg-amber-500/20 text-warning",
+  DEPOSIT_DEFAULTED: "bg-orange-500/20 text-warning",
 };
 
 const STATUS_ICONS: Record<string, React.ReactNode> = {
-  SUCCESS: <CheckCircle className="w-4 h-4 text-green-400" />,
+  SUCCESS: <CheckCircle className="w-4 h-4 text-blue-400" />,
   FAILED: <AlertTriangle className="w-4 h-4 text-red-400" />,
-  PENDING: <Clock className="w-4 h-4 text-amber-400" />,
+  PENDING: <Clock className="w-4 h-4 text-warning" />,
 };
 
 export default function AuditLogPage() {
@@ -145,12 +146,12 @@ export default function AuditLogPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_audit_title", "Financial Audit Log")}</h1>
-              <p className="text-muted-foreground">{t("admin_audit_description", "Review financial audit trail, transaction history, and integrity checks")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_audit_title", "Finansal Denetim Günlüğü")}</h1>
+              <p className="text-muted-foreground">{t("admin_audit_description", "Tüm finansal işlemler ve durum değişiklikleri için değiştirilemez denetim kaydı")}</p>
             </div>
             <Button className="bg-primary hover:bg-primary/90">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin_audit_back_to_dashboard", "Back to Dashboard")}
+              {t("admin_audit_back_to_dashboard", "Panele Dön")}
             </Button>
           </div>
         </m.div>
@@ -162,7 +163,7 @@ export default function AuditLogPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/10"><ScrollText className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_audit_total_events", "Total Events")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_audit_total_events", "Toplam Olay")}</p>
                   <p className="text-2xl font-bold text-foreground">{totalEvents}</p>
                 </div>
               </div>
@@ -171,7 +172,7 @@ export default function AuditLogPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10"><Clock className="w-5 h-5 text-green-500" /></div>
+                <div className="p-2 rounded-lg bg-blue-500/10"><Clock className="w-5 h-5 text-blue-500" /></div>
                 <div>
                   <p className="text-sm text-muted-foreground">{t("admin_audit_today_events", "Today's Events")}</p>
                   <p className="text-2xl font-bold text-foreground">{todayEvents}</p>
@@ -184,7 +185,7 @@ export default function AuditLogPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-red-500/10"><AlertTriangle className="w-5 h-5 text-red-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_audit_failed_events", "Failed Events")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_audit_failed_events", "Başarısız")}</p>
                   <p className="text-2xl font-bold text-foreground">{failedEvents}</p>
                 </div>
               </div>
@@ -201,7 +202,7 @@ export default function AuditLogPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin_audit_search_placeholder", "Search by actor, action, or entity ID...")}
+                      placeholder={t("admin_audit_search_placeholder", "Denetim kayıtları ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -210,31 +211,31 @@ export default function AuditLogPage() {
                 </div>
                 <Select value={actionFilter} onValueChange={setActionFilter}>
                   <SelectTrigger className="w-[200px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_audit_action_type", "Action Type")} />
+                    <SelectValue placeholder={t("admin_audit_action_type", "İşlem Türü")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">All Actions</SelectItem>
-                    <SelectItem value="DEPOSIT_CREATED">Deposit Created</SelectItem>
-                    <SelectItem value="PAYMENT_PROCESSED">Payment Processed</SelectItem>
-                    <SelectItem value="TRUST_SCORE_UPDATED">Trust Score Updated</SelectItem>
-                    <SelectItem value="TRANSFER_FAILED">Transfer Failed</SelectItem>
-                    <SelectItem value="PORTFOLIO_CREATED">Portfolio Created</SelectItem>
-                    <SelectItem value="INTENT_DECLARED">Intent Declared</SelectItem>
-                    <SelectItem value="DEPOSIT_DEFAULTED">Deposit Defaulted</SelectItem>
+                    <SelectItem value="ALL">{t("admin_audit_all_actions", "Tüm Eylemler")}</SelectItem>
+                    <SelectItem value="DEPOSIT_CREATED">{tEnum(t, "DEPOSIT_CREATED")}</SelectItem>
+                    <SelectItem value="PAYMENT_PROCESSED">{tEnum(t, "PAYMENT_PROCESSED")}</SelectItem>
+                    <SelectItem value="TRUST_SCORE_UPDATED">{tEnum(t, "TRUST_SCORE_UPDATED")}</SelectItem>
+                    <SelectItem value="TRANSFER_FAILED">{tEnum(t, "TRANSFER_FAILED")}</SelectItem>
+                    <SelectItem value="PORTFOLIO_CREATED">{tEnum(t, "PORTFOLIO_CREATED")}</SelectItem>
+                    <SelectItem value="INTENT_DECLARED">{tEnum(t, "INTENT_DECLARED")}</SelectItem>
+                    <SelectItem value="DEPOSIT_DEFAULTED">{tEnum(t, "DEPOSIT_DEFAULTED")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select value={entityFilter} onValueChange={setEntityFilter}>
                   <SelectTrigger className="w-[200px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_audit_entity_type", "Entity Type")} />
+                    <SelectValue placeholder={t("admin_audit_entity_type", "Varlık Türü")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">All Entities</SelectItem>
-                    <SelectItem value="KUMBARA_DEPOSIT">Kumbara Deposit</SelectItem>
-                    <SelectItem value="ESCROW">Escrow</SelectItem>
-                    <SelectItem value="TRUST_SCORE">Trust Score</SelectItem>
-                    <SelectItem value="BANK_ACCOUNT">Bank Account</SelectItem>
-                    <SelectItem value="REO_PORTFOLIO">REO Portfolio</SelectItem>
-                    <SelectItem value="PURCHASE_INTENT">Purchase Intent</SelectItem>
+                    <SelectItem value="ALL">{t("admin_audit_all_entities", "Tüm Varlıklar")}</SelectItem>
+                    <SelectItem value="KUMBARA_DEPOSIT">{tEnum(t, "KUMBARA_DEPOSIT")}</SelectItem>
+                    <SelectItem value="ESCROW">{tEnum(t, "ESCROW")}</SelectItem>
+                    <SelectItem value="TRUST_SCORE">{tEnum(t, "TRUST_SCORE")}</SelectItem>
+                    <SelectItem value="BANK_ACCOUNT">{tEnum(t, "BANK_ACCOUNT")}</SelectItem>
+                    <SelectItem value="REO_PORTFOLIO">{tEnum(t, "REO_PORTFOLIO")}</SelectItem>
+                    <SelectItem value="PURCHASE_INTENT">{tEnum(t, "PURCHASE_INTENT")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -248,7 +249,7 @@ export default function AuditLogPage() {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <ScrollText className="w-5 h-5" />
-                {t("admin_audit_log_entries", "Audit Log Entries")} ({filtered.length})
+                {t("admin_audit_log_entries", "Günlük Kayıtları")} ({filtered.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -256,22 +257,22 @@ export default function AuditLogPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_timestamp", "Timestamp")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_action", "Action")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_entity", "Entity")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_amount", "Amount")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_actor", "Actor")}</th>
-                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_status", "Status")}</th>
-                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_actions", "Actions")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_timestamp", "Zaman Damgası")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_action", "İşlem")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_entity", "Varlık")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_amount", "Tutar")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_actor", "İşlem Sahibi")}</th>
+                      <th className="text-left py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_status", "Durum")}</th>
+                      <th className="text-right py-3 px-4 text-muted-foreground font-medium">{t("admin_audit_actions", "İşlemler")}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filtered.map((entry) => (
                       <tr key={entry.id} className="border-b border-border/50 hover:bg-muted/30 transition-colors cursor-pointer" onClick={() => setExpandedEntry(expandedEntry?.id === entry.id ? null : entry)}>
                         <td className="py-3 px-4 text-muted-foreground text-xs whitespace-nowrap">{formatDate(entry.timestamp)}</td>
-                        <td className="py-3 px-4"><Badge className={ACTION_COLORS[entry.action]}>{entry.action.replace(/_/g, " ")}</Badge></td>
+                        <td className="py-3 px-4"><Badge className={ACTION_COLORS[entry.action]}>{tEnum(t, entry.action)}</Badge></td>
                         <td className="py-3 px-4">
-                          <div className="text-foreground">{entry.entityType.replace(/_/g, " ")}</div>
+                          <div className="text-foreground">{tEnum(t, entry.entityType)}</div>
                           <div className="text-xs text-muted-foreground">{entry.entityId}</div>
                         </td>
                         <td className="py-3 px-4 text-foreground">{entry.amount ? `$${entry.amount.toLocaleString()}` : "-"}</td>
@@ -280,9 +281,9 @@ export default function AuditLogPage() {
                         <td className="py-3 px-4">
                           <div className="flex justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                             <Button onClick={() => handleVerify(entry.id)} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10">
-                              {verifyingId === entry.id ? <span className="animate-spin w-4 h-4 border-2 border-primary border-t-transparent rounded-full" /> : <ShieldCheck className={`w-4 h-4 ${entry.verified ? "text-green-400" : "text-muted-foreground"}`} />}
+                              {verifyingId === entry.id ? <span className="animate-spin w-4 h-4 border-2 border-primary border-t-transparent rounded-full" /> : <ShieldCheck className={`w-4 h-4 ${entry.verified ? "text-blue-400" : "text-muted-foreground"}`} />}
                             </Button>
-                            <Button onClick={() => setExpandedEntry(expandedEntry?.id === entry.id ? null : entry)} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10">
+                            <Button onClick={() => setExpandedEntry(expandedEntry?.id === entry.id ? null : entry)} variant="ghost" size="icon" aria-label={t("common.next")} className="min-h-10 min-w-10 h-10 w-10">
                               <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${expandedEntry?.id === entry.id ? "rotate-90" : ""}`} />
                             </Button>
                           </div>
@@ -303,18 +304,18 @@ export default function AuditLogPage() {
               <CardHeader>
                 <CardTitle className="text-foreground flex items-center gap-2">
                   <ScrollText className="w-5 h-5" />
-                  {t("admin_audit_event_diff", "Event Diff")} - {expandedEntry.action.replace(/_/g, " ")}
+                  {t("admin_audit_event_diff", "Olay Farkı")} - {tEnum(t, expandedEntry.action)}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-4 bg-red-500/5 rounded-lg border border-red-500/20">
-                    <h2 className="text-sm font-medium text-red-400 mb-3">{t("admin_audit_old_values", "Old Values")}</h2>
-                    <pre className="text-xs text-foreground font-mono whitespace-pre-wrap">{expandedEntry.oldValues ? JSON.stringify(expandedEntry.oldValues, null, 2) : t("admin_audit_no_previous", "No previous values")}</pre>
+                    <h2 className="text-sm font-medium text-red-400 mb-3">{t("admin_audit_old_values", "Eski Değerler")}</h2>
+                    <pre className="text-xs text-foreground font-mono whitespace-pre-wrap">{expandedEntry.oldValues ? JSON.stringify(expandedEntry.oldValues, null, 2) : t("admin_audit_no_previous", "Önceki değer yok")}</pre>
                   </div>
-                  <div className="p-4 bg-green-500/5 rounded-lg border border-green-500/20">
-                    <h4 className="text-sm font-medium text-green-400 mb-3">{t("admin_audit_new_values", "New Values")}</h4>
-                    <pre className="text-xs text-foreground font-mono whitespace-pre-wrap">{expandedEntry.newValues ? JSON.stringify(expandedEntry.newValues, null, 2) : t("admin_audit_no_new", "No new values")}</pre>
+                  <div className="p-4 bg-blue-500/5 rounded-lg border border-blue-500/20">
+                    <h4 className="text-sm font-medium text-blue-400 mb-3">{t("admin_audit_new_values", "Yeni Değerler")}</h4>
+                    <pre className="text-xs text-foreground font-mono whitespace-pre-wrap">{expandedEntry.newValues ? JSON.stringify(expandedEntry.newValues, null, 2) : t("admin_audit_no_new", "Yeni değer yok")}</pre>
                   </div>
                 </div>
               </CardContent>

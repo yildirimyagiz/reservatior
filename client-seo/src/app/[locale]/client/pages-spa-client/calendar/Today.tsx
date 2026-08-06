@@ -158,15 +158,15 @@ export default function Today() {
   const getSectorColor = (sector: SectorType) => {
     switch (sector) {
       case "rentals":
-        return "text-blue-400 bg-blue-500/10 border-blue-500/20";
+        return "text-brand bg-brand/100/10 border-blue-500/20";
       case "sales":
-        return "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+        return "text-success bg-success/10 border-success/20";
       case "bookings":
-        return "text-purple-400 bg-purple-500/10 border-purple-500/20";
+        return "text-brand bg-brand/10 border-brand/20";
       case "tasks":
         return "text-amber-400 bg-amber-500/10 border-amber-500/20";
       case "documents":
-        return "text-indigo-400 bg-indigo-500/10 border-indigo-500/20";
+        return "text-brand bg-brand/10 border-brand/20";
       case "helpdesk":
         return "text-rose-400 bg-rose-500/10 border-rose-500/20";
     }
@@ -185,35 +185,35 @@ export default function Today() {
     if (isAgent && !["rentals", "sales", "tasks", "helpdesk"].includes(item.sector)) return false;
     return true;
   });
-  return <div className="min-h-full bg-[#0a0b0d] text-slate-300 p-6 lg:p-10 space-y-10 selection:bg-blue-500/30 font-sans">
+  return <div className="min-h-full bg-[#0a0b0d] text-muted-foreground p-6 lg:p-10 space-y-10 selection:bg-brand/100/30 font-sans">
       
       {/* --- ADMINISTRATIVE HUD --- */}
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-8">
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/5 border border-blue-500/10 text-[10px] font-black text-blue-400 tracking-widest">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/100/5 border border-blue-500/10 text-[10px] font-black text-brand tracking-widest">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand/100"></span>
             </span>
             {roleLabels[user?.role || "USER"] || "User"}{t("client.src.session_active")}</div>
           <div className="space-y-1">
             <h1 className="text-5xl font-black text-white tracking-tighter">{t("client.src.operational_today")}</h1>
-            <p className="text-slate-500 font-medium text-lg italic">{t("client.src.hello")}<span className="text-white font-bold">{user?.name}</span>{t("client.src.you_have")}<span className="text-blue-400 font-bold">{filteredAgenda.length}</span>{t("client.src.actionable_items")}</p>
+            <p className="text-muted-foreground font-medium text-lg italic">{t("client.src.hello")}<span className="text-white font-bold">{user?.name}</span>{t("client.src.you_have")}<span className="text-brand font-bold">{filteredAgenda.length}</span>{t("client.src.actionable_items")}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-6 p-4 rounded-[2.5rem] bg-[#14151a] border border-white/5 shadow-2xl">
+        <div className="flex items-center gap-6 p-4 rounded-[2.5rem] bg-background border border-white/5 shadow-2xl">
           <div className="flex items-center gap-4 px-2">
              <div className="text-right">
-                <div className="text-xs font-black text-slate-500 tracking-widest">{t("client.src.local_insight")}</div>
+                <div className="text-xs font-black text-muted-foreground tracking-widest">{t("client.src.local_insight")}</div>
                 <div className="text-xl font-bold text-white tracking-tight">{format(new Date(), "HH:mm")}</div>
              </div>
              <div className="h-10 w-px bg-white/5" />
-             <Button variant="ghost" size="icon" className="bg-white/5 hover:bg-blue-500/20 hover:text-blue-400 rounded-2xl h-12 w-12 transition-all">
+             <Button variant="ghost" size="icon" aria-label={t("common.notifications")} className="bg-white/5 hover:bg-brand/100/20 hover:text-brand rounded-2xl h-12 w-12 transition-all">
                 <Bell className="w-6 h-6" />
              </Button>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-500 text-white font-black px-8 h-14 rounded-2xl shadow-xl shadow-blue-600/30 active:scale-95 transition-all gap-3" onClick={() => setShowEventDialog(true)}>
+          <Button className="bg-blue-600 hover:bg-brand/100 text-white font-black px-8 h-14 rounded-2xl shadow-xl shadow-blue-600/30 active:scale-95 transition-all gap-3" onClick={() => setShowEventDialog(true)}>
             <Plus className="w-6 h-6" />{t("client.src.new_deployment")}</Button>
         </div>
       </div>
@@ -235,7 +235,7 @@ export default function Today() {
         color: "blue",
         roles: ["SUPER_ADMIN", "ORG_ADMIN", "AGENCY_ADMIN", "AGENT", "TENANT_GUEST"]
       }, {
-        label: t("client.src.bookings"),
+        label: t("common.bookings"),
         val: 8,
         sub: "Activity",
         icon: <CalendarDays />,
@@ -262,13 +262,13 @@ export default function Today() {
         icon: <CheckSquare />,
         color: "amber",
         roles: ["SUPER_ADMIN", "ORG_ADMIN", "AGENCY_ADMIN", "AGENT"]
-      }].filter(s => s.roles.includes(user?.role || "USER")).map((s, i) => <Card key={i} className="bg-[#14151a]/50 border-white/5 hover:border-blue-500/20 transition-all cursor-pointer group rounded-4xl overflow-hidden">
+      }].filter(s => s.roles.includes(user?.role || "USER")).map((s, i) => <Card key={i} className="bg-background/50 border-white/5 hover:border-blue-500/20 transition-all cursor-pointer group rounded-4xl overflow-hidden">
              <CardContent className="p-6">
-                <div className={cn("p-3 rounded-2xl w-fit mb-4 group-hover:scale-110 transition-transform", s.color === 'emerald' ? 'bg-emerald-500/10 text-emerald-400' : s.color === 'blue' ? 'bg-blue-500/10 text-blue-400' : s.color === 'purple' ? 'bg-purple-500/10 text-purple-400' : s.color === 'indigo' ? 'bg-indigo-500/10 text-indigo-400' : s.color === 'rose' ? 'bg-rose-500/10 text-rose-400' : 'bg-amber-500/10 text-amber-400')}>
+                <div className={cn("p-3 rounded-2xl w-fit mb-4 group-hover:scale-110 transition-transform", s.color === 'emerald' ? 'bg-success/10 text-success' : s.color === 'blue' ? 'bg-brand/100/10 text-brand' : s.color === 'purple' ? 'bg-brand/10 text-brand' : s.color === 'indigo' ? 'bg-brand/10 text-brand' : s.color === 'rose' ? 'bg-rose-500/10 text-rose-400' : 'bg-amber-500/10 text-amber-400')}>
                   {s.icon}
                 </div>
                 <div className="text-2xl font-black text-white tracking-tighter mb-0.5">{s.val}</div>
-                <div className="text-[10px] font-bold text-slate-500 tracking-widest">{s.label}</div>
+                <div className="text-[10px] font-bold text-muted-foreground tracking-widest">{s.label}</div>
              </CardContent>
            </Card>)}
       </div>
@@ -279,15 +279,15 @@ export default function Today() {
         <div className="xl:col-span-8 space-y-8">
            <Tabs defaultValue="all" onValueChange={v => setActiveSector(v as any)} className="space-y-8">
               <div className="flex items-center justify-between flex-wrap gap-6">
-                <TabsList className="bg-slate-950/50 p-1.5 rounded-2xl border border-white/5 h-auto flex flex-wrap gap-1">
+                <TabsList className="bg-muted/50 p-1.5 rounded-2xl border border-white/5 h-auto flex flex-wrap gap-1">
                    {visibleSectors.map(s => <TabsTrigger key={s} value={s} className="rounded-xl px-6 py-2.5 data-[state=active]:bg-blue-600 data-[state=active]:text-white text-[10px] font-black tracking-widest">
                        {s === 'all' ? 'Universe' : s}
                      </TabsTrigger>)}
                 </TabsList>
                 
                 <div className="relative group">
-                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-                   <Input placeholder={t("client.src.search_entities_agents_or")} className="bg-[#14151a] border-white/10 pl-11 pr-6 rounded-2xl h-12 w-full md:w-[300px] text-sm focus:ring-blue-500/20 focus:border-blue-500/30 transition-all font-medium" />
+                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-brand transition-colors" />
+                   <Input placeholder={t("client.src.search_entities_agents_or")} className="bg-background border-white/10 pl-11 pr-6 rounded-2xl h-12 w-full md:w-[300px] text-sm focus:ring-blue-500/20 focus:border-blue-500/30 transition-all font-medium" />
                 </div>
               </div>
 
@@ -306,12 +306,12 @@ export default function Today() {
                 }} transition={{
                   delay: idx * 0.05
                 }}>
-                          <Card className="bg-[#14151a]/40 border-white/5 rounded-[2.5rem] hover:bg-[#1a1b21] hover:border-white/10 transition-all overflow-hidden group">
+                          <Card className="bg-background/40 border-white/5 rounded-[2.5rem] hover:bg-[#1a1b21] hover:border-white/10 transition-all overflow-hidden group">
                              <CardContent className="p-8">
                                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                                     <div className="flex items-start gap-6">
                                        <div className="flex flex-col items-center">
-                                          <div className="text-[10px] font-black text-slate-500 mb-1">{item.time}</div>
+                                          <div className="text-[10px] font-black text-muted-foreground mb-1">{item.time}</div>
                                           <div className="w-1 h-12 bg-gradient-to-b from-blue-500/50 to-transparent rounded-full" />
                                        </div>
                                        <div className="space-y-2">
@@ -320,36 +320,36 @@ export default function Today() {
                                                {getSectorIcon(item.sector)}
                                                <span className="ml-1.5">{item.sector}</span>
                                              </Badge>
-                                             <div className={cn("w-1.5 h-1.5 rounded-full", item.priority === "urgent" ? "bg-rose-500 animate-pulse shadow-[0_0_8px_#f43f5e]" : item.priority === "high" ? "bg-amber-500" : "bg-blue-500")} />
+                                             <div className={cn("w-1.5 h-1.5 rounded-full", item.priority === "urgent" ? "bg-rose-500 animate-pulse shadow-[0_0_8px_#f43f5e]" : item.priority === "high" ? "bg-amber-500" : "bg-brand/100")} />
                                           </div>
-                                          <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors tracking-tight">{item.title}</h3>
-                                          <p className="text-sm text-slate-500 font-medium max-w-lg leading-relaxed">{item.description}</p>
+                                          <h3 className="text-xl font-bold text-white group-hover:text-brand transition-colors tracking-tight">{item.title}</h3>
+                                          <p className="text-sm text-muted-foreground font-medium max-w-lg leading-relaxed">{item.description}</p>
                                        </div>
                                     </div>
 
                                     <div className="flex items-center justify-between md:justify-end gap-10 border-t md:border-t-0 border-white/5 pt-6 md:pt-0">
                                        <div className="flex items-center gap-4">
                                           <Avatar className="h-12 w-12 border-2 border-white/5 rounded-2xl">
-                                             <AvatarFallback className="bg-slate-800 text-xs font-black text-blue-400 tracking-tighter">
+                                             <AvatarFallback className="bg-muted text-xs font-black text-brand tracking-tighter">
                                                {item.entityName.substring(0, 2)}
                                              </AvatarFallback>
                                           </Avatar>
                                           <div>
                                              <div className="text-xs font-black text-white tracking-tight">{item.entityName}</div>
-                                             <div className="text-[10px] font-bold text-slate-500 tracking-[0.15em]">{item.entityRole}</div>
+                                             <div className="text-[10px] font-bold text-muted-foreground tracking-[0.15em]">{item.entityRole}</div>
                                           </div>
                                        </div>
                                        <div className="flex flex-col items-end gap-2">
-                                          <Button variant="ghost" size="icon" className="rounded-xl hover:bg-white/5 text-slate-500 hover:text-white">
+                                          <Button variant="ghost" size="icon" aria-label={t("common.next")} className="rounded-xl hover:bg-white/5 text-muted-foreground hover:text-white">
                                              <ArrowRight className="w-5 h-5" />
                                           </Button>
                                        </div>
                                     </div>
                                  </div>
                                  {item.progress !== undefined && <div className="mt-6 space-y-2">
-                                     <div className="flex justify-between text-[10px] font-black tracking-widest text-slate-500">
+                                     <div className="flex justify-between text-[10px] font-black tracking-widest text-muted-foreground">
                                        <span>{t("client.src.verification_integrity")}</span>
-                                       <span className="text-indigo-400">{item.progress}%</span>
+                                       <span className="text-brand">{item.progress}%</span>
                                      </div>
                                      <Progress value={item.progress} className="h-1 bg-white/5" />
                                    </div>}
@@ -364,11 +364,11 @@ export default function Today() {
 
         {/* --- STRATEGIC SIDEBAR --- */}
         <div className="xl:col-span-4 space-y-10">
-           <Card className="bg-[#14151a]/40 border-white/5 rounded-[2.5rem] backdrop-blur-3xl overflow-hidden shadow-2xl">
+           <Card className="bg-background/40 border-white/5 rounded-[2.5rem] backdrop-blur-3xl overflow-hidden shadow-2xl">
               <CardHeader className="p-8 border-b border-white/5 bg-white/5">
                <CardTitle className="text-lg font-black text-white flex items-center gap-3">
-                 <Target className="w-5 h-5 text-blue-500" />{t("client.src.ecosystem_horizon")}</CardTitle>
-               <CardDescription className="text-slate-500 font-bold text-[10px] tracking-widest">{t("client.src.global_ops_calendar")}</CardDescription>
+                 <Target className="w-5 h-5 text-brand" />{t("client.src.ecosystem_horizon")}</CardTitle>
+               <CardDescription className="text-muted-foreground font-bold text-[10px] tracking-widest">{t("client.src.global_ops_calendar")}</CardDescription>
              </CardHeader>
              <CardContent className="p-0">
                 <div className="p-6">
@@ -377,18 +377,18 @@ export default function Today() {
                     locale: tr
                   })}</h4>
                       <div className="flex gap-1">
-                         <Button onClick={() => setCurrentDate(subMonths(currentDate, 1))} variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/5 rounded-lg"><ChevronLeft className="w-4 h-4" /></Button>
-                         <Button onClick={() => setCurrentDate(addMonths(currentDate, 1))} variant="ghost" size="icon" className="h-8 w-8 hover:bg-white/5 rounded-lg"><ChevronRight className="w-4 h-4" /></Button>
+                         <Button onClick={() => setCurrentDate(subMonths(currentDate, 1))} variant="ghost" size="icon" aria-label={t("common.previous")} className="h-8 w-8 hover:bg-white/5 rounded-lg"><ChevronLeft className="w-4 h-4" /></Button>
+                         <Button onClick={() => setCurrentDate(addMonths(currentDate, 1))} variant="ghost" size="icon" aria-label={t("common.next")} className="h-8 w-8 hover:bg-white/5 rounded-lg"><ChevronRight className="w-4 h-4" /></Button>
                       </div>
                    </div>
                    <div className="grid grid-cols-7 gap-1 mb-2">
-                      {["M", "T", "W", "T", "F", "S", "S"].map(d => <div key={d} className="text-center text-[9px] font-black text-slate-600 py-2">{d}</div>)}
+                      {["M", "T", "W", "T", "F", "S", "S"].map(d => <div key={d} className="text-center text-[9px] font-black text-muted-foreground py-2">{d}</div>)}
                    </div>
                    <div className="grid grid-cols-7 gap-px rounded-xl overflow-hidden grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all">
                       {/* Simple Calendar Grid */}
                       {Array.from({
                   length: 35
-                }).map((_, i) => <div key={i} className={cn("aspect-square flex items-center justify-center text-[9px] font-bold border border-white/5", i === 15 ? "bg-blue-600 text-white rounded-lg scale-110 shadow-lg z-10" : "bg-white/5 text-slate-500")}>
+                }).map((_, i) => <div key={i} className={cn("aspect-square flex items-center justify-center text-[9px] font-bold border border-white/5", i === 15 ? "bg-blue-600 text-white rounded-lg scale-110 shadow-lg z-10" : "bg-white/5 text-muted-foreground")}>
                            {i + 1 > 31 ? i + 1 - 31 : i + 1}
                         </div>)}
                    </div>
@@ -396,26 +396,26 @@ export default function Today() {
              </CardContent>
            </Card>
 
-           <Card className="bg-gradient-to-br from-indigo-600/10 via-[#14151a] to-[#14151a] border-white/5 rounded-[2.5rem] p-10 relative overflow-hidden group">
-               <Sparkles className="absolute -right-6 -bottom-6 w-32 h-32 text-indigo-500/10 group-hover:scale-110 transition-transform duration-700" />
+           <Card className="bg-gradient-to-br from-brand/10 via-[#14151a] to-[#14151a] border-white/5 rounded-[2.5rem] p-10 relative overflow-hidden group">
+               <Sparkles className="absolute -right-6 -bottom-6 w-32 h-32 text-brand/10 group-hover:scale-110 transition-transform duration-700" />
                <div className="relative z-10 space-y-6">
-                  <div className="p-4 bg-indigo-500/10 rounded-3xl w-fit border border-indigo-500/20">
-                    <ShieldCheck className="w-8 h-8 text-indigo-400" />
+                  <div className="p-4 bg-brand/10 rounded-3xl w-fit border border-brand/20">
+                    <ShieldCheck className="w-8 h-8 text-brand" />
                   </div>
                   <div className="space-y-2">
                      <h3 className="text-2xl font-black text-white tracking-tight leading-tight">{t("client.src.document_compliance_matrix")}</h3>
-                     <p className="text-slate-500 font-medium text-sm leading-relaxed">
-                        <span className="text-indigo-400 font-bold">{t("client.src.5_critical_flags")}</span>{t("client.src.detected_in_agent_contracts")}</p>
+                     <p className="text-muted-foreground font-medium text-sm leading-relaxed">
+                        <span className="text-brand font-bold">{t("client.src.5_critical_flags")}</span>{t("client.src.detected_in_agent_contracts")}</p>
                   </div>
-                  <Button className="w-full bg-[#1c1d25] border border-white/5 hover:bg-indigo-600 hover:text-white transition-all h-14 rounded-2xl text-[10px] font-black tracking-widest gap-2">{t("client.src.audit_submissions")}<ArrowRight className="w-4 h-4" />
+                  <Button className="w-full bg-[#1c1d25] border border-white/5 hover:bg-brand hover:text-white transition-all h-14 rounded-2xl text-[10px] font-black tracking-widest gap-2">{t("client.src.audit_submissions")}<ArrowRight className="w-4 h-4" />
                   </Button>
                </div>
            </Card>
 
-           <Card className="bg-[#14151a]/40 border-white/5 rounded-[2.5rem] p-10 backdrop-blur-3xl">
+           <Card className="bg-background/40 border-white/5 rounded-[2.5rem] p-10 backdrop-blur-3xl">
                <div className="flex items-center gap-2 mb-8">
-                 <Activity className="w-4 h-4 text-emerald-500" />
-                 <h4 className="text-[10px] font-black text-slate-500 tracking-[0.2em]">{t("client.src.ecosystem_vitality")}</h4>
+                 <Activity className="w-4 h-4 text-success" />
+                 <h4 className="text-[10px] font-black text-muted-foreground tracking-[0.2em]">{t("client.src.ecosystem_vitality")}</h4>
                </div>
                <div className="space-y-8">
                   {[{
@@ -433,7 +433,7 @@ export default function Today() {
             }].map((metric, i) => <div key={i} className="space-y-3">
                        <div className="flex justify-between items-end">
                           <span className="text-sm font-bold text-white">{metric.label}</span>
-                          <span className={cn("text-xs font-black", metric.color === 'purple' ? 'text-purple-400' : metric.color === 'emerald' ? 'text-emerald-400' : 'text-blue-400')}>{metric.val}%</span>
+                          <span className={cn("text-xs font-black", metric.color === 'purple' ? 'text-brand' : metric.color === 'emerald' ? 'text-success' : 'text-brand')}>{metric.val}%</span>
                        </div>
                        <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                          <m.div initial={{
@@ -443,7 +443,7 @@ export default function Today() {
                 }} transition={{
                   duration: 1.5,
                   delay: i * 0.2
-                }} className={cn("h-full", metric.color === 'purple' ? 'bg-purple-500' : metric.color === 'emerald' ? 'bg-emerald-500' : 'bg-blue-500')} />
+                }} className={cn("h-full", metric.color === 'purple' ? 'bg-brand/100' : metric.color === 'emerald' ? 'bg-success' : 'bg-brand/100')} />
                        </div>
                     </div>)}
                </div>
@@ -457,22 +457,22 @@ export default function Today() {
           <div className="p-10 space-y-8">
             <DialogHeader className="space-y-2">
               <DialogTitle className="text-3xl font-black flex items-center gap-3">
-                <Zap className="w-8 h-8 text-blue-500" />{t("client.src.strategic_intervention")}</DialogTitle>
-              <DialogDescription className="text-slate-400 font-medium">{t("client.src.add_a_critical_checkpoint")}</DialogDescription>
+                <Zap className="w-8 h-8 text-brand" />{t("client.src.strategic_intervention")}</DialogTitle>
+              <DialogDescription className="text-muted-foreground font-medium">{t("client.src.add_a_critical_checkpoint")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-8">
                <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-2.5">
-                    <label className="text-[10px] font-black text-slate-500 tracking-[0.2em] ml-1">{t("client.src.mission_title")}</label>
+                    <label className="text-[10px] font-black text-muted-foreground tracking-[0.2em] ml-1">{t("client.src.mission_title")}</label>
                     <Input placeholder={t("client.src.eg_notary_session")} className="bg-white/5 border-white/10 rounded-2xl h-14 font-bold text-white" />
                   </div>
                   <div className="space-y-2.5">
-                    <label className="text-[10px] font-black text-slate-500 tracking-[0.2em] ml-1">{t("client.src.target_sector")}</label>
+                    <label className="text-[10px] font-black text-muted-foreground tracking-[0.2em] ml-1">{t("client.src.target_sector")}</label>
                     <Select>
                       <SelectTrigger className="bg-white/5 border-white/10 rounded-2xl h-14 font-bold text-white">
-                        <SelectValue placeholder={t("client.src.select_type")} />
+                        <SelectValue placeholder={t("common.select_type")} />
                       </SelectTrigger>
-                      <SelectContent className="bg-slate-900 border-white/10 text-white rounded-2xl">
+                      <SelectContent className="bg-card border-white/10 text-white rounded-2xl">
                         <SelectItem value="sales">{t("client.src.sales_payouts")}</SelectItem>
                         <SelectItem value="rentals">{t("client.src.rentals_leases")}</SelectItem>
                         <SelectItem value="bookings">{t("client.src.hospitality_bookings")}</SelectItem>
@@ -483,7 +483,7 @@ export default function Today() {
                </div>
             </div>
             <DialogFooter className="pt-6">
-              <Button className="bg-blue-600 hover:bg-blue-500 text-white font-black px-10 h-14 rounded-2xl w-full">{t("client.src.initiate_checkpoint")}</Button>
+              <Button className="bg-blue-600 hover:bg-brand/100 text-white font-black px-10 h-14 rounded-2xl w-full">{t("client.src.initiate_checkpoint")}</Button>
             </DialogFooter>
           </div>
         </DialogContent>

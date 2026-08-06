@@ -42,7 +42,7 @@ export function AIWidget() {
             <p className="text-[10px] uppercase tracking-tighter text-slate-500 font-bold mb-1">{t("leadScore")}</p>
             <div className="flex items-center justify-center gap-1">
               <span className="text-xl font-bold">8.4</span>
-              <TrendingUp className="w-3 h-3 text-emerald-500" />
+              <TrendingUp className="w-3 h-3 text-blue-500" />
             </div>
           </div>
           <div className="p-3 bg-background/40 border border-white/5 rounded-xl text-center">

@@ -62,7 +62,7 @@ async function main() {
       defaultLocale: "tr-TR",
       taxReportingEnabled: true,
       complianceTracking: true,
-      contactEmail: "tr@reservatior.com",
+      contactEmail: "info@reservatior.com",
       address: "Büyükdere Cad. No:199, Levent, Istanbul 34394",
     },
   });

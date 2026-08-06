@@ -43,10 +43,10 @@ export default function VerifyEmailPage() {
           {t("verify_email.verifyemailpage.auto_ext_1")}
                           </Button>
 
-        <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+        <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
           <CardHeader className="text-center">
-            <div className="p-6 rounded-full bg-purple-500/20 mx-auto mb-6 w-fit">
-              <Mail className="w-16 h-16 text-purple-400" />
+            <div className="p-6 rounded-full bg-brand/20 mx-auto mb-6 w-fit">
+              <Mail className="w-16 h-16 text-brand" />
             </div>
             <CardTitle className="text-3xl font-bold text-white mb-2">
               {isVerified ? "Email Verified" : "Verify Your Email"}
@@ -68,13 +68,13 @@ export default function VerifyEmailPage() {
                     placeholder="123456"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    className="text-center text-2xl tracking-widest bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                    className="text-center text-2xl tracking-widest bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                     maxLength={6}
                     required
                   />
                 </div>
 
-                <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700">
+                <Button type="submit" className="w-full bg-brand hover:bg-brand">
                   {t("verify_email.verifyemailpage.auto_ext_3")}
                                                     <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -84,7 +84,7 @@ export default function VerifyEmailPage() {
                     type="button"
                     onClick={handleResend}
                     disabled={isResending}
-                    className="text-sm text-purple-400 hover:text-purple-300 disabled:text-gray-400"
+                    className="text-sm text-brand hover:text-brand disabled:text-gray-400"
                   >
                     {isResending ? (
                       <span className="flex items-center justify-center gap-2">
@@ -99,8 +99,8 @@ export default function VerifyEmailPage() {
               </form>
             ) : (
               <div className="text-center space-y-6">
-                <div className="p-6 rounded-full bg-green-500/20 mx-auto w-fit">
-                  <CheckCircle className="w-16 h-16 text-green-400" />
+                <div className="p-6 rounded-full bg-blue-500/20 mx-auto w-fit">
+                  <CheckCircle className="w-16 h-16 text-blue-400" />
                 </div>
                 <div className="space-y-4">
                   <p className="text-gray-300">
@@ -109,7 +109,7 @@ export default function VerifyEmailPage() {
                 </div>
                 <Button
                   onClick={() => router.push('/dashboard')}
-                  className="w-full bg-purple-600 hover:bg-purple-700"
+                  className="w-full bg-brand hover:bg-brand"
                 >
                   {t("verify_email.verifyemailpage.auto_ext_6")}
                                                         <ArrowRight className="w-4 h-4 ml-2" />

@@ -40,7 +40,7 @@ export default function MapProviderSelector() {
     description: t("client.src.open_source_and_free"),
     icon: Map,
     features: ["Open Source", "Free", "Community Driven"],
-    color: "bg-green-500",
+    color: "bg-blue-500",
     status: "active" as const
   }];
   return <Card className="w-full max-w-md">

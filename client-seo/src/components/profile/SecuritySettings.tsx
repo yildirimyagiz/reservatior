@@ -64,7 +64,7 @@ export function SecuritySettings() {
       setShow2FASetup(true);
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t('errorSetup'),
         variant: "destructive"
       });
@@ -83,7 +83,7 @@ export function SecuritySettings() {
       });
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t('error2FA'),
         variant: "destructive"
       });
@@ -100,7 +100,7 @@ export function SecuritySettings() {
       });
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.could_not_terminate_session"),
         variant: "destructive"
       });
@@ -113,15 +113,15 @@ export function SecuritySettings() {
           <div className="flex items-start justify-between relative z-10">
             <div className="flex items-center gap-6">
                <div className="h-16 w-16 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-center relative overflow-hidden">
-                  <div className={cn("absolute inset-0 opacity-20", is2FAEnabled ? "bg-emerald-500" : "bg-amber-500")} />
-                  {is2FAEnabled ? <ShieldCheck className="w-8 h-8 text-emerald-500 relative z-10" /> : <ShieldAlert className="w-8 h-8 text-amber-500 relative z-10" />}
+                  <div className={cn("absolute inset-0 opacity-20", is2FAEnabled ? "bg-blue-500" : "bg-amber-500")} />
+                  {is2FAEnabled ? <ShieldCheck className="w-8 h-8 text-blue-500 relative z-10" /> : <ShieldAlert className="w-8 h-8 text-amber-500 relative z-10" />}
                </div>
                <div className="space-y-2">
                   <h3 className="text-xl font-black text-white italic tracking-tighter uppercase leading-none">{t('twoFactor')}</h3>
                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">{t('twoFactorDesc')}</p>
                </div>
             </div>
-            <Badge className={cn("px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest italic border", is2FAEnabled ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20")}>
+            <Badge className={cn("px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest italic border", is2FAEnabled ? "bg-blue-500/10 text-blue-400 border-blue-500/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20")}>
                {is2FAEnabled ? "ENABLED" : "DISABLED"}
             </Badge>
           </div>
@@ -206,7 +206,7 @@ export function SecuritySettings() {
           }} className="flex items-center justify-between p-6 rounded-[24px] bg-black/40 border border-white/5 hover:bg-white/5 transition-all group/session hover:border-blue-500/20">
                 <div className="flex items-center gap-6">
                   <div className="relative">
-                    <div className={cn("absolute inset-0 blur-lg opacity-20 transition-all", session.isCurrent ? "bg-emerald-500" : "bg-blue-500")} />
+                    <div className={cn("absolute inset-0 blur-lg opacity-20 transition-all", session.isCurrent ? "bg-blue-500" : "bg-blue-500")} />
                     <div className="h-14 w-14 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-center relative z-10 text-slate-400 group-hover/session:text-white transition-colors">
                       <Monitor className="w-6 h-6" />
                     </div>
@@ -214,7 +214,7 @@ export function SecuritySettings() {
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-3">
                       <span className="text-xs font-black text-white italic tracking-widest uppercase">{session.deviceId || t('unknownDevice')}</span>
-                      {session.isCurrent && <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[8px] font-black uppercase italic">
+                      {session.isCurrent && <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[8px] font-black uppercase italic">
                            {t('currentDevice')}
                         </Badge>}
                     </div>
@@ -227,7 +227,7 @@ export function SecuritySettings() {
                     </div>
                   </div>
                 </div>
-                {!session.isCurrent && <Button variant="ghost" size="icon" className="h-12 w-12 rounded-xl bg-red-500/5 text-red-500 hover:text-red-400 hover:bg-red-500/10 transition-all border border-red-500/10 opacity-0 group-hover/session:opacity-100" onClick={() => revokeSession(session.id)}>
+                {!session.isCurrent && <Button variant="ghost" size="icon" aria-label={t("common.close")} className="h-12 w-12 rounded-xl bg-red-500/5 text-red-500 hover:text-red-400 hover:bg-red-500/10 transition-all border border-red-500/10 opacity-0 group-hover/session:opacity-100" onClick={() => revokeSession(session.id)}>
                     <X className="w-5 h-5" />
                   </Button>}
               </m.div>)}

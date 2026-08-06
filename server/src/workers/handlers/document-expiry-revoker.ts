@@ -34,21 +34,26 @@ export async function handleDocumentExpiry(data: any) {
     });
 
     // Log to activity log
-    await prisma.activityLog.create({
-      data: {
-        organization: { connect: { id: orgId } },
-        action: "LISTINGS_SUSPENDED_DOCUMENT_EXPIRY",
-        description: "trigger.document_expired_listings_suspended",
-        entityType: entityType || "ORGANIZATION",
-        entityId: entityId || orgId,
-        metadata: {
-          suspendedCount: affectedProperties.length,
-          suspendedPropertyIds: affectedProperties.map((p) => p.id),
-          reason: `${entityType} document expired. All active listings suspended automatically.`,
-          locale
+    try {
+      await prisma.userActivityLog.create({
+        data: {
+          userId: orgId,
+          orgId,
+          action: "LISTINGS_SUSPENDED_DOCUMENT_EXPIRY",
+          description: "trigger.document_expired_listings_suspended",
+          entityType: entityType || "ORGANIZATION",
+          entityId: entityId || orgId,
+          metadata: {
+            suspendedCount: affectedProperties.length,
+            suspendedPropertyIds: affectedProperties.map((p) => p.id),
+            reason: `${entityType} document expired. All active listings suspended automatically.`,
+            locale
+          }
         }
-      }
-    });
+      });
+    } catch (logError) {
+      console.log(`[Worker: DocumentExpiryRevoker] Could not log activity (user may not exist):`, logError);
+    }
 
     // Log audit trail
     await prisma.auditLog.create({

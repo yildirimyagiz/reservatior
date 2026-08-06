@@ -127,8 +127,8 @@ const kpis = [{
  value:"96.8%",
  change:"+2.3%",
  icon: Target,
- color:"text-emerald-400",
- bg:"bg-emerald-500/10"
+ color:"text-success",
+ bg:"bg-blue-500/10"
 }, {
  label: t("admin_ai_daily_predictions"),
  value:"45.2K",
@@ -141,7 +141,7 @@ const kpis = [{
  value:"1.4s",
  change:"-15%",
  icon: Zap,
- color:"text-amber-400",
+ color:"text-warning",
  bg:"bg-amber-500/10"
 }, {
  label: t("admin_ai_success_rate"),
@@ -185,13 +185,13 @@ export default function AIAnalytics() {
  }} transition={{
  delay: idx * 0.08
  }}>
- <Card className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10 transition-all group rounded-2xl">
+ <Card className="bg-card border-border hover:bg-muted dark:hover:bg-card/10 transition-all group rounded-2xl">
  <CardContent className="p-6">
  <div className="flex justify-between items-start mb-4">
  <div className={`p-3 rounded-xl ${kpi.bg} ${kpi.color} group-hover:scale-110 transition-transform`}>
  <kpi.icon className="h-6 w-6" />
  </div>
- <Badge className="rounded-full bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+ <Badge className="rounded-full bg-blue-500/10 text-success border-blue-500/20">
  <ArrowUpRight className="h-3 w-3 mr-1" />
  {kpi.change}
  </Badge>
@@ -291,15 +291,15 @@ export default function AIAnalytics() {
  <CardContent className="p-6 space-y-4">
  <div className="flex items-start justify-between">
  <div className="flex items-center gap-3">
- <div className={`p-2 rounded-xl ${model.status ==="active" ?"bg-emerald-500/10" :"bg-amber-500/10"}`}>
- <Cpu className={`w-5 h-5 ${model.status ==="active" ?"text-emerald-400" :"text-amber-400"}`} />
+ <div className={`p-2 rounded-xl ${model.status ==="active" ?"bg-blue-500/10" :"bg-amber-500/10"}`}>
+ <Cpu className={`w-5 h-5 ${model.status ==="active" ?"text-success" :"text-warning"}`} />
  </div>
  <div>
  <h3 className="font-semibold text-foreground">{model.name}</h3>
  <p className="text-xs text-muted-foreground">{model.version}</p>
  </div>
  </div>
- <Badge className={`text-[10px] ${model.status ==="active" ?"bg-emerald-500/10 text-emerald-400 border-emerald-500/20" :"bg-amber-500/10 text-amber-400 border-amber-500/20"}`}>
+ <Badge className={`text-[10px] ${model.status ==="active" ?"bg-blue-500/10 text-success border-blue-500/20" :"bg-amber-500/10 text-warning border-amber-500/20"}`}>
  {model.status ==="active" ? <CheckCircle2 className="w-3 h-3 mr-1" /> : <Clock className="w-3 h-3 mr-1" />}
  {model.status}
  </Badge>
@@ -351,7 +351,7 @@ export default function AIAnalytics() {
  <div className="flex items-start justify-between gap-4">
  <div className="flex-1">
  <div className="flex items-center gap-2 mb-1">
- {insight.impact ==="high" ? <AlertTriangle className="w-4 h-4 text-amber-400" /> : <TrendingUp className="w-4 h-4 text-muted-foreground" />}
+ {insight.impact ==="high" ? <AlertTriangle className="w-4 h-4 text-warning" /> : <TrendingUp className="w-4 h-4 text-muted-foreground" />}
  <Badge variant="outline" className="text-[10px] text-muted-foreground">{insight.category}</Badge>
  </div>
  <p className="font-medium text-foreground">{insight.title}</p>

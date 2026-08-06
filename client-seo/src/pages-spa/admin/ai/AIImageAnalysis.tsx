@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -246,7 +246,7 @@ export default function AIImageAnalysisPage() {
  <TableCell>
  <div className="flex items-center gap-2">
  <div className="w-16 bg-card rounded-full h-2">
- <div className="bg-green-500 h-2 rounded-full" style={{
+ <div className="bg-blue-500 h-2 rounded-full" style={{
  width: `${analysis.confidence * 100}%`
  }} />
  </div>
@@ -259,7 +259,7 @@ export default function AIImageAnalysisPage() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>

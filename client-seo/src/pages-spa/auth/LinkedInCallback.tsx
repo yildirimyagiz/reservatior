@@ -53,12 +53,12 @@ export default function LinkedInCallback() {
               <span className="text-red-400 text-2xl">!</span>
             </div>
             <h2 className="text-xl font-medium text-red-400">{t("client.src.authentication_failed")}</h2>
-            <p className="text-sm text-slate-400">{t("client.src.redirecting")}</p>
+            <p className="text-sm text-muted-foreground">{t("client.src.redirecting")}</p>
           </>
         ) : (
           <>
             <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mx-auto" />
-            <h2 className="text-xl font-medium text-slate-200">{t("client.src.completing_sign_in")}</h2>
+            <h2 className="text-xl font-medium text-foreground">{t("client.src.completing_sign_in")}</h2>
           </>
         )}
       </div>

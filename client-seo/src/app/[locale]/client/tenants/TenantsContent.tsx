@@ -13,21 +13,21 @@ export function TenantsContent() {
       description: "View and manage all tenants",
       icon: Users,
       href: "/client/tenants/all",
-      color: "text-blue-500"
+      color: "text-brand"
     },
     {
       title: "Tenant Applications",
       description: "Manage rental applications",
       icon: FileText,
       href: "/client/tenants/applications",
-      color: "text-purple-500"
+      color: "text-brand"
     },
     {
       title: "Rent Schedule",
       description: "View rent payment schedules",
       icon: Calendar,
       href: "/client/tenants/rent-schedule",
-      color: "text-emerald-500"
+      color: "text-success"
     },
     {
       title: "Rent Arrears",

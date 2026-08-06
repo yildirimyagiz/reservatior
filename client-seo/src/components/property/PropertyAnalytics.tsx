@@ -115,14 +115,14 @@ export default function PropertyAnalytics({
     }
   };
   const getGradeColor = (grade: string) => {
-    if (grade.startsWith('A')) return 'bg-green-100 text-green-700';
+    if (grade.startsWith('A')) return 'bg-blue-100 text-blue-700';
     if (grade.startsWith('B')) return 'bg-blue-100 text-blue-700';
     if (grade.startsWith('C')) return 'bg-yellow-100 text-yellow-700';
     return 'bg-red-100 text-red-700';
   };
   const getScoreColor = (score: number) => {
-    if (score >= 85) return 'text-green-600';
-    if (score >= 70) return 'text-blue-600';
+    if (score >= 85) return 'text-blue-600';
+    if (score >= 70) return 'text-brand';
     if (score >= 55) return 'text-yellow-600';
     return 'text-red-600';
   };
@@ -183,7 +183,7 @@ export default function PropertyAnalytics({
             </div>
             <div>
               <div className="text-sm text-muted-foreground">{t("client.src.market_position")}</div>
-              <Badge className={analytics.price_prediction.market_comparison.includes('Above') ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}>
+              <Badge className={analytics.price_prediction.market_comparison.includes('Above') ? 'bg-blue-100 text-blue-700' : 'bg-blue-100 text-blue-700'}>
                 {analytics.price_prediction.market_comparison}
               </Badge>
             </div>
@@ -274,7 +274,7 @@ export default function PropertyAnalytics({
             </div>
             <div>
               <div className="text-sm text-muted-foreground">{t("client.src.monthly_cash_flow")}</div>
-              <div className={`text-xl font-bold ${analytics.investment_analysis.monthly_cash_flow >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              <div className={`text-xl font-bold ${analytics.investment_analysis.monthly_cash_flow >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
                 {formatCurrency(analytics.investment_analysis.monthly_cash_flow)}
               </div>
             </div>
@@ -297,7 +297,7 @@ export default function PropertyAnalytics({
             <div>
               <div className="flex justify-between text-sm mb-1">
                 <span>{t("client.src.risk_score")}</span>
-                <span className={analytics.investment_analysis.risk_score < 50 ? 'text-green-600' : 'text-yellow-600'}>
+                <span className={analytics.investment_analysis.risk_score < 50 ? 'text-blue-600' : 'text-yellow-600'}>
                   {analytics.investment_analysis.risk_score}/100
                 </span>
               </div>
@@ -324,8 +324,8 @@ export default function PropertyAnalytics({
             <div>
               <div className="text-sm text-muted-foreground">{t("client.src.price_trend")}</div>
               <div className="flex items-center gap-1">
-                {analytics.market_trends.price_trend.startsWith('+') ? <TrendingUp className="w-4 h-4 text-green-600" /> : <TrendingDown className="w-4 h-4 text-red-600" />}
-                <span className={`text-xl font-bold ${analytics.market_trends.price_trend.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                {analytics.market_trends.price_trend.startsWith('+') ? <TrendingUp className="w-4 h-4 text-blue-600" /> : <TrendingDown className="w-4 h-4 text-red-600" />}
+                <span className={`text-xl font-bold ${analytics.market_trends.price_trend.startsWith('+') ? 'text-blue-600' : 'text-red-600'}`}>
                   {analytics.market_trends.price_trend}
                 </span>
               </div>
@@ -338,7 +338,7 @@ export default function PropertyAnalytics({
             </div>
             <div>
               <div className="text-sm text-muted-foreground">{t("client.src.inventory_level")}</div>
-              <Badge className={analytics.market_trends.inventory_level === 'Low' ? 'bg-green-100 text-green-700' : analytics.market_trends.inventory_level === 'High' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}>
+              <Badge className={analytics.market_trends.inventory_level === 'Low' ? 'bg-blue-100 text-blue-700' : analytics.market_trends.inventory_level === 'High' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}>
                 {analytics.market_trends.inventory_level}
               </Badge>
             </div>
@@ -347,7 +347,7 @@ export default function PropertyAnalytics({
       </Card>
 
       {/* Summary */}
-      <Card className="bg-gradient-to-r from-blue-50 to-purple-50">
+      <Card className="bg-gradient-to-r from-blue-50 to-brand">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Target className="w-5 h-5" />{t("client.src.investment_summary")}</CardTitle>
@@ -355,23 +355,23 @@ export default function PropertyAnalytics({
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
-              <div className="font-semibold text-green-800">{t("client.src.strong_investment")}</div>
-              <div className="text-sm text-green-600">
+              <CheckCircle className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+              <div className="font-semibold text-blue-800">{t("client.src.strong_investment")}</div>
+              <div className="text-sm text-blue-600">
                 {analytics.investment_analysis.cash_on_cash_return > 8 ? 'Excellent returns expected' : 'Decent investment opportunity'}
               </div>
             </div>
             <div className="text-center">
-              <Activity className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+              <Activity className="w-8 h-8 text-brand mx-auto mb-2" />
               <div className="font-semibold text-blue-800">{t("client.src.market_position")}</div>
-              <div className="text-sm text-blue-600">
+              <div className="text-sm text-brand">
                 {analytics.price_prediction.market_comparison.includes('Above') ? 'Above market average pricing' : 'Competitive market pricing'}
               </div>
             </div>
             <div className="text-center">
-              <MapPin className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-              <div className="font-semibold text-purple-800">{t("client.src.location_quality")}</div>
-              <div className="text-sm text-purple-600">
+              <MapPin className="w-8 h-8 text-brand mx-auto mb-2" />
+              <div className="font-semibold text-brand">{t("client.src.location_quality")}</div>
+              <div className="text-sm text-brand">
                 {analytics.location_analysis.overall_score > 80 ? 'Premium location' : analytics.location_analysis.overall_score > 70 ? 'Good location' : 'Average location'}
               </div>
             </div>

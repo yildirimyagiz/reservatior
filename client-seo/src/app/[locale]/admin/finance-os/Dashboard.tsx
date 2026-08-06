@@ -3,6 +3,7 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useLocalization } from "@/contexts/LocalizationContext";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { financeOSApi } from "@/lib/api/finance-os";
 import CommissionRuleEngineDashboard from "@/components/financial/CommissionRuleEngineDashboard";
 import { 
@@ -16,6 +17,7 @@ import {
   Users,
   AlertCircle,
   CheckCircle,
+  Clock,
   ArrowUpRight,
   ArrowDownRight
 } from "lucide-react";
@@ -23,6 +25,7 @@ import {
 export default function FinanceOSDashboard() {
   const { user } = useAuth();
   const { currency, language } = useLocalization();
+  const { t } = useTranslation();
   const orgId = user?.organizationId || "";
 
   const { data: dashboardStats, isLoading } = useQuery({
@@ -58,67 +61,67 @@ export default function FinanceOSDashboard() {
 
   const kpis = [
     {
-      title: "Total Revenue",
+      title: t("admin_finance_os_total_revenue", "Toplam Gelir"),
       value: formatCurrency(stats.totalRevenue),
       icon: DollarSign,
-      color: "text-green-600",
-      trend: "+18.5% vs last month",
+      color: "text-blue-600",
+      trend: "+18.5% " + t("admin_common_vs_last_month", "geçen aya göre"),
       trendUp: true,
     },
     {
-      title: "Total Commissions",
+      title: t("admin_finance_os_total_commissions", "Toplam Komisyon"),
       value: formatCurrency(stats.totalCommissions),
       icon: Briefcase,
       color: "text-blue-600",
-      trend: "+12.3% vs last month",
+      trend: "+12.3% " + t("admin_common_vs_last_month", "geçen aya göre"),
       trendUp: true,
     },
     {
-      title: "Active Deals",
+      title: t("admin_finance_os_active_deals", "Aktif Anlaşmalar"),
       value: formatNumber(stats.activeDeals),
       icon: Calendar,
-      color: "text-purple-600",
-      trend: "+8.7% vs last month",
+      color: "text-brand",
+      trend: "+8.7% " + t("admin_common_vs_last_month", "geçen aya göre"),
       trendUp: true,
     },
     {
-      title: "Closed Deals",
+      title: t("admin_finance_os_closed_deals", "Kapanan Anlaşmalar"),
       value: formatNumber(stats.closedDeals),
       icon: CheckCircle,
-      color: "text-emerald-600",
-      trend: "+15.2% vs last month",
+      color: "text-blue-600",
+      trend: "+15.2% " + t("admin_common_vs_last_month", "geçen aya göre"),
       trendUp: true,
     },
     {
-      title: "Pending Commissions",
+      title: t("admin_finance_os_pending_commissions", "Bekleyen Komisyonlar"),
       value: formatCurrency(stats.pendingCommissions),
       icon: Clock,
       color: "text-yellow-600",
-      trend: "-5.4% vs last month",
+      trend: "-5.4% " + t("admin_common_vs_last_month", "geçen aya göre"),
       trendUp: false,
     },
     {
-      title: "Paid Commissions",
+      title: t("admin_finance_os_paid_commissions", "Ödenen Komisyonlar"),
       value: formatCurrency(stats.paidCommissions),
       icon: CreditCard,
-      color: "text-indigo-600",
-      trend: "+22.1% vs last month",
+      color: "text-brand",
+      trend: "+22.1% " + t("admin_common_vs_last_month", "geçen aya göre"),
       trendUp: true,
     },
     {
-      title: "Average Deal Value",
+      title: t("admin_finance_os_average_deal_value", "Ortalama Anlaşma Değeri"),
       value: formatCurrency(stats.averageDealValue),
       icon: TrendingUp,
       color: "text-orange-600",
-      trend: "+7.8% vs last month",
+      trend: "+7.8% " + t("admin_common_vs_last_month", "geçen aya göre"),
       trendUp: true,
     },
     {
-      title: "Commission Rate",
+      title: t("admin_finance_os_commission_rate", "Komisyon Oranı"),
       value: `${stats.commissionRate.toFixed(2)}%`,
       icon: PieChart,
       color: "text-pink-600",
-      trend: "+0.5% vs last month",
+      trend: "+0.5% " + t("admin_common_vs_last_month", "geçen aya göre"),
       trendUp: true,
     },
   ];
@@ -128,15 +131,15 @@ export default function FinanceOSDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Finance OS Dashboard</h1>
-          <p className="text-gray-600 mt-1">Monitor and manage financial operations</p>
+          <h1 className="text-3xl font-bold text-foreground">{t("admin_finance_os_title", "Finans OS Panosu")}</h1>
+          <p className="text-muted-foreground mt-1">{t("admin_finance_os_desc", "Finansal operasyonları izleyin ve yönetin")}</p>
         </div>
         <div className="flex gap-3">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-            New Deal
+          <button className="px-4 py-2 bg-primary text-primary-foreground text-white rounded-lg hover:bg-primary/90 transition">
+            {t("admin_finance_os_new_deal", "Yeni Anlaşma")}
           </button>
-          <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-            Generate Report
+          <button className="px-4 py-2 border border-border rounded-lg hover:bg-muted transition">
+            {t("admin_finance_os_generate_report", "Rapor Oluştur")}
           </button>
         </div>
       </div>
@@ -146,23 +149,23 @@ export default function FinanceOSDashboard() {
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">{kpi.value}</p>
+                  <p className="text-sm font-medium text-muted-foreground">{kpi.title}</p>
+                  <p className="text-2xl font-bold text-foreground mt-2">{kpi.value}</p>
                   <div className="flex items-center gap-1 mt-1">
                     {kpi.trendUp ? (
-                      <ArrowUpRight className="w-4 h-4 text-green-600" />
+                      <ArrowUpRight className="w-4 h-4 text-blue-600" />
                     ) : (
                       <ArrowDownRight className="w-4 h-4 text-red-600" />
                     )}
-                    <p className={`text-sm ${kpi.trendUp ? 'text-green-600' : 'text-red-600'}`}>
+                    <p className={`text-sm ${kpi.trendUp ? 'text-blue-600' : 'text-red-600'}`}>
                       {kpi.trend}
                     </p>
                   </div>
                 </div>
-                <div className={`p-3 bg-gray-50 rounded-lg ${kpi.color}`}>
+                <div className={`p-3 bg-muted rounded-lg ${kpi.color}`}>
                   <Icon className="w-6 h-6" />
                 </div>
               </div>
@@ -174,46 +177,46 @@ export default function FinanceOSDashboard() {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Revenue Trends Chart */}
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Revenue Trends</h2>
-            <BarChart3 className="w-5 h-5 text-gray-500" />
+            <h2 className="text-lg font-semibold text-foreground">{t("admin_finance_os_revenue_trends", "Gelir Trendleri")}</h2>
+            <BarChart3 className="w-5 h-5 text-muted-foreground" />
           </div>
-          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <p className="text-gray-500">Revenue trends chart will be rendered here</p>
+          <div className="h-64 flex items-center justify-center bg-muted rounded-lg">
+            <p className="text-muted-foreground">{t("admin_finance_os_revenue_trends_placeholder", "Gelir trendleri grafiği burada gösterilecek")}</p>
           </div>
         </div>
 
         {/* Commission Distribution Chart */}
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Commission Distribution</h2>
-            <PieChart className="w-5 h-5 text-gray-500" />
+            <h2 className="text-lg font-semibold text-foreground">{t("admin_finance_os_commission_distribution", "Komisyon Dağılımı")}</h2>
+            <PieChart className="w-5 h-5 text-muted-foreground" />
           </div>
-          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <p className="text-gray-500">Commission distribution chart will be rendered here</p>
+          <div className="h-64 flex items-center justify-center bg-muted rounded-lg">
+            <p className="text-muted-foreground">{t("admin_finance_os_commission_distribution_placeholder", "Komisyon dağılımı grafiği burada gösterilecek")}</p>
           </div>
         </div>
       </div>
 
       {/* Recent Deals */}
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Deals</h2>
+      <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
+        <h2 className="text-lg font-semibold text-foreground mb-4">{t("admin_finance_os_recent_deals", "Son Anlaşmalar")}</h2>
         <div className="space-y-4">
           {[1, 2, 3, 4, 5].map((item) => (
-            <div key={item} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div key={item} className="flex items-center justify-between p-4 bg-muted rounded-lg">
               <div className="flex items-center gap-4">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <Briefcase className="w-5 h-5 text-green-600" />
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Briefcase className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">Deal #{1000 + item}</p>
-                  <p className="text-sm text-gray-600">Property #{500 + item}</p>
+                  <p className="font-medium text-foreground">{t("admin_finance_os_deal_label", "Anlaşma #")}{1000 + item}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_finance_os_property_label", "Mülk #")}{500 + item}</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="font-medium text-gray-900">{formatCurrency(250000 + item * 50000)}</p>
-                <p className="text-sm text-gray-600">{item} day(s) ago</p>
+                <p className="font-medium text-foreground">{formatCurrency(250000 + item * 50000)}</p>
+                <p className="text-sm text-muted-foreground">{item} {t("admin_common_days_ago", "gün önce")}</p>
               </div>
             </div>
           ))}
@@ -221,54 +224,54 @@ export default function FinanceOSDashboard() {
       </div>
 
       {/* Commission Models */}
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Commission Models</h2>
+      <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
+        <h2 className="text-lg font-semibold text-foreground mb-4">{t("admin_finance_os_commission_models", "Komisyon Modelleri")}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <h3 className="font-semibold text-blue-900">Traditional 1M</h3>
-            <p className="text-sm text-blue-700 mt-1">Lump sum payment</p>
+            <h3 className="font-semibold text-blue-900">{t("admin_finance_os_model_traditional", "Geleneksel 1M")}</h3>
+            <p className="text-sm text-blue-700 mt-1">{t("admin_finance_os_lump_sum_payment", "Tek seferde ödeme")}</p>
             <p className="text-2xl font-bold text-blue-900 mt-2">45%</p>
-            <p className="text-xs text-blue-600">of total deals</p>
+            <p className="text-xs text-blue-600">{t("admin_finance_os_of_total_deals", "toplam anlaşmaların")}</p>
           </div>
-          <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
-            <h3 className="font-semibold text-purple-900">Installment 12</h3>
-            <p className="text-sm text-purple-700 mt-1">12 monthly payments</p>
-            <p className="text-2xl font-bold text-purple-900 mt-2">35%</p>
-            <p className="text-xs text-purple-600">of total deals</p>
+          <div className="p-4 bg-brand/10 border border-purple-200 rounded-lg">
+            <h3 className="font-semibold text-brand">{t("admin_finance_os_model_installment", "12 Taksit")}</h3>
+            <p className="text-sm text-brand mt-1">{t("admin_finance_os_monthly_payments", "12 aylık ödeme")}</p>
+            <p className="text-2xl font-bold text-brand mt-2">35%</p>
+            <p className="text-xs text-brand">{t("admin_finance_os_of_total_deals", "toplam anlaşmaların")}</p>
           </div>
-          <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-            <h3 className="font-semibold text-green-900">Hybrid 50/6</h3>
-            <p className="text-sm text-green-700 mt-1">50% upfront + 6 payments</p>
-            <p className="text-2xl font-bold text-green-900 mt-2">20%</p>
-            <p className="text-xs text-green-600">of total deals</p>
+          <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <h3 className="font-semibold text-blue-900">{t("admin_finance_os_model_hybrid", "Hibrit 50/6")}</h3>
+            <p className="text-sm text-blue-700 mt-1">{t("admin_finance_os_hybrid_payments", "%50 peşin + 6 taksit")}</p>
+            <p className="text-2xl font-bold text-blue-900 mt-2">20%</p>
+            <p className="text-xs text-blue-600">{t("admin_finance_os_of_total_deals", "toplam anlaşmaların")}</p>
           </div>
         </div>
       </div>
 
       {/* Alerts Section */}
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Commission Rule Engine</h2>
+      <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
+        <h2 className="text-lg font-semibold text-foreground mb-4">{t("admin_finance_os_commission_rule_engine", "Komisyon Kural Motoru")}</h2>
         <CommissionRuleEngineDashboard />
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">Alerts & Notifications</h2>
+          <h2 className="text-lg font-semibold text-foreground">{t("admin_finance_os_alerts", "Uyarılar ve Bildirimler")}</h2>
           <AlertCircle className="w-5 h-5 text-yellow-500" />
         </div>
         <div className="space-y-3">
           <div className="flex items-start gap-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
             <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5" />
             <div>
-              <p className="font-medium text-yellow-900">High pending commissions</p>
-              <p className="text-sm text-yellow-700">Pending commissions increased by 15% this week</p>
+              <p className="font-medium text-yellow-900">{t("admin_finance_os_alert_pending_commissions", "Yüksek bekleyen komisyonlar")}</p>
+              <p className="text-sm text-yellow-700">{t("admin_finance_os_alert_pending_commissions_detail", "Bekleyen komisyonlar bu hafta %15 arttı")}</p>
             </div>
           </div>
-          <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+          <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5" />
             <div>
-              <p className="font-medium text-green-900">Revenue target achieved</p>
-              <p className="text-sm text-green-700">Monthly revenue target exceeded by 18%</p>
+              <p className="font-medium text-blue-900">{t("admin_finance_os_alert_revenue_target", "Gelir hedefine ulaşıldı")}</p>
+              <p className="text-sm text-blue-700">{t("admin_finance_os_alert_revenue_target_detail", "Aylık gelir hedefi %18 aşıldı")}</p>
             </div>
           </div>
         </div>

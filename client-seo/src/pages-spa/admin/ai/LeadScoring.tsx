@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
@@ -36,7 +36,7 @@ const SCORE_STYLES = {
  icon: Minus
  },
  COLD: {
- cls:"bg-slate-100 text-slate-700",
+ cls:"bg-muted text-muted-foreground",
  icon: TrendingDown
  }
 };
@@ -152,7 +152,7 @@ export default function AILeadScoring() {
  score: number;
  }) => <div className="flex items-center gap-2">
  <div className="h-1.5 w-20 bg-muted rounded-full overflow-hidden">
- <div className={`h-full rounded-full transition-all ${score >= 75 ?"bg-red-500" : score >= 50 ?"bg-orange-500" :"bg-slate-400"}`} style={{
+ <div className={`h-full rounded-full transition-all ${score >= 75 ?"bg-red-500" : score >= 50 ?"bg-orange-500" :"bg-muted"}`} style={{
  width: `${score}%`
  }} />
  </div>
@@ -219,13 +219,13 @@ export default function AILeadScoring() {
  </div>
  </TableCell>
  <TableCell>
- <span className={`text-sm font-semibold ${l.predictedConversion >= 0.6 ?"text-green-600" : l.predictedConversion >= 0.3 ?"text-orange-600" :"text-muted-foreground"}`}>
+ <span className={`text-sm font-semibold ${l.predictedConversion >= 0.6 ?"text-blue-600" : l.predictedConversion >= 0.3 ?"text-orange-600" :"text-muted-foreground"}`}>
  {Math.round(l.predictedConversion * 100)}%
  </span>
  </TableCell>
  <TableCell className="text-xs text-muted-foreground">{l.lastUpdated}</TableCell>
  <TableCell>
- <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => {
+ <Button variant="ghost" size="icon" aria-label={t("common.view")} className="h-8 w-8" onClick={() => {
  setSelected(l);
  setDetailOpen(true);
  }}>
@@ -249,10 +249,10 @@ export default function AILeadScoring() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-xl font-bold">{selected.score}</p>
- <p className="text-sm text-muted-foreground">{t("admin_auto_100_score", "/ 100 score")}</p>
+ <p className="text-sm text-muted-foreground">{t("admin_auto_100_score", "/ 100 puan")}</p>
  </div>
  <div className="text-right">
- <p className="text-2xl font-bold text-green-600">{Math.round(selected.predictedConversion * 100)}%</p>
+ <p className="text-2xl font-bold text-blue-600">{Math.round(selected.predictedConversion * 100)}%</p>
  <p className="text-sm text-muted-foreground">{t("admin_ai_conversion_prob")}</p>
  </div>
  </div>
@@ -261,10 +261,10 @@ export default function AILeadScoring() {
  <div className="space-y-2">
  {selected.factors.map((f, i) => <div key={i} className="flex items-center justify-between gap-3 p-2.5 rounded-lg bg-muted/40">
  <div className="flex items-center gap-2">
- {f.impact ==="positive" ? <TrendingUp className="w-3.5 h-3.5 text-green-500" /> : f.impact ==="negative" ? <TrendingDown className="w-3.5 h-3.5 text-red-500" /> : <Minus className="w-3.5 h-3.5 text-muted-foreground" />}
+ {f.impact ==="positive" ? <TrendingUp className="w-3.5 h-3.5 text-blue-500" /> : f.impact ==="negative" ? <TrendingDown className="w-3.5 h-3.5 text-red-500" /> : <Minus className="w-3.5 h-3.5 text-muted-foreground" />}
  <span className="text-sm">{f.label}</span>
  </div>
- <span className={`text-sm font-semibold ${f.weight > 0 ?"text-green-600" : f.weight < 0 ?"text-red-600" :"text-muted-foreground"}`}>
+ <span className={`text-sm font-semibold ${f.weight > 0 ?"text-blue-600" : f.weight < 0 ?"text-red-600" :"text-muted-foreground"}`}>
  {f.weight > 0 ?"+" :""}{Math.round(f.weight * 100)}{t("admin_ai_pts")}</span>
  </div>)}
  </div>

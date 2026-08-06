@@ -58,7 +58,7 @@ export default async function LocationPropertiesPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-background">
       {/* Location Specific Header SEO */}
-      <div className="bg-gradient-to-r from-blue-900 to-indigo-900 py-16 px-4 pt-24 text-center">
+      <div className="bg-gradient-to-r from-blue-900 to-info py-16 px-4 pt-24 text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
           Properties in {cityName}, {countryName}
         </h1>
@@ -74,13 +74,13 @@ export default async function LocationPropertiesPage({ params }: Props) {
             {properties.map((p: any) => (
               <div key={p.id} className="p-4 border rounded-xl bg-card text-card-foreground">
                 <h3 className="font-bold">{p.name}</h3>
-                <p className="text-sm text-slate-500">{p.addressLine1}</p>
-                <div className="mt-4 font-bold text-emerald-500">${p.listingPrice}</div>
+                <p className="text-sm text-muted-foreground">{p.addressLine1}</p>
+                <div className="mt-4 font-bold text-success">${p.listingPrice}</div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-center text-slate-500 py-12">No properties found in this location.</div>
+          <div className="text-center text-muted-foreground py-12">No properties found in this location.</div>
         )}
       </div>
     </div>

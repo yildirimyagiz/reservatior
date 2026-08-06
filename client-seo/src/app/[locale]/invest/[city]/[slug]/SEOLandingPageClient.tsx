@@ -102,7 +102,7 @@ export function SEOLandingPageClient({ config, cityData, citySlug }: SEOLandingP
                           </td>
                           <td className="text-right py-3 px-4">{cityData.currency} {d.avgPricePerSqm.toLocaleString()}</td>
                           <td className="text-right py-3 px-4">{cityData.currency} {d.avgMonthlyRent.toLocaleString()}</td>
-                          <td className="text-right py-3 px-4 text-emerald-400 font-medium">{d.grossYield}%</td>
+                          <td className="text-right py-3 px-4 text-blue-400 font-medium">{d.grossYield}%</td>
                           <td className="text-right py-3 px-4">{d.appreciation}%</td>
                           <td className="text-right py-3 px-4"><Badge variant="outline">{d.investmentGrade}</Badge></td>
                         </tr>

@@ -60,9 +60,10 @@ export function MessageDropdown() {
         <Button
           variant="ghost"
           size="icon"
-          className="relative h-10 w-10 rounded-full border border-blue-500/20 bg-blue-500/10 hover:bg-blue-500/20 transition-all group"
+          aria-label={t("client.src.open_messages")}
+          className="relative h-10 w-10 rounded-full border border-blue-500/20 bg-brand/100/10 hover:bg-brand/100/20 transition-all group"
         >
-          <MessageCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 group-hover:text-blue-500 transition-colors" />
+          <MessageCircle className="h-5 w-5 text-brand dark:text-brand group-hover:text-brand transition-colors" />
           {unreadCount > 0 && (
             <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center rounded-full bg-primary text-[10px] ring-2 ring-background font-black italic shadow-lg animate-bounce">
               {unreadCount}
@@ -87,6 +88,7 @@ export function MessageDropdown() {
               <Button
                 variant="ghost"
                 size="icon"
+                aria-label={t("common.search")}
                 className="h-8 w-8 text-muted-foreground hover:text-foreground rounded-lg border border-transparent hover:border-border transition-all"
               >
                 <Search className="h-4 w-4" />
@@ -94,6 +96,7 @@ export function MessageDropdown() {
               <Button
                 variant="ghost"
                 size="icon"
+                aria-label={t("client.src.more_options")}
                 className="h-8 w-8 text-muted-foreground hover:text-foreground rounded-lg border border-transparent hover:border-border transition-all"
               >
                 <MoreHorizontal className="h-4 w-4" />
@@ -189,7 +192,7 @@ export function MessageDropdown() {
                         </AvatarFallback>
                       </Avatar>
                       {chat.online && (
-                        <span className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 ring-2 ring-card shadow-[0_0_10px_#10b981]" />
+                        <span className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-success ring-2 ring-card shadow-[0_0_10px_#3b82f6]" />
                       )}
                     </div>
 

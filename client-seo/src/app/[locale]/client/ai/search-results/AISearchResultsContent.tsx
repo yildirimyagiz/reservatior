@@ -16,12 +16,12 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 
 const STAGE_CONFIG: Record<string, { label: string; icon: any; color: string }> = {
-  "stage:started":    { label: "Analyzing your query...",        icon: Brain,        color: "text-indigo-400" },
-  "stage:intent":     { label: "Understanding intent & filters", icon: Filter,       color: "text-blue-400" },
-  "stage:properties": { label: "Searching properties",           icon: Building,     color: "text-emerald-400" },
-  "stage:analysis":   { label: "AI analysis in progress",        icon: Sparkles,     color: "text-purple-400" },
+  "stage:started":    { label: "Analyzing your query...",        icon: Brain,        color: "text-brand" },
+  "stage:intent":     { label: "Understanding intent & filters", icon: Filter,       color: "text-brand" },
+  "stage:properties": { label: "Searching properties",           icon: Building,     color: "text-success" },
+  "stage:analysis":   { label: "AI analysis in progress",        icon: Sparkles,     color: "text-brand" },
   "stage:credits":    { label: "Processing credits",             icon: Zap,          color: "text-amber-400" },
-  "stage:complete":   { label: "Results ready!",                 icon: CheckCircle2, color: "text-emerald-400" },
+  "stage:complete":   { label: "Results ready!",                 icon: CheckCircle2, color: "text-success" },
   "stage:error":      { label: "Something went wrong",           icon: AlertTriangle,color: "text-red-400" },
 };
 
@@ -129,6 +129,11 @@ export function AISearchResultsContent() {
     router.push(`/client/ai/search-results?q=${encodeURIComponent(searchInput.trim())}`);
   };
 
+  const handleCancel = () => {
+    esRef.current?.();
+    setState(prev => ({ ...prev, isStreaming: false, currentStage: "", error: "" }));
+  };
+
   const completedStages = state.events.map((e: any) => e.type);
   const intent = state.events.find((e: any) => e.type === 'stage:intent')?.data;
 
@@ -138,7 +143,7 @@ export function AISearchResultsContent() {
       <header className="sticky top-0 z-50 bg-[#0A0A0B]/80 backdrop-blur-2xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand to-brand flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
               <Sparkles className="w-4 h-4 text-white" />
             </div>
             <span className="font-bold text-lg tracking-tight text-white/90">{t("search_results.aisearchresultscontent.auto_ext_1")}</span>
@@ -171,8 +176,8 @@ export function AISearchResultsContent() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* ───── Search Bar ───── */}
         <div className="relative group mb-10">
-          <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 via-purple-500/10 to-blue-500/20 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-all duration-500" />
-          <div className="relative flex items-center bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden focus-within:border-indigo-500/30 transition-all">
+          <div className="absolute -inset-1 bg-gradient-to-r from-brand/20 via-brand/10 to-blue-500/20 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-all duration-500" />
+          <div className="relative flex items-center bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden focus-within:border-brand/30 transition-all">
             <Search className="w-5 h-5 text-white/30 ml-5" />
             <input
               value={searchInput}
@@ -182,14 +187,14 @@ export function AISearchResultsContent() {
               className="flex-1 bg-transparent px-4 py-4 text-white placeholder:text-white/25 text-[15px] font-medium focus:outline-none"
             />
             {state.isStreaming && (
-              <button onClick={() => {}} aria-label="Cancel" className="mr-2 p-2 rounded-lg hover:bg-white/5 text-white/40">
+              <button onClick={handleCancel} aria-label="Cancel" className="mr-2 p-2 rounded-lg hover:bg-white/5 text-white/40">
                 <X className="w-4 h-4" />
               </button>
             )}
             <button
               onClick={handleNewSearch}
               disabled={!searchInput.trim() || state.isStreaming}
-              className="m-2 px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:opacity-30 rounded-xl text-sm font-bold transition-all active:scale-95"
+              className="m-2 px-6 py-2.5 bg-gradient-to-r from-brand to-brand hover:from-brand hover:to-brand disabled:opacity-30 rounded-xl text-sm font-bold transition-all active:scale-95"
             >
               {state.isStreaming ? <Loader2 className="w-4 h-4 animate-spin" /> : "Search"}
             </button>
@@ -238,7 +243,7 @@ export function AISearchResultsContent() {
                       {config.label}
                     </span>
                     {isCompleted && !isCurrent && (
-                      <CheckCircle2 className="w-3 h-3 text-emerald-500/50 ml-auto" />
+                      <CheckCircle2 className="w-3 h-3 text-success/50 ml-auto" />
                     )}
                   </m.div>
                 );
@@ -254,24 +259,24 @@ export function AISearchResultsContent() {
                   <p className="text-[10px] font-black tracking-[0.2em] text-white/20 uppercase">{t("search_results.aisearchresultscontent.auto_ext_6")}</p>
                   {state.filters.location && (
                     <div className="flex items-center gap-2 text-xs text-white/50">
-                      <MapPin className="w-3 h-3 text-blue-400" />
+                      <MapPin className="w-3 h-3 text-brand" />
                       <span>{state.filters.location}</span>
                     </div>
                   )}
                   {state.filters.maxPrice && (
                     <div className="flex items-center gap-2 text-xs text-white/50">
-                      <TrendingUp className="w-3 h-3 text-emerald-400" />
+                      <TrendingUp className="w-3 h-3 text-success" />
                       <span>{t("search_results.aisearchresultscontent.auto_ext_7")}{state.filters.maxPrice?.toLocaleString()}</span>
                     </div>
                   )}
                   {state.filters.beds && (
                     <div className="flex items-center gap-2 text-xs text-white/50">
-                      <Home className="w-3 h-3 text-purple-400" />
+                      <Home className="w-3 h-3 text-brand" />
                       <span>{state.filters.beds}{t("search_results.aisearchresultscontent.auto_ext_8")}</span>
                     </div>
                   )}
                   {(intent as any)?.routeUsed && (
-                    <div className="mt-2 px-2 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-bold text-indigo-300 text-center">
+                    <div className="mt-2 px-2 py-1 rounded-lg bg-brand/10 border border-brand/20 text-[10px] font-bold text-brand text-center">
                       {t("search_results.aisearchresultscontent.auto_ext_9")} {(intent as any)?.routeUsed}
                     </div>
                   )}
@@ -317,7 +322,7 @@ export function AISearchResultsContent() {
                                                               </h2>
                     <Link
                       href={`/client/properties${state.filters?.location ? `?search=${state.filters.location}` : ""}`}
-                      className="flex items-center gap-1 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+                      className="flex items-center gap-1 text-xs font-semibold text-brand hover:text-brand transition-colors"
                     >
                       {t("search_results.aisearchresultscontent.auto_ext_14")} <ArrowUpRight className="w-3 h-3" />
                     </Link>
@@ -330,7 +335,7 @@ export function AISearchResultsContent() {
                         initial={{ opacity: 0, y: 20, scale: 0.97 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ delay: idx * 0.08 }}
-                        className="group relative bg-white/[0.03] border border-white/5 rounded-2xl overflow-hidden hover:border-indigo-500/20 hover:bg-white/[0.05] transition-all cursor-pointer"
+                        className="group relative bg-white/[0.03] border border-white/5 rounded-2xl overflow-hidden hover:border-brand/20 hover:bg-white/[0.05] transition-all cursor-pointer"
                         onClick={() => router.push(`/client/properties/${prop.id}`)}
                       >
                         {/* Image */}
@@ -349,11 +354,11 @@ export function AISearchResultsContent() {
 
                         {/* Content */}
                         <div className="p-4 space-y-2">
-                          <h3 className="font-bold text-white/90 truncate group-hover:text-indigo-300 transition-colors">
+                          <h3 className="font-bold text-white/90 truncate group-hover:text-brand transition-colors">
                             {prop.title}
                           </h3>
                           <div className="flex items-center gap-1.5 text-white/40 text-xs">
-                            <MapPin className="w-3 h-3 text-indigo-400" />
+                            <MapPin className="w-3 h-3 text-brand" />
                             <span>{prop.location}</span>
                           </div>
                           {prop.summary && (
@@ -363,8 +368,8 @@ export function AISearchResultsContent() {
                             <div className="flex items-center gap-1 text-[10px] text-white/20">
                               <Shield className="w-3 h-3" /> {t("search_results.aisearchresultscontent.auto_ext_16")}
                                                                     </div>
-                            <div className="w-7 h-7 rounded-full bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500 transition-colors">
-                              <ArrowRight className="w-3 h-3 text-indigo-400 group-hover:text-white" />
+                            <div className="w-7 h-7 rounded-full bg-brand/10 flex items-center justify-center group-hover:bg-brand/100 transition-colors">
+                              <ArrowRight className="w-3 h-3 text-brand group-hover:text-white" />
                             </div>
                           </div>
                         </div>
@@ -381,13 +386,13 @@ export function AISearchResultsContent() {
                 <m.div
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="relative p-6 rounded-2xl bg-gradient-to-br from-indigo-500/5 to-purple-500/5 border border-indigo-500/10"
+                  className="relative p-6 rounded-2xl bg-gradient-to-br from-brand/5 to-brand/5 border border-brand/10"
                 >
                   <div className="absolute top-4 right-4">
-                    <Sparkles className="w-5 h-5 text-indigo-500/30" />
+                    <Sparkles className="w-5 h-5 text-brand/30" />
                   </div>
                   <h3 className="text-sm font-black tracking-[0.15em] text-white/30 uppercase mb-4 flex items-center gap-2">
-                    <Brain className="w-4 h-4 text-purple-400" /> {t("search_results.aisearchresultscontent.auto_ext_17")}
+                    <Brain className="w-4 h-4 text-brand" /> {t("search_results.aisearchresultscontent.auto_ext_17")}
                                                         </h3>
                   <p className="text-sm text-white/70 leading-relaxed whitespace-pre-wrap font-medium">
                     {state.analysisText}

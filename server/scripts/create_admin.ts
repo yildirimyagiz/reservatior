@@ -7,7 +7,7 @@ async function hashPassword(password: string): Promise<string> {
 
 async function run() {
   const email = "info@reservatior.com";
-  const password = "Parola341";
+  const password = "Parola/341";
   
   let user = await prisma.user.findUnique({ where: { email } });
   const passwordHash = await hashPassword(password);

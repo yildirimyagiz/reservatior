@@ -10,9 +10,12 @@ import {
   Clock, FileText, Target, Key,
   Package, ShoppingCart, Megaphone, Play, Pause,
   Globe, Languages, CheckSquare, Star,
+  ShieldCheck, Lock, Hourglass, AlertTriangle, Building2, Wallet,
 } from "lucide-react";
 import { ComponentType } from "react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const ICON_MAP: Record<string, ComponentType<any>> = {
   DollarSign, TrendingUp,
@@ -27,10 +30,20 @@ const ICON_MAP: Record<string, ComponentType<any>> = {
   Package, ShoppingCart,
   Megaphone, Play, Pause,
   Globe, Languages, CheckSquare, Star,
+  ShieldCheck, Lock, Hourglass, AlertTriangle, Building2, Wallet,
 };
 
 function resolveIcon(name: string): ComponentType<any> {
   return ICON_MAP[name] || Activity;
+}
+
+interface GenericOSDashboardProps {
+  title: string;
+  description?: string;
+  osName: string;
+  kpiConfig: OSKpiConfig[];
+  actions?: OSActionButton[];
+  children?: React.ReactNode;
 }
 
 export default function GenericOSDashboard({
@@ -75,55 +88,59 @@ export default function GenericOSDashboard({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64" role="status" aria-label="Dashboard loading">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex h-64 items-center justify-center" role="status" aria-label={t("common.loading", "Loading")}>
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-brand" />
       </div>
     );
   }
 
   const stats = dashboardStats?.kpis || {};
 
+  const normalizedOsName = osName.replace(/-/g, '_');
+  const translatedTitle = t(`${normalizedOsName}.title`, title);
+  const translatedDescription = t(`${normalizedOsName}.subtitle`, t(`${normalizedOsName}.description`, description ?? ""));
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="ui-page">
+      <div className="ui-page-header">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-          {description && <p className="text-gray-600 mt-1">{description}</p>}
+          <h1 className="ui-title">{translatedTitle}</h1>
+          {translatedDescription && <p className="ui-subtitle">{translatedDescription}</p>}
         </div>
         {actions && actions.length > 0 && (
           <div className="flex gap-3">
             {actions.map((action, i) => (
-              <button
+              <Button
                 key={i}
-                className={
-                  action.primary
-                    ? "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                    : "px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
-                }
+                variant={action.primary ? "default" : "outline"}
+                className={action.primary ? "ui-btn-primary" : undefined}
                 onClick={() => { if (action.href) window.location.href = action.href; }}
               >
-                {action.label}
-              </button>
+                {t(`${normalizedOsName}.actions.${action.label.toLowerCase().replace(/\s+/g, '_')}`, action.label)}
+              </Button>
             ))}
           </div>
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {kpiConfig.map((kpi, index) => {
           const Icon = resolveIcon(kpi.icon);
           const value = stats[kpi.key] ?? 0;
+          const snakeKey = kpi.key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="ui-kpi">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{kpi.label}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">
+                  <p className="text-sm font-medium text-muted-foreground">
+                    {t(`${normalizedOsName}.${snakeKey}`, t(`${normalizedOsName}.${kpi.key}`, kpi.label))}
+                  </p>
+                  <p className="mt-2 text-2xl font-bold text-foreground">
                     {formatValue(value, kpi.format)}
                   </p>
                 </div>
-                <div className={`p-3 bg-gray-50 rounded-lg ${kpi.color}`}>
-                  <Icon className="w-6 h-6" />
+                <div className={cn("rounded-lg bg-muted p-3", kpi.color)}>
+                  <Icon className="h-6 w-6" />
                 </div>
               </div>
             </div>
@@ -131,45 +148,45 @@ export default function GenericOSDashboard({
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">{t("generic_os.trends", "Trends")}</h2>
-            <BarChart3 className="w-5 h-5 text-gray-500" />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="ui-panel p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-foreground">{t("generic_os.trends", "Trends")}</h2>
+            <BarChart3 className="h-5 w-5 text-muted-foreground" />
           </div>
-          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <p className="text-gray-500">{t("generic_os.chart_will_render", "Chart will be rendered here")}</p>
+          <div className="flex h-64 items-center justify-center rounded-lg bg-muted">
+            <p className="text-muted-foreground">{t("generic_os.chart_will_render", "Chart will be rendered here")}</p>
           </div>
         </div>
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">{t("generic_os.distribution", "Distribution")}</h2>
-            <PieChart className="w-5 h-5 text-gray-500" />
+        <div className="ui-panel p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-foreground">{t("generic_os.distribution", "Distribution")}</h2>
+            <PieChart className="h-5 w-5 text-muted-foreground" />
           </div>
-          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <p className="text-gray-500">{t("generic_os.distribution_chart_will_render", "Distribution chart will be rendered here")}</p>
+          <div className="flex h-64 items-center justify-center rounded-lg bg-muted">
+            <p className="text-muted-foreground">{t("generic_os.distribution_chart_will_render", "Distribution chart will be rendered here")}</p>
           </div>
         </div>
       </div>
 
       {dashboardStats?.recentActivity && dashboardStats.recentActivity.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t("generic_os.recent_activity", "Recent Activity")}</h2>
+        <div className="ui-panel p-6">
+          <h2 className="mb-4 text-lg font-semibold text-foreground">{t("generic_os.recent_activity", "Recent Activity")}</h2>
           <div className="space-y-4">
             {dashboardStats.recentActivity.map((item, i) => (
-              <div key={item.id || i} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div key={item.id || i} className="flex items-center justify-between rounded-lg bg-muted p-4">
                 <div className="flex items-center gap-4">
-                  <div className="p-2 bg-blue-100 rounded-lg">
-                    <Activity className="w-5 h-5 text-blue-600" />
+                  <div className="rounded-lg bg-info/15 p-2">
+                    <Activity className="h-5 w-5 text-info" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{item.title}</p>
-                    <p className="text-sm text-gray-600">{item.subtitle}</p>
+                    <p className="font-medium text-foreground">{item.title}</p>
+                    <p className="text-sm text-muted-foreground">{item.subtitle}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium text-gray-900">{item.value}</p>
-                  <p className="text-sm text-gray-600">{item.timeAgo}</p>
+                  <p className="font-medium text-foreground">{item.value}</p>
+                  <p className="text-sm text-muted-foreground">{item.timeAgo}</p>
                 </div>
               </div>
             ))}
@@ -180,28 +197,25 @@ export default function GenericOSDashboard({
       {children}
 
       {dashboardStats?.alerts && dashboardStats.alerts.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">{t("generic_os.alerts_notifications", "Alerts & Notifications")}</h2>
-            <AlertCircle className="w-5 h-5 text-yellow-500" />
+        <div className="ui-panel p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-foreground">{t("generic_os.alerts_notifications", "Alerts & Notifications")}</h2>
+            <AlertCircle className="h-5 w-5 text-warning" />
           </div>
           <div className="space-y-3">
             {dashboardStats.alerts.map((alert, i) => {
-              const borderColor = alert.type === 'warning' ? 'border-yellow-200 bg-yellow-50'
-                : alert.type === 'success' ? 'border-green-200 bg-green-50'
-                : 'border-blue-200 bg-blue-50';
-              const textColor = alert.type === 'warning' ? 'text-yellow-900'
-                : alert.type === 'success' ? 'text-green-900'
-                : 'text-blue-900';
-              const subColor = alert.type === 'warning' ? 'text-yellow-700'
-                : alert.type === 'success' ? 'text-green-700'
-                : 'text-blue-700';
+              const styles =
+                alert.type === 'warning'
+                  ? "border-warning/30 bg-warning/10 text-warning"
+                  : alert.type === 'success'
+                    ? "border-success/30 bg-success/10 text-success"
+                    : "border-info/30 bg-info/10 text-info";
               return (
-                <div key={i} className={`flex items-start gap-3 p-4 border rounded-lg ${borderColor}`}>
-                  <CheckCircle className={`w-5 h-5 mt-0.5 ${textColor}`} />
+                <div key={i} className={cn("flex items-start gap-3 rounded-lg border p-4", styles)}>
+                  <CheckCircle className="mt-0.5 h-5 w-5" />
                   <div>
-                    <p className={`font-medium ${textColor}`}>{alert.title}</p>
-                    <p className={`text-sm ${subColor}`}>{alert.message}</p>
+                    <p className="font-medium">{alert.title}</p>
+                    <p className="text-sm opacity-80">{alert.message}</p>
                   </div>
                 </div>
               );

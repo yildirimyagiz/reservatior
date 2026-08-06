@@ -53,12 +53,12 @@ export default function Header() {
     href: '/features'
   }, {
     icon: Settings,
-    label: t("client.src.settings"),
-    href: '/settings'
+    label: t("common.settings"),
+    href: '/admin/settings'
   }, {
     icon: CreditCard,
     label: t("client.src.billing"),
-    href: '/billing'
+    href: '/admin/billing'
   }, {
     icon: Shield,
     label: t("client.src.security"),
@@ -66,13 +66,13 @@ export default function Header() {
   }, {
     icon: HelpCircle,
     label: t("client.src.help_center"),
-    href: '/help'
+    href: '/client/support'
   }, {
     icon: LogOut,
     label: t("client.src.logout"),
     href: '/logout'
   }];
-  return <header className="bg-white border-b border-gray-200 px-4 py-3 relative z-10">
+  return <header className="bg-card border-b border-gray-200 px-4 py-3 relative z-10">
       <div className="flex items-center justify-between">
         {/* Left side - Mobile menu toggle and search */}
         <div className="flex items-center gap-4">
@@ -109,7 +109,7 @@ export default function Header() {
             </Button>
 
             {/* Notifications Dropdown */}
-            {showNotifications && <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+            {showNotifications && <div className="absolute right-0 mt-2 w-80 bg-card rounded-lg shadow-lg border border-gray-200 z-50">
                 <div className="p-4 border-b border-gray-200">
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold">{t("client.src.notifications")}</h3>
@@ -117,9 +117,9 @@ export default function Header() {
                   </div>
                 </div>
                 <div className="max-h-96 overflow-y-auto">
-                  {notificationItems.map(notification => <div key={notification.id} className={`p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${!notification.read ? 'bg-purple-50' : ''}`}>
+                  {notificationItems.map(notification => <div key={notification.id} className={`p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${!notification.read ? 'bg-brand/10' : ''}`}>
                       <div className="flex items-start gap-3">
-                        <div className={`w-2 h-2 rounded-full mt-2 ${!notification.read ? 'bg-purple-600' : 'bg-gray-300'}`}></div>
+                        <div className={`w-2 h-2 rounded-full mt-2 ${!notification.read ? 'bg-brand' : 'bg-gray-300'}`}></div>
                         <div className="flex-1">
                           <p className="font-medium text-sm">{notification.title}</p>
                           <p className="text-xs text-gray-600 mt-1">{notification.description}</p>
@@ -150,7 +150,7 @@ export default function Header() {
             </Button>
 
             {/* Profile Dropdown */}
-            {showProfile && <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+            {showProfile && <div className="absolute right-0 mt-2 w-56 bg-card rounded-lg shadow-lg border border-gray-200 z-50">
                 <div className="p-4 border-b border-gray-200">
                   <div className="flex items-center gap-3">
                     <Avatar className="w-10 h-10">
@@ -184,9 +184,9 @@ export default function Header() {
       </div>
 
       {/* Mobile Menu */}
-      {isMobile && mobileMenuOpen && <div className="absolute top-full left-0 right-0 bg-white border-b border-gray-200 z-50">
+      {isMobile && mobileMenuOpen && <div className="absolute top-full left-0 right-0 bg-card border-b border-gray-200 z-50">
           <div className="p-4 space-y-2">
-            <Link to="/property" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{t("client.src.properties")}</Link>
+            <Link to="/property" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{t("common.properties")}</Link>
             <Link to="/financial" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{t("client.src.financial")}</Link>
             <Link to="/tenants" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{t("client.src.tenants")}</Link>
             <Link to="/admin" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{t("client.src.admin")}</Link>

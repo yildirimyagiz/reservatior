@@ -108,7 +108,7 @@ export default function FeedbackLoopDashboard() {
           { label: t("admin_fb_days_on_market", "Piyasada Kalış Süresi"), accuracy: 78, trend: "-1.2%", color: "#f59e0b" },
         ].map((gauge, i) => (
           <div key={i} className="bg-card rounded-xl shadow-sm p-6 border border-border text-center">
-            <h3 className="text-sm font-medium text-muted-foreground mb-4">{gauge.label} {t("admin_fb_accuracy", "Accuracy")}</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-4">{gauge.label} {t("admin_fb_accuracy", "Doğruluk")}</h3>
             <div className="relative w-28 h-28 mx-auto">
               <svg className="w-28 h-28 transform -rotate-90" viewBox="0 0 120 120">
                 <circle cx="60" cy="60" r="50" stroke="#e5e7eb" strokeWidth="10" fill="none" />
@@ -120,7 +120,7 @@ export default function FeedbackLoopDashboard() {
               </div>
             </div>
             <p className={`text-sm mt-3 ${gauge.trend.startsWith('+') ? 'text-blue-600' : 'text-red-600'}`}>
-              {gauge.trend} {t("admin_fb_vs_last_period", "vs last period")}
+              {gauge.trend} {t("admin_fb_vs_last_period", "önceki döneme göre")}
             </p>
           </div>
         ))}
@@ -129,23 +129,23 @@ export default function FeedbackLoopDashboard() {
       {/* Revenue Accuracy */}
       <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
         <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-          <DollarSign className="w-5 h-5 text-blue-600" /> {t("admin_fb_revenue_predicted_vs_actual", "Revenue: Predicted vs Actual")}
+          <DollarSign className="w-5 h-5 text-blue-600" /> {t("admin_fb_revenue_predicted_vs_actual", "Gelir: Tahmini vs Gerçekleşen")}
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-xs text-muted-foreground">{t("admin_fb_predicted_commission", "Predicted Commission")}</p>
+            <p className="text-xs text-muted-foreground">{t("admin_fb_predicted_commission", "Tahmini Komisyon")}</p>
             <p className="text-xl font-bold text-blue-700">£2.4M</p>
           </div>
           <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-xs text-muted-foreground">{t("admin_fb_actual_commission", "Actual Commission")}</p>
+            <p className="text-xs text-muted-foreground">{t("admin_fb_actual_commission", "Gerçekleşen Komisyon")}</p>
             <p className="text-xl font-bold text-blue-700">£2.1M</p>
           </div>
           <div className="p-4 bg-brand/10 rounded-lg border border-purple-200">
-            <p className="text-xs text-muted-foreground">{t("admin_fb_predicted_rental", "Predicted Rental")}</p>
+            <p className="text-xs text-muted-foreground">{t("admin_fb_predicted_rental", "Tahmini Kira")}</p>
             <p className="text-xl font-bold text-brand">£890K</p>
           </div>
           <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-xs text-muted-foreground">{t("admin_fb_actual_rental", "Actual Rental")}</p>
+            <p className="text-xs text-muted-foreground">{t("admin_fb_actual_rental", "Gerçekleşen Kira")}</p>
             <p className="text-xl font-bold text-blue-700">£920K</p>
           </div>
         </div>
@@ -155,18 +155,18 @@ export default function FeedbackLoopDashboard() {
       <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
         <div className="p-4 border-b border-border">
           <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2">
-            <Activity className="w-5 h-5 text-brand" /> {t("admin_fb_recent_calibrations", "Recent Calibration Events")}
+            <Activity className="w-5 h-5 text-brand" /> {t("admin_fb_recent_calibrations", "Son Kalibrasyon Olayları")}
           </h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-muted text-left">
               <tr>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_property", "Property")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_fb_direction", "Direction")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_property", "Mülk")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_fb_direction", "Yön")}</th>
                 <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_fb_delta", "Delta")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_reason", "Reason")}</th>
-                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_when", "When")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_reason", "Neden")}</th>
+                <th className="px-4 py-3 text-xs font-medium text-muted-foreground uppercase">{t("admin_common_when", "Ne Zaman")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -203,9 +203,9 @@ export default function FeedbackLoopDashboard() {
 
       {/* Learning Loop Diagram */}
       <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
-        <h2 className="text-lg font-semibold text-card-foreground mb-4">{t("admin_fb_learning_loop", "Intelligence Learning Loop")}</h2>
+        <h2 className="text-lg font-semibold text-card-foreground mb-4">{t("admin_fb_learning_loop", "Zeka Öğrenme Döngüsü")}</h2>
         <div className="flex items-center justify-center gap-2 flex-wrap">
-          {[t("admin_fb_loop_prediction", "Prediction"), "→", t("admin_fb_loop_outcome", "Outcome"), "→", t("admin_fb_loop_feedback", "Feedback"), "→", t("admin_fb_loop_calibration", "Calibration"), "→", t("admin_fb_loop_better_prediction", "Better Prediction")].map((item, i) => (
+          {[t("admin_fb_loop_prediction", "Tahmin"), "→", t("admin_fb_loop_outcome", "Sonuç"), "→", t("admin_fb_loop_feedback", "Geri Bildirim"), "→", t("admin_fb_loop_calibration", "Kalibrasyon"), "→", t("admin_fb_loop_better_prediction", "Daha İyi Tahmin")].map((item, i) => (
             item === "→" ? (
               <Zap key={i} className="w-4 h-4 text-info mx-1" />
             ) : (

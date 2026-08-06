@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect, FormEvent } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -18,12 +18,12 @@ import { MoreHorizontal, CheckCircle2, AlertCircle, Loader2, RefreshCw } from"lu
 const STATUS = {
  HOLDING: {
  label: t("admin_financial_holding"),
- cls:"bg-slate-100 text-slate-700",
+ cls:"bg-muted text-muted-foreground",
  icon:"Clock"
  },
  RELEASED: {
  label: t("admin_financial_released"),
- cls:"bg-green-100 text-green-700",
+ cls:"bg-blue-100 text-blue-700",
  icon:"CheckCircle2"
  },
  DISPUTED: {
@@ -201,7 +201,7 @@ export default function Escrow() {
  <SelectTrigger className="w-36 h-9"><SelectValue placeholder={t("admin_financial_status")} /></SelectTrigger>
  <SelectContent><SelectItem value="all">{t("admin_financial_all")}</SelectItem>{Object.entries(STATUS).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}</SelectContent>
  </Select>
- <Button variant="outline" size="sm" onClick={fetchAccounts} disabled={loading}><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></Button>
+ <Button variant="outline" size="sm" onClick={fetchAccounts} disabled={loading} aria-label={t("common.refresh")}><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></Button>
  </div>}>
  <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
  <Table>
@@ -234,7 +234,7 @@ export default function Escrow() {
  <TableCell><Badge className={`${s.cls} border-0 text-[10px] shadow-sm`}>{s.label}</Badge></TableCell>
  <TableCell>
  <DropdownMenu>
- <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+ <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="w-40">
  {e.status ==="HOLDING" && <DropdownMenuItem onClick={() => handleRelease(e)}><CheckCircle2 className="w-4 h-4 mr-2" />{t("admin_financial_release_funds")}</DropdownMenuItem>}
  {e.status ==="HOLDING" && <DropdownMenuItem onClick={() => handleDispute(e)} className="text-destructive font-medium"><AlertCircle className="w-4 h-4 mr-2" />{t("admin_financial_open_dispute")}</DropdownMenuItem>}

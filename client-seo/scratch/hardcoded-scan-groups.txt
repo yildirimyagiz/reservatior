@@ -1,0 +1,864 @@
+
+===== GROUP A =====
+
+## src/app/[locale]/admin/prospect-intelligence/Dashboard.tsx [33 strings]
+text	Prospect Intelligence
+text	MLS prospect intelligence and acquisition opportunity scoring
+text	Advanced Filters
+text	Export
+text	Total Prospects
+text	AI analyzed
+text	Avg Acquisition Score
+text	Scale: 0-100
+text	Premium Opportunities
+text	High priority targets
+text	Immediate Action
+text	Requires immediate attention
+text	Opportunity Tier Distribution
+text	Prospects by acquisition potential
+text	Acquisition Urgency
+text	Prospects by action urgency
+text	Prospect List
+text	Filtered by opportunity tier and urgency
+text	All Tiers
+text	Premium
+text	High Potential
+text	Monitor
+text	Low Potential
+text	All Urgency
+text	Immediate
+text	High
+text	Medium
+text	Low
+text	Loading prospects...
+text	Acquisition:
+text	Valuation:
+text	Owner:
+text	Market:
+
+## src/app/[locale]/admin/intelligence-graph/Dashboard.tsx [32 strings]
+text	Intelligence Graph
+text	Saga orchestration observability — pipelines, DLQ, timelines
+text	Platform Architecture
+text	┌─ BaseSaga (Enterprise v2) ──────────────┐
+text	│ ✅ Versioning ✅ Distributed Lock │
+text	│ ✅ Timeline ✅ Retry + DLQ │
+text	│ 48 Active Sagas │
+text	│ ├─ IntelligencePipeline (6 entities) │
+text	│ ├─ DecisionExecution (7 steps) │
+text	│ ├─ RevenueLifecycle (10 steps) │
+text	│ ├─ FeedbackLoop (5 steps) │
+text	│ └─ 44 more domain sagas │
+text	│ Dead Letter Queue:
+text	pending │
+text	│ Pipeline Health:
+text	Intelligence Flow
+text	Saga Type
+text	Active
+text	Completed
+text	Failed
+text	Avg Duration
+text	Pending Dead Letters
+text	Saga
+text	Step
+text	Error
+text	Retries
+text	When
+text	Actions
+text	Entity
+text	Progress
+text	Duration
+text	Status
+
+## src/app/[locale]/admin/analytics-os/Dashboard.tsx [31 strings]
+text	Analytics OS Dashboard
+text	Monitor and manage analytics operations
+text	New Query
+text	Create Dashboard
+text	Query Performance
+text	Query performance chart will be rendered here
+text	Data Processing
+text	Data processing chart will be rendered here
+text	Recent Queries
+text	Query #
+text	Revenue Analysis •
+text	ms
+text	Completed
+text	minute(s) ago
+text	System Performance
+text	Excellent
+text	Cache performance
+text	cache hit rate
+text	Good
+text	Query latency
+text	45ms
+text	average response
+text	Optimal
+text	Data freshness
+text	5min
+text	average data age
+text	System Alerts
+text	High query latency detected
+text	Query latency increased by 15% in the last hour
+text	Insight generation milestone achieved
+text	Generated 1,000+ insights this week
+
+## src/app/[locale]/admin/b2b-onboarding/Dashboard.tsx [30 strings]
+text	B2B Bulk Onboarding
+text	Corporate housing provider bulk acquisition and portfolio management
+text	Seattle/Bellevue Target Accounts
+text	Account Name
+text	Type
+text	Properties
+text	Status
+text	Priority
+text	Actions
+text	Yield Opportunity Analysis
+text	South Lake Union (SLU)
+text	+18.5% Yield
+text	Corporate housing premium vs long-term rental
+text	Downtown Seattle
+text	+15.2% Yield
+text	High demand from Amazon & Microsoft relocations
+text	Bellevue
+text	+12.8% Yield
+text	Tech corridor with premium corporate demand
+text	Tech Tenant Demand
+text	Amazon
+text	2,450 units
+text	Monthly demand
+text	Microsoft
+text	1,890 units
+text	Google
+text	980 units
+text	Meta
+text	650 units
+text	This module is under development. Check back soon.
+
+## src/app/[locale]/admin/identity-os/Dashboard.tsx [29 strings]
+text	Identity OS Dashboard
+text	Monitor and manage identity and access
+text	New User
+text	Audit Report
+text	User Activity
+text	User activity chart will be rendered here
+text	Security Trends
+text	Security trends chart will be rendered here
+text	Recent Organizations
+text	Organization #
+text	Agency •
+text	users
+text	Active
+text	day(s) ago
+text	Security Overview
+text	Excellent
+text	High MFA adoption
+text	MFA enabled
+text	Good
+text	Compliance score
+text	compliance rate
+text	Low Risk
+text	Security incidents
+text	incidents this month
+text	Security Alerts
+text	Unusual login activity detected
+text	Multiple failed login attempts from new location
+text	MFA adoption target achieved
+text	MFA enabled for 85% of users
+
+## src/app/[locale]/admin/document-os/Dashboard.tsx [27 strings]
+text	Document OS Dashboard
+text	Monitor and manage document operations
+text	Upload Document
+text	Create Template
+text	Document Trends
+text	Document trends chart will be rendered here
+text	Signature Status
+text	Signature status chart will be rendered here
+text	Recent Documents
+text	Document #
+text	Lease Agreement •
+text	signatures
+text	Pending
+text	hour(s) ago
+text	Document Types
+text	Lease Agreements
+text	Rental contracts
+text	of documents
+text	Purchase Agreements
+text	Sales contracts
+text	Other Documents
+text	Miscellaneous
+text	Document Alerts
+text	Pending signatures expiring soon
+text	5 documents have signatures expiring in 24 hours
+text	Compliance score improved
+text	Overall compliance score increased by 3.8%
+
+===== GROUP B =====
+
+## src/app/[locale]/admin/finance-os/Dashboard.tsx [26 strings]
+text	Finance OS Dashboard
+text	Monitor and manage financial operations
+text	New Deal
+text	Generate Report
+text	Revenue Trends
+text	Revenue trends chart will be rendered here
+text	Commission Distribution
+text	Commission distribution chart will be rendered here
+text	Recent Deals
+text	Deal #
+text	Property #
+text	day(s) ago
+text	Commission Models
+text	Traditional 1M
+text	Lump sum payment
+text	of total deals
+text	Installment 12
+text	12 monthly payments
+text	Hybrid 50/6
+text	50% upfront + 6 payments
+text	Commission Rule Engine
+text	Alerts & Notifications
+text	High pending commissions
+text	Pending commissions increased by 15% this week
+text	Revenue target achieved
+text	Monthly revenue target exceeded by 18%
+
+## src/app/[locale]/admin/agent-os/Dashboard.tsx [25 strings]
+text	Agent OS Dashboard
+text	Monitor and manage agent operations
+text	Invite Agent
+text	View Leaderboard
+text	Performance Trends
+text	Performance trends chart will be rendered here
+text	Trust Score Distribution
+text	Trust score distribution chart will be rendered here
+text	Top Performers
+text	Agent #
+text	deals closed
+text	Score:
+text	Network Activity
+text	High Activity
+text	Strong network connections
+text	of agents
+text	Moderate Activity
+text	Growing network
+text	Low Activity
+text	Limited network
+text	Agent Alerts
+text	Performance decline detected
+text	3 agents showing performance decline this week
+text	Training milestone achieved
+text	85% of agents completed required training
+
+## src/app/[locale]/admin/listing-os/Dashboard.tsx [25 strings]
+text	Listing OS Dashboard
+text	Monitor and manage listing operations
+text	New Listing
+text	Import from MLS
+text	Listing Views
+text	Listing views chart will be rendered here
+text	Inquiry Trends
+text	Inquiry trends chart will be rendered here
+text	Recent Listings
+text	Property #
+text	3BR • 2BA • 1,500 sqft
+text	day(s) ago
+text	Listing Performance
+text	High Performance
+text	Above average views and inquiries
+text	of listings
+text	Average Performance
+text	Meeting expected metrics
+text	Low Performance
+text	Below average views and inquiries
+text	Alerts & Notifications
+text	Low inquiry rate detected
+text	Inquiry rate decreased by 8% this week
+text	Views target achieved
+text	Monthly views target exceeded by 22%
+
+## src/app/[locale]/admin/geospatial/Dashboard.tsx [24 strings]
+text	Geospatial Heatmaps Dashboard
+text	Location intelligence powered by Google Maps Platform
+text	Rental Yield
+text	Demand Density
+text	Capital Appreciation
+text	Export Map
+text	Interactive Heatmap
+text	Interactive Geospatial Heatmap
+text	Powered by Google Maps Platform & Places API
+text	Yield Analysis
+text	Appreciation
+text	Regional Overview
+text	countries
+text	Yield
+text	Demand
+text	Micro-Location Insights
+text	Google Maps Integration Status
+text	Places API
+text	Proximity scoring and location analysis
+text	✓ Connected
+text	Solar API
+text	Energy efficiency and solar potential
+text	3D Tiles
+text	3D building models and visualization
+
+## src/app/[locale]/admin/marketing-os/Dashboard.tsx [24 strings]
+text	Marketing OS
+text	Automated campaign generation and execution rules
+text	Filters
+text	Active Rules
+text	of
+text	total
+text	Campaigns Generated
+text	Auto-generated
+text	Total Spend
+text	Across all platforms
+text	Conversions
+text	% avg rate
+text	Campaign Automation Rules
+text	All Status
+text	All Triggers
+text	Loading campaign rules...
+text	Campaigns:
+text	Spend: $
+text	Conversions:
+text	Google Ads
+text	Meta Ads
+text	TikTok Ads
+text	Auto Creative
+text	Auto Audience
+
+## src/app/[locale]/admin/digital-twin/Dashboard.tsx [20 strings]
+text	Digital Twin Dashboard
+text	AI-powered 3D property modeling and spatial intelligence
+text	3D Twin Viewer
+text	3D View
+text	Layers
+text	Analytics
+text	3D Property Model Viewer
+text	Powered by Vertex AI & Gemini Multimodal
+text	Spatial Reasoning
+text	AI Analysis
+text	Real-time Sync
+text	Active Twins
+text	% accuracy
+text	AI-Powered Insights
+text	Spatial Analysis
+text	Property layout optimized for natural light and ventilation. Potential energy savings: 23%
+text	Market Positioning
+text	Investment Potential
+text	Projected ROI of 12.5% over 5 years based on market trends.
+text	Simulation Results
+
+## src/app/[locale]/admin/trust-score/TrustScorePage.tsx [20 strings]
+text	All Entities
+text	Tenant
+text	Landlord
+text	Agent
+text	Property
+text	Organization
+text	All Tiers
+text	Bronze
+text	Gold
+text	Platinum
+text	Diamond
+text	Payment Received
+text	Payment Missed
+text	Complaint Filed
+text	Complaint Resolved
+text	Verification Passed
+text	Score Boost
+text	Score Penalty
+attr:placeholder	+/- score impact
+attr:placeholder	Optional notes...
+
+## src/app/[locale]/admin/solicitors/AdminSolicitorsPage.tsx [18 strings]
+text	Bar:
+text	Solicitor Type
+text	Local Legal Counsel
+text	Tenant International Lawyer
+text	Landlord Representative
+text	Country Code
+attr:placeholder	GB, TR, US, DE
+text	Bar Registration No
+text	Legal Notice Address
+text	Appointment Type
+text	Initial Consultation
+text	Exchange
+text	Completion
+text	Engaged
+text	Verified
+text	Dispute Open
+text	Completed
+text	Terminated
+
+## src/app/[locale]/admin/booking-os/Dashboard.tsx [17 strings]
+text	Booking OS Dashboard
+text	Monitor and manage booking operations
+text	New Booking
+text	Export Report
+text	Booking Trends
+text	Booking trends chart will be rendered here
+text	Revenue Distribution
+text	Revenue distribution chart will be rendered here
+text	Recent Activity
+text	New booking created
+text	Booking #
+text	hour(s) ago
+text	Alerts & Notifications
+text	High cancellation rate detected
+text	Cancellation rate increased by 5% this week
+text	Revenue target achieved
+text	Monthly revenue target exceeded by 12%
+
+## src/app/[locale]/admin/ai-learning/Dashboard.tsx [15 strings]
+text	AI Learning Loops Dashboard
+text	Continuous AI improvement and model retraining
+text	Campaign Learning
+text	Price Learning
+text	Negotiation Learning
+text	Portfolio Learning
+text	Active Learning Loops
+text	iterations
+text	Learning Metrics
+text	Target:
+text	Recent Improvements
+text	improvement
+text	Learning Progress Visualization
+text	AI Learning Progress Chart
+text	Model accuracy and performance over time
+
+## src/app/[locale]/admin/bank-accounts/BankAccountsPage.tsx [11 strings]
+text	All Status
+text	IBAN
+attr:placeholder	TR...
+text	TRY
+text	EUR
+text	GBP
+text	USD
+text	Turkey
+text	Germany
+text	United Kingdom
+text	United States
+
+===== GROUP C =====
+
+## src/app/[locale]/admin/agent-mobile/AgentMobilePage.tsx [18 strings]
+text	City
+attr:placeholder	Any
+text	Max Price
+text	/mo
+attr:placeholder	Status
+text	All
+text	Recent Orders
+text	Order
+text	Property
+text	Amount
+text	Commission
+text	Date
+text	Top Performing Properties
+text	orders
+text	revenue
+text	m&sup2;
+text	Notes
+attr:placeholder	Optional notes...
+
+## src/app/[locale]/admin/attribution/Dashboard.tsx [19 strings]
+text	Closed-Loop Attribution Dashboard
+text	Revenue attribution tracking with CAPI integration
+text	All Channels
+text	Google Ads
+text	Meta Ads
+text	Organic
+text	CAPI Integration Status
+text	Conversions
+text	Match Rate
+text	Attribution Journey
+text	Offline Conversions Attribution
+text	Property
+text	Value
+text	Source
+text	Date
+text	Status
+text	Revenue Attribution Trend
+text	Revenue Attribution Visualization
+text	Cross-channel revenue attribution over time
+
+## src/app/[locale]/admin/marketplace/MarketplacePage.tsx [17 strings]
+text	% yield
+text	None
+text	Risk
+attr:placeholder	Min Price
+attr:placeholder	Max Price
+attr:placeholder	Min Yield %
+attr:placeholder	Certificate Tier
+text	All Tiers
+attr:placeholder	Sort By
+text	Price
+text	bed
+text	Grade:
+text	Yield
+text	Annual Income
+text	Trust Score
+text	Avg Yield in City
+text	Failed to load property details
+
+## src/app/[locale]/admin/agent-videos/AdminAgentVideosPage.tsx [9 strings]
+text	Upload Video
+text	Total Videos
+text	All agent videos
+text	Published
+text	Live on platform
+text	Total Views
+text	All time views
+text	Agent Videos
+text	views
+
+## src/app/[locale]/admin/commissions/CommissionsPage.tsx [4 strings]
+text	Alex Morgan
+text	Jordan Lee
+text	Sam Williams
+text	Taylor Swift
+
+## src/app/[locale]/admin/consent-os/Dashboard.tsx [3 strings]
+text	GDPR
+text	CCPA Opt-Out
+text	KVKK
+
+## src/app/[locale]/admin/notification-os/Dashboard.tsx [3 strings]
+text	Notification OS Dashboard
+text	Monitor and manage notifications
+text	New Notification
+
+## src/app/[locale]/admin/audit-log/AuditLogPage.tsx [2 strings]
+text	All Actions
+text	All Entities
+
+## src/app/[locale]/admin/bundles/BundlesPage.tsx [2 strings]
+text	items
+text	BR
+
+## src/app/[locale]/admin/purchase-intents/PurchaseIntentsPage.tsx [2 strings]
+text	All Status
+text	All Tiers
+
+## src/app/[locale]/admin/reo/REOPage.tsx [1 strings]
+text	properties
+
+## src/app/[locale]/admin/tenants/AdminTenantsPage.tsx [1 strings]
+text	Email
+
+===== GROUP D =====
+
+## src/pages-spa/admin/intelligence/RevenueIntelligence.tsx [25 strings]
+text	Last 7 Days
+text	Last 30 Days
+text	Last 90 Days
+text	Last Year
+text	Export Report
+text	NOI Optimization Analysis
+text	Current NOI
+text	Optimization Potential
+text	AI Recommendations:
+text	Dynamic Pricing Adjustment
+text	Increase weekend rates by 15% based on demand patterns
+text	Expense Optimization
+text	Reduce maintenance costs by 8% through predictive scheduling
+text	Revenue Streams
+text	Yield Arbitrage Analysis
+text	NOI
+text	Yield
+text	Arbitrage
+text	Yield Arbitrage Visualization
+text	Cross-market yield comparison and optimization opportunities
+text	Optimization Opportunities
+text	Impact
+text	Effort
+text	Predictive Revenue Insights
+text	% confidence
+
+## src/pages-spa/admin/intelligence/HybridRentalEngine.tsx [23 strings]
+text	PropTech + FinTech + AI Real Estate OS
+text	Reservatior Hybrid Rental & Partner Revenue Engine
+text	Yeniden Analiz Et & Teklif Üret
+text	Expat HR / Relocation Acentesi (Corporate)
+text	Fatih (Sultanahmet/Balat)
+text	Prisma `Commission`
+text	Base Amount:
+text	Platform Rate / Fee:
+text	Partner Rate / Fee:
+text	Accommodation Tax (%2):
+text	`EscrowSplitConfig`
+text	Days Block
+text	Agent Payout Rate:
+text	Reservatior Take Rate:
+text	Upfront / Installments:
+text	Taksit
+text	`CommissionAdvance`
+text	Avans Tutar:
+text	Avans Hizmet Bedeli (%5):
+text	Partner Commission Split & Attribution Motoru
+text	Tier:
+text	AI Ev Sahibi Teklif Metni (Owner Pitch)
+text	AI Partner Teklif Metni (Partner Proposal)
+
+## src/pages-spa/admin/intelligence/HybridRentalOSModule.tsx [17 strings]
+text	Core Operating System Architecture
+text	Hybrid Rental & Revenue OS Module
+text	Real Estate Revenue OS Architecture: Acquisition Engine, Multi-Agent Swarm Intelligence & Directed A…
+text	1. Acquisition Engine
+text	2. Intelligence Engine
+text	3. Revenue DAG Engine
+text	AI Property Discovery & Owner Outreach Targets
+text	% Lift
+text	Klasik Kira
+text	Hybrid Ciro (Tahmini)
+text	`HybridRentalOnboardingSaga` Orkestrasyonu
+text	Rollback
+text	. Step
+text	Directed Acyclic Graph (DAG) Revenue Pipeline
+text	Transaction ID:
+text	Ledger Hash:
+text	Hedef:
+
+## src/pages-spa/admin/intelligence/DecisionEngine.tsx [16 strings]
+text	All Status
+text	Pending
+text	Accepted
+text	Rejected
+text	Monitoring
+text	Export
+text	Recent Decisions
+text	decisions
+text	Type
+text	Property
+text	Recommendation
+text	Confidence
+text	Status
+text	Impact
+text	When
+text	Decision Lifecycle Flow
+
+## src/pages-spa/admin/intelligence/MarketPassport.tsx [15 strings]
+text	Export
+text	District Intelligence
+text	District
+text	Avg Price
+text	Yield
+text	Demand
+text	Trend
+text	Market Health Score
+text	AI Marketing Strategy
+text	Target Audience
+text	Young professionals (25-35), remote workers, international investors
+text	Recommended Channels
+text	Google Ads, Instagram, LinkedIn, Property portals
+text	Content Focus
+text	Investment returns, lifestyle benefits, transport connectivity
+
+## src/pages-spa/admin/intelligence/AgentPassport.tsx [14 strings]
+text	Export
+attr:placeholder	Search agents…
+text	Select an agent…
+text	Select an agent to view their Intelligence Passport
+text	Performance Radar
+text	AI Coaching
+text	💪 Strength
+text	Excellent client satisfaction (91%) and market knowledge (88%). Top-tier in luxury segment.
+text	🎯 Opportunity
+text	Conversion rate (24%) is below team average (28%). Focus on lead qualification.
+text	📈 Action Plan
+text	1. Implement follow-up automation. 2. Cross-sell investment properties. 3. Expand to adjacent distri…
+text	🏆 Territory
+text	Primary: Kensington, Chelsea. Expanding: Notting Hill, Holland Park. Recommended: Mayfair.
+
+## src/pages-spa/admin/intelligence/FeedbackLoop.tsx [14 strings]
+text	Accuracy
+text	vs last period
+text	Revenue: Predicted vs Actual
+text	Predicted Commission
+text	Actual Commission
+text	Predicted Rental
+text	Actual Rental
+text	Recent Calibration Events
+text	Property
+text	Direction
+text	Delta
+text	Reason
+text	When
+text	Intelligence Learning Loop
+
+## src/pages-spa/admin/intelligence/PropertyPassport.tsx [14 strings]
+text	Export Passport
+attr:placeholder	Search properties…
+text	Select a property…
+text	Select a property to view its Intelligence Passport
+text	Choose from the dropdown above or search by name
+text	Overall Score
+text	Calibration:
+text	Investment Decision
+text	Recommendation
+text	Expected ROI
+text	Risk Level
+text	Confidence
+text	Payback Period
+text	Pipeline Status
+
+## src/pages-spa/admin/intelligence/UserPassport.tsx [14 strings]
+text	Export
+attr:placeholder	Search users…
+text	Select a user…
+text	Select a user to view their Intelligence Passport
+text	Preferences (AI-inferred)
+text	Intent Signals
+text	Activity Timeline
+text	AI Recommendation Engine
+text	🎯 Next Best Action
+text	Send personalized listing alert for 2-3BR apartments in South London under £850K
+text	📊 Predicted Outcome
+text	78% probability of scheduling a viewing within 5 days. 34% of converting to offer within 30 days.
+text	💡 Engagement Tip
+text	User responds best to WhatsApp messages (82% open rate). Optimal time: Tuesday 10am.
+
+## src/pages-spa/admin/intelligence/ContentPublisher.tsx [13 strings]
+text	Channel Performance
+text	Channel
+text	Published
+text	Views
+text	SEO Score
+text	Status
+text	Recent Content
+text	Title
+text	Type
+text	Channels
+text	SEO
+text	When
+text	AI Content Pipeline
+
+## src/pages-spa/admin/intelligence/SEOGenerator.tsx [6 strings]
+text	Üret
+text	Üretilen Meta Etiketleri
+text	Meta Title (TR)
+text	Meta Description
+text	94 / 100 A+ Rating
+text	JSON-LD Structured Data Schema
+
+===== GROUP E =====
+
+## src/app/[locale]/admin/AdminPage.tsx [1 strings]
+text	OS Modules
+
+## src/app/[locale]/admin/ai-os/Dashboard.tsx [1 strings]
+text	Pricing Intelligence
+
+## src/app/[locale]/admin/crm-os/Dashboard.tsx [1 strings]
+attr:title	CRM OS Dashboard
+
+## src/app/[locale]/admin/devapi-os/Dashboard.tsx [1 strings]
+attr:title	Developer API OS Dashboard
+
+## src/app/[locale]/admin/governance-os/Dashboard.tsx [1 strings]
+attr:title	Governance OS Dashboard
+
+## src/app/[locale]/admin/investment-os/Dashboard.tsx [1 strings]
+attr:title	Investment OS Dashboard
+
+## src/app/[locale]/admin/operations-os/Dashboard.tsx [1 strings]
+attr:title	Operations OS Dashboard
+
+## src/app/[locale]/admin/partner-os/Dashboard.tsx [1 strings]
+attr:title	Partner OS Dashboard
+
+## src/app/[locale]/admin/security-os/Dashboard.tsx [1 strings]
+attr:title	Security OS Dashboard
+
+## src/app/[locale]/admin/trust-os/Dashboard.tsx [1 strings]
+attr:title	Trust OS Dashboard
+
+## src/app/[locale]/admin/user-os/Dashboard.tsx [1 strings]
+attr:title	User OS Dashboard
+
+## src/app/[locale]/admin/ai/studio/AIStudioContent.tsx [3 strings]
+attr:placeholder	e.g. /Users/os2026/Downloads/receipt.pdf
+attr:placeholder	Enter text to translate...
+attr:placeholder	Enter video URL...
+
+## src/pages-spa/admin/certificates/CertificatesPage.tsx [6 strings]
+text	3 Belge
+text	%100 Mevzuat Uyumlu
+text	1 Belge
+text	Veren Kurum:
+text	• Kategori:
+text	Seri No:
+
+## src/pages-spa/admin/integrations/MLSIntegration.tsx [5 strings]
+text	One-Click NWMLS Import
+text	Import from NWMLS (Seattle)
+text	Enter an NWMLS Listing ID or URL. Reservatior will automatically fetch all high-res media, property …
+text	Listing ID (e.g., 2232728)
+attr:placeholder	Enter MLS ID
+
+## src/pages-spa/admin/localization-os/AdminLocalizationOSDashboard.tsx [5 strings]
+text	% complete
+text	• Rate:
+text	EN:
+text	TR:
+text	DE:
+
+## src/pages-spa/admin/identity-os/AdminIdentityOSDashboard.tsx [4 strings]
+text	users
+text	permissions •
+text	Edit
+text	• Last used:
+
+## src/pages-spa/admin/notification-os/AdminNotificationOSDashboard.tsx [4 strings]
+text	Sent:
+text	• Delivered:
+text	• Failed:
+text	triggers
+
+## src/pages-spa/admin/ai/VirtualStaging.tsx [3 strings]
+attr:alt	Uploaded Empty Room
+attr:alt	Furnished Room
+attr:alt	Empty Room
+
+## src/pages-spa/admin/ad-router/AdRouterDashboard.tsx [2 strings]
+attr:placeholder	Summer Listings Campaign
+text	Arb
+
+## src/pages-spa/admin/analytics-os/AdminAnalyticsOSDashboard.tsx [2 strings]
+text	Target:
+text	impact
+
+## src/pages-spa/admin/document-os/AdminDocumentOSDashboard.tsx [2 strings]
+text	• Used
+text	times
+
+## src/pages-spa/admin/layout/AdminSidebar.tsx [2 strings]
+attr:alt	Reservatior Logo
+text	Reservatior
+
+## src/pages-spa/admin/telemetry/TelemetryDashboard.tsx [2 strings]
+text	pts
+text	days
+
+## src/pages-spa/admin/agent-os/AdminAgentOSDashboard.tsx [1 strings]
+text	leads
+
+## src/pages-spa/admin/creator-commerce/CreatorCommerceDashboard.tsx [1 strings]
+attr:placeholder	prop_xxx
+
+## src/pages-spa/admin/facilities/IoTDashboard.tsx [1 strings]
+attr:aria-label	Search devices or properties
+
+## src/pages-spa/admin/layout/AdminLayout.tsx [1 strings]
+attr:aria-label	Search
+
+## src/pages-spa/admin/listing-os/AdminListingOSDashboard.tsx [1 strings]
+text	active listings
+
+## src/pages-spa/admin/properties/OwnershipVerification.tsx [1 strings]
+attr:aria-label	Filter by node identity

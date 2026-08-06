@@ -141,34 +141,34 @@ const PropertyAmenityManagement = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
- {t("admin_property_amenities_title","Property Amenities Management")}
+ {t("admin_property_amenities_title", "Mülk Olanakları Yönetimi")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_property_amenities_subtitle","Manage amenities and features for properties")}
+ {t("admin_property_amenities_subtitle", "Tesislere ilişkin olanakları ve özellikleri yönetin")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-white">
+ <Button className="bg-muted hover:bg-muted0 text-white">
  <Plus className="w-4 h-4 mr-2" />
- {t("common.add","Add Amenity")}
+ {t("common.add", "Ekle")}
  </Button>
  </DialogTrigger>
  <DialogContent className="bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_property_amenities_add_title","Add Property Amenity")}</DialogTitle>
- <DialogDescription>{t("admin_property_amenities_add_desc","Assign an amenity to a property")}</DialogDescription>
+ <DialogTitle>{t("admin_property_amenities_add_title", "Tesis Olanakları Ekle")}</DialogTitle>
+ <DialogDescription>{t("admin_property_amenities_add_desc", "Bir özelliğe olanak atama")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 py-4">
  <div className="space-y-2">
- <Label>{t("admin_property_amenities_property","Property")}</Label>
+ <Label>{t("admin_property_amenities_property", "Mülk")}</Label>
  <Select value={newItem.propertyId} onValueChange={(v) => setNewItem({...newItem, propertyId: v})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder={t("admin_property_amenities_select_property","Select property")} />
+ <SelectValue placeholder={t("admin_property_amenities_select_property", "Mülk seçin")} />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
  {properties.map((p: any) => (
@@ -178,10 +178,10 @@ const PropertyAmenityManagement = () => {
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_property_amenities_amenity","Amenity")}</Label>
+ <Label>{t("admin_property_amenities_amenity", "konfor")}</Label>
  <Select value={newItem.amenityId} onValueChange={(v) => setNewItem({...newItem, amenityId: v})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder={t("admin_property_amenities_select_amenity","Select amenity")} />
+ <SelectValue placeholder={t("admin_property_amenities_select_amenity", "Olanak seçin")} />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
  {amenityTypes.map((a: any) => (
@@ -191,7 +191,7 @@ const PropertyAmenityManagement = () => {
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_property_amenities_quantity","Quantity")}</Label>
+ <Label>{t("admin_property_amenities_quantity", "Miktar")}</Label>
  <Input 
  type="number" 
  value={newItem.quantity} 
@@ -207,24 +207,24 @@ const PropertyAmenityManagement = () => {
  onChange={(e) => setNewItem({...newItem, isPrivate: e.target.checked})}
  className="rounded"
  />
- <Label htmlFor="isPrivate">{t("admin_property_amenities_private","Private Amenity")}</Label>
+ <Label htmlFor="isPrivate">{t("admin_property_amenities_private", "Özel Olanaklar")}</Label>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_property_amenities_notes","Notes")}</Label>
+ <Label>{t("admin_property_amenities_notes", "Notlar")}</Label>
  <Input 
  value={newItem.notes} 
  onChange={(e) => setNewItem({...newItem, notes: e.target.value})}
  className="bg-card border-border"
- placeholder={t("admin_property_amenities_notes_placeholder","Optional notes")}
+ placeholder={t("admin_property_amenities_notes_placeholder", "İsteğe bağlı notlar")}
  />
  </div>
  </form>
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleAddSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleAddSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>
@@ -236,24 +236,24 @@ const PropertyAmenityManagement = () => {
  <CardHeader>
  <CardTitle className="flex items-center gap-2">
  <Home className="w-5 h-5" />
- {t("admin_property_amenities_list_title","Property Amenities")}
+ {t("admin_property_amenities_list_title", "Tesis Olanakları")}
  </CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
- <div className="text-center py-8 text-slate-500">{t("common.loading","Loading...")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("common.loading", "Yükleniyor")}</div>
  ) : amenities.length === 0 ? (
- <div className="text-center py-8 text-slate-500">{t("admin_property_amenities_empty","No amenities found")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("admin_property_amenities_empty", "Hiçbir olanak bulunamadı")}</div>
  ) : (
  <Table>
  <TableHeader>
  <TableRow>
- <TableHead>{t("admin_property_amenities_property","Property")}</TableHead>
- <TableHead>{t("admin_property_amenities_amenity","Amenity")}</TableHead>
- <TableHead>{t("admin_property_amenities_quantity","Quantity")}</TableHead>
- <TableHead>{t("admin_property_amenities_type","Type")}</TableHead>
- <TableHead>{t("admin_property_amenities_notes","Notes")}</TableHead>
- <TableHead className="text-right">{t("common.actions","Actions")}</TableHead>
+ <TableHead>{t("admin_property_amenities_property", "Mülk")}</TableHead>
+ <TableHead>{t("admin_property_amenities_amenity", "konfor")}</TableHead>
+ <TableHead>{t("admin_property_amenities_quantity", "Miktar")}</TableHead>
+ <TableHead>{t("admin_property_amenities_type", "Tip")}</TableHead>
+ <TableHead>{t("admin_property_amenities_notes", "Notlar")}</TableHead>
+ <TableHead className="text-right">{t("common.actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -264,23 +264,23 @@ const PropertyAmenityManagement = () => {
  <TableCell className="font-medium">{item.property?.name || '-'}</TableCell>
  <TableCell>
  <div className="flex items-center gap-2">
- <Icon className="w-4 h-4 text-slate-500" />
+ <Icon className="w-4 h-4 text-muted-foreground" />
  {item.amenity?.name || '-'}
  </div>
  </TableCell>
  <TableCell>{item.quantity || 1}</TableCell>
  <TableCell>
  <Badge variant={item.isPrivate ?"destructive" :"secondary"}>
- {item.isPrivate ? t("admin_property_amenities_private","Private") : t("admin_property_amenities_shared","Shared")}
+ {item.isPrivate ? t("admin_property_amenities_private", "Özel Olanaklar") : t("admin_property_amenities_shared", "Paylaşıldı")}
  </Badge>
  </TableCell>
- <TableCell className="text-slate-500">{item.notes || '-'}</TableCell>
+ <TableCell className="text-muted-foreground">{item.notes || '-'}</TableCell>
  <TableCell className="text-right">
  <div className="flex justify-end gap-2">
- <Button variant="ghost" size="icon" onClick={() => openEditModal(item)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} onClick={() => openEditModal(item)}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(item.id)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} onClick={() => deleteMutation.mutate(item.id)}>
  <Trash2 className="w-4 h-4 text-red-500" />
  </Button>
  </div>
@@ -298,13 +298,13 @@ const PropertyAmenityManagement = () => {
  <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
  <DialogContent className="bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_property_amenities_edit_title","Edit Property Amenity")}</DialogTitle>
- <DialogDescription>{t("admin_property_amenities_edit_desc","Update amenity details")}</DialogDescription>
+ <DialogTitle>{t("admin_property_amenities_edit_title", "Tesis Olanaklarını Düzenle")}</DialogTitle>
+ <DialogDescription>{t("admin_property_amenities_edit_desc", "Tesis ayrıntılarını güncelleyin")}</DialogDescription>
  </DialogHeader>
  {editingItem && (
  <form onSubmit={handleEditSubmit} className="space-y-4 py-4">
  <div className="space-y-2">
- <Label>{t("admin_property_amenities_quantity","Quantity")}</Label>
+ <Label>{t("admin_property_amenities_quantity", "Miktar")}</Label>
  <Input 
  type="number" 
  value={editingItem.quantity || 1}
@@ -320,10 +320,10 @@ const PropertyAmenityManagement = () => {
  onChange={(e) => setEditingItem({...editingItem, isPrivate: e.target.checked})}
  className="rounded"
  />
- <Label htmlFor="editIsPrivate">{t("admin_property_amenities_private","Private Amenity")}</Label>
+ <Label htmlFor="editIsPrivate">{t("admin_property_amenities_private", "Özel Olanaklar")}</Label>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_property_amenities_notes","Notes")}</Label>
+ <Label>{t("admin_property_amenities_notes", "Notlar")}</Label>
  <Input 
  value={editingItem.notes || ''}
  onChange={(e) => setEditingItem({...editingItem, notes: e.target.value})}
@@ -334,10 +334,10 @@ const PropertyAmenityManagement = () => {
  )}
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleEditSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleEditSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>

@@ -113,11 +113,7 @@ export const b2bOnboardingRoutes = new Elysia({ prefix: '/b2b' })
     const invitation = await prisma.bulkInvitation.findUnique({
       where: { magicLinkToken: token },
       include: {
-        corporateAccount: {
-          include: {
-            organization: true,
-          },
-        },
+        corporateAccount: true,
       },
     });
     
@@ -131,7 +127,7 @@ export const b2bOnboardingRoutes = new Elysia({ prefix: '/b2b' })
     
     return {
       valid: true,
-      corporateAccount: invitation.corporateAccount,
+      corporateAccount: (invitation as any).corporateAccount,
     };
   })
   .get('/corporate-properties', async ({ query }) => {
@@ -139,10 +135,7 @@ export const b2bOnboardingRoutes = new Elysia({ prefix: '/b2b' })
     
     const properties = await prisma.corporateProperty.findMany({
       where: corporateAccountId ? { corporateAccountId } : undefined,
-      include: {
-        property: true,
         portfolioBatch: true,
-      },
       orderBy: { createdAt: 'desc' },
     });
     

@@ -69,7 +69,7 @@ export function VideoFeed({
   };
   if (loading) return <div className="h-[80vh] flex items-center justify-center">{t("client.src.loading_feed")}</div>;
   if (items.length === 0) return null;
-  return <section className={`bg-slate-950 text-white overflow-hidden relative ${isFullPage ? 'h-full py-0' : 'py-20 h-[calc(100vh+200px)]'}`}>
+  return <section className={`bg-background text-white overflow-hidden relative ${isFullPage ? 'h-full py-0' : 'py-20 h-[calc(100vh+200px)]'}`}>
       <SEOMetadata data={{
         type: 'LISTING',
         title: 'Video Keşfet: Lüks Rezidanslar ve Oteller | ',
@@ -83,7 +83,7 @@ export function VideoFeed({
               <TrendingUp className="w-3 h-3 mr-1" />{t("client.src.trending")}</Badge>
             <h2 className="text-2xl md:text-3xl font-medium font-outfit uppercase tracking-widest">{t("client.src.video_discovery")}<span className="text-gold">{t("client.src.feed")}</span>
             </h2>
-            <p className="text-slate-400 mt-2 max-w-lg">{t("client.src.experience_properties_through_immersive")}</p>
+            <p className="text-muted-foreground mt-2 max-w-lg">{t("client.src.experience_properties_through_immersive")}</p>
           </div>
           <div className="hidden md:flex gap-2">
             <Link to="/client/signup">
@@ -105,11 +105,11 @@ export function VideoFeed({
             top: index * containerRef.current.clientHeight,
             behavior: 'smooth'
           });
-        }} className={`p-4 rounded-xl border transition-all cursor-pointer ${index === currentIndex ? 'bg-gold/10 border-gold' : 'bg-slate-900/50 border-slate-800 opacity-50'}`} whileHover={{
+        }} className={`p-4 rounded-xl border transition-all cursor-pointer ${index === currentIndex ? 'bg-gold/10 border-gold' : 'bg-card/50 border-border opacity-50'}`} whileHover={{
           scale: 1.02
         }}>
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-slate-800 rounded-lg overflow-hidden relative">
+                  <div className="w-12 h-12 bg-muted rounded-lg overflow-hidden relative">
                     <Image src={listing.videoContents[0]?.thumbnailUrl || "/logo.png"} alt="" fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                     {listing.isPromoted && <div className="absolute top-0 right-0 bg-gold text-black p-0.5 rounded-bl-md">
                         <Star className="w-2.5 h-2.5 fill-current" />
@@ -117,7 +117,7 @@ export function VideoFeed({
                   </div>
                   <div>
                     <h3 className="font-bold text-sm line-clamp-1">{listing.title}</h3>
-                    <p className="text-xs text-slate-400 capitalize">{listing.property.city}, {listing.property.region}</p>
+                    <p className="text-xs text-muted-foreground capitalize">{listing.property.city}, {listing.property.region}</p>
                   </div>
                 </div>
               </m.div>)}
@@ -177,7 +177,7 @@ function VideoSlide({
       setIsPlaying(!isPlaying);
     }
   };
-  return <div className="h-full w-full snap-start relative bg-slate-900 group">
+  return <div className="h-full w-full snap-start relative bg-card group">
       {/* Video layer */}
       <video ref={videoRef} src={listing.videoContents[0]?.videoUrl} poster={listing.videoContents[0]?.thumbnailUrl} loop muted={muted} playsInline className="h-full w-full object-cover" onClick={togglePlay}>
         <track kind="captions" src="" srcLang="en" label="English" default />
@@ -191,14 +191,14 @@ function VideoSlide({
         {listing.isAiArbitrage && <Badge className="w-fit bg-violet-600 text-white border-none animate-pulse shadow-[0_0_15px_rgba(139,92,246,0.5)]">
             <Sparkles className="w-3 h-3 mr-1 fill-current" /> AI ARBITRAGE
           </Badge>}
-        {listing.isB2B && <Badge className="w-fit bg-emerald-500 text-white border-none shadow-[0_0_10px_rgba(16,185,129,0.3)]">
+        {listing.isB2B && <Badge className="w-fit bg-success text-white border-none shadow-[0_0_10px_rgba(16,185,129,0.3)]">
             <Zap className="w-3 h-3 mr-1 fill-current" /> BEST DEAL
           </Badge>}
         {listing.isPromoted && !listing.isAiArbitrage && !listing.isB2B && <Badge className="w-fit bg-gold text-black border-none animate-pulse">
             <Zap className="w-3 h-3 mr-1 fill-current" /> {(listing as any).isProject ? "FEATURED PROJECT" : "PROMOTED"}
           </Badge>}
         <div className="flex gap-2">
-          {listing.promotionTier === 3 && <Badge variant="secondary" className="bg-purple-600 text-white border-none">{t("client.src.featured")}</Badge>}
+          {listing.promotionTier === 3 && <Badge variant="secondary" className="bg-brand text-white border-none">{t("client.src.featured")}</Badge>}
         </div>
       </div>
 
@@ -247,7 +247,7 @@ function VideoSlide({
           {listing.title}
         </h3>
         
-        <p className="text-sm text-slate-200 line-clamp-2 mb-4 max-w-[80%]">
+        <p className="text-sm text-foreground line-clamp-2 mb-4 max-w-[80%]">
           {listing.description}
         </p>
 
@@ -262,7 +262,7 @@ function VideoSlide({
           </div>
           <Link to={`/property/${listing.id}`}>
             {listing.isAiArbitrage || listing.isB2B ? (
-              <Button size="sm" className="bg-gold hover:bg-white text-black font-bold uppercase tracking-widest text-[10px] h-9 px-4 shadow-[0_0_20px_rgba(255,215,0,0.4)]">
+              <Button size="sm" className="bg-gold hover:bg-card text-black font-bold uppercase tracking-widest text-[10px] h-9 px-4 shadow-[0_0_20px_rgba(255,215,0,0.4)]">
                 {listing.isAiArbitrage ? "Tasarruf Et" : "Hemen Rezerve Et"}
               </Button>
             ) : (

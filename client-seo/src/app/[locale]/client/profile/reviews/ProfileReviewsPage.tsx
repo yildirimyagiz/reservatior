@@ -46,7 +46,7 @@ export default function ProfileReviewsPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("reviews.profilereviewspage.auto_ext_3")}
@@ -59,7 +59,7 @@ export default function ProfileReviewsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white">{t("reviews.profilereviewspage.auto_ext_4")}{mockReviews.length})</CardTitle>
             </CardHeader>
@@ -72,7 +72,7 @@ export default function ProfileReviewsPage() {
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold">
+                        <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center text-brand font-bold">
                           {review.reviewerName.split(' ').map(n => n[0]).join('')}
                         </div>
                         <div>

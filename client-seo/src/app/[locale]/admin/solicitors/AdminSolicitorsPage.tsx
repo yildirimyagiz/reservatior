@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { tEnum } from "@/lib/admin-enums";
 
 interface Solicitor {
   id: string;
@@ -100,16 +101,16 @@ const mockSolicitors: Solicitor[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  ENGAGED: "bg-blue-500/20 text-blue-400",
-  VERIFIED: "bg-green-500/20 text-green-400",
+  ENGAGED: "bg-blue-500/20 text-info",
+  VERIFIED: "bg-blue-500/20 text-blue-400",
   DISPUTE_OPEN: "bg-red-500/20 text-red-400",
-  COMPLETED: "bg-emerald-500/20 text-emerald-400",
+  COMPLETED: "bg-blue-500/20 text-success",
   TERMINATED: "bg-gray-500/20 text-gray-400",
 };
 
 const SOLICITOR_TYPE_COLORS: Record<string, string> = {
-  LOCAL_LEGAL_COUNSEL: "bg-purple-500/20 text-purple-400",
-  TENANT_INTERNATIONAL_LAWYER: "bg-orange-500/20 text-orange-400",
+  LOCAL_LEGAL_COUNSEL: "bg-brand/20 text-brand",
+  TENANT_INTERNATIONAL_LAWYER: "bg-orange-500/20 text-warning",
   LANDLORD_REPRESENTATIVE: "bg-cyan-500/20 text-cyan-400",
 };
 
@@ -154,12 +155,12 @@ export default function AdminSolicitorsPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_solicitors_title")}</h1>
-              <p className="text-muted-foreground">{t("admin_solicitors_description")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_solicitors_title", "Avukat Yönetimi")}</h1>
+              <p className="text-muted-foreground">{t("admin_solicitors_description", "Avukatları ve hukuk danışmanlarını yönetin")}</p>
             </div>
-            <Button className="bg-primary hover:bg-primary/90">
+            <Button className="bg-card hover:bg-muted text-card-foreground border border-border">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin_solicitors_back_to_dashboard")}
+              {t("admin_solicitors_back_to_dashboard", "Panele Dön")}
             </Button>
           </div>
         </m.div>
@@ -172,16 +173,16 @@ export default function AdminSolicitorsPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin_solicitors_search_placeholder")}
+                      placeholder={t("admin_solicitors_search_placeholder", "İsim, firma ile ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
+                      className="pl-10 bg-background border-border text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
-                <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
+                <Button onClick={() => setIsCreateOpen(true)} className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_solicitors_add_solicitor")}
+                  {t("admin_solicitors_add_solicitor", "Avukat Ekle")}
                 </Button>
               </div>
             </CardContent>
@@ -193,7 +194,7 @@ export default function AdminSolicitorsPage() {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <Scale className="w-5 h-5" />
-                {t("admin_solicitors_list_title")} ({filtered.length})
+                {t("admin_solicitors_list_title", "Hukuk Danışmanları Listesi")} ({filtered.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -216,16 +217,16 @@ export default function AdminSolicitorsPage() {
                           <span className="flex items-center gap-1">🌍 {solicitor.countryCode}</span>
                         </div>
                         <div className="text-xs text-muted-foreground/50 mt-1">
-                          Bar: {solicitor.barRegistrationNo}
+                          {t("admin_solicitors_bar_label", "Baro:")} {solicitor.barRegistrationNo}
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <Badge className={SOLICITOR_TYPE_COLORS[solicitor.solicitorType]}>{solicitor.solicitorType.replace(/_/g, ' ')}</Badge>
-                      <Badge className={STATUS_COLORS[solicitor.status]}>{solicitor.status.replace(/_/g, ' ')}</Badge>
+                      <Badge className={SOLICITOR_TYPE_COLORS[solicitor.solicitorType]}>{tEnum(t, solicitor.solicitorType)}</Badge>
+                      <Badge className={STATUS_COLORS[solicitor.status]}>{tEnum(t, solicitor.status)}</Badge>
                       <div className="flex gap-2">
-                        <Button onClick={() => { setEditingItem(solicitor); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                        <Button onClick={() => { setDeletingItem(solicitor); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setEditingItem(solicitor); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setDeletingItem(solicitor); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                       </div>
                     </div>
                   </div>
@@ -267,87 +268,87 @@ function CreateSolicitorDialog({ open, onOpenChange, onSubmit }: { open: boolean
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_solicitors_add_solicitor", "Add Solicitor")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_solicitor_firm_to_the_system", "Add a new solicitor firm to the system.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_solicitors_add_solicitor", "Avukat Ekle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_solicitor_firm_to_the_system", "Sisteme yeni bir avukatlık bürosu ekleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_firm_name", "Firm Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_firm_name", "Firma Adı")}</Label>
             <Input value={solicitorFirm} onChange={e => setSolicitorFirm(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_contact_name", "Contact Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_contact_name", "İletişim Kişisi")}</Label>
             <Input value={solicitorName} onChange={e => setSolicitorName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_email", "E-posta")}</Label>
             <Input value={solicitorEmail} onChange={e => setSolicitorEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_phone", "Phone")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_phone", "Telefon")}</Label>
             <Input value={solicitorPhone} onChange={e => setSolicitorPhone(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Solicitor Type</Label>
+            <Label className="text-right text-foreground">{t("admin_solicitors_type_label", "Avukat Türü")}</Label>
             <Select value={solicitorType} onValueChange={v => setSolicitorType(v as "LOCAL_LEGAL_COUNSEL" | "TENANT_INTERNATIONAL_LAWYER" | "LANDLORD_REPRESENTATIVE")}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="LOCAL_LEGAL_COUNSEL">Local Legal Counsel</SelectItem>
-                <SelectItem value="TENANT_INTERNATIONAL_LAWYER">Tenant International Lawyer</SelectItem>
-                <SelectItem value="LANDLORD_REPRESENTATIVE">Landlord Representative</SelectItem>
+                <SelectItem value="LOCAL_LEGAL_COUNSEL">{tEnum(t, "LOCAL_LEGAL_COUNSEL")}</SelectItem>
+                <SelectItem value="TENANT_INTERNATIONAL_LAWYER">{tEnum(t, "TENANT_INTERNATIONAL_LAWYER")}</SelectItem>
+                <SelectItem value="LANDLORD_REPRESENTATIVE">{tEnum(t, "LANDLORD_REPRESENTATIVE")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Country Code</Label>
-            <Input value={countryCode} onChange={e => setCountryCode(e.target.value)} placeholder="GB, TR, US, DE" className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
+            <Label className="text-right text-foreground">{t("admin_solicitors_country_code", "Ülke Kodu")}</Label>
+            <Input value={countryCode} onChange={e => setCountryCode(e.target.value)} placeholder={t("admin_solicitors_country_placeholder", "GB, TR, US, DE")} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Bar Registration No</Label>
+            <Label className="text-right text-foreground">{t("admin_solicitors_bar_registration", "Baro Kayıt No")}</Label>
             <Input value={barRegistrationNo} onChange={e => setBarRegistrationNo(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Legal Notice Address</Label>
+            <Label className="text-right text-foreground">{t("admin_solicitors_legal_notice_address", "Yasal Bildirim Adresi")}</Label>
             <Input value={legalNoticeAddress} onChange={e => setLegalNoticeAddress(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Appointment Type</Label>
+            <Label className="text-right text-foreground">{t("admin_solicitors_appointment_type", "Randevu Türü")}</Label>
             <Select value={appointmentType} onValueChange={setAppointmentType}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="INITIAL_CONSULTATION">Initial Consultation</SelectItem>
-                <SelectItem value="EXCHANGE">Exchange</SelectItem>
-                <SelectItem value="COMPLETION">Completion</SelectItem>
+                <SelectItem value="INITIAL_CONSULTATION">{tEnum(t, "INITIAL_CONSULTATION")}</SelectItem>
+                <SelectItem value="EXCHANGE">{tEnum(t, "EXCHANGE")}</SelectItem>
+                <SelectItem value="COMPLETION">{tEnum(t, "COMPLETION")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as "ENGAGED" | "VERIFIED" | "DISPUTE_OPEN" | "COMPLETED" | "TERMINATED")}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ENGAGED">Engaged</SelectItem>
-                <SelectItem value="VERIFIED">Verified</SelectItem>
-                <SelectItem value="DISPUTE_OPEN">Dispute Open</SelectItem>
-                <SelectItem value="COMPLETED">Completed</SelectItem>
-                <SelectItem value="TERMINATED">Terminated</SelectItem>
+                <SelectItem value="ENGAGED">{tEnum(t, "ENGAGED")}</SelectItem>
+                <SelectItem value="VERIFIED">{tEnum(t, "VERIFIED")}</SelectItem>
+                <SelectItem value="DISPUTE_OPEN">{tEnum(t, "DISPUTE_OPEN")}</SelectItem>
+                <SelectItem value="COMPLETED">{tEnum(t, "COMPLETED")}</SelectItem>
+                <SelectItem value="TERMINATED">{tEnum(t, "TERMINATED")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => onSubmit({ 
             solicitorFirm, solicitorName, solicitorEmail, solicitorPhone, 
             solicitorType, status, countryCode, barRegistrationNo, legalNoticeAddress, 
             appointmentType 
-          })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -371,82 +372,82 @@ function EditSolicitorDialog({ open, onOpenChange, item, onSubmit }: { open: boo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_solicitor", "Edit Solicitor")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_solicitor_details", "Update solicitor details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_solicitor", "Avukatı Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_solicitor_details", "Avukat detaylarını güncelleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_firm_name", "Firm Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_firm_name", "Firma Adı")}</Label>
             <Input value={solicitorFirm} onChange={e => setSolicitorFirm(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_contact_name", "Contact Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_contact_name", "İletişim Kişisi")}</Label>
             <Input value={solicitorName} onChange={e => setSolicitorName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_email", "E-posta")}</Label>
             <Input value={solicitorEmail} onChange={e => setSolicitorEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_phone", "Phone")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_phone", "Telefon")}</Label>
             <Input value={solicitorPhone} onChange={e => setSolicitorPhone(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Solicitor Type</Label>
+            <Label className="text-right text-foreground">{t("admin_solicitors_type_label", "Avukat Türü")}</Label>
             <Select value={solicitorType} onValueChange={v => setSolicitorType(v as "LOCAL_LEGAL_COUNSEL" | "TENANT_INTERNATIONAL_LAWYER" | "LANDLORD_REPRESENTATIVE")}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="LOCAL_LEGAL_COUNSEL">Local Legal Counsel</SelectItem>
-                <SelectItem value="TENANT_INTERNATIONAL_LAWYER">Tenant International Lawyer</SelectItem>
-                <SelectItem value="LANDLORD_REPRESENTATIVE">Landlord Representative</SelectItem>
+                <SelectItem value="LOCAL_LEGAL_COUNSEL">{tEnum(t, "LOCAL_LEGAL_COUNSEL")}</SelectItem>
+                <SelectItem value="TENANT_INTERNATIONAL_LAWYER">{tEnum(t, "TENANT_INTERNATIONAL_LAWYER")}</SelectItem>
+                <SelectItem value="LANDLORD_REPRESENTATIVE">{tEnum(t, "LANDLORD_REPRESENTATIVE")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Country Code</Label>
-            <Input value={countryCode} onChange={e => setCountryCode(e.target.value)} placeholder="GB, TR, US, DE" className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
+            <Label className="text-right text-foreground">{t("admin_solicitors_country_code", "Ülke Kodu")}</Label>
+            <Input value={countryCode} onChange={e => setCountryCode(e.target.value)} placeholder={t("admin_solicitors_country_placeholder", "GB, TR, US, DE")} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Bar Registration No</Label>
+            <Label className="text-right text-foreground">{t("admin_solicitors_bar_registration", "Baro Kayıt No")}</Label>
             <Input value={barRegistrationNo} onChange={e => setBarRegistrationNo(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Legal Notice Address</Label>
+            <Label className="text-right text-foreground">{t("admin_solicitors_legal_notice_address", "Yasal Bildirim Adresi")}</Label>
             <Input value={legalNoticeAddress} onChange={e => setLegalNoticeAddress(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">Appointment Type</Label>
+            <Label className="text-right text-foreground">{t("admin_solicitors_appointment_type", "Randevu Türü")}</Label>
             <Select value={appointmentType} onValueChange={setAppointmentType}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="INITIAL_CONSULTATION">Initial Consultation</SelectItem>
-                <SelectItem value="EXCHANGE">Exchange</SelectItem>
-                <SelectItem value="COMPLETION">Completion</SelectItem>
+                <SelectItem value="INITIAL_CONSULTATION">{tEnum(t, "INITIAL_CONSULTATION")}</SelectItem>
+                <SelectItem value="EXCHANGE">{tEnum(t, "EXCHANGE")}</SelectItem>
+                <SelectItem value="COMPLETION">{tEnum(t, "COMPLETION")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as "ENGAGED" | "VERIFIED" | "DISPUTE_OPEN" | "COMPLETED" | "TERMINATED")}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ENGAGED">Engaged</SelectItem>
-                <SelectItem value="VERIFIED">Verified</SelectItem>
-                <SelectItem value="DISPUTE_OPEN">Dispute Open</SelectItem>
-                <SelectItem value="COMPLETED">Completed</SelectItem>
-                <SelectItem value="TERMINATED">Terminated</SelectItem>
+                <SelectItem value="ENGAGED">{tEnum(t, "ENGAGED")}</SelectItem>
+                <SelectItem value="VERIFIED">{tEnum(t, "VERIFIED")}</SelectItem>
+                <SelectItem value="DISPUTE_OPEN">{tEnum(t, "DISPUTE_OPEN")}</SelectItem>
+                <SelectItem value="COMPLETED">{tEnum(t, "COMPLETED")}</SelectItem>
+                <SelectItem value="TERMINATED">{tEnum(t, "TERMINATED")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => onSubmit({ 
             id: item.id, 
             solicitorFirm, solicitorName, solicitorEmail, solicitorPhone, 
@@ -455,7 +456,7 @@ function EditSolicitorDialog({ open, onOpenChange, item, onSubmit }: { open: boo
             referredByAgencyId: item.referredByAgencyId,
             appointmentDate: item.appointmentDate,
             completionDate: item.completionDate
-          })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -468,12 +469,12 @@ function DeleteSolicitorDialog({ open, onOpenChange, item, onConfirm }: { open: 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_solicitor", "Delete Solicitor")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")}{item.solicitorFirm}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_solicitor", "Avukatı Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Silmek istediğinizden emin misiniz:")}{item.solicitorFirm}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

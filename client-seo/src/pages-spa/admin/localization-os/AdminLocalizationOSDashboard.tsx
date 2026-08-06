@@ -39,22 +39,22 @@ export default function AdminLocalizationOSDashboard() {
   const { t } = useTranslation();
 
   const kpis = [
-    { title: "Active Countries", value: 24, icon: Globe, color: "text-emerald-500", trend: "+2 this month" },
-    { title: "Supported Languages", value: 8, icon: Languages, color: "text-blue-400", trend: "+1 new this quarter" },
-    { title: "Currencies", value: 12, icon: DollarSign, color: "text-purple-400", trend: "All active" },
-    { title: "Translation Rate", value: "78%", icon: CheckCircle, color: "text-orange-400", trend: "+5% improvement" },
+    { title: t("localization_os.active_countries", "Aktif Ülkeler"), value: 24, icon: Globe, color: "text-success", trend: "+2 this month" },
+    { title: t("localization_os.supported_languages", "Desteklenen Diller"), value: 8, icon: Languages, color: "text-info", trend: "+1 new this quarter" },
+    { title: t("localization_os.currencies", "Para Birimleri"), value: 12, icon: DollarSign, color: "text-brand", trend: "All active" },
+    { title: t("localization_os.translation_rate", "Çeviri Oranı"), value: "78%", icon: CheckCircle, color: "text-warning", trend: "+5% improvement" },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-100">Localization OS Management</h1>
-          <p className="text-slate-400 mt-1">Multi-country support and localization</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("localization_os.title", "Yerelleştirme OS")}</h1>
+          <p className="text-muted-foreground mt-1">{t("localization_os.subtitle", "localization os.subtitle")}</p>
         </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700">
+        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
           <Globe className="h-4 w-4 mr-2" />
-          Add Country
+          {t("localization_os.add_country", "Ülke Ekle")}
         </Button>
       </div>
 
@@ -62,14 +62,14 @@ export default function AdminLocalizationOSDashboard() {
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
           <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.title}</CardTitle>
                 <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-slate-100">{kpi.value}</div>
-                <p className="text-xs text-slate-500 mt-1">{kpi.trend}</p>
+                <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">{kpi.trend}</p>
               </CardContent>
             </Card>
           </m.div>
@@ -77,30 +77,30 @@ export default function AdminLocalizationOSDashboard() {
       </div>
 
       <Tabs defaultValue="countries" className="space-y-4">
-        <TabsList className="bg-slate-900/60 border-slate-800">
-          <TabsTrigger value="countries">Countries</TabsTrigger>
-          <TabsTrigger value="languages">Languages</TabsTrigger>
-          <TabsTrigger value="currencies">Currencies</TabsTrigger>
-          <TabsTrigger value="translations">Translations</TabsTrigger>
+        <TabsList className="bg-card border-border">
+          <TabsTrigger value="countries">{t("localization_os.tabs.countries", "Ülkeler")}</TabsTrigger>
+          <TabsTrigger value="languages">{t("localization_os.tabs.languages", "Diller")}</TabsTrigger>
+          <TabsTrigger value="currencies">{t("localization_os.tabs.currencies", "Para Birimleri")}</TabsTrigger>
+          <TabsTrigger value="translations">{t("localization_os.tabs.translations", "Çeviriler")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="countries" className="space-y-4">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Country Configurations</CardTitle>
-              <CardDescription className="text-slate-400">
-                Manage country-specific settings
+              <CardTitle className="text-foreground">{t("localization_os.countries", "Ülke Yapılandırmaları")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("localization_os.countries_desc", "Ülkeye özel ayarları yönetin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {COUNTRIES.map((country) => (
-                  <div key={country.id} className="flex items-center justify-between p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div key={country.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border">
                     <div className="flex items-center gap-3">
-                      <Globe className="h-5 w-5 text-slate-400" />
+                      <Globe className="h-5 w-5 text-muted-foreground" />
                       <div>
-                        <p className="text-sm font-medium text-slate-200">{country.name}</p>
-                        <p className="text-xs text-slate-500">{country.code} • {country.currency} • {country.languages.join(", ")}</p>
+                        <p className="text-sm font-medium text-foreground">{country.name}</p>
+                        <p className="text-xs text-muted-foreground">{country.code} • {country.currency} • {country.languages.join(", ")}</p>
                       </div>
                     </div>
                     <Badge variant={country.status === 'active' ? 'default' : 'secondary'} className="text-xs">
@@ -114,27 +114,27 @@ export default function AdminLocalizationOSDashboard() {
         </TabsContent>
 
         <TabsContent value="languages">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Language Support</CardTitle>
-              <CardDescription className="text-slate-400">
-                Translation completion status
+              <CardTitle className="text-foreground">{t("localization_os.languages", "Dil Desteği")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("localization_os.languages_desc", "Çeviri tamamlanma durumu")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {LANGUAGES.map((lang) => (
-                  <div key={lang.id} className="flex items-center justify-between p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div key={lang.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border">
                     <div className="flex items-center gap-3">
-                      <Languages className="h-5 w-5 text-slate-400" />
+                      <Languages className="h-5 w-5 text-muted-foreground" />
                       <div>
-                        <p className="text-sm font-medium text-slate-200">{lang.name}</p>
-                        <p className="text-xs text-slate-500">{lang.code} • {lang.completion}% complete</p>
+                        <p className="text-sm font-medium text-foreground">{lang.name}</p>
+                        <p className="text-xs text-muted-foreground">{lang.code} • {lang.completion}% {t("localization_os.percent_complete", "tamamlandı")}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-24 h-2 bg-slate-700 rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-500" style={{ width: `${lang.completion}%` }} />
+                      <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
+                        <div className="h-full bg-blue-500" style={{ width: `${lang.completion}%` }} />
                       </div>
                       <Badge variant={lang.status === 'complete' ? 'default' : 'secondary'} className="text-xs">
                         {lang.status}
@@ -148,22 +148,22 @@ export default function AdminLocalizationOSDashboard() {
         </TabsContent>
 
         <TabsContent value="currencies">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Currency Exchange Rates</CardTitle>
-              <CardDescription className="text-slate-400">
-                Manage currency configurations and rates
+              <CardTitle className="text-foreground">{t("localization_os.currencies_rates", "Döviz Kurları")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("localization_os.currencies_rates_desc", "Para birimi yapılandırmalarını ve kurları yönetin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {CURRENCIES.map((currency) => (
-                  <div key={currency.id} className="flex items-center justify-between p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div key={currency.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border">
                     <div className="flex items-center gap-3">
-                      <DollarSign className="h-5 w-5 text-slate-400" />
+                      <DollarSign className="h-5 w-5 text-muted-foreground" />
                       <div>
-                        <p className="text-sm font-medium text-slate-200">{currency.name}</p>
-                        <p className="text-xs text-slate-500">{currency.code} • Rate: {currency.rate}</p>
+                        <p className="text-sm font-medium text-foreground">{currency.name}</p>
+                        <p className="text-xs text-muted-foreground">{currency.code} • {t("localization_os.rate_label", "Kur:")} {currency.rate}</p>
                       </div>
                     </div>
                     <Badge variant={currency.status === 'active' ? 'default' : 'secondary'} className="text-xs">
@@ -177,35 +177,35 @@ export default function AdminLocalizationOSDashboard() {
         </TabsContent>
 
         <TabsContent value="translations">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Translation Keys</CardTitle>
-              <CardDescription className="text-slate-400">
-                Manage translation content
+              <CardTitle className="text-foreground">{t("localization_os.translation_keys", "Çeviri Anahtarları")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("localization_os.translation_keys_desc", "Çeviri içeriğini yönetin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {TRANSLATIONS.map((trans) => (
-                  <div key={trans.id} className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div key={trans.id} className="p-4 rounded-lg bg-muted/50 border border-border">
                     <div className="flex items-start justify-between mb-2">
-                      <p className="text-sm font-medium text-slate-200">{trans.key}</p>
+                      <p className="text-sm font-medium text-foreground">{trans.key}</p>
                       <Badge variant={trans.status === 'complete' ? 'default' : 'secondary'} className="text-xs">
                         {trans.status}
                       </Badge>
                     </div>
                     <div className="grid grid-cols-3 gap-2 text-xs">
                       <div>
-                        <span className="text-slate-500">EN:</span>
-                        <p className="text-slate-300">{trans.en}</p>
+                        <span className="text-muted-foreground">{t("localization_os.en_label", "EN:")}</span>
+                        <p className="text-muted-foreground">{trans.en}</p>
                       </div>
                       <div>
-                        <span className="text-slate-500">TR:</span>
-                        <p className="text-slate-300">{trans.tr}</p>
+                        <span className="text-muted-foreground">{t("localization_os.tr_label", "TR:")}</span>
+                        <p className="text-muted-foreground">{trans.tr}</p>
                       </div>
                       <div>
-                        <span className="text-slate-500">DE:</span>
-                        <p className="text-slate-300">{trans.de}</p>
+                        <span className="text-muted-foreground">{t("localization_os.de_label", "DE:")}</span>
+                        <p className="text-muted-foreground">{trans.de}</p>
                       </div>
                     </div>
                   </div>

@@ -63,13 +63,13 @@ export default function TrustOSDashboard() {
       title: "Total Verifications",
       value: formatNumber(stats.totalVerifications),
       icon: Shield,
-      color: "text-blue-600",
+      color: "text-brand",
     },
     {
       title: "Completed",
       value: formatNumber(stats.completedVerifications),
       icon: CheckCircle,
-      color: "text-green-600",
+      color: "text-blue-600",
     },
     {
       title: "Pending",
@@ -81,7 +81,7 @@ export default function TrustOSDashboard() {
       title: "Avg Trust Score",
       value: formatDecimal(stats.averageTrustScore),
       icon: Star,
-      color: "text-purple-600",
+      color: "text-brand",
     },
   ];
 
@@ -98,7 +98,7 @@ export default function TrustOSDashboard() {
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
@@ -114,7 +114,7 @@ export default function TrustOSDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Verification Trends</h2>
             <TrendingUp className="w-5 h-5 text-gray-500" />
@@ -128,7 +128,7 @@ export default function TrustOSDashboard() {
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Trust Score Distribution</h2>
             <BarChart3 className="w-5 h-5 text-gray-500" />
@@ -137,7 +137,7 @@ export default function TrustOSDashboard() {
             data={trustScoreDistributionData} 
             dataKey="count" 
             xAxisKey="range" 
-            color="#10b981"
+            color="#3b82f6"
             height={256}
           />
         </div>

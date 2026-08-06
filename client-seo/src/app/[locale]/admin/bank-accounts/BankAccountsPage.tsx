@@ -35,6 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { tEnum } from "@/lib/admin-enums";
 
 interface BankAccount {
   id: string;
@@ -79,16 +80,16 @@ const mockAccounts: BankAccount[] = [
 ];
 
 const TYPE_COLORS: Record<string, string> = {
-  BUSINESS: "bg-blue-500/20 text-blue-400",
-  ESCROW: "bg-purple-500/20 text-purple-400",
-  OPERATING: "bg-green-500/20 text-green-400",
-  SAVINGS: "bg-amber-500/20 text-amber-400",
+  BUSINESS: "bg-blue-500/20 text-info",
+  ESCROW: "bg-brand/20 text-brand",
+  OPERATING: "bg-blue-500/20 text-blue-400",
+  SAVINGS: "bg-amber-500/20 text-warning",
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-green-500/20 text-green-400",
+  ACTIVE: "bg-blue-500/20 text-blue-400",
   INACTIVE: "bg-gray-500/20 text-gray-400",
-  VERIFICATION_PENDING: "bg-amber-500/20 text-amber-400",
+  VERIFICATION_PENDING: "bg-amber-500/20 text-warning",
   BLOCKED: "bg-red-500/20 text-red-400",
 };
 
@@ -146,12 +147,12 @@ export default function BankAccountsPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_bank_title", "Bank Accounts")}</h1>
-              <p className="text-muted-foreground">{t("admin_bank_description", "Manage platform bank accounts, IBAN details, and payout configuration")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_bank_title", "Banka Hesapları")}</h1>
+              <p className="text-muted-foreground">{t("admin_bank_description", "Ödeme ve tahsilat için kuruluş banka hesaplarını yönetin")}</p>
             </div>
             <Button className="bg-primary hover:bg-primary/90">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin_bank_back_to_dashboard", "Back to Dashboard")}
+              {t("admin_bank_back_to_dashboard", "Panele Dön")}
             </Button>
           </div>
         </m.div>
@@ -165,7 +166,7 @@ export default function BankAccountsPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin_bank_search_placeholder", "Search by bank name, account name, or IBAN...")}
+                      placeholder={t("admin_bank_search_placeholder", "Hesap ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -174,19 +175,19 @@ export default function BankAccountsPage() {
                 </div>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_bank_filter_status", "Filter Status")} />
+                    <SelectValue placeholder={t("admin_bank_filter_status", "Duruma Göre Filtrele")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">All Status</SelectItem>
-                    <SelectItem value="ACTIVE">Active</SelectItem>
-                    <SelectItem value="INACTIVE">Inactive</SelectItem>
-                    <SelectItem value="VERIFICATION_PENDING">Verification Pending</SelectItem>
-                    <SelectItem value="BLOCKED">Blocked</SelectItem>
+                    <SelectItem value="ALL">{t("admin_bank_all_status", "Tüm Durumlar")}</SelectItem>
+                    <SelectItem value="ACTIVE">{tEnum(t, "ACTIVE")}</SelectItem>
+                    <SelectItem value="INACTIVE">{tEnum(t, "INACTIVE")}</SelectItem>
+                    <SelectItem value="VERIFICATION_PENDING">{tEnum(t, "VERIFICATION_PENDING")}</SelectItem>
+                    <SelectItem value="BLOCKED">{tEnum(t, "BLOCKED")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_bank_add_account", "Add Account")}
+                  {t("admin_bank_add_account", "Hesap Ekle")}
                 </Button>
               </div>
             </CardContent>
@@ -209,13 +210,13 @@ export default function BankAccountsPage() {
                     </div>
                     <div className="flex gap-1">
                       {account.isDefaultPayout && <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />}
-                      {account.isDefaultReceipt && <Star className="w-4 h-4 text-green-400 fill-green-400" />}
+                      {account.isDefaultReceipt && <Star className="w-4 h-4 text-blue-400 fill-blue-400" />}
                     </div>
                   </div>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <Badge className={TYPE_COLORS[account.accountType]}>{account.accountType}</Badge>
-                      <Badge className={STATUS_COLORS[account.status]}>{account.status.replace(/_/g, " ")}</Badge>
+                      <Badge className={TYPE_COLORS[account.accountType]}>{tEnum(t, account.accountType)}</Badge>
+                      <Badge className={STATUS_COLORS[account.status]}>{tEnum(t, account.status)}</Badge>
                     </div>
                     <div className="p-3 bg-muted/30 rounded-lg">
                       <p className="text-xs text-muted-foreground mb-1">{t("admin_bank_iban", "IBAN")}</p>
@@ -228,20 +229,20 @@ export default function BankAccountsPage() {
                     <div className="flex items-center gap-2 pt-2 border-t border-border/50">
                       <Button onClick={() => toggleDefault(account.id, "isDefaultPayout")} variant="ghost" size="sm" className={`text-xs ${account.isDefaultPayout ? "text-yellow-400" : "text-muted-foreground"}`}>
                         <Star className={`w-3 h-3 mr-1 ${account.isDefaultPayout ? "fill-yellow-400" : ""}`} />
-                        {t("admin_bank_payout", "Payout")}
+                        {t("admin_bank_payout", "Ödeme")}
                       </Button>
-                      <Button onClick={() => toggleDefault(account.id, "isDefaultReceipt")} variant="ghost" size="sm" className={`text-xs ${account.isDefaultReceipt ? "text-green-400" : "text-muted-foreground"}`}>
-                        <Star className={`w-3 h-3 mr-1 ${account.isDefaultReceipt ? "fill-green-400" : ""}`} />
-                        {t("admin_bank_receipt", "Receipt")}
+                      <Button onClick={() => toggleDefault(account.id, "isDefaultReceipt")} variant="ghost" size="sm" className={`text-xs ${account.isDefaultReceipt ? "text-blue-400" : "text-muted-foreground"}`}>
+                        <Star className={`w-3 h-3 mr-1 ${account.isDefaultReceipt ? "fill-blue-400" : ""}`} />
+                        {t("admin_bank_receipt", "Tahsilat")}
                       </Button>
                     </div>
                   </div>
                   <div className="flex justify-end gap-2 mt-3 pt-3 border-t border-border/50">
                     {account.status === "VERIFICATION_PENDING" && (
-                      <Button variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-green-400"><ShieldCheck className="w-4 h-4" /></Button>
+                      <Button variant="ghost" size="icon" aria-label={t("common.verify")} className="min-h-10 min-w-10 h-10 w-10 text-blue-400"><ShieldCheck className="w-4 h-4" /></Button>
                     )}
-                    <Button onClick={() => { setEditingItem(account); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                    <Button onClick={() => { setDeletingItem(account); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                    <Button onClick={() => { setEditingItem(account); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                    <Button onClick={() => { setDeletingItem(account); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                   </div>
                 </CardContent>
               </Card>
@@ -273,42 +274,42 @@ function CreateAccountDialog({ open, onOpenChange, onSubmit }: { open: boolean; 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bank_create_account", "Add Bank Account")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_bank_create_account_desc", "Add a new bank account to the platform.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bank_create_account", "Banka Hesabı Oluştur")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_bank_create_account_desc", "Kuruluş için yeni bir banka hesabı ekleyin")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_bank_name", "Bank Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_bank_name", "Banka Adı")}</Label>
             <Input value={bankName} onChange={(e) => setBankName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_account_name", "Account Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_account_name", "Hesap Adı")}</Label>
             <Input value={accountName} onChange={(e) => setAccountName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_account_type", "Account Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_account_type", "Hesap Türü")}</Label>
             <Select value={accountType} onValueChange={(v) => setAccountType(v as BankAccount["accountType"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="BUSINESS">Business</SelectItem>
-                <SelectItem value="ESCROW">Escrow</SelectItem>
-                <SelectItem value="OPERATING">Operating</SelectItem>
-                <SelectItem value="SAVINGS">Savings</SelectItem>
+                <SelectItem value="BUSINESS">{tEnum(t, "BUSINESS")}</SelectItem>
+                <SelectItem value="ESCROW">{tEnum(t, "ESCROW")}</SelectItem>
+                <SelectItem value="OPERATING">{tEnum(t, "OPERATING")}</SelectItem>
+                <SelectItem value="SAVINGS">{tEnum(t, "SAVINGS")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">IBAN</Label>
-            <Input value={iban} onChange={(e) => setIban(e.target.value)} placeholder="TR..." className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
+            <Label className="text-right text-foreground">{t("admin_bank_iban", "IBAN")}</Label>
+            <Input value={iban} onChange={(e) => setIban(e.target.value)} placeholder={t("admin_bank_iban_placeholder", "TR...")} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_account_number", "Account Number")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_account_number", "Hesap Numarası")}</Label>
             <Input value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_currency", "Currency")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_currency", "Para Birimi")}</Label>
             <Select value={currency} onValueChange={setCurrency}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
@@ -322,37 +323,37 @@ function CreateAccountDialog({ open, onOpenChange, onSubmit }: { open: boolean; 
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_country", "Country")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_country", "Ülke")}</Label>
             <Select value={country} onValueChange={setCountry}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="TR">Turkey</SelectItem>
-                <SelectItem value="DE">Germany</SelectItem>
-                <SelectItem value="GB">United Kingdom</SelectItem>
-                <SelectItem value="US">United States</SelectItem>
+                <SelectItem value="TR">{t("admin_bank_country_turkey", "Türkiye")}</SelectItem>
+                <SelectItem value="DE">{t("admin_bank_country_germany", "Almanya")}</SelectItem>
+                <SelectItem value="GB">{t("admin_bank_country_united_kingdom", "Birleşik Krallık")}</SelectItem>
+                <SelectItem value="US">{t("admin_bank_country_united_states", "Amerika Birleşik Devletleri")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={(v) => setStatus(v as BankAccount["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ACTIVE">Active</SelectItem>
-                <SelectItem value="INACTIVE">Inactive</SelectItem>
-                <SelectItem value="VERIFICATION_PENDING">Verification Pending</SelectItem>
-                <SelectItem value="BLOCKED">Blocked</SelectItem>
+                <SelectItem value="ACTIVE">{tEnum(t, "ACTIVE")}</SelectItem>
+                <SelectItem value="INACTIVE">{tEnum(t, "INACTIVE")}</SelectItem>
+                <SelectItem value="VERIFICATION_PENDING">{tEnum(t, "VERIFICATION_PENDING")}</SelectItem>
+                <SelectItem value="BLOCKED">{tEnum(t, "BLOCKED")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ bankName, accountName, accountType, status, iban, accountNumber, currency, country, isDefaultPayout: false, isDefaultReceipt: false })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ bankName, accountName, accountType, status, iban, accountNumber, currency, country, isDefaultPayout: false, isDefaultReceipt: false })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -374,42 +375,42 @@ function EditAccountDialog({ open, onOpenChange, item, onSubmit }: { open: boole
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bank_edit_account", "Edit Bank Account")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_bank_edit_account_desc", "Update bank account details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bank_edit_account", "Banka Hesabını Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_bank_edit_account_desc", "Banka hesabı detaylarını güncelleyin")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_bank_name", "Bank Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_bank_name", "Banka Adı")}</Label>
             <Input value={bankName} onChange={(e) => setBankName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_account_name", "Account Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_account_name", "Hesap Adı")}</Label>
             <Input value={accountName} onChange={(e) => setAccountName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_account_type", "Account Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_account_type", "Hesap Türü")}</Label>
             <Select value={accountType} onValueChange={(v) => setAccountType(v as BankAccount["accountType"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="BUSINESS">Business</SelectItem>
-                <SelectItem value="ESCROW">Escrow</SelectItem>
-                <SelectItem value="OPERATING">Operating</SelectItem>
-                <SelectItem value="SAVINGS">Savings</SelectItem>
+                <SelectItem value="BUSINESS">{tEnum(t, "BUSINESS")}</SelectItem>
+                <SelectItem value="ESCROW">{tEnum(t, "ESCROW")}</SelectItem>
+                <SelectItem value="OPERATING">{tEnum(t, "OPERATING")}</SelectItem>
+                <SelectItem value="SAVINGS">{tEnum(t, "SAVINGS")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">IBAN</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_iban", "IBAN")}</Label>
             <Input value={iban} onChange={(e) => setIban(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_account_number", "Account Number")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_account_number", "Hesap Numarası")}</Label>
             <Input value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_currency", "Currency")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_currency", "Para Birimi")}</Label>
             <Select value={currency} onValueChange={setCurrency}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
@@ -423,37 +424,37 @@ function EditAccountDialog({ open, onOpenChange, item, onSubmit }: { open: boole
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_bank_country", "Country")}</Label>
+            <Label className="text-right text-foreground">{t("admin_bank_country", "Ülke")}</Label>
             <Select value={country} onValueChange={setCountry}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="TR">Turkey</SelectItem>
-                <SelectItem value="DE">Germany</SelectItem>
-                <SelectItem value="GB">United Kingdom</SelectItem>
-                <SelectItem value="US">United States</SelectItem>
+                <SelectItem value="TR">{t("admin_bank_country_turkey", "Türkiye")}</SelectItem>
+                <SelectItem value="DE">{t("admin_bank_country_germany", "Almanya")}</SelectItem>
+                <SelectItem value="GB">{t("admin_bank_country_united_kingdom", "Birleşik Krallık")}</SelectItem>
+                <SelectItem value="US">{t("admin_bank_country_united_states", "Amerika Birleşik Devletleri")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={(v) => setStatus(v as BankAccount["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ACTIVE">Active</SelectItem>
-                <SelectItem value="INACTIVE">Inactive</SelectItem>
-                <SelectItem value="VERIFICATION_PENDING">Verification Pending</SelectItem>
-                <SelectItem value="BLOCKED">Blocked</SelectItem>
+                <SelectItem value="ACTIVE">{tEnum(t, "ACTIVE")}</SelectItem>
+                <SelectItem value="INACTIVE">{tEnum(t, "INACTIVE")}</SelectItem>
+                <SelectItem value="VERIFICATION_PENDING">{tEnum(t, "VERIFICATION_PENDING")}</SelectItem>
+                <SelectItem value="BLOCKED">{tEnum(t, "BLOCKED")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ ...item, bankName, accountName, accountType, status, iban, accountNumber, currency, country })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ ...item, bankName, accountName, accountType, status, iban, accountNumber, currency, country })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -466,12 +467,12 @@ function DeleteAccountDialog({ open, onOpenChange, item, onConfirm }: { open: bo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bank_delete_account", "Delete Bank Account")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_bank_delete_account_desc", "Are you sure you want to delete")}{item.accountName}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_bank_delete_account", "Banka Hesabını Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_bank_delete_account_desc", "Bu banka hesabını silmek istediğinizden emin misiniz?")}{item.accountName}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

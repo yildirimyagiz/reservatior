@@ -126,7 +126,7 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
 
   const renderTrend = () => {
     const { direction, percentage } = priceData.trend;
-    if (direction === "UP") return <span className="flex items-center gap-1 text-emerald-400"><ArrowUp className="w-4 h-4" />{percentage > 0 ? `${percentage}%` : "Rising"}</span>;
+    if (direction === "UP") return <span className="flex items-center gap-1 text-blue-400"><ArrowUp className="w-4 h-4" />{percentage > 0 ? `${percentage}%` : "Rising"}</span>;
     if (direction === "DOWN") return <span className="flex items-center gap-1 text-red-400"><ArrowDown className="w-4 h-4" />{percentage > 0 ? `${percentage}%` : "Declining"}</span>;
     return <span className="flex items-center gap-1 text-slate-400"><Minus className="w-4 h-4" />Stable</span>;
   };
@@ -154,7 +154,7 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
       <div className="flex border-b border-slate-800">
         {tabs.map(({ key, label, icon: Icon }) => (
           <button key={key} onClick={() => setTab(key)}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors ${tab === key ? "text-emerald-400 border-b-2 border-emerald-400 bg-emerald-500/5" : "text-slate-500 hover:text-slate-300"}`}>
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors ${tab === key ? "text-blue-400 border-b-2 border-blue-400 bg-blue-500/5" : "text-slate-500 hover:text-slate-300"}`}>
             <Icon className="w-4 h-4" />{label}
           </button>
         ))}
@@ -163,9 +163,9 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
       <div className="p-6">
         {tab === "overview" && (
           <div className="space-y-6">
-            <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 rounded-xl p-5 border border-emerald-500/20">
+            <div className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-xl p-5 border border-blue-500/20">
               <div className="flex items-center gap-2 mb-4">
-                <Brain className="w-5 h-5 text-emerald-400" />
+                <Brain className="w-5 h-5 text-blue-400" />
                 <span className="font-bold text-white">AI Price Prediction</span>
                 {renderTrend()}
               </div>
@@ -176,7 +176,7 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
                 </div>
                 <div>
                   <p className="text-xs text-slate-400">Recommended</p>
-                  <p className="text-lg font-bold text-emerald-400">{formatCurrency(priceData.recommended, currency)}</p>
+                  <p className="text-lg font-bold text-blue-400">{formatCurrency(priceData.recommended, currency)}</p>
                 </div>
                 <div>
                   <p className="text-xs text-slate-400">Range</p>
@@ -195,7 +195,7 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
                 <ul className="mt-3 space-y-1">
                   {confidence.reasons.slice(0, 2).map((r, i) => (
                     <li key={i} className="text-xs text-slate-400 flex items-start gap-1">
-                      <span className="text-emerald-400 mt-0.5">•</span>{r}
+                      <span className="text-blue-400 mt-0.5">•</span>{r}
                     </li>
                   ))}
                 </ul>
@@ -206,7 +206,7 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
                   <span className="font-bold text-white">{metrics.timeToRent}</span>
                 </div>
                 <div className="bg-slate-800/50 rounded-xl p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2"><TrendingUp className="w-4 h-4 text-emerald-400" /><span className="text-sm text-slate-300">Optimal Revenue</span></div>
+                  <div className="flex items-center gap-2"><TrendingUp className="w-4 h-4 text-blue-400" /><span className="text-sm text-slate-300">Optimal Revenue</span></div>
                   <span className="font-bold text-white">{formatCurrency(metrics.optimalRevenue, currency)}</span>
                 </div>
                 <div className="bg-slate-800/50 rounded-xl p-4 flex items-center justify-between">
@@ -221,16 +221,16 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
         {tab === "elasticity" && (
           <div className="space-y-6">
             <div className="bg-slate-800/50 rounded-xl p-4">
-              <h3 className="font-bold text-white mb-3 flex items-center gap-2"><BarChart3 className="w-4 h-4 text-emerald-400" />Demand Curve</h3>
+              <h3 className="font-bold text-white mb-3 flex items-center gap-2"><BarChart3 className="w-4 h-4 text-blue-400" />Demand Curve</h3>
               <div className="space-y-2">
                 {elasticity.demandCurve.map((dp, i) => (
-                  <div key={i} className={`flex items-center justify-between p-2 rounded-lg ${dp.isOptimal ? "bg-emerald-500/10 border border-emerald-500/20" : ""}`}>
+                  <div key={i} className={`flex items-center justify-between p-2 rounded-lg ${dp.isOptimal ? "bg-blue-500/10 border border-blue-500/20" : ""}`}>
                     <span className="text-sm text-slate-300">{formatCurrency(dp.price, currency)}</span>
                     <div className="flex items-center gap-2">
-                      <div className="h-2 bg-emerald-500/30 rounded" style={{ width: `${dp.demand}px`, maxWidth: "120px" }} />
+                      <div className="h-2 bg-blue-500/30 rounded" style={{ width: `${dp.demand}px`, maxWidth: "120px" }} />
                       <span className="text-xs text-slate-400 w-8 text-right">{dp.demand}</span>
                     </div>
-                    {dp.isOptimal && <span className="text-xs text-emerald-400 ml-2">Optimal</span>}
+                    {dp.isOptimal && <span className="text-xs text-blue-400 ml-2">Optimal</span>}
                   </div>
                 ))}
               </div>
@@ -242,7 +242,7 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
               </div>
               <div className="bg-slate-800/50 rounded-xl p-4">
                 <p className="text-xs text-slate-400">Optimal Revenue</p>
-                <p className="text-lg font-bold text-emerald-400">{formatCurrency(elasticity.optimalRevenue, currency)}</p>
+                <p className="text-lg font-bold text-blue-400">{formatCurrency(elasticity.optimalRevenue, currency)}</p>
               </div>
             </div>
           </div>
@@ -251,7 +251,7 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
         {tab === "timeline" && (
           <div className="space-y-3">
             {timeline.map((item, i) => (
-              <div key={i} className="bg-slate-800/50 rounded-xl p-4 border-l-4 border-emerald-500/50">
+              <div key={i} className="bg-slate-800/50 rounded-xl p-4 border-l-4 border-blue-500/50">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs text-slate-500">Day {item.day}</span>
                   <span className={`text-xs px-2 py-0.5 rounded-full ${item.priority === "high" ? "bg-red-500/20 text-red-400" : item.priority === "medium" ? "bg-amber-500/20 text-amber-400" : "bg-slate-500/20 text-slate-400"}`}>
@@ -268,8 +268,8 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
         {tab === "opportunity" && (
           <div className="space-y-6">
             <div className="flex flex-col items-center py-4">
-              <GaugeSvg value={opportunity.score} max={100} label="Opportunity Score" color={opportunity.score >= 70 ? "#10b981" : opportunity.score >= 40 ? "#f59e0b" : "#ef4444"} />
-              <div className={`mt-3 px-4 py-1.5 rounded-full text-sm font-bold ${opportunity.recommendation === "BUY" ? "bg-emerald-500/20 text-emerald-400" : opportunity.recommendation === "SELL" ? "bg-red-500/20 text-red-400" : "bg-amber-500/20 text-amber-400"}`}>
+              <GaugeSvg value={opportunity.score} max={100} label="Opportunity Score" color={opportunity.score >= 70 ? "#3b82f6" : opportunity.score >= 40 ? "#f59e0b" : "#ef4444"} />
+              <div className={`mt-3 px-4 py-1.5 rounded-full text-sm font-bold ${opportunity.recommendation === "BUY" ? "bg-blue-500/20 text-blue-400" : opportunity.recommendation === "SELL" ? "bg-red-500/20 text-red-400" : "bg-amber-500/20 text-amber-400"}`}>
                 {opportunity.recommendation === "BUY" ? "🟢 BUY" : opportunity.recommendation === "SELL" ? "🔴 SELL" : "🟡 HOLD"}
               </div>
             </div>
@@ -283,7 +283,7 @@ function PricingIntelligenceComponent({ listingId, currentPrice, currency }: Pri
               </div>
               <div className="bg-slate-800/50 rounded-xl p-4">
                 <p className="text-xs text-slate-400">Classification</p>
-                <p className="text-lg font-bold text-emerald-400">{opportunity.marketHeatClassification}</p>
+                <p className="text-lg font-bold text-blue-400">{opportunity.marketHeatClassification}</p>
               </div>
             </div>
           </div>

@@ -9,6 +9,7 @@ import { Link, useNavigate, useParams } from "@/lib/react-router-shim";
 import { m } from "framer-motion";
 import { Mail, Eye, EyeOff, AlertCircle, Facebook, Twitter, Linkedin } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
+import { useUserStore } from "@/lib/store/user-store";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "sonner";
 
@@ -43,14 +44,16 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
     try {
+      console.log("Starting login for", email);
       await login(email, password);
+      console.log("Login hook resolved successfully");
       if (rememberMe) {
         localStorage.setItem("remembered_email", email);
       } else {
         localStorage.removeItem("remembered_email");
       }
-      const { useUserStore } = await import("@/lib/store/user-store");
       const user = useUserStore.getState().user;
+      console.log("Retrieved user from store:", user);
       
       // Strict alignment with MemberRoleKey from Prisma
       const adminRoles = [
@@ -62,20 +65,24 @@ export default function Login() {
         'MAINTENANCE'
       ];
       
+      console.log("Checking role:", user?.role, "Is admin:", user ? adminRoles.includes(user.role) : false);
+      
       if (user && adminRoles.includes(user.role)) {
+        console.log("Redirecting to admin dashboard with locale:", locale);
         window.location.href = `/${locale}/admin/dashboard`;
       } else {
+        console.log("Redirecting to guest dashboard with locale:", locale);
         window.location.href = `/${locale}/dashboard`;
       }
     } catch (err) {
-      // Error is handled by the auth hook
+      console.error("Login caught error in UI component:", err);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleSocialLogin = (provider: string) => {
-    window.location.href = `${API_BASE}/api/auth/${provider}?origin=${encodeURIComponent(process.env.NEXT_PUBLIC_SITE_URL || window.location.origin)}`;
+    window.location.href = `${API_BASE}/api/v1/auth/${provider}?origin=${encodeURIComponent(process.env.NEXT_PUBLIC_SITE_URL || window.location.origin)}`;
   };
 
   return (
@@ -83,8 +90,8 @@ export default function Login() {
       
       {/* Background Blobs for modern aesthetic */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-info/10 dark:bg-info/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand/10 dark:bg-brand/20 rounded-full blur-3xl" />
       </div>
 
       <div className="flex-1 flex items-center justify-center p-4 pt-20 pb-10">
@@ -95,11 +102,11 @@ export default function Login() {
           className="w-full max-w-md bg-card/80 backdrop-blur-xl border border-border p-8 rounded-[2rem] shadow-2xl relative"
         >
           {/* Spotlight Effect */}
-          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-brand/50 to-transparent"></div>
           
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-display font-bold mb-2 text-foreground tracking-tight">{t("client.src.welcome_to_reservatior")}</h1>
-            <p className="text-muted-foreground font-medium text-sm">{t("client.src.intelligence_in_real_estate")}</p>
+            <h1 className="text-3xl font-display font-bold mb-2 text-foreground tracking-tight">{t("auth.login.title", t("client.src.welcome_to_reservatior"))}</h1>
+            <p className="text-muted-foreground font-medium text-sm">{t("auth.login.subtitle", t("client.src.intelligence_in_real_estate"))}</p>
           </div>
 
           {error && (

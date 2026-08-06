@@ -1,17 +1,18 @@
-import type { Metadata } from "next";
-import AdminEscrowPage from "./AdminEscrowPage";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Escrow Management - Admin Panel | Reservatior",
-  description: "Manage escrow accounts, deposits, and disbursements.",
-  keywords: ["escrow","admin panel","deposits","disbursements"],
-  openGraph: {
-    title: "Escrow Management - Admin Panel | Reservatior",
-    description: "Manage escrow accounts, deposits, and disbursements.",
-    type: "website",
-  },
-};
+import dynamic from "next/dynamic";
+import { Loader2 } from "lucide-react";
 
-export default function AdminEscrowPageWrapper() {
-  return <AdminEscrowPage />;
+const EscrowManagement = dynamic(() => import("@/pages-spa/admin/financial/EscrowManagement"), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px] text-muted-foreground">
+      <Loader2 className="w-8 h-8 animate-spin text-brand mr-2" />
+      <span>Escrow Güvenli Havuz Yönetimi Yükleniyor...</span>
+    </div>
+  ),
+  ssr: false
+});
+
+export default function Page() {
+  return <EscrowManagement />;
 }

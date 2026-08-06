@@ -1,152 +1,169 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { 
-  Play, 
-  Heart, 
-  Share2, 
-  Sparkles, 
-  Eye, 
-  MapPin, 
-  Clock, 
-  Search, 
-  Star,
-  Brain,
+import {
+  Heart,
+  MapPin,
+  Search,
+  ArrowUpRight,
   Video,
-  ArrowUpRight
+  BedDouble,
+  Bath,
+  Ruler,
+  Share2,
 } from "lucide-react";
 import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import ReelsFeed, { ReelProperty } from "@/components/videos/ReelsFeed";
+import { propertiesApi } from "@/lib/api/properties-eden";
 
-interface Video {
+interface DiscoverProperty {
   id: string;
-  title: string;
-  agency: string;
-  verified: boolean;
-  price: string;
-  beds: number;
-  baths: number;
-  sqft: string;
-  category: string;
-  location: string;
-  views: string;
-  time: string;
-  duration: string;
-  tags: string[];
-  image: string;
-  aiGenerated: boolean;
-  mlScore: number;
+  name: string;
+  type?: string;
+  city?: string | null;
+  country?: string | null;
+  listingPrice?: number | null;
+  currency?: string | null;
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  areaSqm?: number | null;
+  createdAt?: string;
+  photos?: { url?: string }[] | null;
+  videoContents?: { url?: string }[] | null;
 }
 
-const mockVideos: Video[] = [
-  {
-    id: "1",
-    title: "Özak Büyükyalı — Luxury Coastal Living",
-    agency: "Özak GYO",
-    verified: true,
-    price: "From $2,500,000",
-    beds: 4,
-    baths: 3,
-    sqft: "3,200",
-    category: "villa",
-    location: "Zeytinburnu, Istanbul",
-    views: "125K",
-    time: "NEW",
-    duration: "1:30",
-    tags: ["SEAVIEW", "LUXURY", "SMART HOME"],
-    image: "/videos/ozak-buyukyali-bg.mp4",
-    aiGenerated: false,
-    mlScore: 98
-  },
-  {
-    id: "2",
-    title: "Özak Dragos — Panoramic Islands View",
-    agency: "Özak GYO",
-    verified: true,
-    price: "From $850,000",
-    beds: 3,
-    baths: 2,
-    sqft: "1,800",
-    category: "penthouse",
-    location: "Maltepe, Istanbul",
-    views: "82K",
-    time: "PRE-SALE",
-    duration: "2:15",
-    tags: ["ISLANDS VIEW", "MODERN", "RESIDENCE"],
-    image: "/videos/ozak-dragos-bg.mp4",
-    aiGenerated: false,
-    mlScore: 95
-  },
-  {
-    id: "3",
-    title: "Özak Duyu — Harmony with Nature",
-    agency: "Özak GYO",
-    verified: true,
-    price: "From $1,200,000",
-    beds: 5,
-    baths: 4,
-    sqft: "4,100",
-    category: "villa",
-    location: "Göktürk, Istanbul",
-    views: "45K",
-    time: "READY TO MOVE",
-    duration: "1:45",
-    tags: ["FOREST", "NATURE", "VILLA"],
-    image: "/videos/ozak-duyu-bg.mp4",
-    aiGenerated: false,
-    mlScore: 92
-  },
-  {
-    id: "4",
-    title: "Özak GYO — Corporate Vision",
-    agency: "Özak GYO",
-    verified: true,
-    price: "-",
-    beds: 0,
-    baths: 0,
-    sqft: "-",
-    category: "all",
-    location: "Istanbul",
-    views: "210K",
-    time: "FEATURED",
-    duration: "2:00",
-    tags: ["CORPORATE", "PORTFOLIO", "VISION"],
-    image: "/videos/ozak-bg.mp4",
-    aiGenerated: false,
-    mlScore: 99
-  }
+const CATEGORIES = [
+  { id: "all", label: "videos.cat.all" },
+  { id: "villa", label: "videos.cat.villa" },
+  { id: "penthouse", label: "videos.cat.penthouse" },
+  { id: "smart", label: "videos.cat.smart" },
+  { id: "mountain", label: "videos.cat.mountain" },
+  { id: "loft", label: "videos.cat.loft" },
 ];
 
-const CATEGORIES = [
-  { id: "all", label: "All" },
-  { id: "villa", label: "Villa" },
-  { id: "penthouse", label: "Penthouse" },
-  { id: "smart", label: "Smart Home" },
-  { id: "mountain", label: "Mountain" },
-  { id: "loft", label: "Loft" }
-];
+function formatPrice(price: number | null | undefined, currency?: string | null): string {
+  if (price == null) return "—";
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: currency || "USD",
+      maximumFractionDigits: 0,
+    }).format(price);
+  } catch {
+    return `$${price.toLocaleString()}`;
+  }
+}
+
+function matchesCategory(p: DiscoverProperty, cat: string): boolean {
+  if (cat === "all") return true;
+  const haystack = [p.name, p.type, p.city, p.country]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  if (cat === "penthouse") {
+    return (p.type || "").toUpperCase() === "PENTHOUSE" || haystack.includes("penthouse");
+  }
+  if (cat === "villa") {
+    return ["DETACHED_HOUSE", "TOWNHOUSE"].includes((p.type || "").toUpperCase()) ||
+      haystack.includes("villa");
+  }
+  return haystack.includes(cat);
+}
 
 export default function VideosPage() {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const router = useRouter();
+  const [properties, setProperties] = useState<DiscoverProperty[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [activeCat, setActiveCat] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
+  const [saved, setSaved] = useState<Set<string>>(new Set());
 
-  const filteredVideos = mockVideos.filter(video => {
-    if (activeCat !== "all" && video.category !== activeCat) return false;
-    if (searchQuery && !video.title.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-    return true;
-  });
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const raw: any = await propertiesApi.getAll({ limit: 60 });
+      const arr: unknown = Array.isArray(raw)
+        ? raw
+        : Array.isArray(raw?.data)
+          ? raw.data
+          : Array.isArray(raw?.data?.data)
+            ? raw.data.data
+            : null;
+      if (Array.isArray(arr)) {
+        setProperties(arr as DiscoverProperty[]);
+      } else {
+        setError(String(raw?.error ?? "Invalid response"));
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  const aiGeneratedCount = filteredVideos.filter(v => v.aiGenerated).length;
-  const avgMLScore = filteredVideos.reduce((sum, v) => sum + v.mlScore, 0) / filteredVideos.length;
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  const reelsProperties = useMemo<ReelProperty[]>(
+    () => properties as unknown as ReelProperty[],
+    [properties]
+  );
+
+  const filtered = useMemo(() => {
+    let list = properties.filter((p) => {
+      if (activeCat !== "all" && !matchesCategory(p, activeCat)) return false;
+      if (
+        searchQuery &&
+        ![p.name, p.city, p.country, p.type]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      )
+        return false;
+      return true;
+    });
+    list = [...list];
+    if (sortBy === "price_high") {
+      list.sort((a, b) => (b.listingPrice ?? 0) - (a.listingPrice ?? 0));
+    } else if (sortBy === "price_low") {
+      list.sort((a, b) => (a.listingPrice ?? 0) - (b.listingPrice ?? 0));
+    } else {
+      list.sort(
+        (a, b) =>
+          new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime()
+      );
+    }
+    return list;
+  }, [properties, activeCat, searchQuery, sortBy]);
+
+  const videoCount = useMemo(
+    () => properties.filter((p) => (p.videoContents?.length ?? 0) > 0).length,
+    [properties]
+  );
+
+  const toggleSave = (id: string) => {
+    setSaved((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const openDetails = (id: string) => router.push(`/client/property/${id}`);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -155,251 +172,233 @@ export default function VideosPage() {
         <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6 flex items-center justify-between"
         >
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("videos.videospage.auto_ext_1")}</h1>
-              <p className="text-gray-400">{t("videos.videospage.auto_ext_2")}</p>
-            </div>
-            <Button
-              onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
-            >
-              <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("videos.videospage.auto_ext_3")}
-                                      </Button>
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2">
+              {t("videos.videospage.auto_ext_1")}
+            </h1>
+            <p className="text-gray-400">{t("videos.videospage.auto_ext_2")}</p>
           </div>
+          <Button
+            onClick={() => router.push("/dashboard")}
+            className="bg-brand hover:bg-brand"
+          >
+            <ArrowUpRight className="w-4 h-4 mr-2" />
+            {t("videos.videospage.auto_ext_3")}
+          </Button>
         </m.div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-gray-400 mb-1">{t("videos.videospage.auto_ext_4")}</div>
-                    <div className="text-2xl font-bold text-white">{filteredVideos.length}</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-blue-500/10">
-                    <Video className="w-6 h-6 text-blue-400" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </m.div>
-
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-gray-400 mb-1">{t("videos.videospage.auto_ext_5")}</div>
-                    <div className="text-2xl font-bold text-white">{aiGeneratedCount}</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-purple-500/10">
-                    <Sparkles className="w-6 h-6 text-purple-400" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </m.div>
-
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-gray-400 mb-1">{t("videos.videospage.auto_ext_6")}</div>
-                    <div className="text-2xl font-bold text-white">{avgMLScore.toFixed(0)}%</div>
-                  </div>
-                  <div className="p-3 rounded-lg bg-green-500/10">
-                    <Brain className="w-6 h-6 text-green-400" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </m.div>
-        </div>
-
-        {/* Filters */}
+        {/* Reels Feed */}
         <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mb-6"
+          transition={{ delay: 0.1 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <ReelsFeed
+            properties={reelsProperties}
+            loading={loading}
+            error={error}
+            onRetry={load}
+          />
+        </m.div>
+
+        {/* Discover */}
+        <m.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mt-10"
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <Video className="w-5 h-5 text-brand" />
+            <h2 className="text-xl font-bold text-white">
+              {t("videos.feed.discover")}
+            </h2>
+            <span className="text-white/40 text-sm">
+              ({filtered.length})
+            </span>
+            {videoCount > 0 && (
+              <span className="ml-2 px-2 py-0.5 rounded-full bg-brand/15 border border-brand/30 text-brand text-xs font-semibold">
+                {videoCount} {t("videos.videospage.auto_ext_4")}
+              </span>
+            )}
+          </div>
+
+          {/* Filters */}
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20 mb-6">
             <CardContent className="p-4">
-              <div className="flex gap-4">
-                <div className="flex-1">
+              <div className="flex flex-wrap gap-4">
+                <div className="flex-1 min-w-[220px]">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
-                      placeholder="Search videos..."
+                      placeholder={t("videos.feed.searchPlaceholder")}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
                 <Select value={activeCat} onValueChange={setActiveCat}>
-                  <SelectTrigger className="w-40 bg-white/10 border-purple-500/30 text-white">
-                    <SelectValue placeholder="Category" />
+                  <SelectTrigger className="w-40 bg-white/10 border-brand/30 text-white">
+                    <SelectValue placeholder={t("videos.category")} />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-purple-500/30">
-                    {CATEGORIES.map(cat => (
-                      <SelectItem key={cat.id} value={cat.id}>{cat.label}</SelectItem>
+                  <SelectContent className="bg-card border-brand/30">
+                    {CATEGORIES.map((cat) => (
+                      <SelectItem key={cat.id} value={cat.id}>
+                        {t(cat.label)}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-40 bg-white/10 border-purple-500/30 text-white">
-                    <SelectValue placeholder="Sort By" />
+                  <SelectTrigger className="w-40 bg-white/10 border-brand/30 text-white">
+                    <SelectValue placeholder={t("videos.sort_by")} />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-900 border-purple-500/30">
-                    <SelectItem value="newest">{t("videos.videospage.auto_ext_7")}</SelectItem>
-                    <SelectItem value="popular">{t("videos.videospage.auto_ext_8")}</SelectItem>
-                    <SelectItem value="ml_score">{t("videos.videospage.auto_ext_9")}</SelectItem>
+                  <SelectContent className="bg-card border-brand/30">
+                    <SelectItem value="newest">{t("videos.sort.newest")}</SelectItem>
+                    <SelectItem value="price_high">{t("videos.sort.price_high")}</SelectItem>
+                    <SelectItem value="price_low">{t("videos.sort.price_low")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </CardContent>
           </Card>
-        </m.div>
 
-        {/* Videos Grid */}
-        <m.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredVideos.map((video) => (
-              <Card
-                key={video.id}
-                className="bg-white/5 backdrop-blur-xl border-purple-500/20 hover:bg-white/10 transition-colors cursor-pointer group"
-              >
-                <CardContent className="p-0">
-                  {/* Thumbnail Preview */}
-                  <div className="relative aspect-video overflow-hidden">
-                    <video 
-                      src={video.image} 
-                      autoPlay 
-                      loop 
-                      muted 
-                      playsInline 
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-                    >
-                      <track kind="captions" src="" srcLang="en" label="English" default />
-                    </video>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                    
-                    {/* Play Button */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Button
-                        size="icon"
-                        className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 border-2 border-white/50"
-                        aria-label="Play video"
-                      >
-                        <Play className="w-6 h-6 fill-white text-white ml-1" />
-                      </Button>
-                    </div>
-
-                    {/* Duration Badge */}
-                    <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm px-2 py-1 rounded text-white text-xs">
-                      {video.duration}
-                    </div>
-
-                    {/* AI Badge */}
-                    {video.aiGenerated && (
-                      <div className="absolute top-3 left-3 bg-purple-600/80 backdrop-blur-sm px-2 py-1 rounded text-white text-xs flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" />
-                        {t("videos.videospage.auto_ext_10")}
-                                                          </div>
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex-1">
-                        <h3 className="text-white font-medium line-clamp-2 mb-2">{video.title}</h3>
-                        <div className="flex items-center gap-2 text-gray-400 text-sm">
-                          <MapPin className="w-3 h-3" />
-                          <span>{video.location}</span>
+          {/* Grid */}
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="aspect-video rounded-xl bg-white/5 border border-brand/20 animate-pulse"
+                />
+              ))}
+            </div>
+          ) : filtered.length === 0 ? (
+            <p className="text-center text-white/40 py-16">
+              {t("videos.feed.emptyDesc")}
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filtered.map((p) => {
+                const image =
+                  p.photos?.find((ph) => ph.url)?.url ||
+                  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000";
+                const hasVideo = (p.videoContents?.length ?? 0) > 0;
+                const isSaved = saved.has(p.id);
+                return (
+                  <Card
+                    key={p.id}
+                    onClick={() => openDetails(p.id)}
+                    className="bg-white/5 backdrop-blur-xl border-brand/20 hover:bg-white/10 transition-colors cursor-pointer group overflow-hidden"
+                  >
+                    <CardContent className="p-0">
+                      <div className="relative aspect-video overflow-hidden">
+                        <img
+                          src={image}
+                          alt={p.name}
+                          loading="lazy"
+                          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                        {hasVideo && (
+                          <div className="absolute top-3 left-3 bg-brand/80 backdrop-blur-sm px-2 py-1 rounded text-white text-xs flex items-center gap-1">
+                            <Video className="w-3 h-3" />
+                            VIDEO
+                          </div>
+                        )}
+                        <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm px-2 py-1 rounded text-white text-xs">
+                          {p.bedrooms ?? "—"} {t("videos.videospage.auto_ext_11")}
                         </div>
                       </div>
-                      {video.verified && (
-                        <div className="flex-shrink-0">
-                          <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+
+                      <div className="p-4">
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1">
+                            <h3 className="text-white font-medium line-clamp-2 mb-2">
+                              {p.name}
+                            </h3>
+                            <div className="flex items-center gap-2 text-gray-400 text-sm">
+                              <MapPin className="w-3 h-3" />
+                              <span>
+                                {[p.city, p.country].filter(Boolean).join(", ")}
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                      )}
-                    </div>
 
-                    <div className="flex items-center justify-between text-sm text-gray-400 mb-3">
-                      <span>{video.agency}</span>
-                      <span>{video.price}</span>
-                    </div>
+                        <div className="flex items-center justify-between text-sm text-gray-400 mb-3">
+                          <span>{formatPrice(p.listingPrice, p.currency)}</span>
+                        </div>
 
-                    <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
-                      <div className="flex items-center gap-1">
-                        <Eye className="w-4 h-4" />
-                        <span>{video.views}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" />
-                        <span>{video.time}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Brain className="w-4 h-4" />
-                        <span>{video.mlScore}%</span>
-                      </div>
-                    </div>
+                        <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
+                          {typeof p.bedrooms === "number" && p.bedrooms > 0 && (
+                            <div className="flex items-center gap-1">
+                              <BedDouble className="w-4 h-4" />
+                              <span>{p.bedrooms}</span>
+                            </div>
+                          )}
+                          {typeof p.bathrooms === "number" && p.bathrooms > 0 && (
+                            <div className="flex items-center gap-1">
+                              <Bath className="w-4 h-4" />
+                              <span>{p.bathrooms}</span>
+                            </div>
+                          )}
+                          {typeof p.areaSqm === "number" && p.areaSqm > 0 && (
+                            <div className="flex items-center gap-1">
+                              <Ruler className="w-4 h-4" />
+                              <span>{p.areaSqm}m²</span>
+                            </div>
+                          )}
+                        </div>
 
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {video.tags.map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-xs border-purple-500/30 text-purple-300">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between pt-3 border-t border-purple-500/20">
-                      <div className="flex items-center gap-2 text-sm text-gray-400">
-                        <span>{video.beds} {t("videos.videospage.auto_ext_11")}</span>
-                        <span>•</span>
-                        <span>{video.baths} {t("videos.videospage.auto_ext_12")}</span>
-                        <span>•</span>
-                        <span>{video.sqft} {t("videos.videospage.auto_ext_13")}</span>
+                        <div className="flex items-center justify-between pt-3 border-t border-brand/20">
+                          <Badge
+                            variant="outline"
+                            className="text-xs border-brand/30 text-brand"
+                          >
+                            {(p.type || "PROPERTY").replace(/_/g, " ")}
+                          </Badge>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              aria-label={t("common.save")}
+                              className="h-8 w-8"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleSave(p.id);
+                              }}
+                            >
+                              <Heart
+                                className={`w-4 h-4 ${
+                                  isSaved ? "fill-red-500 text-red-500" : ""
+                                }`}
+                              />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              aria-label={t("common.share")}
+                              className="h-8 w-8"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                router.push(`/client/property/${p.id}`);
+                              }}
+                            >
+                              <Share2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <Heart className="w-4 h-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <Share2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
         </m.div>
       </div>
     </div>

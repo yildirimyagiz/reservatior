@@ -10,17 +10,17 @@ export default function AnalyticsOsAdminPage() {
   const { t } = useTranslation();
   
   return (
-    <PageShell title={t("admin_analytics_os_title", "AnalyticsOs Management")}>
+    <PageShell title={t("admin_analytics_os_title", "AnalyticsOs Yönetimi")}>
       <div className="space-y-6">
         <Card className="bg-card border-border">
           <CardHeader>
             <CardTitle className="text-card-foreground flex items-center gap-2">
               <Layers className="w-5 h-5 text-brand" />
-              {t("admin_analytics_os_title", "AnalyticsOs Management")}
+              {t("admin_analytics_os_title", "AnalyticsOs Yönetimi")}
             </CardTitle>
           </CardHeader>
           <CardContent className="text-muted-foreground text-sm space-y-2">
-            <p>{t("admin_analytics_os_description", "Manage analyticsos settings, configurations, and records.")}</p>
+            <p>{t("admin_analytics_os_description", "ANALYTICSOS modülü ayarlarını, yapılandırmalarını ve sistem kayıtlarını yönetin.")}</p>
           </CardContent>
         </Card>
       </div>

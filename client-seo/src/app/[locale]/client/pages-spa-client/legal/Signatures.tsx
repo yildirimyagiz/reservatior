@@ -20,19 +20,19 @@ const STATUS: Record<SignatureStatus, {
   cls: string;
 }> = {
   PENDING: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     cls: "bg-yellow-100 text-yellow-700"
   },
   COMPLETED: {
-    label: t("client.src.completed"),
-    cls: "bg-green-100 text-green-700"
+    label: t("common.completed"),
+    cls: "bg-blue-100 text-blue-700"
   },
   DECLINED: {
     label: t("client.src.declined"),
     cls: "bg-red-100 text-red-700"
   },
   EXPIRED: {
-    label: t("client.src.expired"),
+    label: t("common.expired"),
     cls: "bg-gray-100 text-gray-500"
   }
 };
@@ -67,7 +67,7 @@ export default function Signatures() {
       setError("Failed to fetch signature requests");
       toast({
         variant: "destructive",
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.could_not_load_signature")
       });
     } finally {
@@ -90,7 +90,7 @@ export default function Signatures() {
     } catch (err: any) {
       toast({
         variant: "destructive",
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_create_request")
       });
     }
@@ -108,7 +108,7 @@ export default function Signatures() {
     } catch (err: any) {
       toast({
         variant: "destructive",
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_update_request")
       });
     }
@@ -125,7 +125,7 @@ export default function Signatures() {
     } catch (err: any) {
       toast({
         variant: "destructive",
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_delete_request")
       });
     }
@@ -173,7 +173,7 @@ export default function Signatures() {
           expiresAt: e.target.value
         })} /></div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.status")}</Label>
+        <Label>{t("common.status")}</Label>
         <Select value={form.status} onValueChange={v => setForm({
           ...form,
           status: v as SignatureStatus
@@ -192,16 +192,16 @@ export default function Signatures() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search signature requests..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: requests.length
     }, {
-      label: t("client.src.pending"),
+      label: t("common.processing"),
       value: requests.filter(r => r.status === 'PENDING').length
     }, {
-      label: t("client.src.completed"),
+      label: t("common.completed"),
       value: requests.filter(r => r.status === 'COMPLETED').length
     }]} actions={<Button variant="outline" size="sm" onClick={fetchRequests} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("client.src.refresh")}</Button>}>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("common.refresh")}</Button>}>
         {loading ? <div className="flex flex-col items-center justify-center py-24 text-muted-foreground gap-3">
             <Loader2 className="w-8 h-8 animate-spin" />
             <p>{t("client.src.loading_signature_requests")}</p>
@@ -215,7 +215,7 @@ export default function Signatures() {
                 <TableRow>
                 <TableHead>{t("client.src.contract_id")}</TableHead>
                 <TableHead>{t("client.src.signers")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead>{t("client.src.expires")}</TableHead>
                 <TableHead>{t("client.src.created_at")}</TableHead>
                   <TableHead className="w-10" />
@@ -238,10 +238,10 @@ export default function Signatures() {
                         <TableCell className="text-sm text-muted-foreground">{new Date(row.createdAt).toLocaleDateString()}</TableCell>
                       <TableCell>
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -255,13 +255,13 @@ export default function Signatures() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.new_signature_request")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_signature_request")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} isEdit={true} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} isEdit={true} />
         </DialogContent>
       </Dialog>
     </>;

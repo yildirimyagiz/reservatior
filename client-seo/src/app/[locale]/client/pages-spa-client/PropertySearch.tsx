@@ -161,17 +161,17 @@ export default function PropertySearch() {
       case "AVAILABLE":
         return {
           label: t("available"),
-          color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+          color: 'bg-success/10 text-success border-success/20'
         };
       case "PENDING":
         return {
           label: t("financialPayoutsStatusPending"),
-          color: 'bg-orange-500/10 text-orange-400 border-orange-500/20'
+          color: 'bg-warning/10 text-orange-400 border-warning/20'
         };
       default:
         return {
           label: t("offline"),
-          color: 'bg-slate-500/10 text-slate-400 border-slate-500/20'
+          color: 'bg-muted text-muted-foreground border-slate-500/20'
         };
     }
   };
@@ -182,23 +182,23 @@ export default function PropertySearch() {
       minimumFractionDigits: 0
     }).format(price);
   };
-  return <div className="h-screen flex flex-col bg-[#14151a] overflow-hidden">
+  return <div className="h-screen flex flex-col bg-background overflow-hidden">
       {/* Search HUD Header */}
-      <div className="bg-[#1a1b1e]/60 backdrop-blur-3xl border-b border-white/5 z-40 px-8 h-20 flex items-center justify-between shadow-2xl relative">
-          <div className="absolute top-0 left-0 w-1/3 h-px bg-gradient-to-r from-blue-600 via-transparent to-transparent opacity-50"></div>
+      <div className="bg-card/60 backdrop-blur-3xl border-b border-white/5 z-40 px-8 h-20 flex items-center justify-between shadow-2xl relative">
+          <div className="absolute top-0 left-0 w-1/3 h-px bg-gradient-to-r from-brand via-transparent to-transparent opacity-50"></div>
           <div className="flex items-center gap-6 flex-1">
               <div className="flex items-center gap-3">
                  <div className="h-10 w-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center">
-                    <Compass className="w-5 h-5 text-blue-400 animate-pulse" />
+                    <Compass className="w-5 h-5 text-brand animate-pulse" />
                  </div>
                  <div>
                     <h2 className="text-xl font-black text-white italic tracking-tighter leading-none">{t("propertySearchTitle")}</h2>
-                    <p className="text-[9px] font-black text-slate-500 tracking-widest italic mt-1">{t("propertySearchSubtitle")}</p>
+                    <p className="text-[9px] font-black text-muted-foreground tracking-widest italic mt-1">{t("propertySearchSubtitle")}</p>
                  </div>
               </div>
               
               <div className="relative group flex-1 max-w-xl ml-4">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-blue-500 transition-colors" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-brand transition-colors" />
                 <Input placeholder={t("propertySearchPlaceholder")} value={filters.search} onChange={e => setFilters({
             ...filters,
             search: e.target.value
@@ -208,10 +208,10 @@ export default function PropertySearch() {
           
           <div className="flex items-center gap-4">
               <Select value={filters.promotionType || "ALL"} onValueChange={(val) => setFilters({...filters, promotionType: val})}>
-                <SelectTrigger className="w-[180px] h-14 bg-white/5 border-white/5 text-slate-400 font-black text-[10px] tracking-widest italic rounded-2xl hover:text-white transition-all">
+                <SelectTrigger className="w-[180px] h-14 bg-white/5 border-white/5 text-muted-foreground font-black text-[10px] tracking-widest italic rounded-2xl hover:text-white transition-all">
                   <SelectValue placeholder={t("client.src.promotion.title")} />
                 </SelectTrigger>
-                <SelectContent className="bg-[#1a1b1e]/95 border-white/10 text-white font-black text-[10px] tracking-widest italic backdrop-blur-3xl rounded-xl">
+                <SelectContent className="bg-card/95 border-white/10 text-white font-black text-[10px] tracking-widest italic backdrop-blur-3xl rounded-xl">
                   <SelectItem value="ALL">{t("client.src.promotion.all")}</SelectItem>
                   <SelectItem value="FEATURED">{t("client.src.promotion.featured")}</SelectItem>
                   <SelectItem value="URGENT">{t("client.src.promotion.urgent")}</SelectItem>
@@ -222,18 +222,18 @@ export default function PropertySearch() {
               <Button 
     variant="outline" 
     onClick={() => setIsGlobal(!isGlobal)} 
-    className={cn("h-14 px-6 rounded-2xl border-white/5 bg-white/5 text-[10px] font-black tracking-widest italic transition-all gap-3 overflow-hidden group", isGlobal ? "bg-orange-600 text-white border-orange-500 shadow-xl shadow-orange-600/20" : "text-slate-400 hover:text-white")}
+    className={cn("h-14 px-6 rounded-2xl border-white/5 bg-white/5 text-[10px] font-black tracking-widest italic transition-all gap-3 overflow-hidden group", isGlobal ? "bg-orange-600 text-white border-orange-500 shadow-xl shadow-orange-600/20" : "text-muted-foreground hover:text-white")}
   >
     <Activity className="w-4 h-4" />
     {isGlobal ? "GLOBAL SEARCH" : "LOCAL SEARCH"}
   </Button>
-  <Button variant="outline" onClick={() => setShowFilters(!showFilters)} className={cn("h-14 px-6 rounded-2xl border-white/5 bg-white/5 text-[10px] font-black  tracking-widest italic transition-all gap-3 overflow-hidden group", showFilters ? "bg-blue-600 text-white border-blue-500 shadow-xl shadow-blue-600/20" : "text-slate-400 hover:text-white")}>
+  <Button variant="outline" onClick={() => setShowFilters(!showFilters)} className={cn("h-14 px-6 rounded-2xl border-white/5 bg-white/5 text-[10px] font-black  tracking-widest italic transition-all gap-3 overflow-hidden group", showFilters ? "bg-blue-600 text-white border-blue-500 shadow-xl shadow-blue-600/20" : "text-muted-foreground hover:text-white")}>
                 <Filter className={cn("w-4 h-4 transition-transform", showFilters && "rotate-180")} />
                 {t("tacticalFilters")}
                 {showFilters && <div className="absolute inset-0 bg-blue-400/10 animate-pulse" />}
               </Button>
               <div className="h-14 w-px bg-white/5 mx-2" />
-              <Button variant="outline" className="h-14 w-14 rounded-2xl border-white/5 bg-white/5 text-slate-400 hover:text-white transition-all shadow-xl">
+              <Button variant="outline" className="h-14 w-14 rounded-2xl border-white/5 bg-white/5 text-muted-foreground hover:text-white transition-all shadow-xl" aria-label={t("common.expand")}>
                  <Maximize2 className="w-5 h-5" />
               </Button>
           </div>
@@ -251,22 +251,22 @@ export default function PropertySearch() {
         }} exit={{
           height: 0,
           opacity: 0
-        }} className="absolute top-0 left-0 w-full bg-[#1a1b1e]/90 backdrop-blur-2xl border-b border-white/5 z-30 overflow-hidden shadow-3xl">
+        }} className="absolute top-0 left-0 w-full bg-card/90 backdrop-blur-2xl border-b border-white/5 z-30 overflow-hidden shadow-3xl">
               <div className="p-8 grid grid-cols-4 gap-8">
                  <div className="space-y-3">
-                    <p className="text-[10px] font-black text-slate-500 tracking-widest italic flex items-center gap-2">
-                       <Layers className="w-3 h-3 text-blue-500" /> {t("taxonomy")}
+                    <p className="text-[10px] font-black text-muted-foreground tracking-widest italic flex items-center gap-2">
+                       <Layers className="w-3 h-3 text-brand" /> {t("taxonomy")}
                     </p>
                     <div className="grid grid-cols-2 gap-2">
-                       {['VILLA', 'APARTMENT', 'CONDO', 'STUDIO'].map(type => <Button key={type} variant="outline" className="h-10 rounded-xl border-white/5 bg-black/20 text-[8px] font-black italic tracking-widest text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+                       {['VILLA', 'APARTMENT', 'CONDO', 'STUDIO'].map(type => <Button key={type} variant="outline" className="h-10 rounded-xl border-white/5 bg-black/20 text-[8px] font-black italic tracking-widest text-muted-foreground hover:text-white hover:bg-white/5 transition-all">
                             {type}
                          </Button>)}
                     </div>
                  </div>
                  
                  <div className="space-y-3">
-                    <p className="text-[10px] font-black text-slate-500 tracking-widest italic flex items-center gap-2">
-                       <TrendingUp className="w-3 h-3 text-emerald-500" /> {t("fiscalCeiling")}
+                    <p className="text-[10px] font-black text-muted-foreground tracking-widest italic flex items-center gap-2">
+                       <TrendingUp className="w-3 h-3 text-success" /> {t("fiscalCeiling")}
                     </p>
                     <div className="space-y-4">
                        <div className="h-2 bg-white/5 rounded-full overflow-hidden relative">
@@ -276,23 +276,23 @@ export default function PropertySearch() {
                        </div>
                        <div className="flex justify-between items-center text-[10px] font-black text-white italic tracking-tighter">
                           <span>$0</span>
-                          <span className="text-blue-400">$2,450,000</span>
+                          <span className="text-brand">$2,450,000</span>
                        </div>
                     </div>
                  </div>
 
                  <div className="space-y-3">
-                    <p className="text-[10px] font-black text-slate-500 tracking-widest italic flex items-center gap-2">
+                    <p className="text-[10px] font-black text-muted-foreground tracking-widest italic flex items-center gap-2">
                        <Activity className="w-3 h-3 text-violet-500" /> {t("structuralSync")}
                     </p>
                     <div className="flex gap-2">
-                       {[1, 2, 3, 4, '5+'].map(num => <Button key={num} variant="outline" className="h-10 flex-1 rounded-xl border-white/5 bg-black/20 text-[8px] font-black text-slate-400 hover:text-white transition-all">
+                       {[1, 2, 3, 4, '5+'].map(num => <Button key={num} variant="outline" className="h-10 flex-1 rounded-xl border-white/5 bg-black/20 text-[8px] font-black text-muted-foreground hover:text-white transition-all">
                             {num}{t("client.src.br")}</Button>)}
                     </div>
                  </div>
                  
                  <div className="flex items-end pb-1">
-                    <Button className="w-full h-14 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] tracking-widest italic shadow-xl shadow-blue-600/30 gap-2">
+                    <Button className="w-full h-14 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black text-[10px] tracking-widest italic shadow-xl shadow-blue-600/30 gap-2">
                        <Navigation className="w-4 h-4" /> {t("recalibrate")}
                     </Button>
                  </div>
@@ -303,8 +303,8 @@ export default function PropertySearch() {
         {/* Global Map Display Node */}
         <div className="flex-1 relative bg-[#0f1013]">
           {isMapLoading ? <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
-               <Activity className="w-12 h-12 text-blue-500 animate-spin opacity-50" />
-               <p className="text-[10px] font-black text-slate-500 tracking-widest italic animate-pulse">{t("mappingSync")}</p>
+               <Activity className="w-12 h-12 text-brand animate-spin opacity-50" />
+               <p className="text-[10px] font-black text-muted-foreground tracking-widest italic animate-pulse">{t("mappingSync")}</p>
             </div> : <div className="w-full h-full relative overflow-hidden">
                {/* This would be the actual Map Component */}
                <div className="absolute inset-0 bg-gradient-to-br from-[#1a1b1e] to-[#14151a] opacity-40"></div>
@@ -348,32 +348,32 @@ export default function PropertySearch() {
             y: 50,
             opacity: 0
           }} className="absolute bottom-8 left-8 right-8 max-w-sm pointer-events-auto">
-                <Card className="bg-[#1a1b1e]/80 backdrop-blur-3xl border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-[40px] overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent opacity-50"></div>
+                <Card className="bg-card/80 backdrop-blur-3xl border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-[40px] overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand via-transparent to-transparent opacity-50"></div>
                   <CardHeader className="p-8 pb-4">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-[10px] font-black text-slate-400 tracking-widest italic flex items-center gap-2">
+                      <CardTitle className="text-[10px] font-black text-muted-foreground tracking-widest italic flex items-center gap-2">
                         <Sparkles className="w-3 h-3 text-orange-500" /> {t("signals")}
                       </CardTitle>
-                      <Button variant="ghost" className="h-8 w-8 rounded-xl hover:bg-white/5 text-slate-500" onClick={() => setShowPropertyCards(false)}>
+                      <Button variant="ghost" className="h-8 w-8 rounded-xl hover:bg-white/5 text-muted-foreground" onClick={() => setShowPropertyCards(false)} aria-label={t("common.close")}>
                         <X className="w-4 h-4" />
                       </Button>
                     </div>
                   </CardHeader>
                   <CardContent className="p-8 pt-0 space-y-6">
-                    {filteredProperties.slice(0, 2).map(property => <m.div layout key={property.id} className="group relative bg-[#14151a]/60 border border-white/5 rounded-3xl p-6 transition-all hover:bg-white/5 hover:border-blue-500/30 overflow-hidden cursor-pointer">
-                        <div className="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-all text-blue-500">
+                    {filteredProperties.slice(0, 2).map(property => <m.div layout key={property.id} className="group relative bg-background/60 border border-white/5 rounded-3xl p-6 transition-all hover:bg-white/5 hover:border-blue-500/30 overflow-hidden cursor-pointer">
+                        <div className="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-all text-brand">
                            <ShieldCheck className="w-20 h-20 rotate-12" />
                         </div>
                         
                         <div className="flex items-center justify-between mb-4">
                            <div className="flex items-center gap-4">
-                              <div className="w-12 h-12 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-center text-blue-400 shadow-inner group-hover:scale-110 transition-all font-black italic">
+                              <div className="w-12 h-12 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-center text-brand shadow-inner group-hover:scale-110 transition-all font-black italic">
                                 {getPropertyIcon(property.type)}
                               </div>
                               <div>
                                 <p className="font-black text-white italic tracking-tighter leading-none">{property.name}</p>
-                                <p className="text-[9px] font-bold text-slate-500 tracking-widest mt-1 italic leading-none">{property.city}, {property.country}</p>
+                                <p className="text-[9px] font-bold text-muted-foreground tracking-widest mt-1 italic leading-none">{property.city}, {property.country}</p>
                               </div>
                            </div>
                            <Badge className={cn("text-[8px] font-black  tracking-widest px-2 py-0.5 rounded-full italic border-none shadow-lg", getStatusConfig(property.listingStatus).color)}>
@@ -387,22 +387,22 @@ export default function PropertySearch() {
                                  <span className="text-2xl font-black text-white italic tracking-tighter leading-none font-mono">
                                     {formatPrice(property.listingPrice || 0, property.currency)}
                                  </span>
-                                 {property.originalPrice && <span className="text-[10px] text-slate-500 line-through font-bold font-mono">
+                                 {property.originalPrice && <span className="text-[10px] text-muted-foreground line-through font-bold font-mono">
                                        {formatPrice(property.originalPrice, property.currency)}
                                     </span>}
                               </div>
-                              <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20 w-fit">
-                                 <ShieldCheck className="w-3 h-3 text-emerald-500" />
-                                 <span className="text-[8px] font-black text-emerald-400 tracking-widest italic">{t("shieldActive")}</span>
+                              <div className="flex items-center gap-1.5 px-3 py-1 bg-success/10 rounded-full border border-success/20 w-fit">
+                                 <ShieldCheck className="w-3 h-3 text-success" />
+                                 <span className="text-[8px] font-black text-success tracking-widest italic">{t("shieldActive")}</span>
                               </div>
                            </div>
-                           <Button size="sm" className="h-10 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] tracking-widest italic shadow-xl shadow-blue-600/20 gap-2 overflow-hidden px-4">
+                           <Button size="sm" className="h-10 rounded-xl bg-blue-600 hover:bg-brand/100 text-white font-black text-[10px] tracking-widest italic shadow-xl shadow-blue-600/20 gap-2 overflow-hidden px-4">
                               {t("scanDetails")} <ArrowUpRight className="w-3 h-3" />
                            </Button>
                         </div>
                       </m.div>)}
                     
-                    <Button variant="ghost" className="w-full h-10 rounded-xl text-[9px] font-black text-slate-500 hover:text-white tracking-widest italic glass border-white/5">
+                    <Button variant="ghost" className="w-full h-10 rounded-xl text-[9px] font-black text-muted-foreground hover:text-white tracking-widest italic glass border-white/5">
                        {t("propertySearchViewall")}
                     </Button>
                   </CardContent>

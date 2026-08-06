@@ -36,21 +36,21 @@ export function ContactContent() {
       label: "Email",
       value: "support@reservatior.ai",
       sub: "24/7 Support",
-      color: "text-blue-400"
+      color: "text-brand"
     },
     {
       icon: Phone,
       label: "Phone",
       value: "+1 (888) 555-0123",
       sub: "Mon-Fri 9AM-6PM",
-      color: "text-emerald-400"
+      color: "text-success"
     },
     {
       icon: MapPin,
       label: "Address",
       value: "New York, NY 10001",
       sub: "United States",
-      color: "text-purple-400"
+      color: "text-brand"
     }
   ];
 
@@ -70,7 +70,7 @@ export function ContactContent() {
             </div>
             <Button
               onClick={() => router.push('/client/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("contact.contactcontent.auto_ext_3")}
@@ -83,7 +83,7 @@ export function ContactContent() {
           <m.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            className="p-10 rounded-[40px] bg-white/5 backdrop-blur-xl border border-purple-500/20"
+            className="p-10 rounded-[40px] bg-white/5 backdrop-blur-xl border border-brand/20"
           >
             <div className="space-y-8">
               <div className="space-y-2">
@@ -97,14 +97,14 @@ export function ContactContent() {
                     <Label className="text-gray-400">{t("contact.contactcontent.auto_ext_6")}</Label>
                     <Input
                       required
-                      className="h-14 bg-white/10 border-purple-500/30 rounded-2xl text-white placeholder:text-gray-500"
+                      className="h-14 bg-white/10 border-brand/30 rounded-2xl text-white placeholder:text-gray-500"
                       placeholder="Your name"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-gray-400">{t("contact.contactcontent.auto_ext_7")}</Label>
                     <Input
-                      className="h-14 bg-white/10 border-purple-500/30 rounded-2xl text-white placeholder:text-gray-500"
+                      className="h-14 bg-white/10 border-brand/30 rounded-2xl text-white placeholder:text-gray-500"
                       placeholder="Your company"
                     />
                   </div>
@@ -115,7 +115,7 @@ export function ContactContent() {
                   <Input
                     required
                     type="email"
-                    className="h-14 bg-white/10 border-purple-500/30 rounded-2xl text-white placeholder:text-gray-500"
+                    className="h-14 bg-white/10 border-brand/30 rounded-2xl text-white placeholder:text-gray-500"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -124,14 +124,14 @@ export function ContactContent() {
                   <Label className="text-gray-400">{t("contact.contactcontent.auto_ext_9")}</Label>
                   <Textarea
                     required
-                    className="min-h-[160px] bg-white/10 border-purple-500/30 rounded-3xl text-white placeholder:text-gray-500 p-6"
+                    className="min-h-[160px] bg-white/10 border-brand/30 rounded-3xl text-white placeholder:text-gray-500 p-6"
                     placeholder="Your message..."
                   />
                 </div>
 
                 <Button
                   disabled={isSubmitting}
-                  className="w-full h-16 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-2xl transition-all"
+                  className="w-full h-16 bg-brand hover:bg-brand text-white font-bold rounded-2xl transition-all"
                 >
                   {isSubmitting ? (
                     <div className="flex items-center gap-3">
@@ -158,11 +158,11 @@ export function ContactContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
-                  className="p-8 rounded-[32px] bg-white/5 backdrop-blur-xl border border-purple-500/20 hover:bg-white/10 transition-all"
+                  className="p-8 rounded-[32px] bg-white/5 backdrop-blur-xl border border-brand/20 hover:bg-white/10 transition-all"
                 >
                   <div className="flex items-center gap-6">
                     <div className={cn(
-                      "h-14 w-14 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center transition-transform hover:scale-110",
+                      "h-14 w-14 rounded-2xl bg-brand/20 border border-brand/30 flex items-center justify-center transition-transform hover:scale-110",
                       node.color
                     )}>
                       <node.icon className="w-6 h-6" />
@@ -182,11 +182,11 @@ export function ContactContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4 }}
-              className="p-10 rounded-[40px] bg-gradient-to-br from-blue-600/10 to-purple-600/10 border border-purple-500/20 backdrop-blur-xl"
+              className="p-10 rounded-[40px] bg-gradient-to-br from-brand/10 to-brand/10 border border-brand/20 backdrop-blur-xl"
             >
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-blue-400" />
+                  <Shield className="w-5 h-5 text-brand" />
                   {t("contact.contactcontent.auto_ext_12")}
                                                   </h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
@@ -194,11 +194,11 @@ export function ContactContent() {
                                                   </p>
                 <div className="flex items-center gap-6 pt-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
                     <span className="text-white text-sm font-medium">{t("contact.contactcontent.auto_ext_14")}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Cpu className="w-4 h-4 text-blue-400" />
+                    <Cpu className="w-4 h-4 text-brand" />
                     <span className="text-white text-sm font-medium">{t("contact.contactcontent.auto_ext_15")}</span>
                   </div>
                 </div>

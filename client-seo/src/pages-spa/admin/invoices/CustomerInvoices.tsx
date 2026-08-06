@@ -4,6 +4,7 @@ import React from 'react';
 import { apiClient } from"@/lib/api/client";
 import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
 import { useTranslation } from"react-i18next";
+import { tEnum } from"@/lib/admin-enums";
 import { useState } from"react";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
@@ -212,7 +213,7 @@ export default function CustomerInvoices() {
  'DRAFT': t('admin_invoices_draft_status', 'Taslak'),
  'CANCELLED': t('admin_invoices_cancelled_status', 'Iptal Edildi')
  };
- return map[status] || status;
+  return map[status] || tEnum(t, status);
  };
 
  const getStatusIcon = (status: string) => {
@@ -302,31 +303,31 @@ export default function CustomerInvoices() {
  <div className="flex items-center gap-4">
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button onClick={handleCreateInvoice} className="bg-slate-600 hover:bg-muted0 text-card-foreground font-bold text-xs">
+ <Button onClick={handleCreateInvoice} className="bg-muted hover:bg-muted0 text-card-foreground font-bold text-xs">
  <Plus className="w-4 h-4 mr-2" />{t("admin_invoices_create_invoice")}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-card-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_create_new_customer_invoice", "Create New Customer Invoice")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_customer_i", "Enter the details for the new customer invoice.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_customer_invoice", "Yeni Müşteri Faturası Oluştur")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_customer_i", "Yeni müşteri faturasının ayrıntılarını girin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="customerId" className="text-right text-xs text-muted-foreground">{t("admin_auto_customer_id", "Customer ID")}</Label>
- <Input id="customerId" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.customerId} onChange={e => setFormData({ ...formData, customerId: e.target.value })} placeholder={t("admin_auto_enter_customer_id", "Enter customer id")} />
+ <Label htmlFor="customerId" className="text-right text-xs text-muted-foreground">{t("admin_auto_customer_id", "Müşteri Kimliği")}</Label>
+ <Input id="customerId" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.customerId} onChange={e => setFormData({ ...formData, customerId: e.target.value })} placeholder={t("admin_auto_enter_customer_id", "Müşteri kimliğini girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="amount" className="text-right text-xs text-muted-foreground">{t("admin_auto_amount", "Amount")}</Label>
- <Input id="amount" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.amount} onChange={e => setFormData({ ...formData, amount: e.target.value })} placeholder={t("admin_auto_enter_amount", "Enter amount")} />
+ <Label htmlFor="amount" className="text-right text-xs text-muted-foreground">{t("admin_auto_amount", "Miktar")}</Label>
+ <Input id="amount" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.amount} onChange={e => setFormData({ ...formData, amount: e.target.value })} placeholder={t("admin_auto_enter_amount", "Tutarı girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
- <Input id="status" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Enter status")} />
+ <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Durum")}</Label>
+ <Input id="status" className="col-span-3 h-10 bg-card border-border text-card-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Durumu girin")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -340,8 +341,8 @@ export default function CustomerInvoices() {
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
  <Card className="bg-card border-border rounded-xl p-6">
  <div className="flex items-center gap-3">
- <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
- <DollarSign className="w-5 h-5 text-emerald-400" />
+ <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
+ <DollarSign className="w-5 h-5 text-success" />
  </div>
  <div>
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_invoices_total_revenue")}</p>
@@ -451,7 +452,7 @@ export default function CustomerInvoices() {
  <Card className="bg-card border-border rounded-xl p-8">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-card-foreground flex items-center gap-2">
- <FileText className="w-5 h-5 text-slate-500" />{t("admin_invoices_customer_invoices")} ({filteredInvoices.length})
+ <FileText className="w-5 h-5 text-muted-foreground" />{t("admin_invoices_customer_invoices")} ({filteredInvoices.length})
  </CardTitle>
  </CardHeader>
  <CardContent>
@@ -469,10 +470,10 @@ export default function CustomerInvoices() {
  </div>
  <div className="text-right">
  <Badge className={cn("text-[9px] font-bold px-2 border-0 shadow-lg",
- invoice.status === 'PAID' ? 'bg-emerald-500/10 text-emerald-400' :
+ invoice.status === 'PAID' ? 'bg-blue-500/10 text-success' :
  invoice.status === 'SENT' ? 'bg-muted0/10 text-muted-foreground' :
  invoice.status === 'OVERDUE' ? 'bg-red-500/10 text-red-400' :
- invoice.status === 'CANCELLED' ? 'bg-orange-500/10 text-orange-400' :
+ invoice.status === 'CANCELLED' ? 'bg-orange-500/10 text-warning' :
  'bg-muted0/10 text-muted-foreground'
  )}>
  {getLocalizedStatus(invoice.status)}
@@ -516,7 +517,7 @@ export default function CustomerInvoices() {
  <Card className="bg-card border-border rounded-xl p-8">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-card-foreground flex items-center gap-2">
- <Users className="w-5 h-5 text-emerald-500" />{t("admin_invoices_customers")} ({customers.length})
+ <Users className="w-5 h-5 text-success" />{t("admin_invoices_customers")} ({customers.length})
  </CardTitle>
  </CardHeader>
  <CardContent>
@@ -525,8 +526,8 @@ export default function CustomerInvoices() {
  <m.div key={customer.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl p-4 border border-border">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-3">
- <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
- <Users className="w-5 h-5 text-emerald-400" />
+ <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
+ <Users className="w-5 h-5 text-success" />
  </div>
  <div>
  <h4 className="text-sm font-bold text-card-foreground">{customer.name}</h4>
@@ -544,7 +545,7 @@ export default function CustomerInvoices() {
  </div>
  <div className="flex items-center gap-2">
  <Button size="sm" variant="ghost" className="text-muted-foreground hover:text-card-foreground hover:bg-card"><Eye className="w-4 h-4 mr-1.5" />{t("admin_invoices_details")}</Button>
- <Button size="sm" className="bg-emerald-600/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-600/20" onClick={() => navigate('/admin/invoices/create')}><Plus className="w-4 h-4 mr-1.5" />{t("admin_invoices_new_invoice")}</Button>
+ <Button size="sm" className="bg-blue-600/10 text-success border border-blue-500/20 hover:bg-blue-600/20" onClick={() => navigate('/admin/invoices/create')}><Plus className="w-4 h-4 mr-1.5" />{t("admin_invoices_new_invoice")}</Button>
  </div>
  </div>
  </div>
@@ -562,7 +563,7 @@ export default function CustomerInvoices() {
  <Card className="bg-card border-border rounded-xl p-8">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-card-foreground flex items-center gap-2">
- <FileText className="w-5 h-5 text-slate-500" />{t("admin_invoices_invoice_templates")}
+ <FileText className="w-5 h-5 text-muted-foreground" />{t("admin_invoices_invoice_templates")}
  </CardTitle>
  </CardHeader>
  <CardContent>
@@ -579,10 +580,10 @@ export default function CustomerInvoices() {
  name:"Bulk Deposit", type: t("admin_invoices_brokerage_type","Komisyon"), color:"slate", usage: 67
  }].map((template, i) => (
  <m.div key={i} whileHover={{ y: -5 }} className="bg-card border border-border rounded-xl p-6 group cursor-pointer relative overflow-hidden">
- <div className={cn("absolute top-0 left-0 w-1 h-full opacity-30 group-hover:w-full transition-all duration-500", template.color === 'slate' ?"bg-muted0" : template.color === 'emerald' ?"bg-emerald-500" : template.color === 'red' ?"bg-red-500" : template.color === 'orange' ?"bg-orange-500" :"bg-muted0")} />
+ <div className={cn("absolute top-0 left-0 w-1 h-full opacity-30 group-hover:w-full transition-all duration-500", template.color === 'slate' ?"bg-muted0" : template.color === 'emerald' ?"bg-blue-500" : template.color === 'red' ?"bg-red-500" : template.color === 'orange' ?"bg-orange-500" :"bg-muted0")} />
  <div className="relative z-10 flex flex-col h-full">
  <div className="flex justify-between items-start mb-4">
- <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", template.color === 'slate' ?"bg-muted0/20 text-muted-foreground" : template.color === 'emerald' ?"bg-emerald-500/20 text-emerald-400" : template.color === 'red' ?"bg-red-500/20 text-red-400" : template.color === 'orange' ?"bg-orange-500/20 text-orange-400" :"bg-muted0/20 text-muted-foreground")}>
+ <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", template.color === 'slate' ?"bg-muted0/20 text-muted-foreground" : template.color === 'emerald' ?"bg-blue-500/20 text-success" : template.color === 'red' ?"bg-red-500/20 text-red-400" : template.color === 'orange' ?"bg-orange-500/20 text-warning" :"bg-muted0/20 text-muted-foreground")}>
  <FileText className="w-5 h-5" />
  </div>
  <Badge className="bg-card text-muted-foreground border-border text-[9px] font-bold">{template.usage}{t("admin_invoices_x_used")}</Badge>
@@ -591,13 +592,13 @@ export default function CustomerInvoices() {
  <p className="text-[10px] font-bold text-muted-foreground mb-6">{template.type}{t("admin_invoices_template")}</p>
  <div className="mt-auto flex gap-2">
  <Button size="sm" variant="ghost" className="h-8 text-[10px] font-bold text-muted-foreground hover:text-card-foreground"><Eye className="w-3 h-3 mr-1.5" />{t("admin_invoices_preview")}</Button>
- <Button size="sm" className="h-8 bg-slate-600 hover:bg-muted0 text-[10px] font-bold">{t("admin_invoices_use_now")}</Button>
+ <Button size="sm" className="h-8 bg-muted hover:bg-muted0 text-[10px] font-bold">{t("admin_invoices_use_now")}</Button>
  </div>
  </div>
  </m.div>
  ))}
  <div className="border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center p-8 hover:bg-card transition-colors cursor-pointer group">
- <Plus className="w-8 h-8 text-slate-600 group-hover:text-slate-500 transition-colors mb-2" />
+ <Plus className="w-8 h-8 text-muted-foreground group-hover:text-muted-foreground transition-colors mb-2" />
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_invoices_new_template")}</p>
  </div>
  </div>
@@ -613,7 +614,7 @@ export default function CustomerInvoices() {
  <Card className="bg-card border-border rounded-xl p-6">
  <CardHeader>
  <CardTitle className="text-lg font-bold text-card-foreground flex items-center gap-2">
- <TrendingUp className="w-5 h-5 text-emerald-500" />{t("admin_invoices_revenue_overview")}
+ <TrendingUp className="w-5 h-5 text-success" />{t("admin_invoices_revenue_overview")}
  </CardTitle>
  </CardHeader>
  <CardContent className="space-y-4">
@@ -667,12 +668,12 @@ export default function CustomerInvoices() {
  </Card>
 
  <Card className="md:col-span-2 bg-card border-border rounded-xl p-6 relative overflow-hidden">
- <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-500 via-emerald-500 to-slate-500 opacity-30" />
+ <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-500 via-blue-500 to-slate-500 opacity-30" />
  <CardHeader className="flex flex-row items-center justify-between">
  <CardTitle className="text-lg font-bold text-card-foreground flex items-center gap-2">
- <BarChart3 className="w-5 h-5 text-slate-500" />{t("admin_invoices_neural_cashflow_pulse")}
+ <BarChart3 className="w-5 h-5 text-muted-foreground" />{t("admin_invoices_neural_cashflow_pulse")}
  </CardTitle>
- <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-[10px] font-bold">{t("admin_invoices_124_mo")}</Badge>
+ <Badge className="bg-blue-500/10 text-success border-blue-500/20 text-[10px] font-bold">{t("admin_invoices_124_mo")}</Badge>
  </CardHeader>
  <CardContent>
  <div className="h-48 flex items-end justify-between gap-2 px-4 pb-4">
@@ -682,7 +683,7 @@ export default function CustomerInvoices() {
  </m.div>
  ))}
  </div>
- <div className="flex justify-between text-[9px] font-bold text-slate-600 tracking-[0.2em] px-4 pt-4 border-t border-border">
+ <div className="flex justify-between text-[9px] font-bold text-muted-foreground tracking-[0.2em] px-4 pt-4 border-t border-border">
  <span>{t("admin_invoices_jan")}</span><span>{t("admin_invoices_mar")}</span><span>{t("admin_invoices_may")}</span><span>{t("admin_invoices_jul")}</span><span>{t("admin_invoices_sep")}</span><span>{t("admin_invoices_nov")}</span>
  </div>
  </CardContent>
@@ -691,31 +692,31 @@ export default function CustomerInvoices() {
  <Card className="col-span-1 md:col-span-3 bg-card border-border rounded-xl p-6 overflow-hidden">
  <div className="flex items-center justify-between mb-6">
  <CardTitle className="text-lg font-bold text-card-foreground flex items-center gap-2">
- <Activity className="w-5 h-5 text-slate-500" />{t("admin_invoices_live_billing_node_activity")}
+ <Activity className="w-5 h-5 text-muted-foreground" />{t("admin_invoices_live_billing_node_activity")}
  </CardTitle>
  <Button variant="ghost" size="sm" className="text-muted-foreground text-[10px] font-bold">{t("admin_invoices_clear_logs")}</Button>
  </div>
  <div className="space-y-3">
  {[{
  event: t("admin_invoices_invoice_sent","Fatura Gonderildi"),
- user:"John Doe Properties", sub:"$2,700.00", time: t("admin_invoices_2_min_ago","2 dk once"),
+ user:"John Doe Properties", sub:"$2,700.00", time: t("admin_invoices_2_min_ago", "2 dk bir kez"),
  icon: <Send className="w-3 h-3" />, color:"slate"
  }, {
  event: t("admin_invoices_payment_received","Odeme Alindi"),
- user:"Jane Smith Realty", sub:"$1,296.00", time: t("admin_invoices_14_min_ago","14 dk once"),
+ user:"Jane Smith Realty", sub:"$1,296.00", time: t("admin_invoices_14_min_ago", "Bir defaya mahsus 14 DKK"),
  icon: <CheckCircle className="w-3 h-3" />, color:"emerald"
  }, {
  event: t("admin_invoices_auto_alert_overdue","Otomatik Uyari: Gecikmis"),
- user:"Johnson Commercial", sub:"$12,500.00", time: t("admin_invoices_1_hour_ago","1 saat once"),
+ user:"Johnson Commercial", sub:"$12,500.00", time: t("admin_invoices_1_hour_ago", "1 saniye bir kez"),
  icon: <AlertTriangle className="w-3 h-3" />, color:"red"
  }, {
  event: t("admin_invoices_draft_generated","Taslak Olusturuldu"),
- user:"New Prospect LP", sub:"$4,500.00", time: t("admin_invoices_3_hours_ago","3 saat once"),
+ user:"New Prospect LP", sub:"$4,500.00", time: t("admin_invoices_3_hours_ago", "3 saniye bir kez"),
  icon: <FileText className="w-3 h-3" />, color:"slate"
  }].map((log, i) => (
  <div key={i} className="flex items-center justify-between p-3 bg-card rounded-xl border border-border hover:bg-card transition-colors">
  <div className="flex items-center gap-4">
- <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", log.color === 'slate' ?"bg-muted0/20 text-muted-foreground" : log.color === 'emerald' ?"bg-emerald-500/20 text-emerald-400" : log.color === 'red' ?"bg-red-500/20 text-red-400" :"bg-muted0/20 text-muted-foreground")}>
+ <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", log.color === 'slate' ?"bg-muted0/20 text-muted-foreground" : log.color === 'emerald' ?"bg-blue-500/20 text-success" : log.color === 'red' ?"bg-red-500/20 text-red-400" :"bg-muted0/20 text-muted-foreground")}>
  {log.icon}
  </div>
  <div>
@@ -725,7 +726,7 @@ export default function CustomerInvoices() {
  </div>
  <div className="text-right">
  <p className="text-xs font-bold text-card-foreground">{log.sub}</p>
- <p className="text-[9px] font-bold text-slate-600">{log.time}</p>
+ <p className="text-[9px] font-bold text-muted-foreground">{log.time}</p>
  </div>
  </div>
  ))}

@@ -4,7 +4,7 @@ import React from 'react';
 import { t } from"i18next";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
@@ -150,12 +150,12 @@ export default function Users() {
  case 'ADMIN':
  return {
  label: t("admin_users_coreadmin"),
- color: 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20'
+ color: 'bg-orange-500/10 text-orange-600 dark:text-warning border-orange-500/20'
  };
  case 'AGENT':
  return {
  label: t("admin_users_fieldagent"),
- color: 'bg-muted0/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
+ color: 'bg-muted0/10 text-muted-foreground dark:text-muted-foreground border-slate-500/20'
  };
  default:
  return {
@@ -180,17 +180,17 @@ export default function Users() {
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <UserCheck className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("active")}</p>
- <h3 className="text-3xl font-bold text-emerald-400 leading-none font-mono">{users.filter(u => u.status === 'ACTIVE').length}</h3>
+ <h3 className="text-3xl font-bold text-success leading-none font-mono">{users.filter(u => u.status === 'ACTIVE').length}</h3>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Shield className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
@@ -205,7 +205,7 @@ export default function Users() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("usersNew")}</p>
- <h3 className="text-3xl font-bold text-orange-400 leading-none font-mono">
+ <h3 className="text-3xl font-bold text-warning leading-none font-mono">
  {users.filter(u => new Date(u.createdAt).getTime() > Date.now() - 24 * 60 * 60 * 1000).length}
  </h3>
  </CardContent>
@@ -223,7 +223,7 @@ export default function Users() {
  <Button onClick={() => {
  setSelectedUser(null);
  setCreateOpen(true);
- }} className="bg-slate-600 hover:bg-muted0 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
+ }} className="bg-muted hover:bg-muted0 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
  <Plus className="w-4 h-4" />
  {t("initEntity")}
  </Button>
@@ -255,13 +255,13 @@ export default function Users() {
  <AvatarImage src={`https://i.pravatar.cc/150?u=${user.id}`} className="rounded-2xl" />
  <AvatarFallback className="bg-muted text-muted-foreground font-bold rounded-2xl">{user.name?.slice(0, 2).toUpperCase()}</AvatarFallback>
  </Avatar>
- <div className={cn("absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-4 border-card", user.status === 'ACTIVE' ?"bg-emerald-500 shadow-[0_0_15px_#10b981]" :"bg-muted-foreground")} />
+ <div className={cn("absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-4 border-card", user.status === 'ACTIVE' ?"bg-blue-500 shadow-[0_0_15px_#3b82f6]" :"bg-muted-foreground")} />
  </div>
  
  <div className="flex-1 min-w-0 space-y-1">
  <div className="flex items-center justify-between">
  <h4 className="text-xl font-bold text-foreground truncate leading-none group-hover:text-primary transition-colors">{user.name}</h4>
- <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-muted text-muted-foreground">
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8 rounded-lg hover:bg-muted text-muted-foreground">
  <MoreVertical className="w-4 h-4" />
  </Button>
  </div>
@@ -271,7 +271,7 @@ export default function Users() {
  <Badge className={cn("text-[8px] font-bold tracking-[0.2em] px-3 py-1 rounded-xl border-none shadow-sm", getRoleConfig(user.role || 'USER').color)}>
  {getRoleConfig(user.role || 'USER').label}
  </Badge>
- {user.status === 'ACTIVE' ? <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-none text-[8px] font-bold tracking-[0.2em] px-3 py-1 shadow-sm">{t("admin_users_activesignal")}</Badge> : <Badge className="bg-muted text-muted-foreground border-none text-[8px] font-bold tracking-[0.2em] px-3 py-1">{t("admin_users_offline")}</Badge>}
+ {user.status === 'ACTIVE' ? <Badge className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-none text-[8px] font-bold tracking-[0.2em] px-3 py-1 shadow-sm">{t("admin_users_activesignal")}</Badge> : <Badge className="bg-muted text-muted-foreground border-none text-[8px] font-bold tracking-[0.2em] px-3 py-1">{t("admin_users_offline")}</Badge>}
  </div>
  </div>
  </div>
@@ -287,12 +287,12 @@ export default function Users() {
  <Button variant="ghost" size="sm" onClick={e => {
  e.stopPropagation();
  handleToggleStatus(user);
- }} className={cn("text-[9px] font-bold tracking-[0.2em] h-8 px-0 gap-2 transition-colors", user.status === 'ACTIVE' ?"text-muted-foreground hover:text-red-500" :"text-muted-foreground hover:text-emerald-500")}>
- <UserCheck className="w-3 h-3" /> {user.status === 'ACTIVE' ? t('admin_users_kill_signal', 'SİNYALİ KES') : t('admin_users_awaken', 'UYANDIR')}
+ }} className={cn("text-[9px] font-bold tracking-[0.2em] h-8 px-0 gap-2 transition-colors", user.status === 'ACTIVE' ?"text-muted-foreground hover:text-red-500" :"text-muted-foreground hover:text-success")}>
+ <UserCheck className="w-3 h-3" /> {user.status === 'ACTIVE' ? t('admin_users_kill_signal', 'SİNYALİ KES') : t('admin_users_awaken', 'YANDIR')}
  </Button>
  </div>
  
- <Button variant="ghost" size="icon" onClick={e => {
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} onClick={e => {
  e.stopPropagation();
  handleDelete(user.id);
  }} className="h-10 w-10 rounded-xl hover:bg-red-500/10 text-muted-foreground/30 hover:text-red-500 transition-all border border-transparent hover:border-red-500/20">

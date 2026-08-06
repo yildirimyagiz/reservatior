@@ -6,11 +6,14 @@
     "currencySymbol": "$",
     "phoneCode": "+1",
     "languageCode": "en",
-    "supportedLanguages": ["en", "es"],
-    "taxRate": 0.08,
+    "supportedLanguages": [
+      "en",
+      "es"
+    ],
+    "taxRate": 0.07,
     "taxName": "Sales Tax",
-    "baseCommission": 0.05,
-    "maxLeasePeriodMonths": 12,
+    "baseCommission": 0.06,
+    "maxLeasePeriodMonths": 60,
     "addressFormat": {
       "adminLevel1": "State",
       "adminLevel2": "County",
@@ -21,8 +24,334 @@
       "brochureGenEnabled": true,
       "legalReviewEnabled": true
     },
-    "propertyTypes": ["APARTMENT", "HOUSE", "CONDO", "TOWNHOUSE"],
-    "databaseSchema": "schema.prisma"
+    "propertyTypes": [
+      "SINGLE_FAMILY",
+      "MULTI_FAMILY",
+      "CONDO_APARTMENT",
+      "TOWNHOUSE"
+    ],
+    "databaseSchema": "schema_usa.prisma"
+  },
+  "CA": {
+    "countryCode": "CA",
+    "countryName": "Canada",
+    "currency": "CAD",
+    "currencySymbol": "CA$",
+    "phoneCode": "+1",
+    "languageCode": "en",
+    "supportedLanguages": [
+      "en",
+      "fr"
+    ],
+    "taxRate": 0.13,
+    "taxName": "HST/GST",
+    "baseCommission": 0.05,
+    "maxLeasePeriodMonths": 24,
+    "addressFormat": {
+      "adminLevel1": "Province",
+      "adminLevel2": "City",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "DETACHED_HOUSE",
+      "APARTMENT",
+      "CONDO",
+      "TOWNHOUSE"
+    ],
+    "databaseSchema": "schema_ca.prisma"
+  },
+  "MX": {
+    "countryCode": "MX",
+    "countryName": "Mexico",
+    "currency": "MXN",
+    "currencySymbol": "MX$",
+    "phoneCode": "+52",
+    "languageCode": "es",
+    "supportedLanguages": [
+      "es",
+      "en"
+    ],
+    "taxRate": 0.16,
+    "taxName": "IVA",
+    "baseCommission": 0.05,
+    "maxLeasePeriodMonths": 36,
+    "addressFormat": {
+      "adminLevel1": "Estado",
+      "adminLevel2": "Municipio",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "HOUSE",
+      "APARTMENT",
+      "CONDO"
+    ],
+    "databaseSchema": "schema_mx.prisma"
+  },
+  "BR": {
+    "countryCode": "BR",
+    "countryName": "Brazil",
+    "currency": "BRL",
+    "currencySymbol": "R$",
+    "phoneCode": "+55",
+    "languageCode": "pt",
+    "supportedLanguages": [
+      "pt",
+      "en"
+    ],
+    "taxRate": 0.12,
+    "taxName": "ISS",
+    "baseCommission": 0.05,
+    "maxLeasePeriodMonths": 36,
+    "addressFormat": {
+      "adminLevel1": "Estado",
+      "adminLevel2": "Cidade",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "CASA",
+      "APARTAMENTO",
+      "CONDOMINIO"
+    ],
+    "databaseSchema": "schema_br.prisma"
+  },
+  "AR": {
+    "countryCode": "AR",
+    "countryName": "Argentina",
+    "currency": "ARS",
+    "currencySymbol": "$",
+    "phoneCode": "+54",
+    "languageCode": "es",
+    "supportedLanguages": [
+      "es",
+      "en"
+    ],
+    "taxRate": 0.21,
+    "taxName": "IVA",
+    "baseCommission": 0.05,
+    "maxLeasePeriodMonths": 24,
+    "addressFormat": {
+      "adminLevel1": "Provincia",
+      "adminLevel2": "Ciudad",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "CASA",
+      "DEPARTAMENTO",
+      "PH"
+    ],
+    "databaseSchema": "schema_ar.prisma"
+  },
+  "UK": {
+    "countryCode": "UK",
+    "countryName": "United Kingdom",
+    "currency": "GBP",
+    "currencySymbol": "£",
+    "phoneCode": "+44",
+    "languageCode": "en",
+    "supportedLanguages": [
+      "en"
+    ],
+    "taxRate": 0.2,
+    "taxName": "VAT",
+    "baseCommission": 0.015,
+    "maxLeasePeriodMonths": 36,
+    "addressFormat": {
+      "adminLevel1": "County",
+      "adminLevel2": "Post Town",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "DETACHED_HOUSE",
+      "SEMI_DETACHED_HOUSE",
+      "TERRACED_HOUSE",
+      "FLAT_MAISONETTE"
+    ],
+    "databaseSchema": "schema_uk.prisma"
+  },
+  "DE": {
+    "countryCode": "DE",
+    "countryName": "Germany",
+    "currency": "EUR",
+    "currencySymbol": "€",
+    "phoneCode": "+49",
+    "languageCode": "de",
+    "supportedLanguages": [
+      "de",
+      "en"
+    ],
+    "taxRate": 0.19,
+    "taxName": "VAT",
+    "baseCommission": 0.04,
+    "maxLeasePeriodMonths": 60,
+    "addressFormat": {
+      "adminLevel1": "Bundesland",
+      "adminLevel2": "Stadt",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "EINFAMILIENHAUS",
+      "WOHNUNG",
+      "REIHENHAUS"
+    ],
+    "databaseSchema": "schema_de.prisma"
+  },
+  "FR": {
+    "countryCode": "FR",
+    "countryName": "France",
+    "currency": "EUR",
+    "currencySymbol": "€",
+    "phoneCode": "+33",
+    "languageCode": "fr",
+    "supportedLanguages": [
+      "fr",
+      "en"
+    ],
+    "taxRate": 0.2,
+    "taxName": "TVA",
+    "baseCommission": 0.04,
+    "maxLeasePeriodMonths": 36,
+    "addressFormat": {
+      "adminLevel1": "Région",
+      "adminLevel2": "Ville",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "MAISON",
+      "APPARTEMENT",
+      "STUDIO"
+    ],
+    "databaseSchema": "schema_fr.prisma"
+  },
+  "ES": {
+    "countryCode": "ES",
+    "countryName": "Spain",
+    "currency": "EUR",
+    "currencySymbol": "€",
+    "phoneCode": "+34",
+    "languageCode": "es",
+    "supportedLanguages": [
+      "es",
+      "en"
+    ],
+    "taxRate": 0.21,
+    "taxName": "IVA",
+    "baseCommission": 0.04,
+    "maxLeasePeriodMonths": 60,
+    "addressFormat": {
+      "adminLevel1": "Comunidad",
+      "adminLevel2": "Ciudad",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "PISO",
+      "ADOSADO",
+      "CHALET",
+      "LOCAL"
+    ],
+    "databaseSchema": "schema_es.prisma"
+  },
+  "IT": {
+    "countryCode": "IT",
+    "countryName": "Italy",
+    "currency": "EUR",
+    "currencySymbol": "€",
+    "phoneCode": "+39",
+    "languageCode": "it",
+    "supportedLanguages": [
+      "it",
+      "en"
+    ],
+    "taxRate": 0.22,
+    "taxName": "IVA",
+    "baseCommission": 0.04,
+    "maxLeasePeriodMonths": 36,
+    "addressFormat": {
+      "adminLevel1": "Regione",
+      "adminLevel2": "Città",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "APPARTAMENTO",
+      "VILLA",
+      "CASA"
+    ],
+    "databaseSchema": "schema_it.prisma"
+  },
+  "NL": {
+    "countryCode": "NL",
+    "countryName": "Netherlands",
+    "currency": "EUR",
+    "currencySymbol": "€",
+    "phoneCode": "+31",
+    "languageCode": "nl",
+    "supportedLanguages": [
+      "nl",
+      "en"
+    ],
+    "taxRate": 0.21,
+    "taxName": "VAT",
+    "baseCommission": 0.03,
+    "maxLeasePeriodMonths": 36,
+    "addressFormat": {
+      "adminLevel1": "Provincie",
+      "adminLevel2": "Gemeente",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "EENGEZINSWONING",
+      "APPARTEMENT"
+    ],
+    "databaseSchema": "schema_nl.prisma"
   },
   "TR": {
     "countryCode": "TR",
@@ -31,22 +360,30 @@
     "currencySymbol": "₺",
     "phoneCode": "+90",
     "languageCode": "tr",
-    "supportedLanguages": ["tr", "en"],
-    "taxRate": 0.20,
+    "supportedLanguages": [
+      "tr",
+      "en"
+    ],
+    "taxRate": 0.2,
     "taxName": "KDV",
     "baseCommission": 0.04,
-    "maxLeasePeriodMonths": 12,
+    "maxLeasePeriodMonths": 120,
     "addressFormat": {
       "adminLevel1": "İl",
       "adminLevel2": "İlçe",
-      "zipCodeRequired": false
+      "zipCodeRequired": true
     },
     "aiServices": {
       "videoGenEnabled": true,
       "brochureGenEnabled": true,
       "legalReviewEnabled": true
     },
-    "propertyTypes": ["DAIRE", "MUSTAKIL_EV", "VILLA", "REZIDANS"],
+    "propertyTypes": [
+      "APARTMENT",
+      "VILLA",
+      "DETACHED_HOUSE",
+      "STUDIO"
+    ],
     "databaseSchema": "schema_tr.prisma",
     "mapProvider": "yandex",
     "mapConfig": {
@@ -57,20 +394,54 @@
       "language": "tr_TR"
     }
   },
-  "UK": {
-    "countryCode": "UK",
-    "countryName": "United Kingdom",
-    "currency": "GBP",
-    "currencySymbol": "£",
-    "phoneCode": "+44",
+  "AU": {
+    "countryCode": "AU",
+    "countryName": "Australia",
+    "currency": "AUD",
+    "currencySymbol": "A$",
+    "phoneCode": "+61",
     "languageCode": "en",
-    "supportedLanguages": ["en"],
-    "taxRate": 0.20,
-    "taxName": "VAT",
-    "baseCommission": 0.05,
-    "maxLeasePeriodMonths": 12,
+    "supportedLanguages": [
+      "en"
+    ],
+    "taxRate": 0.1,
+    "taxName": "GST",
+    "baseCommission": 0.03,
+    "maxLeasePeriodMonths": 60,
     "addressFormat": {
-      "adminLevel1": "County",
+      "adminLevel1": "State",
+      "adminLevel2": "Suburb",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "HOUSE",
+      "UNIT",
+      "APARTMENT",
+      "TOWNHOUSE"
+    ],
+    "databaseSchema": "schema_au.prisma"
+  },
+  "NZ": {
+    "countryCode": "NZ",
+    "countryName": "New Zealand",
+    "currency": "NZD",
+    "currencySymbol": "NZ$",
+    "phoneCode": "+64",
+    "languageCode": "en",
+    "supportedLanguages": [
+      "en"
+    ],
+    "taxRate": 0.15,
+    "taxName": "GST",
+    "baseCommission": 0.03,
+    "maxLeasePeriodMonths": 60,
+    "addressFormat": {
+      "adminLevel1": "Region",
       "adminLevel2": "District",
       "zipCodeRequired": true
     },
@@ -79,8 +450,237 @@
       "brochureGenEnabled": true,
       "legalReviewEnabled": true
     },
-    "propertyTypes": ["FLAT", "HOUSE", "MAISONETTE"],
-    "databaseSchema": "schema_uk.prisma"
+    "propertyTypes": [
+      "HOUSE",
+      "UNIT",
+      "APARTMENT"
+    ],
+    "databaseSchema": "schema_nz.prisma"
+  },
+  "JP": {
+    "countryCode": "JP",
+    "countryName": "Japan",
+    "currency": "JPY",
+    "currencySymbol": "¥",
+    "phoneCode": "+81",
+    "languageCode": "ja",
+    "supportedLanguages": [
+      "ja",
+      "en"
+    ],
+    "taxRate": 0.1,
+    "taxName": "Consumption Tax",
+    "baseCommission": 0.03,
+    "maxLeasePeriodMonths": 24,
+    "addressFormat": {
+      "adminLevel1": "Prefecture",
+      "adminLevel2": "City",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "IKKODATE",
+      "MANSION",
+      "APARTMENT"
+    ],
+    "databaseSchema": "schema_jp.prisma"
+  },
+  "KR": {
+    "countryCode": "KR",
+    "countryName": "South Korea",
+    "currency": "KRW",
+    "currencySymbol": "₩",
+    "phoneCode": "+82",
+    "languageCode": "ko",
+    "supportedLanguages": [
+      "ko",
+      "en"
+    ],
+    "taxRate": 0.1,
+    "taxName": "VAT",
+    "baseCommission": 0.03,
+    "maxLeasePeriodMonths": 24,
+    "addressFormat": {
+      "adminLevel1": "Province",
+      "adminLevel2": "City",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "APARTMENT",
+      "VILLA",
+      "HOUSE"
+    ],
+    "databaseSchema": "schema_kr.prisma"
+  },
+  "CN": {
+    "countryCode": "CN",
+    "countryName": "China",
+    "currency": "CNY",
+    "currencySymbol": "¥",
+    "phoneCode": "+86",
+    "languageCode": "zh",
+    "supportedLanguages": [
+      "zh",
+      "en"
+    ],
+    "taxRate": 0.13,
+    "taxName": "VAT",
+    "baseCommission": 0.03,
+    "maxLeasePeriodMonths": 12,
+    "addressFormat": {
+      "adminLevel1": "Province",
+      "adminLevel2": "City",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "APARTMENT",
+      "VILLA",
+      "HOUSE"
+    ],
+    "databaseSchema": "schema_cn.prisma"
+  },
+  "IN": {
+    "countryCode": "IN",
+    "countryName": "India",
+    "currency": "INR",
+    "currencySymbol": "₹",
+    "phoneCode": "+91",
+    "languageCode": "hi",
+    "supportedLanguages": [
+      "hi",
+      "en"
+    ],
+    "taxRate": 0.18,
+    "taxName": "GST",
+    "baseCommission": 0.02,
+    "maxLeasePeriodMonths": 12,
+    "addressFormat": {
+      "adminLevel1": "State",
+      "adminLevel2": "City",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "APARTMENT",
+      "VILLA",
+      "PLOT"
+    ],
+    "databaseSchema": "schema_in.prisma"
+  },
+  "SG": {
+    "countryCode": "SG",
+    "countryName": "Singapore",
+    "currency": "SGD",
+    "currencySymbol": "S$",
+    "phoneCode": "+65",
+    "languageCode": "en",
+    "supportedLanguages": [
+      "en",
+      "zh",
+      "ms"
+    ],
+    "taxRate": 0.09,
+    "taxName": "GST",
+    "baseCommission": 0.02,
+    "maxLeasePeriodMonths": 24,
+    "addressFormat": {
+      "adminLevel1": "Region",
+      "adminLevel2": "District",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "HDB",
+      "CONDO",
+      "LANDED"
+    ],
+    "databaseSchema": "schema_sg.prisma"
+  },
+  "MY": {
+    "countryCode": "MY",
+    "countryName": "Malaysia",
+    "currency": "MYR",
+    "currencySymbol": "RM",
+    "phoneCode": "+60",
+    "languageCode": "en",
+    "supportedLanguages": [
+      "en",
+      "ms"
+    ],
+    "taxRate": 0.06,
+    "taxName": "SST",
+    "baseCommission": 0.03,
+    "maxLeasePeriodMonths": 12,
+    "addressFormat": {
+      "adminLevel1": "State",
+      "adminLevel2": "District",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "APARTMENT",
+      "CONDO",
+      "LANDED"
+    ],
+    "databaseSchema": "schema_my.prisma"
+  },
+  "TH": {
+    "countryCode": "TH",
+    "countryName": "Thailand",
+    "currency": "THB",
+    "currencySymbol": "฿",
+    "phoneCode": "+66",
+    "languageCode": "th",
+    "supportedLanguages": [
+      "th",
+      "en"
+    ],
+    "taxRate": 0.07,
+    "taxName": "VAT",
+    "baseCommission": 0.03,
+    "maxLeasePeriodMonths": 12,
+    "addressFormat": {
+      "adminLevel1": "Province",
+      "adminLevel2": "District",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "CONDO",
+      "HOUSE",
+      "TOWNHOUSE"
+    ],
+    "databaseSchema": "schema_th.prisma"
   },
   "AE": {
     "countryCode": "AE",
@@ -89,10 +689,13 @@
     "currencySymbol": "د.إ",
     "phoneCode": "+971",
     "languageCode": "ar",
-    "supportedLanguages": ["ar", "en"],
+    "supportedLanguages": [
+      "ar",
+      "en"
+    ],
     "taxRate": 0.05,
     "taxName": "VAT",
-    "baseCommission": 0.05,
+    "baseCommission": 0.02,
     "maxLeasePeriodMonths": 12,
     "addressFormat": {
       "adminLevel1": "Emirate",
@@ -104,7 +707,44 @@
       "brochureGenEnabled": true,
       "legalReviewEnabled": true
     },
-    "propertyTypes": ["APARTMENT", "VILLA", "PENTHOUSE"],
+    "propertyTypes": [
+      "VILLA",
+      "APARTMENT",
+      "TOWNHOUSE",
+      "PENTHOUSE"
+    ],
     "databaseSchema": "schema_ae.prisma"
+  },
+  "SA": {
+    "countryCode": "SA",
+    "countryName": "Saudi Arabia",
+    "currency": "SAR",
+    "currencySymbol": "﷼",
+    "phoneCode": "+966",
+    "languageCode": "ar",
+    "supportedLanguages": [
+      "ar",
+      "en"
+    ],
+    "taxRate": 0.15,
+    "taxName": "VAT",
+    "baseCommission": 0.025,
+    "maxLeasePeriodMonths": 12,
+    "addressFormat": {
+      "adminLevel1": "Region",
+      "adminLevel2": "City",
+      "zipCodeRequired": true
+    },
+    "aiServices": {
+      "videoGenEnabled": true,
+      "brochureGenEnabled": true,
+      "legalReviewEnabled": true
+    },
+    "propertyTypes": [
+      "VILLA",
+      "APARTMENT",
+      "COMPOUND"
+    ],
+    "databaseSchema": "schema_sa.prisma"
   }
 }

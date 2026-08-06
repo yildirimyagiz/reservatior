@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { t } from"i18next";
 import React, { useState } from"react";
 import { useTranslation } from"react-i18next";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -19,6 +19,7 @@ import { Edit, Trash2, Shield, Lock, Plus, Search, Users, ShieldAlert, ShieldChe
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { cn } from"@/lib/utils";
 import { useQuery, useQueryClient } from"@tanstack/react-query";
+import { tEnum } from"@/lib/admin-enums";
 import { m, AnimatePresence } from"framer-motion";
 interface Permission {
  id: string;
@@ -44,23 +45,23 @@ const PERMISSION_GROUPS = (t: any) => {
  return {
  properties: {
  label: t("properties"),
- color:"bg-muted0/10 text-slate-600 dark:text-slate-400 border-slate-500/20"
+ color:"bg-muted0/10 text-muted-foreground dark:text-muted-foreground border-slate-500/20"
  },
  listings: {
  label: t("listings"),
- color:"bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
+ color:"bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20"
  },
  tenants: {
  label: t("tenants"),
- color:"bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20"
+ color:"bg-orange-500/10 text-orange-600 dark:text-warning border-orange-500/20"
  },
  financial: {
  label: t("rolesGroupsFinancial"),
- color:"bg-muted0/10 text-slate-600 dark:text-slate-400 border-slate-500/20"
+ color:"bg-muted0/10 text-muted-foreground dark:text-muted-foreground border-slate-500/20"
  },
  reports: {
  label: t("reports"),
- color:"bg-muted0/10 text-slate-600 dark:text-slate-400 border-slate-500/20"
+ color:"bg-muted0/10 text-muted-foreground dark:text-muted-foreground border-slate-500/20"
  },
  admin: {
  label: t("admin_roles_groups_admin"),
@@ -68,7 +69,7 @@ const PERMISSION_GROUPS = (t: any) => {
  },
  integrations: {
  label: t("integrations"),
- color:"bg-muted0/10 text-slate-600 dark:text-slate-400 border-slate-500/20"
+ color:"bg-muted0/10 text-muted-foreground dark:text-muted-foreground border-slate-500/20"
  },
  ai: {
  label: t("ai"),
@@ -250,7 +251,7 @@ export default function Roles() {
  label: t('total'),
  value: stats.total,
  icon: Shield,
- color:"text-slate-500"
+ color:"text-muted-foreground"
  }, {
  label: t('admin_roles_systemCores'),
  value: stats.system,
@@ -260,12 +261,12 @@ export default function Roles() {
  label: t('admin_roles_customNodes'),
  value: stats.custom,
  icon: Zap,
- color:"text-emerald-500"
+ color:"text-success"
  }, {
  label: t('admin_roles_authorizedUsers'),
  value: stats.users,
  icon: Users,
- color:"text-slate-500"
+ color:"text-muted-foreground"
  }].map((stat, i) => <m.div key={i} initial={{
  opacity: 0,
  y: 20
@@ -310,7 +311,7 @@ export default function Roles() {
  setRoleDescription("");
  setSelectedPermissionIds([]);
  setCreateOpen(true);
- }} className="bg-slate-600 hover:bg-muted0 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
+ }} className="bg-muted hover:bg-muted0 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
  <Plus className="w-4 h-4" />
  {t("rolesInitnode")}
  </Button>
@@ -333,14 +334,14 @@ export default function Roles() {
  <TableBody>
  {loading ? <TableRow>
  <TableCell colSpan={5} className="py-24 text-center">
- <Activity className="w-12 h-12 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
+ <Activity className="w-12 h-12 text-muted-foreground animate-spin mx-auto mb-4 opacity-50" />
  <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t('admin_roles_syncing')}</p>
  </TableCell>
  </TableRow> : filteredRoles.map((role: Role) => <TableRow key={role.id} className="border-b border-border hover:bg-muted/20 transition-all group">
  <TableCell className="py-8 px-8">
  <div className="flex items-center gap-4">
  <div className="w-12 h-12 rounded-xl bg-background border border-border flex items-center justify-center group-hover:scale-110 transition-all shadow-inner">
- {role.isSystem ? <ShieldCheck className="w-6 h-6 text-red-500" /> : <Fingerprint className="w-6 h-6 text-emerald-500" />}
+ {role.isSystem ? <ShieldCheck className="w-6 h-6 text-red-500" /> : <Fingerprint className="w-6 h-6 text-success" />}
  </div>
  <div>
  <div className="text-lg font-bold text-foreground leading-tight flex items-center gap-2 group-hover:text-primary transition-colors">
@@ -358,7 +359,7 @@ export default function Roles() {
  const groupKey = groupString.toLowerCase();
  const config = (pg as any)[groupKey];
  return <Badge key={groupString} variant="outline" className={cn("text-[9px] font-bold px-2 py-0.5 rounded-full border-none shadow-sm", config?.color ||"bg-muted0/10")}>
- {config?.label || groupString}
+  {config?.label || tEnum(t, groupString)}
  </Badge>;
  })}
  </div>
@@ -371,7 +372,7 @@ export default function Roles() {
  </TableCell>
  <TableCell className="px-8 text-right">
  <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-card hover:text-foreground text-muted-foreground border border-transparent hover:border-border transition-all" onClick={() => {
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} className="h-10 w-10 rounded-xl hover:bg-card hover:text-foreground text-muted-foreground border border-transparent hover:border-border transition-all" onClick={() => {
  setSelectedRole(role);
  setRoleName(role.name);
  setRoleDescription(role.description ||"");
@@ -380,10 +381,10 @@ export default function Roles() {
  }}>
  <Edit className="w-4 h-4" />
  </Button>
- {!role.isSystem && <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-red-500/10 text-muted-foreground hover:text-red-500 border border-transparent hover:border-red-500/20 transition-all" onClick={() => handleDeleteRole(role.id)}>
+ {!role.isSystem && <Button variant="ghost" size="icon" aria-label={t("common.delete")} className="h-10 w-10 rounded-xl hover:bg-red-500/10 text-muted-foreground hover:text-red-500 border border-transparent hover:border-red-500/20 transition-all" onClick={() => handleDeleteRole(role.id)}>
  <Trash2 className="w-4 h-4" />
  </Button>}
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-card hover:text-foreground text-muted-foreground border border-transparent hover:border-border transition-all">
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-10 w-10 rounded-xl hover:bg-card hover:text-foreground text-muted-foreground border border-transparent hover:border-border transition-all">
  <MoreHorizontal className="w-4 h-4" />
  </Button>
  </div>

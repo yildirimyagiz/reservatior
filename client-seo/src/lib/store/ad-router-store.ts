@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { AdCampaign, AdNetworkConfig, AdBudgetShiftEvent, AdArbitrageReport } from '@/types/ad-router';
 
-interface AdRouterState {
+export interface AdRouterState {
   campaigns: AdCampaign[];
   networkConfigs: AdNetworkConfig[];
   budgetShifts: AdBudgetShiftEvent[];

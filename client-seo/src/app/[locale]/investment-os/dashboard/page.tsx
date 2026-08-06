@@ -42,7 +42,7 @@ export default function InvestmentOSDashboard() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: "Calculations Run", value: calculatorUsageCount, icon: Calculator, color: "text-blue-400" },
-          { label: "Properties Compared", value: comparisonItems.length, icon: GitCompareArrows, color: "text-emerald-400" },
+          { label: "Properties Compared", value: comparisonItems.length, icon: GitCompareArrows, color: "text-blue-400" },
           { label: "Top Market Yield", value: `${topCities[0]?.grossYield || 0}%`, icon: TrendingUp, color: "text-yellow-400" },
           { label: "Markets Tracked", value: CITY_COMPARISONS.length, icon: Globe, color: "text-primary" },
         ].map((stat) => (
@@ -118,7 +118,7 @@ export default function InvestmentOSDashboard() {
                   <Badge
                     className={
                       city.riskLevel === "LOW"
-                        ? "bg-emerald-500/20 text-emerald-400"
+                        ? "bg-blue-500/20 text-blue-400"
                         : city.riskLevel === "MEDIUM"
                         ? "bg-yellow-500/20 text-yellow-400"
                         : "bg-red-500/20 text-red-400"
@@ -130,7 +130,7 @@ export default function InvestmentOSDashboard() {
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div>
                     <p className="text-muted-foreground">Yield</p>
-                    <p className="font-bold text-emerald-400">{city.grossYield}%</p>
+                    <p className="font-bold text-blue-400">{city.grossYield}%</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">Return</p>

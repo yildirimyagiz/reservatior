@@ -89,7 +89,7 @@ export default function FraudDetection() {
  if (riskScore >= 80) return 'text-red-600';
  if (riskScore >= 60) return 'text-orange-600';
  if (riskScore >= 40) return 'text-yellow-600';
- return 'text-green-600';
+ return 'text-blue-600';
  };
  const getRiskBadgeVariant = (riskCategory: string) => {
  switch (riskCategory) {
@@ -118,38 +118,38 @@ export default function FraudDetection() {
  <div className="space-y-6">
  <div className="flex justify-between items-center mb-6">
  <div>
- <h2 className="text-2xl font-bold tracking-tight text-foreground">{t("admin_auto_fraud_alerts", "Fraud Alerts")}</h2>
- <p className="text-muted-foreground">{t("admin_auto_manage_and_review_ai_detected_anomalies", "Manage and review AI-detected anomalies.")}</p>
+ <h2 className="text-2xl font-bold tracking-tight text-foreground">{t("admin_auto_fraud_alerts", "Dolandırıcılık Uyarıları")}</h2>
+ <p className="text-muted-foreground">{t("admin_auto_manage_and_review_ai_detected_anomalies", "Yapay zeka tarafından tespit edilen anormallikleri yönetin ve inceleyin.")}</p>
  </div>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button className="bg-red-600 hover:bg-red-700 text-foreground">{t("admin_auto_simulate_alert", "Simulate Alert")}</Button>
+ <Button className="bg-red-600 hover:bg-red-700 text-foreground">{t("admin_auto_simulate_alert", "Uyarı Simülasyonu")}</Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[500px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_simulate_fraud_alert", "Simulate Fraud Alert")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_manually_trigger_a_fraud_detection_alert", "Manually trigger a fraud detection alert for testing or manual logging.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_simulate_fraud_alert", "Dolandırıcılık Uyarısını Simüle Et")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_manually_trigger_a_fraud_detection_alert", "Test veya manuel günlük kaydı için bir sahtekarlık tespit uyarısını manuel olarak tetikleyin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_entity_type", "Entity Type")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.entityType} onChange={e => setNewAlert({...newAlert, entityType: e.target.value})} placeholder={t("admin_auto_user", "USER")} />
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_entity_type", "Varlık Türü")}</Label>
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.entityType} onChange={e => setNewAlert({...newAlert, entityType: e.target.value})} placeholder={t("admin_auto_user", "KULLANICI")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_entity_id", "Entity ID")}</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_entity_id", "Varlık Kimliği")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.entityId} onChange={e => setNewAlert({...newAlert, entityId: e.target.value})} placeholder={t("admin_auto_usr_1234", "USR-1234")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_risk_score", "Risk Score")}</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_risk_score", "Risk Puanı")}</Label>
  <Input type="number" className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.riskScore} onChange={e => setNewAlert({...newAlert, riskScore: parseInt(e.target.value)})} placeholder="85" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_category", "Category")}</Label>
- <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.riskCategory} onChange={e => setNewAlert({...newAlert, riskCategory: e.target.value})} placeholder={t("admin_auto_high", "HIGH")} />
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_category", "Kategori")}</Label>
+ <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newAlert.riskCategory} onChange={e => setNewAlert({...newAlert, riskCategory: e.target.value})} placeholder={t("admin_auto_high", "YÜKSEK")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(newAlert)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Running..." :"Trigger"}
  </Button>
@@ -188,7 +188,7 @@ export default function FraudDetection() {
  <CheckCircle className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{resolvedToday}</div>
+ <div className="text-2xl font-bold text-blue-600">{resolvedToday}</div>
  <p className="text-xs text-muted-foreground">{t("admin_ai_successfully_handled")}</p>
  </CardContent>
  </Card>
@@ -261,7 +261,7 @@ export default function FraudDetection() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground">
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -271,7 +271,7 @@ export default function FraudDetection() {
  <Eye className="h-4 w-4 mr-2" />{t("admin_ai_view_details")}</DropdownMenuItem>
  {!alert.resolution && <>
  <DropdownMenuSeparator />
- <DropdownMenuItem onClick={() => resolveAlert(alert.id, 'APPROVED')} className="text-green-600">
+ <DropdownMenuItem onClick={() => resolveAlert(alert.id, 'APPROVED')} className="text-blue-600">
  <CheckCircle className="h-4 w-4 mr-2" />{t("admin_ai_mark_as_safe")}</DropdownMenuItem>
  <DropdownMenuItem onClick={() => resolveAlert(alert.id, 'BLOCKED')} className="text-red-600">
  <XCircle className="h-4 w-4 mr-2" />{t("admin_ai_block_entity")}</DropdownMenuItem>
@@ -333,15 +333,15 @@ export default function FraudDetection() {
  <CardContent>
  <div className="space-y-4">
  <div className="text-center">
- <div className="text-2xl font-bold text-green-600">98.7%</div>
+ <div className="text-2xl font-bold text-blue-600">98.7%</div>
  <p className="text-sm text-muted-foreground">{t("admin_ai_detection_accuracy")}</p>
  </div>
  <div className="text-center">
- <div className="text-2xl font-bold text-slate-600">0.02%</div>
+ <div className="text-2xl font-bold text-muted-foreground">0.02%</div>
  <p className="text-sm text-muted-foreground">{t("admin_ai_false_positive_rate")}</p>
  </div>
  <div className="text-center">
- <div className="text-2xl font-bold text-slate-600">{t("admin_ai_23s")}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{t("admin_ai_23s")}</div>
  <p className="text-sm text-muted-foreground">{t("admin_ai_avg_response_time")}</p>
  </div>
  <div className="text-center">
@@ -358,7 +358,7 @@ export default function FraudDetection() {
  <Card className="max-w-2xl w-full max-h-[80vh] overflow-y-auto bg-card border-border">
  <CardHeader>
  <CardTitle className="text-foreground">{t("admin_ai_fraud_alert_details")}</CardTitle>
- <Button variant="ghost" className="absolute right-4 top-4 text-muted-foreground" onClick={() => setSelectedAlert(null)}>
+ <Button variant="ghost" className="absolute right-4 top-4 text-muted-foreground" onClick={() => setSelectedAlert(null)} aria-label={t("common.close")}>
  ×
  </Button>
  </CardHeader>

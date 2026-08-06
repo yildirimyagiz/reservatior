@@ -35,14 +35,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCommerceAgentsStore } from "@/lib/store/commerce-agents-store";
+import { tEnum } from "@/lib/admin-enums";
 
 const STATUSES = ["ACTIVE", "INACTIVE", "PENDING", "SUSPENDED", "BANNED"];
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-green-500/20 text-green-400",
+  ACTIVE: "bg-blue-500/20 text-blue-400",
   INACTIVE: "bg-gray-500/20 text-gray-400",
-  PENDING: "bg-amber-500/20 text-amber-400",
-  SUSPENDED: "bg-orange-500/20 text-orange-400",
+  PENDING: "bg-amber-500/20 text-warning",
+  SUSPENDED: "bg-orange-500/20 text-warning",
   BANNED: "bg-red-500/20 text-red-400",
 };
 
@@ -61,7 +62,7 @@ function StarRating({ rating }: { rating: number }) {
           key={i}
           className={`w-3.5 h-3.5 ${
             i <= Math.round(rating)
-              ? "fill-amber-400 text-amber-400"
+              ? "fill-amber-400 text-warning"
               : "text-muted-foreground"
           }`}
         />
@@ -107,13 +108,10 @@ export default function CommerceAgentsPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">
-                {t("admin_commerce_agents_title", "Commerce Agents")}
+                {t("admin_commerce_agents_title", "Ticaret Acenteleri")}
               </h1>
               <p className="text-muted-foreground">
-                {t(
-                  "admin_commerce_agents_description",
-                  "Manage agents, performance, and commission rates"
-                )}
+                {t("admin_commerce_agents_description", "YöNet Toplam & Kontrol Et Saha Danışmanları & AI Ajanlar, performance, & Komisyon Payı rates")}
               </p>
             </div>
           </div>
@@ -134,7 +132,7 @@ export default function CommerceAgentsPage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t("admin_commerce_agents_total", "Total Agents")}
+                    {t("admin_commerce_agents_total", "Toplam Acente")}
                   </p>
                   <p className="text-2xl font-bold text-foreground">
                     {totalAgents}
@@ -146,12 +144,12 @@ export default function CommerceAgentsPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10">
-                  <TrendingUp className="w-5 h-5 text-green-500" />
+                <div className="p-2 rounded-lg bg-blue-500/10">
+                  <TrendingUp className="w-5 h-5 text-blue-500" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t("admin_commerce_agents_active", "Active")}
+                    {t("admin_commerce_agents_active", "Aktif")}
                   </p>
                   <p className="text-2xl font-bold text-foreground">
                     {activeAgents}
@@ -168,10 +166,7 @@ export default function CommerceAgentsPage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t(
-                      "admin_commerce_agents_total_revenue",
-                      "Total Revenue"
-                    )}
+                    {t("admin_commerce_agents_total_revenue", "Total Ciro & Gelir Havuzu")}
                   </p>
                   <p className="text-2xl font-bold text-foreground">
                     ${totalRevenue.toLocaleString()}
@@ -183,12 +178,12 @@ export default function CommerceAgentsPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-500/10">
-                  <Award className="w-5 h-5 text-purple-500" />
+                <div className="p-2 rounded-lg bg-brand/10">
+                  <Award className="w-5 h-5 text-brand" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t("admin_commerce_agents_avg_rating", "Avg Rating")}
+                    {t("admin_commerce_agents_avg_rating", "Ort. Puan")}
                   </p>
                   <p className="text-2xl font-bold text-foreground">
                     {avgRating.toFixed(1)}
@@ -213,10 +208,7 @@ export default function CommerceAgentsPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t(
-                        "admin_commerce_agents_search_placeholder",
-                        "Search by name, email, or license..."
-                      )}
+                      placeholder={t("admin_commerce_agents_search_placeholder", "Akıllı Arama... - name, email, or license...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -226,19 +218,16 @@ export default function CommerceAgentsPage() {
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
                     <SelectValue
-                      placeholder={t(
-                        "admin_commerce_agents_status",
-                        "Status"
-                      )}
+                      placeholder={t("admin_commerce_agents_status", "İşlem Durum Bilgisi")}
                     />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">
-                      {t("admin_commerce_agents_all_status", "All Status")}
+                      {t("admin_commerce_agents_all_status", "Tüm Durumlar")}
                     </SelectItem>
                     {STATUSES.map((s) => (
                       <SelectItem key={s} value={s}>
-                        {s}
+                        {tEnum(t, s)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -248,7 +237,7 @@ export default function CommerceAgentsPage() {
                   className="bg-primary hover:bg-primary/90"
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_commerce_agents_add", "Add Agent")}
+                  {t("admin_commerce_agents_add", "Acente Ekle")}
                 </Button>
               </div>
             </CardContent>
@@ -265,7 +254,7 @@ export default function CommerceAgentsPage() {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <Users className="w-5 h-5" />
-                {t("admin_commerce_agents_list_title", "Agents")} (
+                {t("admin_commerce_agents_list_title", "Acenteler")} (
                 {filtered.length})
               </CardTitle>
             </CardHeader>
@@ -275,31 +264,31 @@ export default function CommerceAgentsPage() {
                   <thead>
                     <tr className="border-b border-border">
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_agents_name", "Agent")}
+                        {t("admin_commerce_agents_name", "Acente")}
                       </th>
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_agents_agency", "Agency")}
+                        {t("admin_commerce_agents_agency", "Ajans")}
                       </th>
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_agents_license", "License")}
+                        {t("admin_commerce_agents_license", "Lisans")}
                       </th>
                       <th className="text-right py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_agents_commission", "Rate")}
+                        {t("admin_commerce_agents_commission", "Oran")}
                       </th>
                       <th className="text-right py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_agents_sales", "Sales")}
+                        {t("admin_commerce_agents_sales", "Satışlar")}
                       </th>
                       <th className="text-right py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_agents_revenue", "Revenue")}
+                        {t("admin_commerce_agents_revenue", "Gelir")}
                       </th>
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_agents_rating", "Rating")}
+                        {t("admin_commerce_agents_rating", "Puan")}
                       </th>
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_agents_status_col", "Status")}
+                        {t("admin_commerce_agents_status_col", "Durum")}
                       </th>
                       <th className="text-right py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_agents_actions", "Actions")}
+                        {t("admin_commerce_agents_actions", "İşlemler")}
                       </th>
                     </tr>
                   </thead>
@@ -337,7 +326,7 @@ export default function CommerceAgentsPage() {
                         </td>
                         <td className="py-3 px-4">
                           <Badge className={STATUS_COLORS[agent.status]}>
-                            {agent.status}
+                            {tEnum(t, agent.status)}
                           </Badge>
                         </td>
                         <td className="py-3 px-4">
@@ -348,7 +337,7 @@ export default function CommerceAgentsPage() {
                                 setIsEditOpen(true);
                               }}
                               variant="ghost"
-                              size="icon"
+                              size="icon" aria-label={t("common.edit")}
                               className="min-h-10 min-w-10 h-10 w-10"
                             >
                               <Edit className="w-4 h-4" />
@@ -359,7 +348,7 @@ export default function CommerceAgentsPage() {
                                 setIsDeleteOpen(true);
                               }}
                               variant="ghost"
-                              size="icon"
+                              size="icon" aria-label={t("common.delete")}
                               className="min-h-10 min-w-10 h-10 w-10 text-red-400"
                             >
                               <Trash2 className="w-4 h-4" />
@@ -419,19 +408,16 @@ function CreateAgentDialog({
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-            {t("admin_commerce_agents_create_title", "Add Agent")}
+            {t("admin_commerce_agents_create_title", "Acente Ekle")}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            {t(
-              "admin_commerce_agents_create_desc",
-              "Register a new commerce agent."
-            )}
+            {t("admin_commerce_agents_create_desc", "Register a Yeni Tanıtılmış commerce Danışman / Ajan.")}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">
-              {t("admin_commerce_agents_name", "Name")}
+              {t("admin_commerce_agents_name", "Acente")}
             </Label>
             <Input
               value={name}
@@ -441,7 +427,7 @@ function CreateAgentDialog({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">
-              {t("admin_commerce_agents_email", "Email")}
+              {t("admin_commerce_agents_email", "E-posta")}
             </Label>
             <Input
               type="email"
@@ -452,7 +438,7 @@ function CreateAgentDialog({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">
-              {t("admin_commerce_agents_agency", "Agency")}
+              {t("admin_commerce_agents_agency", "Ajans")}
             </Label>
             <Input
               value={agencyName}
@@ -462,7 +448,7 @@ function CreateAgentDialog({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">
-              {t("admin_commerce_agents_license", "License #")}
+              {t("admin_commerce_agents_license", "Lisans")}
             </Label>
             <Input
               value={licenseNumber}
@@ -472,7 +458,7 @@ function CreateAgentDialog({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">
-              {t("admin_commerce_agents_commission", "Commission %")}
+              {t("admin_commerce_agents_commission", "Oran")}
             </Label>
             <Input
               type="number"
@@ -488,13 +474,13 @@ function CreateAgentDialog({
             onClick={() => onOpenChange(false)}
             className="border-border text-foreground"
           >
-            {t("admin_action_cancel", "Cancel")}
+            {t("admin_action_cancel", "İptal")}
           </Button>
           <Button
             onClick={() => onOpenChange(false)}
             className="bg-primary hover:bg-primary/90"
           >
-            {t("admin_action_create", "Create")}
+            {t("admin_action_create", "Oluştur")}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -523,16 +509,16 @@ function EditAgentDialog({
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-            {t("admin_commerce_agents_edit_title", "Edit Agent")}
+            {t("admin_commerce_agents_edit_title", "Acenteyi Düzenle")}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            {t("admin_commerce_agents_edit_desc", "Update agent details.")}
+            {t("admin_commerce_agents_edit_desc", "Acente bilgilerini güncelleyin.")}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">
-              {t("admin_commerce_agents_name", "Name")}
+              {t("admin_commerce_agents_name", "Acente")}
             </Label>
             <Input
               value={name}
@@ -542,7 +528,7 @@ function EditAgentDialog({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">
-              {t("admin_commerce_agents_agency", "Agency")}
+              {t("admin_commerce_agents_agency", "Ajans")}
             </Label>
             <Input
               value={agencyName}
@@ -552,7 +538,7 @@ function EditAgentDialog({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right text-foreground">
-              {t("admin_commerce_agents_commission", "Commission %")}
+              {t("admin_commerce_agents_commission", "Oran")}
             </Label>
             <Input
               type="number"
@@ -568,13 +554,13 @@ function EditAgentDialog({
             onClick={() => onOpenChange(false)}
             className="border-border text-foreground"
           >
-            {t("admin_action_cancel", "Cancel")}
+            {t("admin_action_cancel", "İptal")}
           </Button>
           <Button
             onClick={() => onOpenChange(false)}
             className="bg-primary hover:bg-primary/90"
           >
-            {t("admin_action_save", "Save")}
+            {t("admin_action_save", "Kaydet")}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -599,18 +585,12 @@ function DeleteAgentDialog({
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-            {t("admin_commerce_agents_delete_title", "Delete Agent")}
+            {t("admin_commerce_agents_delete_title", "Acenteyi Sil")}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            {t(
-              "admin_commerce_agents_delete_desc",
-              "Are you sure you want to delete"
-            )}
+            {t("admin_commerce_agents_delete_desc", "Bu kaydı sistemden güvenli şekilde arşivlemek istediğinize emin misiniz?")}
             {item.name}
-            {t(
-              "admin_auto_this_action_cannot_be_undone",
-              "? This action cannot be undone."
-            )}
+            {t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
@@ -619,13 +599,13 @@ function DeleteAgentDialog({
             onClick={() => onOpenChange(false)}
             className="border-border text-foreground"
           >
-            {t("admin_action_cancel", "Cancel")}
+            {t("admin_action_cancel", "İptal")}
           </Button>
           <Button
             onClick={onConfirm}
             className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20"
           >
-            {t("admin_action_delete", "Delete")}
+            {t("admin_action_delete", "Sil")}
           </Button>
         </DialogFooter>
       </DialogContent>

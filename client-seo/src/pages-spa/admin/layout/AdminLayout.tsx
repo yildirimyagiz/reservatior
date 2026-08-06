@@ -35,7 +35,7 @@ export function AdminLayout({
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [expandedGroups, setExpandedGroups] = useState<string[]>(["Users & Security", "Financials", t("admin_layout_financial_operations", "Financial Operations")]);
+  const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const { user: authUser, hasPermission } = useAuth();
   const isSuper = userRole === "SUPER_ADMIN" || authUser?.role === "SUPER_ADMIN";
 
@@ -44,7 +44,7 @@ export function AdminLayout({
   const pathname = usePathname();
   const router = useRouter();
 
-  const adminNavigation: NavItem[] = useMemo(() => getAdminNavigation(t), [t]);
+  const adminNavigation: NavItem[] = useMemo(() => getAdminNavigation(t as (key: string, fallback?: string) => string), [t]);
 
   const {
     searchQuery, setSearchQuery, searchOpen, setSearchOpen,
@@ -136,18 +136,18 @@ export function AdminLayout({
             {showBackButton && (
               <button onClick={handleBack} className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 text-sm">
                 <ArrowLeft className="w-4 h-4" />
-                <span className="hidden sm:inline">{t('admin_back', 'Back')}</span>
+                <span suppressHydrationWarning className="hidden sm:inline">{t('admin_back', 'Geri')}</span>
               </button>
             )}
-            <button className="md:hidden text-muted-foreground hover:text-foreground transition-colors" onClick={() => setMobileSidebarOpen(true)} aria-label="Search">
+            <button className="md:hidden text-muted-foreground hover:text-foreground transition-colors" onClick={() => setMobileSidebarOpen(true)} aria-label={t("common.search", "Ara")}>
               <Search className="w-5 h-5" />
             </button>
             <div className="hidden md:block relative" ref={searchRef}>
               <div className={cn("flex items-center bg-muted/30 border border-border rounded-full px-4 py-2 w-64 md:w-96 transition-all duration-200", searchOpen ? "bg-muted/50 border-primary/50 ring-2 ring-primary/20" : "focus-within:bg-muted/50 focus-within:border-border")}>
                 <Search className="w-4 h-4 text-muted-foreground mr-2 shrink-0" />
-                <input ref={inputRef} type="text" aria-label="Search" placeholder={t("admin_search_placeholder", "Search properties, users, bookings...")} value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setSearchOpen(true); }} onFocus={() => setSearchOpen(true)} onKeyDown={handleKeyDown} className="bg-transparent border-none outline-none text-sm text-foreground w-full placeholder:text-muted-foreground" />
+                <input ref={inputRef} type="text" aria-label={t("common.search", "Ara")} placeholder={t("admin_search_placeholder", "Tesisleri, kullanıcıları, rezervasyonları arayın...")} value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setSearchOpen(true); }} onFocus={() => setSearchOpen(true)} onKeyDown={handleKeyDown} className="bg-transparent border-none outline-none text-sm text-foreground w-full placeholder:text-muted-foreground" />
                 {searchQuery && (
-                  <button onClick={() => { setSearchQuery(''); }} className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Clear search">
+                  <button onClick={() => { setSearchQuery(''); }} className="text-muted-foreground hover:text-foreground transition-colors" aria-label={t("admin_common_clear_search", "Aramayı Temizle")}>
                     <X className="w-4 h-4" />
                   </button>
                 )}
@@ -171,28 +171,28 @@ export function AdminLayout({
                       <div className="border-t border-border p-2 flex items-center justify-between text-xs text-muted-foreground">
                         <div className="flex items-center gap-2">
                           <kbd className="px-1.5 py-0.5 bg-muted rounded border border-border">↑↓</kbd>
-                          <span>{t("admin_auto_to_navigate", "to navigate")}</span>
+                          <span>{t("admin_auto_to_navigate", "gezinmek")}</span>
                           <kbd className="px-1.5 py-0.5 bg-muted rounded border border-border">↵</kbd>
-                          <span>{t("admin_auto_to_select", "to select")}</span>
+                          <span>{t("admin_auto_to_select", "seçmek")}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <kbd className="px-1.5 py-0.5 bg-muted rounded border border-border">{t("admin_auto_esc", "esc")}</kbd>
-                          <span>{t("admin_auto_to_close", "to close")}</span>
+                          <kbd className="px-1.5 py-0.5 bg-muted rounded border border-border">{t("admin_auto_esc", "Esc")}</kbd>
+                          <span>{t("admin_auto_to_close", "kapatmak")}</span>
                         </div>
                       </div>
                     </>
                   ) : searchQuery ? (
                     <div className="p-8 text-center">
                       <Search className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
-                      <div className="text-sm text-muted-foreground">{t("admin_auto_no_results_found_for_quot", "No results found for &quot;")}{searchQuery}{t("admin_auto_quot", "&quot;")}</div>
+                      <div className="text-sm text-muted-foreground">{t("admin_auto_no_results_found_for_quot", "&quot;")}{searchQuery}{t("admin_auto_quot", "&quot;")}</div>
                     </div>
                   ) : (
                     <div className="p-2">
                       {searchHistory.length > 0 && (
                         <>
                           <div className="flex items-center justify-between px-3 py-2 mb-2">
-                            <div className="text-xs font-medium text-muted-foreground flex items-center gap-2"><Clock className="w-3 h-3" />{t("mobile.auto.recent_searches", "Recent Searches")}</div>
-                            <button onClick={clearHistory} className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("admin_auto_clear", "Clear")}</button>
+                            <div className="text-xs font-medium text-muted-foreground flex items-center gap-2"><Clock className="w-3 h-3" />{t("mobile.auto.recent_searches", "Son Aramalar")}</div>
+                            <button onClick={clearHistory} className="text-xs text-muted-foreground hover:text-foreground transition-colors">{t("admin_auto_clear", "Temizlemek")}</button>
                           </div>
                           {searchHistory.map((query, index) => (
                             <button key={index} onClick={() => { setSearchQuery(query); inputRef.current?.focus(); }} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors text-left">

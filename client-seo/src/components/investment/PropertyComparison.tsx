@@ -26,8 +26,10 @@ import {
 import { useInvestmentIntelligenceStore } from "@/lib/investment-intelligence-store";
 import { formatCurrency } from "@/lib/seo/market-data";
 import type { PropertyComparisonItem } from "@/types/investment-intelligence";
+import { useTranslation } from "react-i18next";
 
 export function PropertyComparisonEngine() {
+  const { t } = useTranslation();
   const { comparisonItems, addToComparison, removeFromComparison, clearComparison } =
     useInvestmentIntelligenceStore();
   const [showAddDialog, setShowAddDialog] = useState(false);
@@ -264,7 +266,7 @@ export function PropertyComparisonEngine() {
                     <td className="text-right py-3 px-2">
                       {formatCurrency(item.purchasePrice, "AED")}
                     </td>
-                    <td className="text-right py-3 px-2 text-emerald-400 font-medium">
+                    <td className="text-right py-3 px-2 text-success font-medium">
                       {item.grossYield}%
                     </td>
                     <td className="text-right py-3 px-2">{item.netYield}%</td>
@@ -281,7 +283,7 @@ export function PropertyComparisonEngine() {
                       <Badge
                         className={
                           item.overallScore >= 70
-                            ? "bg-emerald-500/20 text-emerald-400"
+                            ? "bg-success/20 text-success"
                             : item.overallScore >= 50
                             ? "bg-yellow-500/20 text-yellow-400"
                             : "bg-red-500/20 text-red-400"
@@ -295,7 +297,7 @@ export function PropertyComparisonEngine() {
                         variant="ghost"
                         size="sm"
                         onClick={() => removeFromComparison(item.id)}
-                      >
+                       aria-label={t("common.delete")}>
                         <Trash2 className="w-4 h-4 text-destructive" />
                       </Button>
                     </td>

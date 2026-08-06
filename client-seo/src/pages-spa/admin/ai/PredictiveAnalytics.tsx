@@ -144,7 +144,7 @@ export default function PredictiveAnalytics() {
  <DollarSign className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{appliedOptimizations}</div>
+ <div className="text-2xl font-bold text-blue-600">{appliedOptimizations}</div>
  <p className="text-xs text-muted-foreground">{t("admin_ai_successfully_applied_optimizations")}</p>
  </CardContent>
  </Card>
@@ -265,7 +265,7 @@ export default function PredictiveAnalytics() {
  </div>
  </TableCell>
  <TableCell>
- <span className={`text-sm font-medium ${priceChange > 0 ? 'text-green-600' : priceChange < 0 ? 'text-red-600' : 'text-muted-foreground'}`}>
+ <span className={`text-sm font-medium ${priceChange > 0 ? 'text-blue-600' : priceChange < 0 ? 'text-red-600' : 'text-muted-foreground'}`}>
  {priceChange > 0 ? '+' : ''}{changePercent.toFixed(1)}%
  </span>
  </TableCell>
@@ -278,7 +278,7 @@ export default function PredictiveAnalytics() {
  {new Date(optimization.generatedAt).toLocaleDateString()}
  </TableCell>
  <TableCell>
- {!optimization.isApplied && <button onClick={() => applyPriceOptimization(optimization.id)} className="inline-flex items-center px-3 py-1 rounded-xl text-sm font-medium bg-slate-600 text-foreground hover:bg-slate-700">
+ {!optimization.isApplied && <button onClick={() => applyPriceOptimization(optimization.id)} className="inline-flex items-center px-3 py-1 rounded-xl text-sm font-medium bg-muted text-foreground hover:bg-muted">
  <Zap className="h-3 w-3 mr-1" />{t("admin_ai_apply")}</button>}
  </TableCell>
  </TableRow>;
@@ -323,15 +323,15 @@ export default function PredictiveAnalytics() {
  <CardContent>
  <div className="space-y-4">
  <div className="text-center">
- <div className="text-2xl font-bold text-green-600">+15.2%</div>
+ <div className="text-2xl font-bold text-blue-600">+15.2%</div>
  <p className="text-sm text-muted-foreground">{t("admin_ai_average_price_increase")}</p>
  </div>
  <div className="text-center">
- <div className="text-2xl font-bold text-slate-600">+8.7%</div>
+ <div className="text-2xl font-bold text-muted-foreground">+8.7%</div>
  <p className="text-sm text-muted-foreground">{t("admin_ai_faster_time_to_sale")}</p>
  </div>
  <div className="text-center">
- <div className="text-2xl font-bold text-slate-600">+23.1%</div>
+ <div className="text-2xl font-bold text-muted-foreground">+23.1%</div>
  <p className="text-sm text-muted-foreground">{t("admin_ai_increased_buyer_interest")}</p>
  </div>
  </div>

@@ -42,7 +42,7 @@ export default function Mortgages() {
   const getPropertyName = (id: string) => properties.find(p => p.id === id)?.name || "Unknown Property";
   return <PageShell title={t("client.src.property_mortgages")} description={t("client.src.track_and_manage_property")} actions={<div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={() => fetchData()} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("client.src.refresh")}</Button>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("common.refresh")}</Button>
           <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
             <Plus className="w-4 h-4 mr-2" />{t("client.src.add_mortgage")}</Button>
         </div>}>
@@ -54,7 +54,7 @@ export default function Mortgages() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${mortgages.reduce((a, b) => a + b.principal, 0).toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground mt-1">{t("client.src.across")}{mortgages.length}{t("client.src.properties")}</p>
+            <p className="text-xs text-muted-foreground mt-1">{t("client.src.across")}{mortgages.length}{t("common.properties")}</p>
           </CardContent>
         </Card>
         <Card className="shadow-sm border-muted">
@@ -73,12 +73,12 @@ export default function Mortgages() {
         <Table>
           <TableHeader className="bg-muted/30">
             <TableRow>
-              <TableHead className="font-bold text-xs">{t("client.src.property")}</TableHead>
+              <TableHead className="font-bold text-xs">{t("common.property")}</TableHead>
               <TableHead className="font-bold text-xs">{t("client.src.lender")}</TableHead>
               <TableHead className="font-bold text-xs">{t("client.src.principal")}</TableHead>
               <TableHead className="font-bold text-xs">{t("client.src.interest_rate")}</TableHead>
               <TableHead className="font-bold text-xs">{t("client.src.start_date")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("client.src.status")}</TableHead>
+              <TableHead className="font-bold text-xs">{t("common.status")}</TableHead>
               <TableHead className="w-10" />
             </TableRow>
           </TableHeader>
@@ -107,12 +107,12 @@ export default function Mortgages() {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Badge className="bg-green-100 text-green-700 hover:bg-green-200 border-0 text-[10px] font-bold">
+                  <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-200 border-0 text-[10px] font-bold">
                     {mort.status}
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Button variant="ghost" size="icon" aria-label={t("common.info")} className="h-8 w-8">
                     <Info className="w-4 h-4 text-muted-foreground" />
                   </Button>
                 </TableCell>

@@ -214,11 +214,11 @@ export function PropertySearch() {
               <Tabs value={searchCategory} onValueChange={v => setSearchCategory(v as SearchCategory)} className="w-full md:w-auto">
                 <TabsList className="grid grid-cols-4 w-full md:w-[500px]">
                   <TabsTrigger value="property" className="text-xs md:text-sm gap-2">
-                    <Home className="w-3 h-3 md:w-4 md:h-4" />{t("client.src.property")}</TabsTrigger>
+                    <Home className="w-3 h-3 md:w-4 md:h-4" />{t("common.property")}</TabsTrigger>
                   <TabsTrigger value="agency" className="text-xs md:text-sm gap-2">
-                    <Building2 className="w-3 h-3 md:w-4 md:h-4" />{t("client.src.agency")}</TabsTrigger>
+                    <Building2 className="w-3 h-3 md:w-4 md:h-4" />{t("common.agency")}</TabsTrigger>
                   <TabsTrigger value="agent" className="text-xs md:text-sm gap-2">
-                    <UserCircle className="w-3 h-3 md:w-4 md:h-4" />{t("client.src.agent")}</TabsTrigger>
+                    <UserCircle className="w-3 h-3 md:w-4 md:h-4" />{t("common.agent")}</TabsTrigger>
                   <TabsTrigger value="vacation" className="text-xs md:text-sm gap-2">
                     <Umbrella className="w-3 h-3 md:w-4 md:h-4" />{t("client.src.vacation")}</TabsTrigger>
                 </TabsList>
@@ -241,7 +241,7 @@ export function PropertySearch() {
                       <SelectValue placeholder={t("client.src.property_type")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">{t("client.src.all_types")}</SelectItem>
+                      <SelectItem value="all">{t("common.all_types")}</SelectItem>
                       {PROPERTY_TYPES.map(type => <SelectItem key={type.value} value={type.value}>
                           {type.label}
                         </SelectItem>)}
@@ -250,10 +250,10 @@ export function PropertySearch() {
 
                   <Select value={filters.listingType} onValueChange={value => updateFilter("listingType", value)}>
                     <SelectTrigger className="w-32 h-14 rounded-xl">
-                      <SelectValue placeholder={t("client.src.type")} />
+                      <SelectValue placeholder={t("common.type")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">{t("client.src.all")}</SelectItem>
+                      <SelectItem value="all">{t("common.all")}</SelectItem>
                       {LISTING_TYPES.map(type => <SelectItem key={type.value} value={type.value}>
                           {type.label}
                         </SelectItem>)}
@@ -262,7 +262,7 @@ export function PropertySearch() {
                 </div>}
               
               <Button onClick={handleSearch} className="h-14 px-8 bg-primary hover:bg-primary/90 text-lg font-bold rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-95">
-                <Search className="w-5 h-5 mr-2" />{t("client.src.search")}</Button>
+                <Search className="w-5 h-5 mr-2" />{t("common.search")}</Button>
             </div>
 
             {/* Quick Filters */}

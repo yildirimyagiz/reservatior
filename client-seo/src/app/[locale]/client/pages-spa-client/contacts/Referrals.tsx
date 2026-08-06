@@ -21,7 +21,7 @@ const STATUS: Record<string, {
   cls: string;
 }> = {
   PENDING: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     cls: "bg-yellow-100 text-yellow-700"
   },
   CONVERTED: {
@@ -30,7 +30,7 @@ const STATUS: Record<string, {
   },
   REWARDED: {
     label: t("client.src.rewarded"),
-    cls: "bg-green-100 text-green-700"
+    cls: "bg-blue-100 text-blue-700"
   }
 };
 
@@ -155,20 +155,20 @@ export default function Referrals() {
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.type")}</Label>
+        <Label>{t("common.type")}</Label>
         <Select value={form.type} onValueChange={v => setForm({
           ...form,
           type: v as any
-        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="CLIENT">{t("client.src.client")}</SelectItem>
-          <SelectItem value="AGENT">{t("client.src.agent")}</SelectItem>
+        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="CLIENT">{t("common.client")}</SelectItem>
+          <SelectItem value="AGENT">{t("common.agent")}</SelectItem>
           <SelectItem value="VENDOR">{t("client.src.vendor")}</SelectItem></SelectContent></Select>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.status")}</Label>
+        <Label>{t("common.status")}</Label>
         <Select value={form.status} onValueChange={v => setForm({
           ...form,
           status: v as any
-        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
+        })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>          <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
           <SelectItem value="CONVERTED">{t("client.src.converted")}</SelectItem>
           <SelectItem value="REWARDED">{t("client.src.rewarded")}</SelectItem></SelectContent></Select>
       </div>
@@ -187,7 +187,7 @@ export default function Referrals() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search referrals..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: referrals.length
     }, {
       label: t("client.src.converted"),
@@ -202,10 +202,10 @@ export default function Referrals() {
               <TableRow>
               <TableHead>{t("client.src.referrer")}</TableHead>
               <TableHead>{t("client.src.referee")}</TableHead>
-              <TableHead>{t("client.src.type")}</TableHead>
-              <TableHead>{t("client.src.status")}</TableHead>
+              <TableHead>{t("common.type")}</TableHead>
+              <TableHead>{t("common.status")}</TableHead>
               <TableHead>{t("client.src.reward")}</TableHead>
-              <TableHead>{t("client.src.date")}</TableHead>
+              <TableHead>{t("common.date")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -223,10 +223,10 @@ export default function Referrals() {
                     <TableCell className="text-sm">{row.createdAt ?? "—"}</TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -239,13 +239,13 @@ export default function Referrals() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_referrals")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_referrals")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

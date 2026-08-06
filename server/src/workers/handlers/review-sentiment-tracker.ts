@@ -22,7 +22,7 @@ export class ReviewSentimentTracker {
       for (const review of recentReviews) {
         // Skip if already analyzed (mock check)
         const existingAnalysis = await db.aISentimentAnalysis.findFirst({
-          where: { referenceId: review.id }
+          where: { contentId: review.id }
         });
 
         if (existingAnalysis) continue;
@@ -52,13 +52,14 @@ export class ReviewSentimentTracker {
         const analysis = await db.aISentimentAnalysis.create({
           data: {
             orgId: "SYSTEM",
-            textAnalyzed: text,
+            contentText: text,
             sentimentScore: score,
             sentiment: sentimentEnum,
             keyPhrases: categories,
             confidence: 0.88,
-            referenceType: "GuestReview",
-            referenceId: review.id
+            contentType: "GuestReview",
+            contentId: review.id,
+            analyzedAt: new Date()
           }
         });
 

@@ -56,7 +56,7 @@ export default function FinancialTransactions() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("client.src.total_revenue")}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("common.total_revenue")}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -111,7 +111,7 @@ export default function FinancialTransactions() {
               <div className="text-center p-8 text-muted-foreground">{t("client.src.no_transactions_found")}</div>
             ) : transactions.slice(0, 10).map((transaction, i) => <div key={transaction.id || i} className="flex items-center justify-between border-b pb-4 last:border-0">
                 <div className="flex items-center gap-4">
-                  <div className={`w-2 h-2 rounded-full ${transaction.type === "INCOME" ? "bg-green-500" : "bg-red-500"}`}></div>
+                  <div className={`w-2 h-2 rounded-full ${transaction.type === "INCOME" ? "bg-blue-500" : "bg-red-500"}`}></div>
                   <div>
                     <p className="font-medium">{transaction.description || (transaction.type === "INCOME" ? t("client.src.income") : t("client.src.expense"))}</p>
                     <p className="text-sm text-muted-foreground">{transaction.id.split("-").pop()?.toUpperCase()} • {new Date(transaction.createdAt).toLocaleDateString()}</p>
@@ -119,7 +119,7 @@ export default function FinancialTransactions() {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-right">
-                    <p className={`font-medium ${transaction.type === "INCOME" ? "text-green-600" : "text-red-600"}`}>
+                    <p className={`font-medium ${transaction.type === "INCOME" ? "text-blue-600" : "text-red-600"}`}>
                       {transaction.type === "INCOME" ? "+" : "-"}${transaction.amount.toLocaleString()}
                     </p>
                     <Badge variant={getStatusColor(transaction.paymentStatus)}>
@@ -167,12 +167,12 @@ export default function FinancialTransactions() {
             }].map((cat, i) => <div key={i} className="space-y-2">
                   <div className="flex items-center justify-between">
                     <p className="font-medium">{cat.category}</p>
-                    <p className={`font-medium ${cat.type === "income" ? "text-green-600" : "text-red-600"}`}>
+                    <p className={`font-medium ${cat.type === "income" ? "text-blue-600" : "text-red-600"}`}>
                       {cat.type === "income" ? "+" : "-"}{cat.amount}
                     </p>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className={`h-2 rounded-full ${cat.type === "income" ? "bg-green-500" : "bg-red-500"}`} style={{
+                    <div className={`h-2 rounded-full ${cat.type === "income" ? "bg-blue-500" : "bg-red-500"}`} style={{
                   width: `${cat.percentage}%`
                 }}></div>
                   </div>
@@ -213,7 +213,7 @@ export default function FinancialTransactions() {
                     <p className="text-sm text-muted-foreground">{t("client.src.due")}{upcoming.dueDate}</p>
                   </div>
                   <div className="text-right">
-                    <p className={`font-medium ${upcoming.type === "income" ? "text-green-600" : "text-red-600"}`}>
+                    <p className={`font-medium ${upcoming.type === "income" ? "text-blue-600" : "text-red-600"}`}>
                       {upcoming.type === "income" ? "+" : "-"}{upcoming.amount}
                     </p>
                   </div>

@@ -5,7 +5,7 @@ import { DomainEvents } from "../core/events/domain-events";
 
 export class UserRelationshipService extends BaseService<any, any, any> {
   constructor() {
-    super(prisma.userRelationship, "userRelationship");
+    super((prisma as any).userRelationship, "userRelationship");
   }
 
   async getByUser(userId: string) {

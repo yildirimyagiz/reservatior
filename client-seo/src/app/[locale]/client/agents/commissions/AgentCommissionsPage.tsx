@@ -34,9 +34,9 @@ const mockCommissions: Commission[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  PAID: "bg-green-500/20 text-green-400",
+  PAID: "bg-blue-500/20 text-blue-400",
   PENDING: "bg-yellow-500/20 text-yellow-400",
-  PROCESSING: "bg-blue-500/20 text-blue-400"
+  PROCESSING: "bg-brand/100/20 text-brand"
 };
 
 export default function AgentCommissionsPage() {
@@ -63,7 +63,7 @@ export default function AgentCommissionsPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("commissions.agentcommissionspage.auto_ext_3")}
@@ -77,7 +77,7 @@ export default function AgentCommissionsPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -87,11 +87,11 @@ export default function AgentCommissionsPage() {
                       placeholder="Search commissions..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
-                <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
+                <Button variant="outline" className="bg-white/10 border-brand/30 text-white">
                   <Filter className="w-4 h-4 mr-2" />
                   {t("commissions.agentcommissionspage.auto_ext_4")}
                                                   </Button>
@@ -105,7 +105,7 @@ export default function AgentCommissionsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <TrendingUp className="w-5 h-5" />
@@ -120,8 +120,8 @@ export default function AgentCommissionsPage() {
                     className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-                        <DollarSign className="w-5 h-5 text-purple-400" />
+                      <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center">
+                        <DollarSign className="w-5 h-5 text-brand" />
                       </div>
                       <div>
                         <div className="text-white font-medium">{commission.dealName}</div>

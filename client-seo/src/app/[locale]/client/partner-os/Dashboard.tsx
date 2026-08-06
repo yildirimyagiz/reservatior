@@ -66,25 +66,25 @@ export default function PartnerOSDashboard() {
       title: "Total Partners",
       value: formatNumber(stats.totalPartners),
       icon: Users,
-      color: "text-blue-600",
+      color: "text-brand",
     },
     {
       title: "Active",
       value: formatNumber(stats.activePartners),
       icon: CheckCircle,
-      color: "text-green-600",
+      color: "text-blue-600",
     },
     {
       title: "Partner Revenue",
       value: formatCurrency(stats.revenue),
       icon: DollarSign,
-      color: "text-purple-600",
+      color: "text-brand",
     },
     {
       title: "Satisfaction",
       value: formatDecimal(stats.satisfaction),
       icon: Star,
-      color: "text-orange-600",
+      color: "text-warning",
     },
   ];
 
@@ -101,7 +101,7 @@ export default function PartnerOSDashboard() {
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
@@ -117,7 +117,7 @@ export default function PartnerOSDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Partner Trends</h2>
             <TrendingUp className="w-5 h-5 text-gray-500" />
@@ -131,7 +131,7 @@ export default function PartnerOSDashboard() {
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Partner Categories</h2>
             <PieChart className="w-5 h-5 text-gray-500" />

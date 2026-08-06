@@ -144,12 +144,12 @@ export default function ActivityTracking() {
     return () => clearInterval(interval);
   }, [isLive]);
   if (!mounted) return null;
-  return <div className="min-h-screen bg-[#14151a] p-8 lg:p-12 overflow-x-hidden">
+  return <div className="min-h-screen bg-background p-8 lg:p-12 overflow-x-hidden">
       <div className="max-w-[1600px] mx-auto space-y-12">
         
         {/* Tactical Header HUD */}
-        <header className="relative py-12 px-10 rounded-[40px] bg-[#1a1b1e]/40 border border-white/5 border-l border-t overflow-hidden shadow-3xl">
-           <div className="absolute top-0 right-0 p-40 opacity-5 pointer-events-none text-emerald-600">
+        <header className="relative py-12 px-10 rounded-[40px] bg-card/40 border border-white/5 border-l border-t overflow-hidden shadow-3xl">
+           <div className="absolute top-0 right-0 p-40 opacity-5 pointer-events-none text-success">
               <Activity className="w-96 h-96" />
            </div>
            <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>
@@ -157,28 +157,28 @@ export default function ActivityTracking() {
            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
               <div className="flex items-center gap-8">
                  <div className="relative group">
-                    <div className="absolute inset-0 bg-emerald-600/20 blur-2xl group-hover:bg-emerald-600/40 transition-all rounded-full animate-pulse-slow"></div>
-                    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-emerald-500/20 to-blue-500/20 border border-emerald-500/30 backdrop-blur-xl shadow-2xl">
-                       <Terminal className="w-10 h-10 text-emerald-400" />
+                    <div className="absolute inset-0 bg-blue-600/20 blur-2xl group-hover:bg-blue-600/40 transition-all rounded-full animate-pulse-slow"></div>
+                    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 border border-blue-500/30 backdrop-blur-xl shadow-2xl">
+                       <Terminal className="w-10 h-10 text-success" />
                     </div>
                  </div>
                  <div className="space-y-2">
                     <div className="flex items-center gap-3">
                        <h1 className="text-5xl font-black text-white italic tracking-tighter leading-none">{t("activityTitle")}</h1>
-                       <Badge className={cn("font-black italic tracking-widest text-[10px] px-3 py-1  rounded-full border", isLive ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-red-500/10 text-red-400 border-red-500/20")}>
+                       <Badge className={cn("font-black italic tracking-widest text-[10px] px-3 py-1  rounded-full border", isLive ? "bg-success/10 text-success border-success/20" : "bg-red-500/10 text-red-400 border-red-500/20")}>
                         {isLive ? t("feedActive") : t("feedPaused")}
                        </Badge>
                     </div>
-                    <p className="text-lg font-black text-slate-500 italic tracking-widest leading-none mt-2">{t("activitySubtitle")}</p>
+                    <p className="text-lg font-black text-muted-foreground italic tracking-widest leading-none mt-2">{t("activitySubtitle")}</p>
                  </div>
               </div>
               
               <div className="flex gap-4">
-                 <Button onClick={() => setIsLive(!isLive)} className={cn("h-16 px-10 rounded-2xl font-black  italic text-xs tracking-widest shadow-xl transition-all hover:scale-105 active:scale-95", isLive ? "bg-white text-black hover:bg-slate-200" : "bg-emerald-600 text-white hover:bg-emerald-500")}>
+                 <Button onClick={() => setIsLive(!isLive)} className={cn("h-16 px-10 rounded-2xl font-black  italic text-xs tracking-widest shadow-xl transition-all hover:scale-105 active:scale-95", isLive ? "bg-card text-black hover:bg-muted" : "bg-blue-600 text-white hover:bg-success")}>
                     {isLive ? <Pause className="w-4 h-4 mr-3" /> : <Play className="w-4 h-4 mr-3" />}
                     {isLive ? t("pause") : t("resume")}
                  </Button>
-                 <Button onClick={() => setLogs(generateMockLogs())} variant="outline" className="h-16 w-16 rounded-2xl border-white/5 bg-white/5 text-slate-400 hover:text-white transition-all backdrop-blur-xl">
+                 <Button onClick={() => setLogs(generateMockLogs())} variant="outline" className="h-16 w-16 rounded-2xl border-white/5 bg-white/5 text-muted-foreground hover:text-white transition-all backdrop-blur-xl" aria-label={t("common.refresh")}>
                     <RotateCcw className="w-6 h-6" />
                  </Button>
               </div>
@@ -191,35 +191,35 @@ export default function ActivityTracking() {
           label: t("total"),
           value: stats.total,
           icon: Activity,
-          color: "text-blue-400",
-          bg: "bg-blue-500/10"
+          color: "text-brand",
+          bg: "bg-brand/100/10"
         }, {
           label: t("success"),
           value: "99.8%",
           icon: CheckCircle,
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/10"
+          color: "text-success",
+          bg: "bg-success/10"
         }, {
           label: t("throughput"),
           value: `${stats.throughput} t/s`,
           icon: Zap,
           color: "text-orange-400",
-          bg: "bg-orange-500/10"
+          bg: "bg-warning/10"
         }, {
           label: t("activityAlerts"),
           value: stats.critical,
           icon: ShieldCheck,
           color: "text-red-400",
           bg: "bg-red-500/10"
-        }].map((stat, idx) => <Card key={idx} className="border-white/5 bg-[#1a1b1e]/60 backdrop-blur-3xl rounded-[32px] overflow-hidden shadow-2xl relative border-l border-t">
+        }].map((stat, idx) => <Card key={idx} className="border-white/5 bg-card/60 backdrop-blur-3xl rounded-[32px] overflow-hidden shadow-2xl relative border-l border-t">
                 <CardContent className="p-8">
                    <div className="flex justify-between items-start mb-6">
                       <div className={cn("p-4 rounded-2xl bg-black/40 border border-white/5", stat.color)}>
                          <stat.icon className="h-6 w-6" />
                       </div>
-                      <Badge className="bg-white/5 text-slate-500 border-none text-[8px] font-black italic tracking-widest">{t("client.src.realtime")}</Badge>
+                      <Badge className="bg-white/5 text-muted-foreground border-none text-[8px] font-black italic tracking-widest">{t("client.src.realtime")}</Badge>
                    </div>
-                   <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{stat.label}</p>
+                   <p className="text-[10px] font-black text-muted-foreground tracking-widest italic">{stat.label}</p>
                    <h2 className="text-3xl font-black text-white italic tracking-tighter mt-1">{stat.value}</h2>
                 </CardContent>
              </Card>)}
@@ -230,11 +230,11 @@ export default function ActivityTracking() {
            <div className="lg:col-span-8 space-y-8">
               <div className="flex items-center justify-between px-4">
                  <h2 className="text-xl font-black italic tracking-tighter flex items-center gap-3">
-                    <Terminal className="w-5 h-5 text-blue-500" /> {t("feedTitle")}
+                    <Terminal className="w-5 h-5 text-brand" /> {t("feedTitle")}
                  </h2>
                  <div className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
-                    <input type="text" aria-label="Search activity" placeholder={t("activityFilterplaceholder")} className="bg-[#1a1b1e]/60 border border-white/5 rounded-2xl py-3 pl-12 pr-6 text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all w-80" onChange={e => setFilter({
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <input type="text" aria-label="Search activity" placeholder={t("activityFilterplaceholder")} className="bg-card/60 border border-white/5 rounded-2xl py-3 pl-12 pr-6 text-[10px] font-black tracking-widest italic text-white placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50 transition-all w-80" onChange={e => setFilter({
                 ...filter,
                 search: e.target.value
               })} />
@@ -255,22 +255,22 @@ export default function ActivityTracking() {
                 opacity: 0,
                 x: 20,
                 height: 0
-              }} className="p-6 rounded-[32px] bg-[#1a1b1e]/40 border border-white/5 border-l border-t hover:bg-white/5 transition-all cursor-pointer group shadow-xl relative overflow-hidden" onClick={() => setSelectedLog(log)}>
+              }} className="p-6 rounded-[32px] bg-card/40 border border-white/5 border-l border-t hover:bg-white/5 transition-all cursor-pointer group shadow-xl relative overflow-hidden" onClick={() => setSelectedLog(log)}>
                        <div className="flex items-center gap-8 relative z-10">
-                          <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center border transition-transform group-hover:scale-110", log.severity === 'critical' ? "bg-red-500/10 border-red-500/20 text-red-500" : log.severity === 'high' ? "bg-orange-500/10 border-orange-500/20 text-orange-500" : "bg-blue-500/10 border-blue-500/20 text-blue-400")}>
+                          <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center border transition-transform group-hover:scale-110", log.severity === 'critical' ? "bg-red-500/10 border-red-500/20 text-red-500" : log.severity === 'high' ? "bg-warning/10 border-warning/20 text-orange-500" : "bg-brand/100/10 border-blue-500/20 text-brand")}>
                              <Zap className="w-6 h-6" />
                           </div>
                           <div className="flex-1 space-y-1">
                              <div className="flex items-center gap-3">
                                  <h3 className="text-xl font-black italic tracking-tighter leading-none">{log.action}</h3>
-                                <Badge className="bg-black/40 border-white/5 text-slate-500 text-[8px] font-black italic tracking-widest">{log.category}</Badge>
+                                <Badge className="bg-black/40 border-white/5 text-muted-foreground text-[8px] font-black italic tracking-widest">{log.category}</Badge>
                              </div>
-                             <p className="text-[11px] font-bold text-slate-500 tracking-tight italic line-clamp-1">{log.details}</p>
+                             <p className="text-[11px] font-bold text-muted-foreground tracking-tight italic line-clamp-1">{log.details}</p>
                           </div>
                           <div className="text-right space-y-1">
                              <p className="text-[10px] font-black text-white italic whitespace-nowrap">{log.timestamp.toLocaleTimeString()}</p>
                              <div className="flex justify-end">
-                                <ChevronRight className="w-4 h-4 text-slate-800" />
+                                <ChevronRight className="w-4 h-4 text-foreground" />
                              </div>
                           </div>
                        </div>
@@ -283,25 +283,25 @@ export default function ActivityTracking() {
            {/* Tactical Insight Panel */}
            <div className="lg:col-span-4 space-y-12">
               <aside className="sticky top-12 space-y-8">
-                 <Card className="bg-[#1a1b1e]/80 backdrop-blur-3xl border-white/5 rounded-[40px] p-10 shadow-3xl border-l border-t">
+                 <Card className="bg-card/80 backdrop-blur-3xl border-white/5 rounded-[40px] p-10 shadow-3xl border-l border-t">
                     <header className="mb-10 flex items-center justify-between">
                        <h2 className="text-xl font-black text-white italic tracking-tighter leading-none">{t("intelligenceHud")}</h2>
                        <div className="h-8 w-8 rounded-xl bg-white/5 flex items-center justify-center">
-                          <Cpu className="w-4 h-4 text-slate-500" />
+                          <Cpu className="w-4 h-4 text-muted-foreground" />
                        </div>
                     </header>
                     
                     <div className="space-y-10">
                       <div className="p-6 rounded-3xl bg-black/40 border border-white/5 relative overflow-hidden group/alert">
                          <div className="absolute top-0 right-0 p-4 opacity-10">
-                            <Sparkles className="w-12 h-12 text-blue-500" />
+                            <Sparkles className="w-12 h-12 text-brand" />
                          </div>
-                         <h3 className="text-[10px] font-black text-blue-400 italic tracking-widest mb-2">{t("patternRecognition")}</h3>
-                         <p className="text-xs font-bold text-slate-400 italic leading-relaxed">{t("patternDesc")}</p>
+                         <h3 className="text-[10px] font-black text-brand italic tracking-widest mb-2">{t("patternRecognition")}</h3>
+                         <p className="text-xs font-bold text-muted-foreground italic leading-relaxed">{t("patternDesc")}</p>
                       </div>
 
                       <div className="space-y-8">
-                         <h3 className="text-xs font-black text-slate-500 tracking-widest italic flex items-center gap-2">
+                         <h3 className="text-xs font-black text-muted-foreground tracking-widest italic flex items-center gap-2">
                             <Filter className="w-4 h-4" /> {t("calibration")}
                          </h3>
                          
@@ -312,14 +312,14 @@ export default function ActivityTracking() {
                   }, {
                     label: t("client.src.latent_throughput"),
                     val: "88%",
-                    color: "bg-emerald-600 shadow-emerald-600/50"
+                    color: "bg-blue-600 shadow-blue-600/50"
                   }, {
                     label: t("client.src.security_shield"),
                     val: "100%",
-                    color: "bg-purple-600 shadow-purple-600/50"
+                    color: "bg-brand shadow-purple-600/50"
                   }].map((cal, i) => <div key={i} className="space-y-4">
                              <div className="flex justify-between items-center text-[10px] font-black italic tracking-tighter">
-                                <span className="text-slate-400">{cal.label}</span>
+                                <span className="text-muted-foreground">{cal.label}</span>
                                 <span className="text-white">{cal.val}</span>
                              </div>
                              <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden shadow-inner">
@@ -332,7 +332,7 @@ export default function ActivityTracking() {
                            </div>)}
                       </div>
                       
-                      <Button onClick={exportLogs} variant="outline" className="w-full h-14 rounded-2xl border-white/5 bg-white/5 text-slate-400 hover:text-white font-black text-[10px] tracking-widest italic transition-all group">
+                      <Button onClick={exportLogs} variant="outline" className="w-full h-14 rounded-2xl border-white/5 bg-white/5 text-muted-foreground hover:text-white font-black text-[10px] tracking-widest italic transition-all group">
                          {t("exportDossier")} <Download className="w-3 h-3 ml-2" />
                       </Button>
                     </div>
@@ -350,40 +350,40 @@ export default function ActivityTracking() {
       }} animate={{
         opacity: 1,
         scale: 1
-      }} className="w-full max-w-2xl bg-[#1a1b1e] border border-white/10 rounded-[40px] overflow-hidden shadow-3xl">
+      }} className="w-full max-w-2xl bg-card border border-white/10 rounded-[40px] overflow-hidden shadow-3xl">
               <div className="p-10 space-y-10">
                  <header className="flex items-center justify-between">
                     <div className="space-y-2">
-                       <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/10 px-4 py-1 text-[9px] font-black italic">{t("analysis")}</Badge>
+                       <Badge className="bg-brand/100/10 text-brand border border-blue-500/10 px-4 py-1 text-[9px] font-black italic">{t("analysis")}</Badge>
                        <h2 className="text-4xl font-black text-white italic tracking-tighter">{selectedLog.action}</h2>
                     </div>
-                    <Button variant="ghost" onClick={() => setSelectedLog(null)} className="h-12 w-12 rounded-2xl bg-white/5 hover:bg-white/10">
+                    <Button variant="ghost" onClick={() => setSelectedLog(null)} className="h-12 w-12 rounded-2xl bg-white/5 hover:bg-white/10" aria-label={t("common.close")}>
                        <XCircle className="w-6 h-6 text-white" />
                     </Button>
                  </header>
 
                  <div className="grid grid-cols-2 gap-8 pt-10 border-t border-white/5">
                     <div>
-                       <p className="text-[9px] font-black text-slate-500 italic tracking-widest mb-1">{t("timeTrace")}</p>
+                       <p className="text-[9px] font-black text-muted-foreground italic tracking-widest mb-1">{t("timeTrace")}</p>
                        <p className="text-lg font-black text-white italic">{selectedLog.timestamp.toLocaleString()}</p>
                     </div>
                     <div>
-                       <p className="text-[9px] font-black text-slate-500 italic tracking-widest mb-1">{t("statusCode")}</p>
-                       <p className={cn("text-lg font-black italic", selectedLog.status === 'completed' ? 'text-emerald-400' : 'text-red-400')}>{selectedLog.status}</p>
+                       <p className="text-[9px] font-black text-muted-foreground italic tracking-widest mb-1">{t("statusCode")}</p>
+                       <p className={cn("text-lg font-black italic", selectedLog.status === 'completed' ? 'text-success' : 'text-red-400')}>{selectedLog.status}</p>
                     </div>
                  </div>
 
                  <div className="space-y-4">
-                    <p className="text-[9px] font-black text-slate-500 italic tracking-widest">{t("extendedData")}</p>
-                    <div className="p-8 rounded-3xl bg-black/40 border border-white/5 font-mono text-[11px] text-emerald-400 leading-relaxed shadow-inner">
+                    <p className="text-[9px] font-black text-muted-foreground italic tracking-widest">{t("extendedData")}</p>
+                    <div className="p-8 rounded-3xl bg-black/40 border border-white/5 font-mono text-[11px] text-success leading-relaxed shadow-inner">
                        {selectedLog.details}
                        <br />
-                       <span className="text-slate-600 mt-4 block">{t("client.src.processid")}{selectedLog.id}</span>
-                       <span className="text-slate-600 block">{t("client.src.encryption_shield256active")}</span>
+                       <span className="text-muted-foreground mt-4 block">{t("client.src.processid")}{selectedLog.id}</span>
+                       <span className="text-muted-foreground block">{t("client.src.encryption_shield256active")}</span>
                     </div>
                  </div>
 
-                 <Button onClick={() => setSelectedLog(null)} className="w-full h-16 rounded-[24px] bg-blue-600 hover:bg-blue-500 text-white font-black italic tracking-widest text-xs shadow-xl">
+                 <Button onClick={() => setSelectedLog(null)} className="w-full h-16 rounded-[24px] bg-blue-600 hover:bg-brand/100 text-white font-black italic tracking-widest text-xs shadow-xl">
                     {t("closeAnalysis")}
                  </Button>
               </div>

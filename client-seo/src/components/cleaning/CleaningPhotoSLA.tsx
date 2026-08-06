@@ -123,7 +123,7 @@ export function CleaningPhotoSLA({ propertyName, bookingId, className, onComplet
                 "relative flex flex-col items-center gap-1 p-2 rounded-lg border text-xs transition-all",
                 cp.status === "pending" && "border-slate-800 bg-slate-900/30 text-slate-500 hover:border-slate-700 hover:bg-slate-800/50",
                 cp.status === "captured" && "border-blue-500/30 bg-blue-500/10 text-blue-400",
-                cp.status === "approved" && "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
+                cp.status === "approved" && "border-blue-500/30 bg-blue-500/10 text-blue-400",
                 cp.status === "rejected" && "border-red-500/30 bg-red-500/10 text-red-400",
                 submitted && "cursor-default"
               )}
@@ -139,7 +139,7 @@ export function CleaningPhotoSLA({ propertyName, bookingId, className, onComplet
               )}
               <span className="font-medium truncate w-full text-center">{cp.label}</span>
               {cp.status === "approved" && (
-                <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 border-emerald-500/30 text-emerald-400 bg-emerald-500/10">
+                <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 border-blue-500/30 text-blue-400 bg-blue-500/10">
                   AI Verified
                 </Badge>
               )}
@@ -161,7 +161,7 @@ export function CleaningPhotoSLA({ propertyName, bookingId, className, onComplet
             <Button
               onClick={submitForAIReview}
               disabled={isSubmitting}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
             >
               {isSubmitting ? (
                 <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> AI Analyzing Photos...</>
@@ -173,10 +173,10 @@ export function CleaningPhotoSLA({ propertyName, bookingId, className, onComplet
         )}
 
         {submitted && (
-          <div className="mt-4 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+          <div className="mt-4 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center gap-3">
+            <CheckCircle2 className="w-5 h-5 text-blue-400 shrink-0" />
             <div>
-              <p className="text-sm font-medium text-emerald-300">AI Verification Passed</p>
+              <p className="text-sm font-medium text-blue-300">AI Verification Passed</p>
               <p className="text-xs text-slate-400">{approvedCount}/{checkpoints.length} checkpoints approved — SmartLock code will be generated</p>
             </div>
           </div>

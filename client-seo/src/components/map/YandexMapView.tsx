@@ -98,7 +98,7 @@ export default function YandexMapView({
               <span>🚿 ${property.bathrooms || 0}</span>
               <span>📐 ${property.areaSqm || 0}m²</span>
             </div>
-            <div style="font-weight: bold; color: #16a34a; font-size: 16px; margin-bottom: 4px;">$${price.toLocaleString()}</div>
+            <div style="font-weight: bold; color: #2563eb; font-size: 16px; margin-bottom: 4px;">$${price.toLocaleString()}</div>
             <div style="font-size: 11px; color: #666; padding: 4px 8px; background: #f3f4f6; border-radius: 4px; display: inline-block;">
               ${property.listingStatus}
             </div>
@@ -187,7 +187,7 @@ export default function YandexMapView({
       <div className="absolute top-4 left-4 bg-white rounded-lg shadow-lg p-2">
         <div className="text-xs text-gray-600">
           <div className="font-semibold">{t("client.src.yandex_maps")}</div>
-          <div>{properties.length}{t("client.src.properties")}</div>
+          <div>{properties.length}{t("common.properties")}</div>
         </div>
       </div>
 
@@ -196,7 +196,7 @@ export default function YandexMapView({
           <div className="text-sm">
             <div className="font-semibold mb-1">{selectedProperty.name}</div>
             <div className="text-gray-600">{selectedProperty.addressLine1}</div>
-            <div className="text-green-600 font-bold">
+            <div className="text-blue-600 font-bold">
               ${parseInt(selectedProperty.listingPrice?.toString() || "0").toLocaleString()}
             </div>
           </div>

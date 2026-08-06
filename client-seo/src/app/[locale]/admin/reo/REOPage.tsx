@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { tEnum } from "@/lib/admin-enums";
 import {
   Dialog,
   DialogContent,
@@ -96,19 +97,19 @@ const mockPortfolios: REOPortfolio[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  BANK_OWNED: "bg-blue-500/20 text-blue-400",
-  PRE_FORECLOSURE: "bg-amber-500/20 text-amber-400",
-  AUGMENTATION: "bg-purple-500/20 text-purple-400",
+  BANK_OWNED: "bg-blue-500/20 text-info",
+  PRE_FORECLOSURE: "bg-amber-500/20 text-warning",
+  AUGMENTATION: "bg-brand/20 text-brand",
   LISTED: "bg-cyan-500/20 text-cyan-400",
-  UNDER_CONTRACT: "bg-orange-500/20 text-orange-400",
-  SOLD: "bg-green-500/20 text-green-400",
+  UNDER_CONTRACT: "bg-orange-500/20 text-warning",
+  SOLD: "bg-blue-500/20 text-blue-400",
 };
 
 const PROP_STATUS_COLORS: Record<string, string> = {
-  OCCUPIED: "bg-green-500/20 text-green-400",
+  OCCUPIED: "bg-blue-500/20 text-blue-400",
   VACANT: "bg-red-500/20 text-red-400",
-  RENOVATION: "bg-amber-500/20 text-amber-400",
-  LISTED: "bg-blue-500/20 text-blue-400",
+  RENOVATION: "bg-amber-500/20 text-warning",
+  LISTED: "bg-blue-500/20 text-info",
 };
 
 export default function REOPage() {
@@ -156,12 +157,12 @@ export default function REOPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_reo_title", "REO Portfolio")}</h1>
-              <p className="text-muted-foreground">{t("admin_reo_description", "Manage real estate owned portfolio, property metrics, and occupancy")}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-2">{t("admin_reo_title", "Kurumsal Portföy (REO Portfolio)")}</h1>
+              <p className="text-muted-foreground">{t("admin_reo_description", "Banka ve kurumsal gayrimenkul portföylerini yönetin")}</p>
             </div>
             <Button className="bg-primary hover:bg-primary/90">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin_reo_back_to_dashboard", "Back to Dashboard")}
+              {t("admin_reo_back_to_dashboard", "Panele Dön")}
             </Button>
           </div>
         </m.div>
@@ -173,7 +174,7 @@ export default function REOPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-blue-500/10"><DollarSign className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_reo_total_value", "Total Value")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_reo_total_value", "Toplam Değer")}</p>
                   <p className="text-2xl font-bold text-foreground">${(totalValue / 1000000).toFixed(1)}M</p>
                 </div>
               </div>
@@ -182,9 +183,9 @@ export default function REOPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10"><TrendingUp className="w-5 h-5 text-green-500" /></div>
+                <div className="p-2 rounded-lg bg-blue-500/10"><TrendingUp className="w-5 h-5 text-blue-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_reo_total_equity", "Total Equity")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_reo_total_equity", "Toplam Birikim")}</p>
                   <p className="text-2xl font-bold text-foreground">${(totalEquity / 1000000).toFixed(1)}M</p>
                 </div>
               </div>
@@ -193,9 +194,9 @@ export default function REOPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-500/10"><Users className="w-5 h-5 text-purple-500" /></div>
+                <div className="p-2 rounded-lg bg-brand/10"><Users className="w-5 h-5 text-brand" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_reo_avg_occupancy", "Avg Occupancy")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_reo_avg_occupancy", "Ort. Doluluk")}</p>
                   <p className="text-2xl font-bold text-foreground">{avgOccupancy}%</p>
                 </div>
               </div>
@@ -206,7 +207,7 @@ export default function REOPage() {
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-amber-500/10"><Building2 className="w-5 h-5 text-amber-500" /></div>
                 <div>
-                  <p className="text-sm text-muted-foreground">{t("admin_reo_total_properties", "Total Properties")}</p>
+                  <p className="text-sm text-muted-foreground">{t("admin_reo_total_properties", "Toplam Emlak")}</p>
                   <p className="text-2xl font-bold text-foreground">{items.reduce((sum, p) => sum + p.propertyCount, 0)}</p>
                 </div>
               </div>
@@ -223,7 +224,7 @@ export default function REOPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t("admin_reo_search_placeholder", "Search portfolios...")}
+                      placeholder={t("admin_reo_search_placeholder", "Portföy ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -232,21 +233,21 @@ export default function REOPage() {
                 </div>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
-                    <SelectValue placeholder={t("admin_reo_filter_status", "Filter Status")} />
+                    <SelectValue placeholder={t("admin_reo_filter_status", "Duruma Göre Filtrele")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">All Status</SelectItem>
-                    <SelectItem value="BANK_OWNED">Bank Owned</SelectItem>
-                    <SelectItem value="PRE_FORECLOSURE">Pre-Foreclosure</SelectItem>
-                    <SelectItem value="AUGMENTATION">Augmentation</SelectItem>
-                    <SelectItem value="LISTED">Listed</SelectItem>
-                    <SelectItem value="UNDER_CONTRACT">Under Contract</SelectItem>
-                    <SelectItem value="SOLD">Sold</SelectItem>
+                    <SelectItem value="ALL">{t("admin_reo_all_status", "Tüm Durumlar")}</SelectItem>
+                    <SelectItem value="BANK_OWNED">{tEnum(t, "BANK_OWNED")}</SelectItem>
+                    <SelectItem value="PRE_FORECLOSURE">{tEnum(t, "PRE_FORECLOSURE")}</SelectItem>
+                    <SelectItem value="AUGMENTATION">{tEnum(t, "AUGMENTATION")}</SelectItem>
+                    <SelectItem value="LISTED">{tEnum(t, "LISTED")}</SelectItem>
+                    <SelectItem value="UNDER_CONTRACT">{tEnum(t, "UNDER_CONTRACT")}</SelectItem>
+                    <SelectItem value="SOLD">{tEnum(t, "SOLD")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_reo_add_portfolio", "Add Portfolio")}
+                  {t("admin_reo_add_portfolio", "Portföy Ekle")}
                 </Button>
               </div>
             </CardContent>
@@ -262,31 +263,31 @@ export default function REOPage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <CardTitle className="text-foreground">{portfolio.name}</CardTitle>
-                      <p className="text-sm text-muted-foreground mt-1">{portfolio.propertyCount} properties</p>
+                      <p className="text-sm text-muted-foreground mt-1">{portfolio.propertyCount} {t("admin_reo_properties", "mülk")}</p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Badge className={STATUS_COLORS[portfolio.status]}>{portfolio.status.replace(/_/g, " ")}</Badge>
-                      <Button onClick={() => { setEditingItem(portfolio); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                      <Button onClick={() => { setDeletingItem(portfolio); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                      <Badge className={STATUS_COLORS[portfolio.status]}>{tEnum(t, portfolio.status)}</Badge>
+                      <Button onClick={() => { setEditingItem(portfolio); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                      <Button onClick={() => { setDeletingItem(portfolio); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="p-3 bg-muted/30 rounded-lg">
-                      <p className="text-xs text-muted-foreground">{t("admin_reo_value", "Value")}</p>
+                      <p className="text-xs text-muted-foreground">{t("admin_reo_value", "Değer")}</p>
                       <p className="text-lg font-bold text-foreground">${(portfolio.totalValue / 1000000).toFixed(2)}M</p>
                     </div>
                     <div className="p-3 bg-muted/30 rounded-lg">
-                      <p className="text-xs text-muted-foreground">{t("admin_reo_equity", "Equity")}</p>
+                      <p className="text-xs text-muted-foreground">{t("admin_reo_equity", "Birikim")}</p>
                       <p className="text-lg font-bold text-foreground">${(portfolio.totalEquity / 1000000).toFixed(2)}M</p>
                     </div>
                     <div className="p-3 bg-muted/30 rounded-lg">
-                      <p className="text-xs text-muted-foreground">{t("admin_reo_occupancy", "Occupancy")}</p>
+                      <p className="text-xs text-muted-foreground">{t("admin_reo_occupancy", "Doluluk")}</p>
                       <p className="text-lg font-bold text-foreground">{portfolio.occupancyRate}%</p>
                     </div>
                     <div className="p-3 bg-muted/30 rounded-lg">
-                      <p className="text-xs text-muted-foreground">{t("admin_reo_cap_rate", "Cap Rate")}</p>
+                      <p className="text-xs text-muted-foreground">{t("admin_reo_cap_rate", "Kap Oranı")}</p>
                       <p className="text-lg font-bold text-foreground">{portfolio.capRate}%</p>
                     </div>
                   </div>
@@ -297,7 +298,7 @@ export default function REOPage() {
                           <span className="text-sm text-foreground">{prop.name}</span>
                           <span className="text-xs text-muted-foreground ml-2">${(prop.value / 1000).toFixed(0)}K</span>
                         </div>
-                        <Badge className={PROP_STATUS_COLORS[prop.status]}>{prop.status}</Badge>
+                        <Badge className={PROP_STATUS_COLORS[prop.status]}>{tEnum(t, prop.status)}</Badge>
                       </div>
                     ))}
                   </div>
@@ -330,54 +331,54 @@ function CreatePortfolioDialog({ open, onOpenChange, onSubmit }: { open: boolean
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_reo_create_portfolio", "Create Portfolio")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_reo_create_portfolio_desc", "Set up a new REO portfolio.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_reo_create_portfolio", "Portföy Oluştur")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_reo_create_portfolio_desc", "Yeni bir kurumsal portföy ayarlayın")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_name", "Ad")}</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_total_value", "Total Value")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_total_value", "Toplam Değer")}</Label>
             <Input type="number" value={totalValue} onChange={(e) => setTotalValue(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_total_equity", "Total Equity")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_total_equity", "Toplam Birikim")}</Label>
             <Input type="number" value={totalEquity} onChange={(e) => setTotalEquity(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_occupancy_rate", "Occupancy Rate")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_occupancy_rate", "Doluluk Oranı")}</Label>
             <Input type="number" value={occupancyRate} onChange={(e) => setOccupancyRate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_cap_rate", "Cap Rate")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_cap_rate", "Kap Oranı")}</Label>
             <Input type="number" value={capRate} onChange={(e) => setCapRate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_property_count", "Property Count")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_property_count", "Emlak Sayısı")}</Label>
             <Input type="number" value={propertyCount} onChange={(e) => setPropertyCount(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={(v) => setStatus(v as REOPortfolio["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="BANK_OWNED">Bank Owned</SelectItem>
-                <SelectItem value="PRE_FORECLOSURE">Pre-Foreclosure</SelectItem>
-                <SelectItem value="AUGMENTATION">Augmentation</SelectItem>
-                <SelectItem value="LISTED">Listed</SelectItem>
-                <SelectItem value="UNDER_CONTRACT">Under Contract</SelectItem>
-                <SelectItem value="SOLD">Sold</SelectItem>
+                <SelectItem value="BANK_OWNED">{tEnum(t, "BANK_OWNED")}</SelectItem>
+                <SelectItem value="PRE_FORECLOSURE">{tEnum(t, "PRE_FORECLOSURE")}</SelectItem>
+                <SelectItem value="AUGMENTATION">{tEnum(t, "AUGMENTATION")}</SelectItem>
+                <SelectItem value="LISTED">{tEnum(t, "LISTED")}</SelectItem>
+                <SelectItem value="UNDER_CONTRACT">{tEnum(t, "UNDER_CONTRACT")}</SelectItem>
+                <SelectItem value="SOLD">{tEnum(t, "SOLD")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ name, totalValue: Number(totalValue), totalEquity: Number(totalEquity), occupancyRate: Number(occupancyRate), capRate: Number(capRate), propertyCount: Number(propertyCount), status })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ name, totalValue: Number(totalValue), totalEquity: Number(totalEquity), occupancyRate: Number(occupancyRate), capRate: Number(capRate), propertyCount: Number(propertyCount), status })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -397,50 +398,50 @@ function EditPortfolioDialog({ open, onOpenChange, item, onSubmit }: { open: boo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_reo_edit_portfolio", "Edit Portfolio")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_reo_edit_portfolio_desc", "Update portfolio details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_reo_edit_portfolio", "Portföy Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_reo_edit_portfolio_desc", "Portföy detaylarını güncelleyin")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_name", "Ad")}</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_total_value", "Total Value")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_total_value", "Toplam Değer")}</Label>
             <Input type="number" value={totalValue} onChange={(e) => setTotalValue(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_total_equity", "Total Equity")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_total_equity", "Toplam Birikim")}</Label>
             <Input type="number" value={totalEquity} onChange={(e) => setTotalEquity(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_occupancy_rate", "Occupancy Rate")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_occupancy_rate", "Doluluk Oranı")}</Label>
             <Input type="number" value={occupancyRate} onChange={(e) => setOccupancyRate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_reo_cap_rate", "Cap Rate")}</Label>
+            <Label className="text-right text-foreground">{t("admin_reo_cap_rate", "Kap Oranı")}</Label>
             <Input type="number" value={capRate} onChange={(e) => setCapRate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={(v) => setStatus(v as REOPortfolio["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="BANK_OWNED">Bank Owned</SelectItem>
-                <SelectItem value="PRE_FORECLOSURE">Pre-Foreclosure</SelectItem>
-                <SelectItem value="AUGMENTATION">Augmentation</SelectItem>
-                <SelectItem value="LISTED">Listed</SelectItem>
-                <SelectItem value="UNDER_CONTRACT">Under Contract</SelectItem>
-                <SelectItem value="SOLD">Sold</SelectItem>
+                <SelectItem value="BANK_OWNED">{tEnum(t, "BANK_OWNED")}</SelectItem>
+                <SelectItem value="PRE_FORECLOSURE">{tEnum(t, "PRE_FORECLOSURE")}</SelectItem>
+                <SelectItem value="AUGMENTATION">{tEnum(t, "AUGMENTATION")}</SelectItem>
+                <SelectItem value="LISTED">{tEnum(t, "LISTED")}</SelectItem>
+                <SelectItem value="UNDER_CONTRACT">{tEnum(t, "UNDER_CONTRACT")}</SelectItem>
+                <SelectItem value="SOLD">{tEnum(t, "SOLD")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ ...item, name, totalValue: Number(totalValue), totalEquity: Number(totalEquity), occupancyRate: Number(occupancyRate), capRate: Number(capRate), status })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ ...item, name, totalValue: Number(totalValue), totalEquity: Number(totalEquity), occupancyRate: Number(occupancyRate), capRate: Number(capRate), status })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -453,12 +454,12 @@ function DeletePortfolioDialog({ open, onOpenChange, item, onConfirm }: { open: 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_reo_delete_portfolio", "Delete Portfolio")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_reo_delete_portfolio_desc", "Are you sure you want to delete")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_reo_delete_portfolio", "Portföy Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_reo_delete_portfolio_desc", "Bu portföyü silmek istediğinizden emin misiniz?")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

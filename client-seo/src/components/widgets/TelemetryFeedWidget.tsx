@@ -18,7 +18,7 @@ const EVENT_EMOJI: Record<string, string> = {
 };
 
 const SEVERITY_CLASS: Record<string, string> = {
-  INFO: "bg-blue-500/20 text-blue-400", SUCCESS: "bg-emerald-500/20 text-emerald-400",
+  INFO: "bg-blue-500/20 text-blue-400", SUCCESS: "bg-blue-500/20 text-blue-400",
   WARNING: "bg-amber-500/20 text-amber-400", ERROR: "bg-red-500/20 text-red-400",
 };
 

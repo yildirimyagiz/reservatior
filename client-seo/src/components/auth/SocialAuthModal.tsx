@@ -33,7 +33,7 @@ export function SocialAuthModal({ isOpen, onClose, provider }: SocialAuthModalPr
           </Alert>
         </div>
         <div className="flex justify-end">
-          <Button onClick={onClose}>{t("client.src.close") || "Close"}</Button>
+          <Button onClick={onClose}>{t("common.close") || "Close"}</Button>
         </div>
       </DialogContent>
     </Dialog>

@@ -95,7 +95,7 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
     } catch (error) {
       console.error('Error creating disclosure:', error);
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_create_disclosure"),
         variant: "destructive"
       });
@@ -105,7 +105,7 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
     return isActive ? "default" : "secondary";
   };
   const getStatusIcon = (isActive: boolean) => {
-    return isActive ? <CheckCircle className="h-4 w-4 text-green-500" /> : <AlertCircle className="h-4 w-4 text-red-500" />;
+    return isActive ? <CheckCircle className="h-4 w-4 text-blue-500" /> : <AlertCircle className="h-4 w-4 text-red-500" />;
   };
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return '0 Bytes';
@@ -134,15 +134,15 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("client.src.active")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("common.active")}</CardTitle>
               <CheckCircle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">
+              <div className="text-2xl font-bold text-blue-600">
                 {activeDisclosures}
               </div>
               <p className="text-xs text-muted-foreground">
-                {totalDisclosures > 0 ? (activeDisclosures / totalDisclosures * 100).toFixed(1) : 0}{t("client.src.active")}</p>
+                {totalDisclosures > 0 ? (activeDisclosures / totalDisclosures * 100).toFixed(1) : 0}{t("common.active")}</p>
             </CardContent>
           </Card>
           
@@ -152,7 +152,7 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-brand">
                 {formatFileSize(totalSize)}
               </div>
               <p className="text-xs text-muted-foreground">{t("client.src.storage_used")}</p>
@@ -161,7 +161,7 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{t("client.src.properties")}</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("common.properties")}</CardTitle>
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -183,13 +183,13 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm">
-                  <Filter className="h-4 w-4 mr-2" />{t("client.src.status")}{filterStatus === "all" ? "All" : filterStatus}
+                  <Filter className="h-4 w-4 mr-2" />{t("common.status")}{filterStatus === "all" ? "All" : filterStatus}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setFilterStatus("all")}>{t("client.src.all_status")}</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFilterStatus("active")}>{t("client.src.active")}</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFilterStatus("inactive")}>{t("client.src.inactive")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setFilterStatus("all")}>{t("common.all_status")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setFilterStatus("active")}>{t("common.active")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setFilterStatus("inactive")}>{t("common.inactive")}</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -205,13 +205,13 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="property" className="text-right">{t("client.src.property")}</Label>
+                  <Label htmlFor="property" className="text-right">{t("common.property")}</Label>
                   <Select value={newDisc.propertyId} onValueChange={v => setNewDisc({
                   ...newDisc,
                   propertyId: v
                 })}>
                     <SelectTrigger className="col-span-3">
-                      <SelectValue placeholder={t("client.src.select_property")} />
+                      <SelectValue placeholder={t("common.select_property")} />
                     </SelectTrigger>
                     <SelectContent>
                       {properties.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
@@ -219,14 +219,14 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
                   </Select>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="title" className="text-right">{t("client.src.title")}</Label>
+                  <Label htmlFor="title" className="text-right">{t("common.title")}</Label>
                   <Input id="title" placeholder={t("client.src.enter_pack_title")} className="col-span-3" value={newDisc.title} onChange={e => setNewDisc({
                   ...newDisc,
                   title: e.target.value
                 })} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="description" className="text-right">{t("client.src.description")}</Label>
+                  <Label htmlFor="description" className="text-right">{t("common.description")}</Label>
                   <Input id="description" placeholder={t("client.src.pack_description")} className="col-span-3" value={newDisc.description} onChange={e => setNewDisc({
                   ...newDisc,
                   description: e.target.value
@@ -234,7 +234,7 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
                 </div>
               </div>
               <div className="flex justify-end space-x-2">
-                <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>{t("client.src.cancel")}</Button>
+                <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>{t("common.cancel")}</Button>
                 <Button onClick={() => handleAddDisclosure(newDisc)}>{t("client.src.create_pack")}</Button>
               </div>
             </DialogContent>
@@ -249,16 +249,16 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
           </CardHeader>
           <CardContent>
             {loading ? <div className="flex items-center justify-center py-8">
-                <div className="text-sm text-muted-foreground">{t("client.src.loading")}</div>
+                <div className="text-sm text-muted-foreground">{t("common.loading")}</div>
               </div> : <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>{t("client.src.property")}</TableHead>
-                    <TableHead>{t("client.src.title")}</TableHead>
-                    <TableHead>{t("client.src.status")}</TableHead>
+                    <TableHead>{t("common.property")}</TableHead>
+                    <TableHead>{t("common.title")}</TableHead>
+                    <TableHead>{t("common.status")}</TableHead>
                     <TableHead>{t("client.src.version")}</TableHead>
                     <TableHead>{t("client.src.file_size")}</TableHead>
-                    <TableHead>{t("client.src.created")}</TableHead>
+                    <TableHead>{t("common.created")}</TableHead>
                     <TableHead>{t("client.src.updated")}</TableHead>
                     <TableHead className="w-[50px]"></TableHead>
                   </TableRow>
@@ -300,12 +300,12 @@ export default function PropertyDisclosures({ propertyId }: { propertyId?: strin
                       <TableCell>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" aria-label={t("common.more")}>
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuItem>{t("client.src.view_details")}</DropdownMenuItem>
+                            <DropdownMenuItem>{t("common.view_details")}</DropdownMenuItem>
                             <DropdownMenuItem>{t("client.src.download_file")}</DropdownMenuItem>
                             <DropdownMenuItem>{t("client.src.edit_pack")}</DropdownMenuItem>
                             <DropdownMenuItem>{t("client.src.upload_new_version")}</DropdownMenuItem>

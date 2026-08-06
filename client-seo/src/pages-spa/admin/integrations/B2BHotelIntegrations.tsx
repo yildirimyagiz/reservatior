@@ -71,19 +71,19 @@ export default function B2BHotelIntegrations() {
  <p className="text-muted-foreground mt-2">
  {t("admin_auto_t_rkiye_ve_globaldeki_otel_envanterlerin", "Türkiye ve globaldeki otel envanterlerini sisteme dahil etmek için B2B API bağlantılarını yapılandırın.")}</p>
  </div>
- <Button onClick={handleSave} className="gap-2 bg-slate-600 hover:bg-muted0">
+ <Button onClick={handleSave} className="gap-2 bg-muted hover:bg-muted0">
  <Save className="w-4 h-4" /> {t("admin_auto_ayarlar_kaydet", "Ayarları Kaydet")}</Button>
  </div>
 
  {/* Info Banner */}
- <Card className="bg-emerald-500/10 border-emerald-500/20 bg-card">
+ <Card className="bg-blue-500/10 border-blue-500/20 bg-card">
  <CardContent className="p-4 flex gap-4 items-start">
- <div className="p-2 bg-emerald-500/20 rounded-full">
- <ShieldCheck className="w-6 h-6 text-emerald-500" />
+ <div className="p-2 bg-blue-500/20 rounded-full">
+ <ShieldCheck className="w-6 h-6 text-success" />
  </div>
  <div>
- <h3 className="font-semibold text-emerald-500">{t("admin_auto_safestay_escrow_g_vencesi", "SafeStay™ Escrow Güvencesi")}</h3>
- <p className="text-sm text-emerald-500/80 mt-1">
+ <h3 className="font-semibold text-success">{t("admin_auto_safestay_escrow_g_vencesi", "SafeStay™ SafeStay™ Escrow Güvencesi Güvencesi")}</h3>
+ <p className="text-sm text-success/80 mt-1">
  {t("admin_auto_bu_platformlardan_gelen_envanterlere_yap", "Bu platformlardan gelen envanterlere yapılan rezervasyon ödemeleri havuzda tutulur. Müşteri check-in yaptıktan sonra ilgili platforma API üzerinden kesin ödeme geçişi yapılır.")}</p>
  </div>
  </CardContent>
@@ -95,7 +95,7 @@ export default function B2BHotelIntegrations() {
  <CardHeader className="flex flex-row justify-between items-start pb-2">
  <div className="flex gap-3 items-center">
  <div className="p-2 bg-card rounded-lg">
- <Globe className={integration.enabled ?"w-6 h-6 text-slate-500" :"w-6 h-6 text-muted-foreground"} />
+ <Globe className={integration.enabled ?"w-6 h-6 text-muted-foreground" :"w-6 h-6 text-muted-foreground"} />
  </div>
  <div>
  <CardTitle className="text-lg text-foreground">{integration.name}</CardTitle>
@@ -112,20 +112,20 @@ export default function B2BHotelIntegrations() {
  <CardContent className="space-y-4 pt-4">
  <div className="space-y-2">
  <Label className="flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-widest">
- <Key className="w-3 h-3" /> {t("admin_location_api_key", "API Key")}</Label>
+ <Key className="w-3 h-3" /> {t("admin_location_api_key", "Api Anahtarı")}</Label>
  <Input
  value={integration.apiKey}
  onChange={(e) => setIntegrations(integrations.map(inv =>
  inv.id === integration.id ? { ...inv, apiKey: e.target.value } : inv
  ))}
  disabled={!integration.enabled}
- placeholder={t("admin_auto_enter_api_key", "Enter API Key")}
+ placeholder={t("admin_auto_enter_api_key", "API Anahtarını Girin")}
  className="bg-card border-border text-foreground"
  />
  </div>
  <div className="space-y-2">
  <Label className="flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-widest">
- <Key className="w-3 h-3" /> {t("admin_auto_api_secret", "API Secret")}</Label>
+ <Key className="w-3 h-3" /> {t("admin_auto_api_secret", "API Sırrı")}</Label>
  <Input
  type="password"
  value={integration.apiSecret}
@@ -133,7 +133,7 @@ export default function B2BHotelIntegrations() {
  inv.id === integration.id ? { ...inv, apiSecret: e.target.value } : inv
  ))}
  disabled={!integration.enabled}
- placeholder={t("admin_auto_enter_api_secret", "Enter API Secret")}
+ placeholder={t("admin_auto_enter_api_secret", "API Sırrını Girin")}
  className="bg-card border-border text-foreground"
  />
  </div>
@@ -151,7 +151,7 @@ export default function B2BHotelIntegrations() {
  className="bg-muted0/10 border-slate-500/30 text-muted-foreground font-bold"
  />
  <span className="text-sm text-muted-foreground whitespace-nowrap">
- {t("admin_auto_net_fiyata_eklenecek_marj", "Net fiyata eklenecek marj")}</span>
+ {t("admin_auto_net_fiyata_eklenecek_marj", "Net Toplam fiyata eklenecek marj")}</span>
  </div>
  </div>
  </CardContent>

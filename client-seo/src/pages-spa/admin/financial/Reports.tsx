@@ -68,7 +68,7 @@ export default function FinancialReports() {
  <h1 className="text-3xl font-bold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_financial_financial_reports")}</h1>
  <p className="text-muted-foreground">{t("admin_financial_comprehensive_financial_analysis_and")}</p>
  </div>
- <Button className="bg-card border-border text-foreground hover:bg-slate-100 dark:hover:bg-white/10">
+ <Button className="bg-card border-border text-foreground hover:bg-muted dark:hover:bg-card/10">
  <Download className="w-4 h-4 mr-2" />{t("admin_financial_export_reports")}
  </Button>
  </div>
@@ -81,21 +81,21 @@ export default function FinancialReports() {
  <Card className="bg-card border-border">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
  <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_financial_total_revenue")}</CardTitle>
- <TrendingUp className="h-4 w-4 text-emerald-400" />
+ <TrendingUp className="h-4 w-4 text-success" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{(d?.totalRevenue || 0).toLocaleString()}</div>
- <p className="text-xs text-slate-500">{t("admin_financial_152_from_last_quarter")}</p>
+ <p className="text-xs text-muted-foreground">{t("admin_financial_152_from_last_quarter")}</p>
  </CardContent>
  </Card>
  <Card className="bg-card border-border">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
  <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_financial_net_profit")}</CardTitle>
- <DollarSign className="h-4 w-4 text-emerald-400" />
+ <DollarSign className="h-4 w-4 text-success" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{(d?.totalProfit || 0).toLocaleString()}</div>
- <p className="text-xs text-slate-500">{t("admin_financial_87_from_last_quarter")}</p>
+ <p className="text-xs text-muted-foreground">{t("admin_financial_87_from_last_quarter")}</p>
  </CardContent>
  </Card>
  <Card className="bg-card border-border">
@@ -105,7 +105,7 @@ export default function FinancialReports() {
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">{t("currency_symbol", "$")}{(d?.totalExpenses || 0).toLocaleString()}</div>
- <p className="text-xs text-slate-500">{t("admin_financial_53_from_last_quarter")}</p>
+ <p className="text-xs text-muted-foreground">{t("admin_financial_53_from_last_quarter")}</p>
  </CardContent>
  </Card>
  <Card className="bg-card border-border">
@@ -115,7 +115,7 @@ export default function FinancialReports() {
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">18.5%</div>
- <p className="text-xs text-slate-500">{t("admin_financial_21_from_last_quarter")}</p>
+ <p className="text-xs text-muted-foreground">{t("admin_financial_21_from_last_quarter")}</p>
  </CardContent>
  </Card>
  </div>
@@ -133,11 +133,11 @@ export default function FinancialReports() {
  <p className="font-medium text-foreground">{item.source}</p>
  <div className="text-right">
  <p className="font-medium text-foreground">{t("currency_symbol", "$")}{Math.round(item.amount).toLocaleString()}</p>
- <p className="text-sm text-emerald-400">{item.growth}</p>
+ <p className="text-sm text-success">{item.growth}</p>
  </div>
  </div>
  <div className="w-full bg-card rounded-full h-2">
- <div className="bg-slate-600 h-2 rounded-full" style={{ width: `${item.percentage}%` }} />
+ <div className="bg-muted h-2 rounded-full" style={{ width: `${item.percentage}%` }} />
  </div>
  </div>
  ))}
@@ -157,7 +157,7 @@ export default function FinancialReports() {
  <p className="font-medium text-foreground">{expense.category}</p>
  <div className="text-right">
  <p className="font-medium text-foreground">{t("currency_symbol", "$")}{Math.round(expense.amount).toLocaleString()}</p>
- <p className={`text-sm ${expense.change.startsWith("-") ?"text-emerald-400" :"text-red-400"}`}>
+ <p className={`text-sm ${expense.change.startsWith("-") ?"text-success" :"text-red-400"}`}>
  {expense.change}
  </p>
  </div>
@@ -179,28 +179,28 @@ export default function FinancialReports() {
  <CardContent>
  <div className="space-y-4">
  {(d?.revenueData || []).length === 0 ? (
- <p className="text-center text-slate-500 py-4">{t("admin_financial_no_data","No data available")}</p>
+ <p className="text-center text-muted-foreground py-4">{t("admin_financial_no_data", "Veri yok")}</p>
  ) : (d?.revenueData || []).map((month, i) => (
  <div key={i} className="flex items-center justify-between border-b border-border pb-4 last:border-0">
  <div className="flex items-center gap-4">
  <Calendar className="h-4 w-4 text-muted-foreground" />
  <div>
  <p className="font-medium text-foreground">{month.month}</p>
- <p className="text-sm text-slate-500">{t("admin_auto_q", "Q")}{i < 3 ? 1 : i < 6 ? 2 : 3} 2024</p>
+ <p className="text-sm text-muted-foreground">{t("admin_auto_q", "Q")}{i < 3 ? 1 : i < 6 ? 2 : 3} 2024</p>
  </div>
  </div>
  <div className="grid grid-cols-3 gap-8 text-right">
  <div>
- <p className="font-medium text-emerald-400">{t("currency_symbol", "$")}{Math.round(month.revenue).toLocaleString()}</p>
- <p className="text-xs text-slate-500">{t("admin_financial_revenue")}</p>
+ <p className="font-medium text-success">{t("currency_symbol", "$")}{Math.round(month.revenue).toLocaleString()}</p>
+ <p className="text-xs text-muted-foreground">{t("admin_financial_revenue")}</p>
  </div>
  <div>
  <p className="font-medium text-red-400">{t("currency_symbol", "$")}{Math.round(month.expenses).toLocaleString()}</p>
- <p className="text-xs text-slate-500">{t("admin_financial_expenses")}</p>
+ <p className="text-xs text-muted-foreground">{t("admin_financial_expenses")}</p>
  </div>
  <div>
  <p className="font-medium text-foreground">{t("currency_symbol", "$")}{Math.round(month.profit).toLocaleString()}</p>
- <p className="text-xs text-emerald-400">+{((month.profit / month.revenue) * 100).toFixed(1)}%</p>
+ <p className="text-xs text-success">+{((month.profit / month.revenue) * 100).toFixed(1)}%</p>
  </div>
  </div>
  </div>
@@ -217,14 +217,14 @@ export default function FinancialReports() {
  <CardContent>
  <div className="space-y-4">
  {(d?.topAgents || []).length === 0 ? (
- <p className="text-center text-slate-500 py-4">{t("admin_financial_no_data")}</p>
+ <p className="text-center text-muted-foreground py-4">{t("admin_financial_no_data")}</p>
  ) : (d?.topAgents || []).slice(0, 3).map((agent: any, i: number) => (
  <div key={i} className="flex items-center justify-between">
  <div>
  <p className="font-medium text-foreground">{agent.name}</p>
- <p className="text-sm text-slate-500">{t("admin_financial_roi")} {(agent.totalRevenue / (d?.totalRevenue || 1) * 100).toFixed(1)}%</p>
+ <p className="text-sm text-muted-foreground">{t("admin_financial_roi")} {(agent.totalRevenue / (d?.totalRevenue || 1) * 100).toFixed(1)}%</p>
  </div>
- <p className="font-medium text-emerald-400">{t("currency_symbol", "$")}{agent.totalRevenue?.toLocaleString()}</p>
+ <p className="font-medium text-success">{t("currency_symbol", "$")}{agent.totalRevenue?.toLocaleString()}</p>
  </div>
  ))}
  </div>
@@ -245,11 +245,11 @@ export default function FinancialReports() {
  <div key={i} className="flex items-center justify-between">
  <div>
  <p className="font-medium text-foreground">{method.method}</p>
- <p className="text-sm text-slate-500">{method.count} {t("admin_financial_transactions")}</p>
+ <p className="text-sm text-muted-foreground">{method.count} {t("admin_financial_transactions")}</p>
  </div>
  <div className="text-right">
  <p className="font-medium text-foreground">{t("currency_symbol", "$")}{Math.round(method.amount).toLocaleString()}</p>
- <p className="text-sm text-slate-500">{method.percentage}%</p>
+ <p className="text-sm text-muted-foreground">{method.percentage}%</p>
  </div>
  </div>
  ))}
@@ -265,16 +265,16 @@ export default function FinancialReports() {
  {reportsLoading ? (
  <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
  ) : reports.length === 0 ? (
- <p className="text-center text-slate-500 py-8">{t("admin_financial_no_reports","No reports")}</p>
+ <p className="text-center text-muted-foreground py-8">{t("admin_financial_no_reports", "Rapor yok")}</p>
  ) : (
  <div className="space-y-4">
  {reports.map((report) => (
  <div key={report.id} className="flex items-center justify-between">
  <div>
  <p className="font-medium text-foreground">{report.title}</p>
- <p className="text-sm text-slate-500">{t("admin_financial_due")}{new Date(report.dueDate).toLocaleDateString()}</p>
+ <p className="text-sm text-muted-foreground">{t("admin_financial_due")}{new Date(report.dueDate).toLocaleDateString()}</p>
  </div>
- <Badge className={report.status ==="in-progress" ?"bg-amber-500/20 text-amber-400 border-0" :"bg-muted0/20 text-muted-foreground border-0"}>
+ <Badge className={report.status ==="in-progress" ?"bg-amber-500/20 text-warning border-0" :"bg-muted0/20 text-muted-foreground border-0"}>
  {report.status}
  </Badge>
  </div>

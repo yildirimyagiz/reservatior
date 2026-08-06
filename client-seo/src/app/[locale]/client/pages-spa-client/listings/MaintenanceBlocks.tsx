@@ -31,17 +31,17 @@ interface MaintenanceBlock extends ApiMaintenanceBlock {
 }
 
 const STATUS_CONFIG = {
-  PENDING: { label: t("client.src.pending"), icon: Clock, cls: "bg-yellow-100 text-yellow-700" },
-  IN_PROGRESS: { label: t("client.src.in_progress"), icon: Wrench, cls: "bg-blue-100 text-blue-700" },
-  COMPLETED: { label: t("client.src.completed"), icon: CheckCircle, cls: "bg-green-100 text-green-700" },
-  CANCELLED: { label: t("client.src.cancelled"), icon: AlertTriangle, cls: "bg-red-100 text-red-700" }
+  PENDING: { label: t("common.processing"), icon: Clock, cls: "bg-yellow-100 text-yellow-700" },
+  IN_PROGRESS: { label: t("common.in_progress"), icon: Wrench, cls: "bg-blue-100 text-blue-700" },
+  COMPLETED: { label: t("common.completed"), icon: CheckCircle, cls: "bg-blue-100 text-blue-700" },
+  CANCELLED: { label: t("common.cancelled"), icon: AlertTriangle, cls: "bg-red-100 text-red-700" }
 };
 
 const PRIORITY_CONFIG = {
-  LOW: { label: t("client.src.low"), cls: "bg-slate-100 text-slate-700" },
-  MEDIUM: { label: t("client.src.medium"), cls: "bg-orange-100 text-orange-700" },
-  HIGH: { label: t("client.src.high"), cls: "bg-red-100 text-red-700" },
-  URGENT: { label: t("client.src.urgent"), cls: "bg-purple-100 text-purple-700" }
+  LOW: { label: t("common.low"), cls: "bg-muted text-muted-foreground" },
+  MEDIUM: { label: t("common.medium"), cls: "bg-orange-100 text-orange-700" },
+  HIGH: { label: t("common.high"), cls: "bg-red-100 text-red-700" },
+  URGENT: { label: t("common.urgent"), cls: "bg-brand/15 text-brand" }
 };
 
 export default function MaintenanceBlocks() {
@@ -72,7 +72,7 @@ export default function MaintenanceBlocks() {
       setFormData({});
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -85,7 +85,7 @@ export default function MaintenanceBlocks() {
       setSelectedBlock(null);
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -96,7 +96,7 @@ export default function MaintenanceBlocks() {
       toast({ title: t("client.src.maintenance_deleted") });
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -151,10 +151,10 @@ export default function MaintenanceBlocks() {
       onSearchChange={setSearch}
       searchPlaceholder="Search maintenance blocks..."
       stats={[
-        { label: t("client.src.total"), value: blocks.length },
-        { label: t("client.src.pending"), value: blocks.filter((b: any) => b.status === 'PENDING').length },
-        { label: t("client.src.in_progress"), value: blocks.filter((b: any) => b.status === 'IN_PROGRESS').length },
-        { label: t("client.src.completed"), value: blocks.filter((b: any) => b.status === 'COMPLETED').length }
+        { label: t("common.total"), value: blocks.length },
+        { label: t("common.processing"), value: blocks.filter((b: any) => b.status === 'PENDING').length },
+        { label: t("common.in_progress"), value: blocks.filter((b: any) => b.status === 'IN_PROGRESS').length },
+        { label: t("common.completed"), value: blocks.filter((b: any) => b.status === 'COMPLETED').length }
       ]}
     >
       <div className="space-y-6">
@@ -162,25 +162,25 @@ export default function MaintenanceBlocks() {
         <div className="flex items-center gap-4">
           <Select value={filterStatus} onValueChange={setFilterStatus}>
             <SelectTrigger className="w-40">
-              <SelectValue placeholder={t("client.src.status")} />
+              <SelectValue placeholder={t("common.status")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">{t("client.src.all")}</SelectItem>
-              <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
-              <SelectItem value="IN_PROGRESS">{t("client.src.in_progress")}</SelectItem>
-              <SelectItem value="COMPLETED">{t("client.src.completed")}</SelectItem>
+              <SelectItem value="all">{t("common.all")}</SelectItem>
+              <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
+              <SelectItem value="IN_PROGRESS">{t("common.in_progress")}</SelectItem>
+              <SelectItem value="COMPLETED">{t("common.completed")}</SelectItem>
             </SelectContent>
           </Select>
           <Select value={filterPriority} onValueChange={setFilterPriority}>
             <SelectTrigger className="w-40">
-              <SelectValue placeholder={t("client.src.priority")} />
+              <SelectValue placeholder={t("common.priority")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">{t("client.src.all")}</SelectItem>
-              <SelectItem value="LOW">{t("client.src.low")}</SelectItem>
-              <SelectItem value="MEDIUM">{t("client.src.medium")}</SelectItem>
-              <SelectItem value="HIGH">{t("client.src.high")}</SelectItem>
-              <SelectItem value="URGENT">{t("client.src.urgent")}</SelectItem>
+              <SelectItem value="all">{t("common.all")}</SelectItem>
+              <SelectItem value="LOW">{t("common.low")}</SelectItem>
+              <SelectItem value="MEDIUM">{t("common.medium")}</SelectItem>
+              <SelectItem value="HIGH">{t("common.high")}</SelectItem>
+              <SelectItem value="URGENT">{t("common.urgent")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -237,7 +237,7 @@ export default function MaintenanceBlocks() {
                         size="sm"
                         variant="outline"
                         onClick={() => handleDelete(block.id)}
-                      >
+                       aria-label={t("common.delete")}>
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
@@ -258,14 +258,14 @@ export default function MaintenanceBlocks() {
           </DialogHeader>
           <form onSubmit={handleCreate} className="space-y-4">
             <div>
-              <Label>{t("client.src.title")}</Label>
+              <Label>{t("common.title")}</Label>
               <Input
                 value={formData.title || formData.reason || ""}
                 onChange={e => setFormData({ ...formData, title: e.target.value, reason: e.target.value })}
               />
             </div>
             <div>
-              <Label>{t("client.src.description")}</Label>
+              <Label>{t("common.description")}</Label>
               <Textarea
                 value={formData.description || ""}
                 onChange={e => setFormData({ ...formData, description: e.target.value })}
@@ -273,7 +273,7 @@ export default function MaintenanceBlocks() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label>{t("client.src.priority")}</Label>
+                <Label>{t("common.priority")}</Label>
                 <Select
                   value={formData.priority || "LOW"}
                   onValueChange={v => setFormData({ ...formData, priority: v as any })}
@@ -282,10 +282,10 @@ export default function MaintenanceBlocks() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="LOW">{t("client.src.low")}</SelectItem>
-                    <SelectItem value="MEDIUM">{t("client.src.medium")}</SelectItem>
-                    <SelectItem value="HIGH">{t("client.src.high")}</SelectItem>
-                    <SelectItem value="URGENT">{t("client.src.urgent")}</SelectItem>
+                    <SelectItem value="LOW">{t("common.low")}</SelectItem>
+                    <SelectItem value="MEDIUM">{t("common.medium")}</SelectItem>
+                    <SelectItem value="HIGH">{t("common.high")}</SelectItem>
+                    <SelectItem value="URGENT">{t("common.urgent")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -310,7 +310,7 @@ export default function MaintenanceBlocks() {
               <Button type="button" variant="outline" onClick={() => setCreateOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit">{t("client.src.create")}</Button>
+              <Button type="submit">{t("common.create")}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -324,14 +324,14 @@ export default function MaintenanceBlocks() {
           </DialogHeader>
           <form onSubmit={handleEdit} className="space-y-4">
             <div>
-              <Label>{t("client.src.title")}</Label>
+              <Label>{t("common.title")}</Label>
               <Input
                 value={formData.title || formData.reason || ""}
                 onChange={e => setFormData({ ...formData, title: e.target.value, reason: e.target.value })}
               />
             </div>
             <div>
-              <Label>{t("client.src.description")}</Label>
+              <Label>{t("common.description")}</Label>
               <Textarea
                 value={formData.description || ""}
                 onChange={e => setFormData({ ...formData, description: e.target.value })}
@@ -339,7 +339,7 @@ export default function MaintenanceBlocks() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label>{t("client.src.status")}</Label>
+                <Label>{t("common.status")}</Label>
                 <Select
                   value={formData.status || "PENDING"}
                   onValueChange={v => setFormData({ ...formData, status: v as any })}
@@ -348,15 +348,15 @@ export default function MaintenanceBlocks() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
-                    <SelectItem value="IN_PROGRESS">{t("client.src.in_progress")}</SelectItem>
-                    <SelectItem value="COMPLETED">{t("client.src.completed")}</SelectItem>
-                    <SelectItem value="CANCELLED">{t("client.src.cancelled")}</SelectItem>
+                    <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
+                    <SelectItem value="IN_PROGRESS">{t("common.in_progress")}</SelectItem>
+                    <SelectItem value="COMPLETED">{t("common.completed")}</SelectItem>
+                    <SelectItem value="CANCELLED">{t("common.cancelled")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <Label>{t("client.src.priority")}</Label>
+                <Label>{t("common.priority")}</Label>
                 <Select
                   value={formData.priority || "LOW"}
                   onValueChange={v => setFormData({ ...formData, priority: v as any })}
@@ -365,10 +365,10 @@ export default function MaintenanceBlocks() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="LOW">{t("client.src.low")}</SelectItem>
-                    <SelectItem value="MEDIUM">{t("client.src.medium")}</SelectItem>
-                    <SelectItem value="HIGH">{t("client.src.high")}</SelectItem>
-                    <SelectItem value="URGENT">{t("client.src.urgent")}</SelectItem>
+                    <SelectItem value="LOW">{t("common.low")}</SelectItem>
+                    <SelectItem value="MEDIUM">{t("common.medium")}</SelectItem>
+                    <SelectItem value="HIGH">{t("common.high")}</SelectItem>
+                    <SelectItem value="URGENT">{t("common.urgent")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

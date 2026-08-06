@@ -53,9 +53,9 @@ const FILE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = 
 };
 
 const ACCESS_COLORS: Record<string, string> = {
-  public: "bg-green-500/20 text-green-400",
+  public: "bg-blue-500/20 text-blue-400",
   private: "bg-red-500/20 text-red-400",
-  shared: "bg-blue-500/20 text-blue-400"
+  shared: "bg-brand/100/20 text-brand"
 };
 
 export default function FilesPage() {
@@ -85,12 +85,12 @@ export default function FilesPage() {
             <div className="flex gap-3">
               <Button
                 onClick={() => router.push('/dashboard')}
-                className="bg-purple-600 hover:bg-purple-700"
+                className="bg-brand hover:bg-brand"
               >
                 <ArrowUpRight className="w-4 h-4 mr-2" />
                 {t("files.filespage.auto_ext_3")}
                                             </Button>
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button className="bg-blue-600 hover:bg-brand">
                 <Upload className="w-4 h-4 mr-2" />
                 {t("files.filespage.auto_ext_4")}
                                             </Button>
@@ -105,7 +105,7 @@ export default function FilesPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -115,17 +115,17 @@ export default function FilesPage() {
                       placeholder="Search files..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
-                <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
+                <Button variant="outline" className="bg-white/10 border-brand/30 text-white">
                   <RefreshCw className="w-4 h-4 mr-2" />
                   {t("files.filespage.auto_ext_5")}
                                                   </Button>
                 <Button
                   variant="outline"
-                  className="bg-white/10 border-purple-500/30 text-white"
+                  className="bg-white/10 border-brand/30 text-white"
                   onClick={() => setViewMode(viewMode === 'list' ? 'grid' : 'list')}
                 >
                   {viewMode === 'list' ? <FileText className="w-4 h-4" /> : <Folder className="w-4 h-4" />}
@@ -142,19 +142,19 @@ export default function FilesPage() {
           transition={{ delay: 0.2 }}
         >
           {viewMode === 'list' ? (
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-0">
                 <div className="divide-y divide-purple-500/20">
                   {filteredFiles.map((file) => {
-                      const { t } = useTranslation();
+
                     const Icon = file.type === 'folder' ? Folder : (FILE_ICONS[file.extension] || FILE_ICONS.default);
                     return (
                       <div
                         key={file.id}
                         className="flex items-center gap-4 p-4 hover:bg-white/5 transition-colors group"
                       >
-                        <div className="p-2 rounded-lg bg-purple-500/20">
-                          <Icon className="w-5 h-5 text-purple-400" />
+                        <div className="p-2 rounded-lg bg-brand/20">
+                          <Icon className="w-5 h-5 text-brand" />
                         </div>
                         <div className="flex-1">
                           <div className="text-white font-medium">{file.name}</div>
@@ -162,16 +162,16 @@ export default function FilesPage() {
                         </div>
                         <Badge className={ACCESS_COLORS[file.access]}>{file.access}</Badge>
                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Button variant="ghost" size="icon" aria-label={t("common.view")} className="h-8 w-8">
                             <Eye className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Button variant="ghost" size="icon" aria-label={t("common.download")} className="h-8 w-8">
                             <Download className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Button variant="ghost" size="icon" aria-label={t("common.share")} className="h-8 w-8">
                             <Share className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400">
+                          <Button variant="ghost" size="icon" aria-label={t("common.delete")} className="h-8 w-8 text-red-400">
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
@@ -184,16 +184,16 @@ export default function FilesPage() {
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {filteredFiles.map((file) => {
-                  const { t } = useTranslation();
+
                 const Icon = file.type === 'folder' ? Folder : (FILE_ICONS[file.extension] || FILE_ICONS.default);
                 return (
                   <Card
                     key={file.id}
-                    className="bg-white/5 backdrop-blur-xl border-purple-500/20 hover:bg-white/10 transition-colors cursor-pointer"
+                    className="bg-white/5 backdrop-blur-xl border-brand/20 hover:bg-white/10 transition-colors cursor-pointer"
                   >
                     <CardContent className="p-4 text-center">
-                      <div className="p-4 rounded-xl bg-purple-500/20 mx-auto mb-3 w-fit">
-                        <Icon className="w-8 h-8 text-purple-400" />
+                      <div className="p-4 rounded-xl bg-brand/20 mx-auto mb-3 w-fit">
+                        <Icon className="w-8 h-8 text-brand" />
                       </div>
                       <div className="text-white text-sm font-medium truncate">{file.name}</div>
                       <div className="text-gray-400 text-xs mt-1">{file.size}</div>

@@ -15,7 +15,6 @@ export const LANGUAGES: Language[] = [
   { code: "de", name: "Deutsch", dir: "ltr", flag: "🇩🇪" },
   { code: "tr", name: "Türkçe", dir: "ltr", flag: "🇹🇷" },
   { code: "ar", name: "العربية", dir: "rtl", flag: "🇸🇦" },
-  { code: "fa", name: "فارسی", dir: "rtl", flag: "🇮🇷" },
   { code: "zh", name: "中文", dir: "ltr", flag: "🇨🇳" },
   { code: "ja", name: "日本語", dir: "ltr", flag: "🇯🇵" },
   { code: "ko", name: "한국어", dir: "ltr", flag: "🇰🇷" },
@@ -25,10 +24,11 @@ export const LANGUAGES: Language[] = [
   { code: "nl", name: "Nederlands", dir: "ltr", flag: "🇳🇱" },
   { code: "pl", name: "Polski", dir: "ltr", flag: "🇵🇱" },
   { code: "sv", name: "Svenska", dir: "ltr", flag: "🇸🇪" },
+  { code: "da", name: "Dansk", dir: "ltr", flag: "🇩🇰" },
+  { code: "fi", name: "Suomi", dir: "ltr", flag: "🇫🇮" },
+  { code: "el", name: "Ελληνικά", dir: "ltr", flag: "🇬🇷" },
   { code: "hi", name: "हिन्दी", dir: "ltr", flag: "🇮🇳" },
-  { code: "id", name: "Bahasa Indonesia", dir: "ltr", flag: "🇮🇩" },
-  { code: "vi", name: "Tiếng Việt", dir: "ltr", flag: "🇻🇳" },
-  { code: "th", name: "ไทย", dir: "ltr", flag: "🇹🇭" },
+  { code: "nb", name: "Norsk", dir: "ltr", flag: "🇳🇴" },
 ];
 
 type LanguageStore = {

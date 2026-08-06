@@ -27,10 +27,10 @@ export default function Unauthorized() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#14151a] p-8 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-background p-8 relative overflow-hidden">
       {/* Background Cybernetic Elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-600/5 blur-[120px] rounded-full animate-pulse-slow"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-600/5 blur-[120px] rounded-full"></div>
         {/* Background HUD Layer */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-size-[40px_40px] z-0" />
       </div>
@@ -41,7 +41,7 @@ export default function Unauthorized() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="w-full max-w-xl relative"
       >
-        <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl shadow-3xl">
+        <Card className="bg-card/40 border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl shadow-3xl">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-transparent to-transparent opacity-50"></div>
           
           <CardContent className="p-12 space-y-12">
@@ -67,13 +67,13 @@ export default function Unauthorized() {
                 <div className="absolute top-0 right-0 p-6 opacity-5 text-red-500 rotate-12 group-hover:rotate-0 transition-transform">
                   <ShieldX className="w-20 h-20" />
                 </div>
-                <p className="text-sm font-bold text-slate-400 italic leading-loose text-center relative z-10">
+                <p className="text-sm font-bold text-muted-foreground italic leading-loose text-center relative z-10">
                   {t("unauthorizedDesc")}
                 </p>
                 
                 {user && (
                   <div className="mt-6 pt-6 border-t border-white/5 flex flex-col items-center gap-2">
-                    <p className="text-[10px] font-black text-slate-600 tracking-widest italic">
+                    <p className="text-[10px] font-black text-muted-foreground tracking-widest italic">
                       {t("loggedInAs", { email: user.email })}
                     </p>
                   </div>
@@ -84,7 +84,7 @@ export default function Unauthorized() {
             <div className="grid grid-cols-2 gap-4">
               <Button 
                 onClick={handleGoHome} 
-                className="h-16 rounded-[24px] bg-white text-black hover:bg-slate-200 font-black italic tracking-widest text-xs shadow-xl transition-all group"
+                className="h-16 rounded-[24px] bg-card text-black hover:bg-muted font-black italic tracking-widest text-xs shadow-xl transition-all group"
               >
                 <Home className="w-4 h-4 mr-3 group-hover:scale-110 transition-transform" />
                 {t("goHome")}
@@ -112,7 +112,7 @@ export default function Unauthorized() {
             </div>
 
             <div className="text-center pt-8 border-t border-white/5">
-              <p className="text-[9px] font-black text-slate-600 tracking-widest italic flex items-center justify-center gap-3">
+              <p className="text-[9px] font-black text-muted-foreground tracking-widest italic flex items-center justify-center gap-3">
                 <Fingerprint className="w-3 h-3" />
                 {t("contactAdmin")}
               </p>

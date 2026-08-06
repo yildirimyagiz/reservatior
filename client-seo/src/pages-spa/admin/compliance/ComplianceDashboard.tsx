@@ -55,12 +55,12 @@ export default function ComplianceDashboard() {
  queryKey: ['complianceDashboard'],
  queryFn: async () => {
  const [rtrRes, immRes, propRes, taxRes, policeRes, legalRes] = await Promise.all([
- complianceApi.getRightToRentChecks(),
- complianceApi.getImmigrationChecks(),
- complianceApi.getPropertyCompliance(),
- orchestrationApi.getTaxRegulations(),
- identityComplianceApi.getPoliceReports(),
- orchestrationApi.getComplianceRecords()
+ complianceApi.getRightToRentChecks() as any,
+ complianceApi.getImmigrationChecks() as any,
+ complianceApi.getPropertyCompliance() as any,
+ orchestrationApi.getTaxRegulations() as any,
+ identityComplianceApi.getPoliceReports() as any,
+ orchestrationApi.getComplianceRecords() as any
  ]);
  return {
  rtrChecks: rtrRes.data || [],
@@ -82,7 +82,7 @@ export default function ComplianceDashboard() {
 
  if (isLoading) {
  return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 flex flex-col items-center justify-center h-[60vh] space-y-6">
- <Activity className="w-12 h-12 text-slate-500 animate-spin mb-4 opacity-50" />
+ <Activity className="w-12 h-12 text-muted-foreground animate-spin mb-4 opacity-50" />
  <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin_compliance_aligning_regulatory_parameters")}</p>
  </div>
  );
@@ -91,11 +91,11 @@ export default function ComplianceDashboard() {
  const getLocalizedStatus = (status: string) => {
  const map: Record<string, string> = {
  'completed': t('admin_compliance_status_completed', 'Tamamlandı'),
- 'approved': t('admin_compliance_status_approved', 'Onaylandı'),
+ 'approved': t('admin_compliance_status_approved', 'Onaylı'),
  'verified': t('admin_compliance_status_verified', 'Doğrulandı'),
  'pending': t('admin_compliance_status_pending', 'Bekliyor'),
  'queued': t('admin_compliance_status_queued', 'Sırada'),
- 'expired': t('admin_compliance_status_expired', 'Süresi Doldu'),
+ 'expired': t('admin_compliance_status_expired', 'Günü Geçmiş'),
  'failed': t('admin_compliance_status_failed', 'Başarısız')
  };
  return map[status.toLowerCase()] || status;
@@ -108,8 +108,8 @@ export default function ComplianceDashboard() {
  const isCritical = ["expired","failed"].includes(s);
  return (
  <Badge className={cn("text-[8px] font-bold px-3 py-0.5 rounded-full border-none shadow-lg",
- isVerified ? 'bg-emerald-500/20 text-emerald-400' :
- isPending ? 'bg-orange-500/20 text-orange-400' :
+ isVerified ? 'bg-blue-500/20 text-success' :
+ isPending ? 'bg-orange-500/20 text-warning' :
  isCritical ? 'bg-red-500/20 text-red-500' : 'bg-muted0/20 text-muted-foreground')}>
  {getLocalizedStatus(status)}
  </Badge>
@@ -134,7 +134,7 @@ export default function ComplianceDashboard() {
  return (
  <div key={idx} className="flex-1 flex flex-col items-center gap-1 group relative">
  <div className={cn("h-1.5 w-full rounded-full transition-all duration-500",
- isActive ?"bg-emerald-500" : isError ?"bg-red-500" :"bg-slate-700"
+ isActive ?"bg-blue-500" : isError ?"bg-red-500" :"bg-muted"
  )} />
  {/* Tooltip on hover */}
  <div className="absolute -top-6 opacity-0 group-hover:opacity-100 transition-opacity bg-black text-[8px] px-2 py-1 rounded text-foreground whitespace-nowrap z-10 pointer-events-none">
@@ -159,18 +159,18 @@ export default function ComplianceDashboard() {
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_compliance_pending_authority_checks")}</p>
  <h3 className="text-xl font-bold text-foreground leading-none">{rtrChecks.filter((c: RightToRentCheck) => c.status ==="pending").length}</h3>
- <p className="text-[9px] font-bold text-slate-600 mt-4">{t("admin_compliance_awaiting_document_matrix_sync")}</p>
+ <p className="text-[9px] font-bold text-muted-foreground mt-4">{t("admin_compliance_awaiting_document_matrix_sync")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <ShieldCheck className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_compliance_active_immigration_pulses")}</p>
  <h3 className="text-xl font-bold text-muted-foreground leading-none">{immigrationChecks.filter((c: ImmigrationStatusCheck) => c.checkStatus ==="PENDING").length}</h3>
- <p className="text-[9px] font-bold text-slate-500/60 mt-4">{t("admin_compliance_verification_flow_active")}</p>
+ <p className="text-[9px] font-bold text-muted-foreground/60 mt-4">{t("admin_compliance_verification_flow_active")}</p>
  </CardContent>
  </Card>
 
@@ -186,13 +186,13 @@ export default function ComplianceDashboard() {
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <CheckCircle2 className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_compliance_optimization_index")}</p>
  <h3 className="text-xl font-bold text-foreground leading-none">94%</h3>
- <p className="text-[9px] font-bold text-emerald-500/60 mt-4 leading-tight">{t("admin_compliance_global_alignment_success_rate")}</p>
+ <p className="text-[9px] font-bold text-success/60 mt-4 leading-tight">{t("admin_compliance_global_alignment_success_rate")}</p>
  </CardContent>
  </Card>
  </div>
@@ -200,10 +200,10 @@ export default function ComplianceDashboard() {
  {/* Audit Tactical Center */}
  <Tabs defaultValue="right-to-rent" className="space-y-10 focus-visible:ring-0">
  <TabsList className="bg-card border border-border p-1.5 rounded-2xl h-16 w-full max-w-3xl mx-auto flex">
- <TabsTrigger value="right-to-rent" className="flex-1 rounded-xl font-bold text-[10px] data-[state=active]:bg-white/10 data-[state=active]:text-white text-muted-foreground transition-all">{t("admin_compliance_lease_authority")}</TabsTrigger>
- <TabsTrigger value="immigration" className="flex-1 rounded-xl font-bold text-[10px] data-[state=active]:bg-white/10 data-[state=active]:text-white text-muted-foreground transition-all">{t("admin_compliance_border_logic")}</TabsTrigger>
- <TabsTrigger value="property" className="flex-1 rounded-xl font-bold text-[10px] data-[state=active]:bg-white/10 data-[state=active]:text-white text-muted-foreground transition-all">{t("admin_compliance_node_health")}</TabsTrigger>
- <TabsTrigger value="global-iq" className="flex-1 rounded-xl font-bold text-[10px] data-[state=active]:bg-white/10 data-[state=active]:text-white text-muted-foreground transition-all flex items-center gap-2">
+ <TabsTrigger value="right-to-rent" className="flex-1 rounded-xl font-bold text-[10px] data-[state=active]:bg-card/10 data-[state=active]:text-white text-muted-foreground transition-all">{t("admin_compliance_lease_authority")}</TabsTrigger>
+ <TabsTrigger value="immigration" className="flex-1 rounded-xl font-bold text-[10px] data-[state=active]:bg-card/10 data-[state=active]:text-white text-muted-foreground transition-all">{t("admin_compliance_border_logic")}</TabsTrigger>
+ <TabsTrigger value="property" className="flex-1 rounded-xl font-bold text-[10px] data-[state=active]:bg-card/10 data-[state=active]:text-white text-muted-foreground transition-all">{t("admin_compliance_node_health")}</TabsTrigger>
+ <TabsTrigger value="global-iq" className="flex-1 rounded-xl font-bold text-[10px] data-[state=active]:bg-card/10 data-[state=active]:text-white text-muted-foreground transition-all flex items-center gap-2">
  <Globe className="w-3 h-3" />{t("admin_compliance_regulatory_hub")}</TabsTrigger>
  </TabsList>
 
@@ -215,7 +215,7 @@ export default function ComplianceDashboard() {
  <CardTitle className="text-xs font-bold text-foreground">{t("admin_compliance_right_to_rent_pulse")}</CardTitle>
  <p className="text-[9px] font-bold text-muted-foreground">{t("admin_compliance_tenant_authority_synchronization_logs")}</p>
  </div>
- <Button className="bg-card hover:bg-slate-100 dark:hover:bg-white/10 text-foreground rounded-xl h-10 px-6 font-bold text-[10px] border border-border">{t("admin_compliance_start_new_sync")}</Button>
+ <Button className="bg-card hover:bg-muted dark:hover:bg-card/10 text-foreground rounded-xl h-10 px-6 font-bold text-[10px] border border-border">{t("admin_compliance_start_new_sync")}</Button>
  </div>
  </CardHeader>
  <CardContent className="p-0">
@@ -235,7 +235,7 @@ export default function ComplianceDashboard() {
  <TableCell className="px-8 text-[10px] font-bold text-muted-foreground">{check.checkType || 'N/A'}</TableCell>
  <TableCell className="px-8">{renderStepper(check.status || 'pending')}</TableCell>
  <TableCell className="px-8 text-right">
- <Button variant="ghost" className="h-10 px-4 rounded-xl hover:bg-slate-100 dark:hover:bg-white/10 text-muted-foreground hover:text-foreground transition-all font-bold text-[9px] border border-border">{t("admin_compliance_audit_matrix")}</Button>
+ <Button variant="ghost" className="h-10 px-4 rounded-xl hover:bg-muted dark:hover:bg-card/10 text-muted-foreground hover:text-foreground transition-all font-bold text-[9px] border border-border">{t("admin_compliance_audit_matrix")}</Button>
  </TableCell>
  </TableRow>
  ))}
@@ -277,7 +277,7 @@ export default function ComplianceDashboard() {
  ))}
  {immigrationChecks.length === 0 && (
  <TableRow>
- <TableCell colSpan={6} className="text-center py-8 text-slate-500">{t("admin_compliance_no_immigration_check_records")}</TableCell>
+ <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">{t("admin_compliance_no_immigration_check_records")}</TableCell>
  </TableRow>
  )}
  </TableBody>
@@ -314,7 +314,7 @@ export default function ComplianceDashboard() {
  ))}
  {propertyCompliance.length === 0 && (
  <TableRow>
- <TableCell colSpan={5} className="text-center py-8 text-slate-500">{t("admin_compliance_no_property_compliance_records")}</TableCell>
+ <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">{t("admin_compliance_no_property_compliance_records")}</TableCell>
  </TableRow>
  )}
  </TableBody>
@@ -328,7 +328,7 @@ export default function ComplianceDashboard() {
  <Card className="bg-card border-border">
  <CardHeader>
  <CardTitle className="text-sm font-bold text-foreground flex items-center gap-2">
- <Building2 className="w-4 h-4 text-slate-500" />{t("admin_compliance_regional_tax_regulations")}</CardTitle>
+ <Building2 className="w-4 h-4 text-muted-foreground" />{t("admin_compliance_regional_tax_regulations")}</CardTitle>
  </CardHeader>
  <CardContent>
  <Table>
@@ -361,7 +361,7 @@ export default function ComplianceDashboard() {
  <Card className="bg-card border-border">
  <CardHeader>
  <CardTitle className="text-sm font-bold text-foreground flex items-center gap-2">
- <Gavel className="w-4 h-4 text-slate-500" />{t("admin_compliance_legal_compliance_gdprkvkk")}</CardTitle>
+ <Gavel className="w-4 h-4 text-muted-foreground" />{t("admin_compliance_legal_compliance_gdprkvkk")}</CardTitle>
  </CardHeader>
  <CardContent>
  <Table>
@@ -427,11 +427,11 @@ export default function ComplianceDashboard() {
  <CardHeader className="border-b border-border bg-black/20 pb-4">
  <div className="flex items-center justify-between">
  <CardTitle className="text-sm font-bold flex items-center gap-2">
- <Activity className="w-4 h-4 text-emerald-500 animate-pulse" />
- {t("admin_auto_live_compliance_feed", "Live Compliance Feed")}</CardTitle>
- <Badge variant="outline" className="text-[9px] bg-emerald-500/10 text-emerald-500 border-none">{t("admin_ai_active", "Active")}</Badge>
+ <Activity className="w-4 h-4 text-success animate-pulse" />
+ {t("admin_auto_live_compliance_feed", "Canlı Uyumluluk Akışı")}</CardTitle>
+ <Badge variant="outline" className="text-[9px] bg-blue-500/10 text-success border-none">{t("admin_ai_active", "Aktif")}</Badge>
  </div>
- <p className="text-[10px] text-muted-foreground mt-1">{t("admin_auto_real_time_global_identity_verification_l", "Real-time global identity & verification logs.")}</p>
+ <p className="text-[10px] text-muted-foreground mt-1">{t("admin_auto_real_time_global_identity_verification_l", "Gerçek zamanlı küresel kimlik ve doğrulama günlükleri.")}</p>
  </CardHeader>
  <CardContent className="flex-1 overflow-y-auto p-4 space-y-3">
  <AnimatePresence>
@@ -442,8 +442,8 @@ export default function ComplianceDashboard() {
  animate={{ opacity: 1, x: 0, height: 'auto' }}
  exit={{ opacity: 0, scale: 0.9 }}
  className={cn("p-3 rounded-xl border text-xs font-mono relative overflow-hidden",
- ev.type === 'success' ?"bg-emerald-500/5 border-emerald-500/20 text-emerald-400" :
- ev.type === 'warning' ?"bg-amber-500/5 border-amber-500/20 text-amber-400" :"bg-red-500/5 border-red-500/20 text-red-400"
+ ev.type === 'success' ?"bg-blue-500/5 border-blue-500/20 text-success" :
+ ev.type === 'warning' ?"bg-amber-500/5 border-amber-500/20 text-warning" :"bg-red-500/5 border-red-500/20 text-red-400"
  )}
  >
  <div className="flex items-start gap-2">
@@ -452,15 +452,15 @@ export default function ComplianceDashboard() {
  {ev.type === 'error' && <ShieldCheck className="w-3.5 h-3.5 shrink-0 mt-0.5" />}
  <span className="leading-relaxed">{ev.text}</span>
  </div>
- <div className="absolute top-1 right-2 text-[8px] opacity-50">{t("messages.messagespage.auto_ext_6", "Just now")}</div>
+ <div className="absolute top-1 right-2 text-[8px] opacity-50">{t("messages.messagespage.auto_ext_6", "Şu anda")}</div>
  </m.div>
  ))}
  </AnimatePresence>
  
  {liveEvents.length === 0 && (
- <div className="h-full flex flex-col items-center justify-center text-slate-500 space-y-2 opacity-50">
+ <div className="h-full flex flex-col items-center justify-center text-muted-foreground space-y-2 opacity-50">
  <FileSearch className="w-8 h-8 animate-pulse" />
- <span className="text-xs">{t("admin_auto_awaiting_events", "Awaiting events...")}</span>
+ <span className="text-xs">{t("admin_auto_awaiting_events", "Etkinlikler bekleniyor...")}</span>
  </div>
  )}
  </CardContent>

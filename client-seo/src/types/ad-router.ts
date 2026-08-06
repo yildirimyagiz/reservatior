@@ -105,6 +105,22 @@ export interface CampaignPerformance {
   dailyTrend: DailyMetric[];
 }
 
+export interface CreativePerformance {
+  impressions: number;
+  clicks: number;
+  ctr: number;
+  conversions: number;
+  cpc: number;
+  cpet: number;
+  cpql: number;
+  spend: number;
+  revenue: number;
+  roas: number;
+  qualifiedLeads: number;
+  executedTransactions: number;
+  engagementRate: number;
+}
+
 export interface NetworkPerformance {
   network: AdNetwork;
   impressions: number;

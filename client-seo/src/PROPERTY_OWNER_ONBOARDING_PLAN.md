@@ -850,7 +850,28 @@ ALTER TABLE user ADD COLUMN property_owner_profile_id VARCHAR(255);
 
 ---
 
-## 12. Next Steps
+## 12. Recommended UX/UI Enhancements
+
+To achieve a world-class User Experience (UX score > 9.5) and reduce user friction during onboarding, the following features are integrated into the product requirements:
+
+### 12.1 Digital Twin Image Quality Assistant (Vision AI Assistant)
+* **Goal**: Minimize 3D model generation failures due to poor image inputs.
+* **UX Component**: Real-time image analyzer embedded in the photo upload interface.
+* **Functionality**:
+  * Scans uploaded photos in the browser/app before submitting to the backend pipeline.
+  * Warns the user if the photo is too dark, blurry, or lacks spatial perspective.
+  * Suggests adjustments (e.g., "Use wide-angle lens", "Open curtains for better lighting").
+
+### 12.2 Yield Arbitrage Transparency Slider
+* **Goal**: Build trust by showing a complete breakdown of net rental yields.
+* **UX Component**: Interactive slider and side-by-side ROI comparison card.
+* **Functionality**:
+  * Allows users to dynamically toggle off/on potential operational expenses (e.g., cleaning fees, local taxes, maintenance reserve, platform commission).
+  * Clearly presents Gross vs. Net yields so the owner sees exactly what they will pocket.
+
+---
+
+## 13. Next Steps
 
 1. **Immediate Actions:**
    - Review and approve this plan

@@ -50,35 +50,35 @@ export default function VirtualStaging() {
       
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
-          <Wand2 className="w-8 h-8 text-blue-600" /> {t("admin_auto_virtual_staging_ai", "Virtual Staging AI")}</h1>
-        <p className="text-slate-500 dark:text-slate-400 mt-1">{t("admin_auto_transform_empty_spaces_into_beautifully_", "Transform empty spaces into beautifully furnished properties using ControlNet and Stable Diffusion.")}</p>
+        <h1 className="text-3xl font-black text-muted-foreground dark:text-white tracking-tight flex items-center gap-3 bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
+          <Wand2 className="w-8 h-8 text-blue-600" /> {t("admin_auto_virtual_staging_ai", "Sanal Hazırlama Yapay Zekası")}</h1>
+        <p className="text-muted-foreground dark:text-muted-foreground mt-1">{t("admin_auto_transform_empty_spaces_into_beautifully_", "ControlNet ve Stable Diffusion'ı kullanarak boş alanları güzelce döşenmiş mülklere dönüştürün.")}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Panel: Controls */}
-        <Card className="lg:col-span-4 border-none shadow-sm dark:bg-slate-900/50">
+        <Card className="lg:col-span-4 border-none shadow-sm dark:bg-card/50">
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
-              <SlidersHorizontal className="w-5 h-5 text-slate-500" /> {t("admin_auto_configuration", "Configuration")}</CardTitle>
+              <SlidersHorizontal className="w-5 h-5 text-muted-foreground" /> {t("admin_auto_configuration", "Yapılandırma")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             
             {/* Upload Area */}
             <div>
-              <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">{t("admin_auto_source_image", "Source Image")}</label>
-              <label className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                <Upload className="w-8 h-8 text-slate-400 mb-2" />
-                <span className="text-sm text-slate-600 dark:text-slate-400 font-medium text-center">
-                  {t("mobile.auto.click_to_upload_empty_room_photo", "Click to upload empty room photo")}</span>
+              <label className="block text-sm font-bold text-muted-foreground dark:text-muted-foreground mb-2">{t("admin_auto_source_image", "Kaynak Resim")}</label>
+              <label className="border-2 border-dashed border-slate-300 dark:border-border rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-muted dark:hover:bg-muted/50 transition-colors">
+                <Upload className="w-8 h-8 text-muted-foreground mb-2" />
+                <span className="text-sm text-muted-foreground dark:text-muted-foreground font-medium text-center">
+                  {t("mobile.auto.click_to_upload_empty_room_photo", "Boş oda fotoğrafını yüklemek için tıklayın")}</span>
                 <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
               </label>
             </div>
 
             {/* Room Type */}
             <div>
-              <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">{t("admin_auto_room_type", "Room Type")}</label>
+              <label className="block text-sm font-bold text-muted-foreground dark:text-muted-foreground mb-2">{t("admin_auto_room_type", "Oda Tipi")}</label>
               <div className="grid grid-cols-2 gap-2">
                 {ROOM_TYPES.map(room => (
                   <button
@@ -86,8 +86,8 @@ export default function VirtualStaging() {
                     onClick={() => setSelectedRoom(room)}
                     className={`px-3 py-2 rounded-lg text-xs font-bold transition-colors ${
                       selectedRoom === room 
-                        ? 'bg-blue-600 text-white shadow-md' 
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                        ? 'bg-primary text-primary-foreground text-white shadow-md' 
+                        : 'bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted'
                     }`}
                   >
                     {room}
@@ -98,7 +98,7 @@ export default function VirtualStaging() {
 
             {/* Style Selection */}
             <div>
-              <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">{t("admin_auto_design_style", "Design Style")}</label>
+              <label className="block text-sm font-bold text-muted-foreground dark:text-muted-foreground mb-2">{t("admin_auto_design_style", "Tasarım Stili")}</label>
               <div className="grid grid-cols-2 gap-2">
                 {STYLES.map(style => (
                   <button
@@ -106,8 +106,8 @@ export default function VirtualStaging() {
                     onClick={() => setSelectedStyle(style)}
                     className={`px-3 py-2 rounded-lg text-xs font-bold transition-colors ${
                       selectedStyle === style 
-                        ? 'bg-purple-600 text-white shadow-md' 
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                        ? 'bg-brand text-white shadow-md' 
+                        : 'bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted'
                     }`}
                   >
                     {style}
@@ -123,13 +123,13 @@ export default function VirtualStaging() {
               className={`w-full py-3.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all ${
                 isGenerating 
                   ? 'bg-blue-400 cursor-not-allowed' 
-                  : 'bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/30 active:scale-95'
+                  : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-blue-600/30 active:scale-95'
               }`}
             >
               {isGenerating ? (
-                <><Loader2 className="w-5 h-5 animate-spin" /> {t("admin_auto_generating_design", "Generating Design...")}</>
+                <><Loader2 className="w-5 h-5 animate-spin" /> {t("admin_auto_generating_design", "Tasarım Üretiliyor...")}</>
               ) : (
-                <><Wand2 className="w-5 h-5" /> {t("admin_auto_stage_property", "Stage Property")}</>
+                <><Wand2 className="w-5 h-5" /> {t("admin_auto_stage_property", "Aşama Özelliği")}</>
               )}
             </button>
 
@@ -138,42 +138,42 @@ export default function VirtualStaging() {
 
         {/* Right Panel: Preview & Before/After */}
         <div className="lg:col-span-8 flex flex-col">
-          <Card className="border-none shadow-sm dark:bg-slate-900/50 flex-1 overflow-hidden flex flex-col">
+          <Card className="border-none shadow-sm dark:bg-card/50 flex-1 overflow-hidden flex flex-col">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-xl flex items-center gap-2">
-                <ImageIcon className="w-5 h-5 text-slate-500" /> {t("admin_documents_preview", "Preview")}</CardTitle>
+                <ImageIcon className="w-5 h-5 text-muted-foreground" /> {t("admin_documents_preview", "Önizleme")}</CardTitle>
               {isGenerated && (
-                <button className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-lg text-sm font-bold hover:bg-emerald-200 dark:hover:bg-emerald-900/50 transition-colors">
-                  <CheckCircle2 className="w-4 h-4" /> {t("admin_auto_save_to_listing", "Save to Listing")}</button>
+                <button className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-lg text-sm font-bold hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors">
+                  <CheckCircle2 className="w-4 h-4" /> {t("admin_auto_save_to_listing", "Listeye Kaydet")}</button>
               )}
             </CardHeader>
-            <CardContent className="flex-1 p-0 flex items-center justify-center bg-slate-50 dark:bg-slate-950/50 relative min-h-[400px]">
+            <CardContent className="flex-1 p-0 flex items-center justify-center bg-muted dark:bg-background/50 relative min-h-[400px]">
               
               {!isGenerated && !isGenerating && (
                 <div className="text-center p-8">
                   {uploadedImage ? (
-                    <Image src={uploadedImage} alt="Uploaded Empty Room" width={500} height={500} loading="lazy" sizes="500px" className="max-h-[500px] object-contain rounded-xl shadow-lg mx-auto" />
+                    <Image src={uploadedImage} alt={t("admin_auto_uploaded_empty_room", "Yüklenen Boş Oda")} width={500} height={500} loading="lazy" sizes="500px" className="max-h-[500px] object-contain rounded-xl shadow-lg mx-auto" />
                   ) : (
                     <div className="flex flex-col items-center">
-                      <ImageIcon className="w-16 h-16 text-slate-300 dark:text-slate-700 mb-4" />
-                      <p className="text-slate-500 dark:text-slate-400 font-medium">{t("admin_auto_upload_an_image_and_click_stage_property", "Upload an image and click \"Stage Property\" to see the magic.")}</p>
+                      <ImageIcon className="w-16 h-16 text-muted-foreground dark:text-muted-foreground mb-4" />
+                      <p className="text-muted-foreground dark:text-muted-foreground font-medium">{t("admin_auto_upload_an_image_and_click_stage_property", "Upload an image and click \"Stage Property\" to see the magic.")}</p>
                     </div>
                   )}
                 </div>
               )}
 
               {isGenerating && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/50 dark:bg-slate-950/50 backdrop-blur-sm z-10">
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-card/50 dark:bg-background/50 backdrop-blur-sm z-10">
                   <m.div 
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
                   >
                     <Wand2 className="w-12 h-12 text-blue-600 mb-4" />
                   </m.div>
-                  <p className="text-lg font-bold text-slate-800 dark:text-slate-200">{t("admin_auto_ai_is_analyzing_spatial_geometry", "AI is analyzing spatial geometry...")}</p>
-                  <div className="w-48 h-2 bg-slate-200 dark:bg-slate-800 rounded-full mt-4 overflow-hidden">
+                  <p className="text-lg font-bold text-muted-foreground dark:text-foreground">{t("admin_auto_ai_is_analyzing_spatial_geometry", "Yapay zeka uzaysal geometriyi analiz ediyor...")}</p>
+                  <div className="w-48 h-2 bg-muted dark:bg-muted rounded-full mt-4 overflow-hidden">
                     <m.div 
-                      className="h-full bg-blue-600 rounded-full"
+                      className="h-full bg-primary text-primary-foreground rounded-full"
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
                       transition={{ duration: 3.5, ease: "easeInOut" }}
@@ -186,7 +186,7 @@ export default function VirtualStaging() {
                 <div className="relative w-full h-full min-h-[500px] select-none">
                   {/* After Image (Furnished) - Background */}
                   <div className="absolute inset-0 w-full h-full">
-                    <Image src={afterImage} alt="Furnished Room" fill loading="lazy" className="object-cover" sizes="100vw" />
+                    <Image src={afterImage} alt={t("admin_auto_furnished_room", "Mobilyalı Oda")} fill loading="lazy" className="object-cover" sizes="100vw" />
                   </div>
                   
                   {/* Before Image (Empty) - Foreground, clipped by slider */}
@@ -194,16 +194,16 @@ export default function VirtualStaging() {
                     className="absolute inset-0 w-full h-full"
                     style={{ clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)` }}
                   >
-                    <Image src={beforeImage} alt="Empty Room" fill loading="lazy" className="object-cover grayscale" sizes="100vw" />
+                    <Image src={beforeImage} alt={t("admin_auto_empty_room", "Boş Oda")} fill loading="lazy" className="object-cover grayscale" sizes="100vw" />
                   </div>
 
                   {/* Slider Control */}
                   <div 
-                    className="absolute inset-y-0 flex items-center justify-center w-1 bg-white cursor-ew-resize hover:w-1.5 transition-all"
+                    className="absolute inset-y-0 flex items-center justify-center w-1 bg-card cursor-ew-resize hover:w-1.5 transition-all"
                     style={{ left: `calc(${sliderPosition}% - 2px)` }}
                   >
-                    <div className="w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center border border-slate-200">
-                      <SlidersHorizontal className="w-4 h-4 text-slate-500" />
+                    <div className="w-8 h-8 bg-card rounded-full shadow-lg flex items-center justify-center border border-slate-200">
+                      <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
                     </div>
                   </div>
 
@@ -219,9 +219,9 @@ export default function VirtualStaging() {
 
                   {/* Labels */}
                   <div className="absolute bottom-4 left-4 px-3 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-bold rounded-full shadow-lg z-10 pointer-events-none">
-                    {t("admin_security_before", "Before")}</div>
-                  <div className="absolute bottom-4 right-4 px-3 py-1 bg-blue-600/90 backdrop-blur-md text-white text-xs font-bold rounded-full shadow-lg z-10 pointer-events-none">
-                    {t("admin_auto_ai_staged", "AI Staged")}</div>
+                    {t("admin_security_before", "İşlem Öncesi Durum")}</div>
+                  <div className="absolute bottom-4 right-4 px-3 py-1 bg-primary text-primary-foreground/90 backdrop-blur-md text-white text-xs font-bold rounded-full shadow-lg z-10 pointer-events-none">
+                    {t("admin_auto_ai_staged", "Yapay Zeka Aşamalı")}</div>
                 </div>
               )}
 

@@ -10,6 +10,8 @@ import dynamic from "next/dynamic";
 import { LazyMotion, domAnimation } from "framer-motion";
 import "@/i18n";
 
+import { AuthProvider } from "@/lib/auth/AuthProvider";
+
 const Toaster = dynamic(() => import("@/components/ui/toaster").then(m => m.Toaster), { ssr: false });
 const ReactQueryDevtools = lazy(() =>
   import("@tanstack/react-query-devtools").then(res => ({
@@ -35,6 +37,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <AuthProvider>
           <MapProviderWrapper>
             <LazyMotion features={domAnimation}>
               <RegionBootstrap />
@@ -42,6 +45,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             </LazyMotion>
             <Toaster />
           </MapProviderWrapper>
+        </AuthProvider>
       </ThemeProvider>
       {process.env.NODE_ENV === "development" && (
         <Suspense fallback={null}>

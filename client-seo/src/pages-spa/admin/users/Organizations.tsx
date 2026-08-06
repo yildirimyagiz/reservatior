@@ -2,7 +2,7 @@
 import { apiClient } from '@/lib/api/client';
 
 import React, { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -19,6 +19,7 @@ import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
 import { m, AnimatePresence } from"framer-motion";
 import { Card, CardContent } from"@/components/ui/card";
 import { useTranslation } from"react-i18next";
+import { tEnum } from"@/lib/admin-enums";
 interface Organization {
  id: string;
  name: string;
@@ -45,7 +46,7 @@ const ORG_STATUS = (t: any) => {
  return {
  ACTIVE: {
  label: t("activeNode"),
- color:"bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+ color:"bg-blue-500/10 text-success border-blue-500/20"
  },
  SUSPENDED: {
  label: t("suspendedNode"),
@@ -151,7 +152,7 @@ export default function Organizations() {
  {/* KPI Neural Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card font-medium">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Building className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
@@ -162,18 +163,18 @@ export default function Organizations() {
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card font-medium">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <Globe className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("active")}</p>
- <h3 className="text-3xl font-bold text-emerald-400 leading-none">{stats.activeEntities}</h3>
- <p className="text-[10px] font-bold text-emerald-500/60 mt-4 leading-none">{t('organizations.verifiedOpStatus')}</p>
+ <h3 className="text-3xl font-bold text-success leading-none">{stats.activeEntities}</h3>
+ <p className="text-[10px] font-bold text-success/60 mt-4 leading-none">{t('organizations.verifiedOpStatus')}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card font-medium">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Zap className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
@@ -184,7 +185,7 @@ export default function Organizations() {
  </Card>
 
  <Card className="bg-card border-border rounded-4xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card font-medium">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Shield className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
@@ -201,7 +202,7 @@ export default function Organizations() {
  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-orange-500 transition-colors" />
  <Input placeholder={t("searchPlaceholder")} value={search} onChange={e => setSearch(e.target.value)} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-orange-500/20 focus:border-orange-500/40 transition-all font-medium border-l border-t" />
  </div>
- <Button onClick={() => setCreateOpen(true)} className="bg-slate-600 hover:bg-muted0 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
+ <Button onClick={() => setCreateOpen(true)} className="bg-muted hover:bg-muted0 text-foreground h-14 px-8 rounded-2xl font-bold text-[10px] gap-3 shadow-xl shadow-slate-600/20">
  <Plus className="w-4 h-4" />
  {t("initOrg")}
  </Button>
@@ -225,13 +226,13 @@ export default function Organizations() {
  <TableBody>
  {loading ? <TableRow>
  <TableCell colSpan={6} className="py-24 text-center">
- <Activity className="w-12 h-12 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
+ <Activity className="w-12 h-12 text-muted-foreground animate-spin mx-auto mb-4 opacity-50" />
  <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t('organizations.syncing')}</p>
  </TableCell>
  </TableRow> : filteredOrgs.map(org => <TableRow key={org.id} className="border-b border-border hover:bg-muted/50 transition-all group">
  <TableCell className="py-8 px-8">
  <div className="flex items-center gap-4">
- <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center font-bold text-slate-700 group-hover:scale-110 transition-all font-mono">
+ <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center font-bold text-muted-foreground group-hover:scale-110 transition-all font-mono">
  {org.name.slice(0, 2).toUpperCase()}
  </div>
  <div>
@@ -242,11 +243,11 @@ export default function Organizations() {
  </TableCell>
  <TableCell className="px-8">
  <div className="text-sm font-bold text-muted-foreground leading-tight">{org.domain ||"GLOBAL_CLUSTER"}</div>
- <div className="text-[10px] font-bold text-slate-600 leading-none mt-1">{org.owner?.email ||"UNSET_AUTHORITY"}</div>
+ <div className="text-[10px] font-bold text-muted-foreground leading-none mt-1">{org.owner?.email ||"UNSET_AUTHORITY"}</div>
  </TableCell>
  <TableCell className="px-8 font-bold">
- <Badge className={cn("text-[8px] font-bold px-3 py-1 rounded-full border-none shadow-lg", (planConfig as any)[org.plan]?.color ||"bg-muted0/10")}>
- {(planConfig as any)[org.plan] ? (planConfig as any)[org.plan].label : org.plan}
+ <Badge className={cn("text-[8px] font-bold px-3 py-1 rounded-full border-none shadow-lg", ((planConfig as any)[String(org.plan || '').toUpperCase()] || (planConfig as any)[org.plan])?.color || "bg-muted text-muted-foreground")}>
+  {((planConfig as any)[String(org.plan || '').toUpperCase()] || (planConfig as any)[org.plan])?.label || tEnum(t, org.plan || 'UNKNOWN')}
  </Badge>
  </TableCell>
  <TableCell className="px-8">
@@ -265,26 +266,26 @@ export default function Organizations() {
  <span>{org.propertyCount}{t("/", "/")}{org.maxProperties}</span>
  </div>
  <div className="h-1.5 w-32 bg-muted/50 rounded-full overflow-hidden">
- <div className="h-full bg-emerald-500 shadow-[0_0_10px_#10b981]" style={{
+ <div className="h-full bg-blue-500 shadow-[0_0_10px_#3b82f6]" style={{
  width: `${org.propertyCount / org.maxProperties * 100}%`
  }}></div>
  </div>
  </div>
  </TableCell>
  <TableCell className="px-8">
- <Badge className={cn("text-[8px] font-bold px-3 py-1 rounded-full border shadow-lg", (orgStatus as any)[org.status].color)}>
- {(orgStatus as any)[org.status].label}
+ <Badge className={cn("text-[8px] font-bold px-3 py-1 rounded-full border shadow-lg", ((orgStatus as any)[String(org.status || '').toUpperCase()] || (orgStatus as any)[org.status])?.color || "bg-muted text-muted-foreground border-slate-500/20")}>
+ {((orgStatus as any)[String(org.status || '').toUpperCase()] || (orgStatus as any)[org.status])?.label || org.status || "UNKNOWN"}
  </Badge>
  </TableCell>
  <TableCell className="px-8 text-right">
  <div className="flex items-center justify-end gap-2">
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground" onClick={() => openEditModal(org)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground" onClick={() => openEditModal(org)}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-red-500 transition-all" onClick={() => deleteMutation.mutate(org.id)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-red-500 transition-all" onClick={() => deleteMutation.mutate(org.id)}>
  <Trash2 className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground">
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-10 w-10 rounded-xl hover:bg-muted/50 text-muted-foreground">
  <MoreHorizontal className="w-4 h-4" />
  </Button>
  </div>
@@ -302,7 +303,7 @@ export default function Organizations() {
  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent"></div>
  <DialogHeader className="p-8 border-b border-border bg-muted/50">
  <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-foreground">
- <Layers className="w-6 h-6 text-slate-500" />
+ <Layers className="w-6 h-6 text-muted-foreground" />
  {t('organizations.initDialogTitle')}
  </DialogTitle>
  <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">{t('organizations.initDialogDesc')}</DialogDescription>
@@ -345,7 +346,7 @@ export default function Organizations() {
 
  <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
  <Button variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setCreateOpen(false)}>{t('organizations.abortMod')}</Button>
- <Button className="flex-2 h-16 rounded-2xl bg-slate-600 hover:bg-muted0 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">{t('organizations.execInit')}</Button>
+ <Button className="flex-2 h-16 rounded-2xl bg-muted hover:bg-muted0 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">{t('organizations.execInit')}</Button>
  </DialogFooter>
  </DialogContent>
  </Dialog>
@@ -356,62 +357,62 @@ export default function Organizations() {
  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent"></div>
  <DialogHeader className="p-8 border-b border-border bg-muted/50">
  <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-foreground">
- <Edit className="w-6 h-6 text-slate-500" />
- {t("admin_organization_edit_organization", "Edit Organization")}</DialogTitle>
- <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin_auto_update_organization_details_and_settings", "Update organization details and settings")}</DialogDescription>
+ <Edit className="w-6 h-6 text-muted-foreground" />
+ {t("admin_organization_edit_organization", "Organizasyonu Düzenle")}</DialogTitle>
+ <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin_auto_update_organization_details_and_settings", "Kuruluş ayrıntılarını ve ayarlarını güncelleme")}</DialogDescription>
  </DialogHeader>
 
  <form onSubmit={(e) => { e.preventDefault(); updateMutation.mutate(editFormData); }} className="p-10 space-y-8">
  <div className="grid grid-cols-2 gap-8">
  <div className="col-span-2 space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_organization_name", "Organization Name")}</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_organization_name", "Kuruluş Adı")}</Label>
  <Input value={editFormData.name || ''} onChange={e => setEditFormData({...editFormData, name: e.target.value})} className="bg-card border-border rounded-2xl h-16 font-bold tracking-tight px-6 text-lg focus:ring-slate-500/20" />
  </div>
  <div className="space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_status", "Status")}</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_status", "Durum")}</Label>
  <Select value={editFormData.status} onValueChange={v => setEditFormData({...editFormData, status: v})}>
  <SelectTrigger className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border text-foreground rounded-2xl">
- <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
- <SelectItem value="SUSPENDED">{t("admin_organization_suspended", "Suspended")}</SelectItem>
- <SelectItem value="TRIAL">{t("admin_auto_trial", "Trial")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_ai_active", "Aktif")}</SelectItem>
+ <SelectItem value="SUSPENDED">{t("admin_organization_suspended", "Askıya Alındı")}</SelectItem>
+ <SelectItem value="TRIAL">{t("admin_auto_trial", "Duruşma")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_plan", "Plan")}</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_plan", "Planı")}</Label>
  <Select value={editFormData.plan} onValueChange={v => setEditFormData({...editFormData, plan: v})}>
  <SelectTrigger className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border text-foreground rounded-2xl">
- <SelectItem value="STARTER">{t("organizations.plans.starter", "Starter")}</SelectItem>
- <SelectItem value="PRO">{t("client.src.pro", "Pro")}</SelectItem>
- <SelectItem value="ENTERPRISE">{t("admin_membership_enterprise", "Enterprise")}</SelectItem>
+ <SelectItem value="STARTER">{t("organizations.plans.starter", "Başlangıç")}</SelectItem>
+ <SelectItem value="PRO">{t("client.src.pro", "Profesyonel")}</SelectItem>
+ <SelectItem value="ENTERPRISE">{t("admin_membership_enterprise", "Kurumsal")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_max_users", "Max Users")}</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_max_users", "Maksimum Kullanıcı")}</Label>
  <Input type="number" value={editFormData.maxUsers || ''} onChange={e => setEditFormData({...editFormData, maxUsers: parseInt(e.target.value)})} className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t" />
  </div>
  <div className="space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_max_properties", "Max Properties")}</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_max_properties", "Maksimum Mülkler")}</Label>
  <Input type="number" value={editFormData.maxProperties || ''} onChange={e => setEditFormData({...editFormData, maxProperties: parseInt(e.target.value)})} className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t" />
  </div>
  <div className="col-span-2 space-y-2">
- <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_billing_email", "Billing Email")}</Label>
+ <Label className="text-[10px] font-bold text-muted-foreground ml-3">{t("admin_auto_billing_email", "Faturalandırma E-postası")}</Label>
  <Input type="email" value={editFormData.billingEmail || ''} onChange={e => setEditFormData({...editFormData, billingEmail: e.target.value})} className="bg-card border-border rounded-2xl h-14 font-bold text-[10px] px-6 border-l border-t" />
  </div>
  </div>
  </form>
 
  <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
- <Button type="button" variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setEditOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
- <Button type="button" onClick={() => updateMutation.mutate(editFormData)} disabled={updateMutation.isPending} className="flex-2 h-16 rounded-2xl bg-slate-600 hover:bg-muted0 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">
- {updateMutation.isPending ?"Saving..." :"Save Changes"}
+ <Button type="button" variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setEditOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
+ <Button type="button" onClick={() => updateMutation.mutate(editFormData)} disabled={updateMutation.isPending} className="flex-2 h-16 rounded-2xl bg-muted hover:bg-muted0 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">
+  {updateMutation.isPending ? t("admin_organizations_saving", "Kaydediliyor...") : t("admin_organizations_save_changes", "Değişiklikleri Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>

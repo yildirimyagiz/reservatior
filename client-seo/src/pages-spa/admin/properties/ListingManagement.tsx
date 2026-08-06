@@ -146,11 +146,11 @@ const ListingManagement = () => {
 
  const getStatusBadge = (status: string) => {
  const statusConfig: Record<string, { color: string; label: string }> = {
- 'ACTIVE': { color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', label: t('admin_listing_active', 'Active') },
- 'INACTIVE': { color: 'bg-muted0/10 text-muted-foreground border-slate-500/20', label: t('admin_listing_inactive', 'Inactive') },
- 'PENDING': { color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_listing_pending', 'Pending') },
- 'SOLD': { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', label: t('admin_listing_sold', 'Sold') },
- 'RENTED': { color: 'bg-purple-500/10 text-purple-400 border-purple-500/20', label: t('admin_listing_rented', 'Rented') }
+ 'ACTIVE': { color: 'bg-blue-500/10 text-success border-blue-500/20', label: t('admin_listing_active', 'Aktif') },
+ 'INACTIVE': { color: 'bg-muted0/10 text-muted-foreground border-slate-500/20', label: t('admin_listing_inactive', 'Etkin değil') },
+ 'PENDING': { color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_listing_pending', 'Askıda olması') },
+ 'SOLD': { color: 'bg-blue-500/10 text-info border-blue-500/20', label: t('admin_listing_sold', 'Satılmış') },
+ 'RENTED': { color: 'bg-brand/10 text-brand border-brand/20', label: t('admin_listing_rented', 'Kiralandı') }
  };
  const config = statusConfig[status] || statusConfig['ACTIVE'];
  return <Badge className={config.color}>{config.label}</Badge>;
@@ -158,9 +158,9 @@ const ListingManagement = () => {
 
  const getTypeBadge = (type: string) => {
  const typeConfig: Record<string, { color: string; label: string }> = {
- 'SALE': { color: 'bg-orange-500/10 text-orange-400 border-orange-500/20', label: t('admin_listing_sale', 'Sale') },
- 'RENT': { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', label: t('admin_listing_rent', 'Rent') },
- 'BOOKING': { color: 'bg-green-500/10 text-green-400 border-green-500/20', label: t('admin_listing_booking', 'Booking') }
+ 'SALE': { color: 'bg-orange-500/10 text-warning border-orange-500/20', label: t('admin_listing_sale', 'Satış') },
+ 'RENT': { color: 'bg-blue-500/10 text-info border-blue-500/20', label: t('admin_listing_rent', 'Kira') },
+ 'BOOKING': { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', label: t('admin_listing_booking', 'Rezervasyon') }
  };
  const config = typeConfig[type] || typeConfig['SALE'];
  return <Badge className={config.color}>{config.label}</Badge>;
@@ -174,35 +174,35 @@ const ListingManagement = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
- {t("admin_listing_title","Listing Management")}
+ {t("admin_listing_title", "İlan Yönetimi")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_listing_subtitle","Manage property listings for sale, rent, and booking")}
+ {t("admin_listing_subtitle", "Satılık, kiralık ve rezervasyon amaçlı mülk listelerini yönetin")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-white">
+ <Button className="bg-muted hover:bg-muted0 text-white">
  <Plus className="w-4 h-4 mr-2" />
- {t("common.add","Add Listing")}
+ {t("common.add", "Ekle")}
  </Button>
  </DialogTrigger>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_listing_add_title","Add Property Listing")}</DialogTitle>
- <DialogDescription>{t("admin_listing_add_desc","Create a new listing for a property")}</DialogDescription>
+ <DialogTitle>{t("admin_listing_add_title", "Emlak Listesi Ekle")}</DialogTitle>
+ <DialogDescription>{t("admin_listing_add_desc", "Bir mülk için yeni bir liste oluşturma")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 py-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_listing_property","Property")}</Label>
+ <Label>{t("admin_listing_property", "Mülk")}</Label>
  <Select value={newItem.propertyId} onValueChange={(v) => setNewItem({...newItem, propertyId: v})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder={t("admin_listing_select_property","Select property")} />
+ <SelectValue placeholder={t("admin_listing_select_property", "Mülk seçin")} />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
  {properties.map((p: any) => (
@@ -212,22 +212,22 @@ const ListingManagement = () => {
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_listing_type","Listing Type")}</Label>
+ <Label>{t("admin_listing_type", "Listeleme Türü")}</Label>
  <Select value={newItem.type} onValueChange={(v) => setNewItem({...newItem, type: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="SALE">{t("admin_listing_sale","Sale")}</SelectItem>
- <SelectItem value="RENT">{t("admin_listing_rent","Rent")}</SelectItem>
- <SelectItem value="BOOKING">{t("admin_listing_booking","Booking")}</SelectItem>
+ <SelectItem value="SALE">{t("admin_listing_sale", "Satış")}</SelectItem>
+ <SelectItem value="RENT">{t("admin_listing_rent", "Kira")}</SelectItem>
+ <SelectItem value="BOOKING">{t("admin_listing_booking", "Rezervasyon")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_listing_price","Price")}</Label>
+ <Label>{t("admin_listing_price", "Fiyat")}</Label>
  <Input 
  type="number" 
  value={newItem.listingPrice} 
@@ -236,42 +236,42 @@ const ListingManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_listing_currency","Currency")}</Label>
+ <Label>{t("admin_listing_currency", "Para birimi")}</Label>
  <Select value={newItem.currency} onValueChange={(v) => setNewItem({...newItem, currency: v})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="USD">{t("admin_financial_usd", "USD")}</SelectItem>
- <SelectItem value="EUR">{t("admin_financial_eur", "EUR")}</SelectItem>
+ <SelectItem value="USD">{t("admin_financial_usd", "Usd")}</SelectItem>
+ <SelectItem value="EUR">{t("admin_financial_eur", "Eur")}</SelectItem>
  <SelectItem value="GBP">{t("admin_auto_gbp", "GBP")}</SelectItem>
- <SelectItem value="TRY">{t("admin_auto_try", "TRY")}</SelectItem>
+ <SelectItem value="TRY">{t("admin_auto_try", "DENEMEK")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_listing_title","Title")}</Label>
+ <Label>{t("admin_listing_title", "İlan Yönetimi")}</Label>
  <Input 
  value={newItem.title} 
  onChange={(e) => setNewItem({...newItem, title: e.target.value})}
  className="bg-card border-border"
- placeholder={t("admin_listing_title_placeholder","Listing title")}
+ placeholder={t("admin_listing_title_placeholder", "İlan başlığı")}
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_listing_description","Description")}</Label>
+ <Label>{t("admin_listing_description", "Tanım")}</Label>
  <Textarea 
  value={newItem.description} 
  onChange={(e) => setNewItem({...newItem, description: e.target.value})}
  className="bg-card border-border"
- placeholder={t("admin_listing_description_placeholder","Property description")}
+ placeholder={t("admin_listing_description_placeholder", "Mülk açıklaması")}
  rows={3}
  />
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_listing_available_from","Available From")}</Label>
+ <Label>{t("admin_listing_available_from", "Şu tarihten itibaren mevcut:")}</Label>
  <Input 
  type="date" 
  value={newItem.availableFrom} 
@@ -280,7 +280,7 @@ const ListingManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_listing_available_to","Available To")}</Label>
+ <Label>{t("admin_listing_available_to", "Kullanılabilir")}</Label>
  <Input 
  type="date" 
  value={newItem.availableTo} 
@@ -291,7 +291,7 @@ const ListingManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_listing_min_stay","Min Stay (nights)")}</Label>
+ <Label>{t("admin_listing_min_stay", "Minimum Konaklama (gece)")}</Label>
  <Input 
  type="number" 
  value={newItem.minStay} 
@@ -300,7 +300,7 @@ const ListingManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_listing_max_stay","Max Stay (nights)")}</Label>
+ <Label>{t("admin_listing_max_stay", "Maksimum Konaklama (gece)")}</Label>
  <Input 
  type="number" 
  value={newItem.maxStay} 
@@ -312,10 +312,10 @@ const ListingManagement = () => {
  </form>
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleAddSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleAddSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>
@@ -327,25 +327,25 @@ const ListingManagement = () => {
  <CardHeader>
  <CardTitle className="flex items-center gap-2">
  <Home className="w-5 h-5" />
- {t("admin_listing_list_title","Property Listings")}
+ {t("admin_listing_list_title", "Emlak İlanları")}
  </CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
- <div className="text-center py-8 text-slate-500">{t("common.loading","Loading...")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("common.loading", "Yükleniyor")}</div>
  ) : listings.length === 0 ? (
- <div className="text-center py-8 text-slate-500">{t("admin_listing_empty","No listings found")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("admin_listing_empty", "Hiçbir liste bulunamadı")}</div>
  ) : (
  <Table>
  <TableHeader>
  <TableRow>
- <TableHead>{t("admin_listing_property","Property")}</TableHead>
- <TableHead>{t("admin_listing_type","Type")}</TableHead>
- <TableHead>{t("admin_listing_price","Price")}</TableHead>
- <TableHead>{t("admin_listing_status","Status")}</TableHead>
- <TableHead>{t("admin_listing_availability","Availability")}</TableHead>
- <TableHead>{t("admin_listing_created","Created")}</TableHead>
- <TableHead className="text-right">{t("common.actions","Actions")}</TableHead>
+ <TableHead>{t("admin_listing_property", "Mülk")}</TableHead>
+ <TableHead>{t("admin_listing_type", "Listeleme Türü")}</TableHead>
+ <TableHead>{t("admin_listing_price", "Fiyat")}</TableHead>
+ <TableHead>{t("admin_listing_status", "Durum")}</TableHead>
+ <TableHead>{t("admin_listing_availability", "Kullanılabilirlik")}</TableHead>
+ <TableHead>{t("admin_listing_created", "Oluşturuldu")}</TableHead>
+ <TableHead className="text-right">{t("common.actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -354,7 +354,7 @@ const ListingManagement = () => {
  <TableCell className="font-medium">
  <div>
  <div className="font-medium">{item.title || item.property?.name || '-'}</div>
- <div className="text-xs text-slate-500 flex items-center gap-1">
+ <div className="text-xs text-muted-foreground flex items-center gap-1">
  <MapPin className="w-3 h-3" />
  {item.property?.city || '-'}
  </div>
@@ -368,19 +368,19 @@ const ListingManagement = () => {
  </div>
  </TableCell>
  <TableCell>{getStatusBadge(item.status)}</TableCell>
- <TableCell className="text-slate-500">
+ <TableCell className="text-muted-foreground">
  {item.availableFrom ? new Date(item.availableFrom).toLocaleDateString() : '-'}
  {item.availableTo && ` - ${new Date(item.availableTo).toLocaleDateString()}`}
  </TableCell>
- <TableCell className="text-slate-500">
+ <TableCell className="text-muted-foreground">
  {new Date(item.createdAt).toLocaleDateString()}
  </TableCell>
  <TableCell className="text-right">
  <div className="flex justify-end gap-2">
- <Button variant="ghost" size="icon" onClick={() => openEditModal(item)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} onClick={() => openEditModal(item)}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(item.id)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} onClick={() => deleteMutation.mutate(item.id)}>
  <Trash2 className="w-4 h-4 text-red-500" />
  </Button>
  </div>
@@ -397,29 +397,29 @@ const ListingManagement = () => {
  <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_listing_edit_title","Edit Listing")}</DialogTitle>
- <DialogDescription>{t("admin_listing_edit_desc","Update listing details")}</DialogDescription>
+ <DialogTitle>{t("admin_listing_edit_title", "İlanı Düzenle")}</DialogTitle>
+ <DialogDescription>{t("admin_listing_edit_desc", "Liste ayrıntılarını güncelle")}</DialogDescription>
  </DialogHeader>
  {editingItem && (
  <form onSubmit={handleEditSubmit} className="space-y-4 py-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_listing_status","Status")}</Label>
+ <Label>{t("admin_listing_status", "Durum")}</Label>
  <Select value={editingItem.status} onValueChange={(v) => setEditingItem({...editingItem, status: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="ACTIVE">{t("admin_listing_active","Active")}</SelectItem>
- <SelectItem value="INACTIVE">{t("admin_listing_inactive","Inactive")}</SelectItem>
- <SelectItem value="PENDING">{t("admin_listing_pending","Pending")}</SelectItem>
- <SelectItem value="SOLD">{t("admin_listing_sold","Sold")}</SelectItem>
- <SelectItem value="RENTED">{t("admin_listing_rented","Rented")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_listing_active", "Aktif")}</SelectItem>
+ <SelectItem value="INACTIVE">{t("admin_listing_inactive", "Etkin değil")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_listing_pending", "Askıda olması")}</SelectItem>
+ <SelectItem value="SOLD">{t("admin_listing_sold", "Satılmış")}</SelectItem>
+ <SelectItem value="RENTED">{t("admin_listing_rented", "Kiralandı")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_listing_price","Price")}</Label>
+ <Label>{t("admin_listing_price", "Fiyat")}</Label>
  <Input 
  type="number" 
  value={editingItem.listingPrice}
@@ -429,7 +429,7 @@ const ListingManagement = () => {
  </div>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_listing_title","Title")}</Label>
+ <Label>{t("admin_listing_title", "İlan Yönetimi")}</Label>
  <Input 
  value={editingItem.title || ''}
  onChange={(e) => setEditingItem({...editingItem, title: e.target.value})}
@@ -437,7 +437,7 @@ const ListingManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_listing_description","Description")}</Label>
+ <Label>{t("admin_listing_description", "Tanım")}</Label>
  <Textarea 
  value={editingItem.description || ''}
  onChange={(e) => setEditingItem({...editingItem, description: e.target.value})}
@@ -449,10 +449,10 @@ const ListingManagement = () => {
  )}
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleEditSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleEditSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>

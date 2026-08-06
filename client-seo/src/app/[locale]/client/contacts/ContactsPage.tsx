@@ -37,14 +37,14 @@ const mockContacts: Contact[] = [
 ];
 
 const TYPE_COLORS: Record<string, string> = {
-  CLIENT: "bg-blue-500/20 text-blue-400",
-  AGENT: "bg-purple-500/20 text-purple-400",
-  VENDOR: "bg-emerald-500/20 text-emerald-400",
+  CLIENT: "bg-brand/100/20 text-brand",
+  AGENT: "bg-brand/20 text-brand",
+  VENDOR: "bg-success/20 text-success",
   TENANT: "bg-amber-500/20 text-amber-400"
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-green-500/20 text-green-400",
+  ACTIVE: "bg-blue-500/20 text-blue-400",
   INACTIVE: "bg-gray-500/20 text-gray-400"
 };
 
@@ -73,7 +73,7 @@ export default function ContactsPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("contacts.contactspage.auto_ext_3")}
@@ -87,7 +87,7 @@ export default function ContactsPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -97,11 +97,11 @@ export default function ContactsPage() {
                       placeholder="Search contacts..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
-                <Button className="bg-purple-600 hover:bg-purple-700">
+                <Button className="bg-brand hover:bg-brand">
                   <Plus className="w-4 h-4 mr-2" />
                   {t("contacts.contactspage.auto_ext_4")}
                                                   </Button>
@@ -115,7 +115,7 @@ export default function ContactsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Users className="w-5 h-5" />
@@ -130,7 +130,7 @@ export default function ContactsPage() {
                     className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold">
+                      <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center text-brand font-bold">
                         {contact.name.split(' ').map(n => n[0]).join('')}
                       </div>
                       <div>
@@ -149,10 +149,10 @@ export default function ContactsPage() {
                       <Badge className={TYPE_COLORS[contact.type]}>{contact.type}</Badge>
                       <Badge className={STATUS_COLORS[contact.status]}>{contact.status}</Badge>
                       <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Button variant="ghost" size="icon" aria-label={t("common.edit")} className="h-8 w-8">
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400">
+                        <Button variant="ghost" size="icon" aria-label={t("common.delete")} className="h-8 w-8 text-red-400">
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>

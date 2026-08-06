@@ -82,45 +82,45 @@ const AgentsManagement = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-pink-400">
- {t("admin_agents_title","Agent Management")}
+ {t("admin_agents_title", "Acente Yönetimi")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_agents_subtitle","Monitor agent performance, licenses, and operational status")}
+ {t("admin_agents_subtitle", "Acente performansını, lisanslarını ve durumunu izleyin")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  
  <Dialog open={isInviteOpen} onOpenChange={setIsInviteOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-slate-700 text-foreground shadow-lg shadow-slate-500/20">
+ <Button className="bg-muted hover:bg-muted text-foreground shadow-lg shadow-slate-500/20">
  <Plus className="w-4 h-4 mr-2" />
- {t("admin_agents_add","Invite Agent")}
+ {t("admin_agents_add", "Temsilciyi Davet Et")}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-background text-foreground border-border">
  <DialogHeader>
- <DialogTitle>{t("admin_agents_add","Invite Agent")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_of_the_agent_you_want", "Enter the details of the agent you want to invite to the platform.")}</DialogDescription>
+ <DialogTitle>{t("admin_agents_add", "Temsilciyi Davet Et")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_of_the_agent_you_want", "Platforma davet etmek istediğiniz temsilcinin ayrıntılarını girin.")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={e => { e.preventDefault(); createMutation.mutate(formData); }} className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-slate-300">{t("admin_auto_name", "Name")}</Label>
+ <Label htmlFor="name" className="text-right text-muted-foreground">{t("admin_auto_name", "İsim")}</Label>
  <Input id="name" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="email" className="text-right text-slate-300">{t("admin_auto_email", "Email")}</Label>
+ <Label htmlFor="email" className="text-right text-muted-foreground">{t("admin_auto_email", "E-posta")}</Label>
  <Input id="email" type="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="license" className="text-right text-slate-300">{t("admin_auto_license", "License")}</Label>
+ <Label htmlFor="license" className="text-right text-muted-foreground">{t("admin_auto_license", "Lisans")}</Label>
  <Input id="license" value={formData.licenseNumber} onChange={(e) => setFormData({...formData, licenseNumber: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <DialogFooter className="mt-4">
- <Button type="button" variant="outline" className="bg-transparent border-border text-foreground hover:bg-card" onClick={() => setIsInviteOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
- <Button type="submit" disabled={createMutation.isPending} className="bg-slate-600 hover:bg-slate-700 text-foreground">{createMutation.isPending ? 'Saving...' : 'Send Invitation'}</Button>
+ <Button type="button" variant="outline" className="bg-transparent border-border text-foreground hover:bg-card" onClick={() => setIsInviteOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
+ <Button type="submit" disabled={createMutation.isPending} className="bg-muted hover:bg-muted text-foreground">{createMutation.isPending ? 'Saving...' : 'Send Invitation'}</Button>
  </DialogFooter>
  </form>
  </DialogContent>
@@ -129,24 +129,24 @@ const AgentsManagement = () => {
  <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
  <DialogContent className="sm:max-w-[425px] bg-background text-foreground border-border">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_edit_agent", "Edit Agent")}</DialogTitle>
+ <DialogTitle>{t("admin_auto_edit_agent", "Temsilciyi Düzenle")}</DialogTitle>
  </DialogHeader>
  <form onSubmit={e => { e.preventDefault(); updateMutation.mutate(formData); }} className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-name" className="text-right text-slate-300">{t("admin_auto_name", "Name")}</Label>
+ <Label htmlFor="edit-name" className="text-right text-muted-foreground">{t("admin_auto_name", "İsim")}</Label>
  <Input id="edit-name" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-email" className="text-right text-slate-300">{t("admin_auto_email", "Email")}</Label>
+ <Label htmlFor="edit-email" className="text-right text-muted-foreground">{t("admin_auto_email", "E-posta")}</Label>
  <Input id="edit-email" type="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-license" className="text-right text-slate-300">{t("admin_auto_license", "License")}</Label>
+ <Label htmlFor="edit-license" className="text-right text-muted-foreground">{t("admin_auto_license", "Lisans")}</Label>
  <Input id="edit-license" value={formData.licenseNumber} onChange={(e) => setFormData({...formData, licenseNumber: e.target.value})} className="col-span-3 bg-card border-border text-foreground" />
  </div>
  <DialogFooter className="mt-4">
- <Button type="button" variant="outline" className="bg-transparent border-border text-foreground hover:bg-card" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
- <Button type="submit" disabled={updateMutation.isPending} className="bg-slate-600 hover:bg-slate-700 text-foreground">{updateMutation.isPending ? 'Saving...' : 'Update Agent'}</Button>
+ <Button type="button" variant="outline" className="bg-transparent border-border text-foreground hover:bg-card" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
+ <Button type="submit" disabled={updateMutation.isPending} className="bg-muted hover:bg-muted text-foreground">{updateMutation.isPending ? 'Saving...' : 'Update Agent'}</Button>
  </DialogFooter>
  </form>
  </DialogContent>
@@ -156,22 +156,22 @@ const AgentsManagement = () => {
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader>
- <CardTitle className="text-foreground">{t("admin_layout_agent_directory", "Agent Directory")}</CardTitle>
+ <CardTitle className="text-foreground">{t("admin_layout_agent_directory", "Danışman Rehberi")}</CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
- <div className="flex items-center justify-center py-20 text-muted-foreground">{t("admin_system_loading", "Loading...")}</div>
+ <div className="flex items-center justify-center py-20 text-muted-foreground">{t("admin_system_loading", "Yükleniyor...")}</div>
  ) : agents.length === 0 ? (
- <div className="flex items-center justify-center py-20 text-muted-foreground">{t("admin_auto_no_agents_found", "No agents found.")}</div>
+ <div className="flex items-center justify-center py-20 text-muted-foreground">{t("admin_auto_no_agents_found", "Hiçbir temsilci bulunamadı.")}</div>
  ) : (
  <div className="rounded-xl border border-border">
  <Table>
  <TableHeader>
  <TableRow className="border-border hover:bg-transparent">
- <TableHead className="text-slate-300">{t("admin_ai_name", "Name")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_auto_email", "Email")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_auto_license", "License")}</TableHead>
- <TableHead className="text-slate-300 text-right">{t("admin_ai_actions", "Actions")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_ai_name", "Sistem Adı")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_auto_email", "E-posta")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_auto_license", "Lisans")}</TableHead>
+ <TableHead className="text-muted-foreground text-right">{t("admin_ai_actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -183,11 +183,11 @@ const AgentsManagement = () => {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0"><MoreHorizontal className="h-4 w-4 text-muted-foreground" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}><MoreHorizontal className="h-4 w-4 text-muted-foreground" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
- <DropdownMenuItem onClick={() => openEdit(a)} className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
- <DropdownMenuItem onClick={() => deleteMutation.mutate(a.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => openEdit(a)} className="cursor-pointer hover:bg-muted dark:hover:bg-card/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Düzenle")}</DropdownMenuItem>
+ <DropdownMenuItem onClick={() => deleteMutation.mutate(a.id)} className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Sil")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </TableCell>

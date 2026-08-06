@@ -73,25 +73,25 @@ export default function AgentOSDashboard() {
       title: "Total Agents",
       value: formatNumber(stats.totalAgents),
       icon: Users,
-      color: "text-blue-600",
+      color: "text-brand",
     },
     {
       title: "Active Agents",
       value: formatNumber(stats.activeAgents),
       icon: CheckCircle,
-      color: "text-green-600",
+      color: "text-blue-600",
     },
     {
       title: "Total Commissions",
       value: formatCurrency(stats.totalCommissions),
       icon: DollarSign,
-      color: "text-purple-600",
+      color: "text-brand",
     },
     {
       title: "Avg Performance",
       value: `${stats.averagePerformance.toFixed(1)}/100`,
       icon: Award,
-      color: "text-orange-600",
+      color: "text-warning",
     },
   ];
 
@@ -100,7 +100,16 @@ export default function AgentOSDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Agent OS Dashboard</h1>
-          <p className="text-gray-600 mt-1">Monitor and manage agent operations</p>
+          <p className="text-gray-600 mt-1">Global Realtors Co-Brokerage, Escrow Commission Splitting & 2% Rent Guarantee Enablement Portal</p>
+        </div>
+      </div>
+
+      <div className="p-4 bg-indigo-50 border border-indigo-100 rounded-xl flex items-center justify-between text-indigo-900">
+        <div className="flex items-center gap-3">
+          <Shield className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+          <span className="text-sm font-medium">
+            <strong>Partner Advantage:</strong> Close listings up to 4x faster with Reservatior&apos;s underwritten <strong>2% Rent Guarantee Fund</strong> and guaranteed escrow commission disbursement.
+          </span>
         </div>
       </div>
 
@@ -108,7 +117,7 @@ export default function AgentOSDashboard() {
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
@@ -124,7 +133,7 @@ export default function AgentOSDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Performance Trends</h2>
             <BarChart3 className="w-5 h-5 text-gray-500" />
@@ -138,7 +147,7 @@ export default function AgentOSDashboard() {
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Trust Score Distribution</h2>
             <Shield className="w-5 h-5 text-gray-500" />

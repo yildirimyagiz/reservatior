@@ -1,11 +1,19 @@
-import type { Metadata } from "next";
-import Dashboard from "./Dashboard";
+"use client";
 
-export const metadata: Metadata = {
-  title: "User Passport - Intelligence & AI | Reservatior",
-  description: "User intelligence profile with behavior analysis, engagement scoring, and intent prediction.",
-};
+import dynamic from "next/dynamic";
+import React from "react";
+import { Loader2 } from "lucide-react";
 
-export default function UserPassportPage() {
-  return <Dashboard />;
+const Component = dynamic(() => import("@/pages-spa/admin/intelligence/UserPassport"), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px] text-muted-foreground">
+      <Loader2 className="w-8 h-8 animate-spin text-brand mr-2" />
+      <span>Modül yükleniyor...</span>
+    </div>
+  ),
+  ssr: false
+});
+
+export default function UserPassportAppPage() {
+  return <Component />;
 }

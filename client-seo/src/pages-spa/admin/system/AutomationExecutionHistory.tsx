@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from"react";
 import { useTranslation } from"react-i18next";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
@@ -13,10 +13,10 @@ import { Eye, RefreshCw } from"lucide-react";
 import { automationExecutionsApi } from"@/lib/api/automation-rules";
 
 const STATUS_COLORS: Record<string, string> = {
- COMPLETED:"bg-green-100 text-green-800",
+ COMPLETED:"bg-blue-100 text-blue-800",
  PARTIAL:"bg-yellow-100 text-yellow-800",
  FAILED:"bg-red-100 text-red-800",
- PENDING:"bg-slate-100 text-slate-800",
+ PENDING:"bg-muted text-muted-foreground",
  SKIPPED:"bg-card text-muted-foreground",
 };
 
@@ -58,10 +58,10 @@ export default function AutomationExecutionHistory() {
  </SelectTrigger>
  <SelectContent>
  <SelectItem value="">{t("admin_system_all_statuses")}</SelectItem>
- <SelectItem value="COMPLETED">{t("client_propertyValuationsStatusesCompleted", "COMPLETED")}</SelectItem>
- <SelectItem value="PARTIAL">{t("admin_financial_partial", "PARTIAL")}</SelectItem>
- <SelectItem value="FAILED">{t("client_propertyValuationsStatusesFailed", "FAILED")}</SelectItem>
- <SelectItem value="PENDING">{t("client_propertyReservationsPending", "PENDING")}</SelectItem>
+ <SelectItem value="COMPLETED">{t("client_propertyValuationsStatusesCompleted", "Completed")}</SelectItem>
+ <SelectItem value="PARTIAL">{t("admin_financial_partial", "Kısmi (Partial)")}</SelectItem>
+ <SelectItem value="FAILED">{t("client_propertyValuationsStatusesFailed", "Başarisiz")}</SelectItem>
+ <SelectItem value="PENDING">{t("client_propertyReservationsPending", "Pending")}</SelectItem>
  </SelectContent>
  </Select>
  <Button variant="outline" onClick={load} disabled={loading}>
@@ -109,7 +109,7 @@ export default function AutomationExecutionHistory() {
  {ex.processingTimeMs ? `${ex.processingTimeMs}ms` :"-"}
  </TableCell>
  <TableCell>
- <Button variant="ghost" size="sm" onClick={() => setSelected(ex)}>
+ <Button variant="ghost" size="sm" onClick={() => setSelected(ex)} aria-label={t("common.view")}>
  <Eye className="h-4 w-4" />
  </Button>
  </TableCell>
@@ -152,7 +152,7 @@ export default function AutomationExecutionHistory() {
  <div>
  <span className="font-medium">{t("admin_system_trigger_event")}{t("mobile.leftovers.", ":")}</span>
  <div className="mt-1 p-2 bg-card rounded-lg text-xs">
- {t("admin_ai_type", "Type:")}{selected.event.eventType}
+ {t("admin_ai_type", "Tip")}{selected.event.eventType}
  {selected.event.severity && ` | Severity: ${selected.event.severity}`}
  {selected.event.entityType && ` | Entity: ${selected.event.entityType}:${selected.event.entityId ||""}`}
  </div>

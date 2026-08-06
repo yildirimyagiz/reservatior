@@ -81,7 +81,7 @@ export default function DocumentWorkflow() {
       setTemplates(templatesRes.data);
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_fetch_document"),
         variant: "destructive"
       });
@@ -98,7 +98,7 @@ export default function DocumentWorkflow() {
         return 'bg-yellow-500';
       case 'SIGNED':
       case 'EXECUTED':
-        return 'bg-green-500';
+        return 'bg-blue-500';
       case 'DECLINED':
       case 'TERMINATED':
         return 'bg-red-500';
@@ -156,7 +156,7 @@ export default function DocumentWorkflow() {
               <CheckCircle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">{signedToday}</div>
+              <div className="text-2xl font-bold text-blue-600">{signedToday}</div>
               <p className="text-xs text-muted-foreground">{t("client.src.completed_today")}</p>
             </CardContent>
           </Card>
@@ -168,16 +168,16 @@ export default function DocumentWorkflow() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{activeTemplates}</div>
-              <p className="text-xs text-muted-foreground">{t("client.src.of")}{templates.length}{t("client.src.total")}</p>
+              <p className="text-xs text-muted-foreground">{t("client.src.of")}{templates.length}{t("common.total")}</p>
             </CardContent>
           </Card>
         </div>
 
         <Tabs defaultValue="contracts" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="contracts">{t("client.src.contracts")}</TabsTrigger>
+            <TabsTrigger value="contracts">{t("common.contracts")}</TabsTrigger>
             <TabsTrigger value="signatures">{t("client.src.signature_requests")}</TabsTrigger>
-            <TabsTrigger value="templates">{t("client.src.templates")}</TabsTrigger>
+            <TabsTrigger value="templates">{t("common.templates")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="contracts" className="space-y-4">
@@ -192,12 +192,12 @@ export default function DocumentWorkflow() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ALL">{t("client.src.all_status")}</SelectItem>
-                    <SelectItem value="DRAFT">{t("client.src.draft")}</SelectItem>
-                    <SelectItem value="PENDING_SIGNATURE">{t("client.src.pending")}</SelectItem>
-                    <SelectItem value="SIGNED">{t("client.src.signed")}</SelectItem>
+                    <SelectItem value="ALL">{t("common.all_status")}</SelectItem>
+                    <SelectItem value="DRAFT">{t("common.draft")}</SelectItem>
+                    <SelectItem value="PENDING_SIGNATURE">{t("common.processing")}</SelectItem>
+                    <SelectItem value="SIGNED">{t("common.signed")}</SelectItem>
                     <SelectItem value="EXECUTED">{t("client.src.executed")}</SelectItem>
-                    <SelectItem value="EXPIRED">{t("client.src.expired")}</SelectItem>
+                    <SelectItem value="EXPIRED">{t("common.expired")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -207,20 +207,20 @@ export default function DocumentWorkflow() {
 
             <Card>
               <CardHeader>
-                <CardTitle>{t("client.src.contracts")}</CardTitle>
+                <CardTitle>{t("common.contracts")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("client.src.title")}</TableHead>
-                      <TableHead>{t("client.src.type")}</TableHead>
+                      <TableHead>{t("common.title")}</TableHead>
+                      <TableHead>{t("common.type")}</TableHead>
                       <TableHead>{t("client.src.parties")}</TableHead>
-                      <TableHead>{t("client.src.status")}</TableHead>
+                      <TableHead>{t("common.status")}</TableHead>
                       <TableHead>{t("client.src.version")}</TableHead>
-                      <TableHead>{t("client.src.created")}</TableHead>
+                      <TableHead>{t("common.created")}</TableHead>
                       <TableHead>{t("client.src.execution")}</TableHead>
-                      <TableHead>{t("client.src.actions")}</TableHead>
+                      <TableHead>{t("common.actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -248,10 +248,10 @@ export default function DocumentWorkflow() {
                         </TableCell>
                         <TableCell>
                           <div className="flex gap-1">
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" aria-label={t("common.view")}>
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" aria-label={t("common.download")}>
                               <Download className="h-4 w-4" />
                             </Button>
                           </div>
@@ -279,12 +279,12 @@ export default function DocumentWorkflow() {
                     <TableRow>
                       <TableHead>{t("client.src.contract")}</TableHead>
                       <TableHead>{t("client.src.signer")}</TableHead>
-                      <TableHead>{t("client.src.email")}</TableHead>
+                      <TableHead>{t("common.email")}</TableHead>
                       <TableHead>{t("client.src.method")}</TableHead>
-                      <TableHead>{t("client.src.status")}</TableHead>
-                      <TableHead>{t("client.src.sent")}</TableHead>
-                      <TableHead>{t("client.src.signed")}</TableHead>
-                      <TableHead>{t("client.src.actions")}</TableHead>
+                      <TableHead>{t("common.status")}</TableHead>
+                      <TableHead>{t("common.sent")}</TableHead>
+                      <TableHead>{t("common.signed")}</TableHead>
+                      <TableHead>{t("common.actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -307,10 +307,10 @@ export default function DocumentWorkflow() {
                         </TableCell>
                         <TableCell>
                           <div className="flex gap-1">
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" aria-label={t("common.view")}>
                               <Eye className="h-4 w-4" />
                             </Button>
-                            {request.status === 'PENDING' && <Button variant="ghost" size="sm">
+                            {request.status === 'PENDING' && <Button variant="ghost" size="sm" aria-label={t("common.send")}>
                                 <Send className="h-4 w-4" />
                               </Button>}
                           </div>
@@ -331,13 +331,13 @@ export default function DocumentWorkflow() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("client.src.name")}</TableHead>
-                      <TableHead>{t("client.src.category")}</TableHead>
-                      <TableHead>{t("client.src.description")}</TableHead>
+                      <TableHead>{t("common.name")}</TableHead>
+                      <TableHead>{t("common.category")}</TableHead>
+                      <TableHead>{t("common.description")}</TableHead>
                       <TableHead>{t("client.src.usage")}</TableHead>
                       <TableHead>{t("client.src.last_used")}</TableHead>
-                      <TableHead>{t("client.src.status")}</TableHead>
-                      <TableHead>{t("client.src.actions")}</TableHead>
+                      <TableHead>{t("common.status")}</TableHead>
+                      <TableHead>{t("common.actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -353,7 +353,7 @@ export default function DocumentWorkflow() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            {template.isActive ? <Unlock className="h-4 w-4 text-green-600" /> : <Lock className="h-4 w-4 text-gray-400" />}
+                            {template.isActive ? <Unlock className="h-4 w-4 text-blue-600" /> : <Lock className="h-4 w-4 text-gray-400" />}
                             <span className="capitalize">
                               {template.isActive ? 'Active' : 'Inactive'}
                             </span>
@@ -361,10 +361,10 @@ export default function DocumentWorkflow() {
                         </TableCell>
                         <TableCell>
                           <div className="flex gap-1">
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" aria-label={t("common.view")}>
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" aria-label={t("common.download")}>
                               <Download className="h-4 w-4" />
                             </Button>
                           </div>

@@ -132,7 +132,7 @@ export default function FacilityManagement() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'scheduled':
         return 'bg-blue-100 text-blue-800';
       case 'pending':
@@ -182,13 +182,13 @@ export default function FacilityManagement() {
       case 'cleaning':
         return 'bg-blue-100 text-blue-800';
       case 'maintenance':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-brand/15 text-brand';
       case 'plumbing':
         return 'bg-blue-100 text-blue-800';
       case 'electrical':
         return 'bg-yellow-100 text-yellow-800';
       case 'hvac':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -215,15 +215,15 @@ export default function FacilityManagement() {
             
             <div className="flex gap-2">
               <select aria-label="Filter by status" value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <option value="all">{t("client.src.all_status")}</option>
-                <option value="active">{t("client.src.active")}</option>
-                <option value="scheduled">{t("client.src.scheduled")}</option>
-                <option value="pending">{t("client.src.pending")}</option>
-                <option value="completed">{t("client.src.completed")}</option>
-                <option value="cancelled">{t("client.src.cancelled")}</option>
+                <option value="all">{t("common.all_status")}</option>
+                <option value="active">{t("common.active")}</option>
+                <option value="scheduled">{t("common.scheduled")}</option>
+                <option value="pending">{t("common.processing")}</option>
+                <option value="completed">{t("common.completed")}</option>
+                <option value="cancelled">{t("common.cancelled")}</option>
               </select>
               <select aria-label="Filter by type" value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <option value="all">{t("client.src.all_types")}</option>
+                <option value="all">{t("common.all_types")}</option>
                 <option value="cleaning">{t("client.src.cleaning")}</option>
                 <option value="maintenance">{t("client.src.maintenance")}</option>
                 <option value="plumbing">{t("client.src.plumbing")}</option>
@@ -236,9 +236,9 @@ export default function FacilityManagement() {
         
         <ScrollArea className="flex-1">
           <div className="p-2">
-            {filteredServices.map(service => <div key={service.id} onClick={() => setSelectedService(service.id)} className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 ${selectedService === service.id ? 'bg-purple-50 border border-purple-200' : 'hover:bg-gray-100'}`}>
+            {filteredServices.map(service => <div key={service.id} onClick={() => setSelectedService(service.id)} className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 ${selectedService === service.id ? 'bg-brand/10 border border-purple-200' : 'hover:bg-gray-100'}`}>
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-brand to-pink-600 flex items-center justify-center text-white">
                     {getTypeIcon(service.type)}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -273,10 +273,10 @@ export default function FacilityManagement() {
       <div className="flex-1">
         {currentService && <div className="h-full flex flex-col">
             {/* Service Header */}
-            <div className="p-6 border-b bg-white">
+            <div className="p-6 border-b bg-card">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-brand to-pink-600 flex items-center justify-center text-white">
                     {getTypeIcon(currentService.type)}
                   </div>
                   <div>
@@ -296,10 +296,10 @@ export default function FacilityManagement() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Button size="sm">
-                    <Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</Button>
+                    <Edit className="w-4 h-4 mr-2" />{t("common.edit")}</Button>
                   <Button size="sm" variant="outline">
                     <Receipt className="w-4 h-4 mr-2" />{t("client.src.invoice")}</Button>
-                  <Button size="sm" variant="outline">
+                  <Button size="sm" variant="outline" aria-label={t("common.more")}>
                     <MoreVertical className="w-4 h-4" />
                   </Button>
                 </div>
@@ -322,11 +322,11 @@ export default function FacilityManagement() {
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <p className="font-medium">{t("client.src.service_amount")}</p>
-                            <p className="text-2xl font-bold text-purple-600">{currentService.amount}</p>
+                            <p className="text-2xl font-bold text-brand">{currentService.amount}</p>
                           </div>
                           <div>
                             <p className="font-medium">{t("client.src.total_with_tax")}</p>
-                            <p className="text-2xl font-bold text-green-600">{currentService.totalAmount}</p>
+                            <p className="text-2xl font-bold text-blue-600">{currentService.totalAmount}</p>
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
@@ -336,7 +336,7 @@ export default function FacilityManagement() {
                           </div>
                           <div>
                             <p className="font-medium">{t("client.src.tax_amount")}</p>
-                            <p className="text-lg font-bold text-blue-600">{currentService.taxAmount}</p>
+                            <p className="text-lg font-bold text-brand">{currentService.taxAmount}</p>
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
@@ -373,20 +373,20 @@ export default function FacilityManagement() {
                           <div className="flex items-center gap-2">
                             <Shield className="w-4 h-4 text-gray-400" />
                             <span className="text-sm">{t("client.src.tax_included")}</span>
-                            <Badge className={currentService.taxIncluded ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>
+                            <Badge className={currentService.taxIncluded ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}>
                               {currentService.taxIncluded ? 'Yes' : 'No'}
                             </Badge>
                           </div>
                           <div className="flex items-center gap-2">
                             <CreditCard className="w-4 h-4 text-gray-400" />
                             <span className="text-sm">{t("client.src.auto_billing")}</span>
-                            <Badge className={currentService.autoBilling ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>
+                            <Badge className={currentService.autoBilling ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}>
                               {currentService.autoBilling ? 'Enabled' : 'Disabled'}
                             </Badge>
                           </div>
                         </div>
                         <div>
-                          <p className="font-medium">{t("client.src.notes")}</p>
+                          <p className="font-medium">{t("common.notes")}</p>
                           <p className="text-sm text-gray-600">{currentService.notes}</p>
                         </div>
                       </div>
@@ -404,17 +404,17 @@ export default function FacilityManagement() {
                         <div>
                           <p className="font-medium mb-2">{t("client.src.included_services")}</p>
                           <div className="space-y-2">
-                            {currentService.services.map((service, index) => <div key={index} className="flex items-center gap-2 p-2 bg-green-50 border border-green-200 rounded">
-                                <CheckSquare className="w-4 h-4 text-green-600" />
-                                <span className="text-sm text-green-800 capitalize">{service.replace('_', ' ')}</span>
+                            {currentService.services.map((service, index) => <div key={index} className="flex items-center gap-2 p-2 bg-blue-50 border border-blue-200 rounded">
+                                <CheckSquare className="w-4 h-4 text-blue-600" />
+                                <span className="text-sm text-blue-800 capitalize">{service.replace('_', ' ')}</span>
                               </div>)}
                           </div>
                         </div>
                         {currentService.extras.length > 0 && <div>
                             <p className="font-medium mb-2">{t("client.src.extra_services")}</p>
                             <div className="space-y-2">
-                              {currentService.extras.map((extra, index) => <div key={index} className="flex items-center gap-2 p-2 bg-blue-50 border border-blue-200 rounded">
-                                  <Plus className="w-4 h-4 text-blue-600" />
+                              {currentService.extras.map((extra, index) => <div key={index} className="flex items-center gap-2 p-2 bg-brand/10 border border-border rounded">
+                                  <Plus className="w-4 h-4 text-brand" />
                                   <span className="text-sm text-blue-800 capitalize">{extra.replace('_', ' ')}</span>
                                 </div>)}
                             </div>
@@ -437,7 +437,7 @@ export default function FacilityManagement() {
                           </div>
                           <div className="text-right">
                             <p className="font-medium">{currentService.amount}</p>
-                            <Badge className="text-xs bg-green-100 text-green-800">{t("client.src.completed")}</Badge>
+                            <Badge className="text-xs bg-blue-100 text-blue-800">{t("common.completed")}</Badge>
                           </div>
                         </div>
                         {currentService.frequency === 'weekly' && <div className="flex items-center justify-between p-3 border rounded">
@@ -447,7 +447,7 @@ export default function FacilityManagement() {
                             </div>
                             <div className="text-right">
                               <p className="font-medium">{currentService.amount}</p>
-                              <Badge className="text-xs bg-blue-100 text-blue-800">{t("client.src.scheduled")}</Badge>
+                              <Badge className="text-xs bg-blue-100 text-blue-800">{t("common.scheduled")}</Badge>
                             </div>
                           </div>}
                       </div>
@@ -483,21 +483,21 @@ export default function FacilityManagement() {
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">{t("client.src.total_revenue")}</span>
-                        <span className="font-bold text-green-600">${totalRevenue.toLocaleString()}</span>
+                        <span className="text-sm">{t("common.total_revenue")}</span>
+                        <span className="font-bold text-blue-600">${totalRevenue.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm">{t("client.src.total_tax")}</span>
-                        <span className="font-bold text-blue-600">${totalTax.toLocaleString()}</span>
+                        <span className="font-bold text-brand">${totalTax.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm">{t("client.src.active_services")}</span>
-                        <span className="font-bold text-purple-600">{activeServices}</span>
+                        <span className="font-bold text-brand">{activeServices}</span>
                       </div>
                       <div className="pt-2 border-t">
                         <div className="flex items-center justify-between">
                           <span className="text-sm">{t("client.src.net_revenue")}</span>
-                          <span className="font-bold text-green-600">
+                          <span className="font-bold text-blue-600">
                             ${(totalRevenue - totalTax).toLocaleString()}
                           </span>
                         </div>
@@ -517,11 +517,11 @@ export default function FacilityManagement() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm">{t("client.src.tax_collected")}</span>
-                        <span className="font-bold text-blue-600">{currentService.taxAmount}</span>
+                        <span className="font-bold text-brand">{currentService.taxAmount}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm">{t("client.src.tax_status")}</span>
-                        <Badge className="bg-green-100 text-green-800">{t("client.src.reported")}</Badge>
+                        <Badge className="bg-blue-100 text-blue-800">{t("client.src.reported")}</Badge>
                       </div>
                       <Button size="sm" variant="outline" className="w-full">
                         <FileText className="w-4 h-4 mr-2" />{t("client.src.tax_report")}</Button>

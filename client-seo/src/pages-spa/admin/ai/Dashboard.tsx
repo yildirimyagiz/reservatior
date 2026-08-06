@@ -196,8 +196,8 @@ export default function AIDashboard() {
  value:"8,543",
  change:"+23%",
  icon: TrendingUp,
- color:"text-emerald-400",
- bg:"bg-emerald-500/10"
+ color:"text-success",
+ bg:"bg-blue-500/10"
  }, {
  label: t("admin_ai_avg_accuracy"),
  value:"94.2%",
@@ -210,7 +210,7 @@ export default function AIDashboard() {
  value:"1.5s",
  change:"-0.3s",
  icon: Zap,
- color:"text-amber-400",
+ color:"text-warning",
  bg:"bg-amber-500/10"
  }].map((stat, idx) => <m.div key={stat.label} initial={{
  opacity: 0,
@@ -221,13 +221,13 @@ export default function AIDashboard() {
  }} transition={{
  delay: idx * 0.08
  }}>
- <Card className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10 transition-all group rounded-2xl">
+ <Card className="bg-card border-border hover:bg-muted dark:hover:bg-card/10 transition-all group rounded-2xl">
  <CardContent className="p-6">
  <div className="flex justify-between items-start mb-4">
  <div className={`p-3 rounded-xl ${stat.bg} ${stat.color} group-hover:scale-110 transition-transform`}>
  <stat.icon className="h-6 w-6" />
  </div>
- <Badge className="rounded-full bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+ <Badge className="rounded-full bg-blue-500/10 text-success border-blue-500/20">
  <ArrowUpRight className="h-3 w-3 mr-1" /> {stat.change}
  </Badge>
  </div>
@@ -247,9 +247,9 @@ export default function AIDashboard() {
  <LineChart className="w-5 h-5 text-primary" />{t("admin_ai_request_processing")}</CardTitle>
  <CardDescription className="text-muted-foreground">{t("admin_ai_24hour_request_volume_and")}</CardDescription>
  </div>
- <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 rounded-full border border-emerald-500/20">
- <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
- <span className="text-xs font-medium text-emerald-400">{t("admin_ai_live")}</span>
+ <div className="flex items-center gap-1.5 px-3 py-1 bg-blue-500/10 rounded-full border border-blue-500/20">
+ <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+ <span className="text-xs font-medium text-success">{t("admin_ai_live")}</span>
  </div>
  </CardHeader>
  <CardContent className="h-72 pl-0">
@@ -315,7 +315,7 @@ export default function AIDashboard() {
  scale: 1
  }} transition={{
  delay: idx * 0.06
- }} className={`p-4 rounded-xl border transition-all hover:shadow-lg ${model.status ==="running" ?"border-emerald-500/20 bg-emerald-500/5" : model.status ==="training" ?"border-amber-500/20 bg-amber-500/5" :"border-border bg-card"}`}>
+ }} className={`p-4 rounded-xl border transition-all hover:shadow-lg ${model.status ==="running" ?"border-blue-500/20 bg-blue-500/5" : model.status ==="training" ?"border-amber-500/20 bg-amber-500/5" :"border-border bg-card"}`}>
  <div className="flex items-center justify-between mb-3">
  <div className="flex items-center gap-2">
  <span className="text-xl">{model.icon}</span>
@@ -335,7 +335,7 @@ export default function AIDashboard() {
  <Progress value={model.accuracy} className="h-1.5 mb-2" />
  <div className="flex items-center justify-between text-xs">
  <span className="text-muted-foreground">{t("admin_ai_load")}</span>
- <Badge className={`text-[9px] h-4 ${model.load > 80 ?"bg-red-500/10 text-red-400" : model.load > 50 ?"bg-amber-500/10 text-amber-400" :"bg-emerald-500/10 text-emerald-400"}`}>
+ <Badge className={`text-[9px] h-4 ${model.load > 80 ?"bg-red-500/10 text-red-400" : model.load > 50 ?"bg-amber-500/10 text-warning" :"bg-blue-500/10 text-success"}`}>
  {model.load}%
  </Badge>
  </div>
@@ -360,8 +360,8 @@ export default function AIDashboard() {
  }} transition={{
  delay: idx * 0.05
  }} className="flex items-center gap-4 p-3 rounded-xl bg-card border border-border hover:border-primary/20 transition-colors">
- <div className={`p-2 rounded-lg ${activity.status ==="success" ?"bg-emerald-500/10" : activity.status ==="warning" ?"bg-amber-500/10" :"bg-muted0/10"}`}>
- {activity.status ==="success" ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : activity.status ==="warning" ? <AlertTriangle className="w-4 h-4 text-amber-400" /> : <Clock className="w-4 h-4 text-muted-foreground" />}
+ <div className={`p-2 rounded-lg ${activity.status ==="success" ?"bg-blue-500/10" : activity.status ==="warning" ?"bg-amber-500/10" :"bg-muted0/10"}`}>
+ {activity.status ==="success" ? <CheckCircle2 className="w-4 h-4 text-success" /> : activity.status ==="warning" ? <AlertTriangle className="w-4 h-4 text-warning" /> : <Clock className="w-4 h-4 text-muted-foreground" />}
  </div>
  <div className="flex-1 min-w-0">
  <p className="text-sm font-medium text-foreground truncate">{activity.action}</p>

@@ -27,16 +27,24 @@ import { fintechRoutes } from "./routes/fintech";
 import { aiPricingIntelligenceRoutes } from "./routes/ai-pricing-intelligence";
 import { commissionRuleEngineRoutes } from "./routes/commission-rule-engine";
 import { priceOptimizationDashboardRoutes } from "./routes/price-optimization-dashboard";
+import { hybridRentalRoutes } from "./routes/hybrid-rental";
+import { hybridRentalOSRoutes } from "./routes/hybrid-rental-os";
+import { globalHybridRentalRoutes } from "./routes/global-hybrid-rental";
 import { runEarlyCaptureScheduler } from "./services/fintech/early-capture-scheduler";
 import { RegionManager } from "./lib/config/RegionManager";
 
 // ── Environment-based configuration ─────────────────────────────────────────
 const SERVER_URL = process.env.SERVER_URL || "http://localhost:3000";
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3001";
-const CORS_ORIGINS = (process.env.CORS_ORIGIN || `${SERVER_URL},${CLIENT_URL},http://localhost:5173`)
+const CORS_ORIGINS: (string | RegExp)[] = (process.env.CORS_ORIGIN || `${SERVER_URL},${CLIENT_URL},http://localhost:5173`)
   .split(",")
   .map(o => o.trim())
   .filter(Boolean);
+
+if (process.env.NODE_ENV !== "production") {
+  CORS_ORIGINS.push(/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/);
+}
+
 const SUPER_ADMIN_EMAILS = (process.env.SUPER_ADMIN_EMAILS || "")
   .split(",")
   .map(e => e.trim())
@@ -604,6 +612,9 @@ const appCore = appBase
   .use(aiPricingIntelligenceRoutes)
   .use(commissionRuleEngineRoutes)
   .use(priceOptimizationDashboardRoutes)
+  .use(hybridRentalRoutes)
+  .use(hybridRentalOSRoutes)
+  .use(globalHybridRentalRoutes)
   .use(cronScheduler) as unknown as Elysia;
 
 // ── Additional route group (split to prevent TS type-depth overflow) ─────────

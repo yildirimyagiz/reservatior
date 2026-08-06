@@ -259,7 +259,7 @@ export class PricingIntelligence {
       },
       revenue: {
         expectedAnnual: analysis.revenueOptimization.netOperatingIncome,
-        optimalAnnual: analysis.revenueOptimization.rentalYield * analysis.revenueOptimization.optimalPrice,
+        optimalAnnual: analysis.revenueOptimization.rentalYield * analysis.elasticity.optimalPrice,
         potentialGain:
           analysis.revenueOptimization.rentalYield *
             (analysis.elasticity.optimalPrice - analysis.predictedPrice.recommended) || 0,
@@ -383,7 +383,7 @@ export class PricingIntelligence {
           priceRange: { min: result.predictedPrice.min, max: result.predictedPrice.max, trend: result.predictedPrice.trend },
           factors: result.confidence.reasons,
           comparableData: { count: result.comparableProperties },
-          marketTrends: result.marketTrend,
+          marketTrends: result.marketTrend as any,
           marketData: result as any,
           generatedAt: result.generatedAt,
           lastAnalyzedAt: new Date(),
@@ -397,7 +397,7 @@ export class PricingIntelligence {
           priceRange: { min: result.predictedPrice.min, max: result.predictedPrice.max, trend: result.predictedPrice.trend },
           factors: result.confidence.reasons,
           comparableData: { count: result.comparableProperties },
-          marketTrends: result.marketTrend,
+          marketTrends: result.marketTrend as any,
           marketData: result as any,
           generatedAt: result.generatedAt,
           lastAnalyzedAt: new Date(),

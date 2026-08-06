@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { tEnum } from "@/lib/admin-enums";
 
 const availabilitySlots = [
   { id: 1, date: "2024-04-15", status: "AVAILABLE", price: 500 },
@@ -24,7 +25,7 @@ const availabilitySlots = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  AVAILABLE: "bg-green-500/20 text-green-400 border-green-500/30",
+  AVAILABLE: "bg-blue-500/20 text-blue-400 border-blue-500/30",
   BOOKED: "bg-red-500/20 text-red-400 border-red-500/30",
   BLOCKED: "bg-gray-500/20 text-gray-400 border-gray-500/30"
 };
@@ -55,7 +56,7 @@ export default function PropertyAvailabilityPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-slate-600 hover:bg-slate-700"
+              className="bg-muted hover:bg-muted"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("admin_properties_availability_back_to_dashboard")}
@@ -76,10 +77,10 @@ export default function PropertyAvailabilityPage() {
                     {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                   </CardTitle>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="icon" className="bg-white/10 border-slate-500/30 text-white">
+                    <Button variant="outline" size="icon" aria-label={t("common.previous")} className="bg-white/10 border-slate-500/30 text-white">
                       <ChevronLeft className="w-4 h-4" />
                     </Button>
-                    <Button variant="outline" size="icon" className="bg-white/10 border-slate-500/30 text-white">
+                    <Button variant="outline" size="icon" aria-label={t("common.next")} className="bg-white/10 border-slate-500/30 text-white">
                       <ChevronRight className="w-4 h-4" />
                     </Button>
                   </div>
@@ -100,8 +101,8 @@ export default function PropertyAvailabilityPage() {
                       <div
                         key={idx}
                         className={`p-2 text-center rounded-lg cursor-pointer transition-colors ${
-                          isToday ? 'bg-slate-600 text-white' : 
-                          isCurrentMonth ? 'text-white hover:bg-white/10' : 'text-gray-600'
+                          isToday ? 'bg-muted text-white' : 
+                          isCurrentMonth ? 'text-white hover:bg-white/10' : 'text-muted-foreground'
                         }`}
                       >
                         {date.getDate()}
@@ -122,7 +123,7 @@ export default function PropertyAvailabilityPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-white">{t("admin_properties_availability_calendar_title")}</CardTitle>
-                  <Button size="icon" className="bg-slate-600 hover:bg-slate-700">
+                  <Button size="icon" aria-label={t("common.add")} className="bg-muted hover:bg-muted">
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
@@ -139,7 +140,7 @@ export default function PropertyAvailabilityPage() {
                           <Clock className="w-4 h-4" />
                           <div>
                             <div className="text-white font-medium">{slot.date}</div>
-                            <div className="text-sm">{slot.status}</div>
+                            <div className="text-sm">{tEnum(t, slot.status)}</div>
                           </div>
                         </div>
                         {slot.price > 0 && (

@@ -34,7 +34,7 @@ enum ReportType {
 const REPORT_TYPE_CONFIG = {
  FINANCIAL: {
  label: t("admin_reports_financial"),
- color:"bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+ color:"bg-blue-500/10 text-success border-blue-500/20",
  icon: DollarSign
  },
  OCCUPANCY: {
@@ -49,7 +49,7 @@ const REPORT_TYPE_CONFIG = {
  },
  MAINTENANCE: {
  label: t("admin_reports_maintenance"),
- color:"bg-orange-500/10 text-orange-400 border-orange-500/20",
+ color:"bg-orange-500/10 text-warning border-orange-500/20",
  icon: Wrench
  },
  COMPLIANCE: {
@@ -81,11 +81,11 @@ const REPORT_TYPE_CONFIG = {
 const STATUS_CONFIG = {
  ACTIVE: {
  label: t("admin_reports_active_signal"),
- color:"bg-emerald-500/10 text-emerald-400"
+ color:"bg-blue-500/10 text-success"
  },
  PAUSED: {
  label: t("admin_reports_paused_sync"),
- color:"bg-orange-500/10 text-orange-400"
+ color:"bg-orange-500/10 text-warning"
  },
  DRAFT: {
  label: t("admin_reports_beta_draft"),
@@ -95,7 +95,7 @@ const STATUS_CONFIG = {
 const EXECUTION_STATUS_CONFIG = {
  SUCCESS: {
  label: t("admin_reports_syncsuccess"),
- color:"bg-emerald-500/10 text-emerald-400",
+ color:"bg-blue-500/10 text-success",
  icon: CheckCircle2
  },
  FAILED: {
@@ -110,7 +110,7 @@ const EXECUTION_STATUS_CONFIG = {
  },
  PENDING: {
  label: t("admin_reports_inqueue"),
- color:"bg-orange-500/10 text-orange-400",
+ color:"bg-orange-500/10 text-warning",
  icon: Clock
  }
 };
@@ -199,7 +199,7 @@ export default function Reports() {
  {/* KPI Grid */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <FileBarChart className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
@@ -210,13 +210,13 @@ export default function Reports() {
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card font-medium">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <CheckCircle2 className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_reports_active_signals")}</p>
- <h3 className="text-xl font-bold text-emerald-400 leading-none">{stats.active}</h3>
- <p className="text-[10px] font-bold text-emerald-500/60 mt-4">{t("admin_reports_synchronized_modules")}</p>
+ <h3 className="text-xl font-bold text-success leading-none">{stats.active}</h3>
+ <p className="text-[10px] font-bold text-success/60 mt-4">{t("admin_reports_synchronized_modules")}</p>
  </CardContent>
  </Card>
 
@@ -226,8 +226,8 @@ export default function Reports() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_reports_total_success_runs")}</p>
- <h3 className="text-xl font-bold text-orange-400 leading-none">{stats.successfulRuns}</h3>
- <p className="text-[10px] font-bold text-orange-400/60 mt-4">{t("admin_reports_verified_cycles")}</p>
+ <h3 className="text-xl font-bold text-warning leading-none">{stats.successfulRuns}</h3>
+ <p className="text-[10px] font-bold text-warning/60 mt-4">{t("admin_reports_verified_cycles")}</p>
  </CardContent>
  </Card>
 
@@ -249,7 +249,7 @@ export default function Reports() {
  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent opacity-50"></div>
  <CardHeader className="bg-card p-6 rounded-2xl border border-border">
  <CardTitle className="text-xl font-bold text-foreground flex items-center gap-3">
- <Activity className="w-5 h-5 text-slate-500" />{t("admin_reports_temporal_run_distribution")}</CardTitle>
+ <Activity className="w-5 h-5 text-muted-foreground" />{t("admin_reports_temporal_run_distribution")}</CardTitle>
  <CardDescription className="text-[10px] font-bold text-muted-foreground">{t("admin_reports_monitoring_data_sequence_integrity")}</CardDescription>
  </CardHeader>
  <CardContent className="p-10">
@@ -262,8 +262,8 @@ export default function Reports() {
  }))).slice(-30)}>
  <defs>
  <linearGradient id="colorSuccess" x1="0" y1="0" x2="0" y2="1">
- <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
- <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+ <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+ <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
  </linearGradient>
  </defs>
  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
@@ -274,7 +274,7 @@ export default function Reports() {
  border: '1px solid rgba(255,255,255,0.1)',
  borderRadius: '12px'
  }} />
- <Area type="monotone" dataKey="success" stroke="#10b981" fillOpacity={1} fill="url(#colorSuccess)" strokeWidth={3} />
+ <Area type="monotone" dataKey="success" stroke="#3b82f6" fillOpacity={1} fill="url(#colorSuccess)" strokeWidth={3} />
  </AreaChart>
  </ResponsiveContainer>
  </div>
@@ -285,7 +285,7 @@ export default function Reports() {
  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent opacity-50"></div>
  <CardHeader className="bg-card p-6 rounded-2xl border border-border">
  <CardTitle className="text-xl font-bold text-foreground flex items-center gap-3">
- <PieChartIcon className="w-5 h-5 text-slate-500" />{t("admin_reports_sector_allocation")}</CardTitle>
+ <PieChartIcon className="w-5 h-5 text-muted-foreground" />{t("admin_reports_sector_allocation")}</CardTitle>
  <CardDescription className="text-[10px] font-bold text-muted-foreground">{t("admin_reports_global_report_type_distribution")}</CardDescription>
  </CardHeader>
  <CardContent className="p-10 flex items-center justify-center">
@@ -299,7 +299,7 @@ export default function Reports() {
  name,
  value
  }))} innerRadius={80} outerRadius={100} paddingAngle={5} dataKey="value">
- {[0, 1, 2, 3, 4, 5, 6].map((entry, index) => <Cell key={`cell-${index}`} fill={['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444'][index % 5]} />)}
+ {[0, 1, 2, 3, 4, 5, 6].map((entry, index) => <Cell key={`cell-${index}`} fill={['#3b82f6', '#8b5cf6', '#3b82f6', '#f59e0b', '#ef4444'][index % 5]} />)}
  </Pie>
  <Tooltip contentStyle={{
  backgroundColor: '#14151a',
@@ -317,7 +317,7 @@ export default function Reports() {
  <div className="flex flex-col lg:flex-row items-center justify-between gap-6 px-4">
  <div className="flex flex-wrap items-center gap-3 flex-1">
  <div className="relative group min-w-[320px]">
- <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-slate-500 transition-colors" />
+ <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-muted-foreground transition-colors" />
  <Input placeholder={t("admin_reports_filter_reporting_nodes")} value={search} onChange={e => setSearch(e.target.value)} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-slate-500/20 focus:border-slate-500/40 transition-all font-medium border-l border-t" />
  </div>
  <Select value={filterType} onValueChange={setFilterType}>
@@ -330,13 +330,13 @@ export default function Reports() {
  </SelectContent>
  </Select>
  </div>
- <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl bg-slate-600 hover:bg-muted0 text-foreground font-bold text-xs shadow-xl shadow-slate-600/30 gap-3">
+ <Button onClick={() => setCreateOpen(true)} className="h-14 px-8 rounded-2xl bg-muted hover:bg-muted0 text-foreground font-bold text-xs shadow-xl shadow-slate-600/30 gap-3">
  <Plus className="w-5 h-5" />{t("admin_reports_initialize_report_node")}</Button>
  </div>
 
  {/* Data Matrix Table */}
  <Card className="bg-card border-border rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
- <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-600 via-transparent to-transparent opacity-50"></div>
+ <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-transparent to-transparent opacity-50"></div>
  <CardContent className="p-0">
  <Table>
  <TableHeader className="bg-card border-b border-border">
@@ -351,7 +351,7 @@ export default function Reports() {
  <TableBody>
  {loading ? <TableRow>
  <TableCell colSpan={5} className="py-24 text-center">
- <Activity className="w-10 h-10 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
+ <Activity className="w-10 h-10 text-muted-foreground animate-spin mx-auto mb-4 opacity-50" />
  <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin_reports_synchronizing_global_matrix")}</p>
  </TableCell>
  </TableRow> : filteredReports.map(report => <TableRow key={report.id} className="border-b border-border hover:bg-card transition-all group">
@@ -367,15 +367,15 @@ export default function Reports() {
  </div>
  </TableCell>
  <TableCell className="px-8">
- <Badge className={cn("text-[8px] font-bold px-3 py-1 rounded-full border shadow-lg", REPORT_TYPE_CONFIG[report.reportType as ReportType].color)}>
- {REPORT_TYPE_CONFIG[report.reportType as ReportType].label}
+ <Badge className={cn("text-[8px] font-bold px-3 py-1 rounded-full border shadow-lg", (REPORT_TYPE_CONFIG as any)[String(report.reportType || '').toUpperCase()]?.color || "bg-muted text-muted-foreground")}>
+ {(REPORT_TYPE_CONFIG as any)[String(report.reportType || '').toUpperCase()]?.label || report.reportType || "GENERIC"}
  </Badge>
  </TableCell>
  <TableCell className="px-8 font-medium">
  <div className="flex items-center gap-2">
- <div className={cn("w-2 h-2 rounded-full", report.status === 'ACTIVE' ?"bg-emerald-500 shadow-[0_0_10px_#10b981]" :"bg-slate-700")}></div>
- <span className={cn("text-[10px] font-bold", report.status === 'ACTIVE' ?"text-emerald-400" :"text-muted-foreground")}>
- {STATUS_CONFIG[report.status].label}
+ <div className={cn("w-2 h-2 rounded-full", report.status === 'ACTIVE' ?"bg-blue-500 shadow-[0_0_10px_#3b82f6]" :"bg-muted")}></div>
+ <span className={cn("text-[10px] font-bold", report.status === 'ACTIVE' ?"text-success" :"text-muted-foreground")}>
+ {(STATUS_CONFIG as any)[String(report.status || '').toUpperCase()]?.label || report.status || "UNKNOWN"}
  </span>
  </div>
  </TableCell>
@@ -387,10 +387,10 @@ export default function Reports() {
  </TableCell>
  <TableCell className="px-8 text-right">
  <div className="flex items-center justify-end gap-2">
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-card text-emerald-500 shadow-xl" onClick={() => handleRunReport(report.id)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.play")} className="h-10 w-10 rounded-xl hover:bg-card text-success shadow-xl" onClick={() => handleRunReport(report.id)}>
  <Play className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-card text-muted-foreground">
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-10 w-10 rounded-xl hover:bg-card text-muted-foreground">
  <MoreHorizontal className="w-4 h-4" />
  </Button>
  </div>
@@ -408,7 +408,7 @@ export default function Reports() {
  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-slate-600 via-transparent to-transparent"></div>
  <DialogHeader className="p-8 border-b border-border bg-card">
  <DialogTitle className="text-2xl font-bold flex items-center gap-3 text-foreground">
- <Layers className="w-6 h-6 text-slate-500" />{t("admin_reports_initialize_neural_node")}</DialogTitle>
+ <Layers className="w-6 h-6 text-muted-foreground" />{t("admin_reports_initialize_neural_node")}</DialogTitle>
  <DialogDescription className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin_reports_configure_automated_reporting_parameters")}</DialogDescription>
  </DialogHeader>
  
@@ -447,7 +447,7 @@ export default function Reports() {
 
  <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
  <Button variant="ghost" className="flex-1 h-16 rounded-2xl font-bold text-[10px] text-muted-foreground hover:text-foreground transition-all" onClick={() => setCreateOpen(false)}>{t("admin_reports_abortmod")}</Button>
- <Button className="flex-2 h-16 rounded-2xl bg-slate-600 hover:bg-muted0 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">{t("admin_reports_initializesequence")}</Button>
+ <Button className="flex-2 h-16 rounded-2xl bg-muted hover:bg-muted0 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30">{t("admin_reports_initializesequence")}</Button>
  </DialogFooter>
  </DialogContent>
  </Dialog>

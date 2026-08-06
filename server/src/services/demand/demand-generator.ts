@@ -62,7 +62,7 @@ export class DemandGenerator {
       const similar = await this.findSimilarListings(
         lease.listing.propertyId,
         lease.listing.property?.city,
-        lease.listing.price,
+        lease.listing.price ? Number(lease.listing.price) : undefined,
         region,
         3,
       );
@@ -103,7 +103,7 @@ export class DemandGenerator {
       const similar = await this.findSimilarListings(
         viewing.propertyId,
         viewing.property?.city,
-        viewing.property?.price,
+        undefined,
         region,
         2,
       );
@@ -227,7 +227,7 @@ export class DemandGenerator {
 
     return prisma.listing.findMany({
       where: {
-        status: "ACTIVE",
+        status: "AVAILABLE",
         propertyId: { not: propertyId },
         ...(city ? { property: { city } } : {}),
         ...(price ? { price: { gte: priceFloor, lte: priceCeil } } : {}),

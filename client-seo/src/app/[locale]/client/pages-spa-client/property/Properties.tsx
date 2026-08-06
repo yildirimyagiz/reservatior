@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { PageShell } from "../../client/layout/PageShell";
+import { PageShell } from "../layout/PageShell";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -262,15 +262,15 @@ export default function Properties() {
   const getStatusColor = (status: string) => {
     switch (status?.toUpperCase()) {
       case 'AVAILABLE':
-        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+        return 'bg-success/10 text-success border-success/20';
       case 'SOLD':
-        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        return 'bg-muted text-muted-foreground border-slate-500/20';
       case 'PENDING':
-        return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
+        return 'bg-warning/10 text-orange-400 border-warning/20';
       case 'RENTED':
-        return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+        return 'bg-brand/100/10 text-brand border-blue-500/20';
       default:
-        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        return 'bg-muted text-muted-foreground border-slate-500/20';
     }
   };
 
@@ -466,7 +466,7 @@ export default function Properties() {
                     className={cn(
                       "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border transition-all",
                       propertyCategory === tab.val
-                        ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30"
+                        ? "bg-success/10 text-success dark:text-success border-blue-500/30"
                         : "bg-background/40 text-muted-foreground border-border/50 hover:bg-muted/30"
                     )}
                   >
@@ -719,7 +719,7 @@ export default function Properties() {
                     arbitrageOpportunity === true 
                       ? "bg-rose-500/10 text-rose-500 border-rose-500/30 shadow-sm animate-pulse" 
                       : arbitrageOpportunity === false 
-                      ? "bg-slate-500/10 text-slate-400 border-slate-500/30"
+                      ? "bg-muted text-muted-foreground border-slate-500/30"
                       : "bg-background/40 text-muted-foreground border-border/50"
                   )}
                 >
@@ -732,9 +732,9 @@ export default function Properties() {
                   className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all",
                     managementOpportunity === true 
-                      ? "bg-orange-500/10 text-orange-500 border-orange-500/30 shadow-sm" 
+                      ? "bg-warning/10 text-orange-500 border-orange-500/30 shadow-sm" 
                       : managementOpportunity === false 
-                      ? "bg-slate-500/10 text-slate-400 border-slate-500/30"
+                      ? "bg-muted text-muted-foreground border-slate-500/30"
                       : "bg-background/40 text-muted-foreground border-border/50"
                   )}
                 >
@@ -800,7 +800,7 @@ export default function Properties() {
             ))}
           </div>
         ) : viewMode === 'map' ? (
-          <div className="h-[600px] rounded-[40px] overflow-hidden border border-white/5 bg-[#14151a]/40 shadow-3xl">
+          <div className="h-[600px] rounded-[40px] overflow-hidden border border-white/5 bg-background/40 shadow-3xl">
             <GoogleMapView properties={sortedProperties as any} onPropertyClick={property => navigate(`/property/${property.id}`)} height="600px" showControls={true} provider={provider} apiKey={typeof apiKey === 'string' ? apiKey : (apiKey as any).google || ""} />
           </div>
         ) : (
@@ -841,7 +841,7 @@ export default function Properties() {
                             <div className="flex items-center gap-6">
                               <div className="w-16 h-16 bg-muted/40 border border-border/50 rounded-xl flex items-center justify-center group-hover:scale-105 transition-all overflow-hidden relative shadow-inner">
                                 {property.photos?.[0]?.url || property.image ? (
-                                   <Image src={property.photos?.[0]?.url || property.image} alt="" fill loading="lazy" className="object-cover" sizes="80px" />
+                                   <Image src={property.photos?.[0]?.url || property.image || ""} alt="" fill loading="lazy" className="object-cover" sizes="80px" />
                                 ) : (
                                   <Building className="w-8 h-8 text-muted-foreground/60" />
                                 )}
@@ -856,7 +856,7 @@ export default function Properties() {
                                     {property.listingStatus}
                                   </Badge>
                                   {property.agentVideos && property.agentVideos.length > 0 && (
-                                    <Badge className="bg-blue-500/10 text-blue-500 border border-blue-500/20 text-[8px] font-black tracking-widest px-2 py-0.5 rounded-md gap-1">
+                                    <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 text-[8px] font-black tracking-widest px-2 py-0.5 rounded-md gap-1">
                                       <PlayCircle className="w-3 h-3" /> Video Tour
                                     </Badge>
                                   )}
@@ -886,14 +886,14 @@ export default function Properties() {
                             </div>
                           </TableCell>
                           <TableCell className="px-6">
-                            <Badge className={cn("text-[8px] font-black tracking-widest px-2.5 py-0.5 rounded-md border", property.legalComplianceStatus === 'COMPLIANT' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : property.legalComplianceStatus === 'PENDING' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 'bg-rose-500/10 text-rose-500 border-rose-500/20')}>
+                            <Badge className={cn("text-[8px] font-black tracking-widest px-2.5 py-0.5 rounded-md border", property.legalComplianceStatus === 'COMPLIANT' ? 'bg-success/10 text-success border-success/20' : property.legalComplianceStatus === 'PENDING' ? 'bg-warning/10 text-orange-500 border-warning/20' : 'bg-rose-500/10 text-rose-500 border-rose-500/20')}>
                               {property.legalComplianceStatus || 'PENDING'}
                             </Badge>
                           </TableCell>
                           <TableCell className="px-6 text-right">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="h-10 w-10 rounded-xl bg-muted/20 border border-border/30 hover:bg-muted/40 text-muted-foreground hover:text-foreground transition-all">
+                                <Button variant="ghost" className="h-10 w-10 rounded-xl bg-muted/20 border border-border/30 hover:bg-muted/40 text-muted-foreground hover:text-foreground transition-all" aria-label={t("common.more")}>
                                   <MoreHorizontal className="w-5 h-5" />
                                 </Button>
                               </DropdownMenuTrigger>

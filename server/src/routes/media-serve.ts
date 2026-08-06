@@ -12,7 +12,7 @@ export const mediaServeRoutes = new Elysia({ prefix: "/uploads" })
    * GET /uploads/*
    * Serves uploaded files with access control
    */
-  .get("/*", async ({ params, set, db, userId, orgId }) => {
+  .get("/*", async ({ params, set, userId, orgId }) => {
     const filePath = params['*'];
     if (!filePath) {
       set.status = 400;
@@ -37,6 +37,8 @@ export const mediaServeRoutes = new Elysia({ prefix: "/uploads" })
       
       // Access control: User must belong to the org or have admin access
       // In production, check user's permissions against the file's org
+      const { prismaManager } = await import("../lib/prisma");
+      const db = prismaManager.getClient(countryCode);
       const hasAccess = await checkFileAccess(db, userId, orgId, fileOrgId, countryCode, stateCode, cityCode, propertyType);
       
       if (!hasAccess) {

@@ -32,7 +32,7 @@ export function SelfHealingLoop({ bookingId, propertyName, className }: SelfHeal
   const [compensationAmount] = useState(75);
   const [submitting, setSubmitting] = useState(false);
 
-  const stepIndex = ["issue_reported", "compensation", "cleaning_dispatched", "re_inspected", "resolved"];
+  const stepIndex: LoopStep[] = ["issue_reported", "compensation", "cleaning_dispatched", "re_inspected", "resolved"];
 
   const progress = Math.round((stepIndex.indexOf(currentStep) / (stepIndex.length - 1)) * 100);
 
@@ -66,7 +66,7 @@ export function SelfHealingLoop({ bookingId, propertyName, className }: SelfHeal
             </CardDescription>
           </div>
           {currentStep === "resolved" && (
-            <Badge variant="outline" className="border-emerald-500/30 text-emerald-400">
+            <Badge variant="outline" className="border-blue-500/30 text-blue-400">
               <CheckCircle2 className="w-3 h-3 mr-1" /> Loop Closed
             </Badge>
           )}
@@ -80,7 +80,7 @@ export function SelfHealingLoop({ bookingId, propertyName, className }: SelfHeal
                   key={s}
                   className={cn(
                     "text-[10px] font-medium",
-                    stepIndex.indexOf(currentStep) >= i ? "text-emerald-400" : "text-slate-600"
+                    stepIndex.indexOf(currentStep) >= i ? "text-blue-400" : "text-slate-600"
                   )}
                 >
                   {i + 1}
@@ -89,7 +89,7 @@ export function SelfHealingLoop({ bookingId, propertyName, className }: SelfHeal
             </div>
             <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full transition-all duration-500"
+                className="h-full bg-gradient-to-r from-amber-500 to-blue-500 rounded-full transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -112,7 +112,7 @@ export function SelfHealingLoop({ bookingId, propertyName, className }: SelfHeal
               <div key={step} className="flex items-start gap-3">
                 <div className={cn(
                   "w-7 h-7 rounded-full flex items-center justify-center shrink-0 border transition-colors",
-                  isPast ? "border-emerald-500/50 bg-emerald-500/20 text-emerald-400" :
+                  isPast ? "border-blue-500/50 bg-blue-500/20 text-blue-400" :
                   isActive ? "border-amber-500/50 bg-amber-500/20 text-amber-400" :
                   "border-slate-700 bg-slate-800/50 text-slate-600"
                 )}>
@@ -121,7 +121,7 @@ export function SelfHealingLoop({ bookingId, propertyName, className }: SelfHeal
                 <div className="flex-1 min-w-0">
                   <p className={cn(
                     "text-sm font-medium",
-                    isPast ? "text-emerald-300" : isActive ? "text-amber-200" : "text-slate-600"
+                    isPast ? "text-blue-300" : isActive ? "text-amber-200" : "text-slate-600"
                   )}>
                     {STEP_LABELS[step]}
                   </p>
@@ -175,7 +175,7 @@ export function SelfHealingLoop({ bookingId, propertyName, className }: SelfHeal
                 "ml-auto text-white",
                 currentStep === "issue_reported" ? "bg-amber-600 hover:bg-amber-700" :
                 currentStep === "compensation" ? "bg-blue-600 hover:bg-blue-700" :
-                "bg-emerald-600 hover:bg-emerald-700"
+                "bg-blue-600 hover:bg-blue-700"
               )}
             >
               {submitting ? "Processing..." : <>

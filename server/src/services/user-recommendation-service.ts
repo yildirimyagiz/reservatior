@@ -5,7 +5,7 @@ import { DomainEvents } from "../core/events/domain-events";
 
 export class UserRecommendationService extends BaseService<any, any, any> {
   constructor() {
-    super(prisma.userRecommendation, "userRecommendation");
+    super((prisma as any).userRecommendation, "userRecommendation");
   }
 
   async getByUser(userId: string, limit = 10) {

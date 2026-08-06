@@ -78,7 +78,7 @@ const mockRules: CommissionRule[] = [
     status: "active",
     layers: [
       { name: "Country Base", value: 12.5, color: "bg-blue-500", description: "Standard Turkey OTA rate" },
-      { name: "Market Adjustment", value: 1.5, color: "bg-emerald-500", description: "High-demand season adjustment" },
+      { name: "Market Adjustment", value: 1.5, color: "bg-blue-500", description: "High-demand season adjustment" },
       { name: "Agent Type Modifier", value: 0.5, color: "bg-purple-500", description: "OTA Partner bonus tier" },
       { name: "Campaign Incentive", value: -0.5, color: "bg-amber-500", description: "Summer promo deduction" },
       { name: "Volume Incentive", value: 1.0, color: "bg-rose-500", description: "High-volume rebate" },
@@ -97,7 +97,7 @@ const mockRules: CommissionRule[] = [
     status: "active",
     layers: [
       { name: "Country Base", value: 10.0, color: "bg-blue-500", description: "Standard US Direct rate" },
-      { name: "Market Adjustment", value: 0.0, color: "bg-emerald-500", description: "No adjustment applied" },
+      { name: "Market Adjustment", value: 0.0, color: "bg-blue-500", description: "No adjustment applied" },
       { name: "Agent Type Modifier", value: 0.0, color: "bg-purple-500", description: "Standard classification" },
       { name: "Campaign Incentive", value: 0.0, color: "bg-amber-500", description: "None" },
       { name: "Volume Incentive", value: 0.0, color: "bg-rose-500", description: "Below threshold" },
@@ -116,7 +116,7 @@ const mockRules: CommissionRule[] = [
     status: "active",
     layers: [
       { name: "Country Base", value: 8.0, color: "bg-blue-500", description: "Standard DE rate" },
-      { name: "Market Adjustment", value: -1.0, color: "bg-emerald-500", description: "Low season adjustment" },
+      { name: "Market Adjustment", value: -1.0, color: "bg-blue-500", description: "Low season adjustment" },
       { name: "Agent Type Modifier", value: 2.0, color: "bg-purple-500", description: "Corporate premium tier" },
       { name: "Campaign Incentive", value: 0.5, color: "bg-amber-500", description: "Q3 bonus" },
       { name: "Volume Incentive", value: 0.5, color: "bg-rose-500", description: "Moderate volume" },
@@ -135,7 +135,7 @@ const mockRules: CommissionRule[] = [
     status: "active",
     layers: [
       { name: "Country Base", value: 15.0, color: "bg-blue-500", description: "Premium AE base rate" },
-      { name: "Market Adjustment", value: 3.0, color: "bg-emerald-500", description: "Peak travel season" },
+      { name: "Market Adjustment", value: 3.0, color: "bg-blue-500", description: "Peak travel season" },
       { name: "Agent Type Modifier", value: 1.5, color: "bg-purple-500", description: "Luxury classification bonus" },
       { name: "Campaign Incentive", value: 0.0, color: "bg-amber-500", description: "None" },
       { name: "Volume Incentive", value: 1.5, color: "bg-rose-500", description: "High-volume rebate" },
@@ -154,7 +154,7 @@ const mockRules: CommissionRule[] = [
     status: "active",
     layers: [
       { name: "Country Base", value: 9.5, color: "bg-blue-500", description: "Standard GB rate" },
-      { name: "Market Adjustment", value: 0.5, color: "bg-emerald-500", description: "Minor market correction" },
+      { name: "Market Adjustment", value: 0.5, color: "bg-blue-500", description: "Minor market correction" },
       { name: "Agent Type Modifier", value: 1.0, color: "bg-purple-500", description: "B2B partnership bonus" },
       { name: "Campaign Incentive", value: -0.5, color: "bg-amber-500", description: "Compliance penalty" },
       { name: "Volume Incentive", value: 0.0, color: "bg-rose-500", description: "Below threshold" },
@@ -173,7 +173,7 @@ const mockRules: CommissionRule[] = [
     status: "pending",
     layers: [
       { name: "Country Base", value: 11.0, color: "bg-blue-500", description: "Standard GR rate" },
-      { name: "Market Adjustment", value: 2.0, color: "bg-emerald-500", description: "Island season premium" },
+      { name: "Market Adjustment", value: 2.0, color: "bg-blue-500", description: "Island season premium" },
       { name: "Agent Type Modifier", value: -1.0, color: "bg-purple-500", description: "Wholesale deduction" },
       { name: "Campaign Incentive", value: 1.0, color: "bg-amber-500", description: "Island promo bonus" },
       { name: "Volume Incentive", value: 1.0, color: "bg-rose-500", description: "High-volume rebate" },
@@ -202,7 +202,7 @@ const defaultRates: DefaultRate[] = [
 
 const calcTypes = [
   { label: "Standard", value: 42, color: "bg-blue-500" },
-  { label: "Volume-Tiered", value: 28, color: "bg-emerald-500" },
+  { label: "Volume-Tiered", value: 28, color: "bg-blue-500" },
   { label: "Campaign", value: 18, color: "bg-purple-500" },
   { label: "Manual Override", value: 12, color: "bg-amber-500" },
 ];
@@ -261,7 +261,7 @@ function KpiCard({
 
 function StatusBadge({ status }: { status: CommissionRule["status"] }) {
   const styles: Record<string, string> = {
-    active: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+    active: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
     inactive: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
     pending: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
   };
@@ -340,8 +340,8 @@ function RuleDetail({ rule }: { rule: CommissionRule }) {
           </>
         ) : (
           <>
-            <CheckCircle className="h-4 w-4 text-emerald-500" />
-            <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+            <CheckCircle className="h-4 w-4 text-blue-500" />
+            <span className="text-xs font-medium text-blue-600 dark:text-blue-400">
               Within regulatory ceiling ({rule.ceiling}%) — Headroom: {(rule.ceiling - effective).toFixed(1)}%
             </span>
           </>
@@ -405,7 +405,7 @@ export default function CommissionRuleEngineDashboard() {
           status: rule.isActive ? "active" : "inactive",
           layers: [
             { name: "Country Base", value: baseRate, color: "bg-blue-500", description: `Base rate for ${r.countryCode}` },
-            { name: "Market Adjustment", value: marketAdj, color: "bg-emerald-500", description: "Market condition adjustment" },
+            { name: "Market Adjustment", value: marketAdj, color: "bg-blue-500", description: "Market condition adjustment" },
             { name: "Agent Type Modifier", value: 0, color: "bg-purple-500", description: "Agent classification" },
             { name: "Campaign Incentive", value: 0, color: "bg-amber-500", description: "Active campaigns" },
             { name: "Volume Incentive", value: 0, color: "bg-rose-500", description: "Volume thresholds" },
@@ -467,7 +467,7 @@ export default function CommissionRuleEngineDashboard() {
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                   Commission Rule Engine
                 </h1>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${dataSource === "Database" ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400" : "bg-amber-500/20 text-amber-600 dark:text-amber-400"}`}>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${dataSource === "Database" ? "bg-blue-500/20 text-blue-600 dark:text-blue-400" : "bg-amber-500/20 text-amber-600 dark:text-amber-400"}`}>
                   {dataSource}
                 </span>
               </div>
@@ -520,7 +520,7 @@ export default function CommissionRuleEngineDashboard() {
                     <span className="w-32 text-sm text-gray-600 dark:text-gray-400">{rule.agentType}</span>
                     <span className="w-20 text-sm font-bold text-blue-600 dark:text-blue-400">{rule.baseRate}%</span>
                     <span className="w-20 text-sm text-gray-500 dark:text-gray-400">{rule.ceiling}%</span>
-                    <span className={`w-20 text-sm font-medium ${rule.marketAdjustment >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-500 dark:text-red-400"}`}>
+                    <span className={`w-20 text-sm font-medium ${rule.marketAdjustment >= 0 ? "text-blue-600 dark:text-blue-400" : "text-red-500 dark:text-red-400"}`}>
                       {rule.marketAdjustment >= 0 ? "+" : ""}{rule.marketAdjustment}%
                     </span>
                     <StatusBadge status={rule.status} />
@@ -561,7 +561,7 @@ export default function CommissionRuleEngineDashboard() {
                 label="Average Rate"
                 value={`${avgRate.toFixed(1)}%`}
                 sub="Weighted average across countries"
-                color="bg-emerald-600"
+                color="bg-blue-600"
               />
               <KpiCard
                 icon={TrendingUp}
@@ -599,7 +599,6 @@ export default function CommissionRuleEngineDashboard() {
                           cum += pct;
                           const colorMap: Record<string, string> = {
                             "bg-blue-500": "#3b82f6",
-                            "bg-emerald-500": "#10b981",
                             "bg-purple-500": "#8b5cf6",
                             "bg-amber-500": "#f59e0b",
                           };
@@ -669,7 +668,7 @@ export default function CommissionRuleEngineDashboard() {
                             <div className="flex items-center gap-2">
                               <div className="h-1.5 w-16 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
                                 <div
-                                  className={`h-full rounded-full ${b.ruleAccuracy >= 98 ? "bg-emerald-500" : b.ruleAccuracy >= 96 ? "bg-amber-500" : "bg-red-500"}`}
+                                  className={`h-full rounded-full ${b.ruleAccuracy >= 98 ? "bg-blue-500" : b.ruleAccuracy >= 96 ? "bg-amber-500" : "bg-red-500"}`}
                                   style={{ width: `${b.ruleAccuracy}%` }}
                                 />
                               </div>
@@ -693,17 +692,17 @@ export default function CommissionRuleEngineDashboard() {
                     Percentage of calculations matching expected outcomes
                   </p>
                 </div>
-                <span className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">97.8%</span>
+                <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">97.8%</span>
               </div>
               <div className="mt-4 h-3 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all"
+                  className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all"
                   style={{ width: "97.8%" }}
                 />
               </div>
               <div className="mt-3 flex items-center gap-4 text-xs text-gray-400">
                 <span className="flex items-center gap-1">
-                  <CheckCircle className="h-3 w-3 text-emerald-500" /> 14,287 matched
+                  <CheckCircle className="h-3 w-3 text-blue-500" /> 14,287 matched
                 </span>
                 <span className="flex items-center gap-1">
                   <XCircle className="h-3 w-3 text-red-400" /> 318 mismatches
@@ -799,7 +798,7 @@ export default function CommissionRuleEngineDashboard() {
       {/* Toast */}
       {toast && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-3 text-sm font-medium text-white shadow-xl dark:bg-gray-100 dark:text-gray-900">
-          <CheckCircle className="h-4 w-4 text-emerald-400 dark:text-emerald-600" />
+          <CheckCircle className="h-4 w-4 text-blue-400 dark:text-blue-600" />
           Settings saved successfully
         </div>
       )}

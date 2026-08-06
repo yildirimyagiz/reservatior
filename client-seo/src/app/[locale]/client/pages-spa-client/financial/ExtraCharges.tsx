@@ -47,7 +47,7 @@ export default function ExtraCharges() {
         return Array.isArray(response) ? response : response?.data || [];
       } catch (error) {
         toast({
-          title: t("client.src.error"),
+          title: t("common.error"),
           description: t("client.src.failed_to_load_extra"),
           variant: "destructive"
         });
@@ -67,7 +67,7 @@ export default function ExtraCharges() {
       toast({ title: t("client.src.extra_charge_added") });
       setForm(EMPTY_FORM);
     },
-    onError: () => toast({ title: t("client.src.error"), description: t("client.src.failed_to_add_charge"), variant: "destructive" })
+    onError: () => toast({ title: t("common.error"), description: t("client.src.failed_to_add_charge"), variant: "destructive" })
   });
 
   const updateMutation = useMutation({
@@ -77,7 +77,7 @@ export default function ExtraCharges() {
       setEditOpen(false);
       toast({ title: t("client.src.extra_charge_updated") });
     },
-    onError: () => toast({ title: t("client.src.error"), description: t("client.src.failed_to_update_charge"), variant: "destructive" })
+    onError: () => toast({ title: t("common.error"), description: t("client.src.failed_to_update_charge"), variant: "destructive" })
   });
 
   const deleteMutation = useMutation({
@@ -86,7 +86,7 @@ export default function ExtraCharges() {
       queryClient.invalidateQueries({ queryKey: ['extraCharges'] });
       toast({ title: t("client.src.charge_deleted") });
     },
-    onError: () => toast({ title: t("client.src.error"), description: t("client.src.failed_to_delete_charge"), variant: "destructive" })
+    onError: () => toast({ title: t("common.error"), description: t("client.src.failed_to_delete_charge"), variant: "destructive" })
   });
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -171,7 +171,7 @@ export default function ExtraCharges() {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label>{t("client.src.amount")}</Label>
+          <Label>{t("common.amount")}</Label>
           <div className="relative">
             <DollarSign className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input type="number" step="0.01" className="pl-8" placeholder="0.00" value={form.amount} onChange={e => setForm({
@@ -203,7 +203,7 @@ export default function ExtraCharges() {
       </div>
 
       <div className="space-y-2">
-        <Label>{t("client.src.description")}</Label>
+        <Label>{t("common.description")}</Label>
         <Textarea placeholder={t("client.src.note_about_this_charge")} value={form.description} onChange={e => setForm({
           ...form,
           description: e.target.value
@@ -214,7 +214,7 @@ export default function ExtraCharges() {
         <Button variant="outline" type="button" onClick={() => {
           setCreateOpen(false);
           setEditOpen(false);
-        }}>{t("client.src.cancel")}</Button>
+        }}>{t("common.cancel")}</Button>
         <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>{label}</Button>
       </DialogFooter>
     </form>;
@@ -227,7 +227,7 @@ export default function ExtraCharges() {
       label: t("client.src.total_charges"),
       value: charges.length
     }, {
-      label: t("client.src.paid"),
+      label: t("common.paid"),
       value: charges.filter(r => r.isPaid).length
     }, {
       label: t("client.src.unpaid"),
@@ -235,7 +235,7 @@ export default function ExtraCharges() {
     }, {
       label: t("client.src.total_value"),
       value: `$${charges.reduce((s, r) => s + r.amount, 0).toLocaleString()}`
-    }]} actions={<Button variant="outline" size="icon" className="h-9 w-9" onClick={() => queryClient.invalidateQueries({ queryKey: ['extraCharges'] })} disabled={loading}>
+    }]} actions={<Button variant="outline" size="icon" aria-label={t("common.refresh")} className="h-9 w-9" onClick={() => queryClient.invalidateQueries({ queryKey: ['extraCharges'] })} disabled={loading}>
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
@@ -243,11 +243,11 @@ export default function ExtraCharges() {
             <TableHeader>
               <TableRow>
                 <TableHead>{t("client.src.charge_details")}</TableHead>
-                <TableHead>{t("client.src.type")}</TableHead>
+                <TableHead>{t("common.type")}</TableHead>
                 <TableHead>{t("client.src.target")}</TableHead>
-                <TableHead>{t("client.src.amount")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
-                <TableHead>{t("client.src.date")}</TableHead>
+                <TableHead>{t("common.amount")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
+                <TableHead>{t("common.date")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -280,8 +280,8 @@ export default function ExtraCharges() {
                 })}
                     </TableCell>
                     <TableCell>
-                      {row.isPaid ? <div className="flex items-center gap-1 text-[11px] text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded-full w-fit">
-                          <CheckCircle2 className="w-3 h-3" />{t("client.src.paid")}</div> : <div className="flex items-center gap-1 text-[11px] text-yellow-600 font-medium bg-yellow-50 px-2 py-0.5 rounded-full w-fit">
+                      {row.isPaid ? <div className="flex items-center gap-1 text-[11px] text-blue-600 font-medium bg-blue-50 px-2 py-0.5 rounded-full w-fit">
+                          <CheckCircle2 className="w-3 h-3" />{t("common.paid")}</div> : <div className="flex items-center gap-1 text-[11px] text-yellow-600 font-medium bg-yellow-50 px-2 py-0.5 rounded-full w-fit">
                           <Clock className="w-3 h-3" />{t("client.src.unpaid")}</div>}
                     </TableCell>
                     <TableCell className="text-[11px] text-muted-foreground">
@@ -290,11 +290,11 @@ export default function ExtraCharges() {
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-32">
-                          <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive font-medium"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDelete(row.id)} className="text-destructive font-medium"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -320,7 +320,7 @@ export default function ExtraCharges() {
             <DialogTitle>{t("client.src.edit_extra_charge")}</DialogTitle>
             <DialogDescription>{t("client.src.update_the_details_for")}</DialogDescription>
           </DialogHeader>
-          <ChargeForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <ChargeForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

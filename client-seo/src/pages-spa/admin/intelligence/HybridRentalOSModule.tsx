@@ -164,20 +164,20 @@ export default function HybridRentalOSModuleDashboard() {
   };
 
   return (
-    <PageShell title={t("admin_hybrid_rental_os_page_title", "Hybrid Rental & Revenue OS Module (AI Real Estate Operating System)")}>
+    <PageShell title={t("admin_hybrid_rental_os_page_title", "Hibrit Kiralama & Gelir OS Modülü (AI Gayrimenkul İşletim Sistemi)")}>
       <div className="space-y-6 animate-in fade-in duration-500">
         {/* Header Hero Banner */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-6 border border-border shadow-2xl">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/20 text-brand text-xs font-semibold uppercase tracking-wider mb-2">
-                <Cpu className="w-3.5 h-3.5" /> {t("admin_hybrid_rental_os_badge", "Core Operating System Architecture")}
+                <Cpu className="w-3.5 h-3.5" /> {t("admin_hybrid_rental_os_badge", "Çekirdek İşletim Sistemi Mimarisi")}
               </div>
               <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-                {t("admin_hybrid_rental_os_hero_title", "Hybrid Rental & Revenue OS Module")}
+                {t("admin_hybrid_rental_os_hero_title", "Hibrit Kiralama & Gelir OS Modülü")}
               </h1>
               <p className="text-muted-foreground text-sm mt-1 max-w-2xl">
-                {t("admin_hybrid_rental_os_hero_desc", "Real Estate Revenue OS Architecture: Acquisition Engine, Multi-Agent Swarm Intelligence & Directed Acyclic Graph (DAG) Revenue Pipeline.")}
+                {t("admin_hybrid_rental_os_hero_desc", "Gayrimenkul Gelir OS Mimarisi: Edinim Motoru, Çoklu Ajan Sürü Zekası ve Directed Acyclic Graph (DAG) Gelir Boru Hattı.")}
               </p>
             </div>
 
@@ -189,7 +189,7 @@ export default function HybridRentalOSModuleDashboard() {
                   activeTab === 'acquisition' ? "bg-primary text-primary-foreground text-white shadow" : "text-muted-foreground hover:text-white"
                 }`}
               >
-                <Target className="w-3.5 h-3.5" /> {t("admin_hybrid_rental_os_tab_acquisition", "1. Acquisition Engine")}
+                <Target className="w-3.5 h-3.5" /> {t("admin_hybrid_rental_os_tab_acquisition", "1. Edinim Motoru")}
               </button>
               <button
                 onClick={() => setActiveTab('intelligence')}
@@ -197,7 +197,7 @@ export default function HybridRentalOSModuleDashboard() {
                   activeTab === 'intelligence' ? "bg-primary text-primary-foreground text-white shadow" : "text-muted-foreground hover:text-white"
                 }`}
               >
-                <Brain className="w-3.5 h-3.5" /> {t("admin_hybrid_rental_os_tab_intelligence", "2. Intelligence Engine")}
+                <Brain className="w-3.5 h-3.5" /> {t("admin_hybrid_rental_os_tab_intelligence", "2. Zeka Motoru")}
               </button>
               <button
                 onClick={() => setActiveTab('revenue_dag')}
@@ -205,7 +205,7 @@ export default function HybridRentalOSModuleDashboard() {
                   activeTab === 'revenue_dag' ? "bg-primary text-primary-foreground text-white shadow" : "text-muted-foreground hover:text-white"
                 }`}
               >
-                <Network className="w-3.5 h-3.5" /> {t("admin_hybrid_rental_os_tab_revenue_dag", "3. Revenue DAG Engine")}
+                <Network className="w-3.5 h-3.5" /> {t("admin_hybrid_rental_os_tab_revenue_dag", "3. Gelir DAG Motoru")}
               </button>
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function HybridRentalOSModuleDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-bold text-card-foreground flex items-center gap-2">
-                  <Target className="w-5 h-5 text-brand" /> {t("admin_hybrid_rental_os_targets_title", "AI Property Discovery & Owner Outreach Targets")}
+                  <Target className="w-5 h-5 text-brand" /> {t("admin_hybrid_rental_os_targets_title", "AI Mülk Keşfi & Ev Sahibi Erişim Hedefleri")}
                 </h2>
                 <p className="text-xs text-muted-foreground">{t("admin_hybrid_rental_os_targets_desc", "Piyasadan otomatik taranan yüksek potansiyelli mülkler ve AI iletişim kanalları")}</p>
               </div>
@@ -240,7 +240,7 @@ export default function HybridRentalOSModuleDashboard() {
                         <h3 className="text-sm font-bold text-card-foreground">{target.propertyTitle}</h3>
                       </div>
                       <span className="text-xs font-black bg-blue-500/10 text-success px-2 py-0.5 rounded-full border border-blue-500/20">
-                        +{target.estimatedRevenueLiftPct}% {t("admin_hybrid_rental_os_lift", "Lift")}
+                        +{target.estimatedRevenueLiftPct}% {t("admin_hybrid_rental_os_lift", "Artış")}
                       </span>
                     </div>
 
@@ -281,7 +281,7 @@ export default function HybridRentalOSModuleDashboard() {
                 <h2 className="text-lg font-bold text-card-foreground flex items-center gap-2">
                   <GitMerge className="w-5 h-5 text-brand" /> {t("admin_hybrid_rental_os_saga_title", "`HybridRentalOnboardingSaga` Orkestrasyonu")}
                 </h2>
-                <p className="text-xs text-muted-foreground">{t("admin_hybrid_rental_os_saga_desc", "12 Adımlı yaşam döngüsü ve geri alma (compensation) motoru")}</p>
+                <p className="text-xs text-muted-foreground">{t("admin_hybrid_rental_os_saga_desc", "12 Adımlı yaşam döngüsü ve geri alma (compensation)")}</p>
               </div>
 
               <div className="flex items-center gap-2">
@@ -299,7 +299,7 @@ export default function HybridRentalOSModuleDashboard() {
                   className="flex items-center gap-1.5 px-3.5 py-2 bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-bold rounded-xl hover:bg-rose-500/20 disabled:opacity-40"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  {t("admin_hybrid_rental_os_rollback", "Rollback")}
+                  {t("admin_hybrid_rental_os_rollback", "Geri Al")}
                 </button>
               </div>
             </div>
@@ -320,7 +320,7 @@ export default function HybridRentalOSModuleDashboard() {
                     }`}
                   >
                     <div className="flex items-center justify-between text-[10px]">
-                      <span className="font-mono">{idx + 1}{t("admin_hybrid_rental_os_step", ". Step")}</span>
+                      <span className="font-mono">{idx + 1}{t("admin_hybrid_rental_os_step", ". Adım")}</span>
                       <span className="font-semibold">{step.os}</span>
                     </div>
                     <div className="font-bold truncate text-[11px]">{step.title}</div>
@@ -344,7 +344,7 @@ export default function HybridRentalOSModuleDashboard() {
               <div className="bg-card border border-border rounded-2xl p-5 space-y-4 shadow-sm">
                 <div className="flex items-center justify-between border-b border-border pb-3">
                   <h3 className="text-base font-bold text-card-foreground flex items-center gap-2">
-                    <Brain className="w-5 h-5 text-brand" /> {t("admin_hybrid_rental_os_swarm_title", "Multi-Agent Neural AI Swarm (5 Ajan Konsensüsü)")}
+                    <Brain className="w-5 h-5 text-brand" /> {t("admin_hybrid_rental_os_swarm_title", "Çoklu Ajan Nöral AI Sürüsü (5 Ajan Konsensüsü)")}
                   </h3>
                   <span className="text-xs bg-brand/10 text-brand border border-brand/30 px-2.5 py-1 rounded-full font-bold">
                     {t("admin_hybrid_rental_os_consensus_score", "Konsensüs Skoru:")} %{swarmResult.consensusScore}
@@ -376,7 +376,7 @@ export default function HybridRentalOSModuleDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-bold text-card-foreground flex items-center gap-2">
-                  <Network className="w-5 h-5 text-brand" /> {t("admin_hybrid_rental_os_dag_title", "Directed Acyclic Graph (DAG) Revenue Pipeline")}
+                  <Network className="w-5 h-5 text-brand" /> {t("admin_hybrid_rental_os_dag_title", "Directed Acyclic Graph (DAG) Gelir Boru Hattı")}
                 </h2>
                 <p className="text-xs text-muted-foreground">{t("admin_hybrid_rental_os_dag_desc", "Rezervasyon cirosundan vergi, ev sahibi payı, partner komisyonu ve Reservatior marjı dağıtım düğümleri")}</p>
               </div>
@@ -393,13 +393,13 @@ export default function HybridRentalOSModuleDashboard() {
               <div className="space-y-4">
                 <div className="bg-background p-4 rounded-2xl border border-border flex items-center justify-between text-xs font-mono">
                   <div>
-                    <span className="text-muted-foreground">{t("admin_hybrid_rental_os_transaction_id", "Transaction ID:")}</span> <span className="text-brand font-bold">{dagResult.transactionId}</span>
+                    <span className="text-muted-foreground">{t("admin_hybrid_rental_os_transaction_id", "İşlem ID:")}</span> <span className="text-brand font-bold">{dagResult.transactionId}</span>
                   </div>
                   <div>
                     <span className="text-muted-foreground">{t("admin_hybrid_rental_os_gross_revenue", "Brüt Ciro:")}</span> <span className="text-success font-bold">{formatCurrency(dagResult.grossRevenueTRY)}</span>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">{t("admin_hybrid_rental_os_ledger_hash", "Ledger Hash:")}</span> <span className="text-muted-foreground">{dagResult.ledgerCommitHash}</span>
+                    <span className="text-muted-foreground">{t("admin_hybrid_rental_os_ledger_hash", "Finansal Defter Kaydı Hash:")}</span> <span className="text-muted-foreground">{dagResult.ledgerCommitHash}</span>
                   </div>
                 </div>
 

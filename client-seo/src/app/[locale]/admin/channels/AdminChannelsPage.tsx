@@ -45,13 +45,13 @@ const mockChannels: Channel[] = [
 ];
 
 const TYPE_COLORS: Record<string, string> = {
-  OTA: "bg-slate-500/20 text-slate-400",
-  GDS: "bg-slate-500/20 text-slate-400",
-  DIRECT: "bg-emerald-500/20 text-emerald-400",
+  OTA: "bg-muted text-muted-foreground",
+  GDS: "bg-muted text-muted-foreground",
+  DIRECT: "bg-blue-500/20 text-success",
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  CONNECTED: "bg-green-500/20 text-green-400",
+  CONNECTED: "bg-blue-500/20 text-blue-400",
   DISCONNECTED: "bg-gray-500/20 text-gray-400",
   ERROR: "bg-red-500/20 text-red-400",
 };
@@ -163,7 +163,7 @@ export default function AdminChannelsPage() {
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center">
                         {channel.status === "CONNECTED" ? (
-                          <Wifi className="w-5 h-5 text-green-400" />
+                          <Wifi className="w-5 h-5 text-blue-400" />
                         ) : channel.status === "ERROR" ? (
                           <RefreshCw className="w-5 h-5 text-red-400" />
                         ) : (
@@ -183,10 +183,10 @@ export default function AdminChannelsPage() {
                       <Badge className={STATUS_COLORS[channel.status]}>{t(`admin_auto_channel_status_${channel.status.toLowerCase()}`, channel.status)}</Badge>
                       <div className="text-xs text-muted-foreground/70">{channel.lastSync}</div>
                       <div className="flex gap-2">
-                        <Button onClick={() => { setEditingItem(channel); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10">
+                        <Button onClick={() => { setEditingItem(channel); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10">
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button onClick={() => { setDeletingItem(channel); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400">
+                        <Button onClick={() => { setDeletingItem(channel); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400">
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
@@ -224,16 +224,16 @@ function CreateChannelDialog({ open, onOpenChange, onSubmit }: { open: boolean; 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_channels_add_channel", "Add Channel")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_distribution_channel", "Add a new distribution channel.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_channels_add_channel", "Kanal Ekle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_distribution_channel", "Yeni bir dağıtım kanalı ekleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_name", "Sistem Adı")}</Label>
             <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_type", "Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_type", "Tip")}</Label>
             <Select value={type} onValueChange={v => setType(v as Channel["type"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
@@ -241,39 +241,39 @@ function CreateChannelDialog({ open, onOpenChange, onSubmit }: { open: boolean; 
               <SelectContent>
                 <SelectItem value="OTA">{t("admin_auto_ota", "OTA")}</SelectItem>
                 <SelectItem value="GDS">{t("admin_auto_gds", "GDS")}</SelectItem>
-                <SelectItem value="DIRECT">{t("client.src.direct", "Direct")}</SelectItem>
+                <SelectItem value="DIRECT">{t("client.src.direct", "Doğrudan")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Channel["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="CONNECTED">{t("mobile.auto.connected", "Connected")}</SelectItem>
-                <SelectItem value="DISCONNECTED">{t("admin_auto_disconnected", "Disconnected")}</SelectItem>
-                <SelectItem value="ERROR">{t("admin_analytics_error", "Error")}</SelectItem>
+                <SelectItem value="CONNECTED">{t("mobile.auto.connected", "Bağlı")}</SelectItem>
+                <SelectItem value="DISCONNECTED">{t("admin_auto_disconnected", "Bağlantı Kesildi")}</SelectItem>
+                <SelectItem value="ERROR">{t("admin_analytics_error", "Sistem Hatası")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_integrations_properties", "Properties")}</Label>
+            <Label className="text-right text-foreground">{t("admin_integrations_properties", "Mülkler")}</Label>
             <Input type="number" value={properties} onChange={e => setProperties(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_integrations_last_sync", "Last Sync")}</Label>
+            <Label className="text-right text-foreground">{t("admin_integrations_last_sync", "Son Senkronizasyon")}</Label>
             <Input value={lastSync} onChange={e => setLastSync(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_financial_commission", "Commission")}</Label>
+            <Label className="text-right text-foreground">{t("admin_financial_commission", "Komisyon")}</Label>
             <Input value={commission} onChange={e => setCommission(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ name, type, status, properties, lastSync, commission })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ name, type, status, properties, lastSync, commission })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -292,16 +292,16 @@ function EditChannelDialog({ open, onOpenChange, item, onSubmit }: { open: boole
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_channel", "Edit Channel")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_channel_details", "Update channel details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_channel", "Kanalı Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_channel_details", "Kanal detaylarını güncelleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_name", "Sistem Adı")}</Label>
             <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_type", "Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_type", "Tip")}</Label>
             <Select value={type} onValueChange={v => setType(v as Channel["type"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
@@ -309,39 +309,39 @@ function EditChannelDialog({ open, onOpenChange, item, onSubmit }: { open: boole
               <SelectContent>
                 <SelectItem value="OTA">{t("admin_auto_ota", "OTA")}</SelectItem>
                 <SelectItem value="GDS">{t("admin_auto_gds", "GDS")}</SelectItem>
-                <SelectItem value="DIRECT">{t("client.src.direct", "Direct")}</SelectItem>
+                <SelectItem value="DIRECT">{t("client.src.direct", "Doğrudan")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Channel["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="CONNECTED">{t("mobile.auto.connected", "Connected")}</SelectItem>
-                <SelectItem value="DISCONNECTED">{t("admin_auto_disconnected", "Disconnected")}</SelectItem>
-                <SelectItem value="ERROR">{t("admin_analytics_error", "Error")}</SelectItem>
+                <SelectItem value="CONNECTED">{t("mobile.auto.connected", "Bağlı")}</SelectItem>
+                <SelectItem value="DISCONNECTED">{t("admin_auto_disconnected", "Bağlantı Kesildi")}</SelectItem>
+                <SelectItem value="ERROR">{t("admin_analytics_error", "Sistem Hatası")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_integrations_properties", "Properties")}</Label>
+            <Label className="text-right text-foreground">{t("admin_integrations_properties", "Mülkler")}</Label>
             <Input type="number" value={properties} onChange={e => setProperties(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_integrations_last_sync", "Last Sync")}</Label>
+            <Label className="text-right text-foreground">{t("admin_integrations_last_sync", "Son Senkronizasyon")}</Label>
             <Input value={lastSync} onChange={e => setLastSync(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_financial_commission", "Commission")}</Label>
+            <Label className="text-right text-foreground">{t("admin_financial_commission", "Komisyon")}</Label>
             <Input value={commission} onChange={e => setCommission(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ id: item.id, name, type, status, properties, lastSync, commission })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ id: item.id, name, type, status, properties, lastSync, commission })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -354,12 +354,12 @@ function DeleteChannelDialog({ open, onOpenChange, item, onConfirm }: { open: bo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_channel", "Delete Channel")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_channel", "Kanalı Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Silmek istediğinizden emin misiniz:")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

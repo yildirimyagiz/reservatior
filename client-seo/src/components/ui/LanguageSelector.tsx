@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Globe } from "lucide-react";
 
-const locales = ["en","tr","ar","es","fr","de","ru","pt","zh","ja","ko","it","nl","pl","sv","da","fi","el","hi","id","gr","se","no"];
+const locales = ["en","tr","ar","es","fr","de","ru","pt","zh","ja","ko","it","nl","pl","sv","da","fi","el","hi","nb"];
 
 const languages = [
   { code: "en", name: "English", flag: "🇺🇸" },
@@ -27,11 +27,11 @@ const languages = [
   { code: "hi", name: "हिन्दी", flag: "🇮🇳" },
   { code: "nl", name: "Nederlands", flag: "🇳🇱" },
   { code: "pl", name: "Polski", flag: "🇵🇱" },
-  { code: "no", name: "Norsk", flag: "🇳🇴" },
-  { code: "se", name: "Svenska", flag: "🇸🇪" },
+  { code: "nb", name: "Norsk", flag: "🇳🇴" },
+  { code: "sv", name: "Svenska", flag: "🇸🇪" },
   { code: "fi", name: "Suomi", flag: "🇫🇮" },
   { code: "da", name: "Dansk", flag: "🇩🇰" },
-  { code: "gr", name: "Ελληνικά", flag: "🇬🇷" },
+  { code: "el", name: "Ελληνικά", flag: "🇬🇷" },
 ];
 
 export default function LanguageSelector() {

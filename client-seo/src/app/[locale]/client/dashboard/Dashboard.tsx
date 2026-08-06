@@ -20,9 +20,9 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 const quickActions = [
-  { icon: Plus, label: "New Property", href: "/property/new", color: "bg-blue-500/10 text-blue-400" },
-  { icon: Calendar, label: "New Booking", href: "/client/bookings", color: "bg-purple-500/10 text-purple-400" },
-  { icon: MessageSquare, label: "Messages", href: "/client/messages", color: "bg-emerald-500/10 text-emerald-400" },
+  { icon: Plus, label: "New Property", href: "/property/new", color: "bg-brand/100/10 text-brand" },
+  { icon: Calendar, label: "New Booking", href: "/client/bookings", color: "bg-brand/10 text-brand" },
+  { icon: MessageSquare, label: "Messages", href: "/client/messages", color: "bg-success/10 text-success" },
   { icon: Home, label: "My Properties", href: "/client/properties", color: "bg-amber-500/10 text-amber-400" },
 ];
 
@@ -40,8 +40,8 @@ const stats = (t: (key: string) => string) => [
     change: "+2",
     trending: "up",
     icon: Building,
-    color: "text-blue-400",
-    bg: "bg-blue-500/10"
+    color: "text-brand",
+    bg: "bg-brand/100/10"
   },
   {
     label: t("Active Bookings"),
@@ -49,8 +49,8 @@ const stats = (t: (key: string) => string) => [
     change: "+3",
     trending: "up",
     icon: Calendar,
-    color: "text-purple-400",
-    bg: "bg-purple-500/10"
+    color: "text-brand",
+    bg: "bg-brand/10"
   },
   {
     label: t("This Month Revenue"),
@@ -58,8 +58,8 @@ const stats = (t: (key: string) => string) => [
     change: "+18.5%",
     trending: "up",
     icon: DollarSign,
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10"
+    color: "text-success",
+    bg: "bg-success/10"
   },
   {
     label: t("Pending Messages"),
@@ -83,11 +83,11 @@ const revenueData = [
 ];
 
 const PLAN_CONFIG: Record<string, { label: string; icon: React.ComponentType<{ className?: string }>; color: string; maxProperties: number; maxUsers: number; aiFeatures: boolean }> = {
-  "starter-10": { label: "Starter", icon: Star, color: "text-slate-400", maxProperties: 10, maxUsers: 1, aiFeatures: false },
-  "growth-25": { label: "Growth", icon: TrendingUp, color: "text-blue-400", maxProperties: 25, maxUsers: 3, aiFeatures: false },
-  "professional-50": { label: "Professional", icon: Crown, color: "text-purple-400", maxProperties: 50, maxUsers: 5, aiFeatures: true },
+  "starter-10": { label: "Starter", icon: Star, color: "text-muted-foreground", maxProperties: 10, maxUsers: 1, aiFeatures: false },
+  "growth-25": { label: "Growth", icon: TrendingUp, color: "text-brand", maxProperties: 25, maxUsers: 3, aiFeatures: false },
+  "professional-50": { label: "Professional", icon: Crown, color: "text-brand", maxProperties: 50, maxUsers: 5, aiFeatures: true },
   "agency-100": { label: "Agency", icon: LayoutDashboard, color: "text-amber-400", maxProperties: 100, maxUsers: 10, aiFeatures: true },
-  "enterprise": { label: "Enterprise", icon: Crown, color: "text-emerald-400", maxProperties: 9999, maxUsers: 999, aiFeatures: true },
+  "enterprise": { label: "Enterprise", icon: Crown, color: "text-success", maxProperties: 9999, maxUsers: 999, aiFeatures: true },
 };
 
 export default function Dashboard() {
@@ -122,7 +122,7 @@ export default function Dashboard() {
             </div>
             <Button
               onClick={() => router.push('/ai-search')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <Sparkles className="w-4 h-4 mr-2" />
               {t("dashboard.dashboard.auto_ext_3")}
@@ -137,7 +137,7 @@ export default function Dashboard() {
           transition={{ delay: 0.3 }}
           className="mb-8"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white">Quick Actions</CardTitle>
               <CardDescription className="text-gray-400">Frequently used actions</CardDescription>
@@ -172,7 +172,7 @@ export default function Dashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20 hover:bg-white/10 transition-colors">
+              <Card className="bg-white/5 backdrop-blur-xl border-brand/20 hover:bg-white/10 transition-colors">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className={cn("p-3 rounded-lg", stat.bg)}>
@@ -182,7 +182,7 @@ export default function Dashboard() {
                       variant="outline"
                       className={cn(
                         "border",
-                        stat.trending === "up" ? "border-green-500/30 text-green-400" : "border-red-500/30 text-red-400"
+                        stat.trending === "up" ? "border-blue-500/30 text-blue-400" : "border-red-500/30 text-red-400"
                       )}
                     >
                       {stat.trending === "up" ? <ArrowUpRight className="w-3 h-3 mr-1" /> : <ArrowDownRight className="w-3 h-3 mr-1" />}
@@ -204,7 +204,7 @@ export default function Dashboard() {
           transition={{ delay: 0.6 }}
           className="mb-8"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white">Recent Activities</CardTitle>
               <CardDescription className="text-gray-400">Latest updates on your properties and bookings</CardDescription>
@@ -216,9 +216,9 @@ export default function Dashboard() {
                     <div className={cn(
                       "p-2 rounded-lg",
                       activity.status === "pending" ? "bg-amber-500/10 text-amber-400" :
-                      activity.status === "unread" ? "bg-blue-500/10 text-blue-400" :
-                      activity.status === "confirmed" ? "bg-emerald-500/10 text-emerald-400" :
-                      "bg-purple-500/10 text-purple-400"
+                      activity.status === "unread" ? "bg-brand/100/10 text-brand" :
+                      activity.status === "confirmed" ? "bg-success/10 text-success" :
+                      "bg-brand/10 text-brand"
                     )}>
                       {activity.status === "pending" ? <AlertCircle className="w-4 h-4" /> :
                        activity.status === "unread" ? <MessageSquare className="w-4 h-4" /> :
@@ -244,7 +244,7 @@ export default function Dashboard() {
           transition={{ delay: 0.4 }}
           className="mb-8"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white">{t("dashboard.dashboard.auto_ext_4")}</CardTitle>
               <CardDescription className="text-gray-400">{t("dashboard.dashboard.auto_ext_5")}</CardDescription>

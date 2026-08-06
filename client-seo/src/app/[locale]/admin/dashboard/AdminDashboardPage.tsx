@@ -32,9 +32,9 @@ const metrics = [
     change: "+12.5%",
     trend: "up" as const,
     icon: DollarSign,
-    gradient: "from-emerald-500/20 to-emerald-600/5",
-    iconBg: "bg-emerald-500/15",
-    iconColor: "text-emerald-500",
+    gradient: "from-blue-500/20 to-blue-600/5",
+    iconBg: "bg-blue-500/15",
+    iconColor: "text-success",
   },
   {
     title: "Properties",
@@ -43,8 +43,8 @@ const metrics = [
     trend: "up" as const,
     icon: Building,
     gradient: "from-slate-500/20 to-slate-600/5",
-    iconBg: "bg-slate-500/15",
-    iconColor: "text-slate-500",
+    iconBg: "bg-muted",
+    iconColor: "text-muted-foreground",
   },
   {
     title: "Active Users",
@@ -53,8 +53,8 @@ const metrics = [
     trend: "up" as const,
     icon: Users,
     gradient: "from-slate-500/20 to-slate-600/5",
-    iconBg: "bg-slate-500/15",
-    iconColor: "text-slate-500",
+    iconBg: "bg-muted",
+    iconColor: "text-muted-foreground",
   },
   {
     title: "Tasks Completed",
@@ -77,9 +77,9 @@ const recentActivities = [
 ];
 
 const quickActions = [
-  { icon: Building, label: "Properties", href: "/admin/properties", color: "text-slate-500", bg: "bg-slate-500/10 hover:bg-slate-500/20" },
-  { icon: Users, label: "Users", href: "/admin/users", color: "text-slate-500", bg: "bg-slate-500/10 hover:bg-slate-500/20" },
-  { icon: DollarSign, label: "Financial", href: "/admin/financial", color: "text-emerald-500", bg: "bg-emerald-500/10 hover:bg-emerald-500/20" },
+  { icon: Building, label: "Properties", href: "/admin/properties", color: "text-muted-foreground", bg: "bg-muted hover:bg-muted" },
+  { icon: Users, label: "Users", href: "/admin/users", color: "text-muted-foreground", bg: "bg-muted hover:bg-muted" },
+  { icon: DollarSign, label: "Financial", href: "/admin/financial", color: "text-success", bg: "bg-blue-500/10 hover:bg-blue-500/20" },
   { icon: ShieldCheck, label: "Security", href: "/admin/security", color: "text-amber-500", bg: "bg-amber-500/10 hover:bg-amber-500/20" },
   { icon: FileText, label: "Reports", href: "/admin/reports", color: "text-cyan-500", bg: "bg-cyan-500/10 hover:bg-cyan-500/20" },
   { icon: Zap, label: "AI Dashboard", href: "/admin/ai", color: "text-pink-500", bg: "bg-pink-500/10 hover:bg-pink-500/20" },
@@ -111,10 +111,10 @@ export default function AdminDashboardPage() {
 
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case "property": return <Building className="w-4 h-4 text-slate-500" />;
-      case "booking": return <Calendar className="w-4 h-4 text-emerald-500" />;
-      case "payment": return <DollarSign className="w-4 h-4 text-green-500" />;
-      case "user": return <Users className="w-4 h-4 text-slate-500" />;
+      case "property": return <Building className="w-4 h-4 text-muted-foreground" />;
+      case "booking": return <Calendar className="w-4 h-4 text-success" />;
+      case "payment": return <DollarSign className="w-4 h-4 text-blue-500" />;
+      case "user": return <Users className="w-4 h-4 text-muted-foreground" />;
       case "alert": return <AlertCircle className="w-4 h-4 text-amber-500" />;
       default: return <Activity className="w-4 h-4 text-muted-foreground" />;
     }
@@ -131,13 +131,13 @@ export default function AdminDashboardPage() {
           className="mb-8 flex items-center justify-between"
         >
           <div>
-            <h1 className="text-2xl font-bold text-foreground tracking-tight">{t("admin_dashboard_title", "Admin Dashboard")}</h1>
-            <p className="text-muted-foreground text-sm mt-1">{t("admin_dashboard_desc", "Overview of your platform metrics and activity")}</p>
+            <h1 className="text-2xl font-bold text-foreground tracking-tight">{t("admin_dashboard_title", "Yönetici Kontrol Paneli")}</h1>
+            <p className="text-muted-foreground text-sm mt-1">{t("admin_dashboard_desc", "Platform ölçümlerinize ve etkinliğinize genel bakış")}</p>
           </div>
           <div className="flex items-center gap-3">
-            <Badge variant="outline" className="border-emerald-500/30 text-emerald-500 bg-emerald-500/10 px-3 py-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse" />
-              {t("admin_auto_all_systems_online", "All Systems Online")}</Badge>
+            <Badge variant="outline" className="border-blue-500/30 text-success bg-blue-500/10 px-3 py-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse" />
+              {t("admin_auto_all_systems_online", "Tüm Sistemler Çevrimiçi")}</Badge>
             <Button
               onClick={() => router.push('/')}
               variant="outline"
@@ -145,7 +145,7 @@ export default function AdminDashboardPage() {
               className="border-border text-foreground hover:bg-accent"
             >
               <ArrowUpRight className="w-4 h-4 mr-1.5" />
-              {t("admin_view_site", "View Site")}
+              {t("admin_view_site", "Siteyi Görüntüle")}
             </Button>
           </div>
         </m.div>
@@ -167,7 +167,7 @@ export default function AdminDashboardPage() {
                     </div>
                     <div className={`flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full ${
                       metric.trend === 'up' 
-                        ? 'text-emerald-500 bg-emerald-500/10' 
+                        ? 'text-success bg-blue-500/10' 
                         : 'text-red-500 bg-red-500/10'
                     }`}>
                       {metric.trend === 'up' ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
@@ -198,10 +198,10 @@ export default function AdminDashboardPage() {
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-foreground text-base font-semibold flex items-center gap-2">
                     <Clock className="w-4 h-4 text-muted-foreground" />
-                    {t("recent_activities", "Recent Activities")}
+                    {t("recent_activities", "Son Etkinlikler")}
                   </CardTitle>
                   <Button variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-foreground">
-                    {t("admin_dashboard_view_all", "View All")}</Button>
+                    {t("admin_dashboard_view_all", "Tümünü Görüntüle")}</Button>
                 </div>
               </CardHeader>
               <CardContent className="pb-5">
@@ -245,7 +245,7 @@ export default function AdminDashboardPage() {
                 <CardHeader className="pb-3">
                   <CardTitle className="text-foreground text-base font-semibold flex items-center gap-2">
                     <Zap className="w-4 h-4 text-muted-foreground" />
-                    {t("quick_actions", "Quick Actions")}
+                    {t("quick_actions", "Hızlı Eylemler")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pb-5">
@@ -276,7 +276,7 @@ export default function AdminDashboardPage() {
                 <CardHeader className="pb-3">
                   <CardTitle className="text-foreground text-base font-semibold flex items-center gap-2">
                     <BarChart3 className="w-4 h-4 text-muted-foreground" />
-                    {t("system_status", "System Status")}
+                    {t("system_status", "Sistem Durumu")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pb-5">
@@ -285,7 +285,7 @@ export default function AdminDashboardPage() {
                       <div key={idx} className="flex items-center justify-between">
                         <div className="flex items-center gap-2.5">
                           {service.status === "online" ? (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            <CheckCircle2 className="w-4 h-4 text-success" />
                           ) : (
                             <AlertCircle className="w-4 h-4 text-amber-500" />
                           )}
@@ -297,7 +297,7 @@ export default function AdminDashboardPage() {
                             variant="outline" 
                             className={`text-[10px] px-1.5 py-0 ${
                               service.status === "online"
-                                ? "border-emerald-500/30 text-emerald-500 bg-emerald-500/10"
+                                ? "border-blue-500/30 text-success bg-blue-500/10"
                                 : "border-amber-500/30 text-amber-500 bg-amber-500/10"
                             }`}
                           >
@@ -328,29 +328,29 @@ export default function AdminDashboardPage() {
                     <TrendingUp className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-foreground">{t("performance_overview", "Performance Overview")}</div>
-                    <div className="text-xs text-muted-foreground">{t("last_30_days", "Last 30 days")}</div>
+                    <div className="text-sm font-semibold text-foreground">{t("performance_overview", "Performansa Genel Bakış")}</div>
+                    <div className="text-xs text-muted-foreground">{t("last_30_days", "Son 30 gün")}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="text-center">
                     <div className="text-lg font-bold text-foreground">94.2%</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_property_occupancy", "Occupancy")}</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_property_occupancy", "Doluluk")}</div>
                   </div>
                   <div className="w-px h-8 bg-border" />
                   <div className="text-center">
                     <div className="text-lg font-bold text-foreground">4.8</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_property_avg_rating", "Avg Rating")}</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_property_avg_rating", "Ortalama Rating")}</div>
                   </div>
                   <div className="w-px h-8 bg-border" />
                   <div className="text-center">
                     <div className="text-lg font-bold text-foreground">$187</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_dashboard_perf_avg/night", "Avg/Night")}</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_dashboard_perf_avg/night", "Ort/Gece")}</div>
                   </div>
                   <div className="w-px h-8 bg-border" />
                   <div className="text-center">
-                    <div className="text-lg font-bold text-emerald-500">+23%</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_dashboard_perf_growth", "Growth")}</div>
+                    <div className="text-lg font-bold text-success">+23%</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{t("admin_dashboard_perf_growth", "Büyüme")}</div>
                   </div>
                 </div>
               </div>

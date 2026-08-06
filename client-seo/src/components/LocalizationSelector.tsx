@@ -46,7 +46,6 @@ const LANGUAGES = [
   { code: 'fi', name: 'Suomi', flag: '🇫🇮' },
   { code: 'el', name: 'Ελληνικά', flag: '🇬🇷' },
   { code: 'hi', name: 'हिन्दी', flag: '🇮🇳' },
-  { code: 'id', name: 'Bahasa Indonesia', flag: '🇮🇩' },
 ];
 
 export const LocalizationSelector = () => {

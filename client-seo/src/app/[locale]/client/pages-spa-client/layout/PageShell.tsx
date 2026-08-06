@@ -74,7 +74,7 @@ export function PageShell({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-card dark:bg-[#1a1b1e]/60 border border-border dark:border-white/5 border-l border-t rounded-[32px] p-8 backdrop-blur-3xl shadow-2xl relative overflow-hidden group hover:bg-accent/10 transition-all"
+              className="bg-card dark:bg-card/60 border border-border dark:border-white/5 border-l border-t rounded-[32px] p-8 backdrop-blur-3xl shadow-2xl relative overflow-hidden group hover:bg-accent/10 transition-all"
             >
               <div className="absolute top-0 right-0 p-6 opacity-5 text-primary group-hover:scale-110 transition-transform">
                  <Activity className="w-12 h-12" />

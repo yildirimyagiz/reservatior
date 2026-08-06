@@ -16,19 +16,19 @@ import { useTranslation } from "react-i18next";
 
 const safetyFeatures = [
   {
-    icon: <Camera className="w-6 h-6 text-blue-400" />,
+    icon: <Camera className="w-6 h-6 text-brand" />,
     title: "24/7 Monitoring",
     description: "Continuous surveillance and security monitoring",
     status: "active"
   },
   {
-    icon: <Lock className="w-6 h-6 text-purple-400" />,
+    icon: <Lock className="w-6 h-6 text-brand" />,
     title: "Smart Locks",
     description: "Keyless entry with secure access codes",
     status: "active"
   },
   {
-    icon: <Bell className="w-6 h-6 text-emerald-400" />,
+    icon: <Bell className="w-6 h-6 text-success" />,
     title: "Emergency Alerts",
     description: "Instant notification system for emergencies",
     status: "active"
@@ -61,7 +61,7 @@ export default function ShortTermRentalSafetyPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("short_term_rental_safety.shorttermrentalsafetypage.auto_ext_3")}
@@ -78,16 +78,16 @@ export default function ShortTermRentalSafetyPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
             >
-              <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+              <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="p-3 rounded-xl bg-purple-500/20">
+                      <div className="p-3 rounded-xl bg-brand/20">
                         {feature.icon}
                       </div>
                       <CardTitle className="text-white">{feature.title}</CardTitle>
                     </div>
-                    <Badge className="bg-green-500/20 text-green-400">{feature.status}</Badge>
+                    <Badge className="bg-blue-500/20 text-blue-400">{feature.status}</Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -112,7 +112,7 @@ export default function ShortTermRentalSafetyPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 + idx * 0.1 }}
             >
-              <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+              <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
                 <CardContent className="p-6 text-center">
                   <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
                   <div className="text-sm text-gray-400">{stat.label}</div>

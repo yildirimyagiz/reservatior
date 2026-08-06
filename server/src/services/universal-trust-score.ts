@@ -2,9 +2,7 @@ import { prisma } from "../lib/prisma";
 import { PrismaClient } from "@prisma/client";
 import { prismaManager } from "../lib/prisma";
 
-type TrustEntityType = string;
-type TrustScoreStatus = string;
-type TrustSignalCategory = string;
+import { TrustEntityType, TrustScoreStatus, TrustSignalCategory } from "@prisma/client";
 
 const TIER_THRESHOLDS = [
   { min: 90, tier: "DIAMOND" },
@@ -68,7 +66,7 @@ function normalizeSignal(category: string, rawValue: any): number {
 }
 
 async function fetchTenantSignals(entityId: string, orgId: string | null) {
-  const payments = await prisma.payment.findMany({
+  const payments: any[] = await (prisma as any).payment.findMany({
     where: { tenantId: entityId, orgId: orgId ?? undefined },
     orderBy: { createdAt: "desc" },
     take: 50,
@@ -76,28 +74,28 @@ async function fetchTenantSignals(entityId: string, orgId: string | null) {
 
   const totalPayments = payments.length;
   const onTimePayments = payments.filter(
-    (p) => p.status === "COMPLETED" && p.paymentDate && p.dueDate && p.paymentDate <= p.dueDate
+    (p: any) => p.status === "COMPLETED" && p.paymentDate && p.dueDate && p.paymentDate <= p.dueDate
   ).length;
   const onTimeRatio = totalPayments > 0 ? onTimePayments / totalPayments : 0.5;
 
-  const leases = await prisma.lease.findMany({
+  const leases: any[] = await (prisma as any).lease.findMany({
     where: { tenantId: entityId, orgId: orgId ?? undefined },
     orderBy: { createdAt: "desc" },
     take: 10,
   });
-  const completedLeases = leases.filter((l) => l.status === "COMPLETED").length;
+  const completedLeases = leases.filter((l: any) => l.status === "COMPLETED").length;
   const leaseCompletionRate = leases.length > 0 ? completedLeases / leases.length : 0.5;
 
-  const reviews = await prisma.guestReview.findMany({
+  const reviews: any[] = await (prisma as any).guestReview.findMany({
     where: { guestId: entityId, orgId: orgId ?? undefined },
     take: 20,
   });
   const avgRating =
     reviews.length > 0
-      ? reviews.reduce((sum, r) => sum + (r.rating ?? 3), 0) / reviews.length / 5
+      ? reviews.reduce((sum: number, r: any) => sum + (r.rating ?? 3), 0) / reviews.length / 5
       : 0.5;
 
-  const disputes = await prisma.bookingSecurityScreening.findMany({
+  const disputes: any[] = await (prisma as any).bookingSecurityScreening.findMany({
     where: { tenantId: entityId, orgId: orgId ?? undefined },
     take: 20,
   });
@@ -113,15 +111,15 @@ async function fetchTenantSignals(entityId: string, orgId: string | null) {
 }
 
 async function fetchPropertySignals(entityId: string, orgId: string | null) {
-  const workOrders = await prisma.maintenanceWorkOrder.findMany({
+  const workOrders: any[] = await (prisma as any).maintenanceWorkOrder.findMany({
     where: { propertyId: entityId, orgId: orgId ?? undefined },
     orderBy: { createdAt: "desc" },
     take: 30,
   });
-  const resolvedOrders = workOrders.filter((w) => w.status === "RESOLVED" || w.status === "CLOSED").length;
+  const resolvedOrders = workOrders.filter((w: any) => w.status === "RESOLVED" || w.status === "CLOSED").length;
   const maintenanceScore = workOrders.length > 0 ? resolvedOrders / workOrders.length : 0.75;
 
-  const valuations = await prisma.propertyValuation.findMany({
+  const valuations: any[] = await (prisma as any).propertyValuation.findMany({
     where: { propertyId: entityId, orgId: orgId ?? undefined },
     orderBy: { createdAt: "desc" },
     take: 5,
@@ -133,19 +131,19 @@ async function fetchPropertySignals(entityId: string, orgId: string | null) {
     valuationTrend = previous > 0 ? Math.min(1, Math.max(0, 0.5 + (latest - previous) / previous * 5)) : 0.5;
   }
 
-  const reviews = await prisma.review.findMany({
+  const reviews: any[] = await (prisma as any).review.findMany({
     where: { entityId: entityId, entityType: "PROPERTY", orgId: orgId ?? undefined },
     take: 20,
   });
   const reviewAvg = reviews.length > 0
-    ? reviews.reduce((sum, r) => sum + (r.rating ?? 3), 0) / reviews.length / 5
+    ? reviews.reduce((sum: number, r: any) => sum + (r.rating ?? 3), 0) / reviews.length / 5
     : 0.5;
 
-  const complianceRecords = await prisma.propertyCompliance.findMany({
+  const complianceRecords: any[] = await (prisma as any).propertyCompliance.findMany({
     where: { propertyId: entityId, orgId: orgId ?? undefined },
     take: 10,
   });
-  const compliantCount = complianceRecords.filter((c) => c.status === "COMPLIANT").length;
+  const compliantCount = complianceRecords.filter((c: any) => c.status === "COMPLIANT").length;
   const complianceScore = complianceRecords.length > 0 ? compliantCount / complianceRecords.length : 0.75;
 
   return {
@@ -158,24 +156,24 @@ async function fetchPropertySignals(entityId: string, orgId: string | null) {
 }
 
 async function fetchAgentSignals(entityId: string, orgId: string | null) {
-  const performances = await prisma.agentPerformance.findMany({
+  const performances: any[] = await (prisma as any).agentPerformance.findMany({
     where: { agentId: entityId, orgId: orgId ?? undefined },
     orderBy: { createdAt: "desc" },
     take: 20,
   });
 
-  const dealClosings = performances.filter((p) => p.metricType === "DEAL_CLOSED" || p.metricType === "CONVERSION").length;
+  const dealClosings = performances.filter((p: any) => p.metricType === "DEAL_CLOSED" || p.metricType === "CONVERSION").length;
   const dealClosingRate = performances.length > 0 ? Math.min(1, dealClosings / Math.max(1, performances.length * 0.4)) : 0.5;
 
-  const commissions = await prisma.commission.findMany({
+  const commissions: any[] = await (prisma as any).commission.findMany({
     where: { agentId: entityId, orgId: orgId ?? undefined },
     orderBy: { createdAt: "desc" },
     take: 30,
   });
-  const paidCommissions = commissions.filter((c) => c.status === "PAID").length;
+  const paidCommissions = commissions.filter((c: any) => c.status === "PAID").length;
   const commissionConsistency = commissions.length > 0 ? paidCommissions / commissions.length : 0.5;
 
-  const reviews = await prisma.review.findMany({
+  const reviews: any[] = await (prisma as any).review.findMany({
     where: { entityId: entityId, entityType: "AGENT", orgId: orgId ?? undefined },
     take: 20,
   });
@@ -185,7 +183,7 @@ async function fetchAgentSignals(entityId: string, orgId: string | null) {
 
   const avgResponseHours =
     performances.length > 0
-      ? performances.reduce((sum, p) => sum + (p.responseTimeMs ?? 3600000), 0) / performances.length / 3600000
+      ? performances.reduce((sum: number, p: any) => sum + (p.responseTimeMs ?? 3600000), 0) / performances.length / 3600000
       : 2;
   const responseTime = Math.max(0, 1 - avgResponseHours / 24);
 
@@ -419,7 +417,7 @@ export const universalTrustScoreService = {
         version: newVersion,
         overallScore: Math.round(newScore * 100) / 100,
         tier: newTier,
-        scoreBreakdown: updatedScore.scoreBreakdown,
+        scoreBreakdown: updatedScore.scoreBreakdown as any,
         triggerEvent: `SIGNAL: ${signalKey}`,
         eventId: event.id,
       },
@@ -507,7 +505,7 @@ export const universalTrustScoreService = {
         version: updated.version,
         overallScore: newScoreValue,
         tier: newTier,
-        scoreBreakdown: updated.scoreBreakdown,
+        scoreBreakdown: updated.scoreBreakdown as any,
         triggerEvent: `DECAY: ${periodsInactive} periods inactive (${daysSinceLastSignal} days)`,
       },
     });
@@ -538,14 +536,14 @@ export const universalTrustScoreService = {
     const breakdown = (score.scoreBreakdown as Record<string, number>) ?? {};
     const explanation = (score.explanationData as any) ?? buildExplanation(entityType, {}, score.overallScore, score.tier, breakdown);
 
-    const eventSummaries = score.events.map((e) => ({
+    const eventSummaries = (score as any).events?.map((e: any) => ({
       signalKey: e.signalKey,
       category: e.category,
       normalizedScore: e.normalizedScore,
       scoreDelta: e.scoreDelta,
       description: e.description,
       at: e.calculatedAt,
-    }));
+    })) ?? [];
 
     return {
       entityType,

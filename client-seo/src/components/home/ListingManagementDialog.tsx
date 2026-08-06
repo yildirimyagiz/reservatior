@@ -189,12 +189,12 @@ export function ListingManagementDialog({
         {children || <Button className="bg-orange-600 hover:bg-orange-500 text-white font-black uppercase tracking-widest text-[10px] gap-2 h-12 px-8 rounded-2xl shadow-xl shadow-orange-600/20 transition-all active:scale-95">
             <PlusCircle className="w-4 h-4" />{t("client.src.launch_neural_listing")}</Button>}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[700px] bg-[#0a0b0d] border-white/5 text-white overflow-hidden p-0 rounded-[40px] shadow-2xl">
+      <DialogContent className="sm:max-w-[700px] bg-[#0a0b0d] border-border text-white overflow-hidden p-0 rounded-[40px] shadow-2xl">
         <div className="relative p-10 space-y-10">
           
           {/* Neural Glow Background */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-orange-600/10 rounded-full blur-[100px] pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-600/5 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary text-primary-foreground/5 rounded-full blur-[80px] pointer-events-none" />
           
           <DialogHeader className="relative z-10 text-center lg:text-left">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
@@ -202,9 +202,9 @@ export function ListingManagementDialog({
                   <DialogTitle className="text-3xl font-black italic tracking-tighter flex items-center justify-center lg:justify-start gap-3">
                     <BrainCircuit className="w-8 h-8 text-orange-500" />{t("client.src.neural_listing")}<span className="text-orange-500">{t("client.src.wizard")}</span>
                   </DialogTitle>
-                  <DialogDescription className="text-slate-500 font-medium italic uppercase tracking-widest text-[10px]">{t("client.src.integrated_ai_intelligence_highfidelity")}</DialogDescription>
+                  <DialogDescription className="text-muted-foreground font-medium italic uppercase tracking-widest text-[10px]">{t("client.src.integrated_ai_intelligence_highfidelity")}</DialogDescription>
                </div>
-               <Badge className="bg-orange-600/20 text-orange-400 border-none px-4 py-1.5 font-black italic tracking-widest uppercase text-[9px] w-fit mx-auto lg:mx-0 shadow-lg backdrop-blur-xl">{t("client.src.beta_cloud_burst_ready")}</Badge>
+               <Badge className="bg-orange-600/20 text-warning border-none px-4 py-1.5 font-black italic tracking-widest uppercase text-[9px] w-fit mx-auto lg:mx-0 shadow-lg backdrop-blur-xl">{t("client.src.beta_cloud_burst_ready")}</Badge>
             </div>
           </DialogHeader>
 
@@ -221,7 +221,7 @@ export function ListingManagementDialog({
             </CardLayout>
 
             {/* SERVICE BLOCK: TRANSLATION & GEO */}
-            <CardLayout title={t("client.src.global_intelligence")} icon={<Languages className="w-5 h-5" />} color="text-blue-500">
+            <CardLayout title={t("client.src.global_intelligence")} icon={<Languages className="w-5 h-5" />} color="text-brand">
                <ul className="space-y-3 mt-4">
                   <FeatureItem text="Neighborhood DNA Report" included />
                   <FeatureItem text="True Comps (Market Price)" included />
@@ -242,20 +242,20 @@ export function ListingManagementDialog({
             {/* SERVICE BLOCK: ASSET FLOW */}
             <CardLayout title={t("client.src.processing_power")} icon={<Cpu className="w-5 h-5" />} color="text-violet-500">
                <div className="space-y-4 mt-4">
-                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic leading-tight">{t("client.src.current_processing_health")}</p>
+                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest italic leading-tight">{t("client.src.current_processing_health")}</p>
                   <div className="space-y-2">
-                     <div className="flex justify-between text-[9px] font-black uppercase italic tracking-widest text-slate-400">
+                     <div className="flex justify-between text-[9px] font-black uppercase italic tracking-widest text-muted-foreground">
                         <span>{t("client.src.highspeed_node")}</span>
-                        <span className="text-emerald-400">{t("client.src.98_efficient")}</span>
+                        <span className="text-success">{t("client.src.98_efficient")}</span>
                      </div>
-                     <Progress value={98} className="h-1 bg-white/5" indicatorClassName="bg-emerald-500" />
+                     <Progress value={98} className="h-1 bg-white/5" indicatorClassName="bg-success" />
                   </div>
                   <div className="space-y-2">
-                     <div className="flex justify-between text-[9px] font-black uppercase italic tracking-widest text-slate-400">
+                     <div className="flex justify-between text-[9px] font-black uppercase italic tracking-widest text-muted-foreground">
                         <span>{t("client.src.ai_engine_assistant")}</span>
-                        <span className="text-blue-400">{t("client.src.online")}</span>
+                        <span className="text-info">{t("client.src.online")}</span>
                      </div>
-                     <Progress value={100} className="h-1 bg-white/5" indicatorClassName="bg-blue-600" />
+                     <Progress value={100} className="h-1 bg-white/5" indicatorClassName="bg-primary text-primary-foreground" />
                   </div>
                </div>
             </CardLayout>
@@ -263,26 +263,26 @@ export function ListingManagementDialog({
 
           <div className="flex flex-col gap-4 relative z-10 pt-4">
              <div className="flex-1 flex flex-col gap-2">
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic ml-1">{t("client.src.paste_cloud_link_drivedropboxwetransfer")}</p>
+                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest italic ml-1">{t("client.src.paste_cloud_link_drivedropboxwetransfer")}</p>
                 <div className="flex gap-2">
                    <div className="flex-1 relative">
-                       <input value={syncLink} onChange={e => setSyncLink(e.target.value)} aria-label="Cloud sync link" placeholder={t("client.src.httpsdrivegooglecom")} className="w-full h-14 rounded-2xl bg-white/5 border border-white/5 px-4 text-xs font-medium focus:border-orange-500/50 outline-hidden transition-all text-slate-300" />
-                      <Globe className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
+                       <input value={syncLink} onChange={e => setSyncLink(e.target.value)} aria-label="Cloud sync link" placeholder={t("client.src.httpsdrivegooglecom")} className="w-full h-14 rounded-2xl bg-white/5 border border-border px-4 text-xs font-medium focus:border-orange-500/50 outline-hidden transition-all text-muted-foreground" />
+                      <Globe className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                    </div>
-                   <Button onClick={handleDriveSync} disabled={!syncLink || isSyncing} className="h-14 px-6 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black uppercase text-[10px] tracking-widest disabled:opacity-50">
+                   <Button onClick={handleDriveSync} disabled={!syncLink || isSyncing} className="h-14 px-6 rounded-2xl bg-primary text-primary-foreground hover:bg-brand/100 text-white font-black uppercase text-[10px] tracking-widest disabled:opacity-50">
                      {isSyncing ? <Activity className="w-4 h-4 animate-spin" /> : "SYNC ASSETS"}
                    </Button>
                 </div>
              </div>
 
              <div className="flex-1 flex flex-col gap-2">
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic ml-1">{t("client.src.portal_oneclick_import_sahibindenzillowemlakjet")}</p>
+                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest italic ml-1">{t("client.src.portal_oneclick_import_sahibindenzillowemlakjet")}</p>
                 <div className="flex gap-2">
                    <div className="flex-1 relative">
-                       <input value={externalUrl} onChange={e => setExternalUrl(e.target.value)} aria-label="External URL import" placeholder={t("client.src.paste_listing_url_here")} className="w-full h-14 rounded-2xl bg-white/5 border border-white/5 px-4 text-xs font-medium focus:border-emerald-500/50 outline-hidden transition-all text-slate-300" />
-                      <Zap className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-500" />
+                       <input value={externalUrl} onChange={e => setExternalUrl(e.target.value)} aria-label="External URL import" placeholder={t("client.src.paste_listing_url_here")} className="w-full h-14 rounded-2xl bg-white/5 border border-border px-4 text-xs font-medium focus:border-blue-500/50 outline-hidden transition-all text-muted-foreground" />
+                      <Zap className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-success" />
                    </div>
-                   <Button onClick={handleExternalImport} disabled={!externalUrl || isImporting} className="h-14 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase text-[10px] tracking-widest disabled:opacity-50">
+                   <Button onClick={handleExternalImport} disabled={!externalUrl || isImporting} className="h-14 px-6 rounded-2xl bg-blue-600 hover:bg-success text-white font-black uppercase text-[10px] tracking-widest disabled:opacity-50">
                      {isImporting ? <Activity className="w-4 h-4 animate-spin" /> : "NEURAL HARVEST"}
                    </Button>
                 </div>
@@ -294,31 +294,31 @@ export function ListingManagementDialog({
                 <PlusCircle className="w-5 h-5 group-hover:rotate-90 transition-all duration-500" />{t("client.src.manual_listing")}</Button>
           </div>
 
-          {showManualForm && <div className="space-y-6 relative z-10 pt-4 border-t border-white/5">
+          {showManualForm && <div className="space-y-6 relative z-10 pt-4 border-t border-border">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-black text-white italic tracking-tighter">{t("client.src.create_property_listing")}</h3>
-                <Button variant="ghost" size="sm" onClick={() => setShowManualForm(false)} className="text-slate-400 hover:text-white">{t("client.src.cancel")}</Button>
+                <Button variant="ghost" size="sm" onClick={() => setShowManualForm(false)} className="text-muted-foreground hover:text-white">{t("common.cancel")}</Button>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.property_name")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.property_name")}</label>
                   <Input value={manualListing.name} onChange={e => setManualListing(prev => ({
                 ...prev,
                 name: e.target.value
-              }))} placeholder={t("client.src.luxury_downtown_apartment")} className="bg-white/5 border-white/5 text-white" />
+              }))} placeholder={t("client.src.luxury_downtown_apartment")} className="bg-white/5 border-border text-white" />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.property_type")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.property_type")}</label>
                   <Select value={manualListing.type} onValueChange={value => setManualListing(prev => ({
                 ...prev,
                 type: value
               }))}>
-                    <SelectTrigger className="bg-white/5 border-white/5 text-white">
-                      <SelectValue placeholder={t("client.src.select_type")} />
+                    <SelectTrigger className="bg-white/5 border-border text-white">
+                      <SelectValue placeholder={t("common.select_type")} />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#14151a] border-white/5">
+                    <SelectContent className="bg-background border-border">
                       <SelectItem value="APARTMENT">{t("client.src.apartment")}</SelectItem>
                       <SelectItem value="HOUSE">{t("client.src.house")}</SelectItem>
                       <SelectItem value="VILLA">{t("client.src.villa")}</SelectItem>
@@ -328,47 +328,47 @@ export function ListingManagementDialog({
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.address_line_1")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.address_line_1")}</label>
                   <Input value={manualListing.addressLine1} onChange={e => setManualListing(prev => ({
                 ...prev,
                 addressLine1: e.target.value
-              }))} placeholder={t("client.src.123_main_street")} className="bg-white/5 border-white/5 text-white" />
+              }))} placeholder={t("client.src.123_main_street")} className="bg-white/5 border-border text-white" />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.city")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.city")}</label>
                   <Input value={manualListing.city} onChange={e => setManualListing(prev => ({
                 ...prev,
                 city: e.target.value
-              }))} placeholder={t("client.src.new_york")} className="bg-white/5 border-white/5 text-white" />
+              }))} placeholder={t("client.src.new_york")} className="bg-white/5 border-border text-white" />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.state")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.state")}</label>
                   <Input value={manualListing.state} onChange={e => setManualListing(prev => ({
                 ...prev,
                 state: e.target.value
-              }))} placeholder={t("client.src.ny")} className="bg-white/5 border-white/5 text-white" />
+              }))} placeholder={t("client.src.ny")} className="bg-white/5 border-border text-white" />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.zip_code")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.zip_code")}</label>
                   <Input value={manualListing.zip} onChange={e => setManualListing(prev => ({
                 ...prev,
                 zip: e.target.value
-              }))} placeholder="10001" className="bg-white/5 border-white/5 text-white" />
+              }))} placeholder="10001" className="bg-white/5 border-border text-white" />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.listing_type")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.listing_type")}</label>
                   <Select value={manualListing.listingType} onValueChange={value => setManualListing(prev => ({
                 ...prev,
                 listingType: value
               }))}>
-                    <SelectTrigger className="bg-white/5 border-white/5 text-white">
-                      <SelectValue placeholder={t("client.src.select_type")} />
+                    <SelectTrigger className="bg-white/5 border-border text-white">
+                      <SelectValue placeholder={t("common.select_type")} />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#14151a] border-white/5">
+                    <SelectContent className="bg-background border-border">
                       <SelectItem value="SALE">{t("client.src.for_sale")}</SelectItem>
                       <SelectItem value="RENT">{t("client.src.for_rent")}</SelectItem>
                     </SelectContent>
@@ -376,54 +376,54 @@ export function ListingManagementDialog({
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.price")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.price")}</label>
                   <Input type="number" value={manualListing.listingPrice} onChange={e => setManualListing(prev => ({
                 ...prev,
                 listingPrice: e.target.value
-              }))} placeholder="500000" className="bg-white/5 border-white/5 text-white" />
+              }))} placeholder="500000" className="bg-white/5 border-border text-white" />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.bedrooms")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.bedrooms")}</label>
                   <Input type="number" value={manualListing.bedrooms} onChange={e => setManualListing(prev => ({
                 ...prev,
                 bedrooms: e.target.value
-              }))} placeholder="3" className="bg-white/5 border-white/5 text-white" />
+              }))} placeholder="3" className="bg-white/5 border-border text-white" />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.bathrooms")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.bathrooms")}</label>
                   <Input type="number" step="0.5" value={manualListing.bathrooms} onChange={e => setManualListing(prev => ({
                 ...prev,
                 bathrooms: e.target.value
-              }))} placeholder="2.5" className="bg-white/5 border-white/5 text-white" />
+              }))} placeholder="2.5" className="bg-white/5 border-border text-white" />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.area_sqm")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("client.src.area_sqm")}</label>
                   <Input type="number" value={manualListing.areaSqm} onChange={e => setManualListing(prev => ({
                 ...prev,
                 areaSqm: e.target.value
-              }))} placeholder="120" className="bg-white/5 border-white/5 text-white" />
+              }))} placeholder="120" className="bg-white/5 border-border text-white" />
                 </div>
                 
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.description")}</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{t("common.description")}</label>
                   <Textarea value={manualListing.description} onChange={e => setManualListing(prev => ({
                 ...prev,
                 description: e.target.value
-              }))} placeholder={t("client.src.beautiful_property_with_modern")} className="bg-white/5 border-white/5 text-white min-h-[100px]" />
+              }))} placeholder={t("client.src.beautiful_property_with_modern")} className="bg-white/5 border-border text-white min-h-[100px]" />
                 </div>
               </div>
               
-              <Button onClick={handleManualListing} disabled={isCreating} className="w-full h-14 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase tracking-widest text-xs shadow-2xl shadow-emerald-600/30">
+              <Button onClick={handleManualListing} disabled={isCreating} className="w-full h-14 rounded-2xl bg-blue-600 hover:bg-success text-white font-black uppercase tracking-widest text-xs shadow-2xl shadow-blue-600/30">
                 {isCreating ? <>
                     <Activity className="w-4 h-4 animate-spin mr-2" />{t("client.src.creating_listing")}</> : <>
                     <PlusCircle className="w-4 h-4 mr-2" />{t("client.src.create_property_listing")}</>}
               </Button>
             </div>}
 
-          <p className="text-center text-[10px] text-slate-600 font-bold uppercase tracking-[0.3em] italic">{t("client.src.list_in_300_seconds")}</p>
+          <p className="text-center text-[10px] text-muted-foreground font-bold uppercase tracking-[0.3em] italic">{t("client.src.list_in_300_seconds")}</p>
         </div>
       </DialogContent>
     </Dialog>;
@@ -443,7 +443,7 @@ function CardLayout({
 }) {
   return <m.div whileHover={{
     scale: 1.02
-  }} className="p-6 bg-[#14151a]/40 border border-white/5 rounded-3xl relative overflow-hidden group">
+  }} className="p-6 bg-background/40 border border-border rounded-3xl relative overflow-hidden group">
       <div className="flex items-center justify-between mb-2">
          <div className={cn("p-2.5 bg-white/5 rounded-xl transition-all group-hover:scale-110", color)}>
             {icon}
@@ -462,7 +462,7 @@ function FeatureItem({
   included: boolean;
 }) {
   return <li className="flex items-center gap-3 text-[10px] font-medium italic tracking-tight">
-       {included ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> : <Zap className="w-3.5 h-3.5 text-slate-800" />}
-       <span className={cn(included ? "text-slate-300" : "text-slate-700")}>{text}</span>
+       {included ? <CheckCircle2 className="w-3.5 h-3.5 text-success" /> : <Zap className="w-3.5 h-3.5 text-foreground" />}
+       <span className={cn(included ? "text-muted-foreground" : "text-muted-foreground")}>{text}</span>
     </li>;
 }

@@ -4,9 +4,9 @@ import { OSKpiConfig } from "@/lib/api/os-dashboard";
 
 const kpis: OSKpiConfig[] = [
   { key: "totalPartners", label: "Total Partners", icon: "Users", color: "text-blue-600" },
-  { key: "activePartners", label: "Active Partners", icon: "Activity", color: "text-green-600" },
+  { key: "activePartners", label: "Active Partners", icon: "Activity", color: "text-blue-600" },
   { key: "pendingPartners", label: "Pending", icon: "Clock", color: "text-yellow-600" },
-  { key: "averagePartnerScore", label: "Avg Score", icon: "Star", color: "text-purple-600", format: "decimal" },
+  { key: "averagePartnerScore", label: "Avg Score", icon: "Star", color: "text-brand", format: "decimal" },
 ];
 
 export default function PartnerOSDashboard() {

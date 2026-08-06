@@ -129,7 +129,7 @@ export default function ExplorePage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("explore.explorepage.auto_ext_3")}
@@ -150,7 +150,7 @@ export default function ExplorePage() {
               placeholder="Search features..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+              className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
             />
           </div>
         </m.div>
@@ -163,9 +163,9 @@ export default function ExplorePage() {
           className="mb-8"
         >
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="bg-white/5 border-purple-500/20 w-full justify-start">
+            <TabsList className="bg-white/5 border-brand/20 w-full justify-start">
               {categories.map(cat => (
-                <TabsTrigger key={cat.id} value={cat.id} className="data-[state=active]:bg-purple-600">
+                <TabsTrigger key={cat.id} value={cat.id} className="data-[state=active]:bg-brand">
                   {cat.label}
                 </TabsTrigger>
               ))}
@@ -183,15 +183,15 @@ export default function ExplorePage() {
             {filteredFeatures.map((feature) => (
               <Card
                 key={feature.id}
-                className="bg-white/5 backdrop-blur-xl border-purple-500/20 hover:bg-white/10 transition-all hover:scale-105 cursor-pointer group"
+                className="bg-white/5 backdrop-blur-xl border-brand/20 hover:bg-white/10 transition-all hover:scale-105 cursor-pointer group"
               >
                 <CardHeader>
                   <div className="flex items-start justify-between">
-                    <div className="p-3 rounded-xl bg-purple-500/20 group-hover:bg-purple-500/30 transition-colors">
-                      <feature.icon className="w-6 h-6 text-purple-400" />
+                    <div className="p-3 rounded-xl bg-brand/20 group-hover:bg-brand/30 transition-colors">
+                      <feature.icon className="w-6 h-6 text-brand" />
                     </div>
                     {feature.popular && (
-                      <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">
+                      <Badge className="bg-brand/100/20 text-brand border-blue-500/30">
                         <Sparkles className="w-3 h-3 mr-1" />
                         {t("explore.explorepage.auto_ext_4")}
                                                           </Badge>
@@ -203,7 +203,7 @@ export default function ExplorePage() {
                   <p className="text-gray-400 text-sm mb-4">{feature.description}</p>
                   <Button
                     variant="outline"
-                    className="w-full bg-white/5 border-purple-500/30 text-white hover:bg-purple-600 hover:border-purple-600"
+                    className="w-full bg-white/5 border-brand/30 text-white hover:bg-brand hover:border-purple-600"
                     onClick={() => router.push('/dashboard')}
                   >
                     {t("explore.explorepage.auto_ext_5")}
@@ -223,28 +223,28 @@ export default function ExplorePage() {
           className="mt-12"
         >
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6 text-center">
-                <Building2 className="w-8 h-8 text-purple-400 mx-auto mb-2" />
+                <Building2 className="w-8 h-8 text-brand mx-auto mb-2" />
                 <div className="text-2xl font-bold text-white">{t("explore.explorepage.auto_ext_6")}</div>
                 <div className="text-gray-400 text-sm">{t("explore.explorepage.auto_ext_7")}</div>
               </CardContent>
             </Card>
-            <Card className="bg-white/5 backdrop-blxl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blxl border-brand/20">
               <CardContent className="p-6 text-center">
-                <Users className="w-8 h-8 text-blue-400 mx-auto mb-2" />
+                <Users className="w-8 h-8 text-brand mx-auto mb-2" />
                 <div className="text-2xl font-bold text-white">{t("explore.explorepage.auto_ext_8")}</div>
                 <div className="text-gray-400 text-sm">{t("explore.explorepage.auto_ext_9")}</div>
               </CardContent>
             </Card>
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6 text-center">
-                <TrendingUp className="w-8 h-8 text-green-400 mx-auto mb-2" />
+                <TrendingUp className="w-8 h-8 text-blue-400 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-white">99.9%</div>
                 <div className="text-gray-400 text-sm">{t("explore.explorepage.auto_ext_10")}</div>
               </CardContent>
             </Card>
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6 text-center">
                 <Star className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-white">4.9</div>

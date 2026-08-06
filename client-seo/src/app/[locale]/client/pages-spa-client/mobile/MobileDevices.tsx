@@ -82,10 +82,10 @@ const MobileDevicesPage: React.FC<MobileDevicesPageProps> = () => {
           title,
           message
         });
-        alert("Push notification sent successfully!");
+        console.log("Push notification sent successfully!");
       } catch (error) {
         console.error("Failed to send push notification:", error);
-        alert("Failed to send push notification");
+        console.error("Failed to send push notification");
       }
     }
   };
@@ -97,21 +97,21 @@ const MobileDevicesPage: React.FC<MobileDevicesPageProps> = () => {
   return <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">{t("client.src.mobile_devices_management")}</h1>
-        <button onClick={() => setIsModalOpen(true)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">{t("client.src.add_device")}</button>
+        <button onClick={() => setIsModalOpen(true)} className="bg-brand/100 text-white px-4 py-2 rounded hover:bg-brand">{t("client.src.add_device")}</button>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-card rounded-lg shadow overflow-hidden">
         <table className="min-w-full">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{t("client.src.device")}</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{t("client.src.platform")}</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{t("common.platform")}</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{t("client.src.user")}</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{t("client.src.status")}</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{t("client.src.actions")}</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{t("common.status")}</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{t("common.actions")}</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-card divide-y divide-gray-200">
             {devices.map(device => <tr key={device.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
@@ -135,14 +135,14 @@ const MobileDevicesPage: React.FC<MobileDevicesPageProps> = () => {
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${device.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${device.isActive ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'}`}>
                     {device.isActive ? 'Active' : 'Inactive'}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  {device.isActive && <button onClick={() => sendPushNotification(device.id)} className="text-purple-600 hover:text-purple-900 mr-2">{t("client.src.send_push")}</button>}
-                  <button onClick={() => handleEdit(device)} className="text-indigo-600 hover:text-indigo-900 mr-2">{t("client.src.edit")}</button>
-                  <button onClick={() => handleDelete(device.id)} className="text-red-600 hover:text-red-900">{t("client.src.delete")}</button>
+                  {device.isActive && <button onClick={() => sendPushNotification(device.id)} className="text-brand hover:text-brand mr-2">{t("client.src.send_push")}</button>}
+                  <button onClick={() => handleEdit(device)} className="text-brand hover:text-brand mr-2">{t("common.edit")}</button>
+                  <button onClick={() => handleDelete(device.id)} className="text-red-600 hover:text-red-900">{t("common.delete")}</button>
                 </td>
               </tr>)}
           </tbody>
@@ -150,7 +150,7 @@ const MobileDevicesPage: React.FC<MobileDevicesPageProps> = () => {
       </div>
 
       {isModalOpen && <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-card">
             <h2 className="text-lg font-bold text-gray-900 mb-4">
               {editingDevice ? "Edit Device" : "Add New Device"}
             </h2>
@@ -170,7 +170,7 @@ const MobileDevicesPage: React.FC<MobileDevicesPageProps> = () => {
             })} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("client.src.platform")}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("common.platform")}</label>
                 <select aria-label="Platform" value={formData.platform} onChange={e => setFormData({
               ...formData,
               platform: e.target.value
@@ -187,7 +187,7 @@ const MobileDevicesPage: React.FC<MobileDevicesPageProps> = () => {
                 ...formData,
                 isActive: e.target.checked
               })} className="mr-2" />
-                  <span className="text-sm font-medium text-gray-700">{t("client.src.active")}</span>
+                  <span className="text-sm font-medium text-gray-700">{t("common.active")}</span>
                 </label>
               </div>
               <div className="flex justify-end space-x-3">
@@ -200,8 +200,8 @@ const MobileDevicesPage: React.FC<MobileDevicesPageProps> = () => {
                 platform: "",
                 isActive: true
               });
-            }} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200">{t("client.src.cancel")}</button>
-                <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-blue-500 border border-transparent rounded-md hover:bg-blue-600">
+            }} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200">{t("common.cancel")}</button>
+                <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-brand/100 border border-transparent rounded-md hover:bg-brand">
                   {editingDevice ? "Update" : "Create"}
                 </button>
               </div>

@@ -37,7 +37,7 @@ export default function AgentProfilePage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("profile.agentprofilepage.auto_ext_3")}
@@ -51,11 +51,11 @@ export default function AgentProfilePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center">
-                  <div className="w-24 h-24 rounded-full bg-purple-500/20 flex items-center justify-center mb-4">
-                    <User className="w-12 h-12 text-purple-400" />
+                  <div className="w-24 h-24 rounded-full bg-brand/20 flex items-center justify-center mb-4">
+                    <User className="w-12 h-12 text-brand" />
                   </div>
                   <h2 className="text-xl font-bold text-white mb-1">{t("profile.agentprofilepage.auto_ext_4")}</h2>
                   <p className="text-gray-400 mb-4">{t("profile.agentprofilepage.auto_ext_5")}</p>
@@ -67,7 +67,7 @@ export default function AgentProfilePage() {
                     <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                     <span className="text-sm text-gray-400 ml-2">5.0</span>
                   </div>
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                  <Button className="w-full bg-brand hover:bg-brand">
                     <Edit className="w-4 h-4 mr-2" />
                     {t("profile.agentprofilepage.auto_ext_6")}
                                                         </Button>
@@ -82,7 +82,7 @@ export default function AgentProfilePage() {
             transition={{ delay: 0.2 }}
             className="lg:col-span-2"
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardHeader>
                 <CardTitle className="text-white">{t("profile.agentprofilepage.auto_ext_7")}</CardTitle>
               </CardHeader>
@@ -93,7 +93,7 @@ export default function AgentProfilePage() {
                     <Input
                       id="fullName"
                       defaultValue="John Doe"
-                      className="bg-white/10 border-purple-500/30 text-white"
+                      className="bg-white/10 border-brand/30 text-white"
                     />
                   </div>
                   <div className="space-y-2">
@@ -103,7 +103,7 @@ export default function AgentProfilePage() {
                       <Input
                         id="email"
                         defaultValue="john@example.com"
-                        className="pl-10 bg-white/10 border-purple-500/30 text-white"
+                        className="pl-10 bg-white/10 border-brand/30 text-white"
                       />
                     </div>
                   </div>
@@ -114,7 +114,7 @@ export default function AgentProfilePage() {
                       <Input
                         id="phone"
                         defaultValue="+1 555-0101"
-                        className="pl-10 bg-white/10 border-purple-500/30 text-white"
+                        className="pl-10 bg-white/10 border-brand/30 text-white"
                       />
                     </div>
                   </div>
@@ -125,7 +125,7 @@ export default function AgentProfilePage() {
                       <Input
                         id="location"
                         defaultValue="New York, NY"
-                        className="pl-10 bg-white/10 border-purple-500/30 text-white"
+                        className="pl-10 bg-white/10 border-brand/30 text-white"
                       />
                     </div>
                   </div>
@@ -136,7 +136,7 @@ export default function AgentProfilePage() {
                       <Input
                         id="agency"
                         defaultValue="Realty Pro"
-                        className="pl-10 bg-white/10 border-purple-500/30 text-white"
+                        className="pl-10 bg-white/10 border-brand/30 text-white"
                       />
                     </div>
                   </div>
@@ -146,10 +146,10 @@ export default function AgentProfilePage() {
                   <textarea
                     id="bio"
                     defaultValue="Experienced real estate agent specializing in luxury properties."
-                    className="w-full bg-white/10 border-purple-500/30 text-white p-3 rounded-lg min-h-[100px]"
+                    className="w-full bg-white/10 border-brand/30 text-white p-3 rounded-lg min-h-[100px]"
                   />
                 </div>
-                <Button className="bg-purple-600 hover:bg-purple-700">
+                <Button className="bg-brand hover:bg-brand">
                   {t("profile.agentprofilepage.auto_ext_14")}
                                                   </Button>
               </CardContent>

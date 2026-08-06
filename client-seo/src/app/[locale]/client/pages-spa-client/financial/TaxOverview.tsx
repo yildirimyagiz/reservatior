@@ -52,7 +52,7 @@ export default function TaxOverview() {
       <div className="space-y-6">
         {/* Top Status Banner */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-          <Card className="bg-slate-900 border-slate-800 text-white col-span-1 lg:col-span-2">
+          <Card className="bg-card border-border text-white col-span-1 lg:col-span-2">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium opacity-70">{t("client.src.current_liability_q2_estimate")}</CardTitle>
             </CardHeader>
@@ -60,9 +60,9 @@ export default function TaxOverview() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-4xl font-black">${stats.liability.toLocaleString()}</div>
-                  <p className="text-xs mt-1 text-slate-400">{t("client.src.calculated_automatically_across")}{stats.count}{t("client.src.records")}</p>
+                  <p className="text-xs mt-1 text-muted-foreground">{t("client.src.calculated_automatically_across")}{stats.count}{t("client.src.records")}</p>
                 </div>
-                <div className="h-16 w-16 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/30">
+                <div className="h-16 w-16 rounded-full bg-warning/10 flex items-center justify-center border border-orange-500/30">
                    <Landmark className="w-8 h-8 text-orange-500" />
                 </div>
               </div>
@@ -71,7 +71,7 @@ export default function TaxOverview() {
                     <span>{t("client.src.withholding_progress")}</span>
                     <span className="font-bold">82%</span>
                 </div>
-                <Progress value={82} className="h-2 bg-slate-800" indicatorClassName="bg-emerald-500" />
+                <Progress value={82} className="h-2 bg-muted" indicatorClassName="bg-success" />
               </div>
             </CardContent>
           </Card>
@@ -88,15 +88,15 @@ export default function TaxOverview() {
             </CardContent>
           </Card>
 
-          <Card className="border-indigo-500/20 bg-indigo-500/5">
+          <Card className="border-brand/20 bg-brand/5">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-indigo-600 flex items-center gap-2">
+              <CardTitle className="text-sm font-medium text-brand flex items-center gap-2">
                 <FileText className="w-4 h-4" />{t("client.src.tax_records")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stats.count}{t("client.src.records")}</div>
               <p className="text-xs mt-1 text-muted-foreground">{t("client.src.certified_for_this_fiscal")}</p>
-              <Button variant="outline" size="sm" className="mt-4 w-full border-indigo-200 text-indigo-700 hover:bg-indigo-50">{t("client.src.view_ledger")}</Button>
+              <Button variant="outline" size="sm" className="mt-4 w-full border-brand/30 text-brand hover:bg-brand/10">{t("client.src.view_ledger")}</Button>
             </CardContent>
           </Card>
         </div>
@@ -107,7 +107,7 @@ export default function TaxOverview() {
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5 text-emerald-500" />{t("client.src.tax_history")}</CardTitle>
+                    <TrendingUp className="w-5 h-5 text-success" />{t("client.src.tax_history")}</CardTitle>
                 <CardDescription>{t("client.src.monthly_withholding_trends_across")}</CardDescription>
               </div>
               <Select defaultValue="6m" ariaLabel="Filter">
@@ -145,7 +145,7 @@ export default function TaxOverview() {
              <Card className="shadow-sm">
                 <CardHeader>
                     <CardTitle className="text-sm font-bold flex items-center gap-2">
-                        <Calculator className="w-4 h-4 text-slate-500" />{t("client.src.quick_tools")}</CardTitle>
+                        <Calculator className="w-4 h-4 text-muted-foreground" />{t("client.src.quick_tools")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                     <Button variant="secondary" className="w-full justify-start text-sm" size="sm">
@@ -157,7 +157,7 @@ export default function TaxOverview() {
                 </CardContent>
              </Card>
 
-             <Card className="bg-indigo-600 text-white shadow-xl shadow-indigo-200">
+             <Card className="bg-brand text-white shadow-xl shadow-indigo-200">
                 <CardContent className="pt-6">
                     <div className="flex flex-col items-center text-center space-y-4">
                         <div className="p-3 bg-white/20 rounded-2xl">
@@ -165,7 +165,7 @@ export default function TaxOverview() {
                         </div>
                         <h4 className="font-bold text-lg">{t("client.src.need_tax_advice")}</h4>
                         <p className="text-xs opacity-80 leading-relaxed">{t("client.src.our_partner_cpas_can")}</p>
-                        <Button className="bg-white text-indigo-700 hover:bg-slate-100 font-bold w-full">{t("client.src.request_consultation")}</Button>
+                        <Button className="bg-card text-brand hover:bg-muted font-bold w-full">{t("client.src.request_consultation")}</Button>
                     </div>
                 </CardContent>
              </Card>
@@ -182,11 +182,11 @@ export default function TaxOverview() {
             <div className="space-y-4">
                {loading ? <div className="text-center py-12 text-muted-foreground italic">{t("client.src.loading_records")}</div> : records.length === 0 ? <div className="text-center py-12 text-muted-foreground italic">{t("client.src.no_tax_records_found")}</div> : records.map((item: any, i: number) => <div key={item.id} className="flex items-center justify-between p-4 bg-muted/30 rounded-xl hover:bg-muted/50 transition-all">
                           <div className="flex items-center gap-4">
-                              <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center border border-border shadow-sm">
-                                  <Landmark className="w-5 h-5 text-slate-400" />
+                              <div className="w-10 h-10 rounded-lg bg-card flex items-center justify-center border border-border shadow-sm">
+                                  <Landmark className="w-5 h-5 text-muted-foreground" />
                               </div>
                               <div>
-                                   <div className="font-bold text-slate-900">{item.property?.name || 'Manual Settlement'}</div>
+                                   <div className="font-bold text-foreground">{item.property?.name || 'Manual Settlement'}</div>
                                    <div className="text-[10px] text-muted-foreground font-mono">{String(item.id).slice(0, 8)} • {new Date(item.createdAt).toLocaleDateString()}</div>
                               </div>
                           </div>
@@ -197,7 +197,7 @@ export default function TaxOverview() {
                           </div>
                       </div>)}
             </div>
-            <Button variant="ghost" className="w-full mt-4 text-xs font-bold text-slate-500">{t("client.src.view_full_transaction_history")}</Button>
+            <Button variant="ghost" className="w-full mt-4 text-xs font-bold text-muted-foreground">{t("client.src.view_full_transaction_history")}</Button>
           </CardContent>
         </Card>
       </div>
@@ -214,7 +214,7 @@ function Select({
   defaultValue: string;
   ariaLabel: string;
 }) {
-  return <select aria-label={ariaLabel} defaultValue={defaultValue} className="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 outline-none font-medium">
+  return <select aria-label={ariaLabel} defaultValue={defaultValue} className="text-xs bg-muted border border-border rounded-lg px-2 py-1 outline-none font-medium">
             {children}
         </select>;
 }

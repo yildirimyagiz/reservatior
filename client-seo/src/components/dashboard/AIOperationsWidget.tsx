@@ -107,7 +107,7 @@ export function AIOperationsWidget() {
       if (type.includes("RELOCATION")) return <Box className="w-5 h-5 text-amber-400" />;
       return <Activity className="w-5 h-5 text-blue-400" />;
     }
-    if (type.includes("PRICING") || type.includes("VALUATION")) return <Zap className="w-5 h-5 text-emerald-400" />;
+    if (type.includes("PRICING") || type.includes("VALUATION")) return <Zap className="w-5 h-5 text-blue-400" />;
     if (type.includes("MAINTENANCE") || type.includes("SECURITY")) return <ShieldAlert className="w-5 h-5 text-rose-400" />;
     if (type.includes("AI_PHOTO_STAGING")) return <Wand2 className="w-5 h-5 text-fuchsia-400" />;
     if (type.includes("MARKETING_BROCHURE_GEN") || type.includes("SOCIAL_MEDIA")) return <Megaphone className="w-5 h-5 text-orange-400" />;
@@ -120,18 +120,18 @@ export function AIOperationsWidget() {
       case "LEASE_EXPIRY_APPROACHING": return { title: "Kira Yenileme Yaklaşıyor", icon: <Clock className="w-4 h-4 text-amber-400" />, color: "text-amber-400", bg: "bg-amber-400/10" };
       case "RENT_PAYMENT_OVERDUE": return { title: "Gecikmiş Kira Tespiti", icon: <AlertTriangle className="w-4 h-4 text-rose-400" />, color: "text-rose-400", bg: "bg-rose-400/10" };
       case "TENANT_APPLICATION_APPROVED": return { title: "Akıllı Sözleşme Üretimi", icon: <FileText className="w-4 h-4 text-blue-400" />, color: "text-blue-400", bg: "bg-blue-400/10" };
-      case "INVOICE_UPLOADED": return { title: "Fatura OCR & Bütçe Kontrolü", icon: <CheckCircle2 className="w-4 h-4 text-emerald-400" />, color: "text-emerald-400", bg: "bg-emerald-400/10" };
+      case "INVOICE_UPLOADED": return { title: "Fatura OCR & Bütçe Kontrolü", icon: <CheckCircle2 className="w-4 h-4 text-blue-400" />, color: "text-blue-400", bg: "bg-blue-400/10" };
       case "QUARTERLY_TAX_REVIEW": return { title: "Çeyreklik Vergi Taraması", icon: <Activity className="w-4 h-4 text-purple-400" />, color: "text-purple-400", bg: "bg-purple-400/10" };
       case "SECURITY_INCIDENT_CREATED": return { title: "Güvenlik İhlali Bildirimi", icon: <ShieldAlert className="w-4 h-4 text-rose-500" />, color: "text-rose-500", bg: "bg-rose-500/10" };
       case "DOCUMENT_EXPIRED": return { title: "Belge Süresi Doldu", icon: <AlertTriangle className="w-4 h-4 text-orange-500" />, color: "text-orange-500", bg: "bg-orange-500/10" };
       case "VIEWING_COMPLETED": return { title: "Gösterim Geri Bildirim Analizi", icon: <BrainCircuit className="w-4 h-4 text-cyan-400" />, color: "text-cyan-400", bg: "bg-cyan-400/10" };
       case "AI_TASK_STARTED": return { title: "Yapay Zeka Görevi Başladı", icon: <BrainCircuit className="w-4 h-4 text-blue-400" />, color: "text-blue-400", bg: "bg-blue-400/10" };
-      case "AI_TASK_COMPLETED": return { title: "Yapay Zeka Görevi Tamamlandı", icon: <CheckCircle2 className="w-4 h-4 text-emerald-400" />, color: "text-emerald-400", bg: "bg-emerald-400/10" };
+      case "AI_TASK_COMPLETED": return { title: "Yapay Zeka Görevi Tamamlandı", icon: <CheckCircle2 className="w-4 h-4 text-blue-400" />, color: "text-blue-400", bg: "bg-blue-400/10" };
       case "AI_TASK_FAILED": return { title: "Yapay Zeka Görevi Başarısız", icon: <AlertTriangle className="w-4 h-4 text-rose-400" />, color: "text-rose-400", bg: "bg-rose-400/10" };
       case "STAGING_GENERATED": return { title: "Sanal Sahneleme Üretildi", icon: <Wand2 className="w-4 h-4 text-fuchsia-400" />, color: "text-fuchsia-400", bg: "bg-fuchsia-400/10" };
       case "LISTING_OPTIMIZED": return { title: "İlan Optimizasyonu Tamamlandı", icon: <Megaphone className="w-4 h-4 text-orange-400" />, color: "text-orange-400", bg: "bg-orange-400/10" };
       case "AGENT_ASSIGNED": return { title: "Acente İlana Atandı", icon: <UserPlus className="w-4 h-4 text-cyan-400" />, color: "text-cyan-400", bg: "bg-cyan-400/10" };
-      case "AGENT_PERFORMANCE_UPDATED": return { title: "Acente Performansı Güncellendi", icon: <TrendingUp className="w-4 h-4 text-emerald-400" />, color: "text-emerald-400", bg: "bg-emerald-400/10" };
+      case "AGENT_PERFORMANCE_UPDATED": return { title: "Acente Performansı Güncellendi", icon: <TrendingUp className="w-4 h-4 text-blue-400" />, color: "text-blue-400", bg: "bg-blue-400/10" };
       case "AGENT_LICENSE_VERIFIED": return { title: "Acente Lisansı Doğrulandı", icon: <ShieldCheck className="w-4 h-4 text-blue-400" />, color: "text-blue-400", bg: "bg-blue-400/10" };
       case "COMPLIANCE_ALERT": return { title: "Yasal Mevzuat Uyum İhlali", icon: <ShieldAlert className="w-4 h-4 text-rose-500" />, color: "text-rose-500", bg: "bg-rose-500/10" };
       default: return { title: `Sistem Olayı: ${eventName}`, icon: <Radar className="w-4 h-4 text-slate-400" />, color: "text-slate-400", bg: "bg-slate-400/10" };
@@ -148,7 +148,7 @@ export function AIOperationsWidget() {
         return <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 text-[9px] font-bold animate-pulse">İŞLENİYOR</Badge>;
       case "FULFILLED":
       case "COMPLETED":
-        return <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-[9px] font-bold">TAMAMLANDI</Badge>;
+        return <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 text-[9px] font-bold">TAMAMLANDI</Badge>;
       default:
         return <Badge className="bg-slate-500/10 text-slate-400 border-slate-500/20 text-[9px] font-bold">{status}</Badge>;
     }
@@ -256,10 +256,10 @@ export function AIOperationsWidget() {
         <CardHeader className="p-6 pb-4 border-b border-white/5">
           <div className="flex justify-between items-center relative z-10">
             <CardTitle className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-              <Radar className={`w-5 h-5 ${isConnected ? "text-emerald-500 animate-pulse" : "text-slate-500"}`} />
+              <Radar className={`w-5 h-5 ${isConnected ? "text-blue-500 animate-pulse" : "text-slate-500"}`} />
               Canlı Akış
             </CardTitle>
-            <Badge variant="outline" className={isConnected ? "text-emerald-400 border-emerald-400/20" : "text-slate-400"}>
+            <Badge variant="outline" className={isConnected ? "text-blue-400 border-blue-400/20" : "text-slate-400"}>
               {isConnected ? "CANLI" : "BAĞLANTI BEKLENİYOR"}
             </Badge>
           </div>

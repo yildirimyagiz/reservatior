@@ -36,6 +36,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCommerceOrdersStore } from "@/lib/store/commerce-orders-store";
+import { tEnum } from "@/lib/admin-enums";
 
 const ORDER_STATUSES = [
   "PENDING",
@@ -50,16 +51,16 @@ const ORDER_STATUSES = [
 const PAYMENT_STATUSES = ["UNPAID", "PARTIAL", "PAID", "REFUNDED"];
 
 const STATUS_COLORS: Record<string, string> = {
-  PENDING: "bg-amber-500/20 text-amber-400",
-  CONFIRMED: "bg-blue-500/20 text-blue-400",
-  PROCESSING: "bg-purple-500/20 text-purple-400",
+  PENDING: "bg-amber-500/20 text-warning",
+  CONFIRMED: "bg-blue-500/20 text-info",
+  PROCESSING: "bg-brand/20 text-brand",
   SHIPPED: "bg-cyan-500/20 text-cyan-400",
-  DELIVERED: "bg-green-500/20 text-green-400",
+  DELIVERED: "bg-blue-500/20 text-blue-400",
   CANCELLED: "bg-red-500/20 text-red-400",
-  REFUNDED: "bg-orange-500/20 text-orange-400",
+  REFUNDED: "bg-orange-500/20 text-warning",
   UNPAID: "bg-red-500/20 text-red-400",
-  PARTIAL: "bg-amber-500/20 text-amber-400",
-  PAID: "bg-green-500/20 text-green-400",
+  PARTIAL: "bg-amber-500/20 text-warning",
+  PAID: "bg-blue-500/20 text-blue-400",
 };
 
 const mockOrders = [
@@ -130,13 +131,10 @@ export default function CommerceOrdersPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground mb-2">
-                {t("admin_commerce_orders_title", "Commerce Orders")}
+                {t("admin_commerce_orders_title", "Ticaret Siparişleri")}
               </h1>
               <p className="text-muted-foreground">
-                {t(
-                  "admin_commerce_orders_description",
-                  "Track orders, payments, and delivery status"
-                )}
+                {t("admin_commerce_orders_description", "Track orders, payments, & delivery Çalışma Durumu")}
               </p>
             </div>
           </div>
@@ -157,7 +155,7 @@ export default function CommerceOrdersPage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t("admin_commerce_orders_total", "Total Orders")}
+                    {t("admin_commerce_orders_total", "Toplam Sipariş")}
                   </p>
                   <p className="text-2xl font-bold text-foreground">
                     {totalOrders}
@@ -169,12 +167,12 @@ export default function CommerceOrdersPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-green-500/10">
-                  <CreditCard className="w-5 h-5 text-green-500" />
+                <div className="p-2 rounded-lg bg-blue-500/10">
+                  <CreditCard className="w-5 h-5 text-blue-500" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t("admin_commerce_orders_revenue", "Revenue")}
+                    {t("admin_commerce_orders_revenue", "Gelir")}
                   </p>
                   <p className="text-2xl font-bold text-foreground">
                     ${totalRevenue.toLocaleString()}
@@ -191,7 +189,7 @@ export default function CommerceOrdersPage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t("admin_commerce_orders_pending", "Pending")}
+                    {t("admin_commerce_orders_pending", "Beklemede")}
                   </p>
                   <p className="text-2xl font-bold text-foreground">
                     {pendingOrders}
@@ -203,12 +201,12 @@ export default function CommerceOrdersPage() {
           <Card className="bg-card border-border">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-emerald-500/10">
-                  <CheckCircle className="w-5 h-5 text-emerald-500" />
+                <div className="p-2 rounded-lg bg-blue-500/10">
+                  <CheckCircle className="w-5 h-5 text-success" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">
-                    {t("admin_commerce_orders_delivered", "Delivered")}
+                    {t("admin_commerce_orders_delivered", "Teslim Edildi")}
                   </p>
                   <p className="text-2xl font-bold text-foreground">
                     {deliveredOrders}
@@ -233,10 +231,7 @@ export default function CommerceOrdersPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
-                      placeholder={t(
-                        "admin_commerce_orders_search_placeholder",
-                        "Search by order number, buyer..."
-                      )}
+                      placeholder={t("admin_commerce_orders_search_placeholder", "Akıllı Arama... - order number, buyer...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -249,22 +244,16 @@ export default function CommerceOrdersPage() {
                 >
                   <SelectTrigger className="w-[180px] bg-white/5 border-white/10 text-foreground">
                     <SelectValue
-                      placeholder={t(
-                        "admin_commerce_orders_status",
-                        "Status"
-                      )}
+                      placeholder={t("admin_commerce_orders_status", "İşlem Durum Bilgisi")}
                     />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">
-                      {t(
-                        "admin_commerce_orders_all_status",
-                        "All Status"
-                      )}
+                      {t("admin_commerce_orders_all_status", "Tüm Çalışma Durumu")}
                     </SelectItem>
                     {ORDER_STATUSES.map((s) => (
                       <SelectItem key={s} value={s}>
-                        {s}
+                        {tEnum(t, s)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -283,14 +272,11 @@ export default function CommerceOrdersPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">
-                      {t(
-                        "admin_commerce_orders_all_payment",
-                        "All Payment"
-                      )}
+                      {t("admin_commerce_orders_all_payment", "Tüm Payment")}
                     </SelectItem>
                     {PAYMENT_STATUSES.map((s) => (
                       <SelectItem key={s} value={s}>
-                        {s}
+                        {tEnum(t, s)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -310,7 +296,7 @@ export default function CommerceOrdersPage() {
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <ShoppingCart className="w-5 h-5" />
-                {t("admin_commerce_orders_list_title", "Orders")} (
+                {t("admin_commerce_orders_list_title", "Siparişler")} (
                 {filtered.length})
               </CardTitle>
             </CardHeader>
@@ -320,28 +306,28 @@ export default function CommerceOrdersPage() {
                   <thead>
                     <tr className="border-b border-border">
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_orders_number", "Order #")}
+                        {t("admin_commerce_orders_number", "Sipariş #")}
                       </th>
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_orders_buyer", "Buyer")}
+                        {t("admin_commerce_orders_buyer", "Alıcı")}
                       </th>
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_orders_method", "Payment")}
+                        {t("admin_commerce_orders_method", "Ödeme")}
                       </th>
                       <th className="text-right py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_orders_total", "Total")}
+                        {t("admin_commerce_orders_total", "Toplam Sipariş")}
                       </th>
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_orders_status_col", "Status")}
+                        {t("admin_commerce_orders_status_col", "Durum")}
                       </th>
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_orders_payment_col", "Payment")}
+                        {t("admin_commerce_orders_payment_col", "Ödeme")}
                       </th>
                       <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_orders_date", "Date")}
+                        {t("admin_commerce_orders_date", "Tarih")}
                       </th>
                       <th className="text-right py-3 px-4 text-muted-foreground font-medium">
-                        {t("admin_commerce_orders_actions", "Actions")}
+                        {t("admin_commerce_orders_actions", "İşlemler")}
                       </th>
                     </tr>
                   </thead>
@@ -365,7 +351,7 @@ export default function CommerceOrdersPage() {
                           </div>
                         </td>
                         <td className="py-3 px-4 text-muted-foreground text-xs">
-                          {order.paymentMethod?.replace(/_/g, " ")}
+                          {tEnum(t, order.paymentMethod)}
                         </td>
                         <td className="py-3 px-4 text-right font-medium text-foreground">
                           ${order.total.toLocaleString()}
@@ -375,7 +361,7 @@ export default function CommerceOrdersPage() {
                             className={`${STATUS_COLORS[order.status]} flex items-center gap-1 w-fit`}
                           >
                             <StatusIcon status={order.status} />
-                            {order.status}
+                            {tEnum(t, order.status)}
                           </Badge>
                         </td>
                         <td className="py-3 px-4">
@@ -385,7 +371,7 @@ export default function CommerceOrdersPage() {
                               "bg-gray-500/20 text-gray-400"
                             }
                           >
-                            {order.paymentStatus}
+                            {tEnum(t, order.paymentStatus)}
                           </Badge>
                         </td>
                         <td className="py-3 px-4 text-xs text-muted-foreground">
@@ -399,7 +385,7 @@ export default function CommerceOrdersPage() {
                                 setIsDetailOpen(true);
                               }}
                               variant="ghost"
-                              size="icon"
+                              size="icon" aria-label={t("common.view")}
                               className="min-h-10 min-w-10 h-10 w-10"
                             >
                               <Eye className="w-4 h-4" />
@@ -424,17 +410,14 @@ export default function CommerceOrdersPage() {
                   {detailItem.orderNumber}
                 </DialogTitle>
                 <DialogDescription className="text-muted-foreground">
-                  {t(
-                    "admin_commerce_orders_detail_desc",
-                    "Order details and tracking"
-                  )}
+                  {t("admin_commerce_orders_detail_desc", "Order Kapsamlı Detaylar & tracking")}
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label className="text-xs text-muted-foreground">
-                      {t("admin_commerce_orders_buyer", "Buyer")}
+                      {t("admin_commerce_orders_buyer", "Alıcı")}
                     </Label>
                     <p className="text-foreground font-medium">
                       {detailItem.buyerName}
@@ -445,19 +428,19 @@ export default function CommerceOrdersPage() {
                   </div>
                   <div>
                     <Label className="text-xs text-muted-foreground">
-                      {t("admin_commerce_orders_status_col", "Status")}
+                      {t("admin_commerce_orders_status_col", "Durum")}
                     </Label>
                     <Badge
                       className={`${STATUS_COLORS[detailItem.status]} mt-1`}
                     >
-                      {detailItem.status}
+                      {tEnum(t, detailItem.status)}
                     </Badge>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label className="text-xs text-muted-foreground">
-                      {t("admin_commerce_orders_subtotal", "Subtotal")}
+                      {t("admin_commerce_orders_subtotal", "Ara Toplam")}
                     </Label>
                     <p className="text-foreground">
                       ${detailItem.subtotal.toLocaleString()}
@@ -465,7 +448,7 @@ export default function CommerceOrdersPage() {
                   </div>
                   <div>
                     <Label className="text-xs text-muted-foreground">
-                      {t("admin_commerce_orders_discount", "Discount")}
+                      {t("admin_commerce_orders_discount", "İndirim")}
                     </Label>
                     <p className="text-foreground">
                       -${detailItem.discount.toLocaleString()}
@@ -475,7 +458,7 @@ export default function CommerceOrdersPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label className="text-xs text-muted-foreground">
-                      {t("admin_commerce_orders_tax", "Tax")}
+                      {t("admin_commerce_orders_tax", "Vergi")}
                     </Label>
                     <p className="text-foreground">
                       ${detailItem.tax.toLocaleString()}
@@ -483,7 +466,7 @@ export default function CommerceOrdersPage() {
                   </div>
                   <div>
                     <Label className="text-xs text-muted-foreground">
-                      {t("admin_commerce_orders_total", "Total")}
+                      {t("admin_commerce_orders_total", "Toplam Sipariş")}
                     </Label>
                     <p className="text-foreground text-xl font-bold">
                       ${detailItem.total.toLocaleString()}
@@ -492,7 +475,7 @@ export default function CommerceOrdersPage() {
                 </div>
                 <div className="border-t border-white/10 pt-4">
                   <Label className="text-xs text-muted-foreground">
-                    {t("admin_commerce_orders_delivery_address", "Delivery")}
+                    {t("admin_commerce_orders_delivery_address", "Teslimat")}
                   </Label>
                   <p className="text-foreground text-sm">
                     {detailItem.deliveryAddress}
@@ -501,7 +484,7 @@ export default function CommerceOrdersPage() {
                 {detailItem.deliveryDate && (
                   <div>
                     <Label className="text-xs text-muted-foreground">
-                      {t("admin_commerce_orders_delivery_date", "Delivery Date")}
+                      {t("admin_commerce_orders_delivery_date", "Teslimat Tarihi")}
                     </Label>
                     <p className="text-foreground text-sm">
                       {detailItem.deliveryDate}
@@ -515,7 +498,7 @@ export default function CommerceOrdersPage() {
                   onClick={() => setIsDetailOpen(false)}
                   className="border-border text-foreground"
                 >
-                  {t("admin_action_close", "Close")}
+                  {t("admin_action_close", "Kapat")}
                 </Button>
               </DialogFooter>
             </DialogContent>

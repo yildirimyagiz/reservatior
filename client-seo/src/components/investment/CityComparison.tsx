@@ -40,7 +40,7 @@ export function CityComparisonEngine() {
                     <Badge
                       className={
                         city.riskLevel === "LOW"
-                          ? "bg-emerald-500/20 text-emerald-400"
+                          ? "bg-success/20 text-success"
                           : city.riskLevel === "MEDIUM"
                           ? "bg-yellow-500/20 text-yellow-400"
                           : "bg-red-500/20 text-red-400"
@@ -55,7 +55,7 @@ export function CityComparisonEngine() {
                   <div className="grid grid-cols-2 gap-2">
                     <div className="p-2 rounded bg-muted/50 text-center">
                       <p className="text-xs text-muted-foreground">Gross Yield</p>
-                      <p className="font-bold text-emerald-400">{city.grossYield}%</p>
+                      <p className="font-bold text-success">{city.grossYield}%</p>
                     </div>
                     <div className="p-2 rounded bg-muted/50 text-center">
                       <p className="text-xs text-muted-foreground">Net Yield</p>
@@ -63,7 +63,7 @@ export function CityComparisonEngine() {
                     </div>
                     <div className="p-2 rounded bg-muted/50 text-center">
                       <p className="text-xs text-muted-foreground">Appreciation</p>
-                      <p className="font-bold text-blue-400">{city.appreciation}%</p>
+                      <p className="font-bold text-brand">{city.appreciation}%</p>
                     </div>
                     <div className="p-2 rounded bg-muted/50 text-center">
                       <p className="text-xs text-muted-foreground">Total Return</p>
@@ -85,7 +85,7 @@ export function CityComparisonEngine() {
                   <div className="flex items-center gap-4 text-sm">
                     <span className="flex items-center gap-1">
                       {city.investorFriendly ? (
-                        <CheckCircle className="w-4 h-4 text-emerald-400" />
+                        <CheckCircle className="w-4 h-4 text-success" />
                       ) : (
                         <XCircle className="w-4 h-4 text-red-400" />
                       )}
@@ -93,7 +93,7 @@ export function CityComparisonEngine() {
                     </span>
                     <span className="flex items-center gap-1">
                       {city.residencyByInvestment ? (
-                        <CheckCircle className="w-4 h-4 text-emerald-400" />
+                        <CheckCircle className="w-4 h-4 text-success" />
                       ) : (
                         <XCircle className="w-4 h-4 text-red-400" />
                       )}
@@ -132,11 +132,11 @@ export function CityComparisonEngine() {
                         {city.city}
                         <span className="text-muted-foreground ml-2 text-xs">{city.country}</span>
                       </td>
-                      <td className="text-right py-3 px-4 text-emerald-400 font-medium">
+                      <td className="text-right py-3 px-4 text-success font-medium">
                         {city.grossYield}%
                       </td>
                       <td className="text-right py-3 px-4">{city.netYield}%</td>
-                      <td className="text-right py-3 px-4 text-blue-400">{city.appreciation}%</td>
+                      <td className="text-right py-3 px-4 text-brand">{city.appreciation}%</td>
                       <td className="text-right py-3 px-4 font-bold text-primary">
                         {city.totalReturn}%
                       </td>
@@ -144,7 +144,7 @@ export function CityComparisonEngine() {
                         <Badge
                           className={
                             city.riskLevel === "LOW"
-                              ? "bg-emerald-500/20 text-emerald-400"
+                              ? "bg-success/20 text-success"
                               : city.riskLevel === "MEDIUM"
                               ? "bg-yellow-500/20 text-yellow-400"
                               : "bg-red-500/20 text-red-400"
@@ -187,7 +187,7 @@ export function CityComparisonEngine() {
                         <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full ${
-                              metric.value >= metric.benchmark ? "bg-emerald-400" : "bg-yellow-400"
+                              metric.value >= metric.benchmark ? "bg-blue-400" : "bg-yellow-400"
                             }`}
                             style={{ width: `${Math.min(100, (metric.value / (metric.benchmark * 2)) * 100)}%` }}
                           />

@@ -99,7 +99,7 @@ export default function Payments() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'pending':
         return 'bg-yellow-100 text-yellow-800';
       case 'failed':
@@ -127,13 +127,13 @@ export default function Payments() {
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'rent':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-brand/15 text-brand';
       case 'deposit':
         return 'bg-blue-100 text-blue-800';
       case 'maintenance':
         return 'bg-orange-100 text-orange-800';
       case 'utilities':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -160,13 +160,13 @@ export default function Payments() {
             
             <div className="flex gap-2">
               <select aria-label="Filter by payment status" value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <option value="all">{t("client.src.all_status")}</option>
-                <option value="completed">{t("client.src.completed")}</option>
-                <option value="pending">{t("client.src.pending")}</option>
-                <option value="failed">{t("client.src.failed")}</option>
-                <option value="refunded">{t("client.src.refunded")}</option>
+                <option value="all">{t("common.all_status")}</option>
+                <option value="completed">{t("common.completed")}</option>
+                <option value="pending">{t("common.processing")}</option>
+                <option value="failed">{t("common.failed")}</option>
+                <option value="refunded">{t("common.refunded")}</option>
               </select>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" aria-label={t("common.filter")}>
                 <Filter className="w-4 h-4" />
               </Button>
             </div>
@@ -174,7 +174,7 @@ export default function Payments() {
             {/* Time Filter */}
             <div className="flex gap-2">
               <select aria-label="Filter by time range" value={timeFilter} onChange={e => setTimeFilter(e.target.value)} className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <option value="today">{t("client.src.today")}</option>
+                <option value="today">{t("common.today")}</option>
                 <option value="week">{t("client.src.this_week")}</option>
                 <option value="month">{t("client.src.this_month")}</option>
                 <option value="quarter">{t("client.src.this_quarter")}</option>
@@ -186,7 +186,7 @@ export default function Payments() {
         
         <ScrollArea className="flex-1">
           <div className="p-2">
-            {filteredPayments.map(payment => <div key={payment.id} onClick={() => setSelectedPayment(payment.id)} className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 ${selectedPayment === payment.id ? 'bg-purple-50 border border-purple-200' : 'hover:bg-gray-100'}`}>
+            {filteredPayments.map(payment => <div key={payment.id} onClick={() => setSelectedPayment(payment.id)} className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 ${selectedPayment === payment.id ? 'bg-brand/10 border border-purple-200' : 'hover:bg-gray-100'}`}>
                 <div className="flex items-start gap-3">
                   <Avatar className="w-10 h-10">
                     <AvatarImage src={`/api/placeholder/avatar-${payment.id}.jpg`} />
@@ -224,7 +224,7 @@ export default function Payments() {
       <div className="flex-1">
         {currentPayment && <div className="h-full flex flex-col">
             {/* Payment Header */}
-            <div className="p-6 border-b bg-white">
+            <div className="p-6 border-b bg-card">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <Avatar className="w-12 h-12">
@@ -248,10 +248,10 @@ export default function Payments() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Button size="sm">
-                    <Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</Button>
+                    <Edit className="w-4 h-4 mr-2" />{t("common.edit")}</Button>
                   <Button size="sm" variant="outline">
                     <FileText className="w-4 h-4 mr-2" />{t("client.src.invoice")}</Button>
-                  <Button size="sm" variant="outline">
+                  <Button size="sm" variant="outline" aria-label={t("common.more")}>
                     <MoreVertical className="w-4 h-4" />
                   </Button>
                 </div>
@@ -273,8 +273,8 @@ export default function Payments() {
                       <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <p className="font-medium">{t("client.src.amount")}</p>
-                            <p className="text-2xl font-bold text-green-600">{currentPayment.amount}</p>
+                            <p className="font-medium">{t("common.amount")}</p>
+                            <p className="text-2xl font-bold text-blue-600">{currentPayment.amount}</p>
                           </div>
                           <div>
                             <p className="font-medium">{t("client.src.invoice")}</p>
@@ -283,7 +283,7 @@ export default function Payments() {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <p className="font-medium">{t("client.src.due_date")}</p>
+                            <p className="font-medium">{t("common.due_date")}</p>
                             <p className="text-sm text-gray-600">{currentPayment.dueDate}</p>
                           </div>
                           <div>
@@ -308,7 +308,7 @@ export default function Payments() {
                           </div>
                         </div>
                         <div>
-                          <p className="font-medium">{t("client.src.notes")}</p>
+                          <p className="font-medium">{t("common.notes")}</p>
                           <p className="text-sm text-gray-600">{currentPayment.notes}</p>
                         </div>
                       </div>
@@ -343,7 +343,7 @@ export default function Payments() {
                           </div>
                         </div>
                         <div>
-                          <p className="font-medium">{t("client.src.property")}</p>
+                          <p className="font-medium">{t("common.property")}</p>
                           <p className="text-sm text-gray-600">{currentPayment.property}</p>
                         </div>
                       </div>
@@ -422,21 +422,21 @@ export default function Payments() {
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">{t("client.src.total_revenue")}</span>
-                        <span className="font-bold text-green-600">${totalRevenue.toLocaleString()}</span>
+                        <span className="text-sm">{t("common.total_revenue")}</span>
+                        <span className="font-bold text-blue-600">${totalRevenue.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">{t("client.src.pending")}</span>
+                        <span className="text-sm">{t("common.processing")}</span>
                         <span className="font-bold text-yellow-600">${pendingAmount.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">{t("client.src.failed")}</span>
+                        <span className="text-sm">{t("common.failed")}</span>
                         <span className="font-bold text-red-600">${failedAmount.toLocaleString()}</span>
                       </div>
                       <div className="pt-2 border-t">
                         <div className="flex items-center justify-between">
                           <span className="text-sm">{t("client.src.net_revenue")}</span>
-                          <span className="font-bold text-purple-600">
+                          <span className="font-bold text-brand">
                             ${(totalRevenue - failedAmount).toLocaleString()}
                           </span>
                         </div>
@@ -452,7 +452,7 @@ export default function Payments() {
                       <CardContent className="space-y-3">
                         <div className="flex items-center justify-between">
                           <span className="text-sm">{t("client.src.autopay")}</span>
-                          <Badge className={currentPayment.autoPay ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>
+                          <Badge className={currentPayment.autoPay ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}>
                             {currentPayment.autoPay ? 'Enabled' : 'Disabled'}
                           </Badge>
                         </div>

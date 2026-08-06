@@ -1,6 +1,7 @@
 "use client";
 
 import { t } from"i18next";
+import React from "react";
 // Admin Pages Index File
 // This file exports all admin components for easy importing
 
@@ -50,6 +51,7 @@ export { default as PredictiveAnalytics } from './ai/PredictiveAnalytics';
 export { default as AIChatManagement } from './ai/AIChatManagement';
 export { default as AICustomModels } from './ai/Models';
 export { default as AIAutomationRules } from './ai/AutomationRules';
+export { default as AiVideoGeneration } from './ai/AiVideoGeneration';
 
 // Financial Management
 export { default as FinancialReports } from './financial/FinancialReports';
@@ -58,8 +60,24 @@ export { default as Payments } from './financial/Payments';
 export { default as Expenses } from './financial/Expenses';
 export { default as EscrowManagement } from './financial/EscrowManagement';
 export { default as CouponsManagement } from './financial/CouponsManagement';
-export { default as GlobalTaxSettings } from './financial/GlobalTaxSettings';
-export { default as CommissionDistribution } from './sales/CommissionDistribution';
+export const GlobalTaxSettings = React.lazy(() => import('./financial/GlobalTaxSettings'));
+export const CommissionDistribution = React.lazy(() => import('./sales/CommissionDistribution'));
+export const GMSITaxReport = React.lazy(() => import('../financial/GMSITaxReport'));
+export const EDevletContractWizard = React.lazy(() => import('../edevlet-contract/EDevletContractWizard'));
+
+// Intelligence & Passports
+export const PropertyPassport = React.lazy(() => import('./intelligence/PropertyPassport'));
+export const MarketPassport = React.lazy(() => import('./intelligence/MarketPassport'));
+export const UserPassport = React.lazy(() => import('./intelligence/UserPassport'));
+export const AgentPassport = React.lazy(() => import('./intelligence/AgentPassport'));
+export const DecisionEngine = React.lazy(() => import('./intelligence/DecisionEngine'));
+export const FeedbackLoop = React.lazy(() => import('./intelligence/FeedbackLoop'));
+export const ContentPublisher = React.lazy(() => import('./intelligence/ContentPublisher'));
+export const RevenueIntelligence = React.lazy(() => import('./intelligence/RevenueIntelligence'));
+export const HybridRentalEngine = React.lazy(() => import('./intelligence/HybridRentalEngine'));
+export const HybridRentalOSModule = React.lazy(() => import('./intelligence/HybridRentalOSModule'));
+export const IntelligenceGraph = React.lazy(() => import('./intelligence/IntelligenceGraph'));
+export const SEOGenerator = React.lazy(() => import('./intelligence/SEOGenerator'));
 
 // User Management
 export { default as Users } from './users/Users';
@@ -124,25 +142,25 @@ export const adminRoutes = [
 {
  path: '/admin/agencies',
  component: 'AgenciesManagement',
- label: t("admin_index_agencies","Agencies"),
+ label: t("admin_index_agencies", "Acenteler"),
  icon: 'Building2',
  category: 'crm'
 }, {
  path: '/admin/agents',
  component: 'AgentsManagement',
- label: t("admin_index_agents","Agents"),
+ label: t("admin_index_agents", "Temsilciler"),
  icon: 'UserCheck',
  category: 'crm'
 }, {
  path: '/admin/vendors',
  component: 'VendorsManagement',
- label: t("admin_index_vendors","Vendors"),
+ label: t("admin_index_vendors", "Satıcılar"),
  icon: 'Wrench',
  category: 'crm'
 }, {
  path: '/admin/contacts',
  component: 'ContactsManagement',
- label: t("admin_index_contacts","Contacts"),
+ label: t("admin_index_contacts", "Kişiler"),
  icon: 'Users',
  category: 'crm'
 },
@@ -150,19 +168,19 @@ export const adminRoutes = [
 {
  path: '/admin/tasks',
  component: 'TasksManagement',
- label: t("admin_index_tasks","Tasks"),
+ label: t("admin_index_tasks", "Görevler"),
  icon: 'Activity',
  category: 'operations'
 }, {
  path: '/admin/facilities',
  component: 'FacilitiesManagement',
- label: t("admin_index_facilities","Facilities"),
+ label: t("admin_index_facilities", "Tesisler"),
  icon: 'Building',
  category: 'operations'
 }, {
  path: '/admin/maintenance',
  component: 'MaintenanceManagement',
- label: t("admin_index_maintenance","Maintenance"),
+ label: t("admin_index_maintenance", "Bakım"),
  icon: 'Wrench',
  category: 'operations'
 },
@@ -330,8 +348,98 @@ export const adminRoutes = [
  icon: 'Landmark',
  category: 'financial'
 }, {
- path: '/admin/security-screening',
- component: 'SecurityScreening',
+ path: '/admin/gmsi-tax-report',
+ component: 'GMSITaxReport',
+ label: t("admin_index_gmsi_tax_report", "GMSİ Vergi Beyannamesi"),
+ icon: 'FileText',
+ category: 'financial'
+}, {
+ path: '/admin/edevlet-contract-wizard',
+ component: 'EDevletContractWizard',
+ label: t("admin_index_edevlet_contract_wizard", "e-Devlet & Platform İlan Onayı"),
+ icon: 'Building2',
+ category: 'financial'
+}, {
+ path: '/admin/certificates',
+ component: 'Certificates',
+ label: t("admin_index_certificates", "Sertifikalar & Lisanslar"),
+ icon: 'Award',
+ category: 'intelligence'
+}, {
+ path: '/admin/property-passport',
+ component: 'PropertyPassport',
+ label: t("admin_index_property_passport", "Mülk Pasaportu & Kimlik"),
+ icon: 'Building2',
+ category: 'intelligence'
+}, {
+ path: '/admin/market-passport',
+ component: 'MarketPassport',
+ label: t("admin_index_market_passport", "Piyasa Pasaportu & Analitik"),
+ icon: 'Globe',
+ category: 'intelligence'
+}, {
+ path: '/admin/user-passport',
+ component: 'UserPassport',
+ label: t("admin_index_user_passport", "Kullanıcı Pasaportu & İtibar"),
+ icon: 'Users',
+ category: 'intelligence'
+}, {
+ path: '/admin/decision-engine',
+ component: 'DecisionEngine',
+ label: t("admin_index_decision_engine", "Yapay Zeka Karar Motoru"),
+ icon: 'Zap',
+ category: 'intelligence'
+}, {
+ path: '/admin/feedback-loop',
+ component: 'FeedbackLoop',
+ label: t("admin_index_feedback_loop", "Öğrenme & Geri Bildirim Döngüsü"),
+ icon: 'Activity',
+ category: 'intelligence'
+}, {
+ path: '/admin/content-publisher',
+ component: 'ContentPublisher',
+ label: t("admin_index_content_publisher", "Otomatik İçerik Yayıncısı"),
+ icon: 'Megaphone',
+ category: 'intelligence'
+}, {
+  path: '/admin/revenue-intelligence',
+  component: 'RevenueIntelligence',
+  label: t("admin_index_revenue_intelligence", "Gelir Zekası & Arbitraj"),
+  icon: 'DollarSign',
+  category: 'intelligence'
+ }, {
+  path: '/admin/hybrid-rental-engine',
+  component: 'HybridRentalEngine',
+  label: t("admin_index_hybrid_rental_engine", "Hibrit Kiralama Karar Motoru"),
+  icon: 'Brain',
+  category: 'intelligence'
+ }, {
+  path: '/admin/hybrid-rental-os',
+  component: 'HybridRentalOSModule',
+  label: t("admin_index_hybrid_rental_os", "Hibrit Kiralama & Gelir OS Modülü"),
+  icon: 'Cpu',
+  category: 'intelligence'
+  }, {
+  path: '/admin/agent-passport',
+  component: 'AgentPassport',
+  label: t("admin_index_agent_passport", "Danışman / Ajan Passport (Danışman Karnesi)"),
+  icon: 'Star',
+  category: 'intelligence'
+ }, {
+  path: '/admin/intelligence-graph',
+  component: 'IntelligenceGraph',
+  label: t("admin_index_intelligence_graph", "Zeka Grafiği (Intelligence Graph)"),
+  icon: 'Brain',
+  category: 'intelligence'
+ }, {
+  path: '/admin/seo-generator',
+  component: 'SEOGenerator',
+  label: t("admin_index_seo_generator", "Otomatik SEO Üretici"),
+  icon: 'Search',
+  category: 'intelligence'
+ }, {
+  path: '/admin/security-screening',
+  component: 'SecurityScreening',
  label: t("admin_index_security_screening"),
  icon: 'ShieldCheck',
  category: 'security'
@@ -372,6 +480,12 @@ export const adminRoutes = [
  component: 'SystemMetrics',
  label: t("admin_index_system_metrics"),
  icon: 'Activity',
+ category: 'system'
+}, {
+ path: '/admin/ai-video',
+ component: 'AiVideoGeneration',
+ label: t("admin_layout_ai_video_generation", "AI Video Üretim Motoru"),
+ icon: 'Sparkles',
  category: 'system'
 }, {
  path: '/admin/attachments',
@@ -476,14 +590,14 @@ export const adminRoutes = [
 }];
 export const adminCategories = {
  crm: {
- label: t("admin_index_crm_agencies","CRM & Agencies"),
+ label: t("admin_index_crm_agencies", "CRM ve Ajanslar"),
  icon: 'Users',
- description: t("admin_index_manage_contacts_agents","Manage contacts, agents, and vendors")
+ description: t("admin_index_manage_contacts_agents", "Kişileri, acenteleri ve satıcıları yönetin")
  },
  operations: {
- label: t("admin_index_operations","Operations"),
+ label: t("admin_index_operations", "Operasyonlar"),
  icon: 'Activity',
- description: t("admin_index_operations_desc","Manage tasks, facilities, and maintenance")
+ description: t("admin_index_operations_desc", "Görevleri, tesisleri ve bakımı yönetin")
  },
  core: {
  label: t("admin_index_core"),

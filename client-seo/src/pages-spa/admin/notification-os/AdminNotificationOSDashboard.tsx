@@ -31,22 +31,22 @@ export default function AdminNotificationOSDashboard() {
   const { t } = useTranslation();
 
   const kpis = [
-    { title: "Total Sent", value: 4044, icon: Bell, color: "text-emerald-500", trend: "+18% this week" },
-    { title: "Delivery Rate", value: "96.2%", icon: CheckCircle, color: "text-blue-400", trend: "+2.1% vs last week" },
-    { title: "Active Rules", value: 24, icon: Settings, color: "text-purple-400", trend: "+3 new this month" },
-    { title: "Failed", value: 82, icon: AlertCircle, color: "text-red-400", trend: "-12% improvement" },
+    { title: t("notification_os.total_sent", "Toplam Gönderilen"), value: 4044, icon: Bell, color: "text-success", trend: "+18% this week" },
+    { title: t("notification_os.delivery_rate", "Teslimat Oranı"), value: "96.2%", icon: CheckCircle, color: "text-info", trend: "+2.1% vs last week" },
+    { title: t("notification_os.active_rules", "Aktif Kurallar"), value: 24, icon: Settings, color: "text-brand", trend: "+3 new this month" },
+    { title: t("notification_os.failed", "Başarısız"), value: 82, icon: AlertCircle, color: "text-red-400", trend: "-12% improvement" },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-100">Notification OS Management</h1>
-          <p className="text-slate-400 mt-1">Multi-channel notification delivery and automation</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("notification_os.title", "Bildirim OS")}</h1>
+          <p className="text-muted-foreground mt-1">{t("notification_os.subtitle", "notification os.subtitle")}</p>
         </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700">
+        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
           <Bell className="h-4 w-4 mr-2" />
-          Send Notification
+          {t("notification_os.send_notification", "Bildirim Gönder")}
         </Button>
       </div>
 
@@ -54,14 +54,14 @@ export default function AdminNotificationOSDashboard() {
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
           <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.title}</CardTitle>
                 <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-slate-100">{kpi.value}</div>
-                <p className="text-xs text-slate-500 mt-1">{kpi.trend}</p>
+                <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">{kpi.trend}</p>
               </CardContent>
             </Card>
           </m.div>
@@ -69,30 +69,30 @@ export default function AdminNotificationOSDashboard() {
       </div>
 
       <Tabs defaultValue="channels" className="space-y-4">
-        <TabsList className="bg-slate-900/60 border-slate-800">
-          <TabsTrigger value="channels">Channels</TabsTrigger>
-          <TabsTrigger value="rules">Rules</TabsTrigger>
-          <TabsTrigger value="templates">Templates</TabsTrigger>
-          <TabsTrigger value="history">History</TabsTrigger>
+        <TabsList className="bg-card border-border">
+          <TabsTrigger value="channels">{t("notification_os.tabs.channels", "Kanallar")}</TabsTrigger>
+          <TabsTrigger value="rules">{t("notification_os.tabs.rules", "Kurallar")}</TabsTrigger>
+          <TabsTrigger value="templates">{t("notification_os.tabs.templates", "Şablonlar")}</TabsTrigger>
+          <TabsTrigger value="history">{t("notification_os.tabs.history", "Geçmiş")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="channels" className="space-y-4">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Notification Channels</CardTitle>
-              <CardDescription className="text-slate-400">
-                Delivery status by channel
+              <CardTitle className="text-foreground">{t("notification_os.channels", "Bildirim Kanalları")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("notification_os.channels_desc", "Kanala göre teslimat durumu")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {CHANNELS.map((channel) => (
-                  <div key={channel.id} className="flex items-center justify-between p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div key={channel.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border">
                     <div className="flex items-center gap-3">
-                      <channel.icon className={`h-5 w-5 ${channel.status === 'active' ? 'text-emerald-400' : 'text-slate-500'}`} />
+                      <channel.icon className={`h-5 w-5 ${channel.status === 'active' ? 'text-success' : 'text-muted-foreground'}`} />
                       <div>
-                        <p className="text-sm font-medium text-slate-200">{channel.name}</p>
-                        <p className="text-xs text-slate-500">Sent: {channel.sent} • Delivered: {channel.delivered} • Failed: {channel.failed}</p>
+                        <p className="text-sm font-medium text-foreground">{channel.name}</p>
+                        <p className="text-xs text-muted-foreground">{t("notification_os.sent", "Gönderildi:")} {channel.sent} • {t("notification_os.delivered", "Teslim edildi:")} {channel.delivered} • {t("notification_os.failed", "Başarısız")} {channel.failed}</p>
                       </div>
                     </div>
                     <Badge variant={channel.status === 'active' ? 'default' : 'secondary'} className="text-xs">
@@ -106,22 +106,22 @@ export default function AdminNotificationOSDashboard() {
         </TabsContent>
 
         <TabsContent value="rules">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Notification Rules</CardTitle>
-              <CardDescription className="text-slate-400">
-                Automated notification triggers
+              <CardTitle className="text-foreground">{t("notification_os.rules", "Bildirim Kuralları")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("notification_os.rules_desc", "Otomatik bildirim tetikleyicileri")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {RULES.map((rule) => (
-                  <div key={rule.id} className="flex items-center justify-between p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div key={rule.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border">
                     <div className="flex items-center gap-3">
-                      <Settings className="h-5 w-5 text-slate-400" />
+                      <Settings className="h-5 w-5 text-muted-foreground" />
                       <div>
-                        <p className="text-sm font-medium text-slate-200">{rule.name}</p>
-                        <p className="text-xs text-slate-500">{rule.eventType} • {rule.triggers} triggers</p>
+                        <p className="text-sm font-medium text-foreground">{rule.name}</p>
+                        <p className="text-xs text-muted-foreground">{rule.eventType} • {rule.triggers} {t("notification_os.triggers", "tetikleyici")}</p>
                       </div>
                     </div>
                     <Badge variant={rule.status === 'active' ? 'default' : 'secondary'} className="text-xs">
@@ -135,39 +135,39 @@ export default function AdminNotificationOSDashboard() {
         </TabsContent>
 
         <TabsContent value="templates">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Notification Templates</CardTitle>
-              <CardDescription className="text-slate-400">
-                Reusable notification templates
+              <CardTitle className="text-foreground">{t("notification_os.templates", "Bildirim Şablonları")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("notification_os.templates_desc", "Yeniden kullanılabilir bildirim şablonları")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <Mail className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Template management interface</p>
+                <p>{t("notification_os.template_management_interface", "Şablon yönetim arayüzü")}</p>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="history">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Notification History</CardTitle>
-              <CardDescription className="text-slate-400">
-                Recent notification deliveries
+              <CardTitle className="text-foreground">{t("notification_os.history", "Bildirim Geçmişi")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("notification_os.history_desc", "Son bildirim teslimatları")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {RECENT_NOTIFICATIONS.map((notif) => (
-                  <div key={notif.id} className="flex items-center justify-between p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                  <div key={notif.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border">
                     <div className="flex items-center gap-3">
-                      <Bell className="h-5 w-5 text-slate-400" />
+                      <Bell className="h-5 w-5 text-muted-foreground" />
                       <div>
-                        <p className="text-sm font-medium text-slate-200">{notif.subject}</p>
-                        <p className="text-xs text-slate-500">{notif.recipient} • {notif.sentAt}</p>
+                        <p className="text-sm font-medium text-foreground">{notif.subject}</p>
+                        <p className="text-xs text-muted-foreground">{notif.recipient} • {notif.sentAt}</p>
                       </div>
                     </div>
                     <Badge variant={notif.status === 'delivered' ? 'default' : 'secondary'} className="text-xs">

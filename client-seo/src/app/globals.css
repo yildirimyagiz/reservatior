@@ -31,13 +31,23 @@
   --input: 214.3 31.8% 91.4%;
   --ring: 222 47% 11%;
 
+  /* Brand + semantic status (real-estate blue, not teal) */
+  --brand: 221 58% 38%;
+  --brand-foreground: 0 0% 100%;
+  --success: 160 84% 32%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 44%;
+  --warning-foreground: 0 0% 100%;
+  --info: 199 89% 42%;
+  --info-foreground: 0 0% 100%;
+
   --radius: 1.5rem;
 
-  --chart-1: 12 76% 61%;
-  --chart-2: 173 58% 39%;
-  --chart-3: 197 37% 24%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 27 87% 67%;
+  --chart-1: 221 58% 38%;
+  --chart-2: 199 89% 42%;
+  --chart-3: 38 92% 44%;
+  --chart-4: 160 84% 32%;
+  --chart-5: 222 47% 35%;
 }
 
 .dark {
@@ -69,11 +79,20 @@
   --input: 226 24% 14%;
   --ring: 210 40% 98%;
 
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
+  --brand: 221 66% 45%;
+  --brand-foreground: 230 12% 9%;
+  --success: 160 72% 45%;
+  --success-foreground: 230 12% 9%;
+  --warning: 38 92% 55%;
+  --warning-foreground: 230 12% 9%;
+  --info: 199 89% 55%;
+  --info-foreground: 230 12% 9%;
+
+  --chart-1: 221 66% 45%;
+  --chart-2: 199 89% 55%;
+  --chart-3: 38 92% 55%;
+  --chart-4: 160 72% 45%;
+  --chart-5: 210 40% 70%;
 }
 
 @layer base {
@@ -102,15 +121,62 @@
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    background-image: linear-gradient(to right, rgb(96 165 250), rgb(147 51 234));
+    background-image: linear-gradient(
+      to right,
+      hsl(var(--info)),
+      hsl(var(--brand))
+    );
   }
   .glass {
     background-color: hsl(var(--background) / 0.4);
     backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid hsl(var(--border) / 0.8);
   }
   .dark .glass {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: hsl(var(--card) / 0.6);
+  }
+}
+
+/* Shared public + admin surface primitives */
+@layer components {
+  .ui-page {
+    @apply space-y-6 text-foreground;
+  }
+  .ui-page-header {
+    @apply flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between;
+  }
+  .ui-title {
+    @apply text-3xl font-bold tracking-tight text-foreground;
+  }
+  .ui-subtitle {
+    @apply mt-1 text-muted-foreground;
+  }
+  .ui-panel {
+    @apply rounded-xl border border-border bg-card text-card-foreground;
+  }
+  .ui-kpi {
+    @apply rounded-xl border border-border bg-card p-6 text-card-foreground;
+  }
+  .ui-muted {
+    @apply text-muted-foreground;
+  }
+  .ui-btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+  .ui-btn-brand {
+    @apply bg-brand text-brand-foreground hover:bg-brand/90;
+  }
+  .ui-status-success {
+    @apply text-success;
+  }
+  .ui-status-warning {
+    @apply text-warning;
+  }
+  .ui-status-info {
+    @apply text-info;
+  }
+  .ui-status-danger {
+    @apply text-destructive;
   }
 }
 

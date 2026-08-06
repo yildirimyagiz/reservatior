@@ -71,13 +71,13 @@ enum IntegrationStatus {
 }
 const STATUS_CONFIG = {
   CONNECTED: {
-    label: t("client.src.active"),
-    cls: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    label: t("common.active"),
+    cls: "bg-success/10 text-success border-success/20",
     icon: CheckCircle2
   },
   DISCONNECTED: {
     label: t("client.src.offline"),
-    cls: "bg-slate-500/10 text-slate-400 border-slate-500/20",
+    cls: "bg-muted text-muted-foreground border-slate-500/20",
     icon: XCircle
   },
   ERROR: {
@@ -87,12 +87,12 @@ const STATUS_CONFIG = {
   },
   SYNCING: {
     label: t("client.src.syncing"),
-    cls: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    cls: "bg-brand/100/10 text-brand border-blue-500/20",
     icon: RefreshCw
   },
   PAUSED: {
     label: t("client.src.standby"),
-    cls: "bg-orange-500/10 text-orange-400 border-orange-500/20",
+    cls: "bg-warning/10 text-orange-400 border-warning/20",
     icon: Clock
   }
 };
@@ -219,18 +219,18 @@ export default function Integrations() {
       <div className="space-y-12">
         {/* Modern Tab Control */}
         <div className="flex items-center justify-between gap-10">
-          <div className="flex bg-[#1a1b1e]/60 border border-white/5 p-1.5 rounded-[20px] h-14 shadow-xl">
-            {["INTEGRATIONS", "WEBHOOKS"].map(tab => <button key={tab} onClick={() => setActiveTab(tab.toLowerCase() as any)} className={`px-8 transition-all rounded-[14px] text-[10px] font-black  tracking-widest italic h-full ${activeTab === tab.toLowerCase() ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20" : "text-slate-500 hover:text-white"}`}>
+          <div className="flex bg-card/60 border border-white/5 p-1.5 rounded-[20px] h-14 shadow-xl">
+            {["INTEGRATIONS", "WEBHOOKS"].map(tab => <button key={tab} onClick={() => setActiveTab(tab.toLowerCase() as any)} className={`px-8 transition-all rounded-[14px] text-[10px] font-black  tracking-widest italic h-full ${activeTab === tab.toLowerCase() ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20" : "text-muted-foreground hover:text-white"}`}>
                 {tab}
               </button>)}
           </div>
 
           <div className="flex items-center gap-4">
              <div className="relative group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-                <Input placeholder={activeTab === "integrations" ? "SEARCH NODES..." : "SEARCH WEBHOOKS..."} value={search} onChange={e => setSearch(e.target.value)} className="h-12 pl-12 w-64 bg-[#1a1b1e]/60 border-white/5 rounded-xl text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-brand transition-colors" />
+                <Input placeholder={activeTab === "integrations" ? "SEARCH NODES..." : "SEARCH WEBHOOKS..."} value={search} onChange={e => setSearch(e.target.value)} className="h-12 pl-12 w-64 bg-card/60 border-white/5 rounded-xl text-[10px] font-black tracking-widest italic text-white placeholder:text-muted-foreground" />
              </div>
-             <Button onClick={() => activeTab === "integrations" ? setCreateOpen(true) : setWebhookOpen(true)} className="h-12 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] tracking-widest italic shadow-lg shadow-blue-600/20 gap-3">
+             <Button onClick={() => activeTab === "integrations" ? setCreateOpen(true) : setWebhookOpen(true)} className="h-12 px-6 rounded-xl bg-blue-600 hover:bg-brand/100 text-white font-black text-[10px] tracking-widest italic shadow-lg shadow-blue-600/20 gap-3">
                 <Plus className="w-4 h-4" />{t("client.src.initialize")}{activeTab === "integrations" ? "NODE" : "SIGNAL"}
               </Button>
           </div>
@@ -250,18 +250,18 @@ export default function Integrations() {
               y: 0
             }} transition={{
               delay: idx * 0.1
-            }} className="bg-[#1a1b1e]/40 border border-white/5 border-l border-t rounded-[32px] p-8 backdrop-blur-3xl shadow-2xl relative overflow-hidden group hover:bg-white/5 transition-all">
+            }} className="bg-card/40 border border-white/5 border-l border-t rounded-[32px] p-8 backdrop-blur-3xl shadow-2xl relative overflow-hidden group hover:bg-white/5 transition-all">
                     <div className="flex items-start justify-between relative z-10">
                       <div className="flex items-center gap-6">
                         <div className="h-16 w-16 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
-                           <Icon className="w-8 h-8 text-blue-500" />
+                           <Icon className="w-8 h-8 text-brand" />
                         </div>
                         <div>
                           <h3 className="text-xl font-black text-white italic tracking-tighter">{integration.name}</h3>
                           <div className="flex items-center gap-3 mt-1">
-                             <span className="text-[10px] font-black text-slate-500 tracking-widest italic">{integration.provider}</span>
-                             <div className="h-1 w-1 rounded-full bg-slate-800" />
-                             <span className="text-[10px] font-black text-blue-500/80 tracking-widest italic">{integration.type.replace("_", " ")}</span>
+                             <span className="text-[10px] font-black text-muted-foreground tracking-widest italic">{integration.provider}</span>
+                             <div className="h-1 w-1 rounded-full bg-muted" />
+                             <span className="text-[10px] font-black text-brand/80 tracking-widest italic">{integration.type.replace("_", " ")}</span>
                           </div>
                         </div>
                       </div>
@@ -270,7 +270,7 @@ export default function Integrations() {
                          <Badge className={`px-3 py-1 rounded-lg border text-[8px] font-black  tracking-widest italic ${status.cls}`}>
                             {status.label}
                          </Badge>
-                         {integration.lastSyncAt && <span className="text-[8px] font-black text-slate-600 italic">{t("client.src.last_sync")}{new Date(integration.lastSyncAt).toLocaleTimeString()}
+                         {integration.lastSyncAt && <span className="text-[8px] font-black text-muted-foreground italic">{t("common.last_sync")}{new Date(integration.lastSyncAt).toLocaleTimeString()}
                            </span>}
                       </div>
                     </div>
@@ -283,29 +283,29 @@ export default function Integrations() {
                     <div className="mt-8 pt-8 border-t border-white/5 flex items-center justify-between">
                        <div className="flex items-center gap-8">
                           <div className="space-y-1">
-                             <p className="text-[8px] font-black text-slate-600 italic">{t("client.src.data_transfers")}</p>
+                             <p className="text-[8px] font-black text-muted-foreground italic">{t("client.src.data_transfers")}</p>
                              <p className="text-lg font-black text-white italic tracking-tighter">{(integration.syncCount || 0).toLocaleString()}</p>
                           </div>
                           <div className="space-y-1">
-                             <p className="text-[8px] font-black text-slate-600 italic">{t("client.src.interface")}</p>
+                             <p className="text-[8px] font-black text-muted-foreground italic">{t("client.src.interface")}</p>
                              <p className="text-lg font-black text-white italic tracking-tighter">{t("client.src.rest_v2")}</p>
                           </div>
                        </div>
                        
                        <div className="flex items-center gap-3">
-                          <Button variant="outline" className="h-10 w-10 p-0 rounded-xl border-white/5 bg-white/2 hover:text-white transition-all">
+                          <Button variant="outline" className="h-10 w-10 p-0 rounded-xl border-white/5 bg-white/2 hover:text-white transition-all" aria-label={t("common.refresh")}>
                              <RefreshCw className="w-4 h-4" />
                           </Button>
-                          <Button variant="outline" className="h-10 w-10 p-0 rounded-xl border-white/5 bg-white/2 hover:text-white transition-all">
+                          <Button variant="outline" className="h-10 w-10 p-0 rounded-xl border-white/5 bg-white/2 hover:text-white transition-all" aria-label={t("common.settings")}>
                              <Settings className="w-4 h-4" />
                           </Button>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                               <Button variant="outline" className="h-10 w-10 p-0 rounded-xl border-white/5 bg-white/2 hover:text-white transition-all">
+                               <Button variant="outline" className="h-10 w-10 p-0 rounded-xl border-white/5 bg-white/2 hover:text-white transition-all" aria-label={t("common.more")}>
                                   <MoreHorizontal className="w-4 h-4" />
                                </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="bg-[#1a1b1e] border-white/10 text-slate-400">
+                            <DropdownMenuContent className="bg-card border-white/10 text-muted-foreground">
                                <DropdownMenuItem className="focus:bg-blue-600 focus:text-white text-[10px] font-black italic p-3">{t("client.src.debug_logs")}</DropdownMenuItem>
                                <DropdownMenuItem className="focus:bg-red-600 focus:text-white text-[10px] font-black italic p-3 text-red-500">{t("client.src.decommission_node")}</DropdownMenuItem>
                             </DropdownMenuContent>
@@ -321,25 +321,25 @@ export default function Integrations() {
             y: 0
           }} transition={{
             delay: idx * 0.1
-          }} className="bg-[#1a1b1e]/40 border border-white/5 border-l border-t rounded-[32px] p-8 backdrop-blur-3xl shadow-2xl relative overflow-hidden group hover:bg-white/5 transition-all">
+          }} className="bg-card/40 border border-white/5 border-l border-t rounded-[32px] p-8 backdrop-blur-3xl shadow-2xl relative overflow-hidden group hover:bg-white/5 transition-all">
                   <div className="flex items-start justify-between relative z-10">
                     <div className="flex items-center gap-6">
                       <div className="h-16 w-16 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
-                         <Terminal className="w-8 h-8 text-emerald-500" />
+                         <Terminal className="w-8 h-8 text-success" />
                       </div>
                       <div className="min-w-0">
                         <h3 className="text-xl font-black text-white italic tracking-tighter truncate">{webhook.name}</h3>
-                        <p className="text-[10px] font-bold text-emerald-500/60 tracking-widest italic mt-1 font-mono truncate">{webhook.url}</p>
+                        <p className="text-[10px] font-bold text-success/60 tracking-widest italic mt-1 font-mono truncate">{webhook.url}</p>
                       </div>
                     </div>
 
-                    <Badge className={`px-3 py-1 rounded-lg border text-[8px] font-black  tracking-widest italic ${webhook.isActive ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-slate-500/10 text-slate-400 border-slate-500/20"}`}>
+                    <Badge className={`px-3 py-1 rounded-lg border text-[8px] font-black  tracking-widest italic ${webhook.isActive ? "bg-success/10 text-success border-success/20" : "bg-muted text-muted-foreground border-slate-500/20"}`}>
                        {webhook.isActive ? "ACTIVE" : "DISABLED"}
                     </Badge>
                   </div>
 
                   <div className="mt-6 flex flex-wrap gap-2">
-                    {webhook.events.map((event, index) => <Badge key={index} className="bg-black/40 border-white/5 text-[8px] font-black text-slate-400 italic px-2 py-1">
+                    {webhook.events.map((event, index) => <Badge key={index} className="bg-black/40 border-white/5 text-[8px] font-black text-muted-foreground italic px-2 py-1">
                         {event}
                       </Badge>)}
                   </div>
@@ -347,18 +347,18 @@ export default function Integrations() {
                   <div className="mt-8 pt-8 border-t border-white/5 flex items-center justify-between">
                      <div className="flex items-center gap-8">
                         <div className="space-y-1">
-                           <p className="text-[8px] font-black text-slate-600 italic">{t("client.src.trigger_count")}</p>
+                           <p className="text-[8px] font-black text-muted-foreground italic">{t("client.src.trigger_count")}</p>
                            <p className="text-lg font-black text-white italic tracking-tighter">{webhook.triggerCount.toLocaleString()}</p>
                         </div>
                         <div className="space-y-1">
-                           <p className="text-[8px] font-black text-slate-600 italic">{t("client.src.avg_latency")}</p>
-                           <p className="text-lg font-black text-emerald-400 italic tracking-tighter">{t("client.src.124ms")}</p>
+                           <p className="text-[8px] font-black text-muted-foreground italic">{t("client.src.avg_latency")}</p>
+                           <p className="text-lg font-black text-success italic tracking-tighter">{t("client.src.124ms")}</p>
                         </div>
                      </div>
                      
                      <div className="flex items-center gap-3">
                         <Button variant="outline" className="h-10 px-6 rounded-xl border-white/5 bg-white/2 text-[9px] font-black italic tracking-widest hover:text-white transition-all">{t("client.src.test_payload")}</Button>
-                        <Button variant="outline" className="h-10 w-10 p-0 rounded-xl border-white/5 bg-white/2 hover:text-white transition-all">
+                        <Button variant="outline" className="h-10 w-10 p-0 rounded-xl border-white/5 bg-white/2 hover:text-white transition-all" aria-label={t("common.settings")}>
                            <Settings className="w-4 h-4" />
                         </Button>
                      </div>
@@ -370,39 +370,39 @@ export default function Integrations() {
 
       {/* Modern Dialogs */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="bg-[#1a1b1e] border-white/10 text-white rounded-[32px] sm:max-w-xl">
+        <DialogContent className="bg-card border-white/10 text-white rounded-[32px] sm:max-w-xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black italic tracking-tighter">{t("client.src.initialize_neural_node")}</DialogTitle>
-            <DialogDescription className="text-[10px] font-black text-slate-500 tracking-widest italic">{t("client.src.provisioning_bidirectional_interface_v34")}</DialogDescription>
+            <DialogDescription className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t("client.src.provisioning_bidirectional_interface_v34")}</DialogDescription>
           </DialogHeader>
           {/* Form fields with Neural styling */}
           <div className="space-y-6 py-6 font-display">
             <div className="space-y-2">
-              <Label className="text-[10px] font-black text-slate-400 tracking-widest italic">{t("client.src.node_identifier")}</Label>
+              <Label className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t("client.src.node_identifier")}</Label>
               <Input className="h-12 bg-black/40 border-white/5 rounded-xl text-white italic" placeholder={t("client.src.eg_globalmlssync")} />
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
-                 <Label className="text-[10px] font-black text-slate-400 tracking-widest italic">{t("client.src.protocol_type")}</Label>
-                 <Select><SelectTrigger className="h-12 bg-black/40 border-white/5 rounded-xl italic text-slate-400 font-bold"><SelectValue placeholder={t("client.src.select_type")} /></SelectTrigger><SelectContent className="bg-[#1a1b1e] border-white/10 font-display">
-                   {Object.values(IntegrationType).map(t => <SelectItem key={t} value={t} className="text-slate-400 font-bold italic">{t.replace("_", " ")}</SelectItem>)}
+                 <Label className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t("client.src.protocol_type")}</Label>
+                 <Select><SelectTrigger className="h-12 bg-black/40 border-white/5 rounded-xl italic text-muted-foreground font-bold"><SelectValue placeholder={t("common.select_type")} /></SelectTrigger><SelectContent className="bg-card border-white/10 font-display">
+                   {Object.values(IntegrationType).map(t => <SelectItem key={t} value={t} className="text-muted-foreground font-bold italic">{t.replace("_", " ")}</SelectItem>)}
                  </SelectContent></Select>
               </div>
               <div className="space-y-2">
-                 <Label className="text-[10px] font-black text-slate-400 tracking-widest italic">{t("client.src.provider_vector")}</Label>
-                 <Select><SelectTrigger className="h-12 bg-black/40 border-white/5 rounded-xl italic text-slate-400 font-bold"><SelectValue placeholder={t("client.src.select_provider")} /></SelectTrigger><SelectContent className="bg-[#1a1b1e] border-white/10 font-display">
-                   {["AIRBNB", "STRIPE", "RETS", "HUBSPOT", "SENDGRID"].map(p => <SelectItem key={p} value={p.toLowerCase()} className="text-slate-400 font-bold italic">{p}</SelectItem>)}
+                 <Label className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t("client.src.provider_vector")}</Label>
+                 <Select><SelectTrigger className="h-12 bg-black/40 border-white/5 rounded-xl italic text-muted-foreground font-bold"><SelectValue placeholder={t("client.src.select_provider")} /></SelectTrigger><SelectContent className="bg-card border-white/10 font-display">
+                   {["AIRBNB", "STRIPE", "RETS", "HUBSPOT", "SENDGRID"].map(p => <SelectItem key={p} value={p.toLowerCase()} className="text-muted-foreground font-bold italic">{p}</SelectItem>)}
                  </SelectContent></Select>
               </div>
             </div>
             <div className="space-y-2">
-              <Label className="text-[10px] font-black text-slate-400 tracking-widest italic">{t("client.src.credentialssha256")}</Label>
+              <Label className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t("client.src.credentialssha256")}</Label>
               <Input type="password" className="h-12 bg-black/40 border-white/5 rounded-xl text-white font-mono" placeholder="****************" />
             </div>
           </div>
           <DialogFooter className="gap-4">
-            <Button variant="ghost" onClick={() => setCreateOpen(false)} className="text-[10px] font-black italic text-slate-500">{t("client.src.abort")}</Button>
-            <Button className="h-14 px-10 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs italic tracking-widest shadow-xl shadow-blue-600/20">{t("client.src.establish_link")}</Button>
+            <Button variant="ghost" onClick={() => setCreateOpen(false)} className="text-[10px] font-black italic text-muted-foreground">{t("client.src.abort")}</Button>
+            <Button className="h-14 px-10 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black text-xs italic tracking-widest shadow-xl shadow-blue-600/20">{t("client.src.establish_link")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

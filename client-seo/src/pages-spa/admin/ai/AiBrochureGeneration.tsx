@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -71,7 +71,7 @@ export default function AiBrochureGenerationPage() {
  const response = await aiApi.createServiceTask({
  propertyId: form.propertyId || undefined,
  listingId: form.listingId || undefined,
- taskType: 'BROCHURE_GEN',
+ taskType: 'MARKETING_BROCHURE_GEN',
  inputData: {
  language: form.language
  }
@@ -177,15 +177,15 @@ export default function AiBrochureGenerationPage() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case 'COMPLETED':
- return 'bg-green-100 text-green-800';
+ return 'bg-blue-100 text-blue-800';
  case 'FAILED':
  return 'bg-red-100 text-red-800';
  case 'PROCESSING':
- return 'bg-slate-100 text-slate-800';
+ return 'bg-muted text-muted-foreground';
  case 'PENDING':
  return 'bg-yellow-100 text-yellow-800';
  default:
- return 'bg-card text-slate-300';
+ return 'bg-card text-muted-foreground';
  }
  };
  if (loading) {
@@ -322,7 +322,7 @@ export default function AiBrochureGenerationPage() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>

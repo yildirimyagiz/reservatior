@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -12,61 +12,71 @@ import { Textarea } from"@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from"@/components/ui/dialog";
 import { useToast } from"@/hooks/use-toast";
-import { Brain, Sparkles, Zap, RefreshCw, Play, Pause, Edit, Trash2, MoreHorizontal, Bot, Eye } from"lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from"@/components/ui/dropdown-menu";
-import { useQuery } from"@tanstack/react-query";
-import { aiApi } from"@/lib/api/ai";
+import { Brain, Sparkles, Zap, RefreshCw, Play, Pause, Edit, Trash2, MoreHorizontal, Bot, Eye, ArrowUpRight } from "lucide-react";
+import { PageShell } from "../layout/PageShell";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { aiApi } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 
 // ─── AI Studio ────────────────────────────────────────────────────────────────
 export function AIStudio() {
- const {
- t
- } = useTranslation();
- const {
- toast
- } = useToast();
- const [prompt, setPrompt] = useState("");
- const [result, setResult] = useState("");
- const [loading, setLoading] = useState(false);
- const [mode, setMode] = useState("property-description");
- const MODES = [{
- value:"property-description",
- label: t("admin_ai_property_description"),
- icon:"🏡"
- }, {
- value:"email-template",
- label: t("admin_ai_email_template"),
- icon:"✉️"
- }, {
- value:"market-analysis",
- label: t("admin_ai_market_analysis"),
- icon:"📊"
- }, {
- value:"negotiation-script",
- label: t("admin_ai_negotiation_script"),
- icon:"🤝"
- }, {
- value:"listing-title",
- label: t("admin_ai_listing_title"),
- icon:"✏️"
- }];
- const handleGenerate = async () => {
- if (!prompt.trim()) return;
- setLoading(true);
- await new Promise(r => setTimeout(r, 1800));
- const samples: Record<string, string> = {"property-description":"Welcome to this stunning modern villa nestled in the heart of Los Angeles. Boasting 4 bedrooms and 3 bathrooms across 2,800 sq ft of thoughtfully designed living space, this property effortlessly blends contemporary aesthetics with functional comfort. The open-plan kitchen and living area flow seamlessly to a private garden—perfect for entertaining. The master suite features a spa-like en-suite and walk-in wardrobe.","email-template":"Subject: Exciting News About Your Property Search\n\nDear [Name],\n\nI hope this message finds you well. I wanted to reach out personally with some exciting listings that I believe match your criteria perfectly. Based on our conversation, I've identified 3 properties that tick all your boxes—great schools, spacious layout, and within your budget.\n\nI'd love to schedule a viewing at your convenience. Would Thursday or Friday work for you?\n\nWarm regards,\n[Agent Name]","market-analysis":"Current Market Analysis — Q1 2025\n\nThe local real estate market continues to show resilience with median prices up 4.2% YoY. Days on market have decreased from 28 to 19, indicating strong buyer demand. Inventory remains tight at 1.8 months supply. Premium areas such as Sunset Hills and Riverside Drive are seeing above-asking-price offers in 67% of transactions."
- };
- setResult(samples[mode] || `Generated AI content for: ${prompt}`);
- setLoading(false);
- toast({
- title: t("admin_ai_content_generated")
- });
- };
- return <div className="p-6 space-y-6">
- <div>
- <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_ai_ai_studio")}</h1>
- <p className="text-sm text-muted-foreground mt-0.5">{t("admin_ai_generate_property_content_emails")}</p>
- </div>
+  const {
+  t
+  } = useTranslation();
+  const {
+  toast
+  } = useToast();
+  const [prompt, setPrompt] = useState("");
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState("property-description");
+  const MODES = [{
+  value:"property-description",
+  label: t("admin_ai_property_description", "Mülk Tanımı"),
+  icon:"🏡"
+  }, {
+  value:"email-template",
+  label: t("admin_ai_email_template", "E-posta Template"),
+  icon:"✉️"
+  }, {
+  value:"market-analysis",
+  label: t("admin_ai_market_analysis", "Piyasa Analizi"),
+  icon:"📊"
+  }, {
+  value:"negotiation-script",
+  label: t("admin_ai_negotiation_script", "Müzakere Senaryosu"),
+  icon:"🤝"
+  }, {
+  value:"listing-title",
+  label: t("admin_ai_listing_title", "İlan Başlığı"),
+  icon:"✏️"
+  }];
+  const handleGenerate = async () => {
+  if (!prompt.trim()) return;
+  setLoading(true);
+  await new Promise(r => setTimeout(r, 1800));
+  const samples: Record<string, string> = {"property-description":"Welcome to this stunning modern villa nestled in the heart of Los Angeles. Boasting 4 bedrooms and 3 bathrooms across 2,800 sq ft of thoughtfully designed living space, this property effortlessly blends contemporary aesthetics with functional comfort. The open-plan kitchen and living area flow seamlessly to a private garden—perfect for entertaining. The master suite features a spa-like en-suite and walk-in wardrobe.","email-template":"Subject: Exciting News About Your Property Search\n\nDear [Name],\n\nI hope this message finds you well. I wanted to reach out personally with some exciting listings that I believe match your criteria perfectly. Based on our conversation, I've identified 3 properties that tick all your boxes—great schools, spacious layout, and within your budget.\n\nI'd love to schedule a viewing at your convenience. Would Thursday or Friday work for you?\n\nWarm regards,\n[Agent Name]","market-analysis":"Current Market Analysis — Q1 2025\n\nThe local real estate market continues to show resilience with median prices up 4.2% YoY. Days on market have decreased from 28 to 19, indicating strong buyer demand. Inventory remains tight at 1.8 months supply. Premium areas such as Sunset Hills and Riverside Drive are seeing above-asking-price offers in 67% of transactions."
+  };
+  setResult(samples[mode] || `Generated AI content for: ${prompt}`);
+  setLoading(false);
+  toast({
+  title: t("admin_ai_content_generated", "İçerik Üretildi")
+  });
+  };
+
+  return (
+    <PageShell title={t("admin_ai_ai_studio", "Yapay Zeka Stüdyosu")}>
+      <div className="space-y-6 animate-in fade-in duration-500">
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <h1 className="text-3xl font-bold text-card-foreground mb-2">{t("admin_ai_ai_studio", "Yapay Zeka Stüdyosu")}</h1>
+            <p className="text-muted-foreground">{t("admin_ai_generate_property_content_emails", "Yapay Zeka İle Mülk Metinleri, Pazarlama E-postaları Ve Piyasa Analizleri Üretin")}</p>
+          </div>
+          <Button className="bg-card hover:bg-muted text-card-foreground border border-border">
+            <ArrowUpRight className="w-4 h-4 mr-2" />
+            {t("admin_solicitors_back_to_dashboard", "Panele Dön")}
+          </Button>
+        </div>
 
  {/* Stats */}
  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -125,8 +135,10 @@ export function AIStudio() {
  <p className="text-sm">{t("admin_ai_generated_content_will_appear")}</p>
  </div>}
  </div>
- </div>
- </div>;
+      </div>
+      </div>
+    </PageShell>
+  );
 }
 
 // ─── AI Valuation ─────────────────────────────────────────────────────────────
@@ -211,7 +223,7 @@ export function AIValuation() {
  });
  };
  const TREND_STYLES = {
- UP:"text-green-600",
+ UP:"text-blue-600",
  DOWN:"text-red-600",
  STABLE:"text-muted-foreground"
  };
@@ -377,7 +389,7 @@ export function Automation() {
  <div className="flex-1 min-w-0">
  <div className="flex items-center gap-2">
  <p className="font-medium text-sm">{rule.name}</p>
- {rule.isActive ? <Badge className="bg-green-100 text-green-700 border-0 text-xs">{t("admin_ai_active")}</Badge> : <Badge className="bg-card text-muted-foreground border-0 text-xs">{t("admin_ai_inactive")}</Badge>}
+ {rule.isActive ? <Badge className="bg-blue-100 text-blue-700 border-0 text-xs">{t("admin_ai_active")}</Badge> : <Badge className="bg-card text-muted-foreground border-0 text-xs">{t("admin_ai_inactive")}</Badge>}
  </div>
  <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
  <span>{t("admin_ai_trigger")}<strong className="text-foreground">{rule.trigger}</strong></span>
@@ -395,7 +407,7 @@ export function Automation() {
  {rule.isActive ?"Pause" :"Enable"}
  </Button>
  <DropdownMenu>
- <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+ <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
  <DropdownMenuContent align="end">
  <DropdownMenuItem><Edit className="w-4 h-4 mr-2" />{t("admin_ai_edit")}</DropdownMenuItem>
  <DropdownMenuItem className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("admin_ai_delete")}</DropdownMenuItem>

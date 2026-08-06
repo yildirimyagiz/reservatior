@@ -38,7 +38,7 @@ const mockInvoices: Invoice[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  PAID: "bg-green-500/20 text-green-400",
+  PAID: "bg-blue-500/20 text-blue-400",
   PENDING: "bg-yellow-500/20 text-yellow-400",
   OVERDUE: "bg-red-500/20 text-red-400",
   CANCELLED: "bg-gray-500/20 text-gray-400"
@@ -76,7 +76,7 @@ export default function FinancialInvoicesPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("invoices.financialinvoicespage.auto_ext_3")}
@@ -90,7 +90,7 @@ export default function FinancialInvoicesPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -100,11 +100,11 @@ export default function FinancialInvoicesPage() {
                       placeholder="Search invoices..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
-                <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
+                <Button variant="outline" className="bg-white/10 border-brand/30 text-white">
                   <Filter className="w-4 h-4 mr-2" />
                   {t("invoices.financialinvoicespage.auto_ext_4")}
                                                   </Button>
@@ -118,7 +118,7 @@ export default function FinancialInvoicesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <FileText className="w-5 h-5" />
@@ -128,7 +128,7 @@ export default function FinancialInvoicesPage() {
             <CardContent>
               <div className="space-y-4">
                 {filteredInvoices.map((invoice) => {
-                    const { t } = useTranslation();
+
                   const StatusIcon = STATUS_ICONS[invoice.status];
                   return (
                     <div
@@ -136,8 +136,8 @@ export default function FinancialInvoicesPage() {
                       className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-                          <FileText className="w-5 h-5 text-purple-400" />
+                        <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center">
+                          <FileText className="w-5 h-5 text-brand" />
                         </div>
                         <div>
                           <div className="text-white font-medium">{invoice.invoiceNumber}</div>
@@ -157,7 +157,7 @@ export default function FinancialInvoicesPage() {
                           <DollarSign className="w-4 h-4 inline" />
                           {invoice.amount.toLocaleString()}
                         </div>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Button variant="ghost" size="icon" aria-label={t("common.download")} className="h-8 w-8">
                           <Download className="w-4 h-4" />
                         </Button>
                       </div>

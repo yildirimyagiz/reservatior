@@ -12,7 +12,7 @@ export function ConciergeContent() {
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-[#030205] text-slate-50 selection:bg-amber-500 selection:text-white">
+    <div className="min-h-screen bg-[#030205] text-muted-foreground selection:bg-amber-500 selection:text-white">
       
       {/* ══════ HERO SECTION ══════ */}
       <section className="relative h-[80svh] w-full overflow-hidden flex items-center justify-center">
@@ -38,11 +38,11 @@ export function ConciergeContent() {
             <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-tight">
               {t("client.concierge.title", { defaultValue: "Besupoke Luxury, Curated For You." })}
             </h1>
-            <p className="text-lg md:text-2xl text-slate-300 mb-10 max-w-2xl font-light">
+            <p className="text-lg md:text-2xl text-muted-foreground mb-10 max-w-2xl font-light">
               {t("client.concierge.subtitle", { defaultValue: "Private chefs, luxury car hires, executive protection, and premium bookings. Anything, anywhere, at any time." })}
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="rounded-full px-8 h-14 bg-white text-black hover:bg-slate-200 font-bold transition-all hover:scale-105">
+              <Button size="lg" className="rounded-full px-8 h-14 bg-card text-black hover:bg-muted font-bold transition-all hover:scale-105">
                 {t("client.concierge.cta_primary", { defaultValue: "Request Service" })}
               </Button>
               <Button size="lg" variant="outline" className="rounded-full px-8 h-14 border-white/20 hover:bg-white/10 font-bold backdrop-blur-md">
@@ -64,7 +64,7 @@ export function ConciergeContent() {
               <div>
                 <Car className="w-10 h-10 text-amber-400 mb-6" />
                 <h3 className="text-2xl font-bold mb-2">{t("client.concierge.panel1_title", { defaultValue: "Elite Transport" })}</h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   {t("client.concierge.panel1_desc", { defaultValue: "Book supercars, private jets, or luxury yacht charters instantly with chauffeured services." })}
                 </p>
               </div>
@@ -76,7 +76,7 @@ export function ConciergeContent() {
               <div>
                 <Shield className="w-10 h-10 text-amber-400 mb-6" />
                 <h3 className="text-2xl font-bold mb-2">{t("client.concierge.panel2_title", { defaultValue: "Close Protection" })}</h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   {t("client.concierge.panel2_desc", { defaultValue: "Discrete, licensed executive bodyguards and security details for total peace of mind." })}
                 </p>
               </div>
@@ -88,7 +88,7 @@ export function ConciergeContent() {
               <div>
                 <Compass className="w-10 h-10 text-amber-400 mb-6" />
                 <h3 className="text-2xl font-bold mb-2">{t("client.concierge.panel3_title", { defaultValue: "Private Chefs & Dining" })}</h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   {t("client.concierge.panel3_desc", { defaultValue: "Michelin-starred chefs preparing custom tasting menus directly inside your suite." })}
                 </p>
               </div>
@@ -101,7 +101,7 @@ export function ConciergeContent() {
               <div className="relative z-10">
                 <Clock className="w-12 h-12 text-amber-400 mb-6" />
                 <h3 className="text-3xl font-black mb-4">{t("client.concierge.panel4_title", { defaultValue: "24/7 Dedicated Support" })}</h3>
-                <p className="text-slate-300 text-lg max-w-2xl leading-relaxed">
+                <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
                   {t("client.concierge.panel4_desc", { defaultValue: "Every booking includes a dedicated human concierge assistant available on chat to solve your reservations, flight changes, or last-minute requests." })}
                 </p>
               </div>

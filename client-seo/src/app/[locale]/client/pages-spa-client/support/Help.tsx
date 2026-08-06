@@ -113,7 +113,7 @@ export default function Help() {
                     <p className="text-sm text-muted-foreground">{action.description}</p>
                   </div>
                 </div>
-                {!action.available && <Badge variant="secondary" className="mt-2">{t("client.src.coming_soon")}</Badge>}
+                {!action.available && <Badge variant="secondary" className="mt-2">{t("common.coming_soon")}</Badge>}
               </CardContent>
             </Card>)}
         </div>
@@ -161,7 +161,7 @@ export default function Help() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="category">{t("client.src.category")}</Label>
+                  <Label htmlFor="category">{t("common.category")}</Label>
                   <select id="category" className="w-full p-2 border rounded-md" value={supportTicket.category} onChange={e => setSupportTicket({
                   ...supportTicket,
                   category: e.target.value

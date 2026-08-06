@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams as nextUseParams, useRouter, useSearchParams as nextUseSearchParams, usePathname as nextUsePathname } from 'next/navigation';
-import { createContext, ReactNode } from 'react';
+import { createContext, ReactNode, useEffect } from 'react';
 import Link from 'next/link';
 
 // Shim for react-router-dom to work with Next.js
@@ -15,6 +15,14 @@ export function LinkComponent({ to, href, children, ...props }: any) {
 }
 
 export { LinkComponent as Link };
+
+export function Navigate({ to, replace }: { to: string; replace?: boolean }) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate(to);
+  }, [to, replace, navigate]);
+  return null;
+}
 
 export function Outlet({ children }: { children?: React.ReactNode }) {
   return children ? <>{children}</> : null;
@@ -38,8 +46,8 @@ export function useNavigate() {
   };
 }
 
-export function useParams() {
-  return nextUseParams();
+export function useParams<T = Record<string, string>>(): T {
+  return nextUseParams() as T;
 }
 
 export function useLocation() {

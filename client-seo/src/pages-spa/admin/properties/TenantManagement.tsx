@@ -142,9 +142,9 @@ const TenantManagement = () => {
 
  const getVerificationBadge = (status: string) => {
  const statusConfig: Record<string, { icon: any; color: string; label: string }> = {
- 'PENDING': { icon: AlertCircle, color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_tenant_pending', 'Pending') },
- 'VERIFIED': { icon: CheckCircle, color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', label: t('admin_tenant_verified', 'Verified') },
- 'FAILED': { icon: AlertCircle, color: 'bg-red-500/10 text-red-400 border-red-500/20', label: t('admin_tenant_failed', 'Failed') }
+ 'PENDING': { icon: AlertCircle, color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_tenant_pending', 'Beklemede') },
+ 'VERIFIED': { icon: CheckCircle, color: 'bg-blue-500/10 text-success border-blue-500/20', label: t('admin_tenant_verified', 'Doğrulandı') },
+ 'FAILED': { icon: AlertCircle, color: 'bg-red-500/10 text-red-400 border-red-500/20', label: t('admin_tenant_failed', 'Başarısız') }
  };
  const config = statusConfig[status] || statusConfig['PENDING'];
  const Icon = config.icon;
@@ -170,32 +170,32 @@ const TenantManagement = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
- {t("admin_tenant_title","Tenant Management")}
+ {t("admin_tenant_title", "Kiracı Yönetimi")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_tenant_subtitle","Manage tenant profiles and verification status")}
+ {t("admin_tenant_subtitle", "Kiracı profillerini ve doğrulama durumunu yönetin")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-white">
+ <Button className="bg-muted hover:bg-muted0 text-white">
  <Plus className="w-4 h-4 mr-2" />
- {t("common.add","Add Tenant")}
+ {t("common.add", "Ekle")}
  </Button>
  </DialogTrigger>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_tenant_add_title","Add New Tenant")}</DialogTitle>
- <DialogDescription>{t("admin_tenant_add_desc","Create a new tenant profile")}</DialogDescription>
+ <DialogTitle>{t("admin_tenant_add_title", "Yeni Kiracı Ekle")}</DialogTitle>
+ <DialogDescription>{t("admin_tenant_add_desc", "Yeni bir kiracı profili oluşturun")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 py-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_tenant_name","Full Name")}</Label>
+ <Label>{t("admin_tenant_name", "Tam Ad")}</Label>
  <Input 
  value={newItem.name} 
  onChange={(e) => setNewItem({...newItem, name: e.target.value})}
@@ -203,7 +203,7 @@ const TenantManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_email","Email")}</Label>
+ <Label>{t("admin_tenant_email", "E-posta")}</Label>
  <Input 
  type="email"
  value={newItem.email} 
@@ -214,7 +214,7 @@ const TenantManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_tenant_phone","Phone")}</Label>
+ <Label>{t("admin_tenant_phone", "Telefon")}</Label>
  <Input 
  value={newItem.phone} 
  onChange={(e) => setNewItem({...newItem, phone: e.target.value})}
@@ -222,7 +222,7 @@ const TenantManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_dob","Date of Birth")}</Label>
+ <Label>{t("admin_tenant_dob", "Doğum Tarihi")}</Label>
  <Input 
  type="date"
  value={newItem.dateOfBirth} 
@@ -233,7 +233,7 @@ const TenantManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_tenant_nationality","Nationality")}</Label>
+ <Label>{t("admin_tenant_nationality", "Uyruk")}</Label>
  <Input 
  value={newItem.nationality} 
  onChange={(e) => setNewItem({...newItem, nationality: e.target.value})}
@@ -241,21 +241,21 @@ const TenantManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_id_type","ID Type")}</Label>
+ <Label>{t("admin_tenant_id_type", "Kimlik Tipi")}</Label>
  <Select value={newItem.idType} onValueChange={(v) => setNewItem({...newItem, idType: v})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="PASSPORT">{t("admin_tenant_passport","Passport")}</SelectItem>
- <SelectItem value="NATIONAL_ID">{t("admin_tenant_national_id","National ID")}</SelectItem>
+ <SelectItem value="PASSPORT">{t("admin_tenant_passport", "Pasaport")}</SelectItem>
+ <SelectItem value="NATIONAL_ID">{t("admin_tenant_national_id", "Ulusal Kimlik")}</SelectItem>
  <SelectItem value="DRIVERS_LICENSE">{t("admin_tenant_drivers_license","Driver's License")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_id_number","ID Number")}</Label>
+ <Label>{t("admin_tenant_id_number", "Kimlik Numarası")}</Label>
  <Input 
  value={newItem.idNumber} 
  onChange={(e) => setNewItem({...newItem, idNumber: e.target.value})}
@@ -264,7 +264,7 @@ const TenantManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_tenant_employment","Employment Status")}</Label>
+ <Label>{t("admin_tenant_employment", "Çalışma Durumu")}</Label>
  <Input 
  value={newItem.employmentStatus} 
  onChange={(e) => setNewItem({...newItem, employmentStatus: e.target.value})}
@@ -272,7 +272,7 @@ const TenantManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_monthly_income","Monthly Income")}</Label>
+ <Label>{t("admin_tenant_monthly_income", "Aylık Gelir")}</Label>
  <Input 
  type="number"
  value={newItem.monthlyIncome} 
@@ -283,7 +283,7 @@ const TenantManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_tenant_credit_score","Credit Score")}</Label>
+ <Label>{t("admin_tenant_credit_score", "Kredi Puanı")}</Label>
  <Input 
  type="number"
  value={newItem.creditScore} 
@@ -292,36 +292,36 @@ const TenantManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_verification","Verification Status")}</Label>
+ <Label>{t("admin_tenant_verification", "Doğrulama Durumu")}</Label>
  <Select value={newItem.verificationStatus} onValueChange={(v) => setNewItem({...newItem, verificationStatus: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="PENDING">{t("admin_tenant_pending","Pending")}</SelectItem>
- <SelectItem value="VERIFIED">{t("admin_tenant_verified","Verified")}</SelectItem>
- <SelectItem value="FAILED">{t("admin_tenant_failed","Failed")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_tenant_pending", "Beklemede")}</SelectItem>
+ <SelectItem value="VERIFIED">{t("admin_tenant_verified", "Doğrulandı")}</SelectItem>
+ <SelectItem value="FAILED">{t("admin_tenant_failed", "Başarısız")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_notes","Notes")}</Label>
+ <Label>{t("admin_tenant_notes", "Notlar")}</Label>
  <Textarea 
  value={newItem.notes} 
  onChange={(e) => setNewItem({...newItem, notes: e.target.value})}
  className="bg-card border-border"
- placeholder={t("admin_tenant_notes_placeholder","Optional notes")}
+ placeholder={t("admin_tenant_notes_placeholder", "İsteğe bağlı notlar")}
  rows={3}
  />
  </div>
  </form>
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleAddSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleAddSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>
@@ -332,9 +332,9 @@ const TenantManagement = () => {
  {/* Filters Section */}
  <div className="flex gap-4">
  <div className="relative flex-1 max-w-md">
- <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+ <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
  <Input
- placeholder={t("common.search","Search...")}
+ placeholder={t("common.search", "Ara")}
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  className="pl-10 bg-card border-border"
@@ -345,10 +345,10 @@ const TenantManagement = () => {
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="ALL">{t("common.all","All")}</SelectItem>
- <SelectItem value="PENDING">{t("admin_tenant_pending","Pending")}</SelectItem>
- <SelectItem value="VERIFIED">{t("admin_tenant_verified","Verified")}</SelectItem>
- <SelectItem value="FAILED">{t("admin_tenant_failed","Failed")}</SelectItem>
+ <SelectItem value="ALL">{t("common.all", "Tümü")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_tenant_pending", "Beklemede")}</SelectItem>
+ <SelectItem value="VERIFIED">{t("admin_tenant_verified", "Doğrulandı")}</SelectItem>
+ <SelectItem value="FAILED">{t("admin_tenant_failed", "Başarısız")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -357,25 +357,25 @@ const TenantManagement = () => {
  <CardHeader>
  <CardTitle className="flex items-center gap-2">
  <User className="w-5 h-5" />
- {t("admin_tenant_list_title","Tenant Profiles")}
+ {t("admin_tenant_list_title", "Kiracı Profilleri")}
  </CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
- <div className="text-center py-8 text-slate-500">{t("common.loading","Loading...")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("common.loading", "Yükleniyor")}</div>
  ) : filteredTenants.length === 0 ? (
- <div className="text-center py-8 text-slate-500">{t("admin_tenant_empty","No tenants found")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("admin_tenant_empty", "Kiracı bulunamadı")}</div>
  ) : (
  <Table>
  <TableHeader>
  <TableRow>
- <TableHead>{t("admin_tenant_name","Name")}</TableHead>
- <TableHead>{t("admin_tenant_contact","Contact")}</TableHead>
- <TableHead>{t("admin_tenant_id_info","ID Info")}</TableHead>
- <TableHead>{t("admin_tenant_employment","Employment")}</TableHead>
- <TableHead>{t("admin_tenant_reliability","Reliability")}</TableHead>
- <TableHead>{t("admin_tenant_verification","Verification")}</TableHead>
- <TableHead className="text-right">{t("common.actions","Actions")}</TableHead>
+ <TableHead>{t("admin_tenant_name", "Tam Ad")}</TableHead>
+ <TableHead>{t("admin_tenant_contact", "İletişim")}</TableHead>
+ <TableHead>{t("admin_tenant_id_info", "Kimlik Bilgisi")}</TableHead>
+ <TableHead>{t("admin_tenant_employment", "Çalışma Durumu")}</TableHead>
+ <TableHead>{t("admin_tenant_reliability", "Güvenilirlik")}</TableHead>
+ <TableHead>{t("admin_tenant_verification", "Doğrulama Durumu")}</TableHead>
+ <TableHead className="text-right">{t("common.actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -389,35 +389,35 @@ const TenantManagement = () => {
  </Avatar>
  <div>
  <div className="font-medium">{item.name}</div>
- <div className="text-xs text-slate-500">{item.nationality || '-'}</div>
+ <div className="text-xs text-muted-foreground">{item.nationality || '-'}</div>
  </div>
  </div>
  </TableCell>
  <TableCell>
  <div className="space-y-1">
  <div className="flex items-center gap-1 text-sm">
- <Mail className="w-3 h-3 text-slate-500" />
+ <Mail className="w-3 h-3 text-muted-foreground" />
  {item.email}
  </div>
  {item.phone && (
- <div className="flex items-center gap-1 text-sm text-slate-500">
+ <div className="flex items-center gap-1 text-sm text-muted-foreground">
  <Phone className="w-3 h-3" />
  {item.phone}
  </div>
  )}
  </div>
  </TableCell>
- <TableCell className="text-slate-500">
+ <TableCell className="text-muted-foreground">
  <div className="text-sm">
  <div>{item.idType}</div>
  <div className="text-xs">{item.idNumber || '-'}</div>
  </div>
  </TableCell>
- <TableCell className="text-slate-500">
+ <TableCell className="text-muted-foreground">
  <div className="text-sm">
  <div>{item.employmentStatus || '-'}</div>
  {item.monthlyIncome && (
- <div className="text-xs">{t("currency_symbol", "$")}{item.monthlyIncome.toLocaleString()}{t("admin_auto_mo", "/mo")}</div>
+ <div className="text-xs">{t("currency_symbol", "$")}{item.monthlyIncome.toLocaleString()}{t("admin_auto_mo", "/ay")}</div>
  )}
  </div>
  </TableCell>
@@ -425,12 +425,12 @@ const TenantManagement = () => {
  <div className="space-y-1">
  {item.creditScore && (
  <div className="text-sm">
- <span className="text-slate-500">{t("admin_tenant_credit","Credit")}{t("mobile.leftovers.", ":")}</span> {item.creditScore}
+ <span className="text-muted-foreground">{t("admin_tenant_credit", "Kredi")}{t("mobile.leftovers.", ":")}</span> {item.creditScore}
  </div>
  )}
  {item.reliabilityScore && (
  <div className="text-sm">
- <span className="text-slate-500">{t("admin_tenant_reliability","Reliability")}{t("mobile.leftovers.", ":")}</span> 
+ <span className="text-muted-foreground">{t("admin_tenant_reliability", "Güvenilirlik")}{t("mobile.leftovers.", ":")}</span> 
  <Badge variant="outline" className="ml-1">{item.reliabilityScore}</Badge>
  </div>
  )}
@@ -439,10 +439,10 @@ const TenantManagement = () => {
  <TableCell>{getVerificationBadge(item.verificationStatus)}</TableCell>
  <TableCell className="text-right">
  <div className="flex justify-end gap-2">
- <Button variant="ghost" size="icon" onClick={() => openEditModal(item)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} onClick={() => openEditModal(item)}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(item.id)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} onClick={() => deleteMutation.mutate(item.id)}>
  <Trash2 className="w-4 h-4 text-red-500" />
  </Button>
  </div>
@@ -459,14 +459,14 @@ const TenantManagement = () => {
  <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_tenant_edit_title","Edit Tenant")}</DialogTitle>
- <DialogDescription>{t("admin_tenant_edit_desc","Update tenant profile details")}</DialogDescription>
+ <DialogTitle>{t("admin_tenant_edit_title", "Kiracıyı Düzenle")}</DialogTitle>
+ <DialogDescription>{t("admin_tenant_edit_desc", "Kiracı profil detaylarını güncelleyin")}</DialogDescription>
  </DialogHeader>
  {editingItem && (
  <form onSubmit={handleEditSubmit} className="space-y-4 py-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_tenant_name","Full Name")}</Label>
+ <Label>{t("admin_tenant_name", "Tam Ad")}</Label>
  <Input 
  value={editingItem.name}
  onChange={(e) => setEditingItem({...editingItem, name: e.target.value})}
@@ -474,7 +474,7 @@ const TenantManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_email","Email")}</Label>
+ <Label>{t("admin_tenant_email", "E-posta")}</Label>
  <Input 
  type="email"
  value={editingItem.email}
@@ -485,7 +485,7 @@ const TenantManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_tenant_phone","Phone")}</Label>
+ <Label>{t("admin_tenant_phone", "Telefon")}</Label>
  <Input 
  value={editingItem.phone || ''}
  onChange={(e) => setEditingItem({...editingItem, phone: e.target.value})}
@@ -493,22 +493,22 @@ const TenantManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_verification","Verification Status")}</Label>
+ <Label>{t("admin_tenant_verification", "Doğrulama Durumu")}</Label>
  <Select value={editingItem.verificationStatus} onValueChange={(v) => setEditingItem({...editingItem, verificationStatus: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="PENDING">{t("admin_tenant_pending","Pending")}</SelectItem>
- <SelectItem value="VERIFIED">{t("admin_tenant_verified","Verified")}</SelectItem>
- <SelectItem value="FAILED">{t("admin_tenant_failed","Failed")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_tenant_pending", "Beklemede")}</SelectItem>
+ <SelectItem value="VERIFIED">{t("admin_tenant_verified", "Doğrulandı")}</SelectItem>
+ <SelectItem value="FAILED">{t("admin_tenant_failed", "Başarısız")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_tenant_monthly_income","Monthly Income")}</Label>
+ <Label>{t("admin_tenant_monthly_income", "Aylık Gelir")}</Label>
  <Input 
  type="number"
  value={editingItem.monthlyIncome || ''}
@@ -517,7 +517,7 @@ const TenantManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_credit_score","Credit Score")}</Label>
+ <Label>{t("admin_tenant_credit_score", "Kredi Puanı")}</Label>
  <Input 
  type="number"
  value={editingItem.creditScore || ''}
@@ -527,7 +527,7 @@ const TenantManagement = () => {
  </div>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_tenant_notes","Notes")}</Label>
+ <Label>{t("admin_tenant_notes", "Notlar")}</Label>
  <Textarea 
  value={editingItem.notes || ''}
  onChange={(e) => setEditingItem({...editingItem, notes: e.target.value})}
@@ -539,10 +539,10 @@ const TenantManagement = () => {
  )}
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleEditSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleEditSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>

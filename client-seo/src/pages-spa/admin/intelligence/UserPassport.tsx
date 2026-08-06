@@ -88,11 +88,11 @@ export default function UserPassportDashboard() {
 
   return (
     <PageShell
-      title={t("admin_user_passport_title", "Kullanıcı Karnesi")}
+      title={t("admin_user_passport_title", "Kullanıcı Karnesi (User Passport)")}
       description={t("admin_user_passport_desc", "Kullanıcı davranışları, rezervasyon skoru ve segmentasyon")}
       actions={
         <button className="px-4 py-2 bg-primary text-primary-foreground text-white rounded-lg hover:bg-primary/90 transition flex items-center gap-2">
-          <Download className="w-4 h-4" /> {t("admin_common_export", "Export")}
+          <Download className="w-4 h-4" /> {t("admin_common_export", "Dışa Aktar")}
         </button>
       }
     >
@@ -102,10 +102,10 @@ export default function UserPassportDashboard() {
         <div className="flex items-center gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input type="text" placeholder={t("admin_user_passport_search_placeholder", "Search users…")} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-10 pr-4 py-2 border border-border rounded-lg" />
+            <input type="text" placeholder={t("admin_user_passport_search_placeholder", "Kullanıcı Ara…")} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-10 pr-4 py-2 border border-border rounded-lg" />
           </div>
           <select value={selectedUserId} onChange={(e) => setSelectedUserId(e.target.value)} className="px-4 py-2 border border-border rounded-lg bg-card min-w-[300px]">
-            <option value="">{t("admin_user_passport_select_placeholder", "Select a user…")}</option>
+            <option value="">{t("admin_user_passport_select_placeholder", "Bir kullanıcı seçin…")}</option>
             {(users || []).filter((u: any) => !searchQuery || u.name?.toLowerCase().includes(searchQuery.toLowerCase()) || u.email?.toLowerCase().includes(searchQuery.toLowerCase())).map((u: any) => (
               <option key={u.id} value={u.id}>{u.name || u.email}</option>
             ))}
@@ -116,7 +116,7 @@ export default function UserPassportDashboard() {
       {!selectedUserId && (
         <div className="bg-card rounded-xl shadow-sm p-12 border border-border text-center">
           <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-muted-foreground">{t("admin_user_passport_empty", "Select a user to view their Intelligence Passport")}</h2>
+          <h2 className="text-xl font-semibold text-muted-foreground">{t("admin_user_passport_empty", "Zeka Karnesini görmek için bir kullanıcı seçin")}</h2>
         </div>
       )}
 
@@ -139,7 +139,7 @@ export default function UserPassportDashboard() {
             {/* Preferences */}
             <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-                <Heart className="w-5 h-5 text-pink-600" /> {t("admin_user_passport_preferences", "Preferences (AI-inferred)")}
+                <Heart className="w-5 h-5 text-pink-600" /> {t("admin_user_passport_preferences", "Tercihler (AI çıkarımı)")}
               </h2>
               <div className="space-y-3">
                 {preferences.map((p, i) => (
@@ -154,7 +154,7 @@ export default function UserPassportDashboard() {
             {/* Intent Signals */}
             <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-                <Target className="w-5 h-5 text-brand" /> {t("admin_user_passport_intent_signals", "Intent Signals")}
+                <Target className="w-5 h-5 text-brand" /> {t("admin_user_passport_intent_signals", "Niyet Sinyalleri")}
               </h2>
               <div className="space-y-3">
                 {intentSignals.map((s, i) => (
@@ -174,7 +174,7 @@ export default function UserPassportDashboard() {
             {/* Behavior Timeline */}
             <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-                <Clock className="w-5 h-5 text-blue-600" /> {t("admin_user_passport_activity_timeline", "Activity Timeline")}
+                <Clock className="w-5 h-5 text-blue-600" /> {t("admin_user_passport_activity_timeline", "Aktivite Zaman Çizelgesi")}
               </h2>
               <div className="space-y-3">
                 {behaviorTimeline.map((ev, i) => (
@@ -195,20 +195,20 @@ export default function UserPassportDashboard() {
           {/* AI Recommendation */}
           <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
             <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-              <Brain className="w-5 h-5 text-brand" /> {t("admin_user_passport_recommendation_engine", "AI Recommendation Engine")}
+              <Brain className="w-5 h-5 text-brand" /> {t("admin_user_passport_recommendation_engine", "AI Öneri Motoru")}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-4 bg-brand/10 rounded-lg border border-brand/30">
-                <p className="text-sm font-medium text-brand">🎯 {t("admin_user_passport_next_best_action", "Next Best Action")}</p>
-                <p className="text-xs text-brand mt-2">{t("admin_user_passport_next_best_action_desc", "Send personalized listing alert for 2-3BR apartments in South London under £850K")}</p>
+                <p className="text-sm font-medium text-brand">🎯 {t("admin_user_passport_next_best_action", "Sonraki En İyi Aksiyon")}</p>
+                <p className="text-xs text-brand mt-2">{t("admin_user_passport_next_best_action_desc", "£850K altı Güney Londra'da 2-3 yatak odalı daireler için kişiselleştirilmiş ilan bildirimi gönderin")}</p>
               </div>
               <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-sm font-medium text-blue-800">📊 {t("admin_user_passport_predicted_outcome", "Predicted Outcome")}</p>
-                <p className="text-xs text-blue-700 mt-2">{t("admin_user_passport_predicted_outcome_desc", "78% probability of scheduling a viewing within 5 days. 34% of converting to offer within 30 days.")}</p>
+                <p className="text-sm font-medium text-blue-800">📊 {t("admin_user_passport_predicted_outcome", "Tahmini Sonuç")}</p>
+                <p className="text-xs text-blue-700 mt-2">{t("admin_user_passport_predicted_outcome_desc", "5 gün içinde görüşme planlama olasılığı %78. 30 gün içinde teklife dönüşme olasılığı %34.")}</p>
               </div>
               <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
-                <p className="text-sm font-medium text-orange-800">💡 {t("admin_user_passport_engagement_tip", "Engagement Tip")}</p>
-                <p className="text-xs text-orange-700 mt-2">{t("admin_user_passport_engagement_tip_desc", "User responds best to WhatsApp messages (82% open rate). Optimal time: Tuesday 10am.")}</p>
+                <p className="text-sm font-medium text-orange-800">💡 {t("admin_user_passport_engagement_tip", "Etkileşim İpucu")}</p>
+                <p className="text-xs text-orange-700 mt-2">{t("admin_user_passport_engagement_tip_desc", "Kullanıcı en çok WhatsApp mesajlarına yanıt veriyor (%82 açılma oranı). Optimum zaman: Salı 10:00.")}</p>
               </div>
             </div>
           </div>

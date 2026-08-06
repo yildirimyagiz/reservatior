@@ -123,7 +123,7 @@ export default function CalendarIntegration() {
       } catch (error) {
         console.error('Error fetching calendar data:', error);
         toast({
-          title: t("client.src.error"),
+          title: t("common.error"),
           description: t("client.src.failed_to_load_calendar"),
           variant: "destructive"
         });
@@ -162,7 +162,7 @@ export default function CalendarIntegration() {
     } catch (error) {
       console.error('Error creating event:', error);
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_create_calendar"),
         variant: "destructive"
       });
@@ -182,7 +182,7 @@ export default function CalendarIntegration() {
     } catch (error) {
       console.error('Error creating integration:', error);
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_create_calendar"),
         variant: "destructive"
       });
@@ -304,7 +304,7 @@ export default function CalendarIntegration() {
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-brand">
                 {upcomingEvents}
               </div>
               <p className="text-xs text-muted-foreground">{t("client.src.future_events")}</p>
@@ -317,7 +317,7 @@ export default function CalendarIntegration() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">
+              <div className="text-2xl font-bold text-blue-600">
                 {allDayEvents}
               </div>
               <p className="text-xs text-muted-foreground">{t("client.src.full_day_events")}</p>
@@ -330,11 +330,11 @@ export default function CalendarIntegration() {
               <RefreshCw className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-600">
+              <div className="text-2xl font-bold text-brand">
                 {activeIntegrations}
               </div>
               <p className="text-xs text-muted-foreground">
-                {totalIntegrations}{t("client.src.total")}</p>
+                {totalIntegrations}{t("common.total")}</p>
             </CardContent>
           </Card>
         </div>
@@ -344,16 +344,16 @@ export default function CalendarIntegration() {
           <div className="flex items-center space-x-2">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder={t("client.src.search")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-[250px]" />
+              <Input placeholder={t("common.search")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-8 w-[250px]" />
             </div>
             {activeTab === "events" ? <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm">
-                    <Filter className="h-4 w-4 mr-2" />{t("client.src.status")}{filterStatus === "all" ? "All" : filterStatus}
+                    <Filter className="h-4 w-4 mr-2" />{t("common.status")}{filterStatus === "all" ? "All" : filterStatus}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setFilterStatus("all")}>{t("client.src.all_status")}</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setFilterStatus("all")}>{t("common.all_status")}</DropdownMenuItem>
                   {Object.values(CalendarEventStatus).map(status => <DropdownMenuItem key={status} onClick={() => setFilterStatus(status)}>
                       {status}
                     </DropdownMenuItem>)}
@@ -361,7 +361,7 @@ export default function CalendarIntegration() {
               </DropdownMenu> : <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm">
-                    <Filter className="h-4 w-4 mr-2" />{t("client.src.platform")}{filterPlatform === "all" ? "All" : filterPlatform}
+                    <Filter className="h-4 w-4 mr-2" />{t("common.platform")}{filterPlatform === "all" ? "All" : filterPlatform}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -384,7 +384,7 @@ export default function CalendarIntegration() {
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="title" className="text-right">{t("client.src.title")}</Label>
+                    <Label htmlFor="title" className="text-right">{t("common.title")}</Label>
                     <Input id="title" placeholder={t("client.src.enter_event_title")} className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
@@ -396,16 +396,16 @@ export default function CalendarIntegration() {
                     <Input id="endDate" type="datetime-local" className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="location" className="text-right">{t("client.src.location")}</Label>
+                    <Label htmlFor="location" className="text-right">{t("common.location")}</Label>
                     <Input id="location" placeholder={t("client.src.enter_location")} className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="description" className="text-right">{t("client.src.description")}</Label>
+                    <Label htmlFor="description" className="text-right">{t("common.description")}</Label>
                     <Textarea id="description" placeholder={t("client.src.event_description")} className="col-span-3" rows={3} />
                   </div>
                 </div>
                 <div className="flex justify-end space-x-2">
-                  <Button variant="outline" onClick={() => setIsEventDialogOpen(false)}>{t("client.src.cancel")}</Button>
+                  <Button variant="outline" onClick={() => setIsEventDialogOpen(false)}>{t("common.cancel")}</Button>
                   <Button onClick={() => handleCreateEvent({})}>{t("client.src.create_event")}</Button>
                 </div>
               </DialogContent>
@@ -421,7 +421,7 @@ export default function CalendarIntegration() {
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="platform" className="text-right">{t("client.src.platform")}</Label>
+                    <Label htmlFor="platform" className="text-right">{t("common.platform")}</Label>
                     <Select>
                       <SelectTrigger className="col-span-3">
                         <SelectValue placeholder={t("client.src.select_platform")} />
@@ -434,7 +434,7 @@ export default function CalendarIntegration() {
                     </Select>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">{t("client.src.name")}</Label>
+                    <Label htmlFor="name" className="text-right">{t("common.name")}</Label>
                     <Input id="name" placeholder={t("client.src.integration_name")} className="col-span-3" />
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
@@ -452,7 +452,7 @@ export default function CalendarIntegration() {
                   </div>
                 </div>
                 <div className="flex justify-end space-x-2">
-                  <Button variant="outline" onClick={() => setIsIntegrationDialogOpen(false)}>{t("client.src.cancel")}</Button>
+                  <Button variant="outline" onClick={() => setIsIntegrationDialogOpen(false)}>{t("common.cancel")}</Button>
                   <Button onClick={() => handleCreateIntegration({})}>{t("client.src.connect")}</Button>
                 </div>
               </DialogContent>
@@ -467,14 +467,14 @@ export default function CalendarIntegration() {
             </CardHeader>
             <CardContent>
               {loading ? <div className="flex items-center justify-center py-8">
-                  <div className="text-sm text-muted-foreground">{t("client.src.loading")}</div>
+                  <div className="text-sm text-muted-foreground">{t("common.loading")}</div>
                 </div> : <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("client.src.title")}</TableHead>
+                      <TableHead>{t("common.title")}</TableHead>
                       <TableHead>{t("client.src.date_time")}</TableHead>
-                      <TableHead>{t("client.src.location")}</TableHead>
-                      <TableHead>{t("client.src.status")}</TableHead>
+                      <TableHead>{t("common.location")}</TableHead>
+                      <TableHead>{t("common.status")}</TableHead>
                       <TableHead>{t("client.src.visibility")}</TableHead>
                       <TableHead>{t("client.src.source")}</TableHead>
                       <TableHead className="w-[50px]"></TableHead>
@@ -529,7 +529,7 @@ export default function CalendarIntegration() {
                         <TableCell>
                           <div className="flex items-center space-x-2">
                             <span className="text-sm">{event.metadata?.source || "Local"}</span>
-                            {event.metadata?.externalUrl && <Button variant="ghost" size="sm">
+                            {event.metadata?.externalUrl && <Button variant="ghost" size="sm" aria-label={t("common.open")}>
                                 <ExternalLink className="h-4 w-4" />
                               </Button>}
                           </div>
@@ -537,13 +537,13 @@ export default function CalendarIntegration() {
                         <TableCell>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm">
+                              <Button variant="ghost" size="sm" aria-label={t("common.more")}>
                                 <MoreHorizontal className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                               <DropdownMenuItem>
-                                <Eye className="h-4 w-4 mr-2" />{t("client.src.view_details")}</DropdownMenuItem>
+                                <Eye className="h-4 w-4 mr-2" />{t("common.view_details")}</DropdownMenuItem>
                               <DropdownMenuItem>
                                 <Edit className="h-4 w-4 mr-2" />{t("client.src.edit_event")}</DropdownMenuItem>
                               <DropdownMenuItem>
@@ -551,7 +551,7 @@ export default function CalendarIntegration() {
                               <DropdownMenuItem>
                                 <Video className="h-4 w-4 mr-2" />{t("client.src.start_meeting")}</DropdownMenuItem>
                               <DropdownMenuItem className="text-red-600" onClick={() => handleDeleteEvent(event.id)}>
-                                <Trash2 className="h-4 w-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                                <Trash2 className="h-4 w-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
@@ -568,15 +568,15 @@ export default function CalendarIntegration() {
             </CardHeader>
             <CardContent>
               {loading ? <div className="flex items-center justify-center py-8">
-                  <div className="text-sm text-muted-foreground">{t("client.src.loading")}</div>
+                  <div className="text-sm text-muted-foreground">{t("common.loading")}</div>
                 </div> : <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>{t("client.src.name")}</TableHead>
-                      <TableHead>{t("client.src.platform")}</TableHead>
+                      <TableHead>{t("common.name")}</TableHead>
+                      <TableHead>{t("common.platform")}</TableHead>
                       <TableHead>{t("client.src.direction")}</TableHead>
-                      <TableHead>{t("client.src.status")}</TableHead>
-                      <TableHead>{t("client.src.last_sync")}</TableHead>
+                      <TableHead>{t("common.status")}</TableHead>
+                      <TableHead>{t("common.last_sync")}</TableHead>
                       <TableHead>{t("client.src.sync_status")}</TableHead>
                       <TableHead className="w-[50px]"></TableHead>
                     </TableRow>
@@ -612,7 +612,7 @@ export default function CalendarIntegration() {
                         <TableCell>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm">
+                              <Button variant="ghost" size="sm" aria-label={t("common.more")}>
                                 <MoreHorizontal className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>
@@ -620,7 +620,7 @@ export default function CalendarIntegration() {
                               <DropdownMenuItem onClick={() => handleSyncIntegration(integration.id)}>
                                 <RefreshCw className="h-4 w-4 mr-2" />{t("client.src.sync_now")}</DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Eye className="h-4 w-4 mr-2" />{t("client.src.view_details")}</DropdownMenuItem>
+                                <Eye className="h-4 w-4 mr-2" />{t("common.view_details")}</DropdownMenuItem>
                               <DropdownMenuItem>
                                 <Edit className="h-4 w-4 mr-2" />{t("client.src.configure")}</DropdownMenuItem>
                               <DropdownMenuItem>

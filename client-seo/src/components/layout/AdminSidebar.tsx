@@ -226,7 +226,7 @@ export default function AdminSidebar({ sidebarOpen, onToggle }: AdminSidebarProp
                     "w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                     anyChildActive
                       ? "text-primary bg-primary/10 border border-primary/20"
-                      : "text-slate-400 hover:text-white hover:bg-white/5"
+                      : "text-muted-foreground hover:text-white hover:bg-white/5"
                   )}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
@@ -246,7 +246,7 @@ export default function AdminSidebar({ sidebarOpen, onToggle }: AdminSidebarProp
                             "w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors",
                             isActive(child.href)
                               ? "text-primary font-medium bg-primary/10 border border-primary/20"
-                              : "text-slate-400 hover:text-white hover:bg-white/5"
+                              : "text-muted-foreground hover:text-white hover:bg-white/5"
                           )}
                         >
                           <child.icon className="w-3.5 h-3.5 shrink-0" />
@@ -268,7 +268,7 @@ export default function AdminSidebar({ sidebarOpen, onToggle }: AdminSidebarProp
                   "w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                   isActive(item.href)
                     ? "text-primary bg-primary/20 border border-primary/20"
-                    : "text-slate-400 hover:text-white hover:bg-white/5"
+                    : "text-muted-foreground hover:text-white hover:bg-white/5"
                 )}
               >
                 <Icon className="w-4 h-4 shrink-0" />
@@ -290,7 +290,7 @@ export default function AdminSidebar({ sidebarOpen, onToggle }: AdminSidebarProp
           {sidebarOpen && (
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium truncate text-white">{userName}</p>
-              <p className="text-xs text-slate-400 truncate">{userEmail}</p>
+              <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
             </div>
           )}
         </div>

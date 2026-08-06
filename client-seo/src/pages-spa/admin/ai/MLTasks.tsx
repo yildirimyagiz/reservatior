@@ -72,9 +72,9 @@ export default function MLTasks() {
  case"BROCHURE_GEN":
  return <FileText className="w-4 h-4 text-muted-foreground" />;
  case"SEO_DESCRIPTION":
- return <Search className="w-4 h-4 text-green-400" />;
+ return <Search className="w-4 h-4 text-blue-400" />;
  case"DOCUMENT_EXTRACT":
- return <Database className="w-4 h-4 text-orange-400" />;
+ return <Database className="w-4 h-4 text-warning" />;
  default:
  return <RefreshCcw className="w-4 h-4 text-muted-foreground" />;
  }
@@ -82,9 +82,9 @@ export default function MLTasks() {
  const getStatusBadge = (status: string) => {
  switch (status) {
  case"COMPLETED":
- return <Badge className="bg-green-500/20 text-green-500 border-green-500/50">{t("admin_ai_completed")}</Badge>;
+ return <Badge className="bg-blue-500/20 text-blue-500 border-blue-500/50">{t("admin_ai_completed")}</Badge>;
  case"PROCESSING":
- return <Badge className="bg-muted0/20 text-slate-500 border-slate-500/50 animate-pulse">{t("admin_ai_processing")}</Badge>;
+ return <Badge className="bg-muted0/20 text-muted-foreground border-slate-500/50 animate-pulse">{t("admin_ai_processing")}</Badge>;
  case"FAILED":
  return <Badge className="bg-red-500/20 text-red-500 border-red-500/50">{t("admin_ai_failed")}</Badge>;
  default:
@@ -106,7 +106,7 @@ export default function MLTasks() {
  <Card className="bg-card border-border">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
  <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_ai_completed_24h")}</CardTitle>
- <CheckCircle2 className="h-4 w-4 text-green-400" />
+ <CheckCircle2 className="h-4 w-4 text-blue-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">{tasks.filter((t: AiServiceTask) => t.status ==="COMPLETED").length}</div>
@@ -129,34 +129,34 @@ export default function MLTasks() {
  <div className="flex gap-2">
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button size="sm">{t("admin_auto_dispatch_task", "Dispatch Task")}</Button>
+ <Button size="sm">{t("admin_auto_dispatch_task", "Gönderim Görevi")}</Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_dispatch_ai_task", "Dispatch AI Task")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_create_a_new_async_task_in_the_backgroun", "Create a new async task in the background.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_dispatch_ai_task", "Yapay Zeka Görevini Gönder")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_create_a_new_async_task_in_the_backgroun", "Arka planda yeni bir eşzamansız görev oluşturun.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_org_id", "Org ID")}</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_org_id", "Kuruluş Kimliği")}</Label>
  <Input className="col-span-3 h-10 bg-card border-border text-foreground" value={newTask.orgId} onChange={e => setNewTask({...newTask, orgId: e.target.value})} placeholder={t("admin_auto_org_1", "org_1")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_task_type", "Task Type")}</Label>
+ <Label className="text-right text-xs text-muted-foreground">{t("admin_auto_task_type", "Görev Türü")}</Label>
  <Select value={newTask.taskType} onValueChange={v => setNewTask({...newTask, taskType: v})}>
- <SelectTrigger className="col-span-3 h-10 bg-card border-border text-foreground"><SelectValue placeholder={t("admin_auto_type", "Type")} /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10 bg-card border-border text-foreground"><SelectValue placeholder={t("admin_auto_type", "Tip")} /></SelectTrigger>
  <SelectContent className="bg-card border-border text-foreground">
- <SelectItem value="REELS_VIDEO_GEN">{t("admin_auto_reels_gen", "Reels Gen")}</SelectItem>
- <SelectItem value="PDF_BROCHURE_GEN">{t("admin_auto_brochure_gen", "Brochure Gen")}</SelectItem>
- <SelectItem value="DOCUMENT_OCR">{t("admin_auto_document_ocr", "Document OCR")}</SelectItem>
- <SelectItem value="PROPERTY_VALUATION">{t("client.property.valuations.dialog.title", "Property Valuation")}</SelectItem>
- <SelectItem value="MLS_SYNC">{t("admin_auto_mls_sync", "MLS Sync")}</SelectItem>
+ <SelectItem value="REELS_VIDEO_GEN">{t("admin_auto_reels_gen", "Makaralar Geni")}</SelectItem>
+ <SelectItem value="PDF_BROCHURE_GEN">{t("admin_auto_brochure_gen", "Broşür Oluşturma")}</SelectItem>
+ <SelectItem value="DOCUMENT_OCR">{t("admin_auto_document_ocr", "Belge OCR'si")}</SelectItem>
+ <SelectItem value="PROPERTY_VALUATION">{t("client.property.valuations.dialog.title", "Mülk Değerlemesi")}</SelectItem>
+ <SelectItem value="MLS_SYNC">{t("admin_auto_mls_sync", "MLS Senkronizasyonu")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" className="border-border text-muted-foreground" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(newTask)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Dispatching..." :"Dispatch"}
  </Button>
@@ -201,12 +201,12 @@ export default function MLTasks() {
  {new Date(task.createdAt).toLocaleString()}
  </TableCell>
  <TableCell className="text-right">
- {task.status ==="COMPLETED" && task.outputData?.url && <Button variant="ghost" size="sm" asChild>
+ {task.status ==="COMPLETED" && task.outputData?.url && <Button variant="ghost" size="sm" asChild aria-label={t("common.open")}>
  <a href={task.outputData.url} target="_blank" rel="noreferrer">
  <ExternalLink className="w-4 h-4 text-muted-foreground" />
  </a>
  </Button>}
- {task.status ==="FAILED" && <Button variant="ghost" size="sm" onClick={() => alert(task.error)}>
+ {task.status ==="FAILED" && <Button variant="ghost" size="sm" onClick={() => console.error(task.error)} aria-label={t("common.alert")}>
  <AlertCircle className="w-4 h-4 text-red-400" />
  </Button>}
  </TableCell>

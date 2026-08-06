@@ -35,22 +35,22 @@ export default function AdminAgentOSDashboard() {
     new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(v);
 
   const kpis = [
-    { title: "Total Agents", value: 156, icon: Users, color: "text-emerald-500", trend: "+12 this month" },
-    { title: "Active Leads", value: 342, icon: Activity, color: "text-blue-400", trend: "+28 this week" },
-    { title: "Avg Conversion", value: "34.2%", icon: Target, color: "text-purple-400", trend: "vs 28% industry avg" },
-    { title: "Total Revenue", value: fmt(410450), icon: DollarSign, color: "text-orange-400", trend: "+14.7% vs last month" },
+    { title: t("agent_os.total_agents", "Toplam Acente"), value: 156, icon: Users, color: "text-success", trend: "+12 this month" },
+    { title: t("agent_os.active_leads", "Aktif Potansiyel Müşteriler"), value: 342, icon: Activity, color: "text-info", trend: "+28 this week" },
+    { title: t("agent_os.avg_conversion", "Ort. Dönüşüm"), value: "34.2%", icon: Target, color: "text-brand", trend: "vs 28% industry avg" },
+    { title: t("agent_os.total_revenue", "Toplam Gelir"), value: fmt(410450), icon: DollarSign, color: "text-warning", trend: "+14.7% vs last month" },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-100">Agent OS Management</h1>
-          <p className="text-slate-400 mt-1">Agent performance monitoring and commission management</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("agent_os.title", "Acente OS")}</h1>
+          <p className="text-muted-foreground mt-1">{t("agent_os.subtitle", "Davranışsal Veri Alımı · Komisyon Motoru · AI Karar Grafiği")}</p>
         </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700">
+        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
           <Users className="h-4 w-4 mr-2" />
-          Add Agent
+          {t("agent_os.add_agent", "Acente Ekle")}
         </Button>
       </div>
 
@@ -58,15 +58,15 @@ export default function AdminAgentOSDashboard() {
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
           <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.title}</CardTitle>
                 <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-slate-100">{kpi.value}</div>
-                <p className="text-xs text-slate-500 mt-1 flex items-center gap-1">
-                  <ArrowUpRight className="h-3 w-3 text-emerald-400" />{kpi.trend}
+                <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
+                <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                  <ArrowUpRight className="h-3 w-3 text-success" />{kpi.trend}
                 </p>
               </CardContent>
             </Card>
@@ -75,23 +75,23 @@ export default function AdminAgentOSDashboard() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="bg-slate-900/60 border-slate-800">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="agents">Agents</TabsTrigger>
-          <TabsTrigger value="commissions">Commissions</TabsTrigger>
-          <TabsTrigger value="performance">Performance</TabsTrigger>
+        <TabsList className="bg-card border-border">
+          <TabsTrigger value="overview">{t("agent_os.tabs.overview", "Genel Bakış")}</TabsTrigger>
+          <TabsTrigger value="agents">{t("agent_os.tabs.agents", "Acenteler")}</TabsTrigger>
+          <TabsTrigger value="commissions">{t("agent_os.tabs.commissions", "Komisyonlar")}</TabsTrigger>
+          <TabsTrigger value="performance">{t("agent_os.tabs.performance", "Performans")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-slate-100 flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-emerald-400" />
-                  Revenue Stream (7d)
+                <CardTitle className="text-foreground flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-success" />
+                  {t("agent_os.revenue_stream", "Gelir Akışı (7g)")}
                 </CardTitle>
-                <CardDescription className="text-slate-400">
-                  Daily revenue contribution from agent deals
+                <CardDescription className="text-muted-foreground">
+                  {t("agent_os.revenue_stream_desc", "Acente anlaşmalarından günlük gelir katkısı")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -108,7 +108,7 @@ export default function AdminAgentOSDashboard() {
                           name === "revenue" ? "Revenue" : "Commissions",
                         ]}
                       />
-                      <Bar dataKey="revenue" fill="#10b981" radius={[4, 4, 0, 0]} opacity={0.85} />
+                      <Bar dataKey="revenue" fill="#3b82f6" radius={[4, 4, 0, 0]} opacity={0.85} />
                       <Bar dataKey="commissions" fill="#6366f1" radius={[4, 4, 0, 0]} opacity={0.6} />
                     </BarChart>
                   </ResponsiveContainer>
@@ -116,26 +116,26 @@ export default function AdminAgentOSDashboard() {
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-slate-100">Agent Status Overview</CardTitle>
-                <CardDescription className="text-slate-400">
-                  Current agent performance and status
+                <CardTitle className="text-foreground">{t("agent_os.status_overview", "Acente Durum Genel Bakış")}</CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  {t("agent_os.status_overview_desc", "Güncel acente performansı ve durumu")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {ACTIVE_AGENTS.map((agent) => (
-                    <div key={agent.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 border border-slate-700">
+                    <div key={agent.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border">
                       <div className="flex items-center gap-3">
-                        <div className={`w-2 h-2 rounded-full ${agent.status === 'active' ? 'bg-emerald-400' : 'bg-yellow-400'}`} />
+                        <div className={`w-2 h-2 rounded-full ${agent.status === 'active' ? 'bg-blue-400' : 'bg-yellow-400'}`} />
                         <div>
-                          <p className="text-sm font-medium text-slate-200">{agent.name}</p>
-                          <p className="text-xs text-slate-500">{agent.leads} leads</p>
+                          <p className="text-sm font-medium text-foreground">{agent.name}</p>
+                          <p className="text-xs text-muted-foreground">{agent.leads} {t("agent_os.leads", "potansiyel müşteri")}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-bold text-slate-100">{fmt(agent.revenue)}</p>
+                        <p className="text-sm font-bold text-foreground">{fmt(agent.revenue)}</p>
                         <Badge variant={agent.status === 'active' ? 'default' : 'secondary'} className="text-xs">
                           {agent.status}
                         </Badge>
@@ -149,51 +149,51 @@ export default function AdminAgentOSDashboard() {
         </TabsContent>
 
         <TabsContent value="agents">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Agent Management</CardTitle>
-              <CardDescription className="text-slate-400">
-                Manage agent accounts, permissions, and performance
+              <CardTitle className="text-foreground">{t("agent_os.agent_management", "Acente Yönetimi")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("agent_os.agent_management_desc", "Acente hesaplarını, izinleri ve performansı yönetin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Agent management interface</p>
+                <p>{t("agent_os.agent_management_placeholder", "Acente yönetim arayüzü")}</p>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="commissions">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Commission Management</CardTitle>
-              <CardDescription className="text-slate-400">
-                Track and manage agent commissions and payouts
+              <CardTitle className="text-foreground">{t("agent_os.commissions", "Commissions")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("agent_os.commissions_desc", "Acente komisyonlarını ve ödemelerini takip edin ve yönetin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <DollarSign className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Commission management interface</p>
+                <p>{t("agent_os.commissions_placeholder", "Komisyon yönetim arayüzü")}</p>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="performance">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Performance Analytics</CardTitle>
-              <CardDescription className="text-slate-400">
-                Detailed performance metrics and analytics
+              <CardTitle className="text-foreground">{t("agent_os.performance", "Performans Analitiği")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("agent_os.performance_desc", "Detaylı performans metrikleri ve analizler")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <Activity className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Performance analytics interface</p>
+                <p>{t("agent_os.performance_placeholder", "Performans analitiği arayüzü")}</p>
               </div>
             </CardContent>
           </Card>

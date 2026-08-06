@@ -15,7 +15,7 @@ export class ChatRelay {
     let session = await db.aIChatbotSession.findFirst({
       where: {
         contactId: buyerId,
-        listingId: listingId,
+        conversationHistory: { path: ['propertyId'], equals: listingId },
         status: 'ACTIVE'
       }
     });
@@ -25,7 +25,7 @@ export class ChatRelay {
         data: {
           sessionId: uuidv4(),
           contactId: buyerId,
-          listingId: listingId,
+          conversationHistory: { propertyId: listingId, messages: [] },
           status: 'ACTIVE',
           startedAt: new Date(),
           lastActivityAt: new Date(),

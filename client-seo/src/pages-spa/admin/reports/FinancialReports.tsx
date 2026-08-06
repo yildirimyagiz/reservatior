@@ -9,9 +9,9 @@ import { cn } from"@/lib/utils";
 export default function FinancialReports() {
  const { t } = useTranslation();
  const stats = [
- { title: t("admin_reports_total_revenue_dna"), value:"$452,000", change:"+12.5%", trend:"up", icon: DollarSign, color:"text-emerald-400" },
+ { title: t("admin_reports_total_revenue_dna"), value:"$452,000", change:"+12.5%", trend:"up", icon: DollarSign, color:"text-success" },
  { title: t("admin_reports_entity_subsystems"), value:"2,450", change:"+4.3%", trend:"up", icon: Zap, color:"text-muted-foreground" },
- { title: t("admin_reports_payout_queue"), value:"$12,400", change:"-2.1%", trend:"down", icon: Activity, color:"text-orange-400" },
+ { title: t("admin_reports_payout_queue"), value:"$12,400", change:"-2.1%", trend:"down", icon: Activity, color:"text-warning" },
  { title: t("admin_reports_system_net_margin"), value:"$84,200", change:"+8.7%", trend:"up", icon: PieChart, color:"text-muted-foreground" }
  ];
  return <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-background">
@@ -30,11 +30,11 @@ export default function FinancialReports() {
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{stat.title}</p>
  <h3 className="text-xl font-bold text-foreground leading-none">{stat.value}</h3>
  <div className="mt-4 flex items-center gap-2">
- <Badge className={cn("text-[9px] font-bold px-2 py-0.5 border-none", stat.trend ==="up" ?"bg-emerald-500/10 text-emerald-400" :"bg-rose-500/10 text-rose-400")}>
+ <Badge className={cn("text-[9px] font-bold px-2 py-0.5 border-none", stat.trend ==="up" ?"bg-blue-500/10 text-success" :"bg-rose-500/10 text-rose-400")}>
  {stat.trend ==="up" ? <ArrowUpRight className="w-3 h-3 mr-1" /> : <ArrowDownRight className="w-3 h-3 mr-1" />}
  {stat.change}
  </Badge>
- <span className="text-[9px] font-bold text-slate-600">{t("admin_reports_vs_last_cycle")}</span>
+ <span className="text-[9px] font-bold text-muted-foreground">{t("admin_reports_vs_last_cycle")}</span>
  </div>
  </CardContent>
  </Card>)}
@@ -45,7 +45,7 @@ export default function FinancialReports() {
  <CardHeader className="p-8 border-b border-border flex flex-row items-center justify-between">
  <div>
  <CardTitle className="text-xs font-bold text-foreground flex items-center gap-2">
- <Activity className="w-4 h-4 text-slate-500" />{t("admin_reports_fiscal_handshake_velocity")}</CardTitle>
+ <Activity className="w-4 h-4 text-muted-foreground" />{t("admin_reports_fiscal_handshake_velocity")}</CardTitle>
  <CardDescription className="text-[10px] font-bold text-muted-foreground mt-1">{t("admin_reports_crosscluster_revenue_performance_metrics")}</CardDescription>
  </div>
  <Button variant="ghost" className="h-10 rounded-xl hover:bg-card text-muted-foreground font-bold text-[9px] gap-2">{t("admin_reports_synchronize_matrix")}<Download className="w-3.5 h-3.5" />
@@ -53,9 +53,9 @@ export default function FinancialReports() {
  </CardHeader>
  <CardContent className="p-12 h-[400px] flex items-center justify-center">
  <div className="text-center group-hover:scale-110 transition-all duration-700">
- <BarChart3 className="w-20 h-20 text-slate-800 mx-auto mb-6 opacity-20" />
- <p className="text-[10px] font-bold text-slate-600 tracking-[0.3em] animate-pulse">{t("admin_reports_neural_visualization_hub_offline")}</p>
- <p className="text-[9px] font-bold text-slate-700 mt-2">{t("admin_reports_connecting_to_data_node")}</p>
+ <BarChart3 className="w-20 h-20 text-muted-foreground mx-auto mb-6 opacity-20" />
+ <p className="text-[10px] font-bold text-muted-foreground tracking-[0.3em] animate-pulse">{t("admin_reports_neural_visualization_hub_offline")}</p>
+ <p className="text-[9px] font-bold text-muted-foreground mt-2">{t("admin_reports_connecting_to_data_node")}</p>
  </div>
  </CardContent>
  </Card>
@@ -63,12 +63,12 @@ export default function FinancialReports() {
  <Card className="lg:col-span-4 bg-card backdrop-blur-xl border-border rounded-4xl overflow-hidden shadow-2xl border-l border-t">
  <CardHeader className="p-8 border-b border-border">
  <CardTitle className="text-xs font-bold text-foreground flex items-center gap-2">
- <Globe className="w-4 h-4 text-slate-500" />{t("admin_reports_revenue_verticals")}</CardTitle>
+ <Globe className="w-4 h-4 text-muted-foreground" />{t("admin_reports_revenue_verticals")}</CardTitle>
  </CardHeader>
  <CardContent className="p-8 space-y-8">
  {[{ name: t("admin_reports_entity_agencies","Varlık Acenteleri"), value:"$280k", pct: 62, color:"bg-muted0 shadow-slate-500/40" },
  { name: t("admin_reports_premium_nodes","Premium Düğümler"), value:"$94k", pct: 21, color:"bg-muted0 shadow-slate-500/40" },
- { name: t("admin_reports_api_stream_access","API Akış Erişimi"), value:"$52k", pct: 12, color:"bg-emerald-500 shadow-emerald-500/40" },
+ { name: t("admin_reports_api_stream_access","API Akış Erişimi"), value:"$52k", pct: 12, color:"bg-blue-500 shadow-blue-500/40" },
  { name: t("admin_reports_protocol_fees","Protokol Ücretleri"), value:"$26k", pct: 5, color:"bg-orange-500 shadow-orange-500/40" }
  ].map((item, i) => <div key={i} className="space-y-3">
  <div className="flex justify-between items-end">
@@ -80,10 +80,10 @@ export default function FinancialReports() {
  </div>
  </div>)}
  <div className="pt-8 border-t border-border mt-auto">
- <div className="p-6 bg-card rounded-3xl border border-border group hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-pointer relative">
+ <div className="p-6 bg-card rounded-3xl border border-border group hover:bg-muted dark:hover:bg-card/10 transition-all cursor-pointer relative">
  <p className="text-[9px] font-bold text-muted-foreground mb-1">{t("admin_reports_projection_buffer")}</p>
  <p className="text-xl font-bold text-foreground whitespace-pre leading-none">{t("admin_reports_positive_cycle_forecast")}</p>
- <ArrowUpRight className="w-6 h-6 text-emerald-500 absolute bottom-6 right-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+ <ArrowUpRight className="w-6 h-6 text-success absolute bottom-6 right-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
  </div>
  </div>
  </CardContent>
@@ -93,7 +93,7 @@ export default function FinancialReports() {
  <Card className="bg-card border-border rounded-4xl overflow-hidden shadow-2xl border-l border-t relative">
  <CardHeader className="p-8 border-b border-border flex flex-row items-center justify-between">
  <CardTitle className="text-xs font-bold text-foreground flex items-center gap-2">
- <FileText className="w-4 h-4 text-emerald-500" />{t("admin_reports_fiscal_audit_trail")}</CardTitle>
+ <FileText className="w-4 h-4 text-success" />{t("admin_reports_fiscal_audit_trail")}</CardTitle>
  <Button variant="ghost" className="h-10 px-4 rounded-xl hover:bg-card text-muted-foreground font-bold text-[9px] gap-2">{t("admin_reports_view_global_ledger")}<ChevronRight className="w-4 h-4" />
  </Button>
  </CardHeader>
@@ -115,7 +115,7 @@ export default function FinancialReports() {
  <td className="py-8 px-8 font-mono text-[10px] font-bold text-muted-foreground">{t("admin_reports_trx9482")}{i}{t("admin_reports_xls")}</td>
  <td className="py-8 px-8">
  <p className="text-sm font-bold text-foreground leading-none">{t("admin_reports_neural_realty_systems")}{i + 1}</p>
- <p className="text-[9px] font-bold text-slate-600 mt-1">{t("admin_reports_orgclusterdelta")}</p>
+ <p className="text-[9px] font-bold text-muted-foreground mt-1">{t("admin_reports_orgclusterdelta")}</p>
  </td>
  <td className="py-8 px-8 text-[10px] font-bold text-muted-foreground">{t("admin_reports_mar")}{24 - i}, 2026</td>
  <td className="py-8 px-8">
@@ -123,7 +123,7 @@ export default function FinancialReports() {
  </td>
  <td className="py-8 px-8 text-right font-bold text-foreground">$1,250.00</td>
  <td className="py-8 px-8 text-right">
- <Badge className="bg-emerald-500/10 text-emerald-400 border-none font-bold text-[9px] px-2">{t("admin_reports_handshakecomplete")}</Badge>
+ <Badge className="bg-blue-500/10 text-success border-none font-bold text-[9px] px-2">{t("admin_reports_handshakecomplete")}</Badge>
  </td>
  </tr>)}
  </tbody>

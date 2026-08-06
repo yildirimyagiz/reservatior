@@ -68,7 +68,7 @@ export default function InRoomShowroom() {
     : ROOM_ITEMS.filter(item => item.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-slate-100 p-6 md:p-12 font-sans">
+    <div className="min-h-screen bg-muted dark:bg-[#050505] text-foreground dark:text-foreground p-6 md:p-12 font-sans">
       
       {/* Header Section */}
       <m.div 
@@ -77,12 +77,12 @@ export default function InRoomShowroom() {
         className="mb-12"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+          <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-brand dark:text-brand">
             <PackageOpen className="w-6 h-6" />
           </div>
           <h1 className="text-4xl md:text-5xl font-black tracking-tight">In-Room Showroom</h1>
         </div>
-        <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
+        <p className="text-lg text-muted-foreground dark:text-muted-foreground max-w-2xl leading-relaxed">
           Love what you see? Every piece of furniture and appliance in your suite is carefully curated. Purchase them directly via Amazon and have them delivered to your home.
         </p>
       </m.div>
@@ -96,7 +96,7 @@ export default function InRoomShowroom() {
             className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
               activeCategory === category 
                 ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25' 
-                : 'bg-white dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
+                : 'bg-card dark:bg-muted/50 text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted border border-border dark:border-border'
             }`}
           >
             {category}
@@ -114,10 +114,10 @@ export default function InRoomShowroom() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               key={item.id}
-              className="group bg-white dark:bg-slate-900/50 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800/60 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 flex flex-col"
+              className="group bg-card dark:bg-card/50 rounded-3xl overflow-hidden border border-border dark:border-border/60 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 flex flex-col"
             >
               {/* Image Container */}
-              <div className="relative h-64 overflow-hidden bg-slate-100 dark:bg-slate-800">
+              <div className="relative h-64 overflow-hidden bg-muted dark:bg-muted">
                 <Image 
                   src={item.image} 
                   alt={item.name} 
@@ -128,7 +128,7 @@ export default function InRoomShowroom() {
                 />
                 <div className="absolute top-4 left-4 flex gap-2">
                   <span className="px-3 py-1 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-md text-xs font-bold flex items-center gap-1 shadow-sm">
-                    <Tag className="w-3 h-3 text-blue-500" />
+                    <Tag className="w-3 h-3 text-brand" />
                     {item.category}
                   </span>
                 </div>
@@ -141,20 +141,20 @@ export default function InRoomShowroom() {
               {/* Content */}
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-xl font-bold leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h3 className="text-xl font-bold leading-tight group-hover:text-brand dark:group-hover:text-brand transition-colors">
                     {item.name}
                   </h3>
-                  <span className="text-xl font-black text-slate-900 dark:text-white">{item.price}</span>
+                  <span className="text-xl font-black text-foreground dark:text-white">{item.price}</span>
                 </div>
                 
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 flex-1 line-clamp-2">
+                <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-6 flex-1 line-clamp-2">
                   {item.description}
                 </p>
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-6">
                   {item.tags.map(tag => (
-                    <span key={tag} className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800/50 text-xs font-medium text-slate-600 dark:text-slate-300">
+                    <span key={tag} className="px-2.5 py-1 rounded-md bg-muted dark:bg-muted/50 text-xs font-medium text-muted-foreground dark:text-muted-foreground">
                       {tag}
                     </span>
                   ))}
@@ -166,7 +166,7 @@ export default function InRoomShowroom() {
                     href={item.amazonLink}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 py-3 rounded-xl font-bold transition-all hover:scale-[1.02] active:scale-95"
+                    className="flex-1 flex items-center justify-center gap-2 bg-card dark:bg-card text-white dark:text-foreground hover:bg-muted dark:hover:bg-muted py-3 rounded-xl font-bold transition-all hover:scale-[1.02] active:scale-95"
                   >
                     <ShoppingCart className="w-4 h-4" />
                     Buy on Amazon
@@ -174,7 +174,7 @@ export default function InRoomShowroom() {
                   <button 
                     onClick={() => setSelectedItem(selectedItem === item.id ? null : item.id)}
                     aria-label="More info"
-                    className="w-12 h-12 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-900/30 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    className="w-12 h-12 flex items-center justify-center rounded-xl bg-muted dark:bg-muted hover:bg-brand/10 dark:hover:bg-blue-900/30 text-muted-foreground dark:text-muted-foreground hover:text-brand dark:hover:text-brand transition-colors"
                   >
                     <Info className="w-5 h-5" />
                   </button>
@@ -189,7 +189,7 @@ export default function InRoomShowroom() {
                       exit={{ opacity: 0, height: 0, marginTop: 0 }}
                       className="overflow-hidden"
                     >
-                      <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30">
+                      <div className="p-4 rounded-xl bg-brand/10 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30">
                         <h4 className="text-sm font-bold text-blue-900 dark:text-blue-300 mb-2 flex items-center gap-1">
                           <CheckCircle2 className="w-4 h-4" /> Affiliate Notice
                         </h4>

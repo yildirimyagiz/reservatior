@@ -18,8 +18,10 @@ import {
   Plus
 } from "lucide-react";
 import { marketingOSApi } from "@/lib/api/marketing-os";
+import { useTranslation } from "react-i18next";
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [selectedTrigger, setSelectedTrigger] = useState<string>("all");
   const orgId = "current-org";
@@ -49,7 +51,7 @@ export default function Dashboard() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "ACTIVE": return "bg-green-500";
+      case "ACTIVE": return "bg-blue-500";
       case "PAUSED": return "bg-yellow-500";
       case "DISABLED": return "bg-red-500";
       case "ARCHIVED": return "bg-gray-500";
@@ -231,15 +233,15 @@ export default function Dashboard() {
                   </div>
                   <div className="flex gap-2">
                     {rule.status === "ACTIVE" ? (
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost" size="sm" aria-label={t("common.pause")}>
                         <Pause className="w-4 h-4" />
                       </Button>
                     ) : (
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost" size="sm" aria-label={t("common.play")}>
                         <Play className="w-4 h-4" />
                       </Button>
                     )}
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" aria-label={t("common.view")}>
                       <Eye className="w-4 h-4" />
                     </Button>
                   </div>

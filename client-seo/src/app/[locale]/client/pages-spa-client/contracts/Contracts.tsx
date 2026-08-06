@@ -33,7 +33,7 @@ interface Contract {
 }
 const STATUS = {
   DRAFT: {
-    label: t("client.src.draft"),
+    label: t("common.draft"),
     cls: "bg-gray-100 text-gray-600",
     icon: FileText
   },
@@ -43,12 +43,12 @@ const STATUS = {
     icon: PenTool
   },
   ACTIVE: {
-    label: t("client.src.active"),
-    cls: "bg-green-100 text-green-700",
+    label: t("common.active"),
+    cls: "bg-blue-100 text-blue-700",
     icon: CheckCircle2
   },
   COMPLETED: {
-    label: t("client.src.completed"),
+    label: t("common.completed"),
     cls: "bg-blue-100 text-blue-700",
     icon: CheckCircle2
   },
@@ -215,12 +215,12 @@ export default function Contracts() {
       t
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
-      <div className="space-y-1.5"><Label>{t("client.src.title")}</Label><Input value={form.title} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("common.title")}</Label><Input value={form.title} onChange={e => setForm({
           ...form,
           title: e.target.value
         })} required /></div>
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5"><Label>{t("client.src.type")}</Label>
+        <div className="space-y-1.5"><Label>{t("common.type")}</Label>
           <Select value={form.type} onValueChange={v => setForm({
             ...form,
             type: v as any
@@ -234,7 +234,7 @@ export default function Contracts() {
             </SelectContent>
           </Select>
         </div>
-        <div className="space-y-1.5"><Label>{t("client.src.status")}</Label>
+        <div className="space-y-1.5"><Label>{t("common.status")}</Label>
           <Select value={form.status} onValueChange={v => setForm({
             ...form,
             status: v as any
@@ -263,7 +263,7 @@ export default function Contracts() {
             ...form,
             value: e.target.value
           })} min="0" /></div>
-        <div className="space-y-1.5"><Label>{t("client.src.currency")}</Label>
+        <div className="space-y-1.5"><Label>{t("common.currency")}</Label>
           <Select value={form.currency} onValueChange={v => setForm({
             ...form,
             currency: v
@@ -273,7 +273,7 @@ export default function Contracts() {
           </Select>
         </div>
       </div>
-      <div className="space-y-1.5"><Label>{t("client.src.notes")}</Label><Textarea value={form.notes} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("common.notes")}</Label><Textarea value={form.notes} onChange={e => setForm({
           ...form,
           notes: e.target.value
         })} rows={3} /></div>
@@ -281,7 +281,7 @@ export default function Contracts() {
     </form>;
   };
   return <>
-      <PageShell title={t("client.src.contracts")} description={t("client.src.manage_sale_lease_and")} createLabel="New Contract" onCreateClick={() => {
+      <PageShell title={t("common.contracts")} description={t("client.src.manage_sale_lease_and")} createLabel="New Contract" onCreateClick={() => {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search contracts..." 
@@ -292,10 +292,10 @@ export default function Contracts() {
         </Button>
       }
       stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: contracts.length
     }, {
-      label: t("client.src.active"),
+      label: t("common.active"),
       value: contracts.filter(c => c.status === "ACTIVE").length
     }, {
       label: t("client.src.pending_signature"),
@@ -305,9 +305,9 @@ export default function Contracts() {
       value: `$${contracts.reduce((s, c) => s + (c.value || 0), 0).toLocaleString()}`
     }]} filters={<div className="flex gap-2">
             <Select value={filterType} onValueChange={setFilterType}>
-              <SelectTrigger className="w-36"><SelectValue placeholder={t("client.src.type")} /></SelectTrigger>
+              <SelectTrigger className="w-36"><SelectValue placeholder={t("common.type")} /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("client.src.all_types")}</SelectItem>
+                <SelectItem value="all">{t("common.all_types")}</SelectItem>
                 <SelectItem value="SALE">{t("client.src.sale")}</SelectItem>
                 <SelectItem value="LEASE">{t("client.src.lease")}</SelectItem>
                 <SelectItem value="MANAGEMENT">{t("client.src.management")}</SelectItem>
@@ -315,8 +315,8 @@ export default function Contracts() {
               </SelectContent>
             </Select>
             <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-44"><SelectValue placeholder={t("client.src.status")} /></SelectTrigger>
-              <SelectContent><SelectItem value="all">{t("client.src.all")}</SelectItem>{Object.entries(STATUS).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}</SelectContent>
+              <SelectTrigger className="w-44"><SelectValue placeholder={t("common.status")} /></SelectTrigger>
+              <SelectContent><SelectItem value="all">{t("common.all")}</SelectItem>{Object.entries(STATUS).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}</SelectContent>
             </Select>
           </div>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden">
@@ -324,11 +324,11 @@ export default function Contracts() {
             <TableHeader>
               <TableRow>
                 <TableHead>{t("client.src.contract")}</TableHead>
-                <TableHead>{t("client.src.type")}</TableHead>
+                <TableHead>{t("common.type")}</TableHead>
                 <TableHead>{t("client.src.parties")}</TableHead>
                 <TableHead>{t("client.src.period")}</TableHead>
                 <TableHead>{t("client.src.value")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -345,7 +345,7 @@ export default function Contracts() {
               return <TableRow key={c.id} className="hover:bg-muted/40">
                     <TableCell>
                       <p className="text-sm font-medium">{c.title}</p>
-                      <p className="text-xs text-muted-foreground">{t("client.src.created")}{c.createdAt}</p>
+                      <p className="text-xs text-muted-foreground">{t("common.created")}{c.createdAt}</p>
                     </TableCell>
                     <TableCell><Badge className="bg-secondary border-0 text-xs">{c.type}</Badge></TableCell>
                     <TableCell className="text-xs text-muted-foreground">{c.parties.slice(0, 2).join(", ")}{c.parties.length > 2 ? ` +${c.parties.length - 2}` : ""}</TableCell>
@@ -354,16 +354,16 @@ export default function Contracts() {
                     <TableCell><Badge className={`${s.cls} border-0 text-xs`}><SIcon className="w-3 h-3 mr-1" />{s.label}</Badge></TableCell>
                     <TableCell>
                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => {
                         setSelected(c);
                         setViewOpen(true);
-                      }}><Eye className="w-4 h-4 mr-2" />{t("client.src.view")}</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => openEdit(c)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
+                      }}><Eye className="w-4 h-4 mr-2" />{t("common.view")}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => openEdit(c)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
                           {c.status === "DRAFT" && <DropdownMenuItem onClick={() => handleSendForSignature(c)}><PenTool className="w-4 h-4 mr-2" />{t("client.src.send_for_signature")}</DropdownMenuItem>}
                           <DropdownMenuItem onClick={() => handleDownload(c)}><Download className="w-4 h-4 mr-2" />{t("client.src.download_pdf")}</DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive" onClick={() => handleDelete(c)}><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive" onClick={() => handleDelete(c)}><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -379,19 +379,19 @@ export default function Contracts() {
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto"><DialogHeader><DialogTitle>{t("client.src.new_contract")}</DialogTitle></DialogHeader><ContractForm onSubmit={handleCreate} label={t("client.src.create_contract")} /></DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto"><DialogHeader><DialogTitle>{t("client.src.edit_contract")}</DialogTitle></DialogHeader><ContractForm onSubmit={handleEdit} label={t("client.src.save_changes")} /></DialogContent>
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto"><DialogHeader><DialogTitle>{t("client.src.edit_contract")}</DialogTitle></DialogHeader><ContractForm onSubmit={handleEdit} label={t("common.save")} /></DialogContent>
       </Dialog>
       <Dialog open={viewOpen} onOpenChange={setViewOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader><DialogTitle>{selected?.title}</DialogTitle></DialogHeader>
           {selected && <div className="space-y-3 py-2 text-sm">
               <div className="grid grid-cols-2 gap-3">
-                <div><p className="text-xs text-muted-foreground">{t("client.src.type")}</p><p>{selected.type}</p></div>
-                <div><p className="text-xs text-muted-foreground">{t("client.src.status")}</p><Badge className={`${STATUS[selected.status].cls} border-0 text-xs`}>{STATUS[selected.status].label}</Badge></div>
+                <div><p className="text-xs text-muted-foreground">{t("common.type")}</p><p>{selected.type}</p></div>
+                <div><p className="text-xs text-muted-foreground">{t("common.status")}</p><Badge className={`${STATUS[selected.status].cls} border-0 text-xs`}>{STATUS[selected.status].label}</Badge></div>
                 <div><p className="text-xs text-muted-foreground">{t("client.src.start")}</p><p>{selected.startDate}</p></div>
                 <div><p className="text-xs text-muted-foreground">{t("client.src.end")}</p><p>{selected.endDate || "Open-ended"}</p></div>
                 <div><p className="text-xs text-muted-foreground">{t("client.src.value")}</p><p className="font-semibold">{selected.value ? `$${selected.value.toLocaleString()}` : "—"}</p></div>
-                <div><p className="text-xs text-muted-foreground">{t("client.src.signed")}</p><p>{selected.signedAt || "Not yet"}</p></div>
+                <div><p className="text-xs text-muted-foreground">{t("common.signed")}</p><p>{selected.signedAt || "Not yet"}</p></div>
               </div>
               <div><p className="text-xs text-muted-foreground mb-1">{t("client.src.parties")}</p><div className="flex flex-wrap gap-1">{selected.parties.map((p, i) => <Badge key={i} className="bg-secondary border-0 text-xs">{p}</Badge>)}</div></div>
             </div>}
@@ -411,7 +411,7 @@ export default function Contracts() {
             <div className="space-y-1.5">
               <Label>AI Model</Label>
               <Select value={selectedModel} onValueChange={setSelectedModel}>
-                <SelectTrigger className="bg-black/20 border-orange-500/20">
+                <SelectTrigger className="bg-black/20 border-warning/20">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -437,12 +437,12 @@ export default function Contracts() {
                 value={aiPrompt}
                 onChange={(e) => setAiPrompt(e.target.value)}
                 placeholder="e.g. Create a residential lease for 12 months at $2000/month with zero-deposit enabled."
-                className="pr-12 h-32 resize-none bg-black/20 border-orange-500/20 focus-visible:ring-orange-500"
+                className="pr-12 h-32 resize-none bg-black/20 border-warning/20 focus-visible:ring-orange-500"
               />
               <Button
-                size="icon"
+                size="icon" aria-label={t("common.voice_input")}
                 variant="ghost"
-                className="absolute bottom-2 right-2 rounded-full hover:bg-orange-500/20 hover:text-orange-500 text-muted-foreground"
+                className="absolute bottom-2 right-2 rounded-full hover:bg-warning/20 hover:text-orange-500 text-muted-foreground"
                 onClick={() => toast({ title: "Listening...", description: "Speak now. (Mock integration)" })}
               >
                 <Mic className="w-5 h-5" />

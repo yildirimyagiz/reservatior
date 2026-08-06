@@ -53,7 +53,7 @@ export default function SEOGenerator() {
               {t("admin_seo_generator_title", "Otomatik SEO Üretici")}
             </h1>
             <p className="text-muted-foreground text-sm mt-1">
-              {t("admin_seo_generator_desc", "Yapılandırılmış veri (JSON-LD), yatırım skorları ve çok dilli SEO etiketleri üretici")}
+              {t("admin_seo_generator_desc", "Yapılandırılmış veri, yatırım skorları ve kira getirisi üretici")}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -73,7 +73,7 @@ export default function SEOGenerator() {
           {/* Generated Metadata */}
           <div className="bg-card border border-border p-5 rounded-2xl space-y-4">
             <h3 className="text-sm font-bold text-card-foreground border-b border-border pb-3 flex items-center gap-2">
-              <Globe2 className="w-4 h-4 text-success" /> {t("admin_seo_generator_generated_meta_tags", "Generated Meta Tags")}
+              <Globe2 className="w-4 h-4 text-success" /> {t("admin_seo_generator_generated_meta_tags", "Üretilen Meta Etiketleri")}
             </h3>
 
             <div className="space-y-3 text-xs">
@@ -85,16 +85,16 @@ export default function SEOGenerator() {
               </div>
 
               <div className="space-y-1">
-                <span className="text-[10px] text-muted-foreground uppercase font-mono">{t("admin_seo_meta_description_label", "Meta Description")}</span>
+                <span className="text-[10px] text-muted-foreground uppercase font-mono">{t("admin_seo_meta_description_label", "Meta Fonksiyonel Açıklama")}</span>
                 <div className="p-2.5 bg-muted/40 rounded-xl font-medium text-card-foreground border border-border leading-relaxed">
                   İstanbul Beyoğlu Cihangir'de %7.8 tahmini kira getirili, 7464 sayılı kanuna uyumlu lüks 2+1 daire. Kurumsal yönetim garantisi ile kiralayın.
                 </div>
               </div>
 
               <div className="flex items-center justify-between pt-2">
-                <span className="text-[11px] text-muted-foreground">{t("admin_seo_generator_investment_suitability_score", "Investment Suitability Score:")}</span>
+                <span className="text-[11px] text-muted-foreground">{t("admin_seo_generator_investment_suitability_score", "Yatırım Uygunluk Skoru:")}</span>
                 <Badge className="bg-blue-500/10 text-success border-blue-500/30">
-                  94 / 100 {t("admin_seo_generator_a_plus_rating", "A+ Rating")}
+                  94 / 100 {t("admin_seo_generator_a_plus_rating", "A+ Puanlama")}
                 </Badge>
               </div>
             </div>
@@ -104,7 +104,7 @@ export default function SEOGenerator() {
           <div className="bg-card border border-border p-5 rounded-2xl space-y-3 flex flex-col justify-between">
             <div className="flex items-center justify-between border-b border-border pb-3">
               <h3 className="text-sm font-bold text-card-foreground flex items-center gap-2">
-                <FileCode className="w-4 h-4 text-brand" /> {t("admin_seo_generator_jsonld_schema", "JSON-LD Structured Data Schema")}
+                <FileCode className="w-4 h-4 text-brand" /> {t("admin_seo_generator_jsonld_schema", "JSON-LD Yapılandırılmış Veri Şeması")}
               </h3>
               <Button size="sm" variant="ghost" onClick={handleCopy} className="h-8 text-xs text-brand hover:text-brand">
                 {copied ? <Check className="w-3.5 h-3.5 mr-1 text-success" /> : <Copy className="w-3.5 h-3.5 mr-1" />}

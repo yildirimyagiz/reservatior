@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
@@ -97,7 +97,7 @@ export default function FinancialReports() {
  const formatChange = (change: number) => {
  const isPositive = change >= 0;
  return (
- <span className={`flex items-center ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+ <span className={`flex items-center ${isPositive ? 'text-success' : 'text-red-400'}`}>
  {isPositive ? <ArrowUpRight className="h-3 w-3 mr-1" /> : <ArrowDownRight className="h-3 w-3 mr-1" />}
  {Math.abs(change)}%
  </span>
@@ -107,7 +107,7 @@ export default function FinancialReports() {
  if (loading) {
  return (
  <div className="min-h-screen flex items-center justify-center space-y-6">
- <div className="text-muted-foreground">{t("common.loading","Loading...")}</div>
+ <div className="text-muted-foreground">{t("common.loading", "Yükleniyor")}</div>
  </div>
  );
  }
@@ -116,15 +116,15 @@ export default function FinancialReports() {
  <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 p-6 space-y-6 min-h-screen">
  <div className="flex justify-between items-center bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4">
- <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
+ <div className="p-3 bg-muted rounded-xl shadow-lg shadow-slate-600/20">
  <DollarSign className="w-8 h-8 text-foreground" />
  </div>
  <div>
  <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
- {t("financialReportsTitle","Financial Reports")}
+ {t("financialReportsTitle", "Finansal Raporlar")}
  </h1>
  <p className="text-muted-foreground">
- {t("financialReportsSubtitle","Comprehensive financial analysis and reporting")}
+ {t("financialReportsSubtitle", "Gerçek Zamanlı Finansal Görünüm")}
  </p>
  </div>
  </div>
@@ -134,14 +134,14 @@ export default function FinancialReports() {
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">
- <SelectItem value="1m">{t("financialReportsPeriodsMonthly","1 Month")}</SelectItem>
- <SelectItem value="3m">{t("quarterly","3 Months")}</SelectItem>
- <SelectItem value="6m">{t("biannual","6 Months")}</SelectItem>
- <SelectItem value="12m">{t("annual","12 Months")}</SelectItem>
+ <SelectItem value="1m">{t("financialReportsPeriodsMonthly", "Aylık Dönem")}</SelectItem>
+ <SelectItem value="3m">{t("quarterly", "ÜÇ Aylık")}</SelectItem>
+ <SelectItem value="6m">{t("biannual", "Bi-yıllık Arc")}</SelectItem>
+ <SelectItem value="12m">{t("annual", "Yıllık Revolution")}</SelectItem>
  </SelectContent>
  </Select>
- <Button variant="outline" onClick={() => handleExportCSV('overview')} className="bg-card border-border text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10">
- <Download className="h-4 w-4 mr-2" /> {t("common.export","Export")}
+ <Button variant="outline" onClick={() => handleExportCSV('overview')} className="bg-card border-border text-muted-foreground hover:bg-muted dark:hover:bg-card/10">
+ <Download className="h-4 w-4 mr-2" /> {t("common.export", "Dışa aktar")}
  </Button>
  </div>
  </div>
@@ -151,14 +151,14 @@ export default function FinancialReports() {
  <CardContent className="p-6">
  <div className="flex items-center justify-between">
  <div>
- <p className="text-xs font-medium text-muted-foreground">{t("inbound","Revenue")}</p>
+ <p className="text-xs font-medium text-muted-foreground">{t("inbound", "Gelen / Giriş Akışı")}</p>
  <h3 className="text-2xl font-bold text-foreground mt-1">{formatCurrency(metrics?.totalRevenue || 0)}</h3>
  </div>
- <div className="p-3 bg-emerald-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-emerald-400" /></div>
+ <div className="p-3 bg-blue-500/20 rounded-lg"><DollarSign className="w-5 h-5 text-success" /></div>
  </div>
  <div className="mt-3 flex items-center gap-2">
  {formatChange(metrics?.revenueGrowth || 0)}
- <span className="text-xs text-slate-500">{t("admin_financial_vs_prev_period","vs prev period")}</span>
+ <span className="text-xs text-muted-foreground">{t("admin_financial_vs_prev_period", "önceki döneme karşı")}</span>
  </div>
  </CardContent>
  </Card>
@@ -166,14 +166,14 @@ export default function FinancialReports() {
  <CardContent className="p-6">
  <div className="flex items-center justify-between">
  <div>
- <p className="text-xs font-medium text-muted-foreground">{t("outflow","Expenses")}</p>
+ <p className="text-xs font-medium text-muted-foreground">{t("outflow", "Gider Akışı")}</p>
  <h3 className="text-2xl font-bold text-foreground mt-1">{formatCurrency(metrics?.totalExpenses || 0)}</h3>
  </div>
  <div className="p-3 bg-red-500/20 rounded-lg"><TrendingDown className="w-5 h-5 text-red-400" /></div>
  </div>
  <div className="mt-3 flex items-center gap-2">
  {formatChange(metrics?.expenseGrowth || 0)}
- <span className="text-xs text-slate-500">{t("admin_financial_burn_optimization","burn rate")}</span>
+ <span className="text-xs text-muted-foreground">{t("admin_financial_burn_optimization", "yanma oranı")}</span>
  </div>
  </CardContent>
  </Card>
@@ -181,14 +181,14 @@ export default function FinancialReports() {
  <CardContent className="p-6">
  <div className="flex items-center justify-between">
  <div>
- <p className="text-xs font-medium text-muted-foreground">{t("profit","Profit")}</p>
+ <p className="text-xs font-medium text-muted-foreground">{t("profit", "Kâr")}</p>
  <h3 className="text-2xl font-bold text-muted-foreground mt-1">{formatCurrency(metrics?.totalProfit || 0)}</h3>
  </div>
  <div className="p-3 bg-muted0/20 rounded-lg"><TrendingUp className="w-5 h-5 text-muted-foreground" /></div>
  </div>
  <div className="mt-3 flex items-center gap-2">
  {formatChange(metrics?.profitGrowth || 0)}
- <span className="text-xs text-slate-500">{t("admin_financial_efficiency_gain","efficiency gain")}</span>
+ <span className="text-xs text-muted-foreground">{t("admin_financial_efficiency_gain", "verimlilik kazancı")}</span>
  </div>
  </CardContent>
  </Card>
@@ -196,10 +196,10 @@ export default function FinancialReports() {
  <CardContent className="p-6">
  <div className="flex items-center justify-between">
  <div>
- <p className="text-xs font-medium text-muted-foreground">{t("financialReportsSync","Collection Rate")}</p>
+ <p className="text-xs font-medium text-muted-foreground">{t("financialReportsSync", "Senkronizasyon Oranı")}</p>
  <h3 className="text-2xl font-bold text-foreground mt-1">{formatPercent(metrics?.collectionRate || 0)}</h3>
  </div>
- <div className="p-3 bg-orange-500/20 rounded-lg"><Activity className="w-5 h-5 text-orange-400" /></div>
+ <div className="p-3 bg-orange-500/20 rounded-lg"><Activity className="w-5 h-5 text-warning" /></div>
  </div>
  </CardContent>
  </Card>
@@ -207,17 +207,17 @@ export default function FinancialReports() {
 
  <Tabs defaultValue="overview" className="space-y-6">
  <TabsList className="bg-card border border-border">
- <TabsTrigger value="overview" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
- {t("admin_financial_performance_core","Overview")}
+ <TabsTrigger value="overview" className="data-[state=active]:bg-muted data-[state=active]:text-white">
+ {t("admin_financial_performance_core", "Genel Bakış")}
  </TabsTrigger>
- <TabsTrigger value="revenue" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
- {t("admin_financial_yield_dynamics","Revenue")}
+ <TabsTrigger value="revenue" className="data-[state=active]:bg-muted data-[state=active]:text-white">
+ {t("admin_financial_yield_dynamics", "Hasılat")}
  </TabsTrigger>
- <TabsTrigger value="expenses" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
- {t("admin_financial_drain_analysis","Expenses")}
+ <TabsTrigger value="expenses" className="data-[state=active]:bg-muted data-[state=active]:text-white">
+ {t("admin_financial_drain_analysis", "Giderler")}
  </TabsTrigger>
- <TabsTrigger value="payments" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
- {t("admin_financial_gateway_logic","Payments")}
+ <TabsTrigger value="payments" className="data-[state=active]:bg-muted data-[state=active]:text-white">
+ {t("admin_financial_gateway_logic", "Ödemeler")}
  </TabsTrigger>
  </TabsList>
 
@@ -227,7 +227,7 @@ export default function FinancialReports() {
  <CardHeader>
  <div className="flex items-center justify-between">
  <CardTitle className="text-sm text-foreground flex items-center gap-2">
- <Activity className="w-4 h-4 text-muted-foreground" /> {t("flow","Cash Flow")}
+ <Activity className="w-4 h-4 text-muted-foreground" /> {t("flow", "Nakit Akışı")}
  </CardTitle>
  </div>
  </CardHeader>
@@ -257,7 +257,7 @@ export default function FinancialReports() {
  <Card className="bg-card border-border">
  <CardHeader>
  <CardTitle className="text-sm text-foreground flex items-center gap-2">
- <TrendingUp className="w-4 h-4 text-emerald-400" /> {t("integrity","Collections")}
+ <TrendingUp className="w-4 h-4 text-success" /> {t("integrity", "Senkronizasyon Bütünlüğü")}
  </CardTitle>
  </CardHeader>
  <CardContent>
@@ -268,7 +268,7 @@ export default function FinancialReports() {
  <YAxis hide />
  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff' }} />
  <Bar dataKey="revenue" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={20} />
- <Bar dataKey="collections" fill="#10b981" radius={[4, 4, 0, 0]} barSize={20} />
+ <Bar dataKey="collections" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={20} />
  </BarChart>
  </ResponsiveContainer>
  </CardContent>
@@ -279,18 +279,18 @@ export default function FinancialReports() {
  <TabsContent value="revenue" className="space-y-6">
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
  <div className="space-y-4">
- <p className="text-sm text-muted-foreground">{t("financialReportsChartsDistribution","Revenue Distribution")}</p>
+ <p className="text-sm text-muted-foreground">{t("financialReportsChartsDistribution", "Birim Gelir Dağılımı")}</p>
  {revenueSources.map((source: RevenueSource, index: number) => (
  <div key={String(source.name)} className="bg-card border border-border p-4 rounded-xl flex items-center justify-between">
  <div className="flex items-center gap-3">
  <div className="w-1.5 h-8 rounded-full" style={{ backgroundColor: PIE_COLORS[index % PIE_COLORS.length] }} />
  <div>
  <p className="font-medium text-foreground">{String(source.name)}</p>
- <p className="text-xs text-muted-foreground">{Number(source.pct)}{t("admin_auto_share", "% share")}</p>
+ <p className="text-xs text-muted-foreground">{Number(source.pct)}{t("admin_auto_share", "% paylaşmak")}</p>
  </div>
  </div>
  <div className="text-right">
- <p className="font-bold text-emerald-400">{formatCurrency(Number(source.value))}</p>
+ <p className="font-bold text-success">{formatCurrency(Number(source.value))}</p>
  <div className="mt-1">{formatChange(Number(source.change))}</div>
  </div>
  </div>
@@ -298,7 +298,7 @@ export default function FinancialReports() {
  </div>
  <Card className="bg-card border-border">
  <CardHeader>
- <CardTitle className="text-sm text-foreground">{t("polarization","Distribution")}</CardTitle>
+ <CardTitle className="text-sm text-foreground">{t("polarization", "Polarizasyon")}</CardTitle>
  </CardHeader>
  <CardContent>
  <ResponsiveContainer width="100%" height={300}>

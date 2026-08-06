@@ -59,7 +59,7 @@ export default function ProfileFavoritesPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("favorites.profilefavoritespage.auto_ext_3")}
@@ -73,7 +73,7 @@ export default function ProfileFavoritesPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardContent className="p-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -81,7 +81,7 @@ export default function ProfileFavoritesPage() {
                   placeholder="Search favorites..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                  className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                 />
               </div>
             </CardContent>
@@ -95,11 +95,11 @@ export default function ProfileFavoritesPage() {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredFavorites.map((property) => (
-              <Card key={property.id} className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+              <Card key={property.id} className="bg-white/5 backdrop-blur-xl border-brand/20">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <CardTitle className="text-white">{property.name}</CardTitle>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400">
+                    <Button variant="ghost" size="icon" aria-label={t("common.favorite")} className="h-8 w-8 text-red-400">
                       <Heart className="w-4 h-4 fill-current" />
                     </Button>
                   </div>
@@ -113,9 +113,9 @@ export default function ProfileFavoritesPage() {
                     <DollarSign className="w-4 h-4 inline" />
                     {property.price.toLocaleString()}
                   </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-purple-500/20">
+                  <div className="flex items-center justify-between pt-4 border-t border-brand/20">
                     <div className="text-sm text-gray-400">{property.bedrooms} {t("favorites.profilefavoritespage.auto_ext_4")} {property.bathrooms} {t("favorites.profilefavoritespage.auto_ext_5")}</div>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400">
+                    <Button variant="ghost" size="icon" aria-label={t("common.delete")} className="h-8 w-8 text-red-400">
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>

@@ -16,8 +16,10 @@ import {
   FileText
 } from "lucide-react";
 import { consentOSApi } from "@/lib/api/consent-os";
+import { useTranslation } from "react-i18next";
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const [selectedEntityType, setSelectedEntityType] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [selectedChannel, setSelectedChannel] = useState<string>("all");
@@ -49,7 +51,7 @@ export default function Dashboard() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "ACTIVE": return "bg-green-500";
+      case "ACTIVE": return "bg-blue-500";
       case "REVOKED": return "bg-red-500";
       case "EXPIRED": return "bg-gray-500";
       case "PENDING": return "bg-yellow-500";
@@ -286,7 +288,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" aria-label={t("common.view")}>
                       <Eye className="w-4 h-4" />
                     </Button>
                   </div>

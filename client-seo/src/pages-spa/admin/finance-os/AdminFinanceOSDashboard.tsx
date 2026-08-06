@@ -34,22 +34,22 @@ export default function AdminFinanceOSDashboard() {
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
 
   const kpis = [
-    { title: t("finance_os.admin.total_revenue", "Total Revenue"), value: formatCurrency(328000), icon: DollarSign, color: "text-emerald-500", trend: "+12.5% vs last quarter" },
-    { title: t("finance_os.admin.total_expenses", "Total Expenses"), value: formatCurrency(213000), icon: CreditCard, color: "text-red-400", trend: "+8.3% vs last quarter" },
-    { title: t("finance_os.admin.net_profit", "Net Profit"), value: formatCurrency(115000), icon: TrendingUp, color: "text-blue-400", trend: "+18.7% vs last quarter" },
-    { title: t("finance_os.admin.pending_commissions", "Pending Commissions"), value: formatCurrency(41000), icon: Wallet, color: "text-purple-400", trend: "4 pending payouts" },
+    { title: t("finance_os.admin.total_revenue", "Toplam Gelir"), value: formatCurrency(328000), icon: DollarSign, color: "text-success", trend: "+12.5% vs last quarter" },
+    { title: t("finance_os.admin.total_expenses", "Toplam Giderler"), value: formatCurrency(213000), icon: CreditCard, color: "text-red-400", trend: "+8.3% vs last quarter" },
+    { title: t("finance_os.admin.net_profit", "Net Kâr"), value: formatCurrency(115000), icon: TrendingUp, color: "text-info", trend: "+18.7% vs last quarter" },
+    { title: t("finance_os.admin.pending_commissions", "Bekleyen Komisyonlar"), value: formatCurrency(41000), icon: Wallet, color: "text-brand", trend: "4 pending payouts" },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-100">{t("finance_os.admin.title", "Finance OS Management")}</h1>
-          <p className="text-slate-400 mt-1">{t("finance_os.admin.description", "Financial operations, commissions, and revenue management")}</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("finance_os.admin.title", "Finance OS Yönetimi")}</h1>
+          <p className="text-muted-foreground mt-1">{t("finance_os.admin.description", "Finansal operasyonlar, komisyonlar ve gelir yönetimi")}</p>
         </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700">
+        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
           <DollarSign className="h-4 w-4 mr-2" />
-          {t("finance_os.admin.process_payouts", "Process Payouts")}
+          {t("finance_os.admin.process_payouts", "Ödemeleri İşle")}
         </Button>
       </div>
 
@@ -57,14 +57,14 @@ export default function AdminFinanceOSDashboard() {
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
           <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.title}</CardTitle>
                 <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-slate-100">{kpi.value}</div>
-                <p className="text-xs text-slate-500 mt-1">{kpi.trend}</p>
+                <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">{kpi.trend}</p>
               </CardContent>
             </Card>
           </m.div>
@@ -72,23 +72,23 @@ export default function AdminFinanceOSDashboard() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="bg-slate-900/60 border-slate-800">
-          <TabsTrigger value="overview">{t("finance_os.admin.overview", "Overview")}</TabsTrigger>
-          <TabsTrigger value="commissions">{t("finance_os.admin.commissions", "Commissions")}</TabsTrigger>
-          <TabsTrigger value="revenue">{t("finance_os.admin.revenue", "Revenue")}</TabsTrigger>
-          <TabsTrigger value="expenses">{t("finance_os.admin.expenses", "Expenses")}</TabsTrigger>
+        <TabsList className="bg-card border-border">
+          <TabsTrigger value="overview">{t("finance_os.admin.overview", "Genel Bakış")}</TabsTrigger>
+          <TabsTrigger value="commissions">{t("finance_os.admin.commissions", "Komisyonlar")}</TabsTrigger>
+          <TabsTrigger value="revenue">{t("finance_os.admin.revenue", "Gelir")}</TabsTrigger>
+          <TabsTrigger value="expenses">{t("finance_os.admin.expenses", "Giderler")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-slate-100 flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-emerald-400" />
-                  {t("finance_os.admin.revenue_vs_expenses", "Revenue vs Expenses (6 months)")}
+                <CardTitle className="text-foreground flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-success" />
+                  {t("finance_os.admin.revenue_vs_expenses", "Gelir ve Giderler (6 Ay)")}
                 </CardTitle>
-                <CardDescription className="text-slate-400">
-                  {t("finance_os.admin.monthly_performance", "Monthly financial performance overview")}
+                <CardDescription className="text-muted-foreground">
+                  {t("finance_os.admin.monthly_performance", "Aylık finansal performans özeti")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -102,7 +102,7 @@ export default function AdminFinanceOSDashboard() {
                         contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px" }}
                         formatter={(v: any) => formatCurrency(Number(v ?? 0))}
                       />
-                      <Bar dataKey="revenue" fill="#10b981" radius={[4, 4, 0, 0]} opacity={0.85} />
+                      <Bar dataKey="revenue" fill="#3b82f6" radius={[4, 4, 0, 0]} opacity={0.85} />
                       <Bar dataKey="expenses" fill="#ef4444" radius={[4, 4, 0, 0]} opacity={0.6} />
                       <Bar dataKey="profit" fill="#3b82f6" radius={[4, 4, 0, 0]} opacity={0.8} />
                     </BarChart>
@@ -111,30 +111,30 @@ export default function AdminFinanceOSDashboard() {
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-slate-100">{t("finance_os.admin.pending_commissions", "Pending Commissions")}</CardTitle>
-                <CardDescription className="text-slate-400">
-                  {t("finance_os.admin.commission_payouts_awaiting", "Commission payouts awaiting processing")}
+                <CardTitle className="text-foreground">{t("finance_os.admin.pending_commissions", "Bekleyen Komisyonlar")}</CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  {t("finance_os.admin.commission_payouts_awaiting", "İşlem bekleyen komisyon ödemeleri")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   {PENDING_COMMISSIONS.map((commission) => (
-                    <div key={commission.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 border border-slate-700">
+                    <div key={commission.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border">
                       <div className="flex items-center gap-3">
                         <div className={`w-2 h-2 rounded-full ${
-                          commission.status === 'approved' ? 'bg-emerald-400' :
+                          commission.status === 'approved' ? 'bg-blue-400' :
                           commission.status === 'processing' ? 'bg-blue-400' :
                           'bg-yellow-400'
                         }`} />
                         <div>
-                          <p className="text-sm font-medium text-slate-200">{commission.agent}</p>
-                          <p className="text-xs text-slate-500">{t("finance_os.admin.due", "Due:")} {commission.dueDate}</p>
+                          <p className="text-sm font-medium text-foreground">{commission.agent}</p>
+                          <p className="text-xs text-muted-foreground">{t("finance_os.admin.due", "Son Tarih:")} {commission.dueDate}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-bold text-slate-100">{formatCurrency(commission.amount)}</p>
+                        <p className="text-sm font-bold text-foreground">{formatCurrency(commission.amount)}</p>
                         <Badge variant={
                           commission.status === 'approved' ? 'default' :
                           commission.status === 'processing' ? 'secondary' :
@@ -152,51 +152,51 @@ export default function AdminFinanceOSDashboard() {
         </TabsContent>
 
         <TabsContent value="commissions">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">{t("finance_os.admin.commission_management", "Commission Management")}</CardTitle>
-              <CardDescription className="text-slate-400">
-                {t("finance_os.admin.manage_commissions_payouts", "Manage agent commissions and payout schedules")}
+              <CardTitle className="text-foreground">{t("finance_os.admin.commission_management", "Komisyon Yönetimi")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("finance_os.admin.manage_commissions_payouts", "Acente komisyonlarını ve ödeme planlarını yönetin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <Wallet className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>{t("finance_os.admin.commission_management_placeholder", "Commission management interface")}</p>
+                <p>{t("finance_os.admin.commission_management_placeholder", "Komisyon yönetimi arayüzü")}</p>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="revenue">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">{t("finance_os.admin.revenue_analytics", "Revenue Analytics")}</CardTitle>
-              <CardDescription className="text-slate-400">
-                {t("finance_os.admin.detailed_revenue_breakdown", "Detailed revenue breakdown and forecasting")}
+              <CardTitle className="text-foreground">{t("finance_os.admin.revenue_analytics", "Gelir Analitiği")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("finance_os.admin.detailed_revenue_breakdown", "Detaylı gelir dökümü ve tahmin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <DollarSign className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>{t("finance_os.admin.revenue_analytics_placeholder", "Revenue analytics interface")}</p>
+                <p>{t("finance_os.admin.revenue_analytics_placeholder", "Gelir analitiği arayüzü")}</p>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="expenses">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">{t("finance_os.admin.expense_management", "Expense Management")}</CardTitle>
-              <CardDescription className="text-slate-400">
-                {t("finance_os.admin.track_categorize_expenses", "Track and categorize operational expenses")}
+              <CardTitle className="text-foreground">{t("finance_os.admin.expense_management", "Gider Yönetimi")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("finance_os.admin.track_categorize_expenses", "Operasyonel giderleri izleyin ve kategorize edin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <CreditCard className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>{t("finance_os.admin.expense_management_placeholder", "Expense management interface")}</p>
+                <p>{t("finance_os.admin.expense_management_placeholder", "Gider yönetimi arayüzü")}</p>
               </div>
             </CardContent>
           </Card>

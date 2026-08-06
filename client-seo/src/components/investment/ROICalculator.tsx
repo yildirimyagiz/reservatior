@@ -111,10 +111,10 @@ export function ROICalculator({
   ];
 
   const gradeColors: Record<string, string> = {
-    "A+": "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-    A: "bg-emerald-500/15 text-emerald-300 border-emerald-500/25",
-    "B+": "bg-blue-500/15 text-blue-400 border-blue-500/25",
-    B: "bg-blue-500/10 text-blue-300 border-blue-500/20",
+    "A+": "bg-success/20 text-success border-blue-500/30",
+    A: "bg-success/15 text-blue-300 border-blue-500/25",
+    "B+": "bg-brand/100/15 text-brand border-blue-500/25",
+    B: "bg-brand/100/10 text-blue-300 border-blue-500/20",
     "C+": "bg-yellow-500/15 text-yellow-400 border-yellow-500/25",
     C: "bg-orange-500/15 text-orange-400 border-orange-500/25",
     D: "bg-red-500/15 text-red-400 border-red-500/25",
@@ -284,9 +284,9 @@ export function ROICalculator({
               {/* Key Metrics */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
-                  { label: "Gross Yield", value: `${roiOutput.grossRentalYield}%`, color: "text-emerald-400" },
-                  { label: "Net Yield", value: `${roiOutput.netRentalYield}%`, color: "text-emerald-300" },
-                  { label: "Annual Cash Flow", value: formatCurrency(roiOutput.annualCashFlow, roiInput.currency), color: roiOutput.annualCashFlow >= 0 ? "text-emerald-400" : "text-red-400" },
+                  { label: "Gross Yield", value: `${roiOutput.grossRentalYield}%`, color: "text-success" },
+                  { label: "Net Yield", value: `${roiOutput.netRentalYield}%`, color: "text-blue-300" },
+                  { label: "Annual Cash Flow", value: formatCurrency(roiOutput.annualCashFlow, roiInput.currency), color: roiOutput.annualCashFlow >= 0 ? "text-success" : "text-red-400" },
                   { label: "Total ROI", value: `${roiOutput.totalROI}%`, color: "text-primary" },
                 ].map((metric) => (
                   <Card key={metric.label}>
@@ -347,10 +347,10 @@ export function ROICalculator({
                               <td className="py-2 px-2 font-medium">{yp.year}</td>
                               <td className="text-right py-2 px-2">{formatCurrency(yp.propertyValue, roiInput.currency)}</td>
                               <td className="text-right py-2 px-2">{formatCurrency(yp.annualRent, roiInput.currency)}</td>
-                              <td className={`text-right py-2 px-2 ${yp.netIncome >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                              <td className={`text-right py-2 px-2 ${yp.netIncome >= 0 ? "text-success" : "text-red-400"}`}>
                                 {formatCurrency(yp.netIncome, roiInput.currency)}
                               </td>
-                              <td className={`text-right py-2 px-2 ${yp.cumulativeCashFlow >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                              <td className={`text-right py-2 px-2 ${yp.cumulativeCashFlow >= 0 ? "text-success" : "text-red-400"}`}>
                                 {formatCurrency(yp.cumulativeCashFlow, roiInput.currency)}
                               </td>
                               <td className="text-right py-2 px-2 font-medium">{yp.totalROI}%</td>
@@ -402,7 +402,7 @@ export function ROICalculator({
                 </p>
                 {calculatorUsageCount > 0 && (
                   <p className="text-xs text-muted-foreground/50 mt-4">
-                    You've made {calculatorUsageCount} calculations this session
+                    You&apos;ve made {calculatorUsageCount} calculations this session
                   </p>
                 )}
               </CardContent>

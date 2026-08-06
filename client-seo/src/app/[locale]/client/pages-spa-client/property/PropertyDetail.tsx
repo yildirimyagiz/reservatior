@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "@/lib/react-router-shim";
 import { useQuery } from "@tanstack/react-query";
-import { PageShell } from "../../client/layout/PageShell";
+import { PageShell } from "../layout/PageShell";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -337,22 +337,22 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
   const getStatusColor = (status: string) => {
     switch (status?.toUpperCase()) {
       case 'AVAILABLE':
-        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+        return 'bg-success/10 text-success border-success/20';
       case 'SOLD':
-        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        return 'bg-muted text-muted-foreground border-slate-500/20';
       case 'PENDING':
-        return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
+        return 'bg-warning/10 text-orange-400 border-warning/20';
       case 'RENTED':
-        return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+        return 'bg-brand/100/10 text-brand border-blue-500/20';
       default:
-        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+        return 'bg-muted text-muted-foreground border-slate-500/20';
     }
   };
   if (loading) {
     return <div className="min-h-screen bg-[#0a0b0d] flex items-center justify-center">
         <div className="flex flex-col items-center gap-6">
-          <Activity className="w-12 h-12 text-blue-600 animate-spin" />
-          <p className="text-xs font-black text-slate-500 tracking-widest italic animate-pulse">
+          <Activity className="w-12 h-12 text-brand animate-spin" />
+          <p className="text-xs font-black text-muted-foreground tracking-widest italic animate-pulse">
             {t('loading')}
           </p>
         </div>
@@ -360,17 +360,17 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
   }
   if (!property) {
     return <div className="min-h-screen bg-[#0a0b0d] flex items-center justify-center p-6">
-        <Card className="bg-[#14151a]/60 backdrop-blur-3xl border-white/5 rounded-4xl p-12 text-center max-w-md shadow-2xl">
+        <Card className="bg-background/60 backdrop-blur-3xl border-white/5 rounded-4xl p-12 text-center max-w-md shadow-2xl">
           <AlertTriangle className="w-16 h-16 text-orange-500 mx-auto mb-6" />
           <h2 className="text-2xl font-black text-white italic tracking-tighter mb-2">
             {t('client.property.detail.notFound.title')}
           </h2>
-          <p className="text-xs text-slate-400 font-medium italic mb-8 tracking-widest">
+          <p className="text-xs text-muted-foreground font-medium italic mb-8 tracking-widest">
             {t('client.property.detail.notFound.subtitle', {
             id: id?.slice(0, 8)
           })}
           </p>
-          <Button variant="outline" onClick={() => navigate("/property")} className="w-full h-14 rounded-2xl border-white/5 bg-white/5 text-slate-300 hover:text-white">
+          <Button variant="outline" onClick={() => navigate("/property")} className="w-full h-14 rounded-2xl border-white/5 bg-white/5 text-muted-foreground hover:text-white">
             <ChevronLeft className="w-4 h-4 mr-2" /> {t('back')}
           </Button>
         </Card>
@@ -434,21 +434,21 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                    {property.listingStatus}
                  </Badge>
               </div>
-              <div className="flex items-center gap-4 text-xs text-slate-500 font-black tracking-widest italic">
+              <div className="flex items-center gap-4 text-xs text-muted-foreground font-black tracking-widest italic">
                  <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-orange-500" /> {property.addressLine1}, {property.city}</span>
-                 <span className="flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-blue-500" /> {property.id.split('-')[0]}</span>
+                 <span className="flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-brand" /> {property.id.split('-')[0]}</span>
               </div>
            </div>
            <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" onClick={shareProperty} className="w-12 h-12 rounded-2xl bg-white/5 text-slate-400 hover:text-white border border-white/5">
+              <Button variant="ghost" size="icon" aria-label={t("common.share")} onClick={shareProperty} className="w-12 h-12 rounded-2xl bg-white/5 text-muted-foreground hover:text-white border border-white/5">
                 <Share2 className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="w-12 h-12 rounded-2xl bg-white/5 text-slate-400 hover:text-white border border-white/5">
+              <Button variant="ghost" size="icon" aria-label={t("common.favorite")} className="w-12 h-12 rounded-2xl bg-white/5 text-muted-foreground hover:text-white border border-white/5">
                 <Heart className="w-4 h-4" />
               </Button>
-              {property.listingType === "SALE" ? <Button className="h-14 px-8 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs tracking-widest shadow-xl shadow-emerald-600/20">
+              {property.listingType === "SALE" ? <Button className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-success text-white font-black text-xs tracking-widest shadow-xl shadow-blue-600/20">
                   {t('makeOffer')}
-                </Button> : <Button className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs tracking-widest shadow-xl shadow-blue-600/20">
+                </Button> : <Button className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black text-xs tracking-widest shadow-xl shadow-blue-600/20">
                   {t('initiateReservation')}
                 </Button>}
            </div>
@@ -462,19 +462,19 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
             
             {/* IMMERSIVE MEDIA STREAM */}
             <div className="space-y-4">
-               <Card className="bg-[#14151a]/40 border-white/5 rounded-4xl overflow-hidden shadow-2xl relative">
+               <Card className="bg-background/40 border-white/5 rounded-4xl overflow-hidden shadow-2xl relative">
                   <div className="absolute top-6 right-6 z-20 flex gap-2">
                      <div className="bg-black/60 backdrop-blur-2xl border border-white/10 rounded-2xl p-1 flex">
-                        <Button size="sm" variant="ghost" onClick={() => setMediaMode('photo')} className={cn("h-10 px-6 rounded-xl font-black text-[10px]  tracking-widest gap-2 transition-all", mediaMode === 'photo' ? "bg-orange-600 text-white shadow-xl" : "text-slate-400 hover:text-white")}>
+                        <Button size="sm" variant="ghost" onClick={() => setMediaMode('photo')} className={cn("h-10 px-6 rounded-xl font-black text-[10px]  tracking-widest gap-2 transition-all", mediaMode === 'photo' ? "bg-orange-600 text-white shadow-xl" : "text-muted-foreground hover:text-white")}>
                           <Camera className="w-4 h-4" /> {t('photos')}
                         </Button>
-                        <Button size="sm" variant="ghost" onClick={() => setMediaMode('video')} disabled={!property.agentVideos || property.agentVideos.length === 0} className={cn("h-10 px-6 rounded-xl font-black text-[10px]  tracking-widest gap-2 transition-all", mediaMode === 'video' ? "bg-orange-600 text-white shadow-xl" : "text-slate-400 hover:text-white")}>
+                        <Button size="sm" variant="ghost" onClick={() => setMediaMode('video')} disabled={!property.agentVideos || property.agentVideos.length === 0} className={cn("h-10 px-6 rounded-xl font-black text-[10px]  tracking-widest gap-2 transition-all", mediaMode === 'video' ? "bg-orange-600 text-white shadow-xl" : "text-muted-foreground hover:text-white")}>
                           <PlayCircle className="w-4 h-4" /> {t('videos')}
                         </Button>
                      </div>
                   </div>
 
-                  <div className="relative h-[550px] bg-slate-950 group">
+                  <div className="relative h-[550px] bg-muted group">
                     <AnimatePresence mode="wait">
                       {mediaMode === 'photo' ? <m.div key={selectedImageIndex} initial={{
                     opacity: 0,
@@ -496,13 +496,13 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                           <video src={activeVideoUrl || ""} className="w-full h-full object-cover" controls autoPlay>
                             <track kind="captions" src="" srcLang="en" label="English" default />
                           </video>
-                          {!activeVideoUrl && <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
-                                <Activity className="w-12 h-12 text-blue-600 animate-spin" />
+                          {!activeVideoUrl && <div className="absolute inset-0 flex items-center justify-center bg-card">
+                                <Activity className="w-12 h-12 text-brand animate-spin" />
                              </div>}
                         </m.div>}
                     </AnimatePresence>
                     <div className="absolute top-6 left-6 flex gap-2">
-                      {property.legalComplianceStatus === 'VERIFIED' && <Badge className="bg-emerald-500/20 text-emerald-400 border-none gap-2 font-black italic shadow-2xl backdrop-blur-xl">
+                      {property.legalComplianceStatus === 'VERIFIED' && <Badge className="bg-success/20 text-success border-none gap-2 font-black italic shadow-2xl backdrop-blur-xl">
                           <ShieldCheck className="w-4 h-4" /> {t('client.property.detail.media.verified')}
                         </Badge>}
                     </div>
@@ -536,20 +536,20 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
               label: t('client.property.detail.nodes'),
               value: property.bedrooms || "--",
               icon: Bed,
-              color: "text-blue-500"
+              color: "text-brand"
             }, {
               label: t('client.property.detail.units'),
               value: property.bathrooms || "--",
               icon: Bath,
-              color: "text-emerald-500"
+              color: "text-success"
             }, {
               label: t('client.property.detail.volume'),
               value: property.areaSqm ? `${property.areaSqm}m²` : "--",
               icon: Square,
               color: "text-violet-500"
-            }].map((kpi, i) => <Card key={i} className="bg-[#14151a]/40 border-white/5 rounded-3xl p-6 border-l-2 group overflow-hidden relative">
+            }].map((kpi, i) => <Card key={i} className="bg-background/40 border-white/5 rounded-3xl p-6 border-l-2 group overflow-hidden relative">
                    <div className="relative z-10 flex flex-col gap-1">
-                      <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{kpi.label}</p>
+                      <p className="text-[10px] font-black text-muted-foreground tracking-widest italic">{kpi.label}</p>
                       <h4 className="text-2xl font-black text-white italic tracking-tighter leading-none">{kpi.value}</h4>
                    </div>
                    <kpi.icon className={cn("absolute -right-2 -bottom-2 w-12 h-12 opacity-5 group-hover:opacity-10 transition-all", kpi.color)} />
@@ -558,7 +558,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
 
             {/* CONTENT TABS */}
             <Tabs defaultValue="specs" className="w-full">
-               <TabsList className="bg-[#14151a]/60 border-white/5 rounded-2xl p-1.5 h-16 gap-2 w-full max-w-full overflow-x-auto mb-8 flex">
+               <TabsList className="bg-background/60 border-white/5 rounded-2xl p-1.5 h-16 gap-2 w-full max-w-full overflow-x-auto mb-8 flex">
                   <TabsTrigger value="specs" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('specs')}</TabsTrigger>
                   <TabsTrigger value="intel" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('intel')}</TabsTrigger>
                   <TabsTrigger value="facilities" className="flex-1 rounded-xl font-black italic text-[10px] tracking-widest data-[state=active]:bg-orange-600 data-[state=active]:text-white h-full">{t('facilities', 'Tesisler')}</TabsTrigger>
@@ -578,11 +578,11 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                </TabsList>
 
                <TabsContent value="specs" className="space-y-6">
-                  <Card className="bg-[#14151a]/40 border-white/5 rounded-4xl p-8 border-l border-t">
+                  <Card className="bg-background/40 border-white/5 rounded-4xl p-8 border-l border-t">
                     <h3 className="text-xs font-black text-white tracking-widest mb-6 italic flex items-center gap-2">
                        <Activity className="w-4 h-4 text-orange-500" /> {t('client.property.detail.specs.title')}
                     </h3>
-                    <p className="text-slate-400 text-sm leading-relaxed font-medium italic">
+                    <p className="text-muted-foreground text-sm leading-relaxed font-medium italic">
                        {property.notes || t('defaultNotes')}
                     </p>
                     <Separator className="my-8 bg-white/5" />
@@ -600,7 +600,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                     k: t('yieldTier'),
                     v: t('premiumOptIn')
                   }].map((kv, i) => <div key={i} className="space-y-1">
-                            <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{kv.k}</p>
+                            <p className="text-[10px] font-black text-muted-foreground tracking-widest leading-none">{kv.k}</p>
                             <p className="text-sm font-black text-white italic tracking-tight">{kv.v}</p>
                          </div>)}
                     </div>
@@ -608,9 +608,9 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                </TabsContent>
 
                <TabsContent value="intel" className="space-y-6">
-                  <Card className="bg-[#14151a]/40 border-white/5 rounded-4xl p-8 border-l border-t">
+                  <Card className="bg-background/40 border-white/5 rounded-4xl p-8 border-l border-t">
                     <h3 className="text-xs font-black text-white tracking-widest mb-6 italic flex items-center gap-2">
-                       <ShieldCheck className="w-4 h-4 text-emerald-500" /> {t('intel')}
+                       <ShieldCheck className="w-4 h-4 text-success" /> {t('intel')}
                     </h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-4">
                        {[{
@@ -652,20 +652,20 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                   }]
                   .filter(item => isFieldAllowed('Property', item.f))
                   .map((kv, i) => <div key={i} className="space-y-1">
-                            <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{kv.k}</p>
+                            <p className="text-[10px] font-black text-muted-foreground tracking-widest leading-none">{kv.k}</p>
                             <p className="text-sm font-black text-white italic tracking-tight">{kv.v}</p>
                          </div>)}
                     </div>
                   </Card>
                   {(property as any).floorPlans && (property as any).floorPlans.length > 0 && (
-                     <Card className="bg-[#14151a]/40 border-white/5 rounded-4xl p-8 border-l border-t mt-6">
+                     <Card className="bg-background/40 border-white/5 rounded-4xl p-8 border-l border-t mt-6">
                         <h3 className="text-xs font-black text-white tracking-widest mb-6 italic flex items-center gap-2">
-                           <Square className="w-4 h-4 text-emerald-500" /> {t('client.property.detail.floorPlans', 'Kat Planları')}
+                           <Square className="w-4 h-4 text-success" /> {t('client.property.detail.floorPlans', 'Kat Planları')}
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                            {(property as any).floorPlans.map((fp: any) => (
                               <div key={fp.id} className="space-y-2">
-                                 <p className="text-[10px] font-black text-slate-500 tracking-widest">{fp.title}</p>
+                                 <p className="text-[10px] font-black text-muted-foreground tracking-widest">{fp.title}</p>
                                   <Image src={fp.url} alt={fp.title} width={800} height={600} loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" className="w-full h-auto rounded-2xl border border-white/5 object-cover bg-black/40" style={{ width: '100%', height: 'auto' }} />
                               </div>
                            ))}
@@ -676,42 +676,42 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
 
                {isFieldAllowed('Property', 'strEstimatedRevenue') && (
                <TabsContent value="financials" className="space-y-6">
-                  <Card className="bg-[#14151a]/40 border-white/5 rounded-4xl p-8 border-l border-t">
+                  <Card className="bg-background/40 border-white/5 rounded-4xl p-8 border-l border-t">
                     <h3 className="text-xs font-black text-white tracking-widest mb-6 italic flex items-center gap-2">
-                       <DollarSign className="w-4 h-4 text-emerald-500" /> {t('financialProjections', 'Finansal Projeksiyon & ROI')}
+                       <DollarSign className="w-4 h-4 text-success" /> {t('financialProjections', 'Finansal Projeksiyon & ROI')}
                     </h3>
                     <div className="grid grid-cols-2 gap-y-8 gap-x-4">
                        <div className="space-y-1">
-                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{t('client.property.detail.kpi.rentalYield', 'Yıllık Kira Getirisi')}</p>
-                          <p className="text-2xl font-black text-emerald-400 italic tracking-tight">%8.5</p>
+                          <p className="text-[10px] font-black text-muted-foreground tracking-widest leading-none">{t('client.property.detail.kpi.rentalYield', 'Yıllık Kira Getirisi')}</p>
+                          <p className="text-2xl font-black text-success italic tracking-tight">%8.5</p>
                        </div>
                        <div className="space-y-1">
-                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{t('client.property.detail.kpi.roiDuration', 'Amortisman Süresi')}</p>
+                          <p className="text-[10px] font-black text-muted-foreground tracking-widest leading-none">{t('client.property.detail.kpi.roiDuration', 'Amortisman Süresi')}</p>
                           <p className="text-2xl font-black text-white italic tracking-tight">12 {t('client.property.detail.kpi.years', 'Yıl')}</p>
                        </div>
                        <div className="space-y-1">
-                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{t('client.property.detail.kpi.monthlyOpex', 'Aylık İşletme Gideri')}</p>
+                          <p className="text-[10px] font-black text-muted-foreground tracking-widest leading-none">{t('client.property.detail.kpi.monthlyOpex', 'Aylık İşletme Gideri')}</p>
                           <p className="text-xl font-black text-orange-400 italic tracking-tight">{currencySymbol}450</p>
                        </div>
                        <div className="space-y-1">
-                          <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{t('client.property.detail.kpi.annualAppreciation', 'Yıllık Değer Artışı')}</p>
-                          <p className="text-xl font-black text-blue-400 italic tracking-tight">%12.4</p>
+                          <p className="text-[10px] font-black text-muted-foreground tracking-widest leading-none">{t('client.property.detail.kpi.annualAppreciation', 'Yıllık Değer Artışı')}</p>
+                          <p className="text-xl font-black text-brand italic tracking-tight">%12.4</p>
                        </div>
                     </div>
                     <Separator className="my-8 bg-white/5" />
-                    <div className="flex items-center justify-between p-4 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
+                    <div className="flex items-center justify-between p-4 bg-success/10 rounded-2xl border border-success/20">
                        <div>
-                          <p className="text-[10px] font-black text-emerald-500 tracking-widest uppercase mb-1">{t('client.property.detail.kpi.investmentScore', 'Yatırım Skoru')}</p>
-                          <p className="text-xs font-medium text-emerald-400/80">{t('client.property.detail.kpi.performanceSubtitle', 'Bölge ortalamasının %15 üzerinde performans')}</p>
+                          <p className="text-[10px] font-black text-success tracking-widest uppercase mb-1">{t('client.property.detail.kpi.investmentScore', 'Yatırım Skoru')}</p>
+                          <p className="text-xs font-medium text-success/80">{t('client.property.detail.kpi.performanceSubtitle', 'Bölge ortalamasının %15 üzerinde performans')}</p>
                        </div>
-                       <div className="text-3xl font-black text-emerald-400 italic">A+</div>
+                       <div className="text-3xl font-black text-success italic">A+</div>
                     </div>
                   </Card>
                </TabsContent>
                )}
 
                <TabsContent value="map">
-                   <Card className="bg-[#14151a]/40 border-white/5 rounded-4xl overflow-hidden h-[400px] relative">
+                   <Card className="bg-background/40 border-white/5 rounded-4xl overflow-hidden h-[400px] relative">
                       <GoogleMapView properties={[property as any]} apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} center={property.lat && property.lng ? {
                         lat: property.lat,
                         lng: property.lng
@@ -751,10 +751,10 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
 
           {/* RIGHT SIDE: PRICING & CUSTODIAN */}
           <div className="lg:col-span-4 space-y-6">
-             <Card className="bg-[#14151a]/60 backdrop-blur-3xl border-white/5 rounded-4xl shadow-2xl p-8 border-l border-t sticky top-24">
+             <Card className="bg-background/60 backdrop-blur-3xl border-white/5 rounded-4xl shadow-2xl p-8 border-l border-t sticky top-24">
                 <div className="space-y-8">
                    <div className="space-y-2">
-                       <p className="text-[10px] font-black text-slate-500 tracking-widest italic leading-none">{t('listValue')}</p>
+                       <p className="text-[10px] font-black text-muted-foreground tracking-widest italic leading-none">{t('listValue')}</p>
                        <h3 className="text-5xl font-black text-white italic tracking-tighter leading-none">
                          {property.listingPrice 
                            ? `${currencySymbol}${parseFloat(String(property.listingPrice)).toLocaleString()}` 
@@ -765,29 +765,29 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                    <div className="space-y-3 pt-4">
                       {(property.orgId === "org_google_aggregator" && affiliateOffers && !showInternalBooking) ? (
                          <div className="space-y-4">
-                            <p className="text-xs font-black text-slate-500 tracking-widest uppercase mb-2">Compare Prices</p>
+                            <p className="text-xs font-black text-muted-foreground tracking-widest uppercase mb-2">Compare Prices</p>
                             {affiliateOffers.map((offer: any, index: number) => (
-                              <div key={index} className={cn("flex flex-col p-4 rounded-2xl border-2 transition-all cursor-pointer relative", offer.isBestDeal ? "border-emerald-500 bg-emerald-500/10" : "border-white/5 bg-[#14151a]/40 hover:border-white/20")} onClick={() => {
+                              <div key={index} className={cn("flex flex-col p-4 rounded-2xl border-2 transition-all cursor-pointer relative", offer.isBestDeal ? "border-blue-500 bg-success/10" : "border-white/5 bg-background/40 hover:border-white/20")} onClick={() => {
                                 if (offer.isInternal) {
                                   setShowInternalBooking(true);
                                 } else {
                                   window.open(offer.url, "_blank");
                                 }
                               }}>
-                                {offer.isBestDeal && <Badge className="absolute -top-3 right-4 bg-emerald-500 text-white border-none font-black text-[10px] tracking-widest px-2 py-0.5">BEST DEAL</Badge>}
+                                {offer.isBestDeal && <Badge className="absolute -top-3 right-4 bg-success text-white border-none font-black text-[10px] tracking-widest px-2 py-0.5">BEST DEAL</Badge>}
                                 <div className="flex items-center justify-between mb-3">
                                   <div className="flex items-center gap-3">
-                                    <div className="relative w-10 h-10 bg-white rounded-xl flex items-center justify-center p-2">
+                                    <div className="relative w-10 h-10 bg-card rounded-xl flex items-center justify-center p-2">
                                       {offer.logoUrl.startsWith("http") ? <Image src={offer.logoUrl} alt={offer.provider} fill className="object-contain" loading="lazy" sizes="40px" /> : <span className="text-xs font-bold text-black text-center">{offer.provider[0]}</span>}
                                     </div>
                                     <span className="font-black text-white">{offer.provider}</span>
                                   </div>
                                   <div className="text-right">
-                                    <span className={cn("text-xl font-black italic", offer.isBestDeal ? "text-emerald-400" : "text-white")}>{offer.currency} {offer.price}</span>
+                                    <span className={cn("text-xl font-black italic", offer.isBestDeal ? "text-success" : "text-white")}>{offer.currency} {offer.price}</span>
                                   </div>
                                 </div>
                                 <Button 
-                                  className={cn("w-full h-12 rounded-xl font-black text-xs tracking-widest", offer.isBestDeal ? "bg-emerald-600 hover:bg-emerald-500 text-white" : "bg-white/10 hover:bg-white/20 text-white")}
+                                  className={cn("w-full h-12 rounded-xl font-black text-xs tracking-widest", offer.isBestDeal ? "bg-blue-600 hover:bg-success text-white" : "bg-white/10 hover:bg-white/20 text-white")}
                                   onClick={(e) => { 
                                     e.stopPropagation(); 
                                     if (offer.isInternal) {
@@ -803,7 +803,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                             ))}
                          </div>
                       ) : property.listingType === "SALE" ? <>
-                          <Button className="w-full h-16 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm tracking-widest shadow-2xl shadow-emerald-600/30 flex justify-center items-center gap-2" onClick={() => setIsOfferModalOpen(true)}>
+                          <Button className="w-full h-16 rounded-2xl bg-blue-600 hover:bg-success text-white font-black text-sm tracking-widest shadow-2xl shadow-blue-600/30 flex justify-center items-center gap-2" onClick={() => setIsOfferModalOpen(true)}>
                             <DollarSign className="w-4 h-4" /> {t('makeOffer')}
                           </Button>
                           <Button className="w-full h-16 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-black text-sm tracking-widest shadow-2xl shadow-orange-600/30 flex justify-center items-center gap-2" onClick={() => setIsViewingModalOpen(true)}>
@@ -841,8 +841,8 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                                    <span className="font-semibold text-sm">{guests} {t("client.src.guest_count", "Guest(s)")}</span>
                                  </div>
                                  <div className="flex items-center gap-3">
-                                    <Button variant="outline" size="icon" className="h-8 w-8 rounded-full border-border/50 bg-background" onClick={() => setGuests(Math.max(1, guests - 1))}>-</Button>
-                                    <Button variant="outline" size="icon" className="h-8 w-8 rounded-full border-border/50 bg-background" onClick={() => setGuests(guests + 1)}>+</Button>
+                                    <Button variant="outline" size="icon" className="h-8 w-8 rounded-full border-border/50 bg-background" onClick={() => setGuests(Math.max(1, guests - 1))} aria-label={t("common.decrease")}>-</Button>
+                                    <Button variant="outline" size="icon" className="h-8 w-8 rounded-full border-border/50 bg-background" onClick={() => setGuests(guests + 1)} aria-label={t("common.increase")}>+</Button>
                                  </div>
                                </div>
                              </div>
@@ -891,25 +891,25 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                                    <Separator className="bg-border/50" />
                                    
                                    <div className="space-y-3">
-                                      <p className="text-[10px] font-black text-slate-500 tracking-widest uppercase">Security Deposit Options</p>
+                                      <p className="text-[10px] font-black text-muted-foreground tracking-widest uppercase">Security Deposit Options</p>
                                       
                                       <div 
                                         onClick={() => setUseDepositAlternative(false)}
-                                        className={cn("p-3 rounded-xl border-2 cursor-pointer transition-all flex flex-col gap-1", !useDepositAlternative ? "border-slate-500 bg-slate-500/10" : "border-white/5 hover:border-white/20")}
+                                        className={cn("p-3 rounded-xl border-2 cursor-pointer transition-all flex flex-col gap-1", !useDepositAlternative ? "border-slate-500 bg-muted" : "border-white/5 hover:border-white/20")}
                                       >
                                          <div className="flex justify-between items-center text-white">
                                            <span className="text-muted-foreground">{t("client.src.refundable_deposit", "Refundable Deposit")}</span>
                                            <span>{currencySymbol}{traditionalDeposit.toLocaleString()}</span>
                                          </div>
-                                         <p className="text-xs text-slate-400 font-medium">Locked in Escrow until move-out</p>
+                                         <p className="text-xs text-muted-foreground font-medium">Locked in Escrow until move-out</p>
                                       </div>
 
                                       <div 
                                         onClick={() => setUseDepositAlternative(true)}
-                                        className={cn("p-3 rounded-xl border-2 cursor-pointer transition-all flex flex-col gap-1 relative overflow-hidden", useDepositAlternative ? "border-blue-500 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.2)]" : "border-white/5 hover:border-white/20")}
+                                        className={cn("p-3 rounded-xl border-2 cursor-pointer transition-all flex flex-col gap-1 relative overflow-hidden", useDepositAlternative ? "border-blue-500 bg-brand/100/10 shadow-[0_0_15px_rgba(59,130,246,0.2)]" : "border-white/5 hover:border-white/20")}
                                       >
-                                         {useDepositAlternative && <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/20 blur-xl rounded-full" />}
-                                         <div className="flex justify-between items-center text-blue-400 relative z-10">
+                                         {useDepositAlternative && <div className="absolute top-0 right-0 w-16 h-16 bg-brand/100/20 blur-xl rounded-full" />}
+                                         <div className="flex justify-between items-center text-brand relative z-10">
                                            <span className="text-muted-foreground">{t("client.src.zero_deposit_premium", "Zero-Deposit Premium")}</span>
                                            <span>{currencySymbol}{depositPremium.toLocaleString()}</span>
                                          </div>
@@ -948,14 +948,14 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                                    
                                    <div className="flex justify-between text-foreground text-xl font-black italic tracking-tight">
                                      <span>{t("client.src.total_upfront", "Total Upfront")}</span>
-                                     <span className={cn("font-black text-lg transition-colors", useDepositAlternative ? "text-blue-400" : "text-white")}>
+                                     <span className={cn("font-black text-lg transition-colors", useDepositAlternative ? "text-brand" : "text-white")}>
                                        {currencySymbol}{(useDepositAlternative ? totalWithAlternative : totalWithCash).toLocaleString(undefined, {maximumFractionDigits:0})}
                                      </span>
                                    </div>
                                    
                                     <Button 
                                       onClick={() => navigate(`/checkout/${property.id}`, { state: { property, dateRange, guests, totalAmount: useDepositAlternative ? totalWithAlternative : totalWithCash } })}
-                                      className="w-full h-16 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-sm tracking-widest shadow-2xl shadow-blue-600/30 flex justify-center items-center gap-2 mt-4">
+                                      className="w-full h-16 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black text-sm tracking-widest shadow-2xl shadow-blue-600/30 flex justify-center items-center gap-2 mt-4">
                                       <CalendarIcon className="w-4 h-4" /> {t('Rezervasyon Yap (SafeStay™)')}
                                     </Button>
 
@@ -977,27 +977,27 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                               })()}
 
                               {/* Trust Shield Card */}
-                             <div className="mt-4 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex flex-col gap-3">
+                             <div className="mt-4 p-4 rounded-2xl bg-success/10 border border-success/20 flex flex-col gap-3">
                                <div className="flex items-center gap-3">
-                                  <ShieldCheck className="w-6 h-6 text-emerald-400" />
-                                  <span className="font-black text-emerald-400 text-sm tracking-widest uppercase">Reservatior SafeStay™</span>
+                                  <ShieldCheck className="w-6 h-6 text-success" />
+                                  <span className="font-black text-success text-sm tracking-widest uppercase">Reservatior SafeStay™</span>
                                </div>
-                               <p className="text-xs text-emerald-100/70 font-medium leading-relaxed">
+                               <p className="text-xs text-blue-100/70 font-medium leading-relaxed">
                                  {t('client.property.detail.safestay.desc', 'Ödemeniz, siz tesise giriş yapıp memnun kalana kadar (Check-in sonrası 24 saat) havuz hesabımızda güvenle tutulur. Tesis fotoğraflardaki gibi değilse, anında %100 kesintisiz iade edilir.')}
                                </p>
                              </div>
                           </div>
                         )}
                       
-                      <Button variant="outline" className="w-full h-16 rounded-2xl border-white/5 bg-white/5 text-slate-300 hover:text-white flex justify-center items-center gap-3 mt-4">
-                        <MessageSquare className="w-4 h-4 text-blue-500" /> {t('contactAgent')}
+                      <Button variant="outline" className="w-full h-16 rounded-2xl border-white/5 bg-white/5 text-muted-foreground hover:text-white flex justify-center items-center gap-3 mt-4">
+                        <MessageSquare className="w-4 h-4 text-brand" /> {t('contactAgent')}
                       </Button>
 
-                      {property.listingType === "SALE" && <Button variant="outline" onClick={() => setIsEventsModalOpen(true)} className="h-12 w-full flex items-center justify-center gap-3 rounded-2xl border-orange-500/20 bg-orange-500/10 text-xs font-black tracking-widest text-orange-400 hover:bg-orange-500/20">
+                      {property.listingType === "SALE" && <Button variant="outline" onClick={() => setIsEventsModalOpen(true)} className="h-12 w-full flex items-center justify-center gap-3 rounded-2xl border-warning/20 bg-warning/10 text-xs font-black tracking-widest text-orange-400 hover:bg-warning/20">
                           <CalendarIcon className="h-4 w-4" /> {t('upcomingEvents')}
                         </Button>}
 
-                      <NeuralReelsGenerator projectName={property.name} selectedProperties={[property.id]} trigger={<Button className="h-12 w-full mt-2 flex items-center justify-center gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-600/10 text-[10px] font-black tracking-[0.2em] text-emerald-500 hover:bg-emerald-600/20 transition-all duration-300">
+                      <NeuralReelsGenerator projectName={property.name} selectedProperties={[property.id]} trigger={<Button className="h-12 w-full mt-2 flex items-center justify-center gap-3 rounded-2xl border border-success/20 bg-blue-600/10 text-[10px] font-black tracking-[0.2em] text-success hover:bg-blue-600/20 transition-all duration-300">
                              <Clapperboard className="h-4 w-4" /> {t('produceReel')}
                           </Button>} />
                    </div>
@@ -1005,38 +1005,38 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                    <Separator className="bg-white/5" />
 
                    <div className="space-y-6">
-                      <p className="text-[10px] font-black text-slate-500 tracking-widest italic leading-none">{t('assetCustodian')}</p>
+                      <p className="text-[10px] font-black text-muted-foreground tracking-widest italic leading-none">{t('assetCustodian')}</p>
                       <div className="flex items-center gap-4 group cursor-pointer">
-                         <div className="w-14 h-14 bg-slate-900 border border-white/5 rounded-2xl flex items-center justify-center overflow-hidden">
+                         <div className="w-14 h-14 bg-card border border-white/5 rounded-2xl flex items-center justify-center overflow-hidden">
                             <Star className="w-6 h-6 text-orange-500" />
                          </div>
                          <div>
                             <p className="text-sm font-black text-white italic tracking-tight group-hover:text-orange-500 transition-colors">{property.agent?.name || t("client.src.julian_sterling", "Julian Sterling")}</p>
-                            <p className="text-[10px] font-black text-slate-500 tracking-widest leading-none">{t('partnerLead')}</p>
+                            <p className="text-[10px] font-black text-muted-foreground tracking-widest leading-none">{t('partnerLead')}</p>
                          </div>
                       </div>
                    </div>
 
                    <div className="grid grid-cols-2 gap-4">
                       <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                         <p className="text-[9px] font-black text-slate-500 tracking-widest mb-1 italic">{t('interactions')}</p>
-                         <p className="text-xl font-black text-emerald-400 italic">{t("client.src.24k")}</p>
+                         <p className="text-[9px] font-black text-muted-foreground tracking-widest mb-1 italic">{t('interactions')}</p>
+                         <p className="text-xl font-black text-success italic">{t("client.src.24k")}</p>
                       </div>
                       <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                         <p className="text-[9px] font-black text-slate-500 tracking-widest mb-1 italic">{t('indexScore')}</p>
+                         <p className="text-[9px] font-black text-muted-foreground tracking-widest mb-1 italic">{t('indexScore')}</p>
                          <p className="text-xl font-black text-orange-400 italic">9.8</p>
                       </div>
                    </div>
                 </div>
              </Card>
 
-             <Card className="bg-gradient-to-br from-blue-600/10 to-transparent border-white/5 rounded-4xl p-8 relative overflow-hidden text-center border-l border-t">
-                <ShieldCheck className="w-10 h-10 text-blue-500 mx-auto mb-4" />
+             <Card className="bg-gradient-to-br from-brand/10 to-transparent border-white/5 rounded-4xl p-8 relative overflow-hidden text-center border-l border-t">
+                <ShieldCheck className="w-10 h-10 text-brand mx-auto mb-4" />
                 <h4 className="text-xl font-black text-white italic tracking-tighter mb-2">{t('client.property.detail.security.title')}</h4>
-                <p className="text-xs text-slate-400 font-medium leading-relaxed italic mb-6">
+                <p className="text-xs text-muted-foreground font-medium leading-relaxed italic mb-6">
                    {t('client.property.detail.security.description')}
                 </p>
-                <Button variant="ghost" className="text-[10px] font-black text-blue-400 tracking-widest hover:text-blue-300">{t('readWhitepaper')}</Button>
+                <Button variant="ghost" className="text-[10px] font-black text-brand tracking-widest hover:text-blue-300">{t('readWhitepaper')}</Button>
              </Card>
 
              {/* Mülkü Sahiplen Card */}
@@ -1044,7 +1044,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                <Card className="bg-gradient-to-br from-orange-600/10 to-transparent border-white/5 rounded-4xl p-6 relative overflow-hidden mt-6 border-l border-t flex flex-col justify-center items-center text-center">
                  <ShieldCheck className="w-10 h-10 text-orange-500 mb-3" />
                  <h4 className="text-lg font-black text-white italic tracking-tighter mb-2">{t('client.property.detail.claim.title', 'Bu Mülkün Sahibi Misiniz?')}</h4>
-                 <p className="text-xs text-slate-400 font-medium leading-relaxed italic mb-4">
+                 <p className="text-xs text-muted-foreground font-medium leading-relaxed italic mb-4">
                    {t('client.property.detail.claim.desc', 'Tapu bilgilerinizi doğrulayarak dijital ikizinizdeki kontrolü elinize alın ve mülkünüzü Reservatior ağına kazandırın.')}
                  </p>
                  <Button 
@@ -1086,7 +1086,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
             
             <Button
               variant="ghost"
-              size="icon"
+              size="icon" aria-label={t("common.previous")}
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedImageIndex((prev) => (prev - 1 + property.photos.length) % property.photos.length);
@@ -1120,7 +1120,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
             
             <Button
               variant="ghost"
-              size="icon"
+              size="icon" aria-label={t("common.previous")}
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedImageIndex((prev) => (prev + 1) % property.photos.length);
@@ -1154,12 +1154,12 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
 
       {/* 1. Property Offer Dialog */}
       <Dialog open={isOfferModalOpen} onOpenChange={setIsOfferModalOpen}>
-        <DialogContent className="bg-[#14151a] border-white/5 text-foreground max-w-lg rounded-3xl p-8 backdrop-blur-3xl">
+        <DialogContent className="bg-background border-white/5 text-foreground max-w-lg rounded-3xl p-8 backdrop-blur-3xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-black italic tracking-tighter text-white">
               {t("client.property.detail.offer.title", "Make Property Offer")}
             </DialogTitle>
-            <DialogDescription className="text-xs text-slate-400">
+            <DialogDescription className="text-xs text-muted-foreground">
               {t("client.property.detail.offer.description", "Submit your official or smart offer for this property. It will be sent to the listing agent.")}
             </DialogDescription>
           </DialogHeader>
@@ -1168,81 +1168,81 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.price_label", "Offer Price ($)")}</Label>
+                  <Label className="text-[10px] font-black text-muted-foreground tracking-wider uppercase">{t("client.property.detail.offer.price_label", "Offer Price ($)")}</Label>
                   <Input 
                     type="number" 
                     aria-label="Offer Price"
                     value={offerPrice} 
                     onChange={(e) => setOfferPrice(e.target.value)} 
-                    className="bg-black/40 border-white/10 text-white rounded-xl focus:border-emerald-500/50"
+                    className="bg-black/40 border-white/10 text-white rounded-xl focus:border-blue-500/50"
                     required
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.financing_label", "Financing Type")}</Label>
+                  <Label className="text-[10px] font-black text-muted-foreground tracking-wider uppercase">{t("client.property.detail.offer.financing_label", "Financing Type")}</Label>
                   <select 
                     aria-label="Financing Type"
                     value={financingType} 
                     onChange={(e) => setFinancingType(e.target.value)}
                     className="flex h-10 w-full rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:outline-none"
                   >
-                    <option value="CASH" className="bg-[#14151a]">{t("client.property.detail.offer.financing.cash", "Cash")}</option>
-                    <option value="CONVENTIONAL" className="bg-[#14151a]">{t("client.property.detail.offer.financing.conventional", "Conventional")}</option>
-                    <option value="FHA" className="bg-[#14151a]">{t("client.property.detail.offer.financing.fha", "FHA Loan")}</option>
-                    <option value="VA" className="bg-[#14151a]">{t("client.property.detail.offer.financing.va", "VA Loan")}</option>
+                    <option value="CASH" className="bg-background">{t("client.property.detail.offer.financing.cash", "Cash")}</option>
+                    <option value="CONVENTIONAL" className="bg-background">{t("client.property.detail.offer.financing.conventional", "Conventional")}</option>
+                    <option value="FHA" className="bg-background">{t("client.property.detail.offer.financing.fha", "FHA Loan")}</option>
+                    <option value="VA" className="bg-background">{t("client.property.detail.offer.financing.va", "VA Loan")}</option>
                   </select>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.earnest_label", "Earnest Deposit ($)")}</Label>
+                  <Label className="text-[10px] font-black text-muted-foreground tracking-wider uppercase">{t("client.property.detail.offer.earnest_label", "Earnest Deposit ($)")}</Label>
                   <Input 
                     type="number" 
                     aria-label="Earnest Money"
                     value={earnestMoney} 
                     onChange={(e) => setEarnestMoney(e.target.value)} 
-                    className="bg-black/40 border-white/10 text-white rounded-xl focus:border-emerald-500/50"
+                    className="bg-black/40 border-white/10 text-white rounded-xl focus:border-blue-500/50"
                     placeholder="e.g. 5000"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.due_diligence_label", "Due Diligence (Days)")}</Label>
+                  <Label className="text-[10px] font-black text-muted-foreground tracking-wider uppercase">{t("client.property.detail.offer.due_diligence_label", "Due Diligence (Days)")}</Label>
                   <Input 
                     type="number" 
                     aria-label="Due Diligence Amount"
                     value={dueDiligence} 
                     onChange={(e) => setDueDiligence(e.target.value)} 
-                    className="bg-black/40 border-white/10 text-white rounded-xl focus:border-emerald-500/50"
+                    className="bg-black/40 border-white/10 text-white rounded-xl focus:border-blue-500/50"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-2 pt-2">
-                <label className="flex items-center gap-2.5 text-sm text-slate-300 cursor-pointer">
+                <label className="flex items-center gap-2.5 text-sm text-muted-foreground cursor-pointer">
                   <input 
                     type="checkbox" 
                     aria-label="Inspection contingency"
                     checked={inspectionContingency} 
                     onChange={(e) => setInspectionContingency(e.target.checked)}
-                    className="rounded bg-black/40 border-white/10 text-emerald-500 focus:ring-emerald-500/30"
+                    className="rounded bg-black/40 border-white/10 text-success focus:ring-blue-500/30"
                   />
                   {t("client.property.detail.offer.inspection_contingency", "Inspection Contingency")}
                 </label>
-                <label className="flex items-center gap-2.5 text-sm text-slate-300 cursor-pointer">
+                <label className="flex items-center gap-2.5 text-sm text-muted-foreground cursor-pointer">
                   <input 
                     type="checkbox" 
                     aria-label="Appraisal contingency"
                     checked={appraisalContingency} 
                     onChange={(e) => setAppraisalContingency(e.target.checked)}
-                    className="rounded bg-black/40 border-white/10 text-emerald-500 focus:ring-emerald-500/30"
+                    className="rounded bg-black/40 border-white/10 text-success focus:ring-blue-500/30"
                   />
                   {t("client.property.detail.offer.appraisal_contingency", "Appraisal Contingency")}
                 </label>
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.offer.notes_label", "Special Conditions / Notes")}</Label>
+                <Label className="text-[10px] font-black text-muted-foreground tracking-wider uppercase">{t("client.property.detail.offer.notes_label", "Special Conditions / Notes")}</Label>
                 <Textarea 
                   value={specialConditions} 
                   onChange={(e) => setSpecialConditions(e.target.value)} 
@@ -1256,7 +1256,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
               <Button type="button" variant="ghost" className="rounded-xl border border-white/10 text-white/70 hover:text-white" onClick={() => setIsOfferModalOpen(false)}>
                 {t("cancel", "Cancel")}
               </Button>
-              <Button type="submit" className="rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black px-6 shadow-lg shadow-emerald-600/20">
+              <Button type="submit" className="rounded-xl bg-blue-600 hover:bg-success text-white font-black px-6 shadow-lg shadow-blue-600/20">
                 {t("client.property.detail.offer.submit_btn", "Submit Offer")}
               </Button>
             </DialogFooter>
@@ -1266,12 +1266,12 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
 
       {/* 2. Private Viewing Request Dialog */}
       <Dialog open={isViewingModalOpen} onOpenChange={setIsViewingModalOpen}>
-        <DialogContent className="bg-[#14151a] border-white/5 text-foreground max-w-md rounded-3xl p-8 backdrop-blur-3xl">
+        <DialogContent className="bg-background border-white/5 text-foreground max-w-md rounded-3xl p-8 backdrop-blur-3xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-black italic tracking-tighter text-white">
               {t("client.property.detail.viewing.title", "Schedule Private Viewing")}
             </DialogTitle>
-            <DialogDescription className="text-xs text-slate-400">
+            <DialogDescription className="text-xs text-muted-foreground">
               {t("client.property.detail.viewing.description", "Request a date and time to tour this property with a local agent.")}
             </DialogDescription>
           </DialogHeader>
@@ -1279,7 +1279,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
           <form onSubmit={handleViewingSubmit} className="space-y-6 mt-4">
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.viewing.preferred_date", "Preferred Date")}</Label>
+                <Label className="text-[10px] font-black text-muted-foreground tracking-wider uppercase">{t("client.property.detail.viewing.preferred_date", "Preferred Date")}</Label>
                 <Input 
                   type="date" 
                   aria-label="Preferred viewing date"
@@ -1290,7 +1290,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.viewing.preferred_time", "Preferred Time")}</Label>
+                <Label className="text-[10px] font-black text-muted-foreground tracking-wider uppercase">{t("client.property.detail.viewing.preferred_time", "Preferred Time")}</Label>
                 <Input 
                   type="time" 
                   aria-label="Preferred viewing time"
@@ -1301,7 +1301,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-black text-slate-400 tracking-wider uppercase">{t("client.property.detail.viewing.notes_label", "Appointment Notes")}</Label>
+                <Label className="text-[10px] font-black text-muted-foreground tracking-wider uppercase">{t("client.property.detail.viewing.notes_label", "Appointment Notes")}</Label>
                 <Textarea 
                   value={viewingNotes} 
                   onChange={(e) => setViewingNotes(e.target.value)} 
@@ -1325,12 +1325,12 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
 
       {/* 3. Upcoming Events & Open Houses Dialog */}
       <Dialog open={isEventsModalOpen} onOpenChange={setIsEventsModalOpen}>
-        <DialogContent className="bg-[#14151a] border-white/5 text-foreground max-w-lg rounded-3xl p-8 backdrop-blur-3xl">
+        <DialogContent className="bg-background border-white/5 text-foreground max-w-lg rounded-3xl p-8 backdrop-blur-3xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-black italic tracking-tighter text-white">
               {t("client.property.detail.events.title", "Upcoming Showing Events")}
             </DialogTitle>
-            <DialogDescription className="text-xs text-slate-400">
+            <DialogDescription className="text-xs text-muted-foreground">
               {t("client.property.detail.events.description", "Explore scheduled open houses or presentation events for this property.")}
             </DialogDescription>
           </DialogHeader>
@@ -1342,7 +1342,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                   <div className="flex justify-between items-start gap-4">
                     <div>
                       <h4 className="font-black text-white text-sm italic">{ev.title}</h4>
-                      <p className="text-[10px] text-slate-400 mt-1 font-medium">{ev.description}</p>
+                      <p className="text-[10px] text-muted-foreground mt-1 font-medium">{ev.description}</p>
                     </div>
                     <Badge className="bg-orange-600/10 text-orange-400 border-none text-[8px] font-black tracking-widest italic py-0.5 shrink-0">
                       {ev.type?.toUpperCase()}
@@ -1351,13 +1351,13 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                   
                   <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-white/5">
                     <div className="flex flex-col gap-0.5">
-                      <span className="text-[9px] font-bold text-slate-500 tracking-widest uppercase">{t("time", "TIME")}</span>
-                      <span className="text-[10px] font-bold text-slate-300">
+                      <span className="text-[9px] font-bold text-muted-foreground tracking-widest uppercase">{t("time", "TIME")}</span>
+                      <span className="text-[10px] font-bold text-muted-foreground">
                         {format(new Date(ev.startDate), "LLL dd, yyyy HH:mm")}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs text-slate-400 font-bold">
+                      <span className="text-xs text-muted-foreground font-bold">
                         {ev.attendeeCount || 0} / {ev.maxAttendees || "∞"} {t("client.property.detail.events.attendees", "Attendees")}
                       </span>
                       <Button 
@@ -1372,7 +1372,7 @@ export default function PropertyDetail({ id: propId }: { id?: string }) {
                 </div>
               ))
             ) : (
-              <p className="text-center text-xs text-slate-500 py-6">{t("client.property.detail.events.empty", "There are no scheduled events for this property at this time.")}</p>
+              <p className="text-center text-xs text-muted-foreground py-6">{t("client.property.detail.events.empty", "There are no scheduled events for this property at this time.")}</p>
             )}
           </div>
 

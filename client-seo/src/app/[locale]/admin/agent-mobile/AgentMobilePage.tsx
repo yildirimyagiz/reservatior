@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { tEnum } from "@/lib/admin-enums";
 import {
   Dialog,
   DialogContent,
@@ -202,31 +203,31 @@ const mockDashboard = {
 
 const OFFER_STATUS_COLORS: Record<string, string> = {
   DRAFT: "bg-gray-500/20 text-gray-400",
-  SENT: "bg-blue-500/20 text-blue-400",
-  ACCEPTED: "bg-green-500/20 text-green-400",
+  SENT: "bg-blue-500/20 text-info",
+  ACCEPTED: "bg-blue-500/20 text-blue-400",
   REJECTED: "bg-red-500/20 text-red-400",
-  EXPIRED: "bg-amber-500/20 text-amber-400",
+  EXPIRED: "bg-amber-500/20 text-warning",
 };
 
 const ORDER_STATUS_COLORS: Record<string, string> = {
-  COMPLETED: "bg-green-500/20 text-green-400",
-  PENDING: "bg-amber-500/20 text-amber-400",
+  COMPLETED: "bg-blue-500/20 text-blue-400",
+  PENDING: "bg-amber-500/20 text-warning",
   CANCELLED: "bg-red-500/20 text-red-400",
 };
 
 const CERT_TIER_COLORS: Record<string, string> = {
-  PLATINUM: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-  GOLD: "bg-amber-500/20 text-amber-400 border-amber-500/30",
+  PLATINUM: "bg-brand/20 text-brand border-brand/30",
+  GOLD: "bg-amber-500/20 text-warning border-amber-500/30",
   SILVER: "bg-gray-400/20 text-gray-300 border-gray-400/30",
-  BRONZE: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+  BRONZE: "bg-orange-500/20 text-warning border-orange-500/30",
 };
 
 function TrustScoreBadge({ score }: { score: number }) {
   const color =
     score >= 80
-      ? "text-green-400"
+      ? "text-blue-400"
       : score >= 60
-      ? "text-amber-400"
+      ? "text-warning"
       : "text-red-400";
   return (
     <div className={`flex items-center gap-1 text-xs font-medium ${color}`}>
@@ -306,13 +307,10 @@ export default function AgentMobilePage() {
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1 md:mb-2 flex items-center gap-2">
                 <Smartphone className="w-6 h-6 md:w-7 md:h-7 text-primary" />
-                {t("admin_agent_mobile_title", "Agent Mobile Commerce")}
+                {t("admin_agent_mobile_title", "Danışman / Ajan Mobile Commerce")}
               </h1>
               <p className="text-sm md:text-muted-foreground">
-                {t(
-                  "admin_agent_mobile_description",
-                  "Mobile-optimized commerce: scan properties, generate offers, track commissions"
-                )}
+                {t("admin_agent_mobile_description", "Mobile-optimized commerce: scan Gayrimenkul Portföyü, generate offers, track Komisyon ve Hakedişler")}
               </p>
             </div>
           </div>
@@ -325,8 +323,8 @@ export default function AgentMobilePage() {
               className="flex items-center gap-2 text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground flex-1 md:flex-none"
             >
               <ScanLine className="w-4 h-4" />
-              <span className="hidden sm:inline">{t("admin_agent_mobile_scan_tab", "Property Scanner")}</span>
-              <span className="sm:hidden">{t("admin_agent_mobile_scan_tab", "Scanner")}</span>
+              <span className="hidden sm:inline">{t("admin_agent_mobile_scan_tab", "Gayrimenkul & Varlık Scanner")}</span>
+              <span className="sm:hidden">{t("admin_agent_mobile_scan_tab", "Gayrimenkul & Varlık Scanner")}</span>
             </TabsTrigger>
             <TabsTrigger
               value="offers"
@@ -334,15 +332,15 @@ export default function AgentMobilePage() {
             >
               <FileText className="w-4 h-4" />
               <span className="hidden sm:inline">{t("admin_agent_mobile_offers_tab", "My Offers")}</span>
-              <span className="sm:hidden">{t("admin_agent_mobile_offers_tab", "Offers")}</span>
+              <span className="sm:hidden">{t("admin_agent_mobile_offers_tab", "My Offers")}</span>
             </TabsTrigger>
             <TabsTrigger
               value="commission"
               className="flex items-center gap-2 text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground flex-1 md:flex-none"
             >
               <DollarSign className="w-4 h-4" />
-              <span className="hidden sm:inline">{t("admin_agent_mobile_commission_tab", "Commission Dashboard")}</span>
-              <span className="sm:hidden">{t("admin_agent_mobile_commission_tab", "Commissions")}</span>
+              <span className="hidden sm:inline">{t("admin_agent_mobile_commission_tab", "Komisyon Payı Yönetim ve Kontrol Üssü")}</span>
+              <span className="sm:hidden">{t("admin_agent_mobile_commission_tab", "Komisyon Payı Yönetim ve Kontrol Üssü")}</span>
             </TabsTrigger>
           </TabsList>
 
@@ -357,19 +355,19 @@ export default function AgentMobilePage() {
                 <CardHeader className="pb-3">
                   <CardTitle className="text-foreground flex items-center gap-2 text-base md:text-lg">
                     <Search className="w-4 h-4 md:w-5 md:h-5" />
-                    {t("admin_agent_mobile_scan_tab", "Property Scanner")}
+                    {t("admin_agent_mobile_scan_tab", "Gayrimenkul & Varlık Scanner")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                     <div className="sm:col-span-2 lg:col-span-1">
                       <Label className="text-xs text-muted-foreground mb-1 block">
-                        {t("admin_agent_mobile_scan_placeholder", "Search by address or city...")}
+                        {t("admin_agent_mobile_scan_placeholder", "Akıllı Arama... - address or city...")}
                       </Label>
                       <div className="relative">
                         <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <Input
-                          placeholder={t("admin_agent_mobile_scan_placeholder", "Search by address or city...")}
+                          placeholder={t("admin_agent_mobile_scan_placeholder", "Akıllı Arama... - address or city...")}
                           value={searchAddress}
                           onChange={(e) => setSearchAddress(e.target.value)}
                           className="pl-10 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -377,9 +375,9 @@ export default function AgentMobilePage() {
                       </div>
                     </div>
                     <div>
-                      <Label className="text-xs text-muted-foreground mb-1 block">City</Label>
+                      <Label className="text-xs text-muted-foreground mb-1 block">{t("admin_agent_mobile_city", "Şehir")}</Label>
                       <Input
-                        placeholder="City"
+                        placeholder={t("admin_agent_mobile_city", "Şehir")}
                         value={searchCity}
                         onChange={(e) => setSearchCity(e.target.value)}
                         className="bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -391,10 +389,10 @@ export default function AgentMobilePage() {
                       </Label>
                       <Select value={minBedrooms} onValueChange={setMinBedrooms}>
                         <SelectTrigger className="bg-white/5 border-white/10 text-foreground">
-                          <SelectValue placeholder="Any" />
+                          <SelectValue placeholder={t("admin_agent_mobile_any", "Tümü")} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="any">Any</SelectItem>
+                          <SelectItem value="any">{t("admin_agent_mobile_any", "Tümü")}</SelectItem>
                           <SelectItem value="1">1+</SelectItem>
                           <SelectItem value="2">2+</SelectItem>
                           <SelectItem value="3">3+</SelectItem>
@@ -403,10 +401,10 @@ export default function AgentMobilePage() {
                       </Select>
                     </div>
                     <div>
-                      <Label className="text-xs text-muted-foreground mb-1 block">Max Price</Label>
+                      <Label className="text-xs text-muted-foreground mb-1 block">{t("admin_agent_mobile_max_price", "Maksimum Fiyat")}</Label>
                       <Input
                         type="number"
-                        placeholder="e.g. 500000"
+                        placeholder={t("admin_agent_mobile_price_placeholder", "ör. 500000")}
                         value={maxPrice}
                         onChange={(e) => setMaxPrice(e.target.value)}
                         className="bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
@@ -446,7 +444,7 @@ export default function AgentMobilePage() {
                   <CardContent className="p-8 text-center">
                     <ScanLine className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
                     <p className="text-sm text-muted-foreground">
-                      {t("admin_agent_mobile_no_results", "No properties found matching your criteria")}
+                      {t("admin_agent_mobile_no_results", "No Gayrimenkul Portföyü found matching your criteria")}
                     </p>
                   </CardContent>
                 </Card>
@@ -477,7 +475,7 @@ export default function AgentMobilePage() {
                                   CERT_TIER_COLORS[property.certificateTier] || ""
                                 }`}
                               >
-                                {property.certificateTier}
+                                {tEnum(t, property.certificateTier)}
                               </Badge>
                             )}
                           </div>
@@ -493,7 +491,7 @@ export default function AgentMobilePage() {
                             <div className="flex items-center gap-1.5 text-xs">
                               <Maximize2 className="w-3.5 h-3.5 text-muted-foreground" />
                               <span className="text-muted-foreground">
-                                {t("admin_agent_mobile_sqm", "Area (m\u00B2)")}:
+                                {t("admin_agent_mobile_sqm", "Area (m²)")}:
                               </span>
                               <span className="text-foreground font-medium">{property.squareMeters}</span>
                             </div>
@@ -513,7 +511,7 @@ export default function AgentMobilePage() {
                                 {t("admin_agent_mobile_property_rent", "Est. Monthly Rent")}
                               </span>
                               <span className="text-foreground font-medium">
-                                ${property.estimatedRent.toLocaleString()}/mo
+                                ${property.estimatedRent.toLocaleString()}{t("admin_agent_mobile_per_month", "/ay")}
                               </span>
                             </div>
                             <div className="flex items-center justify-between text-xs">
@@ -525,7 +523,7 @@ export default function AgentMobilePage() {
                                   <div
                                     className={`h-full rounded-full ${
                                       property.occupancyRate >= 90
-                                        ? "bg-green-500"
+                                        ? "bg-blue-500"
                                         : property.occupancyRate >= 75
                                         ? "bg-amber-500"
                                         : "bg-red-500"
@@ -539,7 +537,7 @@ export default function AgentMobilePage() {
                             {property.trustScore !== undefined && (
                               <div className="flex items-center justify-between text-xs">
                                 <span className="text-muted-foreground">
-                                  {t("admin_agent_mobile_trust_score", "Trust Score")}
+                                  {t("admin_agent_mobile_trust_score", "Trust Başarı Skoru")}
                                 </span>
                                 <TrustScoreBadge score={property.trustScore} />
                               </div>
@@ -585,15 +583,15 @@ export default function AgentMobilePage() {
                       onValueChange={(v) => setFilters({ offerStatus: v })}
                     >
                       <SelectTrigger className="w-[130px] bg-white/5 border-white/10 text-foreground text-xs">
-                        <SelectValue placeholder="Status" />
+                        <SelectValue placeholder={t("admin_common_status", "Durum")} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All</SelectItem>
-                        <SelectItem value="DRAFT">Draft</SelectItem>
-                        <SelectItem value="SENT">Sent</SelectItem>
-                        <SelectItem value="ACCEPTED">Accepted</SelectItem>
-                        <SelectItem value="REJECTED">Rejected</SelectItem>
-                        <SelectItem value="EXPIRED">Expired</SelectItem>
+                        <SelectItem value="all">{t("admin_agent_mobile_all", "Tümü")}</SelectItem>
+                        <SelectItem value="DRAFT">{tEnum(t, "DRAFT")}</SelectItem>
+                        <SelectItem value="SENT">{tEnum(t, "SENT")}</SelectItem>
+                        <SelectItem value="ACCEPTED">{tEnum(t, "ACCEPTED")}</SelectItem>
+                        <SelectItem value="REJECTED">{tEnum(t, "REJECTED")}</SelectItem>
+                        <SelectItem value="EXPIRED">{tEnum(t, "EXPIRED")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -612,10 +610,10 @@ export default function AgentMobilePage() {
                             <div className="flex items-start justify-between mb-3">
                               <div>
                                 <p className="text-xs text-muted-foreground font-mono">{offer.id}</p>
-                                <p className="text-xs text-muted-foreground mt-1">{offer.offerType}</p>
+                                <p className="text-xs text-muted-foreground mt-1">{tEnum(t, offer.offerType)}</p>
                               </div>
                               <Badge className={`text-[10px] ${OFFER_STATUS_COLORS[offer.status]}`}>
-                                {offer.status}
+                                {tEnum(t, offer.status)}
                               </Badge>
                             </div>
 
@@ -623,7 +621,7 @@ export default function AgentMobilePage() {
                               <div className="flex items-center justify-between text-sm">
                                 <span className="text-muted-foreground flex items-center gap-1">
                                   <DollarSign className="w-3.5 h-3.5" />
-                                  {t("admin_agent_mobile_offer_amount", "Offer Amount")}
+                                  {t("admin_agent_mobile_offer_amount", "Offer Ödeme Tutarı")}
                                 </span>
                                 <span className="text-foreground font-bold">
                                   ${offer.amount.toLocaleString()}
@@ -632,9 +630,9 @@ export default function AgentMobilePage() {
                               <div className="flex items-center justify-between text-sm">
                                 <span className="text-muted-foreground flex items-center gap-1">
                                   <Percent className="w-3.5 h-3.5" />
-                                  {t("admin_agent_mobile_offer_commission", "Commission")}
+                                  {t("admin_agent_mobile_offer_commission", "Komisyon ve Hakediş")}
                                 </span>
-                                <span className="text-green-400 font-semibold">
+                                <span className="text-blue-400 font-semibold">
                                   ${offer.commission.toLocaleString()} ({offer.commissionRate}%)
                                 </span>
                               </div>
@@ -691,12 +689,12 @@ export default function AgentMobilePage() {
               <Card className="bg-card border-border">
                 <CardContent className="p-3 md:p-4">
                   <div className="flex items-center gap-2 md:gap-3">
-                    <div className="p-1.5 md:p-2 rounded-lg bg-green-500/10">
-                      <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-green-500" />
+                    <div className="p-1.5 md:p-2 rounded-lg bg-blue-500/10">
+                      <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-blue-500" />
                     </div>
                     <div>
                       <p className="text-[10px] md:text-sm text-muted-foreground">
-                        {t("admin_agent_mobile_total_revenue", "Total Revenue")}
+                        {t("admin_agent_mobile_total_revenue", "Total Ciro & Gelir Havuzu")}
                       </p>
                       <p className="text-lg md:text-2xl font-bold text-foreground">
                         ${(dashboard.totalRevenue / 1000).toFixed(0)}k
@@ -713,7 +711,7 @@ export default function AgentMobilePage() {
                     </div>
                     <div>
                       <p className="text-[10px] md:text-sm text-muted-foreground">
-                        {t("admin_agent_mobile_total_commissions", "Total Commissions")}
+                        {t("admin_agent_mobile_total_commissions", "Total Komisyon ve Hakedişler")}
                       </p>
                       <p className="text-lg md:text-2xl font-bold text-foreground">
                         ${(dashboard.totalCommissions / 1000).toFixed(1)}k
@@ -751,12 +749,12 @@ export default function AgentMobilePage() {
               <Card className="bg-card border-border">
                 <CardContent className="p-3 md:p-4">
                   <div className="flex items-center gap-2 md:gap-3">
-                    <div className="p-1.5 md:p-2 rounded-lg bg-purple-500/10">
-                      <BadgeCheck className="w-4 h-4 md:w-5 md:h-5 text-purple-500" />
+                    <div className="p-1.5 md:p-2 rounded-lg bg-brand/10">
+                      <BadgeCheck className="w-4 h-4 md:w-5 md:h-5 text-brand" />
                     </div>
                     <div>
                       <p className="text-[10px] md:text-sm text-muted-foreground">
-                        {t("admin_agent_mobile_active_offers", "Active Offers")}
+                        {t("admin_agent_mobile_active_offers", "Aktif Offers")}
                       </p>
                       <p className="text-lg md:text-2xl font-bold text-foreground">
                         {dashboard.activeOffers}
@@ -773,7 +771,7 @@ export default function AgentMobilePage() {
                     </div>
                     <div>
                       <p className="text-[10px] md:text-sm text-muted-foreground">
-                        {t("admin_agent_mobile_properties_scanned", "Properties Scanned")}
+                        {t("admin_agent_mobile_properties_scanned", "Gayrimenkul Portföyü Scanned")}
                       </p>
                       <p className="text-lg md:text-2xl font-bold text-foreground">
                         {dashboard.propertiesScanned}
@@ -794,7 +792,7 @@ export default function AgentMobilePage() {
                 <CardHeader className="pb-3">
                   <CardTitle className="text-foreground flex items-center gap-2 text-base md:text-lg">
                     <ShoppingCart className="w-4 h-4 md:w-5 md:h-5" />
-                    Recent Orders
+                    {t("admin_agent_mobile_recent_orders", "Son Siparişler")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -803,22 +801,22 @@ export default function AgentMobilePage() {
                       <thead>
                         <tr className="border-b border-border">
                           <th className="text-left py-2 md:py-3 px-3 md:px-4 text-muted-foreground font-medium text-xs">
-                            Order
+                            {t("admin_agent_mobile_order", "Sipariş")}
                           </th>
                           <th className="text-left py-2 md:py-3 px-3 md:px-4 text-muted-foreground font-medium text-xs">
-                            Property
+                            {t("admin_agent_mobile_property", "Mülk")}
                           </th>
                           <th className="text-right py-2 md:py-3 px-3 md:px-4 text-muted-foreground font-medium text-xs">
-                            Amount
+                            {t("admin_agent_mobile_amount", "Tutar")}
                           </th>
                           <th className="text-right py-2 md:py-3 px-3 md:px-4 text-muted-foreground font-medium text-xs">
-                            Commission
+                            {t("admin_agent_mobile_offer_commission", "Komisyon ve Hakediş")}
                           </th>
                           <th className="text-left py-2 md:py-3 px-3 md:px-4 text-muted-foreground font-medium text-xs hidden sm:table-cell">
-                            Date
+                            {t("admin_agent_mobile_date", "Tarih")}
                           </th>
                           <th className="text-left py-2 md:py-3 px-3 md:px-4 text-muted-foreground font-medium text-xs">
-                            Status
+                            {t("admin_common_status", "Durum")}
                           </th>
                         </tr>
                       </thead>
@@ -837,7 +835,7 @@ export default function AgentMobilePage() {
                             <td className="py-2 md:py-3 px-3 md:px-4 text-right font-medium text-foreground text-xs md:text-sm">
                               ${order.amount.toLocaleString()}
                             </td>
-                            <td className="py-2 md:py-3 px-3 md:px-4 text-right text-green-400 font-medium text-xs md:text-sm">
+                            <td className="py-2 md:py-3 px-3 md:px-4 text-right text-blue-400 font-medium text-xs md:text-sm">
                               ${order.commission.toLocaleString()}
                             </td>
                             <td className="py-2 md:py-3 px-3 md:px-4 text-muted-foreground text-xs hidden sm:table-cell">
@@ -849,7 +847,7 @@ export default function AgentMobilePage() {
                                   ORDER_STATUS_COLORS[order.status] || ""
                                 }`}
                               >
-                                {order.status}
+                                {tEnum(t, order.status)}
                               </Badge>
                             </td>
                           </tr>
@@ -871,7 +869,7 @@ export default function AgentMobilePage() {
                 <CardHeader className="pb-3">
                   <CardTitle className="text-foreground flex items-center gap-2 text-base md:text-lg">
                     <Star className="w-4 h-4 md:w-5 md:h-5" />
-                    Top Performing Properties
+                    {t("admin_agent_mobile_top_properties", "En İyi Performans Gösteren Mülkler")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -891,14 +889,14 @@ export default function AgentMobilePage() {
                             {prop.address}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {prop.orders} orders
+                            {prop.orders} {t("admin_agent_mobile_orders", "sipariş")}
                           </p>
                         </div>
                         <div className="text-right shrink-0">
                           <p className="text-sm font-bold text-foreground">
                             ${prop.revenue.toLocaleString()}
                           </p>
-                          <p className="text-xs text-muted-foreground">revenue</p>
+                          <p className="text-xs text-muted-foreground">{t("admin_agent_mobile_revenue", "gelir")}</p>
                         </div>
                       </div>
                     ))}
@@ -939,7 +937,7 @@ export default function AgentMobilePage() {
                     {t("admin_agent_mobile_property_rent", "Est. Monthly Rent")}
                   </p>
                   <p className="text-sm font-medium text-foreground">
-                    ${selectedPropertyForOffer.estimatedRent.toLocaleString()}/mo
+                    ${selectedPropertyForOffer.estimatedRent.toLocaleString()}{t("admin_agent_mobile_per_month", "/ay")}
                   </p>
                 </div>
                 <div>
@@ -952,17 +950,17 @@ export default function AgentMobilePage() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">
-                    {t("admin_agent_mobile_sqm", "Area (m\u00B2)")}
+                    {t("admin_agent_mobile_sqm", "Area (m²)")}
                   </p>
                   <p className="text-sm font-medium text-foreground">
-                    {selectedPropertyForOffer.squareMeters} m&sup2;
+                    {selectedPropertyForOffer.squareMeters} {t("admin_agent_mobile_sqm_unit", "m²")}
                   </p>
                 </div>
               </div>
             )}
             <div className="grid grid-cols-4 items-center gap-4">
               <Label className="text-right text-foreground text-sm">
-                {t("admin_agent_mobile_offer_status", "Type")}
+                {t("admin_agent_mobile_offer_status", "İşlem Durum Bilgisi")}
               </Label>
               <div className="col-span-3">
                 <Select value={offerType} onValueChange={setOfferType}>
@@ -970,17 +968,17 @@ export default function AgentMobilePage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="STANDARD">Standard</SelectItem>
-                    <SelectItem value="PREMIUM">Premium</SelectItem>
-                    <SelectItem value="BUNDLE">Bundle</SelectItem>
-                    <SelectItem value="FLASH">Flash Sale</SelectItem>
+                    <SelectItem value="STANDARD">{tEnum(t, "STANDARD")}</SelectItem>
+                    <SelectItem value="PREMIUM">{tEnum(t, "PREMIUM")}</SelectItem>
+                    <SelectItem value="BUNDLE">{tEnum(t, "BUNDLE")}</SelectItem>
+                    <SelectItem value="FLASH">{tEnum(t, "FLASH")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label className="text-right text-foreground text-sm">
-                {t("admin_agent_mobile_offer_amount", "Amount")}
+                {t("admin_agent_mobile_offer_amount", "Offer Ödeme Tutarı")}
               </Label>
               <Input
                 type="number"
@@ -990,21 +988,21 @@ export default function AgentMobilePage() {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right text-foreground text-sm">Notes</Label>
+              <Label className="text-right text-foreground text-sm">{t("admin_agent_mobile_notes", "Notlar")}</Label>
               <Input
                 value={offerNotes}
                 onChange={(e) => setOfferNotes(e.target.value)}
-                placeholder="Optional notes..."
+                placeholder={t("admin_agent_mobile_notes_placeholder", "İsteğe bağlı notlar...")}
                 className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors placeholder:text-muted-foreground"
               />
             </div>
             {offerAmount && (
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label className="text-right text-foreground text-sm">
-                  {t("admin_agent_mobile_offer_commission", "Commission")}
+                  {t("admin_agent_mobile_offer_commission", "Komisyon ve Hakediş")}
                 </Label>
                 <div className="col-span-3">
-                  <p className="text-sm text-green-400 font-semibold">
+                  <p className="text-sm text-blue-400 font-semibold">
                     ${Math.round(Number(offerAmount) * 0.06).toLocaleString()} (6%)
                   </p>
                 </div>
@@ -1017,7 +1015,7 @@ export default function AgentMobilePage() {
               onClick={() => setOfferDialogOpen(false)}
               className="border-border text-foreground"
             >
-              {t("admin_action_cancel", "Cancel")}
+              {t("admin_action_cancel", "İptal")}
             </Button>
             <Button
               onClick={handleSubmitOffer}

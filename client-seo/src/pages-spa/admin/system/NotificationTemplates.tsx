@@ -3,7 +3,7 @@ import React from 'react';
 
 import { useState, useEffect, useCallback } from"react";
 import { useTranslation } from"react-i18next";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
@@ -181,7 +181,7 @@ export default function NotificationTemplates() {
  <Input
  value={form.variables}
  onChange={(e) => setForm({ ...form, variables: e.target.value })}
- placeholder={t("admin_auto_name_email_propertyname", "name, email, propertyName")}
+ placeholder={t("admin_auto_name_email_propertyname", "ad, e-posta, mülkAdı")}
  />
  <p className="text-xs text-muted-foreground">{t("admin_system_variables_hint")}</p>
  </div>
@@ -244,16 +244,16 @@ export default function NotificationTemplates() {
  <TableCell><Badge variant="outline">{tmpl.channel}</Badge></TableCell>
  <TableCell className="text-sm max-w-[200px] truncate">{tmpl.subject ||"-"}</TableCell>
  <TableCell>
- <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${tmpl.isActive ?"bg-green-100 text-green-800" :"bg-card text-muted-foreground"}`}>
+ <span className={`px-2 py-0.5 rounded-lg text-xs font-medium ${tmpl.isActive ?"bg-blue-100 text-blue-800" :"bg-card text-muted-foreground"}`}>
  {tmpl.isActive ? t("admin_system_yes") : t("admin_system_no")}
  </span>
  </TableCell>
  <TableCell>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm" onClick={() => openEdit(tmpl)}>
+ <Button variant="ghost" size="sm" onClick={() => openEdit(tmpl)} aria-label={t("common.edit")}>
  <Edit className="h-4 w-4" />
  </Button>
- <Button variant="ghost" size="sm" onClick={() => handleDelete(tmpl.id)}>
+ <Button variant="ghost" size="sm" onClick={() => handleDelete(tmpl.id)} aria-label={t("common.delete")}>
  <Trash2 className="h-4 w-4 text-red-500" />
  </Button>
  </div>

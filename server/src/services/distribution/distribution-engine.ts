@@ -17,15 +17,15 @@ export class DistributionEngine {
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
       include: {
-        property: { include: { workOrders: true } },
+        property: true,
         agent: {
           include: {
             agentPerformances: true,
             Review: true,
           },
         },
-        reviews: true,
         leads: true,
+        maintenanceBlocks: true,
       },
     });
 
@@ -35,29 +35,34 @@ export class DistributionEngine {
     const agentReputation = await reputationEngine.calculateAgentScore(listing.agent.id, region);
     const agentScore = agentReputation.totalScore;
 
-    const totalMaintenance = listing.property?.maintenanceWorkOrders?.length || 0;
-    const openMaintenance = listing.property?.maintenanceWorkOrders?.filter(m => m.status !== "DONE" && m.status !== "CANCELLED").length || 0;
+    const now = Date.now();
+    const totalMaintenance = listing.maintenanceBlocks?.length || 0;
+    const openMaintenance = listing.maintenanceBlocks?.filter((m) => {
+      const start = new Date(m.startDate).getTime();
+      const end = new Date(m.endDate).getTime();
+      return start <= now && end >= now;
+    }).length || 0;
     const maintenanceHealth = totalMaintenance > 0 ? 1 - (openMaintenance / totalMaintenance) : 1;
 
-    const listingReviews = listing.reviews || [];
-    const avgReviewScore = listingReviews.length > 0
-      ? listingReviews.reduce((s, r) => s + (r.score || 0), 0) / listingReviews.length
+    const agentReviews = listing.agent?.Review || [];
+    const avgReviewScore = agentReviews.length > 0
+      ? agentReviews.reduce((s, r) => s + r.rating / 5, 0) / agentReviews.length
       : 0.5;
 
     const listingQualityScore = (avgReviewScore * 0.6 + maintenanceHealth * 0.4);
 
     const totalLeads = listing.leads?.length || 0;
-    const convertedLeads = listing.leads?.filter(l => l.status === "CONVERTED").length || 0;
+    const convertedLeads = listing.leads?.filter((l) => l.status === "CONVERTED").length || 0;
     const conversionRate = totalLeads > 0 ? convertedLeads / totalLeads : 0;
 
     const platformFee = Number(listing.price) * 0.04;
     const revenuePotential = platformFee * Math.max(conversionRate, 0.1);
 
     const daysListed = Math.floor((new Date().getTime() - new Date(listing.createdAt).getTime()) / (1000 * 60 * 60 * 24));
-    const viewCount = listing.viewCount || 0;
-    const inquiryCount = listing.inquiryCount || 0;
+    const viewCount = listing.likesCount || 0;
+    const inquiryCount = listing.leads?.length || 0;
 
-    const agentWorkload = listing.agent.agentPerformances?.reduce((s, p) => s + p.leadsGenerated, 0) || 0;
+    const agentWorkload = listing.agent?.agentPerformances?.reduce((s, p) => s + p.leadsGenerated, 0) || 0;
 
     const rankInput: ListingRankingInput = {
       listingId: listing.id,
@@ -142,8 +147,8 @@ export class DistributionEngine {
     const prisma = prismaManager.getClient(region);
     const agents = await prisma.agent.findMany({
       where: {
-        isActive: true,
-        specializations: { hasSome: [listing.type || "RESIDENTIAL"] },
+        status: "ACTIVE",
+        specialties: { hasSome: [listing.type || "RESIDENTIAL"] },
       },
       take: 5,
     });

@@ -24,16 +24,16 @@ const STATUS = {
   },
   RELEASED: {
     label: t("client.src.released"),
-    cls: "bg-green-100 text-green-700",
+    cls: "bg-blue-100 text-blue-700",
     icon: "CheckCircle2"
   },
   DISPUTED: {
-    label: t("client.src.disputed"),
+    label: t("common.disputed"),
     cls: "bg-red-100 text-red-700",
     icon: "AlertCircle"
   },
   REFUNDED: {
-    label: t("client.src.refunded"),
+    label: t("common.refunded"),
     cls: "bg-yellow-100 text-yellow-700",
     icon: "DollarSign"
   }
@@ -66,7 +66,7 @@ export default function Escrow() {
         return Array.isArray(response) ? response : response?.data || [];
       } catch (error) {
         toast({
-          title: t("client.src.error"),
+          title: t("common.error"),
           description: t("client.src.failed_to_load_escrow"),
           variant: "destructive"
         });
@@ -84,7 +84,7 @@ export default function Escrow() {
       setCreateOpen(false);
       toast({ title: t("client.src.escrow_account_created") });
     },
-    onError: () => toast({ title: t("client.src.error"), description: t("client.src.failed_to_create_escrow"), variant: "destructive" })
+    onError: () => toast({ title: t("common.error"), description: t("client.src.failed_to_create_escrow"), variant: "destructive" })
   });
 
   const releaseMutation = useMutation({
@@ -93,7 +93,7 @@ export default function Escrow() {
       queryClient.invalidateQueries({ queryKey: ['escrowAccounts'] });
       toast({ title: t("client.src.funds_released") });
     },
-    onError: () => toast({ title: t("client.src.error"), description: t("client.src.failed_to_release_funds"), variant: "destructive" })
+    onError: () => toast({ title: t("common.error"), description: t("client.src.failed_to_release_funds"), variant: "destructive" })
   });
 
   const disputeMutation = useMutation({
@@ -102,7 +102,7 @@ export default function Escrow() {
       queryClient.invalidateQueries({ queryKey: ['escrowAccounts'] });
       toast({ title: t("client.src.dispute_opened"), variant: "destructive" });
     },
-    onError: () => toast({ title: t("client.src.error"), description: t("client.src.failed_to_open_dispute"), variant: "destructive" })
+    onError: () => toast({ title: t("common.error"), description: t("client.src.failed_to_open_dispute"), variant: "destructive" })
   });
 
   const filtered = accounts.filter(e => {
@@ -160,7 +160,7 @@ export default function Escrow() {
           reservationId: e.target.value
         })} required /></div>
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5"><Label>{t("client.src.total_amount")}</Label><Input type="number" value={form.totalAmount} onChange={e => setForm({
+        <div className="space-y-1.5"><Label>{t("common.total_amount")}</Label><Input type="number" value={form.totalAmount} onChange={e => setForm({
             ...form,
             totalAmount: e.target.value
           })} required min="0" /></div>
@@ -169,7 +169,7 @@ export default function Escrow() {
             depositAmount: e.target.value
           })} required min="0" /></div>
       </div>
-      <div className="space-y-1.5"><Label>{t("client.src.currency")}</Label><Input value={form.currency} onChange={e => setForm({
+      <div className="space-y-1.5"><Label>{t("common.currency")}</Label><Input value={form.currency} onChange={e => setForm({
           ...form,
           currency: e.target.value
         })} /></div>
@@ -188,28 +188,28 @@ export default function Escrow() {
       label: t("client.src.holding"),
       value: accounts.filter(e => e.status === "HOLDING").length
     }, {
-      label: t("client.src.disputed"),
+      label: t("common.disputed"),
       value: accounts.filter(e => e.status === "DISPUTED").length
     }, {
       label: t("client.src.held_funds"),
       value: `$${holdingTotal.toLocaleString()}`
     }]} actions={<div className="flex items-center gap-2">
             <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-36 h-9"><SelectValue placeholder={t("client.src.status")} /></SelectTrigger>
-              <SelectContent><SelectItem value="all">{t("client.src.all")}</SelectItem>{Object.entries(STATUS).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}</SelectContent>
+              <SelectTrigger className="w-36 h-9"><SelectValue placeholder={t("common.status")} /></SelectTrigger>
+              <SelectContent><SelectItem value="all">{t("common.all")}</SelectItem>{Object.entries(STATUS).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}</SelectContent>
             </Select>
-            <Button variant="outline" size="sm" onClick={() => queryClient.invalidateQueries({ queryKey: ['escrowAccounts'] })} disabled={loading}><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></Button>
+            <Button variant="outline" size="sm" onClick={() => queryClient.invalidateQueries({ queryKey: ['escrowAccounts'] })} disabled={loading} aria-label={t("common.refresh")}><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></Button>
           </div>}>
         <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>{t("client.src.reservation")}</TableHead>
-                <TableHead>{t("client.src.total_amount")}</TableHead>
+                <TableHead>{t("common.total_amount")}</TableHead>
                 <TableHead>{t("client.src.deposit")}</TableHead>
-                <TableHead>{t("client.src.currency")}</TableHead>
+                <TableHead>{t("common.currency")}</TableHead>
                 <TableHead>{t("client.src.held_at")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -231,7 +231,7 @@ export default function Escrow() {
                       <TableCell><Badge className={`${s.cls} border-0 text-[10px] shadow-sm`}>{s.label}</Badge></TableCell>
                       <TableCell>
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-40">
                             {e.status === "HOLDING" && <DropdownMenuItem onClick={() => handleRelease(e)}><CheckCircle2 className="w-4 h-4 mr-2" />{t("client.src.release_funds")}</DropdownMenuItem>}
                             {e.status === "HOLDING" && <DropdownMenuItem onClick={() => handleDispute(e)} className="text-destructive font-medium"><AlertCircle className="w-4 h-4 mr-2" />{t("client.src.open_dispute")}</DropdownMenuItem>}
@@ -245,7 +245,7 @@ export default function Escrow() {
         </div>
       </PageShell>
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="sm:max-w-md"><DialogHeader><DialogTitle>{t("client.src.create_escrow_account")}</DialogTitle></DialogHeader><EscrowForm onSubmit={handleCreate} label={t("client.src.create")} /></DialogContent>
+        <DialogContent className="sm:max-w-md"><DialogHeader><DialogTitle>{t("client.src.create_escrow_account")}</DialogTitle></DialogHeader><EscrowForm onSubmit={handleCreate} label={t("common.create")} /></DialogContent>
       </Dialog>
     </>;
 }

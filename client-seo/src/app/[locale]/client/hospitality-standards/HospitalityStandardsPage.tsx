@@ -23,7 +23,7 @@ const PILLARS = [
     gradient: "from-amber-500/10 to-orange-500/5"
   },
   {
-    icon: <UserCheck className="w-7 h-7 text-blue-400" />,
+    icon: <UserCheck className="w-7 h-7 text-brand" />,
     title: "White-Glove Operators",
     subtitle: "Licensed Property Managers Only",
     description: "Every short-term rental must be managed through a certified, Reservatior-approved property management company. No owner-managed ad hoc rentals are permitted.",
@@ -36,7 +36,7 @@ const PILLARS = [
     gradient: "from-blue-500/10 to-cyan-500/5"
   },
   {
-    icon: <Building2 className="w-7 h-7 text-emerald-400" />,
+    icon: <Building2 className="w-7 h-7 text-success" />,
     title: "Residence Segmentation",
     subtitle: "Separate Flows, Shared Prestige",
     description: "Purpose-built guest reception zones and smart elevator access ensure short-term guests never disrupt the daily life of permanent residents.",
@@ -46,7 +46,7 @@ const PILLARS = [
       "Separate luggage handling & parking zones",
       "Guest wristband system for pool & gym access"
     ],
-    gradient: "from-emerald-500/10 to-green-500/5"
+    gradient: "from-blue-500/10 to-blue-500/5"
   }
 ];
 
@@ -65,11 +65,11 @@ export default function HospitalityStandardsPage() {
         >
           <div className="flex items-center justify-between mb-8">
             <div>
-              <Badge className="mb-6 bg-purple-500/10 text-purple-400 border border-purple-500/20 px-6 py-1 text-xs font-bold tracking-widest">
+              <Badge className="mb-6 bg-brand/10 text-brand border border-brand/20 px-6 py-1 text-xs font-bold tracking-widest">
                 <Star className="w-3 h-3 mr-2" /> {t("hospitality_standards.hospitalitystandardspage.auto_ext_1")}
                                             </Badge>
               <h1 className="text-6xl md:text-8xl font-bold text-white tracking-tighter mb-4 italic leading-none">
-                {t("hospitality_standards.hospitalitystandardspage.auto_ext_2")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500">{t("hospitality_standards.hospitalitystandardspage.auto_ext_3")}</span>
+                {t("hospitality_standards.hospitalitystandardspage.auto_ext_2")} <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-blue-500">{t("hospitality_standards.hospitalitystandardspage.auto_ext_3")}</span>
               </h1>
               <p className="text-xl text-gray-500 max-w-3xl font-bold tracking-widest italic leading-relaxed">
                 {t("hospitality_standards.hospitalitystandardspage.auto_ext_4")}
@@ -77,7 +77,7 @@ export default function HospitalityStandardsPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("hospitality_standards.hospitalitystandardspage.auto_ext_5")}
@@ -94,7 +94,7 @@ export default function HospitalityStandardsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
             >
-              <Card className={`bg-gradient-to-br ${pillar.gradient} backdrop-blur-xl border border-purple-500/20 h-full`}>
+              <Card className={`bg-gradient-to-br ${pillar.gradient} backdrop-blur-xl border border-brand/20 h-full`}>
                 <CardHeader>
                   <div className="p-4 rounded-2xl bg-black/40 border border-white/5 mb-6 w-fit">
                     {pillar.icon}
@@ -107,7 +107,7 @@ export default function HospitalityStandardsPage() {
                   <ul className="space-y-3">
                     {pillar.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
-                        <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+                        <CheckCircle className="w-4 h-4 text-success mt-0.5 shrink-0" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -132,9 +132,9 @@ export default function HospitalityStandardsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 + idx * 0.1 }}
             >
-              <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+              <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
                 <CardContent className="p-6 text-center">
-                  <stat.icon className="w-8 h-8 text-purple-400 mx-auto mb-3" />
+                  <stat.icon className="w-8 h-8 text-brand mx-auto mb-3" />
                   <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
                   <div className="text-sm text-gray-400">{stat.label}</div>
                 </CardContent>
@@ -150,10 +150,10 @@ export default function HospitalityStandardsPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-3">
-                  <Lock className="w-6 h-6 text-blue-400" />
+                  <Lock className="w-6 h-6 text-brand" />
                   {t("hospitality_standards.hospitalitystandardspage.auto_ext_6")}
                                                   </CardTitle>
               </CardHeader>
@@ -165,7 +165,7 @@ export default function HospitalityStandardsPage() {
                   "Legal compliance checks"
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
-                    <CheckCircle className="w-5 h-5 text-emerald-400" />
+                    <CheckCircle className="w-5 h-5 text-success" />
                     <span className="text-gray-300">{item}</span>
                   </div>
                 ))}
@@ -178,7 +178,7 @@ export default function HospitalityStandardsPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.7 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-3">
                   <Key className="w-6 h-6 text-amber-400" />
@@ -193,7 +193,7 @@ export default function HospitalityStandardsPage() {
                   "Spa & wellness access"
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
-                    <CheckCircle className="w-5 h-5 text-emerald-400" />
+                    <CheckCircle className="w-5 h-5 text-success" />
                     <span className="text-gray-300">{item}</span>
                   </div>
                 ))}

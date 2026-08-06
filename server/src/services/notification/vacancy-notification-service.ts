@@ -29,7 +29,7 @@ export class VacancyNotificationService {
       where: { id: listingId },
       include: {
         property: true,
-        org: { include: { members: { include: { user: true }, where: { role: "OWNER" } } } },
+        org: { include: { members: { include: { user: true }, where: { role: { key: "OWNER" } } } } },
       },
     });
 
@@ -67,11 +67,10 @@ export class VacancyNotificationService {
         orgId: listing.orgId,
         title: this.getNotificationTitle(severity),
         body: this.getNotificationBody(alert),
-        type: "VACANCY_ALERT",
-        ruleKey: "ALERT",
+        ruleKey: "VACANCY_ALERT",
         status: "QUEUED",
-        priority: severity === "CRITICAL" ? "HIGH" : "NORMAL",
-        metadata: alert as any,
+        ruleConfig: { priority: severity === "CRITICAL" ? "HIGH" : "NORMAL" },
+        data: alert as any,
       },
     });
 

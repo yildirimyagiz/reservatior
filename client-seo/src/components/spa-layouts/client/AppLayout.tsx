@@ -23,392 +23,392 @@ interface NavItem {
   children?: NavItem[];
 }
 const navigation: NavItem[] = [{
-  title: t("client.src.dashboard"),
-  href: "/dashboard",
+  title: t("client.nav.dashboard"),
+  href: '/admin/dashboard',
   icon: LayoutDashboard
 }, {
-  title: t("client.src.today"),
+  title: t("client.nav.today"),
   href: "/calendar",
   icon: CalendarClock
 }, {
-  title: t("client.src.analytics"),
-  href: "/analytics",
+  title: t("client.nav.analytics"),
+  href: '/admin/analytics',
   icon: BarChart3,
   permissions: ["REPORTS_VIEW"]
 }, {
-  title: t("client.src.property_management"),
+  title: t("client.nav.property_management"),
   icon: Building,
   permissions: ["PROPERTIES_MANAGE", "LISTINGS_MANAGE"],
   children: [{
-    title: t("client.src.properties"),
-    href: "/property",
+    title: t("common.properties"),
+    href: '/admin/properties',
     icon: Home
   }, {
-    title: t("client.src.listings"),
-    href: "/listings",
+    title: t("client.nav.listings"),
+    href: '/client/listings',
     icon: List
   }, {
-    title: t("client.src.bookings"),
+    title: t("common.bookings"),
     href: "/bookings",
     icon: Calendar
   }, {
-    title: t("client.src.reservations"),
+    title: t("client.nav.reservations"),
     href: "/reservations",
     icon: CalendarCheck
   }, {
-    title: t("client.src.res_tracking"),
+    title: t("client.nav.res_tracking"),
     href: "/reservations/tracking",
     icon: Activity
   }, {
-    title: t("client.src.maintenance"),
+    title: t("client.nav.maintenance"),
     href: "/maintenance",
     icon: Wrench,
     permissions: ["TASKS_MANAGE"]
   }, {
-    title: t("client.src.facilities_services"),
+    title: t("client.nav.facilities_services"),
     href: "/facilities",
     icon: LayoutGrid,
     permissions: ["ORG_MANAGE"]
   }, {
-    title: t("client.src.availability"),
+    title: t("client.nav.availability"),
     href: "/availability",
     icon: CalendarDays
   }, {
-    title: t("client.src.channels"),
+    title: t("client.nav.channels"),
     href: "/channels",
     icon: Globe,
     permissions: ["MLS_MANAGE"]
   }, {
-    title: t("client.src.discounts"),
+    title: t("client.nav.discounts"),
     href: "/discounts",
     icon: Tag,
     permissions: ["FINANCE_MANAGE"]
   }]
 }, {
-  title: t("client.src.communication"),
+  title: t("client.nav.communication"),
   icon: MessageSquare,
   children: [{
-    title: t("client.src.all_messages"),
-    href: "/messages",
+    title: t("client.nav.all_messages"),
+    href: '/client/messages',
     icon: MessageSquare,
     permissions: ["MESSAGES_USE"]
   }, {
-    title: t("client.src.communication_logs"),
+    title: t("client.nav.communication_logs"),
     href: "/communication-logs",
     icon: HistoryIcon,
     permissions: ["MESSAGES_USE"]
   }, {
-    title: t("client.src.notifications"),
-    href: "/notifications",
+    title: t("client.nav.notifications"),
+    href: '/client/messages',
     icon: Bell
   }, {
-    title: t("client.src.files_media"),
+    title: t("client.nav.files_media"),
     href: "/files",
     icon: FolderKanban
   }, {
-    title: t("client.src.activities"),
+    title: t("client.nav.activities"),
     href: "/activities",
     icon: Activity
   }]
 }, {
-  title: t("client.src.agents_agencies"),
+  title: t("client.nav.agents_agencies"),
   icon: UserCheck,
   roles: ["SUPER_ADMIN", "ORG_ADMIN", "AGENCY_ADMIN"],
   children: [{
-    title: t("client.src.agents"),
+    title: t("client.nav.agents"),
     href: "/agents",
     icon: Users
   }, {
-    title: t("client.src.agencies"),
+    title: t("client.nav.agencies"),
     href: "/agencies",
     icon: Building2,
     superOnly: true
   }, {
-    title: t("client.src.mortgages"),
-    href: "/mortgages",
+    title: t("client.nav.mortgages"),
+    href: '/client/mortgages',
     icon: Landmark
   }, {
-    title: t("client.src.agency_dashboard"),
+    title: t("client.nav.agency_dashboard"),
     href: "/agency-dashboard",
     icon: LayoutDashboard
   }, {
-    title: t("client.src.agent_teams"),
+    title: t("client.nav.agent_teams"),
     href: "/agent-teams",
     icon: Users
   }, {
-    title: t("client.src.performance"),
+    title: t("client.nav.performance"),
     href: "/agent-performance",
     icon: TrendingUp
   }, {
-    title: t("client.src.video_vendors"),
+    title: t("client.nav.video_vendors"),
     href: "/video-vendors",
     icon: Video
   }, {
-    title: t("client.src.commissions"),
+    title: t("client.nav.commissions"),
     href: "/commissions",
     icon: Percent,
     permissions: ["FINANCE_MANAGE"]
   }]
 }, {
-  title: t("client.src.leases_tenants"),
+  title: t("client.nav.leases_tenants"),
   icon: FileText,
   permissions: ["LEASES_MANAGE"],
   children: [{
-    title: t("client.src.leases"),
-    href: "/leases",
+    title: t("client.nav.leases"),
+    href: '/client/leases',
     icon: FileText
   }, {
-    title: t("client.src.tenants"),
-    href: "/tenants",
+    title: t("client.nav.tenants"),
+    href: '/client/tenants',
     icon: Users
   }, {
-    title: t("client.src.applications"),
-    href: "/tenant-applications",
+    title: t("client.nav.applications"),
+    href: '/client/tenants',
     icon: UserPlus
   }, {
-    title: t("client.src.rent_schedule"),
-    href: "/rent-schedule",
+    title: t("client.nav.rent_schedule"),
+    href: '/client/leases',
     icon: CalendarDays
   }, {
-    title: t("client.src.rent_arrears"),
+    title: t("client.nav.rent_arrears"),
     href: "/rent-arrears",
     icon: AlertTriangle
   }, {
-    title: t("client.src.increases"),
+    title: t("client.nav.increases"),
     href: "/increases",
     icon: TrendingUp
   }]
 }, {
-  title: t("client.src.financial"),
+  title: t("client.nav.financial"),
   icon: DollarSign,
   permissions: ["FINANCE_MANAGE"],
   children: [{
-    title: t("client.src.payments"),
+    title: t("client.nav.payments"),
     href: "/payments",
     icon: CreditCard
   }, {
-    title: t("client.src.invoices"),
-    href: "/financial/invoices",
+    title: t("client.nav.invoices"),
+    href: '/admin/invoices',
     icon: Receipt
   }, {
-    title: t("client.src.expenses"),
+    title: t("client.nav.expenses"),
     href: "/expenses",
     icon: Receipt
   }, {
-    title: t("client.src.extra_charges"),
-    href: "/extra-charges",
+    title: t("client.nav.extra_charges"),
+    href: '/admin/payments',
     icon: Tag
   }, {
-    title: t("client.src.payouts"),
+    title: t("client.nav.payouts"),
     href: "/payouts",
     icon: ArrowRightLeft
   }, {
-    title: t("client.src.subscriptions"),
+    title: t("client.nav.subscriptions"),
     href: "/subscriptions",
     icon: CreditCard,
     superOnly: true
   }, {
-    title: t("client.src.escrow"),
+    title: t("client.nav.escrow"),
     href: "/escrow",
     icon: Shield
   }, {
-    title: t("client.src.investor_portfolio"),
+    title: t("client.nav.investor_portfolio"),
     href: "/investors/portfolio",
     icon: Briefcase
   }, {
-    title: t("client.src.mortgages"),
-    href: "/mortgages",
+    title: t("client.nav.mortgages"),
+    href: '/client/mortgages',
     icon: Landmark
   }, {
-    title: t("client.src.financial_reports"),
-    href: "/financial",
+    title: t("client.nav.financial_reports"),
+    href: '/client/financial',
     icon: FileBarChart,
     permissions: ["REPORTS_VIEW"]
   }, {
-    title: t("client.src.commission_rules"),
+    title: t("client.nav.commission_rules"),
     href: "/financial/commission-rules",
     icon: Percent
   }, {
-    title: t("client.src.tax_records"),
-    href: "/financial/taxes",
+    title: t("client.nav.tax_records"),
+    href: '/admin/financial',
     icon: Calculator,
     permissions: ["TAX_MANAGE"]
   }, {
-    title: t("client.src.budgets"),
-    href: "/financial/budgets",
+    title: t("client.nav.budgets"),
+    href: '/admin/financial',
     icon: PieChart
   }, {
-    title: t("client.src.help_desk"),
+    title: t("client.nav.help_desk"),
     href: "/payout-and-helpdesk",
     icon: Target
   }]
 }, {
-  title: t("client.src.contacts_crm"),
+  title: t("client.nav.contacts_crm"),
   icon: Users,
   children: [{
-    title: t("client.src.contacts"),
-    href: "/contacts",
+    title: t("client.nav.contacts"),
+    href: '/client/contacts',
     icon: Users
   }, {
-    title: t("client.src.leads"),
-    href: "/leads",
+    title: t("client.nav.leads"),
+    href: '/client/contacts',
     icon: Target
   }, {
-    title: t("client.src.deals"),
-    href: "/deals",
+    title: t("client.nav.deals"),
+    href: '/client/deals',
     icon: Briefcase
   }, {
-    title: t("client.src.offers"),
-    href: "/offers",
+    title: t("client.nav.offers"),
+    href: '/client/deals',
     icon: Zap
   }, {
-    title: t("client.src.client_relationships"),
-    href: "/client-relationships",
+    title: t("client.nav.client_relationships"),
+    href: '/client/crm',
     icon: Share2
   }, {
-    title: t("client.src.referrals"),
-    href: "/referrals",
+    title: t("client.nav.referrals"),
+    href: '/client/contacts',
     icon: Share2
   }, {
-    title: t("client.src.guests"),
+    title: t("client.nav.guests"),
     href: "/guests",
     icon: User
   }, {
-    title: t("client.src.guest_followup"),
+    title: t("client.nav.guest_followup"),
     href: "/guests/follow-up",
     icon: Target
   }, {
-    title: t("client.src.tags_manager"),
+    title: t("client.nav.tags_manager"),
     href: "/tags",
     icon: Tag
   }]
 }, {
-  title: t("client.src.contracts_legal"),
+  title: t("client.nav.contracts_legal"),
   icon: FileSignature,
   permissions: ["CONTRACTS_MANAGE"],
   children: [{
-    title: t("client.src.contracts"),
-    href: "/contracts",
+    title: t("client.nav.contracts"),
+    href: '/client/contracts',
     icon: FileText
   }, {
-    title: t("client.src.documents"),
-    href: "/documents",
+    title: t("common.documents"),
+    href: '/client/file-management',
     icon: FileText
   }, {
-    title: t("client.src.signatures"),
-    href: "/signatures",
+    title: t("client.nav.signatures"),
+    href: '/client/contracts',
     icon: PenTool
   }, {
-    title: t("client.src.templates"),
+    title: t("common.templates"),
     href: "/document-templates",
     icon: LayoutTemplate
   }, {
-    title: t("client.src.disclosures"),
+    title: t("client.nav.disclosures"),
     href: "/property-disclosures",
     icon: ScrollText
   }, {
-    title: t("client.src.compliance"),
+    title: t("client.nav.compliance"),
     href: "/legal/compliance",
     icon: Shield
   }, {
-    title: t("client.src.deposit_protection"),
+    title: t("client.nav.deposit_protection"),
     href: "/legal/deposit-protection",
     icon: Shield
   }, {
-    title: t("client.src.right_to_rent"),
+    title: t("client.nav.right_to_rent"),
     href: "/legal/right-to-rent",
     icon: UserCheck
   }, {
-    title: t("client.src.solicitors"),
+    title: t("client.nav.solicitors"),
     href: "/legal/solicitors",
     icon: Scale
   }]
 }, {
-  title: t("client.src.projects_tasks"),
+  title: t("client.nav.projects_tasks"),
   icon: CheckSquare,
   children: [{
-    title: t("client.src.tasks"),
-    href: "/tasks",
+    title: t("client.nav.tasks"),
+    href: '/client/tasks',
     icon: CheckSquare
   }, {
-    title: t("client.src.task_kanban"),
+    title: t("client.nav.task_kanban"),
     href: "/tasks/kanban",
     icon: LayoutGrid
   }, {
-    title: t("client.src.task_events"),
+    title: t("client.nav.task_events"),
     href: "/task-events",
     icon: Calendar
   }, {
-    title: t("client.src.projects"),
+    title: t("client.nav.projects"),
     href: "/projects",
     icon: FolderKanban
   }, {
-    title: t("client.src.appointments"),
+    title: t("client.nav.appointments"),
     href: "/appointments",
     icon: CalendarClock
   }, {
-    title: t("client.src.events"),
+    title: t("client.nav.events"),
     href: "/events",
     icon: Calendar
   }]
 }, {
-  title: t("client.src.system_settings"),
+  title: t("client.nav.system_settings"),
   icon: Settings,
   adminOnly: true,
   children: [{
-    title: t("client.src.general_settings"),
-    href: "/settings",
+    title: t("client.nav.general_settings"),
+    href: '/admin/settings',
     icon: Settings
   }, {
-    title: t("client.src.integrations"),
+    title: t("client.nav.integrations"),
     href: "/integrations",
     icon: Puzzle
   }, {
-    title: t("client.src.mls_connections"),
+    title: t("client.nav.mls_connections"),
     href: "/mls",
     icon: Globe,
     permissions: ["MLS_MANAGE"]
   }, {
-    title: t("client.src.webhooks"),
+    title: t("client.nav.webhooks"),
     href: "/webhooks",
     icon: Webhook,
     permissions: ["SETTINGS_MANAGE"]
   }, {
-    title: t("client.src.api_keys"),
+    title: t("client.nav.api_keys"),
     href: "/api-keys",
     icon: Key,
     permissions: ["SETTINGS_MANAGE"]
   }, {
-    title: t("client.src.audit_logs"),
+    title: t("client.nav.audit_logs"),
     href: "/audit-logs",
     icon: ScrollText
   }]
 }, {
-  title: t("client.src.ai_strategic_tools"),
+  title: t("client.nav.ai_strategic_tools"),
   icon: Brain,
   permissions: ["ORG_MANAGE", "REPORTS_VIEW"],
   children: [{
-    title: t("client.src.ai_studio"),
+    title: t("client.nav.ai_studio"),
     href: "/ai-studio",
     icon: Sparkles
   }, {
-    title: t("client.src.lead_scoring"),
+    title: t("client.nav.lead_scoring"),
     href: "/ai/lead-scoring",
     icon: Target
   }, {
-    title: t("client.src.property_valuation"),
+    title: t("client.nav.property_valuation"),
     href: "/ai/valuation",
     icon: TrendingUp
   }, {
-    title: t("client.src.recommendations"),
+    title: t("client.nav.recommendations"),
     href: "/ai/recommendations",
     icon: Lightbulb
   }, {
-    title: t("client.src.sentiment_analysis"),
+    title: t("client.nav.sentiment_analysis"),
     href: "/ai/sentiment",
     icon: Brain
   }, {
-    title: t("client.src.automation_rules"),
+    title: t("client.nav.automation_rules"),
     href: "/automation",
     icon: Zap
   }, {
@@ -417,47 +417,47 @@ const navigation: NavItem[] = [{
     icon: Brain
   }]
 }, {
-  title: t("client.src.my_account"),
+  title: t("client.nav.my_account"),
   icon: User,
   children: [{
-    title: t("client.src.profile"),
+    title: t("client.nav.profile"),
     href: "/profile",
     icon: User
   }, {
-    title: t("client.src.favorites"),
+    title: t("client.nav.favorites"),
     href: "/favorites",
     icon: Heart
   }, {
-    title: t("client.src.my_listings"),
+    title: t("client.nav.my_listings"),
     href: "/my-listings",
     icon: List
   }, {
-    title: t("client.src.compare_list"),
+    title: t("client.nav.compare_list"),
     href: "/compare",
     icon: ArrowRightLeft
   }, {
-    title: t("client.src.reviews"),
+    title: t("client.nav.reviews"),
     href: "/reviews",
     icon: MessageSquare
   }, {
-    title: t("client.src.security_settings"),
+    title: t("client.nav.security_settings"),
     href: "/security-settings",
     icon: Shield
   }, {
-    title: t("client.src.mobile_devices"),
+    title: t("client.nav.mobile_devices"),
     href: "/mobile-devices",
     icon: Activity
   }, {
-    title: t("client.src.billing"),
-    href: "/billing",
+    title: t("client.nav.billing"),
+    href: '/admin/billing',
     icon: CreditCard
   }, {
-    title: t("client.src.support"),
+    title: t("client.nav.support"),
     href: "/support",
     icon: Target
   }, {
-    title: t("client.src.settings"),
-    href: "/settings",
+    title: t("common.settings"),
+    href: '/admin/settings',
     icon: Settings
   }]
 }];
@@ -501,7 +501,7 @@ export function AppLayout({
 
       <div className="flex flex-1 overflow-hidden">
         {/* Main content */}
-        <main className="flex-1 overflow-auto bg-[#1b1c22] flex flex-col">
+        <main className="flex flex-1 flex-col overflow-auto bg-background">
           <div className="flex-1">
             {children}
           </div>

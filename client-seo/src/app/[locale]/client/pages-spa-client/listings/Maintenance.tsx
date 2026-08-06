@@ -36,7 +36,7 @@ const STATUS_CONFIG: Record<string, {
     icon: RefreshCw
   },
   COMPLETED: {
-    cls: "bg-green-100 text-green-700",
+    cls: "bg-blue-100 text-blue-700",
     icon: CheckCircle2
   },
   CANCELLED: {
@@ -84,7 +84,7 @@ export default function Maintenance() {
       setProperties(propsRes || []);
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_load_data"),
         variant: "destructive"
       });
@@ -118,7 +118,7 @@ export default function Maintenance() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_create_work"),
         variant: "destructive"
       });
@@ -136,7 +136,7 @@ export default function Maintenance() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_update_work"),
         variant: "destructive"
       });
@@ -153,7 +153,7 @@ export default function Maintenance() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_delete_work"),
         variant: "destructive"
       });
@@ -184,19 +184,19 @@ export default function Maintenance() {
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
       <div className="space-y-1.5">
-        <Label>{t("client.src.title")}</Label>
+        <Label>{t("common.title")}</Label>
         <Input value={form.title} onChange={e => setForm({
           ...form,
           title: e.target.value
         })} required placeholder={t("client.src.eg_broken_ac_in")} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.property")}</Label>
+        <Label>{t("common.property")}</Label>
         <Select value={form.propertyId} onValueChange={v => setForm({
           ...form,
           propertyId: v
         })}>
-          <SelectTrigger><SelectValue placeholder={t("client.src.select_property")} /></SelectTrigger>
+          <SelectTrigger><SelectValue placeholder={t("common.select_property")} /></SelectTrigger>
           <SelectContent>
             {properties.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
           </SelectContent>
@@ -204,7 +204,7 @@ export default function Maintenance() {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label>{t("client.src.priority")}</Label>
+          <Label>{t("common.priority")}</Label>
           <Select value={form.priority} onValueChange={v => setForm({
             ...form,
             priority: v
@@ -216,7 +216,7 @@ export default function Maintenance() {
           </Select>
         </div>
         <div className="space-y-1.5">
-          <Label>{t("client.src.status")}</Label>
+          <Label>{t("common.status")}</Label>
           <Select value={form.status} onValueChange={v => setForm({
             ...form,
             status: v
@@ -229,14 +229,14 @@ export default function Maintenance() {
         </div>
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.due_date")}</Label>
+        <Label>{t("common.due_date")}</Label>
         <Input type="date" value={form.dueDate} onChange={e => setForm({
           ...form,
           dueDate: e.target.value
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.description")}</Label>
+        <Label>{t("common.description")}</Label>
         <Textarea value={form.description} onChange={e => setForm({
           ...form,
           description: e.target.value
@@ -250,29 +250,29 @@ export default function Maintenance() {
       setForm(EMPTY_FORM);
       setCreateOpen(true);
     }} searchValue={search} onSearchChange={setSearch} searchPlaceholder="Search work orders..." stats={[{
-      label: t("client.src.total"),
+      label: t("common.total"),
       value: tasks.length
     }, {
       label: t("client.src.open"),
       value: tasks.filter(w => w.status === "OPEN").length
     }, {
-      label: t("client.src.in_progress"),
+      label: t("common.in_progress"),
       value: tasks.filter(w => w.status === "IN_PROGRESS").length
     }, {
-      label: t("client.src.urgent"),
+      label: t("common.urgent"),
       value: tasks.filter(w => w.priority === "URGENT").length
-    }]} actions={<Button variant="outline" size="icon" onClick={fetchData} disabled={loading}>
+    }]} actions={<Button variant="outline" size="icon" aria-label={t("common.refresh")} onClick={fetchData} disabled={loading}>
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>} filters={<div className="flex gap-2">
             <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="w-[140px] h-9"><SelectValue placeholder={t("client.src.status")} /></SelectTrigger>
+              <SelectTrigger className="w-[140px] h-9"><SelectValue placeholder={t("common.status")} /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{t("client.src.all_status")}</SelectItem>
+                <SelectItem value="all">{t("common.all_status")}</SelectItem>
                 {Object.keys(STATUS_CONFIG).map(s => <SelectItem key={s} value={s}>{s.replace(/_/g, " ")}</SelectItem>)}
               </SelectContent>
             </Select>
              <Select value={filterPriority} onValueChange={setFilterPriority}>
-              <SelectTrigger className="w-[140px] h-9"><SelectValue placeholder={t("client.src.priority")} /></SelectTrigger>
+              <SelectTrigger className="w-[140px] h-9"><SelectValue placeholder={t("common.priority")} /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">{t("client.src.all_priority")}</SelectItem>
                 {Object.keys(PRIORITY_COLORS).map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
@@ -284,10 +284,10 @@ export default function Maintenance() {
             <TableHeader>
               <TableRow>
                 <TableHead>{t("client.src.work_order")}</TableHead>
-                <TableHead>{t("client.src.property")}</TableHead>
-                <TableHead>{t("client.src.priority")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
-                <TableHead>{t("client.src.due_date")}</TableHead>
+                <TableHead>{t("common.property")}</TableHead>
+                <TableHead>{t("common.priority")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
+                <TableHead>{t("common.due_date")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -307,10 +307,10 @@ export default function Maintenance() {
                       <TableCell className="text-xs text-muted-foreground">{task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "—"}</TableCell>
                       <TableCell>
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-32">
-                            <DropdownMenuItem onClick={() => openEdit(task)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(task.id)} className="text-destructive font-medium"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openEdit(task)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(task.id)} className="text-destructive font-medium"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -330,7 +330,7 @@ export default function Maintenance() {
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg shadow-2xl">
           <DialogHeader><DialogTitle>{t("client.src.edit_work_order")}</DialogTitle></DialogHeader>
-          <WOForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <WOForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

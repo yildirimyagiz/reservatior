@@ -14,8 +14,10 @@ import {
   Eye
 } from "lucide-react";
 import { prospectIntelligenceApi } from "@/lib/api/prospect-intelligence";
+import { useTranslation } from "react-i18next";
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const [selectedTier, setSelectedTier] = useState<string>("all");
   const [selectedUrgency, setSelectedUrgency] = useState<string>("all");
   const orgId = "current-org"; // Replace with actual org ID
@@ -35,8 +37,8 @@ export default function Dashboard() {
 
   const getTierColor = (tier: string) => {
     switch (tier) {
-      case "PREMIUM": return "bg-purple-500";
-      case "HIGH_POTENTIAL": return "bg-blue-500";
+      case "PREMIUM": return "bg-brand/100";
+      case "HIGH_POTENTIAL": return "bg-brand/100";
       case "MONITOR": return "bg-yellow-500";
       case "LOW_POTENTIAL": return "bg-gray-500";
       default: return "bg-gray-400";
@@ -46,9 +48,9 @@ export default function Dashboard() {
   const getUrgencyColor = (urgency: string) => {
     switch (urgency) {
       case "IMMEDIATE": return "text-red-600 bg-red-50";
-      case "HIGH": return "text-orange-600 bg-orange-50";
+      case "HIGH": return "text-warning bg-orange-50";
       case "MEDIUM": return "text-yellow-600 bg-yellow-50";
-      case "LOW": return "text-green-600 bg-green-50";
+      case "LOW": return "text-blue-600 bg-blue-50";
       default: return "text-gray-600 bg-gray-50";
     }
   };
@@ -145,8 +147,8 @@ export default function Dashboard() {
           <CardContent>
             <div className="space-y-4">
               {[
-                { label: "Premium", count: stats?.opportunityDistribution.premium || 0, color: "bg-purple-500" },
-                { label: "High Potential", count: stats?.opportunityDistribution.highPotential || 0, color: "bg-blue-500" },
+                { label: "Premium", count: stats?.opportunityDistribution.premium || 0, color: "bg-brand/100" },
+                { label: "High Potential", count: stats?.opportunityDistribution.highPotential || 0, color: "bg-brand/100" },
                 { label: "Monitor", count: stats?.opportunityDistribution.monitor || 0, color: "bg-yellow-500" },
                 { label: "Low Potential", count: stats?.opportunityDistribution.lowPotential || 0, color: "bg-gray-500" },
               ].map((tier) => (
@@ -171,9 +173,9 @@ export default function Dashboard() {
             <div className="space-y-4">
               {[
                 { label: "Immediate", count: stats?.urgencyDistribution.immediate || 0, color: "text-red-600" },
-                { label: "High", count: stats?.urgencyDistribution.high || 0, color: "text-orange-600" },
+                { label: "High", count: stats?.urgencyDistribution.high || 0, color: "text-warning" },
                 { label: "Medium", count: stats?.urgencyDistribution.medium || 0, color: "text-yellow-600" },
-                { label: "Low", count: stats?.urgencyDistribution.low || 0, color: "text-green-600" },
+                { label: "Low", count: stats?.urgencyDistribution.low || 0, color: "text-blue-600" },
               ].map((urgency) => (
                 <div key={urgency.label} className="flex items-center justify-between">
                   <span className="text-sm">{urgency.label}</span>
@@ -254,7 +256,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" aria-label={t("common.view")}>
                       <Eye className="w-4 h-4" />
                     </Button>
                   </div>

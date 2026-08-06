@@ -166,7 +166,7 @@ export default function AISentimentAnalysis() {
  const getSentimentIcon = (sentiment: string) => {
  switch (sentiment) {
  case"positive":
- return <ThumbsUp className="h-4 w-4 text-green-500" />;
+ return <ThumbsUp className="h-4 w-4 text-blue-500" />;
  case"negative":
  return <ThumbsDown className="h-4 w-4 text-red-500" />;
  case"neutral":
@@ -226,7 +226,7 @@ export default function AISentimentAnalysis() {
  <ThumbsUp className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">
+ <div className="text-2xl font-bold text-blue-600">
  {positiveSentiments}
  </div>
  <p className="text-xs text-muted-foreground">
@@ -271,7 +271,7 @@ export default function AISentimentAnalysis() {
  <TrendingUp className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">
+ <div className="text-2xl font-bold text-muted-foreground">
  {(avgConfidence * 100).toFixed(1)}%
  </div>
  <p className="text-xs text-muted-foreground">{t("admin_ai_model_confidence")}</p>
@@ -385,7 +385,7 @@ export default function AISentimentAnalysis() {
  </div>
  </TableCell>
  <TableCell>
- <div className={`font-medium ${sentiment.confidence >= 0.9 ?"text-green-600" : sentiment.confidence >= 0.8 ?"text-yellow-600" :"text-red-600"}`}>
+ <div className={`font-medium ${sentiment.confidence >= 0.9 ?"text-blue-600" : sentiment.confidence >= 0.8 ?"text-yellow-600" :"text-red-600"}`}>
  {(sentiment.confidence * 100).toFixed(0)}%
  </div>
  </TableCell>
@@ -406,7 +406,7 @@ export default function AISentimentAnalysis() {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm" className="text-muted-foreground">
+ <Button variant="ghost" size="sm" className="text-muted-foreground" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -437,15 +437,15 @@ export default function AISentimentAnalysis() {
  <div className="flex justify-between items-center">
  <span className="text-sm font-medium text-foreground">{t("admin_ai_this_week")}</span>
  <div className="flex items-center space-x-2">
- <TrendingUp className="h-4 w-4 text-green-500" />
- <span className="text-sm font-bold text-green-600">+12%</span>
+ <TrendingUp className="h-4 w-4 text-blue-500" />
+ <span className="text-sm font-bold text-blue-600">+12%</span>
  </div>
  </div>
  <div className="flex justify-between items-center">
  <span className="text-sm font-medium text-foreground">{t("admin_ai_positive_trend")}</span>
  <div className="flex items-center space-x-2">
- <TrendingUp className="h-4 w-4 text-green-500" />
- <span className="text-sm font-bold text-green-600">+8%</span>
+ <TrendingUp className="h-4 w-4 text-blue-500" />
+ <span className="text-sm font-bold text-blue-600">+8%</span>
  </div>
  </div>
  <div className="flex justify-between items-center">
@@ -457,7 +457,7 @@ export default function AISentimentAnalysis() {
  </div>
  <div className="flex justify-between items-center">
  <span className="text-sm font-medium text-foreground">{t("admin_ai_response_rate")}</span>
- <span className="text-sm font-bold text-slate-600">87%</span>
+ <span className="text-sm font-bold text-muted-foreground">87%</span>
  </div>
  </div>
  </CardContent>
@@ -470,12 +470,12 @@ export default function AISentimentAnalysis() {
  </CardHeader>
  <CardContent>
  <div className="space-y-4">
- <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+ <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
  <div className="flex items-center space-x-2 mb-1">
- <ThumbsUp className="h-4 w-4 text-green-600" />
- <span className="text-sm font-medium text-green-400">{t("admin_ai_top_positive_driver")}</span>
+ <ThumbsUp className="h-4 w-4 text-blue-600" />
+ <span className="text-sm font-medium text-blue-400">{t("admin_ai_top_positive_driver")}</span>
  </div>
- <p className="text-sm text-green-300">{t("admin_ai_maintenance_responsiveness_mentioned_in")}</p>
+ <p className="text-sm text-blue-300">{t("admin_ai_maintenance_responsiveness_mentioned_in")}</p>
  </div>
  <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
  <div className="flex items-center space-x-2 mb-1">
@@ -486,10 +486,10 @@ export default function AISentimentAnalysis() {
  </div>
  <div className="p-3 bg-muted0/10 border border-slate-500/20 rounded-lg">
  <div className="flex items-center space-x-2 mb-1">
- <MessageSquare className="h-4 w-4 text-slate-600" />
+ <MessageSquare className="h-4 w-4 text-muted-foreground" />
  <span className="text-sm font-medium text-muted-foreground">{t("admin_ai_recommendation")}</span>
  </div>
- <p className="text-sm text-slate-300">{t("admin_ai_focus_on_hvac_maintenance")}</p>
+ <p className="text-sm text-muted-foreground">{t("admin_ai_focus_on_hvac_maintenance")}</p>
  </div>
  </div>
  </CardContent>

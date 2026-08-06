@@ -42,16 +42,16 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
 const FALLBACK_SLIDES = [
   { title: "The Glass Pavilion", location: "Malibu, California", price: "$28.5M", beds: 6, baths: 8, sqm: 1150,
     image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80",
-    gradient: "from-blue-600/40 via-blue-500/20 to-sky-500/40", accent: "bg-blue-600", tag: "EXCLUSIVE LISTING" },
+    gradient: "from-brand/40 via-blue-500/20 to-sky-500/40", accent: "bg-blue-600", tag: "EXCLUSIVE LISTING" },
   { title: "Neo-Tokyo Cyber Loft", location: "Shinjuku, Tokyo", price: "$12.4M", beds: 3, baths: 3, sqm: 500,
     image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80",
-    gradient: "from-violet-600/40 via-purple-500/20 to-fuchsia-500/40", accent: "bg-violet-600", tag: "SMART HOME" },
+    gradient: "from-violet-600/40 via-brand/20 to-fuchsia-500/40", accent: "bg-violet-600", tag: "SMART HOME" },
   { title: "Monolithic Concrete Dream", location: "Beverly Hills, CA", price: "$16.2M", beds: 4, baths: 6, sqm: 820,
     image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80",
     gradient: "from-amber-500/40 via-orange-400/20 to-red-500/40", accent: "bg-amber-500", tag: "PENTHOUSE" },
   { title: "Alpine Crystal Chalet", location: "Zermatt, Switzerland", price: "$14.5M", beds: 5, baths: 4, sqm: 670,
     image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80",
-    gradient: "from-emerald-500/40 via-indigo-400/20 to-blue-500/40", accent: "bg-emerald-500", tag: "MOUNTAIN" },
+    gradient: "from-blue-500/40 via-brand/20 to-blue-500/40", accent: "bg-success", tag: "MOUNTAIN" },
 ];
 
 export default function Home() {
@@ -215,7 +215,7 @@ export default function Home() {
       const data = await response.json();
       setAttachments(prev => [...prev, data.url]);
     } catch {
-      alert("Dosya yüklenirken hata oluştu");
+      console.error("Dosya yüklenirken hata oluştu");
     }
   };
 
@@ -405,30 +405,30 @@ export default function Home() {
                 <button 
                   type="button"
                   onClick={() => setSearchMode("STAYS")}
-                  className={`px-6 py-2 rounded-full text-sm md:text-base font-bold transition-all ${searchMode === "STAYS" ? "bg-blue-600 text-white shadow-lg" : "text-slate-600 hover:text-slate-900 hover:bg-black/5 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/10"}`}
+                  className={`px-6 py-2 rounded-full text-sm md:text-base font-bold transition-all ${searchMode === "STAYS" ? "bg-blue-600 text-white shadow-lg" : "text-muted-foreground hover:text-foreground hover:bg-black/5 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/10"}`}
                 >{t('home.search.mode_stays', 'Booking')}</button>
                 <button 
                   type="button"
                   onClick={() => setSearchMode("RENT")}
-                  className={`px-6 py-2 rounded-full text-sm md:text-base font-bold transition-all ${searchMode === "RENT" ? "bg-blue-600 text-white shadow-lg" : "text-slate-600 hover:text-slate-900 hover:bg-black/5 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/10"}`}
+                  className={`px-6 py-2 rounded-full text-sm md:text-base font-bold transition-all ${searchMode === "RENT" ? "bg-blue-600 text-white shadow-lg" : "text-muted-foreground hover:text-foreground hover:bg-black/5 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/10"}`}
                 >{t('home.search.mode_rent', 'Rent')}</button>
                 <button 
                   type="button"
                   onClick={() => setSearchMode("BUY")}
-                  className={`px-6 py-2 rounded-full text-sm md:text-base font-bold transition-all ${searchMode === "BUY" ? "bg-blue-600 text-white shadow-lg" : "text-slate-600 hover:text-slate-900 hover:bg-black/5 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/10"}`}
+                  className={`px-6 py-2 rounded-full text-sm md:text-base font-bold transition-all ${searchMode === "BUY" ? "bg-blue-600 text-white shadow-lg" : "text-muted-foreground hover:text-foreground hover:bg-black/5 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/10"}`}
                 >{t('home.search.mode_buy', 'For Rent / For Sale')}</button>
                 <button 
                   type="button"
                   onClick={() => setSearchMode("EXPERIENCES")}
-                  className={`px-6 py-2 rounded-full text-sm md:text-base font-bold transition-all ${searchMode === "EXPERIENCES" ? "bg-blue-600 text-white shadow-lg" : "text-slate-600 hover:text-slate-900 hover:bg-black/5 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/10"}`}
+                  className={`px-6 py-2 rounded-full text-sm md:text-base font-bold transition-all ${searchMode === "EXPERIENCES" ? "bg-blue-600 text-white shadow-lg" : "text-muted-foreground hover:text-foreground hover:bg-black/5 dark:text-white/80 dark:hover:text-white dark:hover:bg-white/10"}`}
                 >{t('home.search.mode_experiences', 'Experiences')}</button>
               </div>
 
               {/* Glassmorphic Search Pill */}
               <form onSubmit={handleSearch} className="w-full max-w-5xl bg-background/95 dark:bg-black/60 backdrop-blur-3xl border border-border/50 p-2 rounded-3xl md:rounded-full flex flex-col md:flex-row items-center gap-2 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] relative z-20">
                 {/* Where Segment */}
-                <div className="flex-[1.5] px-6 py-2 w-full md:w-auto hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
-                  <label htmlFor="search-location" className="text-xs font-bold tracking-wider text-blue-600 dark:text-blue-400 mb-0.5 cursor-pointer">{t('home.search.where', 'Where')}</label>
+                <div className="flex-[1.5] px-6 py-2 w-full md:w-auto hover:bg-brand/10/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
+                  <label htmlFor="search-location" className="text-xs font-bold tracking-wider text-brand dark:text-brand mb-0.5 cursor-pointer">{t('home.search.where', 'Where')}</label>
                   <input 
                     id="search-location"
                     ref={locationInputRef}
@@ -444,8 +444,8 @@ export default function Home() {
                 {/* When Segment - Hidden for BUY */}
                 {searchMode !== "BUY" && (
                   <>
-                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
-                      <label htmlFor="search-date" className="text-xs font-bold tracking-wider text-blue-600 dark:text-blue-400 mb-0.5 cursor-pointer">{t('home.search.dates', 'Dates')}</label>
+                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/10/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
+                      <label htmlFor="search-date" className="text-xs font-bold tracking-wider text-brand dark:text-brand mb-0.5 cursor-pointer">{t('home.search.dates', 'Dates')}</label>
                       <input 
                         id="search-date"
                         type="date"
@@ -462,8 +462,8 @@ export default function Home() {
                 {/* Who Segment - Only for STAYS & EXPERIENCES */}
                 {(searchMode === "STAYS" || searchMode === "EXPERIENCES") && (
                   <>
-                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
-                      <label htmlFor="search-guests" className="text-xs font-bold tracking-wider text-blue-600 dark:text-blue-400 mb-0.5 cursor-pointer">{t('home.search.who', 'Who')}</label>
+                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/10/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
+                      <label htmlFor="search-guests" className="text-xs font-bold tracking-wider text-brand dark:text-brand mb-0.5 cursor-pointer">{t('home.search.who', 'Who')}</label>
                       <div className="relative">
                         <select 
                           id="search-guests"
@@ -486,8 +486,8 @@ export default function Home() {
                 {/* Condition Segment - Only for BUY */}
                 {searchMode === "BUY" && (
                   <>
-                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
-                      <label htmlFor="search-condition" className="text-xs font-bold tracking-wider text-blue-600 dark:text-blue-400 mb-0.5 cursor-pointer">{t('home.search.condition', 'Condition')}</label>
+                    <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/10/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
+                      <label htmlFor="search-condition" className="text-xs font-bold tracking-wider text-brand dark:text-brand mb-0.5 cursor-pointer">{t('home.search.condition', 'Condition')}</label>
                       <div className="relative">
                         <select 
                           id="search-condition"
@@ -508,8 +508,8 @@ export default function Home() {
 
                 {/* Property Type Segment */}
                 {searchMode !== "EXPERIENCES" && (
-                <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
-                  <label htmlFor="search-property-type" className="text-xs font-bold tracking-wider text-blue-600 dark:text-blue-400 mb-0.5 cursor-pointer">{t('home.search.property_type', 'Property Type')}</label>
+                <div className="flex-1 px-6 py-2 w-full md:w-auto hover:bg-brand/10/50 dark:hover:bg-blue-900/20 rounded-full transition-colors text-left flex flex-col justify-center">
+                  <label htmlFor="search-property-type" className="text-xs font-bold tracking-wider text-brand dark:text-brand mb-0.5 cursor-pointer">{t('home.search.property_type', 'Property Type')}</label>
                   <div className="relative">
                     <select 
                       id="search-property-type"
@@ -542,11 +542,11 @@ export default function Home() {
 
                 {/* Search Buttons */}
                 <div className="w-full md:w-auto mt-2 md:mt-0 flex gap-2">
-                  <Button type="submit" className="flex-1 md:flex-none md:w-16 h-14 md:h-16 rounded-full bg-gradient-to-br from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-xl shadow-blue-500/30 p-0 flex items-center justify-center transition-all hover:scale-105" title={t('home.search.button', 'Search') as string}>
+                  <Button type="submit" className="flex-1 md:flex-none md:w-16 h-14 md:h-16 rounded-full bg-gradient-to-br from-brand to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white shadow-xl shadow-blue-500/30 p-0 flex items-center justify-center transition-all hover:scale-105" title={t('home.search.button', 'Search') as string}>
                     <Search className="w-6 h-6" />
                     <span className="md:hidden ml-2 font-bold">{t('home.search.button', 'Search')}</span>
                   </Button>
-                  <Button type="button" onClick={() => setShowAIChat(true)} className="flex-1 md:flex-none md:w-auto px-6 h-14 md:h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white shadow-xl shadow-indigo-500/30 flex items-center justify-center gap-2 transition-all hover:scale-105 group" title={t('home.search.ai_search_tooltip', 'Search with AI') as string}>
+                  <Button type="button" onClick={() => setShowAIChat(true)} className="flex-1 md:flex-none md:w-auto px-6 h-14 md:h-16 rounded-full bg-gradient-to-br from-brand to-brand hover:from-brand hover:to-brand text-white shadow-xl shadow-indigo-500/30 flex items-center justify-center gap-2 transition-all hover:scale-105 group" title={t('home.search.ai_search_tooltip', 'Search with AI') as string}>
                     <Sparkles className="w-5 h-5 group-hover:scale-110 transition-transform" />
                     <span className="text-xs font-black uppercase tracking-widest">{t('home.search.search_with_ai', 'Search With Ai')}</span>
                   </Button>
@@ -636,11 +636,11 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { icon: Bot, title: t("home.features.valuation.title", "AI Valuation Engine"), desc: t("home.features.valuation.desc", "Instant property valuations and market forecasting with 94% accuracy"), color: "text-blue-500" },
+                { icon: Bot, title: t("home.features.valuation.title", "AI Valuation Engine"), desc: t("home.features.valuation.desc", "Instant property valuations and market forecasting with 94% accuracy"), color: "text-brand" },
                 { icon: Video, title: t("home.features.video.title", "Cinematic Video Tours"), desc: t("home.features.video.desc", "Turn your photos into professional real estate videos with AI"), color: "text-violet-500" },
-                { icon: BarChart3, title: t("home.features.analytics.title", "Real-time Analytics"), desc: t("home.features.analytics.desc", "Portfolio performance, revenue tracking, and trend analysis"), color: "text-emerald-500" },
+                { icon: BarChart3, title: t("home.features.analytics.title", "Real-time Analytics"), desc: t("home.features.analytics.desc", "Portfolio performance, revenue tracking, and trend analysis"), color: "text-success" },
                 { icon: Shield, title: t("home.features.blockchain.title", "Blockchain Verification"), desc: t("home.features.blockchain.desc", "Prevent fraud with title and contract verification"), color: "text-amber-500" },
-                { icon: Globe2, title: t("home.features.distribution.title", "Global Distribution"), desc: t("home.features.distribution.desc", "Multi-language listing infrastructure published instantly in 150+ countries"), color: "text-blue-500" },
+                { icon: Globe2, title: t("home.features.distribution.title", "Global Distribution"), desc: t("home.features.distribution.desc", "Multi-language listing infrastructure published instantly in 150+ countries"), color: "text-brand" },
                 { icon: Zap, title: t("home.features.automation.title", "Smart Automation"), desc: t("home.features.automation.desc", "Automate pricing, booking, and communication processes"), color: "text-rose-500" },
               ].map((f, i) => (
                 <div key={i} className="group p-7 rounded-2xl bg-card border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
@@ -688,7 +688,7 @@ export default function Home() {
                 </Link>
               </div>
               {/* Video Preview */}
-              <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-gradient-to-br from-violet-500/20 via-purple-500/10 to-blue-500/20 aspect-video shadow-xl">
+              <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-gradient-to-br from-violet-500/20 via-brand/10 to-blue-500/20 aspect-video shadow-xl">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-20 h-20 rounded-full bg-white/20 dark:bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 cursor-pointer hover:scale-110 transition-transform">
                     <Play className="w-8 h-8 text-foreground ml-1" />
@@ -734,12 +734,12 @@ export default function Home() {
         <section className="py-24">
           <div className="container mx-auto px-6">
             <div className="relative max-w-3xl mx-auto rounded-3xl overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-violet-600 to-blue-600" />
+              <div className="absolute inset-0 bg-gradient-to-r from-brand via-violet-600 to-brand" />
               <div className="relative z-10 p-12 md:p-16 text-center space-y-6">
                 <h2 className="text-3xl md:text-4xl font-black text-white">{t("home.cta.title", "Ready to Transform Your Real Estate Business?")}</h2>
                 <p className="text-white/70 max-w-md mx-auto">{t("home.cta.subtitle", "Join thousands of professionals and experience the difference of AI-powered real estate management.")}</p>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <Link to="/auth/signup"><Button size="lg" className="bg-white text-slate-900 hover:bg-white/90 px-8 h-13 font-bold rounded-2xl shadow-xl">{t("home.cta.button1", "Start Free Trial")}</Button></Link>
+                  <Link to="/auth/signup"><Button size="lg" className="bg-card text-foreground hover:bg-white/90 px-8 h-13 font-bold rounded-2xl shadow-xl">{t("home.cta.button1", "Start Free Trial")}</Button></Link>
                   <Link to="/explore"><Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 h-13 font-semibold rounded-2xl">{t("home.cta.button2", "Explore Features")}</Button></Link>
                 </div>
                 <p className="text-white/40 text-sm">{t("home.cta.guarantee", "No credit card required • Instant setup • Cancel anytime")}</p>
@@ -749,12 +749,12 @@ export default function Home() {
         </section>
         
         {/* ══════ FLOATING SUPPORT BUTTON ══════ */}
-        <button onClick={() => setShowSupportChat(true)} className="fixed bottom-6 right-6 z-50 group flex items-center gap-3 bg-white dark:bg-neutral-900/90 backdrop-blur-xl p-2 pr-6 rounded-full shadow-2xl border border-blue-500/20 hover:scale-105 transition-all duration-300">
+        <button onClick={() => setShowSupportChat(true)} className="fixed bottom-6 right-6 z-50 group flex items-center gap-3 bg-card dark:bg-neutral-900/90 backdrop-blur-xl p-2 pr-6 rounded-full shadow-2xl border border-blue-500/20 hover:scale-105 transition-all duration-300">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/40">
             <Bot className="w-5 h-5 text-white animate-pulse" />
           </div>
           <div className="flex flex-col">
-            <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 tracking-widest uppercase">SUPPORT</span>
+            <span className="text-[10px] font-black text-brand dark:text-brand tracking-widest uppercase">SUPPORT</span>
             <span className="text-sm font-bold text-foreground">Live Help</span>
           </div>
         </button>
@@ -762,19 +762,19 @@ export default function Home() {
         {/* ══════ AI CHAT MODAL ══════ */}
         {showAIChat && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-neutral-900/40 dark:bg-black/60 backdrop-blur-sm">
-            <div className="w-full max-w-4xl h-[85vh] bg-[#fafafa] dark:bg-[#0a0a0c] rounded-3xl shadow-2xl overflow-hidden relative flex flex-col border border-white/60 dark:border-slate-800">
+            <div className="w-full max-w-4xl h-[85vh] bg-[#fafafa] dark:bg-[#0a0a0c] rounded-3xl shadow-2xl overflow-hidden relative flex flex-col border border-white/60 dark:border-border">
               {/* Header */}
-              <div className="flex-none p-6 flex justify-between items-center border-b border-white/40 dark:border-slate-800/40 bg-white/30 dark:bg-[#14151a]/30 backdrop-blur-xl">
+              <div className="flex-none p-6 flex justify-between items-center border-b border-white/40 dark:border-border/40 bg-white/30 dark:bg-background/30 backdrop-blur-xl">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand flex items-center justify-center shadow-lg shadow-indigo-500/30">
                     <Sparkles className="w-5 h-5 text-white" />
                   </div>
-                  <span className="font-bold text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-950 to-neutral-800 dark:from-white dark:to-slate-300">
+                  <span className="font-bold text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand to-neutral-800 dark:from-white dark:to-slate-300">
                     Reservatior AI
                   </span>
                 </div>
-                <button onClick={() => setShowAIChat(false)} aria-label="Close AI chat" className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-slate-800 transition-colors">
-                  <X className="w-6 h-6 text-neutral-600 dark:text-slate-400" />
+                <button onClick={() => setShowAIChat(false)} aria-label="Close AI chat" className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-muted transition-colors">
+                  <X className="w-6 h-6 text-neutral-600 dark:text-muted-foreground" />
                 </button>
               </div>
 
@@ -784,17 +784,17 @@ export default function Home() {
                   {aiMessages.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-[40vh] text-center space-y-8">
                       <div className="relative group">
-                        <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur-xl opacity-30 group-hover:opacity-50 transition duration-1000 animate-pulse" />
-                        <div className="relative w-20 h-20 bg-white/80 dark:bg-[#14151a]/80 backdrop-blur-xl border border-white/60 dark:border-slate-700/60 rounded-3xl flex items-center justify-center shadow-2xl">
-                          <Sparkles className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+                        <div className="absolute -inset-4 bg-gradient-to-r from-brand to-brand rounded-full blur-xl opacity-30 group-hover:opacity-50 transition duration-1000 animate-pulse" />
+                        <div className="relative w-20 h-20 bg-white/80 dark:bg-background/80 backdrop-blur-xl border border-white/60 dark:border-border/60 rounded-3xl flex items-center justify-center shadow-2xl">
+                          <Sparkles className="w-10 h-10 text-brand dark:text-brand" />
                         </div>
                       </div>
 
                       <div className="space-y-4">
                         <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-neutral-900 dark:text-white drop-shadow-sm">
-                          {t("client.src.what_kind_of_place_are_you_looking_for").split(" ")[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500 dark:from-indigo-400 dark:to-purple-400">{t("client.src.what_kind_of_place_are_you_looking_for").split(" ").slice(1).join(" ")}</span>
+                          {t("client.src.what_kind_of_place_are_you_looking_for").split(" ")[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-brand dark:from-brand dark:to-brand">{t("client.src.what_kind_of_place_are_you_looking_for").split(" ").slice(1).join(" ")}</span>
                         </h1>
-                        <p className="text-neutral-500 dark:text-slate-400 text-xl max-w-2xl mx-auto font-medium">
+                        <p className="text-neutral-500 dark:text-muted-foreground text-xl max-w-2xl mx-auto font-medium">
                           {t("client.src.dont_bother_with_filters_describe_your_dream_home")}
                         </p>
                       </div>
@@ -804,7 +804,7 @@ export default function Home() {
                           <button
                             key={suggestion}
                             onClick={() => setAiInput(suggestion)}
-                            className="px-5 py-3 bg-white/60 dark:bg-slate-800/40 backdrop-blur-md border border-white dark:border-slate-700 hover:border-indigo-200 dark:hover:border-indigo-500/50 rounded-2xl text-sm font-semibold text-neutral-700 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-400 hover:bg-white/90 dark:hover:bg-slate-800/80 hover:shadow-lg hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5 transition-all active:scale-95"
+                            className="px-5 py-3 bg-white/60 dark:bg-muted/40 backdrop-blur-md border border-white dark:border-border hover:border-brand/30 dark:hover:border-brand/50 rounded-2xl text-sm font-semibold text-neutral-700 dark:text-muted-foreground hover:text-brand dark:hover:text-brand hover:bg-white/90 dark:hover:bg-muted/80 hover:shadow-lg hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5 transition-all active:scale-95"
                           >
                             {suggestion}
                           </button>
@@ -818,8 +818,8 @@ export default function Home() {
                       <div className={`
                         max-w-[85%] md:max-w-[70%] rounded-4xl p-5 px-6 shadow-sm
                         ${msg.role === "user"
-                          ? "bg-gradient-to-br from-indigo-600 to-purple-600 text-white rounded-br-md shadow-indigo-500/20"
-                          : "bg-white/80 dark:bg-slate-800/60 backdrop-blur-xl border border-white/80 dark:border-slate-700/80 text-neutral-800 dark:text-slate-200 rounded-bl-md shadow-neutral-200/50 dark:shadow-none"}
+                          ? "bg-gradient-to-br from-brand to-brand text-white rounded-br-md shadow-indigo-500/20"
+                          : "bg-white/80 dark:bg-muted/60 backdrop-blur-xl border border-white/80 dark:border-border/80 text-neutral-800 dark:text-foreground rounded-bl-md shadow-neutral-200/50 dark:shadow-none"}
                       `}>
                         <p className="leading-relaxed whitespace-pre-wrap font-medium text-[15px]">{msg.text}</p>
                       </div>
@@ -828,7 +828,7 @@ export default function Home() {
                       {msg.properties && (
                         <div className="mt-6 flex flex-col md:flex-row gap-5 w-full max-w-4xl overflow-x-auto pb-6 pt-2 pl-2 snap-x">
                           {msg.properties.map((prop, idx) => (
-                            <div key={idx} className="flex-none w-80 bg-white/70 dark:bg-[#14151a]/70 backdrop-blur-xl border border-white/80 dark:border-slate-800/80 rounded-4xl overflow-hidden group cursor-pointer shadow-xl shadow-neutral-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-indigo-500/20 dark:hover:shadow-indigo-500/10 transition-all hover:-translate-y-1 snap-center">
+                            <div key={idx} className="flex-none w-80 bg-white/70 dark:bg-background/70 backdrop-blur-xl border border-white/80 dark:border-border/80 rounded-4xl overflow-hidden group cursor-pointer shadow-xl shadow-neutral-200/40 dark:shadow-none hover:shadow-2xl hover:shadow-indigo-500/20 dark:hover:shadow-indigo-500/10 transition-all hover:-translate-y-1 snap-center">
                               <div className="h-48 overflow-hidden relative m-2 rounded-3xl">
                                 <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" sizes="(max-width: 768px) 100vw, 400px" />
                                 <div className="absolute top-3 right-3 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full text-white text-sm font-bold border border-white/20">
@@ -836,20 +836,20 @@ export default function Home() {
                                 </div>
                               </div>
                               <div className="p-5 pt-3">
-                                <h2 className="font-bold text-lg text-neutral-900 dark:text-white truncate mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{prop.title}</h2>
-                                <div className="flex items-center gap-1.5 text-neutral-500 dark:text-slate-400 mb-4 text-sm font-medium">
-                                  <MapPin className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+                                <h2 className="font-bold text-lg text-neutral-900 dark:text-white truncate mb-2 group-hover:text-brand dark:group-hover:text-brand transition-colors">{prop.title}</h2>
+                                <div className="flex items-center gap-1.5 text-neutral-500 dark:text-muted-foreground mb-4 text-sm font-medium">
+                                  <MapPin className="w-4 h-4 text-brand dark:text-brand" />
                                   <span className="truncate">{prop.location}</span>
                                 </div>
 
                                 <div className="h-px w-full bg-gradient-to-r from-transparent via-neutral-200 dark:via-slate-700 to-transparent mb-4" />
 
-                                <div className="flex items-center justify-between text-neutral-600 dark:text-slate-300 text-sm font-semibold">
+                                <div className="flex items-center justify-between text-neutral-600 dark:text-muted-foreground text-sm font-semibold">
                                   <div className="flex gap-4">
-                                    <span className="flex items-center gap-1.5 bg-neutral-100/80 dark:bg-slate-800/80 px-2.5 py-1 rounded-lg"><Bed className="w-4 h-4 text-neutral-400 dark:text-slate-500"/> {prop.beds}</span>
-                                    <span className="flex items-center gap-1.5 bg-neutral-100/80 dark:bg-slate-800/80 px-2.5 py-1 rounded-lg"><Bath className="w-4 h-4 text-neutral-400 dark:text-slate-500"/> {prop.baths}</span>
+                                    <span className="flex items-center gap-1.5 bg-neutral-100/80 dark:bg-muted/80 px-2.5 py-1 rounded-lg"><Bed className="w-4 h-4 text-neutral-400 dark:text-muted-foreground"/> {prop.beds}</span>
+                                    <span className="flex items-center gap-1.5 bg-neutral-100/80 dark:bg-muted/80 px-2.5 py-1 rounded-lg"><Bath className="w-4 h-4 text-neutral-400 dark:text-muted-foreground"/> {prop.baths}</span>
                                   </div>
-                                  <button aria-label="Go to property" className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 dark:group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                                  <button aria-label="Go to property" className="w-8 h-8 rounded-full bg-brand/10 dark:bg-brand/30 text-brand dark:text-brand flex items-center justify-center group-hover:bg-brand dark:group-hover:bg-brand/100 group-hover:text-white transition-colors">
                                     <ArrowRight className="w-4 h-4" />
                                   </button>
                                 </div>
@@ -863,11 +863,11 @@ export default function Home() {
 
                   {aiIsLoading && (
                     <div className="flex items-start">
-                      <div className="bg-white/80 dark:bg-slate-800/60 backdrop-blur-xl border border-white/80 dark:border-slate-700/80 rounded-4xl rounded-bl-md p-5 px-6 flex items-center gap-2 shadow-sm dark:shadow-none">
+                      <div className="bg-white/80 dark:bg-muted/60 backdrop-blur-xl border border-white/80 dark:border-border/80 rounded-4xl rounded-bl-md p-5 px-6 flex items-center gap-2 shadow-sm dark:shadow-none">
                         <div className="flex gap-1.5">
-                          <div className="w-2.5 h-2.5 bg-indigo-400 rounded-full animate-bounce" />
-                          <div className="w-2.5 h-2.5 bg-indigo-500 rounded-full animate-bounce delay-150" />
-                          <div className="w-2.5 h-2.5 bg-indigo-600 rounded-full animate-bounce delay-300" />
+                          <div className="w-2.5 h-2.5 bg-brand rounded-full animate-bounce" />
+                          <div className="w-2.5 h-2.5 bg-brand/100 rounded-full animate-bounce delay-150" />
+                          <div className="w-2.5 h-2.5 bg-brand rounded-full animate-bounce delay-300" />
                         </div>
                       </div>
                     </div>
@@ -879,11 +879,11 @@ export default function Home() {
               {/* Floating Input Area */}
               <div className="flex-none p-4 md:p-8 bg-gradient-to-t from-[#fafafa] via-[#fafafa]/80 dark:from-[#0a0a0c] dark:via-[#0a0a0c]/80 to-transparent">
                 <div className="max-w-4xl mx-auto relative group">
-                  <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-[2.5rem] blur-xl opacity-0 group-focus-within:opacity-100 transition duration-500"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-r from-brand/20 to-brand/20 rounded-[2.5rem] blur-xl opacity-0 group-focus-within:opacity-100 transition duration-500"></div>
 
-                  <div className="relative flex items-center bg-white/70 dark:bg-[#14151a]/70 backdrop-blur-2xl border border-white dark:border-slate-800 shadow-2xl shadow-indigo-900/5 dark:shadow-none rounded-[2.5rem] p-2 focus-within:bg-white/90 dark:focus-within:bg-[#14151a]/90 transition-all">
+                  <div className="relative flex items-center bg-white/70 dark:bg-background/70 backdrop-blur-2xl border border-white dark:border-border shadow-2xl shadow-indigo-900/5 dark:shadow-none rounded-[2.5rem] p-2 focus-within:bg-white/90 dark:focus-within:bg-background/90 transition-all">
 
-                    <button aria-label="Voice input" className="p-4 text-neutral-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                    <button aria-label="Voice input" className="p-4 text-neutral-400 dark:text-muted-foreground hover:text-brand dark:hover:text-brand transition-colors">
                       <Mic className="w-6 h-6" />
                     </button>
 
@@ -897,7 +897,7 @@ export default function Home() {
                         }
                       }}
                       placeholder={t("client.src.tell_ai_what_you_are_looking_for")}
-                      className="flex-1 max-h-32 min-h-[60px] bg-transparent border-none focus:ring-0 resize-none py-4 px-2 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-slate-500 font-medium text-[17px]"
+                      className="flex-1 max-h-32 min-h-[60px] bg-transparent border-none focus:ring-0 resize-none py-4 px-2 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-muted-foreground font-medium text-[17px]"
                       rows={1}
                     />
 
@@ -905,13 +905,13 @@ export default function Home() {
                       onClick={handleAISend}
                       disabled={!aiInput.trim() || aiIsLoading}
                       aria-label="Send message"
-                      className="m-1.5 p-4 bg-gradient-to-br from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-neutral-300 disabled:to-neutral-300 disabled:text-neutral-500 dark:disabled:from-slate-800 dark:disabled:to-slate-800 dark:disabled:text-slate-600 text-white rounded-[1.8rem] transition-all shrink-0 shadow-md shadow-indigo-500/25 dark:shadow-none active:scale-95"
+                      className="m-1.5 p-4 bg-gradient-to-br from-brand to-brand hover:from-brand hover:to-brand disabled:from-neutral-300 disabled:to-neutral-300 disabled:text-neutral-500 dark:disabled:from-slate-800 dark:disabled:to-slate-800 dark:disabled:text-muted-foreground text-white rounded-[1.8rem] transition-all shrink-0 shadow-md shadow-indigo-500/25 dark:shadow-none active:scale-95"
                     >
                       <Send className="w-5 h-5 ml-0.5" />
                     </button>
                   </div>
                 </div>
-                <p className="text-center text-[11px] font-medium text-neutral-400 dark:text-slate-500 mt-4 tracking-wide uppercase">
+                <p className="text-center text-[11px] font-medium text-neutral-400 dark:text-muted-foreground mt-4 tracking-wide uppercase">
                   {t("client.src.reservatior_ai_can_make_mistakes_verify_information")}
                 </p>
               </div>
@@ -921,20 +921,20 @@ export default function Home() {
 
         {/* ══════ SUPPORT CHAT MODAL ══════ */}
         {showSupportChat && (
-          <div className="fixed bottom-24 right-6 z-[100] w-[380px] h-[500px] bg-white dark:bg-[#0a0a0c] rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-white/60 dark:border-slate-800">
+          <div className="fixed bottom-24 right-6 z-[100] w-[380px] h-[500px] bg-card dark:bg-[#0a0a0c] rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-white/60 dark:border-border">
             {/* Header */}
-            <div className="flex-none p-4 flex justify-between items-center border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#14151a]">
+            <div className="flex-none p-4 flex justify-between items-center border-b border-border dark:border-border bg-muted dark:bg-background">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                   <Bot className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <span className="font-bold text-slate-900 dark:text-white">AI Support</span>
-                  <p className="text-xs text-green-500 font-medium">● Online</p>
+                  <span className="font-bold text-foreground dark:text-white">AI Support</span>
+                  <p className="text-xs text-blue-500 font-medium">● Online</p>
                 </div>
               </div>
-              <button onClick={() => setShowSupportChat(false)} aria-label="Close support chat" className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
-                <X className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+              <button onClick={() => setShowSupportChat(false)} aria-label="Close support chat" className="p-2 rounded-full hover:bg-muted dark:hover:bg-muted transition-colors">
+                <X className="w-5 h-5 text-muted-foreground dark:text-muted-foreground" />
               </button>
             </div>
 
@@ -943,11 +943,11 @@ export default function Home() {
               {supportMessages.length === 0 && (
                 <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
                   <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                    <Bot className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                    <Bot className="w-8 h-8 text-brand dark:text-brand" />
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 dark:text-white">How can I help you?</p>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Describe your issue, share files</p>
+                    <p className="font-bold text-foreground dark:text-white">How can I help you?</p>
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground mt-1">Describe your issue, share files</p>
                   </div>
                 </div>
               )}
@@ -958,8 +958,8 @@ export default function Home() {
                     msg.role === "user"
                       ? "bg-blue-600 text-white rounded-br-md"
                       : msg.role === "ai"
-                      ? "bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-bl-md"
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-bl-md"
+                      ? "bg-gradient-to-br from-brand to-info text-white rounded-bl-md"
+                      : "bg-muted dark:bg-muted text-foreground dark:text-foreground rounded-bl-md"
                   }`}>
                     {msg.role === "ai" && (
                       <div className="flex items-center gap-2 mb-2">
@@ -983,11 +983,11 @@ export default function Home() {
 
               {supportIsLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-bl-md p-3">
+                  <div className="bg-muted dark:bg-muted rounded-2xl rounded-bl-md p-3">
                     <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" />
-                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-100" />
-                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-200" />
+                      <div className="w-2 h-2 bg-brand/100 rounded-full animate-bounce" />
+                      <div className="w-2 h-2 bg-brand/100 rounded-full animate-bounce delay-100" />
+                      <div className="w-2 h-2 bg-brand/100 rounded-full animate-bounce delay-200" />
                     </div>
                   </div>
                 </div>
@@ -997,11 +997,11 @@ export default function Home() {
             </div>
 
             {/* Input Area */}
-            <div className="flex-none p-4 border-t border-slate-200 dark:border-slate-800">
+            <div className="flex-none p-4 border-t border-border dark:border-border">
               {attachments.length > 0 && (
                 <div className="flex gap-2 mb-2 overflow-x-auto">
                   {attachments.map((url, idx) => (
-                    <div key={idx} className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-full px-3 py-1 text-xs">
+                    <div key={idx} className="flex items-center gap-1 bg-muted dark:bg-muted rounded-full px-3 py-1 text-xs">
                       <span>📎 File</span>
                       <button onClick={() => setAttachments(prev => prev.filter((_, i) => i !== idx))} className="text-red-500 hover:text-red-700">×</button>
                     </div>
@@ -1009,9 +1009,9 @@ export default function Home() {
                 </div>
               )}
               <div className="flex gap-2">
-                <label className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+                <label className="p-2 rounded-full hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer">
                   <input type="file" onChange={handleFileUpload} className="hidden" />
-                  <Paperclip className="w-5 h-5 text-slate-500" />
+                  <Paperclip className="w-5 h-5 text-muted-foreground" />
                 </label>
                 <input
                   type="text"
@@ -1020,13 +1020,13 @@ export default function Home() {
                   onChange={(e) => setSupportInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSupportSend()}
                   placeholder="Describe your issue..."
-                  className="flex-1 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-4 py-2 rounded-full border border-slate-300 dark:border-border bg-card dark:bg-card text-foreground dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
                   onClick={handleSupportSend}
                   disabled={supportIsLoading}
                   aria-label="Send message"
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded-full transition-colors"
+                  className="px-4 py-2 bg-blue-600 hover:bg-brand disabled:bg-muted text-white rounded-full transition-colors"
                 >
                   <Send className="w-4 h-4" />
                 </button>

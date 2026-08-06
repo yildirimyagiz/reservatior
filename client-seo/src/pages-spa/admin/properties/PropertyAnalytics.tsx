@@ -40,15 +40,15 @@ export default function PropertyAnalytics() {
  queryKey: ['property-analytics', periodFilter, sortBy, sortOrder],
  queryFn: async () => {
  const params = new URLSearchParams({ period: periodFilter, sortBy, sortOrder });
- const response = await apiClient.get(`/properties/analytics?${params}`) as Promise<{ data: PropertyAnalytics[] }>;
- return (await response).data || [];
+ const response = await apiClient.get<{ data: PropertyAnalytics[] }>(`/properties/analytics?${params}`);
+ return response.data || [];
  }
  });
  const { data: marketData } = useQuery({
  queryKey: ['property-market-analytics'],
  queryFn: async () => {
- const response = await apiClient.get('/properties/market-analytics') as Promise<{ data: MarketAnalytics }>;
- return (await response).data || null;
+ const response = await apiClient.get<{ data: MarketAnalytics }>('/properties/market-analytics');
+ return response.data || null;
  }
  });
  const formatNumber = (num: number) => {
@@ -58,7 +58,7 @@ export default function PropertyAnalytics() {
  };
  const formatCurrency = (num: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(num);
  const getTrendIcon = (change: number) => {
- if (change > 0) return <TrendingUp className="h-4 w-4 text-green-500" />;
+ if (change > 0) return <TrendingUp className="h-4 w-4 text-blue-500" />;
  if (change < 0) return <TrendingDown className="h-4 w-4 text-red-500" />;
  return <Activity className="h-4 w-4 text-muted-foreground" />;
  };
@@ -214,7 +214,7 @@ export default function PropertyAnalytics() {
  <div className="text-xs text-muted-foreground">{item.leadsGenerated}{t("admin_property_leads")}</div>
  </TableCell>
  <TableCell className="text-muted-foreground">
- <div className="font-medium text-green-400">{item.conversionRate.toFixed(2)}%</div>
+ <div className="font-medium text-blue-400">{item.conversionRate.toFixed(2)}%</div>
  <div className="text-xs text-muted-foreground">{item.shares}{t("admin_property_shares")}</div>
  </TableCell>
  <TableCell className="text-muted-foreground">
@@ -223,11 +223,11 @@ export default function PropertyAnalytics() {
  <TableCell className="text-muted-foreground">
  <div className="font-medium text-foreground">{Math.round(item.timeOnPage / 60)}{t("admin_auto_m", "m")}{item.timeOnPage % 60}{t("admin_auto_s", "s")}</div>
  </TableCell>
- <TableCell className="font-medium text-green-400">{formatCurrency(item.revenue)}</TableCell>
+ <TableCell className="font-medium text-blue-400">{formatCurrency(item.revenue)}</TableCell>
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground">
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -274,7 +274,7 @@ export default function PropertyAnalytics() {
  <div className="space-y-4">
  {marketData.topPerformingProperties.slice(0, 5).map((property, index) => <div key={property.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
  <div className="flex items-center gap-4">
- <div className="flex items-center justify-center w-8 h-8 bg-slate-100 text-slate-600 rounded-full font-bold">{index + 1}</div>
+ <div className="flex items-center justify-center w-8 h-8 bg-muted text-muted-foreground rounded-full font-bold">{index + 1}</div>
  <div>
  <div className="font-medium text-foreground">{property.property?.address}</div>
  <div className="text-sm text-muted-foreground">{property.property?.city}{t(",", ",")}{property.property?.state}</div>
@@ -317,7 +317,7 @@ export default function PropertyAnalytics() {
  <span className="font-medium text-foreground">{analytics[0].deviceBreakdown.desktop.toFixed(1)}%</span>
  </div>
  <div className="flex justify-between items-center">
- <span className="text-sm text-foreground flex items-center gap-2"><div className="w-3 h-3 bg-green-500 rounded-lg" />{t("admin_property_mobile")}</span>
+ <span className="text-sm text-foreground flex items-center gap-2"><div className="w-3 h-3 bg-blue-500 rounded-lg" />{t("admin_property_mobile")}</span>
  <span className="font-medium text-foreground">{analytics[0].deviceBreakdown.mobile.toFixed(1)}%</span>
  </div>
  <div className="flex justify-between items-center">
@@ -357,7 +357,7 @@ export default function PropertyAnalytics() {
  <CardContent>
  <div className="space-y-3">
  {marketData.marketInsights.map((insight, index) => <div key={index} className="flex items-start gap-3 p-3 bg-muted rounded-lg">
- <BarChart3 className="h-5 w-5 text-slate-600 mt-0.5" />
+ <BarChart3 className="h-5 w-5 text-muted-foreground mt-0.5" />
  <p className="text-sm">{insight}</p>
  </div>)}
  </div>

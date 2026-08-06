@@ -17,10 +17,10 @@ export const paymentRoutes = new Elysia({ prefix: "/payments" })
    * POST /payment/create-checkout-session
    * Creates a Stripe checkout session for a payment.
    */
-  .post("/create-checkout-session", async ({ orgId, db, body, query }: { body: any; query: any }) => {
+  .post("/create-checkout-session", async ({ orgId, db, body, query }: any) => {
     const { amount, currency, successUrl, cancelUrl, paymentType, ...metadata } = body;
     
-    const session = await stripeService.withDB(db as any).createCheckoutSession({
+    const session = await stripeService.createCheckoutSession({
       amount,
       currency: currency || "try",
       successUrl: successUrl || `${process.env.FRONTEND_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
@@ -54,7 +54,7 @@ export const paymentRoutes = new Elysia({ prefix: "/payments" })
    * GET /payment
    * Retrieves all Payment with pagination and basic filtering.
    */
-  .get("/", async ({ orgId, db, query }) => {
+  .get("/", async ({ orgId, db, query }: any) => {
     const { page = "1", limit = "20", ...where } = query as any;
       if (orgId) where.orgId = orgId;
     return paymentService.withDB(db as any).getAll({
@@ -75,7 +75,7 @@ export const paymentRoutes = new Elysia({ prefix: "/payments" })
    * POST /payment
    * Creates a new Payment.
    */
-  .post("/", async ({ orgId, db, body, set }) => {
+  .post("/", async ({ orgId, db, body, set }: any) => {
     const data = await paymentService.withDB(db as any).create(body);
     set.status = 201;
     return { data };
@@ -87,7 +87,7 @@ export const paymentRoutes = new Elysia({ prefix: "/payments" })
    * GET /payment/:id
    * Retrieves a single Payment by ID.
    */
-  .get("/:id", async ({ orgId, db, params, set }) => {
+  .get("/:id", async ({ orgId, db, params, set }: any) => {
     const data = await paymentService.withDB(db as any).getById(params.id);
     if (!data) {
       set.status = 404;
@@ -102,7 +102,7 @@ export const paymentRoutes = new Elysia({ prefix: "/payments" })
    * PATCH /payment/:id
    * Updates an existing Payment.
    */
-  .patch("/:id", async ({ orgId, db, params, body, set }) => {
+  .patch("/:id", async ({ orgId, db, params, body, set }: any) => {
     try {
       const oldData = await paymentService.withDB(db as any).getById(params.id);
       const data = await paymentService.withDB(db as any).update(params.id, body);
@@ -136,7 +136,7 @@ export const paymentRoutes = new Elysia({ prefix: "/payments" })
    * DELETE /payment/:id
    * Deletes a Payment.
    */
-  .delete("/:id", async ({ orgId, db, params, set }) => {
+  .delete("/:id", async ({ orgId, db, params, set }: any) => {
     try {
       await paymentService.withDB(db as any).delete(params.id);
       return { success: true, message: "Payment deleted successfully" };

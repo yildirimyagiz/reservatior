@@ -35,22 +35,22 @@ export default function AdminBookingOSDashboard() {
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
 
   const kpis = [
-    { title: "Active Bookings", value: 156, icon: Calendar, color: "text-emerald-500", trend: "+12 this week" },
-    { title: "Pending Check-ins", value: 23, icon: LogIn, color: "text-blue-400", trend: "Today: 8" },
-    { title: "Pending Check-outs", value: 18, icon: LogOut, color: "text-purple-400", trend: "Today: 5" },
-    { title: "Today's Revenue", value: formatCurrency(12450), icon: DollarSign, color: "text-orange-400", trend: "+8.3% vs yesterday" },
+    { title: t("booking_os.active_bookings", "Aktif Rezervasyonlar"), value: 156, icon: Calendar, color: "text-success", trend: "+12 this week" },
+    { title: t("booking_os.pending_check_ins", "Bekleyen Check-in'ler"), value: 23, icon: LogIn, color: "text-info", trend: "Today: 8" },
+    { title: t("booking_os.pending_check_outs", "Bekleyen Check-out'lar"), value: 18, icon: LogOut, color: "text-brand", trend: "Today: 5" },
+    { title: t("booking_os.todays_revenue", "Today's Revenue"), value: formatCurrency(12450), icon: DollarSign, color: "text-warning", trend: "+8.3% vs yesterday" },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-100">Booking OS Management</h1>
-          <p className="text-slate-400 mt-1">Reservation operations and smart lock management</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("booking_os.title", "Rezervasyon OS")}</h1>
+          <p className="text-muted-foreground mt-1">{t("booking_os.subtitle", "Rezervasyonlar ve Canlı Operasyonlar")}</p>
         </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700">
+        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
           <Calendar className="h-4 w-4 mr-2" />
-          New Booking
+          {t("booking_os.new_booking", "New Booking")}
         </Button>
       </div>
 
@@ -58,14 +58,14 @@ export default function AdminBookingOSDashboard() {
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
           <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.title}</CardTitle>
                 <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-slate-100">{kpi.value}</div>
-                <p className="text-xs text-slate-500 mt-1">{kpi.trend}</p>
+                <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">{kpi.trend}</p>
               </CardContent>
             </Card>
           </m.div>
@@ -73,23 +73,23 @@ export default function AdminBookingOSDashboard() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="bg-slate-900/60 border-slate-800">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="bookings">Bookings</TabsTrigger>
-          <TabsTrigger value="pricing">Pricing</TabsTrigger>
-          <TabsTrigger value="iot">IoT Devices</TabsTrigger>
+        <TabsList className="bg-card border-border">
+          <TabsTrigger value="overview">{t("booking_os.tabs.overview", "Genel Bakış")}</TabsTrigger>
+          <TabsTrigger value="bookings">{t("booking_os.tabs.bookings", "Rezervasyonlar")}</TabsTrigger>
+          <TabsTrigger value="pricing">{t("booking_os.tabs.pricing", "Pricing")}</TabsTrigger>
+          <TabsTrigger value="iot">{t("booking_os.tabs.iot", "IoT Cihazlar")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-slate-100 flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-emerald-400" />
-                  Pricing Engine Performance
+                <CardTitle className="text-foreground flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-success" />
+                  {t("booking_os.pricing_engine", "Fiyatlandırma Motoru")}
                 </CardTitle>
-                <CardDescription className="text-slate-400">
-                  Base vs optimized rates over time
+                <CardDescription className="text-muted-foreground">
+                  {t("booking_os.pricing_engine_desc", "Zaman içinde AI optimize edilmiş dinamik fiyatlandırma trendleri.")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -119,7 +119,7 @@ export default function AdminBookingOSDashboard() {
                       <Line 
                         type="monotone" 
                         dataKey="baseRate" 
-                        name="Base Rate" 
+                        name={t("booking_os.base_rate", "Temel Oran")} 
                         stroke="#64748b" 
                         strokeWidth={2} 
                         dot={false} 
@@ -128,8 +128,8 @@ export default function AdminBookingOSDashboard() {
                       <Line 
                         type="monotone" 
                         dataKey="optimizedRate" 
-                        name="Optimized Rate" 
-                        stroke="#10b981" 
+                        name={t("booking_os.optimized_rate", "Optimize Edilmiş Oran")} 
+                        stroke="#3b82f6" 
                         strokeWidth={2} 
                         dot={false} 
                         activeDot={{ r: 4 }} 
@@ -140,26 +140,26 @@ export default function AdminBookingOSDashboard() {
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-slate-100">Recent Bookings</CardTitle>
-                <CardDescription className="text-slate-400">
-                  Latest reservation activity
+                <CardTitle className="text-foreground">{t("booking_os.recent_bookings", "Recent Bookings")}</CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  {t("booking_os.latest_reservation_activity", "Latest reservation activity")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   {RECENT_BOOKINGS.map((booking) => (
-                    <div key={booking.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 border border-slate-700">
+                    <div key={booking.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border">
                       <div className="flex items-center gap-3">
                         <div className={`w-2 h-2 rounded-full ${
-                          booking.status === 'checked-in' ? 'bg-emerald-400' :
+                          booking.status === 'checked-in' ? 'bg-blue-400' :
                           booking.status === 'pending' ? 'bg-yellow-400' :
-                          'bg-slate-400'
+                          'bg-muted'
                         }`} />
                         <div>
-                          <p className="text-sm font-medium text-slate-200">{booking.property}</p>
-                          <p className="text-xs text-slate-500">{booking.guest}</p>
+                          <p className="text-sm font-medium text-foreground">{booking.property}</p>
+                          <p className="text-xs text-muted-foreground">{booking.guest}</p>
                         </div>
                       </div>
                       <Badge variant={
@@ -178,51 +178,51 @@ export default function AdminBookingOSDashboard() {
         </TabsContent>
 
         <TabsContent value="bookings">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Booking Management</CardTitle>
-              <CardDescription className="text-slate-400">
-                Manage all reservations and check-in/check-out operations
+              <CardTitle className="text-foreground">{t("booking_os.booking_management", "Rezervasyon Yönetimi")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("booking_os.booking_management_desc", "Tüm rezervasyonları ve giriş/çıkış işlemlerini yönetin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Booking management interface</p>
+                <p>{t("booking_os.booking_management_interface", "Rezervasyon yönetim arayüzü")}</p>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="pricing">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Pricing Configuration</CardTitle>
-              <CardDescription className="text-slate-400">
-                Configure dynamic pricing rules and AI optimization
+              <CardTitle className="text-foreground">{t("booking_os.pricing_configuration", "Pricing Configuration")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("booking_os.pricing_configuration_desc", "Configure dynamic pricing rules and AI optimization")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <DollarSign className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Pricing configuration interface</p>
+                <p>{t("booking_os.pricing_configuration_interface", "Pricing configuration interface")}</p>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="iot">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">IoT Device Management</CardTitle>
-              <CardDescription className="text-slate-400">
-                Manage smart locks and property IoT devices
+              <CardTitle className="text-foreground">{t("booking_os.iot_device_management", "IoT Cihaz Yönetimi")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("booking_os.iot_device_management_desc", "Akıllı kilitleri ve mülk IoT cihazlarını yönetin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <Key className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>IoT device management interface</p>
+                <p>{t("booking_os.iot_device_management_interface", "IoT cihaz yönetim arayüzü")}</p>
               </div>
             </CardContent>
           </Card>

@@ -148,11 +148,11 @@ const ContractManagement = () => {
 
  const getStatusBadge = (status: string) => {
  const statusConfig: Record<string, { icon: any; color: string; label: string }> = {
- 'DRAFT': { icon: Clock, color: 'bg-muted0/10 text-muted-foreground border-slate-500/20', label: t('admin_contract_draft', 'Draft') },
- 'ACTIVE': { icon: CheckCircle, color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', label: t('admin_contract_active', 'Active') },
- 'EXPIRED': { icon: AlertCircle, color: 'bg-red-500/10 text-red-400 border-red-500/20', label: t('admin_contract_expired', 'Expired') },
- 'TERMINATED': { icon: AlertCircle, color: 'bg-red-500/10 text-red-400 border-red-500/20', label: t('admin_contract_terminated', 'Terminated') },
- 'PENDING_SIGNATURE': { icon: Clock, color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_contract_pending_signature', 'Pending Signature') }
+ 'DRAFT': { icon: Clock, color: 'bg-muted0/10 text-muted-foreground border-slate-500/20', label: t('admin_contract_draft', 'Taslak') },
+ 'ACTIVE': { icon: CheckCircle, color: 'bg-blue-500/10 text-success border-blue-500/20', label: t('admin_contract_active', 'Aktif') },
+ 'EXPIRED': { icon: AlertCircle, color: 'bg-red-500/10 text-red-400 border-red-500/20', label: t('admin_contract_expired', 'Süresi Doldu') },
+ 'TERMINATED': { icon: AlertCircle, color: 'bg-red-500/10 text-red-400 border-red-500/20', label: t('admin_contract_terminated', 'Feshedildi') },
+ 'PENDING_SIGNATURE': { icon: Clock, color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_contract_pending_signature', 'İmza Bekliyor') }
  };
  const config = statusConfig[status] || statusConfig['DRAFT'];
  const Icon = config.icon;
@@ -166,11 +166,11 @@ const ContractManagement = () => {
 
  const getTypeBadge = (type: string) => {
  const typeConfig: Record<string, { color: string; label: string }> = {
- 'LEASE': { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', label: t('admin_contract_lease', 'Lease') },
- 'SALE': { color: 'bg-orange-500/10 text-orange-400 border-orange-500/20', label: t('admin_contract_sale', 'Sale') },
- 'SERVICE': { color: 'bg-purple-500/10 text-purple-400 border-purple-500/20', label: t('admin_contract_service', 'Service') },
- 'MAINTENANCE': { color: 'bg-green-500/10 text-green-400 border-green-500/20', label: t('admin_contract_maintenance', 'Maintenance') },
- 'MANAGEMENT': { color: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20', label: t('admin_contract_management', 'Management') }
+ 'LEASE': { color: 'bg-blue-500/10 text-info border-blue-500/20', label: t('admin_contract_lease', 'Kiralama') },
+ 'SALE': { color: 'bg-orange-500/10 text-warning border-orange-500/20', label: t('admin_contract_sale', 'Satış') },
+ 'SERVICE': { color: 'bg-brand/10 text-brand border-brand/20', label: t('admin_contract_service', 'Hizmet') },
+ 'MAINTENANCE': { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', label: t('admin_contract_maintenance', 'Bakım') },
+ 'MANAGEMENT': { color: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20', label: t('admin_contract_management', 'Yönetim') }
  };
  const config = typeConfig[type] || typeConfig['LEASE'];
  return <Badge className={config.color}>{config.label}</Badge>;
@@ -191,35 +191,35 @@ const ContractManagement = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
- {t("admin_contract_title","Contract Management")}
+ {t("admin_contract_title", "Sözleşme Yönetimi")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_contract_subtitle","Manage property contracts and agreements")}
+ {t("admin_contract_subtitle", "Mülk sözleşmelerini ve anlaşmalarını yönetin")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-white">
+ <Button className="bg-muted hover:bg-muted0 text-white">
  <Plus className="w-4 h-4 mr-2" />
- {t("common.add","Add Contract")}
+ {t("common.add", "Ekle")}
  </Button>
  </DialogTrigger>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_contract_add_title","Add New Contract")}</DialogTitle>
- <DialogDescription>{t("admin_contract_add_desc","Create a new contract agreement")}</DialogDescription>
+ <DialogTitle>{t("admin_contract_add_title", "Yeni Sözleşme Ekle")}</DialogTitle>
+ <DialogDescription>{t("admin_contract_add_desc", "Yeni bir sözleşme sözleşmesi oluşturun")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 py-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_contract_property","Property")}</Label>
+ <Label>{t("admin_contract_property", "Mülk")}</Label>
  <Select value={newItem.propertyId} onValueChange={(v) => setNewItem({...newItem, propertyId: v})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder={t("admin_contract_select_property","Select property")} />
+ <SelectValue placeholder={t("admin_contract_select_property", "Mülk Seçin")} />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
  {properties.map((p: any) => (
@@ -229,39 +229,39 @@ const ContractManagement = () => {
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_contract_type","Contract Type")}</Label>
+ <Label>{t("admin_contract_type", "Sözleşme Türü")}</Label>
  <Select value={newItem.type} onValueChange={(v) => setNewItem({...newItem, type: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="LEASE">{t("admin_contract_lease","Lease")}</SelectItem>
- <SelectItem value="SALE">{t("admin_contract_sale","Sale")}</SelectItem>
- <SelectItem value="SERVICE">{t("admin_contract_service","Service")}</SelectItem>
- <SelectItem value="MAINTENANCE">{t("admin_contract_maintenance","Maintenance")}</SelectItem>
- <SelectItem value="MANAGEMENT">{t("admin_contract_management","Management")}</SelectItem>
+ <SelectItem value="LEASE">{t("admin_contract_lease", "Kiralama")}</SelectItem>
+ <SelectItem value="SALE">{t("admin_contract_sale", "Satış")}</SelectItem>
+ <SelectItem value="SERVICE">{t("admin_contract_service", "Hizmet")}</SelectItem>
+ <SelectItem value="MAINTENANCE">{t("admin_contract_maintenance", "Bakım")}</SelectItem>
+ <SelectItem value="MANAGEMENT">{t("admin_contract_management", "Yönetim")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_contract_status","Status")}</Label>
+ <Label>{t("admin_contract_status", "Durum")}</Label>
  <Select value={newItem.status} onValueChange={(v) => setNewItem({...newItem, status: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="DRAFT">{t("admin_contract_draft","Draft")}</SelectItem>
- <SelectItem value="ACTIVE">{t("admin_contract_active","Active")}</SelectItem>
- <SelectItem value="EXPIRED">{t("admin_contract_expired","Expired")}</SelectItem>
- <SelectItem value="TERMINATED">{t("admin_contract_terminated","Terminated")}</SelectItem>
- <SelectItem value="PENDING_SIGNATURE">{t("admin_contract_pending_signature","Pending Signature")}</SelectItem>
+ <SelectItem value="DRAFT">{t("admin_contract_draft", "Taslak")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_contract_active", "Aktif")}</SelectItem>
+ <SelectItem value="EXPIRED">{t("admin_contract_expired", "Süresi Doldu")}</SelectItem>
+ <SelectItem value="TERMINATED">{t("admin_contract_terminated", "Feshedildi")}</SelectItem>
+ <SelectItem value="PENDING_SIGNATURE">{t("admin_contract_pending_signature", "İmza Bekliyor")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_contract_value","Contract Value")}</Label>
+ <Label>{t("admin_contract_value", "Sözleşme Değeri")}</Label>
  <div className="flex gap-2">
  <Input 
  type="number" 
@@ -274,10 +274,10 @@ const ContractManagement = () => {
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="USD">{t("admin_financial_usd", "USD")}</SelectItem>
- <SelectItem value="EUR">{t("admin_financial_eur", "EUR")}</SelectItem>
+ <SelectItem value="USD">{t("admin_financial_usd", "Usd")}</SelectItem>
+ <SelectItem value="EUR">{t("admin_financial_eur", "Eur")}</SelectItem>
  <SelectItem value="GBP">{t("admin_auto_gbp", "GBP")}</SelectItem>
- <SelectItem value="TRY">{t("admin_auto_try", "TRY")}</SelectItem>
+ <SelectItem value="TRY">{t("admin_auto_try", "DENEMEK")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -285,7 +285,7 @@ const ContractManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_contract_start_date","Start Date")}</Label>
+ <Label>{t("admin_contract_start_date", "Başlangıç Tarihi")}</Label>
  <Input 
  type="date" 
  value={newItem.startDate} 
@@ -294,7 +294,7 @@ const ContractManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_contract_end_date","End Date")}</Label>
+ <Label>{t("admin_contract_end_date", "Bitiş Tarihi")}</Label>
  <Input 
  type="date" 
  value={newItem.endDate} 
@@ -304,17 +304,17 @@ const ContractManagement = () => {
  </div>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_contract_parties","Parties (comma-separated)")}</Label>
+ <Label>{t("admin_contract_parties", "Taraflar (virgülle ayrılmış)")}</Label>
  <Input 
  value={newItem.parties} 
  onChange={(e) => setNewItem({...newItem, parties: e.target.value})}
  className="bg-card border-border"
- placeholder={t("admin_contract_parties_placeholder","e.g. John Doe, Jane Smith")}
+ placeholder={t("admin_contract_parties_placeholder", "örneğin John Doe, Jane Smith")}
  />
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_contract_notice_period","Notice Period (days)")}</Label>
+ <Label>{t("admin_contract_notice_period", "İhbar Süresi (gün)")}</Label>
  <Input 
  type="number" 
  value={newItem.noticePeriod} 
@@ -330,26 +330,26 @@ const ContractManagement = () => {
  onChange={(e) => setNewItem({...newItem, autoRenew: e.target.checked})}
  className="rounded"
  />
- <Label htmlFor="autoRenew">{t("admin_contract_auto_renew","Auto Renew")}</Label>
+ <Label htmlFor="autoRenew">{t("admin_contract_auto_renew", "Otomatik Yenileme")}</Label>
  </div>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_contract_terms","Terms and Conditions")}</Label>
+ <Label>{t("admin_contract_terms", "Şartlar ve koşullar")}</Label>
  <Textarea 
  value={newItem.terms} 
  onChange={(e) => setNewItem({...newItem, terms: e.target.value})}
  className="bg-card border-border"
- placeholder={t("admin_contract_terms_placeholder","Contract terms and conditions")}
+ placeholder={t("admin_contract_terms_placeholder", "Sözleşme şartları ve koşulları")}
  rows={4}
  />
  </div>
  </form>
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleAddSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleAddSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>
@@ -360,9 +360,9 @@ const ContractManagement = () => {
  {/* Filters Section */}
  <div className="flex gap-4">
  <div className="relative flex-1 max-w-md">
- <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+ <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
  <Input
- placeholder={t("common.search","Search...")}
+ placeholder={t("common.search", "Ara")}
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  className="pl-10 bg-card border-border"
@@ -373,12 +373,12 @@ const ContractManagement = () => {
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="ALL">{t("common.all","All")}</SelectItem>
- <SelectItem value="DRAFT">{t("admin_contract_draft","Draft")}</SelectItem>
- <SelectItem value="ACTIVE">{t("admin_contract_active","Active")}</SelectItem>
- <SelectItem value="EXPIRED">{t("admin_contract_expired","Expired")}</SelectItem>
- <SelectItem value="TERMINATED">{t("admin_contract_terminated","Terminated")}</SelectItem>
- <SelectItem value="PENDING_SIGNATURE">{t("admin_contract_pending_signature","Pending Signature")}</SelectItem>
+ <SelectItem value="ALL">{t("common.all", "Tümü")}</SelectItem>
+ <SelectItem value="DRAFT">{t("admin_contract_draft", "Taslak")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_contract_active", "Aktif")}</SelectItem>
+ <SelectItem value="EXPIRED">{t("admin_contract_expired", "Süresi Doldu")}</SelectItem>
+ <SelectItem value="TERMINATED">{t("admin_contract_terminated", "Feshedildi")}</SelectItem>
+ <SelectItem value="PENDING_SIGNATURE">{t("admin_contract_pending_signature", "İmza Bekliyor")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -387,25 +387,25 @@ const ContractManagement = () => {
  <CardHeader>
  <CardTitle className="flex items-center gap-2">
  <FileText className="w-5 h-5" />
- {t("admin_contract_list_title","Contract Agreements")}
+ {t("admin_contract_list_title", "Sözleşme Anlaşmaları")}
  </CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
- <div className="text-center py-8 text-slate-500">{t("common.loading","Loading...")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("common.loading", "Yükleniyor")}</div>
  ) : filteredContracts.length === 0 ? (
- <div className="text-center py-8 text-slate-500">{t("admin_contract_empty","No contracts found")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("admin_contract_empty", "Sözleşme bulunamadı")}</div>
  ) : (
  <Table>
  <TableHeader>
  <TableRow>
- <TableHead>{t("admin_contract_property","Property")}</TableHead>
- <TableHead>{t("admin_contract_type","Type")}</TableHead>
- <TableHead>{t("admin_contract_status","Status")}</TableHead>
- <TableHead>{t("admin_contract_value","Value")}</TableHead>
- <TableHead>{t("admin_contract_period","Period")}</TableHead>
- <TableHead>{t("admin_contract_parties","Parties")}</TableHead>
- <TableHead className="text-right">{t("common.actions","Actions")}</TableHead>
+ <TableHead>{t("admin_contract_property", "Mülk")}</TableHead>
+ <TableHead>{t("admin_contract_type", "Sözleşme Türü")}</TableHead>
+ <TableHead>{t("admin_contract_status", "Durum")}</TableHead>
+ <TableHead>{t("admin_contract_value", "Sözleşme Değeri")}</TableHead>
+ <TableHead>{t("admin_contract_period", "Süre")}</TableHead>
+ <TableHead>{t("admin_contract_parties", "Taraflar (virgülle ayrılmış)")}</TableHead>
+ <TableHead className="text-right">{t("common.actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -422,25 +422,25 @@ const ContractManagement = () => {
  </div>
  ) : '-'}
  </TableCell>
- <TableCell className="text-slate-500">
+ <TableCell className="text-muted-foreground">
  <div className="flex items-center gap-1">
  <Calendar className="w-3 h-3" />
  {new Date(item.startDate).toLocaleDateString()}
  {item.endDate && ` - ${new Date(item.endDate).toLocaleDateString()}`}
  </div>
  </TableCell>
- <TableCell className="text-slate-500">
+ <TableCell className="text-muted-foreground">
  <div className="flex items-center gap-1">
  <User className="w-3 h-3" />
- {item.parties.length} {t("admin_contract_parties_count","parties")}
+ {item.parties.length} {t("admin_contract_parties_count", "partiler")}
  </div>
  </TableCell>
  <TableCell className="text-right">
  <div className="flex justify-end gap-2">
- <Button variant="ghost" size="icon" onClick={() => openEditModal(item)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} onClick={() => openEditModal(item)}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(item.id)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} onClick={() => deleteMutation.mutate(item.id)}>
  <Trash2 className="w-4 h-4 text-red-500" />
  </Button>
  </div>
@@ -457,29 +457,29 @@ const ContractManagement = () => {
  <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_contract_edit_title","Edit Contract")}</DialogTitle>
- <DialogDescription>{t("admin_contract_edit_desc","Update contract details")}</DialogDescription>
+ <DialogTitle>{t("admin_contract_edit_title", "Sözleşmeyi Düzenle")}</DialogTitle>
+ <DialogDescription>{t("admin_contract_edit_desc", "Sözleşme detaylarını güncelleyin")}</DialogDescription>
  </DialogHeader>
  {editingItem && (
  <form onSubmit={handleEditSubmit} className="space-y-4 py-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_contract_status","Status")}</Label>
+ <Label>{t("admin_contract_status", "Durum")}</Label>
  <Select value={editingItem.status} onValueChange={(v) => setEditingItem({...editingItem, status: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="DRAFT">{t("admin_contract_draft","Draft")}</SelectItem>
- <SelectItem value="ACTIVE">{t("admin_contract_active","Active")}</SelectItem>
- <SelectItem value="EXPIRED">{t("admin_contract_expired","Expired")}</SelectItem>
- <SelectItem value="TERMINATED">{t("admin_contract_terminated","Terminated")}</SelectItem>
- <SelectItem value="PENDING_SIGNATURE">{t("admin_contract_pending_signature","Pending Signature")}</SelectItem>
+ <SelectItem value="DRAFT">{t("admin_contract_draft", "Taslak")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_contract_active", "Aktif")}</SelectItem>
+ <SelectItem value="EXPIRED">{t("admin_contract_expired", "Süresi Doldu")}</SelectItem>
+ <SelectItem value="TERMINATED">{t("admin_contract_terminated", "Feshedildi")}</SelectItem>
+ <SelectItem value="PENDING_SIGNATURE">{t("admin_contract_pending_signature", "İmza Bekliyor")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_contract_value","Contract Value")}</Label>
+ <Label>{t("admin_contract_value", "Sözleşme Değeri")}</Label>
  <Input 
  type="number"
  value={editingItem.value || ''}
@@ -490,7 +490,7 @@ const ContractManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_contract_end_date","End Date")}</Label>
+ <Label>{t("admin_contract_end_date", "Bitiş Tarihi")}</Label>
  <Input 
  type="date"
  value={editingItem.endDate || ''}
@@ -506,11 +506,11 @@ const ContractManagement = () => {
  onChange={(e) => setEditingItem({...editingItem, autoRenew: e.target.checked})}
  className="rounded"
  />
- <Label htmlFor="editAutoRenew">{t("admin_contract_auto_renew","Auto Renew")}</Label>
+ <Label htmlFor="editAutoRenew">{t("admin_contract_auto_renew", "Otomatik Yenileme")}</Label>
  </div>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_contract_terms","Terms and Conditions")}</Label>
+ <Label>{t("admin_contract_terms", "Şartlar ve koşullar")}</Label>
  <Textarea 
  value={editingItem.terms || ''}
  onChange={(e) => setEditingItem({...editingItem, terms: e.target.value})}
@@ -522,10 +522,10 @@ const ContractManagement = () => {
  )}
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleEditSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleEditSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>

@@ -30,7 +30,7 @@ export function PropertyAmenitiesManager({
       setPropertyAmenities((propAmenRes as any)?.data || propAmenRes || []);
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_load_amenities"),
         variant: "destructive"
       });
@@ -52,7 +52,7 @@ export function PropertyAmenitiesManager({
       setPropertyAmenities((res as any)?.data || res || []);
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_add_amenity"),
         variant: "destructive"
       });
@@ -71,7 +71,7 @@ export function PropertyAmenitiesManager({
       setPropertyAmenities((res as any)?.data || res || []);
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_remove_amenity"),
         variant: "destructive"
       });
@@ -88,9 +88,9 @@ export function PropertyAmenitiesManager({
       </div>;
   }
   return <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {categories.map(category => <Card key={category} className="shadow-none border border-slate-200">
-          <CardHeader className="py-3 bg-slate-50/50 border-b">
-            <CardTitle className="text-xs font-bold flex items-center gap-2 uppercase tracking-wider text-slate-600">
+      {categories.map(category => <Card key={category} className="shadow-none border border-border">
+          <CardHeader className="py-3 bg-muted/50 border-b">
+            <CardTitle className="text-xs font-bold flex items-center gap-2 uppercase tracking-wider text-muted-foreground">
               <Package className="w-3.5 h-3.5" />
               {category}
             </CardTitle>
@@ -99,15 +99,15 @@ export function PropertyAmenitiesManager({
             {allAmenities.filter(a => a.category === category).map(amenity => {
           const linked = isLinked(amenity.id);
           const isBusy = actionLoading === amenity.id;
-          return <div key={amenity.id} className="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 transition-colors group">
+          return <div key={amenity.id} className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors group">
                   <div className="flex items-center gap-2.5">
-                    {linked ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <div className="w-4 h-4 rounded-full border border-slate-300" />}
-                    <span className={`text-sm ${linked ? 'font-medium text-slate-900' : 'text-slate-500'}`}>{amenity.name}</span>
+                    {linked ? <CheckCircle2 className="w-4 h-4 text-success" /> : <div className="w-4 h-4 rounded-full border border-slate-300" />}
+                    <span className={`text-sm ${linked ? 'font-medium text-foreground' : 'text-muted-foreground'}`}>{amenity.name}</span>
                   </div>
                   
                   {linked ? <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 text-red-500 hover:bg-red-50 hover:text-red-600 transition-all rounded-full" disabled={!!actionLoading} onClick={() => handleUnlink(amenity.id)} aria-label="Remove amenity">
                       {isBusy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
-                    </Button> : <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 text-blue-500 hover:bg-blue-50 hover:text-blue-600 transition-all rounded-full" disabled={!!actionLoading} onClick={() => handleLink(amenity.id)} aria-label="Add amenity">
+                    </Button> : <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 text-brand hover:bg-brand/10 hover:text-brand transition-all rounded-full" disabled={!!actionLoading} onClick={() => handleLink(amenity.id)} aria-label="Add amenity">
                       {isBusy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
                     </Button>}
                 </div>;

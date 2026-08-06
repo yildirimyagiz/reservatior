@@ -246,4 +246,80 @@ export const commissionRoutes = new Elysia({ prefix: "/commission" })
     }
   }, {
     params: t.Object({ id: t.String() })
+  })
+
+  /**
+   * POST /commission/:id/installment-plan
+   * Generates a payment installment plan for a commission.
+   */
+  .post("/:id/installment-plan", async ({ params, body, set }) => {
+    try {
+      const db = prismaManager.getClient();
+      const commission = await commissionService.getById(params.id);
+      
+      if (!commission) {
+        set.status = 404;
+        return { error: "Commission not found" };
+      }
+
+      // Default logic: create installments based on count and commission amount
+      const installmentCount = body.installmentCount || commission.installmentCount || 12;
+      const totalAmount = Number(commission.commissionAmount);
+      
+      const installmentAmount = totalAmount / installmentCount;
+      const startDate = body.startDate ? new Date(body.startDate) : new Date();
+      
+      const installmentsData: any[] = [];
+      for (let i = 0; i < installmentCount; i++) {
+        const dueDate = new Date(startDate);
+        // Default frequency: monthly
+        dueDate.setMonth(dueDate.getMonth() + i);
+        
+        installmentsData.push({
+          orgId: commission.orgId,
+          negotiationId: "system-generated", // Usually links to a deal/negotiation
+          commissionId: commission.id,
+          installmentNo: i + 1,
+          amount: installmentAmount,
+          currency: commission.currency,
+          dueDate: dueDate,
+          status: "UNPAID"
+        });
+      }
+
+      // Execute in a transaction
+      await db.$transaction(async (tx: any) => {
+        // Update commission collection type
+        await tx.commission.update({
+          where: { id: commission.id },
+          data: { collectionType: "INSTALLMENT" }
+        });
+        
+        // Delete existing installments if any
+        await tx.paymentInstallment.deleteMany({
+          where: { commissionId: commission.id }
+        });
+        
+        // Create new installments
+        await tx.paymentInstallment.createMany({
+          data: installmentsData
+        });
+      });
+
+      const newInstallments = await db.paymentInstallment.findMany({
+        where: { commissionId: commission.id },
+        orderBy: { installmentNo: "asc" }
+      });
+
+      return { data: newInstallments, success: true };
+    } catch (e: any) {
+      set.status = 500;
+      return { error: e.message };
+    }
+  }, {
+    params: t.Object({ id: t.String() }),
+    body: t.Object({
+      installmentCount: t.Optional(t.Number()),
+      startDate: t.Optional(t.String()), // ISO date string
+    })
   });

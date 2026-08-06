@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -176,13 +176,13 @@ export default function AIChatManagement() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case 'ACTIVE':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'ENDED':
- return 'bg-white/10';
+ return 'bg-card/10';
  case 'TRANSFERRED':
  return 'bg-muted0';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  const getRoleIcon = (role: string) => {
@@ -332,7 +332,7 @@ export default function AIChatManagement() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -401,7 +401,7 @@ export default function AIChatManagement() {
  <div>
  <Label className="text-base font-semibold">{t("admin_ai_messages")}</Label>
  <div className="mt-2 space-y-2 max-h-64 overflow-y-auto">
- {messages.map((message: AIChatMessage) => <div key={message.id} className={`p-3 rounded-lg ${message.role === 'USER' ? 'bg-muted/50' : message.role === 'ASSISTANT' ? 'bg-green-50/50' : 'bg-card/50'}`}>
+ {messages.map((message: AIChatMessage) => <div key={message.id} className={`p-3 rounded-lg ${message.role === 'USER' ? 'bg-muted/50' : message.role === 'ASSISTANT' ? 'bg-blue-50/50' : 'bg-card/50'}`}>
  <div className="flex items-center gap-2 mb-1">
  {getRoleIcon(message.role)}
  <span className="text-xs font-medium">{message.role}</span>

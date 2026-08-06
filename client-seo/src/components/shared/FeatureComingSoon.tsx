@@ -20,12 +20,12 @@ export default function FeatureComingSoon({
   const navigate = useNavigate();
   return <div className="flex flex-col items-center justify-center min-h-[80vh] p-8 text-center space-y-8 animate-in fade-in zoom-in duration-500">
       <div className="relative">
-        <div className="absolute -inset-4 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -inset-4 bg-blue-600/20 rounded-full blur-3xl" />
         <div className="relative p-6 bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl">
           <Icon className="w-16 h-16 text-blue-500" />
         </div>
         <div className="absolute -top-2 -right-2">
-          <Badge className="bg-amber-500 text-amber-950 border-none font-black text-[10px] px-3 py-1 shadow-lg shadow-amber-500/20">{t("client.src.coming_soon")}</Badge>
+          <Badge className="bg-amber-500 text-amber-950 border-none font-black text-[10px] px-3 py-1 shadow-lg shadow-amber-500/20">{t("common.coming_soon")}</Badge>
         </div>
       </div>
 
@@ -47,11 +47,11 @@ export default function FeatureComingSoon({
           </div>
         </div>
         <div className="p-4 bg-slate-900/50 border border-slate-800 rounded-2xl flex items-center gap-3">
-          <div className="p-2 bg-emerald-600/10 rounded-lg">
-            <Lock className="w-5 h-5 text-emerald-400" />
+          <div className="p-2 bg-blue-600/10 rounded-lg">
+            <Lock className="w-5 h-5 text-blue-400" />
           </div>
           <div className="text-left">
-            <p className="text-[10px] font-bold text-slate-500 uppercase">{t("client.src.status")}</p>
+            <p className="text-[10px] font-bold text-slate-500 uppercase">{t("common.status")}</p>
             <p className="text-sm font-bold text-slate-200">{t("client.src.in_dev")}</p>
           </div>
         </div>

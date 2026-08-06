@@ -86,7 +86,7 @@ export default function MarketIntelligenceDashboard() {
                   <Icon className="w-6 h-6 text-blue-600 mx-auto mb-2" />
                   <p className="text-2xl font-bold text-gray-900">{kpi.value}</p>
                   <p className="text-xs text-gray-500 mt-1">{kpi.title}</p>
-                  <p className={`text-xs mt-1 ${kpi.up ? 'text-green-600' : 'text-red-600'}`}>{kpi.trend}</p>
+                  <p className={`text-xs mt-1 ${kpi.up ? 'text-blue-600' : 'text-red-600'}`}>{kpi.trend}</p>
                 </div>
               );
             })}
@@ -114,16 +114,16 @@ export default function MarketIntelligenceDashboard() {
                   <tr key={i} className="hover:bg-gray-50 transition">
                     <td className="px-6 py-4 text-sm font-medium text-gray-900">{d.name}</td>
                     <td className="px-6 py-4 text-sm text-gray-700">{d.avgPrice}</td>
-                    <td className="px-6 py-4 text-sm font-bold text-green-600">{d.yield}</td>
+                    <td className="px-6 py-4 text-sm font-bold text-blue-600">{d.yield}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <div className="w-20 bg-gray-200 rounded-full h-2">
-                          <div className={`h-2 rounded-full ${d.demand >= 85 ? 'bg-green-500' : d.demand >= 70 ? 'bg-yellow-500' : 'bg-orange-500'}`} style={{ width: `${d.demand}%` }} />
+                          <div className={`h-2 rounded-full ${d.demand >= 85 ? 'bg-blue-500' : d.demand >= 70 ? 'bg-yellow-500' : 'bg-orange-500'}`} style={{ width: `${d.demand}%` }} />
                         </div>
                         <span className="text-xs text-gray-600">{d.demand}/100</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm font-bold text-green-600">{d.growth}</td>
+                    <td className="px-6 py-4 text-sm font-bold text-blue-600">{d.growth}</td>
                   </tr>
                 ))}
               </tbody>
@@ -136,9 +136,9 @@ export default function MarketIntelligenceDashboard() {
               <Brain className="w-6 h-6 text-indigo-600" /> AI Market Outlook
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-5 bg-green-50 rounded-xl border border-green-200">
-                <p className="font-medium text-green-800">📈 Short-Term (6 months)</p>
-                <p className="text-sm text-green-700 mt-2">Moderate price growth expected (+2-4%). Demand remains strong driven by international buyers. Rental market tightening.</p>
+              <div className="p-5 bg-blue-50 rounded-xl border border-blue-200">
+                <p className="font-medium text-blue-800">📈 Short-Term (6 months)</p>
+                <p className="text-sm text-blue-700 mt-2">Moderate price growth expected (+2-4%). Demand remains strong driven by international buyers. Rental market tightening.</p>
               </div>
               <div className="p-5 bg-blue-50 rounded-xl border border-blue-200">
                 <p className="font-medium text-blue-800">📊 Medium-Term (1-3 years)</p>

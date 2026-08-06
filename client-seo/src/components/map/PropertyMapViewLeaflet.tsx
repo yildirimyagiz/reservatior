@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Home, Bed, Bath, Square, Eye, Settings } from "lucide-react";
-import { Property } from "@/pages-spa/client/property/Properties";
+import { Property } from "@/app/[locale]/client/pages-spa-client/property/Properties";
 import { useMapProvider } from "./MapProvider";
 import GoogleMapView from "./GoogleMapView";
 import YandexMapView from "./YandexMapView";
@@ -79,7 +79,7 @@ export default function PropertyMapView({
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-4">
               <Home className="w-5 h-5" />
-              <h3 className="font-semibold">{t("client.src.properties")}{properties.length})</h3>
+              <h3 className="font-semibold">{t("common.properties")}{properties.length})</h3>
               <Badge variant="outline" className="text-xs">
                 {provider === "google" ? "🌍" : provider === "yandex" ? "🧭" : "🗺️"} {provider}
               </Badge>
@@ -114,11 +114,11 @@ export default function PropertyMapView({
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <div className="font-bold text-green-600 text-sm">
+                    <div className="font-bold text-blue-600 text-sm">
                       ${(property.listingPrice || 0).toLocaleString()}
                     </div>
                     <Button size="sm" variant="outline" className="text-xs">
-                      <Eye className="w-3 h-3 mr-1" />{t("client.src.view")}</Button>
+                      <Eye className="w-3 h-3 mr-1" />{t("common.view")}</Button>
                   </div>
                 </div>)}
             </div>
@@ -131,7 +131,7 @@ export default function PropertyMapView({
         <Card className="bg-white/95 backdrop-blur-sm">
           <CardContent className="p-3">
             <div className="text-xs text-gray-600">
-              <div>📍 {properties.length}{t("client.src.properties")}</div>
+              <div>📍 {properties.length}{t("common.properties")}</div>
               <div>🗺️ {provider === "google" ? "Google Maps" : provider === "yandex" ? "Yandex Maps" : "OpenStreetMap"}</div>
               {provider === "google" && !apiKey.google && <div className="text-red-500">{t("client.src.api_key_required")}</div>}
               {provider === "yandex" && !apiKey.yandex && <div className="text-red-500">{t("client.src.api_key_required")}</div>}

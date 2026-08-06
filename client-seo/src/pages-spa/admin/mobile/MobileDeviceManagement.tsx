@@ -4,7 +4,7 @@ import { apiClient } from '@/lib/api/client';
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -247,7 +247,7 @@ export default function MobileDeviceManagement() {
  },
  onError: (error: any) => {
  toast({
- title: t("admin_mobile_error","Hata"),
+ title: t("admin_mobile_error", "Eşit"),
  description: error.message,
  variant:"destructive"
  });
@@ -281,11 +281,11 @@ export default function MobileDeviceManagement() {
  const getPlatformIcon = (platform: string) => {
  switch (platform) {
  case"IOS":
- return <Smartphone className="w-4 h-4 text-slate-600" />;
+ return <Smartphone className="w-4 h-4 text-muted-foreground" />;
  case"ANDROID":
- return <Smartphone className="w-4 h-4 text-green-600" />;
+ return <Smartphone className="w-4 h-4 text-blue-600" />;
  case"WINDOWS":
- return <Monitor className="w-4 h-4 text-slate-600" />;
+ return <Monitor className="w-4 h-4 text-muted-foreground" />;
  case"MACOS":
  return <Laptop className="w-4 h-4 text-muted-foreground" />;
  case"LINUX":
@@ -297,21 +297,21 @@ export default function MobileDeviceManagement() {
  const getSecurityColor = (status: string) => {
  switch (status) {
  case"SECURE":
- return"bg-green-100 text-green-700";
+ return"bg-blue-100 text-blue-700";
  case"WARNING":
  return"bg-yellow-100 text-yellow-700";
  case"COMPROMISED":
  return"bg-red-100 text-red-700";
  default:
- return"bg-card text-slate-300";
+ return"bg-card text-muted-foreground";
  }
  };
  const getNetworkIcon = (networkType: string) => {
  switch (networkType) {
  case"WIFI":
- return <Wifi className="w-4 h-4 text-slate-600" />;
+ return <Wifi className="w-4 h-4 text-muted-foreground" />;
  case"CELLULAR":
- return <Activity className="w-4 h-4 text-green-600" />;
+ return <Activity className="w-4 h-4 text-blue-600" />;
  case"NONE":
  return <Wifi className="w-4 h-4 text-muted-foreground" />;
  default:
@@ -319,7 +319,7 @@ export default function MobileDeviceManagement() {
  }
  };
  const getBatteryColor = (level: number) => {
- if (level > 60) return"text-green-600";
+ if (level > 60) return"text-blue-600";
  if (level > 30) return"text-yellow-600";
  return"text-red-600";
  };
@@ -381,7 +381,7 @@ export default function MobileDeviceManagement() {
  <p className="text-2xl font-bold">{stats.totalDevices}</p>
  <p className="text-xs text-muted-foreground">{t("admin_mobile_all_platforms")}</p>
  </div>
- <Smartphone className="w-8 h-8 text-slate-600" />
+ <Smartphone className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -390,10 +390,10 @@ export default function MobileDeviceManagement() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_mobile_active_devices")}</p>
- <p className="text-2xl font-bold text-green-600">{stats.activeDevices}</p>
+ <p className="text-2xl font-bold text-blue-600">{stats.activeDevices}</p>
  <p className="text-xs text-muted-foreground">{t("admin_mobile_currently_online")}</p>
  </div>
- <Activity className="w-8 h-8 text-green-600" />
+ <Activity className="w-8 h-8 text-blue-600" />
  </div>
  </CardContent>
  </Card>
@@ -414,10 +414,10 @@ export default function MobileDeviceManagement() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_mobile_trusted_devices")}</p>
- <p className="text-2xl font-bold text-slate-600">{stats.trustedDevices}</p>
+ <p className="text-2xl font-bold text-muted-foreground">{stats.trustedDevices}</p>
  <p className="text-xs text-muted-foreground">{t("admin_mobile_verified_devices")}</p>
  </div>
- <Shield className="w-8 h-8 text-slate-600" />
+ <Shield className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -531,7 +531,7 @@ export default function MobileDeviceManagement() {
  </Badge>
  </div>
  <div className="flex items-center gap-2">
- {device.isTrusted ? <Shield className="w-3 h-3 text-green-600" /> : <AlertTriangle className="w-3 h-3 text-yellow-600" />}
+ {device.isTrusted ? <Shield className="w-3 h-3 text-blue-600" /> : <AlertTriangle className="w-3 h-3 text-yellow-600" />}
  <Badge variant={device.isTrusted ?"default" :"secondary"}>
  {device.isTrusted ?"Trusted" :"Untrusted"}
  </Badge>
@@ -554,7 +554,7 @@ export default function MobileDeviceManagement() {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="w-4 h-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -620,7 +620,7 @@ export default function MobileDeviceManagement() {
  }} />
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="w-4 h-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -649,12 +649,12 @@ export default function MobileDeviceManagement() {
  <div className="space-y-4">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-2">
- <Smartphone className="w-4 h-4 text-slate-600" />
+ <Smartphone className="w-4 h-4 text-muted-foreground" />
  <span>{t("admin_mobile_ios")}</span>
  </div>
  <div className="flex items-center gap-2">
  <div className="w-32 bg-card rounded-full h-2">
- <div className="bg-slate-600 h-2 rounded-full" style={{
+ <div className="bg-muted h-2 rounded-full" style={{
  width: `${stats.iosDevices / stats.totalDevices * 100}%`
  }}></div>
  </div>
@@ -663,12 +663,12 @@ export default function MobileDeviceManagement() {
  </div>
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-2">
- <Smartphone className="w-4 h-4 text-green-600" />
+ <Smartphone className="w-4 h-4 text-blue-600" />
  <span>{t("admin_mobile_android")}</span>
  </div>
  <div className="flex items-center gap-2">
  <div className="w-32 bg-card rounded-full h-2">
- <div className="bg-green-600 h-2 rounded-full" style={{
+ <div className="bg-blue-600 h-2 rounded-full" style={{
  width: `${stats.androidDevices / stats.totalDevices * 100}%`
  }}></div>
  </div>
@@ -682,7 +682,7 @@ export default function MobileDeviceManagement() {
  </div>
  <div className="flex items-center gap-2">
  <div className="w-32 bg-card rounded-full h-2">
- <div className="bg-white/10 h-2 rounded-full" style={{
+ <div className="bg-card/10 h-2 rounded-full" style={{
  width: `${(stats.totalDevices - stats.iosDevices - stats.androidDevices) / stats.totalDevices * 100}%`
  }}></div>
  </div>
@@ -702,10 +702,10 @@ export default function MobileDeviceManagement() {
  <div className="space-y-4">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-2">
- <CheckCircle className="w-4 h-4 text-green-600" />
+ <CheckCircle className="w-4 h-4 text-blue-600" />
  <span>{t("admin_mobile_secure")}</span>
  </div>
- <Badge className="bg-green-100 text-green-700">{stats.secureDevices}</Badge>
+ <Badge className="bg-blue-100 text-blue-700">{stats.secureDevices}</Badge>
  </div>
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-2">
@@ -804,7 +804,7 @@ export default function MobileDeviceManagement() {
  {selectedDevice.location && <div className="space-y-2">
  <Label>{t("admin_mobile_last_known_location")}</Label>
  <div className="flex items-center gap-2 p-3 bg-card rounded-lg">
- <MapPin className="w-4 h-4 text-slate-600" />
+ <MapPin className="w-4 h-4 text-muted-foreground" />
  <span>{selectedDevice.location.address}</span>
  </div>
  </div>}

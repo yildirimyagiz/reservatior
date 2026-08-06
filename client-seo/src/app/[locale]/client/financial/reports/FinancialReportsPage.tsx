@@ -20,7 +20,7 @@ const reportMetrics = [
     value: "$2.4M",
     change: "+12.5%",
     icon: DollarSign,
-    color: "text-green-400"
+    color: "text-blue-400"
   },
   {
     title: "Total Expenses",
@@ -34,14 +34,14 @@ const reportMetrics = [
     value: "$600K",
     change: "+25.3%",
     icon: PieChart,
-    color: "text-blue-400"
+    color: "text-brand"
   },
   {
     title: "Growth Rate",
     value: "18.7%",
     change: "+3.2%",
     icon: BarChart3,
-    color: "text-purple-400"
+    color: "text-brand"
   }
 ];
 
@@ -71,7 +71,7 @@ export default function FinancialReportsPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("reports.financialreportspage.auto_ext_3")}
@@ -86,11 +86,11 @@ export default function FinancialReportsPage() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
         >
           {reportMetrics.map((metric, idx) => (
-            <Card key={idx} className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card key={idx} className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <metric.icon className={`w-6 h-6 ${metric.color}`} />
-                  <div className={`text-sm ${metric.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>
+                  <div className={`text-sm ${metric.change.startsWith('+') ? 'text-blue-400' : 'text-red-400'}`}>
                     {metric.change}
                   </div>
                 </div>
@@ -106,7 +106,7 @@ export default function FinancialReportsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <BarChart3 className="w-5 h-5" />
@@ -126,7 +126,7 @@ export default function FinancialReportsPage() {
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-sm text-gray-400">{report.type}</div>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Button variant="ghost" size="icon" aria-label={t("common.download")} className="h-8 w-8">
                         <Download className="w-4 h-4" />
                       </Button>
                     </div>

@@ -95,11 +95,11 @@ const mockLogs: ActivityLog[] = [
 ];
 
 const TYPE_COLORS: Record<string, string> = {
-  user_action: "bg-blue-500/20 text-blue-400",
-  system_event: "bg-purple-500/20 text-purple-400",
+  user_action: "bg-brand/100/20 text-brand",
+  system_event: "bg-brand/20 text-brand",
   error: "bg-red-500/20 text-red-400",
   security: "bg-orange-500/20 text-orange-400",
-  performance: "bg-green-500/20 text-green-400"
+  performance: "bg-blue-500/20 text-blue-400"
 };
 
 const STATUS_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -145,14 +145,14 @@ export default function ActivityTrackingPage() {
             <div className="flex gap-3">
               <Button
                 onClick={() => router.push('/dashboard')}
-                className="bg-purple-600 hover:bg-purple-700"
+                className="bg-brand hover:bg-brand"
               >
                 <ArrowUpRight className="w-4 h-4 mr-2" />
                 {t("activity_tracking.activitytrackingpage.auto_ext_3")}
                                             </Button>
               <Button
                 variant={isLive ? "default" : "outline"}
-                className={isLive ? "bg-green-600 hover:bg-green-700" : "bg-white/10 border-purple-500/30 text-white"}
+                className={isLive ? "bg-blue-600 hover:bg-blue-700" : "bg-white/10 border-brand/30 text-white"}
                 onClick={() => setIsLive(!isLive)}
               >
                 {isLive ? <Pause className="w-4 h-4 mr-2" /> : <Play className="w-4 h-4 mr-2" />}
@@ -169,15 +169,15 @@ export default function ActivityTrackingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm text-gray-400 mb-1">{t("activity_tracking.activitytrackingpage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">{stats.total}</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-blue-500/10">
-                    <Activity className="w-6 h-6 text-blue-400" />
+                  <div className="p-3 rounded-lg bg-brand/100/10">
+                    <Activity className="w-6 h-6 text-brand" />
                   </div>
                 </div>
               </CardContent>
@@ -189,7 +189,7 @@ export default function ActivityTrackingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -209,15 +209,15 @@ export default function ActivityTrackingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm text-gray-400 mb-1">{t("activity_tracking.activitytrackingpage.auto_ext_6")}</div>
-                    <div className="text-2xl font-bold text-green-400">{stats.completed}</div>
+                    <div className="text-2xl font-bold text-blue-400">{stats.completed}</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-green-500/10">
-                    <CheckCircle className="w-6 h-6 text-green-400" />
+                  <div className="p-3 rounded-lg bg-blue-500/10">
+                    <CheckCircle className="w-6 h-6 text-blue-400" />
                   </div>
                 </div>
               </CardContent>
@@ -229,15 +229,15 @@ export default function ActivityTrackingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm text-gray-400 mb-1">{t("activity_tracking.activitytrackingpage.auto_ext_7")}</div>
-                    <div className="text-2xl font-bold text-purple-400">{stats.throughput}{t("activity_tracking.activitytrackingpage.auto_ext_8")}</div>
+                    <div className="text-2xl font-bold text-brand">{stats.throughput}{t("activity_tracking.activitytrackingpage.auto_ext_8")}</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-purple-500/10">
-                    <Zap className="w-6 h-6 text-purple-400" />
+                  <div className="p-3 rounded-lg bg-brand/10">
+                    <Zap className="w-6 h-6 text-brand" />
                   </div>
                 </div>
               </CardContent>
@@ -252,7 +252,7 @@ export default function ActivityTrackingPage() {
           transition={{ delay: 0.5 }}
           className="mb-6"
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -262,15 +262,15 @@ export default function ActivityTrackingPage() {
                       placeholder="Search logs..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                      className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                     />
                   </div>
                 </div>
-                <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
+                <Button variant="outline" className="bg-white/10 border-brand/30 text-white">
                   <Filter className="w-4 h-4 mr-2" />
                   {t("activity_tracking.activitytrackingpage.auto_ext_9")}
                                                   </Button>
-                <Button variant="outline" className="bg-white/10 border-purple-500/30 text-white">
+                <Button variant="outline" className="bg-white/10 border-brand/30 text-white">
                   <Download className="w-4 h-4 mr-2" />
                   {t("activity_tracking.activitytrackingpage.auto_ext_10")}
                                                   </Button>
@@ -285,7 +285,7 @@ export default function ActivityTrackingPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Terminal className="w-5 h-5" />
@@ -302,14 +302,14 @@ export default function ActivityTrackingPage() {
                       key={log.id}
                       className="flex items-start gap-4 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
                     >
-                      <div className="p-2 rounded-lg bg-purple-500/20">
-                        <StatusIcon className="w-4 h-4 text-purple-400" />
+                      <div className="p-2 rounded-lg bg-brand/20">
+                        <StatusIcon className="w-4 h-4 text-brand" />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-1">
                           <span className="text-white font-medium">{log.action}</span>
                           <Badge className={TYPE_COLORS[log.type]}>{log.type}</Badge>
-                          <Badge variant="outline" className="border-purple-500/30 text-purple-300">{log.severity}</Badge>
+                          <Badge variant="outline" className="border-brand/30 text-brand">{log.severity}</Badge>
                         </div>
                         <p className="text-gray-400 text-sm">{log.details}</p>
                         <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">

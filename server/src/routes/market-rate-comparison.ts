@@ -1,10 +1,7 @@
 import { Elysia, t } from "elysia";
 import { authMiddleware } from "../middleware/auth";
 import { marketRateComparisonService } from "../services/marketratecomparison";
-import { 
-  MarketRateComparisonPlainInputCreate, 
-  MarketRateComparisonPlainInputUpdate 
-} from "../../generated/prismabox/MarketRateComparison";
+
 
 export const marketRateComparisonRoutes = new Elysia({ prefix: "/market-rate-comparison" })
   .use(authMiddleware)
@@ -38,7 +35,7 @@ export const marketRateComparisonRoutes = new Elysia({ prefix: "/market-rate-com
     set.status = 201;
     return { data };
   }, {
-    body: MarketRateComparisonPlainInputCreate
+    body: t.Any()
   })
 
   /**
@@ -70,7 +67,7 @@ export const marketRateComparisonRoutes = new Elysia({ prefix: "/market-rate-com
     }
   }, {
     params: t.Object({ id: t.String() }),
-    body: MarketRateComparisonPlainInputUpdate
+    body: t.Any()
   })
 
   /**

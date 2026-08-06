@@ -13,21 +13,21 @@ export function CRMContent() {
       description: "Manage leads and prospects",
       icon: Users,
       href: "/client/crm/leads",
-      color: "text-blue-500"
+      color: "text-brand"
     },
     {
       title: "Deals Pipeline",
       description: "Track and close opportunities",
       icon: DollarSign,
       href: "/client/deals",
-      color: "text-emerald-500"
+      color: "text-success"
     },
     {
       title: "Tags",
       description: "Manage tags and categories",
       icon: Tag,
       href: "/client/crm/tags",
-      color: "text-purple-500"
+      color: "text-brand"
     }
   ];
 

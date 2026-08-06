@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { cn } from"@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Badge } from"@/components/ui/badge";
@@ -122,15 +122,15 @@ export default function MLSIntegration() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case 'SUCCESS':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'FAILED':
  return 'bg-red-500';
  case 'RUNNING':
  return 'bg-muted0';
  case 'IDLE':
- return 'bg-white/10';
+ return 'bg-card/10';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  const formatCurrency = (amount: number) => {
@@ -176,7 +176,7 @@ export default function MLSIntegration() {
  <RefreshCw className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{runningSyncs}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{runningSyncs}</div>
  <p className="text-xs text-muted-foreground">{t("admin_integrations_in_progress")}</p>
  </CardContent>
  </Card>
@@ -198,7 +198,7 @@ export default function MLSIntegration() {
  <CheckCircle className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{recentSyncsCount}</div>
+ <div className="text-2xl font-bold text-blue-600">{recentSyncsCount}</div>
  <p className="text-xs text-muted-foreground">{t("admin_integrations_completed_today")}</p>
  </CardContent>
  </Card>
@@ -210,7 +210,7 @@ export default function MLSIntegration() {
  <TabsTrigger value="sync">{t("admin_integrations_sync_jobs")}</TabsTrigger>
  <TabsTrigger value="listings" className="font-bold text-[10px]">{t("admin_integrations_external_listings")}</TabsTrigger>
  <TabsTrigger value="mappings" className="font-bold text-[10px]">{t("admin_integrations_data_mappings")}</TabsTrigger>
- <TabsTrigger value="roi-insights" className="text-emerald-500 font-bold text-[10px]">{t("admin_integrations_roi_insights")}</TabsTrigger>
+ <TabsTrigger value="roi-insights" className="text-success font-bold text-[10px]">{t("admin_integrations_roi_insights")}</TabsTrigger>
  </TabsList>
 
  <TabsContent value="connections" className="space-y-4">
@@ -306,10 +306,10 @@ export default function MLSIntegration() {
  </TableCell>
  <TableCell>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.settings")}>
  <Settings className="h-4 w-4" />
  </Button>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.refresh")}>
  <RefreshCw className="h-4 w-4" />
  </Button>
  </div>
@@ -365,7 +365,7 @@ export default function MLSIntegration() {
  <TableCell>
  <div className="flex items-center gap-2">
  <div className="w-16 bg-card rounded-full h-2">
- <div className="bg-slate-600 h-2 rounded-full" style={{
+ <div className="bg-muted h-2 rounded-full" style={{
  width: `100%`
  }} />
  </div>
@@ -378,7 +378,7 @@ export default function MLSIntegration() {
  </TableCell>
  <TableCell>{Math.round(duration / 1000)}{t("admin_auto_s", "s")}</TableCell>
  <TableCell>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.view")}>
  <Eye className="h-4 w-4" />
  </Button>
  </TableCell>
@@ -413,47 +413,47 @@ export default function MLSIntegration() {
 
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/20">
+        <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">
           <Database className="w-4 h-4 mr-2" />
-          One-Click NWMLS Import
+          {t("admin_mls_one_click_import", "Tek Tıkla NWMLS İçe Aktarma")}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Import from NWMLS (Seattle)</DialogTitle>
+          <DialogTitle>{t("admin_mls_import_from_nwmls", "NWMLS'ten İçe Aktar (Seattle)")}</DialogTitle>
           <DialogDescription>
-            Enter an NWMLS Listing ID or URL. Reservatior will automatically fetch all high-res media, property details, and agent info.
+            {t("admin_mls_import_desc", "Bir NWMLS İlan Kimliği veya URL'si girin. Reservatior tüm yüksek çözünürlüklü medyayı, mülk detaylarını ve acente bilgilerini otomatik olarak çeker.")}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="grid gap-2">
-            <Label>Listing ID (e.g., 2232728)</Label>
+            <Label>{t("admin_mls_listing_id_label", "İlan Kimliği (örn. 2232728)")}</Label>
             <Input 
-              placeholder="Enter MLS ID" 
+              placeholder={t("admin_mls_enter_mls_id", "MLS Kimliği Girin")} 
               value={nwmlsInput}
               onChange={e => setNwmlsInput(e.target.value)}
             />
           </div>
         </div>
         <Button 
-          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" 
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
           disabled={!nwmlsInput || isNwmlsImporting}
           onClick={async () => {
             if (!currentUser?.orgId) return;
             setIsNwmlsImporting(true);
             try {
-              toast({ title: "Importing listing...", description: "Fetching real-time data from NWMLS API." });
+              toast({ title: t("admin_mls_importing_title", "İlan içe aktarılıyor..."), description: t("admin_mls_importing_desc", "NWMLS API'sinden gerçek zamanlı veri alınıyor.") });
               const res = await mlsApi.nwmlsImport(nwmlsInput, currentUser.orgId, currentUser.id || "");
               if (res.success) {
-                toast({ title: "Import Successful!", description: "The listing has been synced into Reservatior." });
+                toast({ title: t("admin_mls_import_success_title", "İçe Aktarma Başarılı!"), description: t("admin_mls_import_success_desc", "İlan Reservatior'a senkronize edildi.") });
                 setNwmlsInput("");
                 fetchMLSData(); // Refresh the list
               } else {
-                throw new Error(res.error || "Unknown error occurred");
+                throw new Error(res.error || t("admin_mls_unknown_error", "Bilinmeyen bir hata oluştu"));
               }
             } catch (e: any) {
               toast({ 
-                title: "Import Failed", 
+                title: t("admin_mls_import_failed_title", "İçe Aktarma Başarısız"), 
                 description: e.response?.data?.error || e.message, 
                 variant: "destructive" 
               });
@@ -520,7 +520,7 @@ export default function MLSIntegration() {
  const score = Math.min(100, (raw.media?.images?.length || 0) * 10 + ((raw.description?.length || 100) > 100 ? 30 : 10) + (raw.location?.lat ? 20 : 0));
  return <div className="flex items-center gap-2">
  <div className="flex-1 h-1.5 bg-muted/50 rounded-full overflow-hidden w-12">
- <div className={cn("h-full", score > 80 ?"bg-emerald-500" : score > 50 ?"bg-muted0" :"bg-orange-500")} style={{
+ <div className={cn("h-full", score > 80 ?"bg-blue-500" : score > 50 ?"bg-muted0" :"bg-orange-500")} style={{
  width: `${score}%`
  }} />
  </div>
@@ -531,7 +531,7 @@ export default function MLSIntegration() {
  <TableCell>
  <div className="flex gap-1">
  {/* Neural Staging Button */}
- <Button variant="ghost" size="sm" className="text-orange-400 hover:text-orange-300 hover:bg-orange-500/10" title={t("admin_integrations_neural_staging_virtual_furniture")} onClick={async () => {
+ <Button variant="ghost" size="sm" className="text-warning hover:text-orange-300 hover:bg-orange-500/10" title={t("admin_integrations_neural_staging_virtual_furniture")} onClick={async () => {
  if (!currentUser) return;
  toast({
  title: t("admin_integrations_neural_staging"),
@@ -560,7 +560,7 @@ export default function MLSIntegration() {
  </Button>
 
  {/* Neural Video Button */}
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-slate-300 hover:bg-muted0/10" title={t("admin_integrations_generate_neural_reels_video")} onClick={async () => {
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-muted-foreground hover:bg-muted0/10" title={t("admin_integrations_generate_neural_reels_video")} onClick={async () => {
  if (!currentUser) return;
  toast({
  title: t("admin_integrations_neural_reels"),
@@ -586,7 +586,7 @@ export default function MLSIntegration() {
  <Clapperboard className="h-4 w-4" />
  </Button>
 
- <Button variant="ghost" size="sm" title={t("admin_integrations_convert_to_project_neural")} disabled={isTransferring === listing.id} className="text-emerald-500 hover:text-emerald-400 hover:bg-emerald-500/10" onClick={async () => {
+ <Button variant="ghost" size="sm" title={t("admin_integrations_convert_to_project_neural")} disabled={isTransferring === listing.id} className="text-success hover:text-success hover:bg-blue-500/10" onClick={async () => {
  if (!currentUser) return;
  setIsTransferring(listing.id);
  toast({
@@ -618,7 +618,7 @@ export default function MLSIntegration() {
  
  <Dialog>
  <DialogTrigger asChild>
- <Button variant="ghost" size="sm" title={t("admin_integrations_invite_homeowner_for_ai")} className="text-muted-foreground hover:text-slate-300 hover:bg-muted0/10">
+ <Button variant="ghost" size="sm" title={t("admin_integrations_invite_homeowner_for_ai")} className="text-muted-foreground hover:text-muted-foreground hover:bg-muted0/10">
  <UsersIcon className="h-4 w-4" />
  </Button>
  </DialogTrigger>
@@ -635,10 +635,10 @@ export default function MLSIntegration() {
  <Input placeholder={t("admin_integrations_ownerluxuryresidencecom")} className="bg-muted/50 border-border text-foreground h-12 rounded-xl" />
  </div>
  <div className="p-4 bg-muted0/5 border border-slate-500/10 rounded-2xl">
- <p className="text-[10px] text-slate-300/70 font-medium leading-relaxed">{t("admin_integrations_a_personalized_neural_dashboard")}</p>
+ <p className="text-[10px] text-muted-foreground/70 font-medium leading-relaxed">{t("admin_integrations_a_personalized_neural_dashboard")}</p>
  </div>
  </div>
- <Button className="w-full bg-slate-600 hover:bg-muted0 text-foreground font-bold h-12 rounded-xl" onClick={() => toast({
+ <Button className="w-full bg-muted hover:bg-muted0 text-foreground font-bold h-12 rounded-xl" onClick={() => toast({
  title: t("admin_integrations_invitation_sent"),
  description: t("admin_integrations_host_dashboard_invitation_is")
  })}>{t("admin_integrations_send_neural_invite")}</Button>
@@ -704,7 +704,7 @@ export default function MLSIntegration() {
  <div className="text-8xl font-bold select-none">{t("admin_integrations_trex")}</div>
  </div>
  <CardHeader>
- <CardTitle className="text-orange-400 flex items-center gap-2 text-sm">
+ <CardTitle className="text-warning flex items-center gap-2 text-sm">
  <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />{t("admin_integrations_dinosaur_mls_performance")}</CardTitle>
  </CardHeader>
  <CardContent className="space-y-6">
@@ -738,12 +738,12 @@ export default function MLSIntegration() {
  </CardContent>
  </Card>
 
- <Card className="bg-emerald-950/10 border-emerald-500/20 relative overflow-hidden group">
+ <Card className="bg-blue-950/10 border-blue-500/20 relative overflow-hidden group">
  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
- <Sparkles className="w-32 h-32 text-emerald-500" />
+ <Sparkles className="w-32 h-32 text-success" />
  </div>
  <CardHeader>
- <CardTitle className="text-emerald-400 flex items-center gap-2 text-sm">
+ <CardTitle className="text-success flex items-center gap-2 text-sm">
  <Sparkles className="w-5 h-5" />{t("admin_integrations_neural_reservatior_roi")}</CardTitle>
  </CardHeader>
  <CardContent className="space-y-6">
@@ -752,45 +752,45 @@ export default function MLSIntegration() {
  label: t("admin_integrations_global_reach_14_languages"),
  val: 88,
  max: 100,
- color:"bg-emerald-500"
+ color:"bg-blue-500"
  }, {
  label: t("admin_integrations_ai_staging_conversion"),
  val: 72,
  max: 100,
- color:"bg-emerald-500"
+ color:"bg-blue-500"
  }, {
  label: t("admin_integrations_booking_speed_reels_powered"),
  val: 94,
  max: 100,
- color:"bg-emerald-500"
+ color:"bg-blue-500"
  }].map((metric, i) => <div key={i} className="space-y-2">
- <div className="flex justify-between text-[10px] font-bold text-emerald-300">
+ <div className="flex justify-between text-[10px] font-bold text-blue-300">
  <span>{metric.label}</span>
  <span className="flex items-center gap-1">+{metric.val}% <TrendingUp className="w-3 h-3" /></span>
  </div>
- <Progress value={metric.val} className={`h-1 bg-emerald-500/10`} />
+ <Progress value={metric.val} className={`h-1 bg-blue-500/10`} />
  </div>)}
  </div>
- <div className="p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.05)]">
- <p className="text-[10px] text-emerald-200/70 leading-relaxed font-bold">{t("admin_integrations_bypassing_the_extinction_neural")}</p>
+ <div className="p-4 bg-blue-500/5 rounded-2xl border border-blue-500/10 shadow-[0_0_20px_rgba(16,185,129,0.05)]">
+ <p className="text-[10px] text-blue-200/70 leading-relaxed font-bold">{t("admin_integrations_bypassing_the_extinction_neural")}</p>
  </div>
  </CardContent>
  </Card>
  </div>
 
- <Card className="bg-slate-950/10 border-slate-500/20 shadow-2xl relative overflow-hidden">
+ <Card className="bg-background/10 border-slate-500/20 shadow-2xl relative overflow-hidden">
  <div className="absolute inset-0 bg-muted0/5 pointer-events-none" />
  <CardContent className="p-8 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
  <div className="space-y-2 text-center md:text-left">
  <h2 className="text-3xl font-bold text-foreground">{t("admin_integrations_the_extinction_gap")}</h2>
- <p className="text-sm text-slate-300/70 font-medium max-w-sm">{t("admin_integrations_modernizing_with_neural_reels")}</p>
+ <p className="text-sm text-muted-foreground/70 font-medium max-w-sm">{t("admin_integrations_modernizing_with_neural_reels")}</p>
  </div>
  <div className="flex flex-col md:flex-row items-center gap-6">
  <div className="text-center p-6 bg-muted/50 rounded-[32px] border border-border backdrop-blur-md">
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_integrations_est_revenue_boost")}</p>
- <p className="text-2xl font-bold text-emerald-500">+340%</p>
+ <p className="text-2xl font-bold text-success">+340%</p>
  </div>
- <Button className="h-20 px-8 bg-slate-600 hover:bg-muted0 font-bold rounded-[24px] shadow-[0_0_40px_rgba(37,99,235,0.3)] group">{t("admin_integrations_upgrade_all_listings")}<ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+ <Button className="h-20 px-8 bg-muted hover:bg-muted0 font-bold rounded-[24px] shadow-[0_0_40px_rgba(37,99,235,0.3)] group">{t("admin_integrations_upgrade_all_listings")}<ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
  </Button>
  </div>
  </CardContent>
@@ -799,15 +799,15 @@ export default function MLSIntegration() {
  </Tabs>
 
  {/* Marketing/Upsell Section */}
- <Card className="bg-emerald-600/10 border-emerald-600/20 overflow-hidden relative">
+ <Card className="bg-blue-600/10 border-blue-600/20 overflow-hidden relative">
  <div className="absolute top-0 right-0 p-8 opacity-10">
- <Sparkles className="w-32 h-32 text-emerald-500" />
+ <Sparkles className="w-32 h-32 text-success" />
  </div>
  <CardHeader>
- <CardTitle className="text-emerald-500 flex items-center justify-between">
+ <CardTitle className="text-success flex items-center justify-between">
  <div className="flex items-center gap-2">
  <Sparkles className="w-5 h-5" />{t("admin_integrations_extinction_of_the_dinosaur")}</div>
- <Badge variant="outline" className="border-orange-500/50 text-orange-400 bg-orange-500/10">{t("admin_integrations_bypass_the_48hour_wait")}</Badge>
+ <Badge variant="outline" className="border-orange-500/50 text-warning bg-orange-500/10">{t("admin_integrations_bypass_the_48hour_wait")}</Badge>
  </CardTitle>
  </CardHeader>
  <CardContent className="space-y-4 relative z-10">
@@ -829,7 +829,7 @@ export default function MLSIntegration() {
  </div>
  <div className="p-4 bg-muted/50 rounded-2xl border border-border space-y-2">
  <div className="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center">
- <Calendar className="w-4 h-4 text-orange-400" />
+ <Calendar className="w-4 h-4 text-warning" />
  </div>
  <h4 className="text-xs font-bold text-foreground">{t("admin_integrations_booking_capture")}</h4>
  <p className="text-[10px] text-muted-foreground">{t("admin_integrations_turn_browsing_into_bookings")}</p>

@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -192,7 +192,7 @@ export default function CommunicationTemplates() {
  },
  onError: (error: any) => {
  toast({
- title: t("admin_communication_error","Hata"),
+ title: t("admin_communication_error", "Eşit"),
  description: error.message,
  variant:"destructive"
  });
@@ -215,15 +215,15 @@ export default function CommunicationTemplates() {
  const getTypeColor = (type: string) => {
  switch (type) {
  case"EMAIL":
- return"bg-slate-100 text-slate-700";
+ return"bg-muted text-muted-foreground";
  case"SMS":
- return"bg-green-100 text-green-700";
+ return"bg-blue-100 text-blue-700";
  case"PUSH":
- return"bg-slate-100 text-slate-700";
+ return"bg-muted text-muted-foreground";
  case"IN_APP":
  return"bg-orange-100 text-orange-700";
  default:
- return"bg-card text-slate-300";
+ return"bg-card text-muted-foreground";
  }
  };
  const toggleTemplate = (template: CommunicationTemplate) => {
@@ -242,7 +242,7 @@ export default function CommunicationTemplates() {
  },
  onError: (error: any) => {
  toast({
- title: t("admin_communication_error","Hata"),
+ title: t("admin_communication_error", "Eşit"),
  description: error.message,
  variant:"destructive"
  });
@@ -267,7 +267,7 @@ export default function CommunicationTemplates() {
  },
  onError: (error: any) => {
  toast({
- title: t("admin_communication_error","Hata"),
+ title: t("admin_communication_error", "Eşit"),
  description: error.message,
  variant:"destructive"
  });
@@ -314,7 +314,7 @@ export default function CommunicationTemplates() {
  <p className="text-2xl font-bold">{stats.total}</p>
  <p className="text-xs text-muted-foreground">{t("admin_communication_all_types")}</p>
  </div>
- <FileText className="w-8 h-8 text-slate-600" />
+ <FileText className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -323,10 +323,10 @@ export default function CommunicationTemplates() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_communication_active")}</p>
- <p className="text-2xl font-bold text-green-600">{stats.active}</p>
+ <p className="text-2xl font-bold text-blue-600">{stats.active}</p>
  <p className="text-xs text-muted-foreground">{t("admin_communication_currently_enabled")}</p>
  </div>
- <CheckCircle className="w-8 h-8 text-green-600" />
+ <CheckCircle className="w-8 h-8 text-blue-600" />
  </div>
  </CardContent>
  </Card>
@@ -335,10 +335,10 @@ export default function CommunicationTemplates() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_communication_email_templates")}</p>
- <p className="text-2xl font-bold text-slate-600">{stats.email}</p>
+ <p className="text-2xl font-bold text-muted-foreground">{stats.email}</p>
  <p className="text-xs text-muted-foreground">{t("admin_communication_email_type")}</p>
  </div>
- <Mail className="w-8 h-8 text-slate-600" />
+ <Mail className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -350,7 +350,7 @@ export default function CommunicationTemplates() {
  <p className="text-2xl font-bold">{stats.totalUsage.toLocaleString()}</p>
  <p className="text-xs text-muted-foreground">{t("admin_communication_all_time")}</p>
  </div>
- <Send className="w-8 h-8 text-slate-600" />
+ <Send className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -466,7 +466,7 @@ export default function CommunicationTemplates() {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="w-4 h-4" />
  </Button>
  </DropdownMenuTrigger>

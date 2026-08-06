@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Badge } from"@/components/ui/badge";
 import { Button } from"@/components/ui/button";
@@ -199,15 +199,15 @@ export default function Organizations() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case 'ACTIVE':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'INACTIVE':
- return 'bg-white/10';
+ return 'bg-card/10';
  case 'SUSPENDED':
  return 'bg-red-500';
  case 'PENDING':
  return 'bg-yellow-500';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  const getSizeColor = (size: string) => {
@@ -215,7 +215,7 @@ export default function Organizations() {
  case 'STARTUP':
  return 'bg-muted0';
  case 'SMALL':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'MEDIUM':
  return 'bg-yellow-500';
  case 'LARGE':
@@ -223,7 +223,7 @@ export default function Organizations() {
  case 'ENTERPRISE':
  return 'bg-muted0';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  const filteredOrganizations = organizations.filter(org => org.name.toLowerCase().includes(searchTerm.toLowerCase()) || org.domain?.toLowerCase().includes(searchTerm.toLowerCase()) || org.industry?.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -241,7 +241,7 @@ export default function Organizations() {
  <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
  <DialogHeader>
- <DialogTitle>{t("admin_organization_edit_organization","Edit Organization")}</DialogTitle>
+ <DialogTitle>{t("admin_organization_edit_organization", "Organizasyonu Düzenle")}</DialogTitle>
  </DialogHeader>
  {editingOrg && (
  <div className="grid gap-4 py-4">
@@ -262,7 +262,7 @@ export default function Organizations() {
  </div>
  )}
  <DialogFooter>
- <Button onClick={() => updateMutation.mutate(editingOrg)} disabled={updateMutation.isPending}>{t("admin_organization_update_organization","Update Organization")}</Button>
+ <Button onClick={() => updateMutation.mutate(editingOrg)} disabled={updateMutation.isPending}>{t("admin_organization_update_organization", "Organizasyonu Güncelle")}</Button>
  </DialogFooter>
  </DialogContent>
  </Dialog>
@@ -584,7 +584,7 @@ export default function Organizations() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -658,12 +658,12 @@ export default function Organizations() {
  <div className="space-y-3">
  <div className="flex justify-between items-center">
  <span className="text-sm flex items-center gap-2">
- <div className="w-2 h-2 rounded-full bg-green-500" />{t("admin_organization_active")}</span>
+ <div className="w-2 h-2 rounded-full bg-blue-500" />{t("admin_organization_active")}</span>
  <span className="font-medium">{activeOrgs}</span>
  </div>
  <div className="flex justify-between items-center">
  <span className="text-sm flex items-center gap-2">
- <div className="w-2 h-2 rounded-full bg-white/10" />{t("admin_organization_inactive")}</span>
+ <div className="w-2 h-2 rounded-full bg-card/10" />{t("admin_organization_inactive")}</span>
  <span className="font-medium">
  {organizations.filter(org => org.status === 'INACTIVE').length}
  </span>

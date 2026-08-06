@@ -25,9 +25,10 @@ export class AdvancedEscrowRouter {
     if (escrow.status === EscrowStatus.FULLY_RELEASED) return;
 
     // Load dynamic split config
-    let config = await prisma.escrowSplitConfig.findUnique({
-      where: { propertyId: escrow.reservation.propertyId }
-    });
+    const reservationPropertyId = escrow.reservation.propertyId;
+    let config = reservationPropertyId
+      ? await prisma.escrowSplitConfig.findUnique({ where: { propertyId: reservationPropertyId } })
+      : null;
 
     // Fallback defaults if no config exists for property
     if (!config) {

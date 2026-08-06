@@ -55,11 +55,11 @@ export const purchaseIntentRoutes = new Elysia({ prefix: "/purchase-intents" })
    * POST /purchase-intents
    * Create a new purchase intent.
    */
-  .post("/", async ({ orgId, db, body, set }) => {
+  .post("/", async ({ orgId, db, body, set }: any) => {
     const service = purchaseIntentService.withDB(db as any);
     const data = await service.createIntent({
       ...body,
-      orgId: body.orgId || orgId,
+      orgId: body.orgId || orgId || "",
     });
     set.status = 201;
     return { data };

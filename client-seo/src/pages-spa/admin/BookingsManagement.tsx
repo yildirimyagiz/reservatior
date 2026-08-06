@@ -2,7 +2,7 @@
 
 import { t } from"i18next";
 import { useState } from"react";
-import { PageShell } from"../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { useTranslation } from"react-i18next";
@@ -14,6 +14,7 @@ import { Input } from"@/components/ui/input";
 import { useToast } from"@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
 import { bookingsApi } from"@/lib/api/bookings";
+import { apiClient } from "@/lib/api/client";
 import { Activity, LayoutGrid, List, CalendarDays, Calendar, Clock, AlertCircle, CheckCircle, Edit, Eye, MoreHorizontal, Shield, TrendingUp, XCircle, Search, DollarSign, Zap, MapPin, User as UserIcon, ArrowUpRight, FileText, Loader2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 import { CalendarView } from"@/components/calendar/CalendarView";
@@ -65,7 +66,7 @@ const STATUS_CONFIG = (t: any) => {
  return {
  PENDING: {
  label: t("admin_bookings_status_pending"),
- color:"bg-orange-500/10 text-orange-400 border-orange-500/20"
+ color:"bg-orange-500/10 text-warning border-orange-500/20"
  },
  CONFIRMED: {
  label: t("confirmed"),
@@ -77,7 +78,7 @@ const STATUS_CONFIG = (t: any) => {
  },
  COMPLETED: {
  label: t("admin_bookings_status_completed"),
- color:"bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+ color:"bg-blue-500/10 text-success border-blue-500/20"
  },
  NO_SHOW: {
  label: t("noShow"),
@@ -89,11 +90,11 @@ const VERIFICATION_CONFIG = (t: any) => {
  return {
  PENDING: {
  label: t("admin_bookings_verification_pending"),
- color:"bg-orange-500/10 text-orange-400"
+ color:"bg-orange-500/10 text-warning"
  },
  VERIFIED: {
  label: t("admin_bookings_verification_verified"),
- color:"bg-emerald-500/10 text-emerald-400"
+ color:"bg-blue-500/10 text-success"
  },
  FAILED: {
  label: t("failed"),
@@ -311,7 +312,7 @@ export default function BookingsManagement() {
  },
  onError: (error: any) => {
  toast({
- title: t("admin_bookingsmanagement_error","Hata"),
+ title: t("admin_bookingsmanagement_error", "Eşit"),
  description: error.message,
  variant:"destructive"
  });
@@ -346,8 +347,8 @@ export default function BookingsManagement() {
  };
  const getRiskColor = (score?: number) => {
  if (!score) return"text-muted-foreground";
- if (score <= 20) return"text-emerald-400";
- if (score <= 50) return"text-orange-400";
+ if (score <= 20) return"text-success";
+ if (score <= 50) return"text-warning";
  return"text-red-500";
  };
  const getRiskLabel = (score?: number) => {
@@ -376,12 +377,12 @@ export default function BookingsManagement() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_bookings_stats_pendingSync")}</p>
- <h3 className="text-3xl font-bold text-orange-400 leading-none">{stats.pending}</h3>
+ <h3 className="text-3xl font-bold text-warning leading-none">{stats.pending}</h3>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <CheckCircle className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
@@ -391,17 +392,17 @@ export default function BookingsManagement() {
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <TrendingUp className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_bookings_stats_cycleCompletion")}</p>
- <h3 className="text-3xl font-bold text-emerald-400 leading-none">{stats.completed}</h3>
+ <h3 className="text-3xl font-bold text-success leading-none">{stats.completed}</h3>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t transition-all hover:bg-card">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <DollarSign className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
@@ -447,7 +448,7 @@ export default function BookingsManagement() {
  </Button>
  {stats.pendingVerification > 0 && <div className="h-14 px-6 rounded-2xl border border-orange-500/20 bg-orange-500/5 flex items-center gap-3 animate-pulse">
  <Activity className="w-4 h-4 text-orange-500" />
- <span className="text-[10px] font-bold text-orange-400">{stats.pendingVerification}{t("admin_bookingsmanagement_critical_verifications")}</span>
+ <span className="text-[10px] font-bold text-warning">{stats.pendingVerification}{t("admin_bookingsmanagement_critical_verifications")}</span>
  </div>}
  </div>
  </div>
@@ -485,7 +486,7 @@ export default function BookingsManagement() {
  </AvatarFallback>
  </Avatar>
  <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-card flex items-center justify-center border border-border shadow-2xl">
- <Shield className={cn("w-3 h-3", booking.verificationStatus === 'VERIFIED' ?"text-emerald-500" :"text-slate-600")} />
+ <Shield className={cn("w-3 h-3", booking.verificationStatus === 'VERIFIED' ?"text-success" :"text-muted-foreground")} />
  </div>
  </div>
  <div>
@@ -497,7 +498,7 @@ export default function BookingsManagement() {
  <TableCell className="px-8">
  <div>
  <div className="text-sm font-bold text-muted-foreground leading-tight mb-1">{booking.listing.title}</div>
- <div className="text-[10px] font-bold text-slate-600 leading-none -translate-y-px">
+ <div className="text-[10px] font-bold text-muted-foreground leading-none -translate-y-px">
  {booking.listing.property.city}{t(",", ",")}{booking.listing.property.state}
  </div>
  </div>
@@ -528,7 +529,7 @@ export default function BookingsManagement() {
  </div>
  <div className="mt-1 flex items-center gap-1 opacity-40">
  <div className="h-1 flex-1 bg-muted/50 rounded-full overflow-hidden">
- <div className={cn("h-full", booking.riskScore && booking.riskScore > 50 ?"bg-red-500" :"bg-emerald-500")} style={{
+ <div className={cn("h-full", booking.riskScore && booking.riskScore > 50 ?"bg-red-500" :"bg-blue-500")} style={{
  width: `${booking.riskScore || 0}%`
  }} />
  </div>
@@ -538,7 +539,7 @@ export default function BookingsManagement() {
  <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground hover:text-foreground transition-all shadow-xl border border-border hover:border-border" onClick={() => {
  setSelectedBooking(booking);
  setDetailsOpen(true);
- }}>
+ }} aria-label={t("common.view")}>
  <Eye className="w-5 h-5" />
  </Button>
  </TableCell>
@@ -580,7 +581,7 @@ export default function BookingsManagement() {
  <Card className="bg-card border-border rounded-2xl overflow-hidden">
  <CardHeader className="p-6 border-b border-border bg-muted/50">
  <h4 className="text-[10px] font-bold text-muted-foreground flex items-center gap-2">
- <UserIcon className="w-3 h-3 text-slate-500" /> {t("admin_bookings_intel_guestIdentity")}
+ <UserIcon className="w-3 h-3 text-muted-foreground" /> {t("admin_bookings_intel_guestIdentity")}
  </h4>
  </CardHeader>
  <CardContent className="p-6 space-y-4">
@@ -631,7 +632,7 @@ export default function BookingsManagement() {
  </div>
  <div className="space-y-1">
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_departure_sync")}</p>
- <p className="text-sm font-bold text-orange-400 font-mono">{new Date(selectedBooking.endDate).toLocaleDateString()}</p>
+ <p className="text-sm font-bold text-warning font-mono">{new Date(selectedBooking.endDate).toLocaleDateString()}</p>
  </div>
  </div>
  </CardContent>
@@ -668,7 +669,7 @@ export default function BookingsManagement() {
  <Card className="bg-muted/50 border-border rounded-2xl overflow-hidden">
  <CardHeader className="p-6 border-b border-border bg-muted/50">
  <h4 className="text-[10px] font-bold text-muted-foreground flex items-center gap-2">
- <DollarSign className="w-3 h-3 text-emerald-500" /> {t("economicParameters")}
+ <DollarSign className="w-3 h-3 text-success" /> {t("economicParameters")}
  </h4>
  </CardHeader>
  <CardContent className="p-8">
@@ -688,7 +689,7 @@ export default function BookingsManagement() {
  </div>
  <div className="space-y-1">
  <p className="text-[10px] font-bold text-muted-foreground">{t("admin_bookingsmanagement_processing_fee")}</p>
- <p className="text-lg font-bold text-emerald-400 font-mono">{t("admin_bookingsmanagement_included")}</p>
+ <p className="text-lg font-bold text-success font-mono">{t("admin_bookingsmanagement_included")}</p>
  </div>
  </div>
  </CardContent>
@@ -707,7 +708,7 @@ export default function BookingsManagement() {
 
  <DialogFooter className="p-8 bg-card border-t border-border flex gap-4">
  <Button variant="ghost" className="flex-1 h-14 rounded-2xl font-bold text-[10px] hover:bg-muted/50 transition-all text-muted-foreground hover:text-foreground" onClick={() => setDetailsOpen(false)}>{t("admin_bookingsmanagement_close_intel")}</Button>
- {selectedBooking && selectedBooking.status ==="PENDING" && <Button className="flex-2 h-14 rounded-2xl bg-slate-600 hover:bg-muted0 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30 gap-2" onClick={() => {
+ {selectedBooking && selectedBooking.status ==="PENDING" && <Button className="flex-2 h-14 rounded-2xl bg-muted hover:bg-muted0 text-foreground font-bold text-[10px] shadow-xl shadow-slate-600/30 gap-2" onClick={() => {
  handleStatusChange(selectedBooking.id,"CONFIRMED");
  setDetailsOpen(false);
  }}>{t("admin_bookingsmanagement_confirm_synchronization")}<ArrowUpRight className="w-3 h-3" />

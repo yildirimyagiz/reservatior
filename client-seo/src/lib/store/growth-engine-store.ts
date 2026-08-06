@@ -8,7 +8,7 @@ import type {
   ConversionFunnel,
 } from '@/types/growth-engine';
 
-interface GrowthEngineState {
+export interface GrowthEngineState {
   summary: GrowthEngineSummary | null;
   telemetryFeed: TelemetryFeed;
   gamification: GamificationState | null;

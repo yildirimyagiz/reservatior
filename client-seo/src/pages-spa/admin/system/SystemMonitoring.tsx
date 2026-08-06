@@ -139,21 +139,21 @@ export default function SystemMonitoring() {
  };
  const getStatusColor = (status: string) => {
  switch (status) {
- case 'normal': case 'running': return 'bg-green-100 text-green-800';
+ case 'normal': case 'running': return 'bg-blue-100 text-blue-800';
  case 'warning': return 'bg-yellow-100 text-yellow-800';
  case 'critical': case 'error': return 'bg-red-100 text-red-800';
- case 'stopped': return 'bg-card text-slate-300';
- case 'maintenance': return 'bg-slate-100 text-slate-800';
- default: return 'bg-card text-slate-300';
+ case 'stopped': return 'bg-card text-muted-foreground';
+ case 'maintenance': return 'bg-muted text-muted-foreground';
+ default: return 'bg-card text-muted-foreground';
  }
  };
  const getSeverityColor = (severity: string) => {
  switch (severity) {
- case 'low': return 'bg-slate-100 text-slate-800';
+ case 'low': return 'bg-muted text-muted-foreground';
  case 'medium': return 'bg-yellow-100 text-yellow-800';
  case 'high': return 'bg-orange-100 text-orange-800';
  case 'critical': return 'bg-red-100 text-red-800';
- default: return 'bg-card text-slate-300';
+ default: return 'bg-card text-muted-foreground';
  }
  };
  const getAlertIcon = (type: string) => {
@@ -171,7 +171,7 @@ export default function SystemMonitoring() {
  const average = recent.reduce((sum, h) => sum + h.value, 0) / recent.length;
  const current = recent[recent.length - 1].value;
  if (current > average * 1.05) return <TrendingUp className="w-4 h-4 text-red-500" />;
- if (current < average * 0.95) return <TrendingDown className="w-4 h-4 text-green-500" />;
+ if (current < average * 0.95) return <TrendingDown className="w-4 h-4 text-blue-500" />;
  return <Minus className="w-4 h-4 text-muted-foreground" />;
  };
  const exportMonitoringData = () => {
@@ -210,9 +210,9 @@ export default function SystemMonitoring() {
 
  <Tabs defaultValue="metrics" className="w-full">
  <TabsList className="grid w-full grid-cols-3 bg-card border-border">
- <TabsTrigger value="metrics" className="text-foreground data-[state=active]:bg-white/10">{t("admin_system_metrics")}</TabsTrigger>
- <TabsTrigger value="services" className="text-foreground data-[state=active]:bg-white/10">{t("admin_system_services")}</TabsTrigger>
- <TabsTrigger value="alerts" className="text-foreground data-[state=active]:bg-white/10">{t("admin_system_alerts")}</TabsTrigger>
+ <TabsTrigger value="metrics" className="text-foreground data-[state=active]:bg-card/10">{t("admin_system_metrics")}</TabsTrigger>
+ <TabsTrigger value="services" className="text-foreground data-[state=active]:bg-card/10">{t("admin_system_services")}</TabsTrigger>
+ <TabsTrigger value="alerts" className="text-foreground data-[state=active]:bg-card/10">{t("admin_system_alerts")}</TabsTrigger>
  </TabsList>
 
  <TabsContent value="metrics" className="space-y-6">
@@ -227,7 +227,7 @@ export default function SystemMonitoring() {
  <div className="flex items-center gap-1">
  {getTrendIcon(metric.history)}
  <Badge className={getStatusColor(metric.status)}>
- {metric.status === 'normal' ? t("admin_system_status_normal","Normal") : metric.status === 'warning' ? t("admin_system_status_warning","Uyarı") : t("admin_system_status_critical","Kritik")}
+ {metric.status === 'normal' ? t("admin_system_status_normal","Normal") : metric.status === 'warning' ? t("admin_system_status_warning","Uyarı") : t("admin_system_status_critical", "eleştiri")}
  </Badge>
  </div>
  </div>
@@ -246,7 +246,7 @@ export default function SystemMonitoring() {
  <CardHeader>
  <div className="flex items-center justify-between">
  <CardTitle className="text-foreground">{selectedMetric.name}{t("admin_system_detail")}</CardTitle>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => setSelectedMetric(null)}>×</Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => setSelectedMetric(null)} aria-label={t("common.close")}>×</Button>
  </div>
  </CardHeader>
  <CardContent>
@@ -257,7 +257,7 @@ export default function SystemMonitoring() {
  </div>
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_system_status")}</p>
- <Badge className={getStatusColor(selectedMetric.status)}>{selectedMetric.status === 'normal' ? t("admin_system_status_normal","Normal") : selectedMetric.status === 'warning' ? t("admin_system_status_warning","Uyarı") : t("admin_system_status_critical","Kritik")}</Badge>
+ <Badge className={getStatusColor(selectedMetric.status)}>{selectedMetric.status === 'normal' ? t("admin_system_status_normal","Normal") : selectedMetric.status === 'warning' ? t("admin_system_status_warning","Uyarı") : t("admin_system_status_critical", "eleştiri")}</Badge>
  </div>
  </div>
  {selectedMetric.metadata?.details && <div className="mb-4">
@@ -280,7 +280,7 @@ export default function SystemMonitoring() {
   <h2 className="font-medium text-foreground">{service.name}</h2>
  </div>
  <Badge className={getStatusColor(service.status)}>
- {service.status === 'running' ? t("admin_system_status_running","Çalışıyor") : service.status === 'stopped' ? t("admin_system_status_stopped","Durduruldu") : service.status === 'error' ? t("admin_system_status_error","Hata") : t("admin_system_status_maintenance","Bakım")}
+ {service.status === 'running' ? t("admin_system_status_running","Çalışıyor") : service.status === 'stopped' ? t("admin_system_status_stopped","Durduruldu") : service.status === 'error' ? t("admin_system_status_error", "Eşit") : t("admin_system_status_maintenance","Bakım")}
  </Badge>
  </div>
  <div className="space-y-2 text-sm">
@@ -304,14 +304,14 @@ export default function SystemMonitoring() {
  <CardHeader>
  <div className="flex items-center justify-between">
  <CardTitle className="text-foreground">{selectedService.name}{t("admin_system_detail")}</CardTitle>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => setSelectedService(null)}>×</Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => setSelectedService(null)} aria-label={t("common.close")}>×</Button>
  </div>
  </CardHeader>
  <CardContent>
  <div className="grid grid-cols-2 gap-4 mb-4">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_system_status")}</p>
- <Badge className={getStatusColor(selectedService.status)}>{selectedService.status === 'running' ? t("admin_system_status_running","Çalışıyor") : selectedService.status === 'stopped' ? t("admin_system_status_stopped","Durduruldu") : selectedService.status === 'error' ? t("admin_system_status_error","Hata") : t("admin_system_status_maintenance","Bakım")}</Badge>
+ <Badge className={getStatusColor(selectedService.status)}>{selectedService.status === 'running' ? t("admin_system_status_running","Çalışıyor") : selectedService.status === 'stopped' ? t("admin_system_status_stopped","Durduruldu") : selectedService.status === 'error' ? t("admin_system_status_error", "Eşit") : t("admin_system_status_maintenance","Bakım")}</Badge>
  </div>
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_system_uptime")}</p>
@@ -348,7 +348,7 @@ export default function SystemMonitoring() {
  <div className="flex-1 min-w-0">
  <div className="flex items-center gap-2 mb-1">
   <h2 className="font-medium text-foreground">{alert.title}</h2>
- <Badge className={getSeverityColor(alert.severity)}>{alert.severity === 'low' ? t("admin_system_severity_low","Düşük") : alert.severity === 'medium' ? t("admin_system_severity_medium","Orta") : alert.severity === 'high' ? t("admin_system_severity_high","Yüksek") : t("admin_system_severity_critical","Kritik")}</Badge>
+ <Badge className={getSeverityColor(alert.severity)}>{alert.severity === 'low' ? t("admin_system_severity_low","Düşük") : alert.severity === 'medium' ? t("admin_system_severity_medium","Orta") : alert.severity === 'high' ? t("admin_system_severity_high","Yüksek") : t("admin_system_severity_critical", "eleştiri")}</Badge>
  <Badge className={getStatusColor(alert.status)}>{alert.status === 'active' ? t("admin_system_alert_active","Aktif") : alert.status === 'acknowledged' ? t("admin_system_alert_acknowledged","Onaylandı") : t("admin_system_alert_resolved","Çözüldü")}</Badge>
  </div>
  <p className="text-sm text-muted-foreground mb-1">{alert.message}</p>
@@ -358,7 +358,7 @@ export default function SystemMonitoring() {
  </div>
  </div>
  <div className="flex gap-1">
- <Button variant="outline" size="sm" className="border-border text-muted-foreground"><Settings className="w-4 h-4" /></Button>
+ <Button variant="outline" size="sm" className="border-border text-muted-foreground" aria-label={t("common.settings")}><Settings className="w-4 h-4" /></Button>
  </div>
  </div>)}
  </div>

@@ -82,14 +82,14 @@ export function NeuralReelsGenerator({
   };
   return <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        {trigger || <Button variant="outline" className="border-emerald-600/30 text-emerald-500 hover:bg-emerald-600/10">
+        {trigger || <Button variant="outline" className="border-blue-600/30 text-blue-500 hover:bg-blue-600/10">
             <Sparkles className="w-4 h-4 mr-2" />{t("client.src.generate_reels")}</Button>}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px] bg-[#0f1014] border-white/5 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-2xl font-black italic tracking-tighter text-white">
-            <div className="p-2 bg-emerald-600/20 rounded-xl">
-               <Clapperboard className="w-6 h-6 text-emerald-500" />
+            <div className="p-2 bg-blue-600/20 rounded-xl">
+               <Clapperboard className="w-6 h-6 text-blue-500" />
             </div>{t("client.src.neural_reels_studio")}</DialogTitle>
           <DialogDescription className="text-slate-400 font-medium">{t("client.src.generate_highconversion_cinematographic_reels")}{projectName || 'selected assets'}{t("client.src.using_mldriven_sorting_logic")}</DialogDescription>
         </DialogHeader>
@@ -107,7 +107,7 @@ export function NeuralReelsGenerator({
         }} className="py-8 space-y-6">
               <div className="space-y-4">
                 <div className="flex justify-between text-xs font-black uppercase tracking-widest italic">
-                  <span className="text-emerald-500 animate-pulse">{status}</span>
+                  <span className="text-blue-500 animate-pulse">{status}</span>
                   <span className="text-white">{progress}%</span>
                 </div>
                 <Progress value={progress} className="h-2 bg-white/5" />
@@ -119,8 +119,8 @@ export function NeuralReelsGenerator({
           }} animate={{
             scale: 1,
             opacity: 1
-          }} className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 flex items-center gap-4">
-                  <div className="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30">
+          }} className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex items-center gap-4">
+                  <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30">
                     <CheckCircle2 className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -130,8 +130,8 @@ export function NeuralReelsGenerator({
                   <Button className="ml-auto bg-white text-black hover:bg-slate-200 text-xs font-black px-4 h-9">{t("client.src.preview")}</Button>
                 </m.div> : <div className="flex justify-center py-4">
                   <div className="relative">
-                    <Activity className="w-16 h-16 text-emerald-600/20" />
-                    <Sparkles className="w-6 h-6 text-emerald-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-bounce" />
+                    <Activity className="w-16 h-16 text-blue-600/20" />
+                    <Sparkles className="w-6 h-6 text-blue-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-bounce" />
                   </div>
                 </div>}
             </m.div> : <m.div initial={{
@@ -147,7 +147,7 @@ export function NeuralReelsGenerator({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-[#14151a] border-white/5 text-white">
-                      <SelectItem value="location"><div className="flex items-center gap-2"><MapPin className="w-3 h-3" />{t("client.src.location")}</div></SelectItem>
+                      <SelectItem value="location"><div className="flex items-center gap-2"><MapPin className="w-3 h-3" />{t("common.location")}</div></SelectItem>
                       <SelectItem value="price"><div className="flex items-center gap-2"><DollarSign className="w-3 h-3" />{t("client.src.price_range")}</div></SelectItem>
                       <SelectItem value="popularity"><div className="flex items-center gap-2"><BarChart3 className="w-3 h-3" />{t("client.src.popularity")}</div></SelectItem>
                       <SelectItem value="date"><div className="flex items-center gap-2"><Calendar className="w-3 h-3" />{t("client.src.newest_releases")}</div></SelectItem>
@@ -173,17 +173,17 @@ export function NeuralReelsGenerator({
               <div className="p-4 bg-white/5 border border-white/5 rounded-2xl space-y-3">
                  <div className="flex justify-between items-center">
                     <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("client.src.active_asset_context")}</p>
-                    <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-[9px]">
+                    <Badge variant="outline" className="bg-blue-500/10 text-blue-400 border-blue-500/20 text-[9px]">
                        {selectedProperties?.length || 1}{t("client.src.assets")}</Badge>
                  </div>
                  <div className="flex flex-wrap gap-2">
-                   {["GPS Coordinates", "Pricing Matrix", "Market Demand", "Professional Photography"].map(tag => <span key={tag} className="px-2 py-1 bg-white/5 border border-white/10 rounded text-[9px] font-black text-emerald-500 uppercase tracking-tight">
+                   {["GPS Coordinates", "Pricing Matrix", "Market Demand", "Professional Photography"].map(tag => <span key={tag} className="px-2 py-1 bg-white/5 border border-white/10 rounded text-[9px] font-black text-blue-500 uppercase tracking-tight">
                         {tag}
                      </span>)}
                  </div>
               </div>
 
-              <Button onClick={handleGenerate} className="w-full h-16 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase tracking-widest shadow-2xl shadow-emerald-600/30 gap-3">
+              <Button onClick={handleGenerate} className="w-full h-16 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-widest shadow-2xl shadow-blue-600/30 gap-3">
                 <PlayCircle className="w-5 h-5" />{t("client.src.initiate_neural_generation")}</Button>
             </m.div>}
         </AnimatePresence>

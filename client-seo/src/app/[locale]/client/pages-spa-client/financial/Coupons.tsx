@@ -60,7 +60,7 @@ export function Coupons() {
       </div>
 
       {user?.originRegion !== (localStorage.getItem("regions-store") ? JSON.parse(localStorage.getItem("regions-store")!).state?.selectedRegion?.code : "US") && (
-        <div className="bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 p-4 rounded-2xl flex items-start gap-3 backdrop-blur-md">
+        <div className="bg-brand/100/10 border border-blue-500/20 text-brand dark:text-brand p-4 rounded-2xl flex items-start gap-3 backdrop-blur-md">
           <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
           <div>
             <h4 className="font-semibold">{t("client.financial.cross_region_active", "Cross-Region Browsing Active")}</h4>
@@ -142,7 +142,7 @@ export function Coupons() {
           {displayWallet.history.map((tx: any) => (
             <div key={tx.id} className="p-4 flex items-center justify-between bg-background hover:bg-secondary/20 transition-colors">
               <div className="flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === 'CREDIT' ? 'bg-green-500/10 text-green-600' : 'bg-red-500/10 text-red-600'}`}>
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === 'CREDIT' ? 'bg-blue-500/10 text-blue-600' : 'bg-red-500/10 text-red-600'}`}>
                   {tx.type === 'CREDIT' ? <TrendingUp className="w-5 h-5" /> : <TrendingUp className="w-5 h-5 rotate-180" />}
                 </div>
                 <div>
@@ -150,7 +150,7 @@ export function Coupons() {
                   <p className="text-sm text-muted-foreground">{new Date(tx.date).toLocaleDateString()}</p>
                 </div>
               </div>
-              <div className={`font-bold text-lg ${tx.type === 'CREDIT' ? 'text-green-600' : ''}`}>
+              <div className={`font-bold text-lg ${tx.type === 'CREDIT' ? 'text-blue-600' : ''}`}>
                 {tx.type === 'CREDIT' ? '+' : ''}{tx.amount} {displayWallet.currency}
               </div>
             </div>

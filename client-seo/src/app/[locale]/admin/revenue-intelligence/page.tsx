@@ -1,17 +1,19 @@
-import type { Metadata } from "next";
-import Dashboard from "./Dashboard";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Revenue Intelligence - Admin Panel | Reservatior",
-  description: "AI-powered revenue intelligence and optimization dashboard for the admin panel.",
-  keywords: ["revenue", "intelligence", "optimization", "analytics", "admin panel"],
-  openGraph: {
-    title: "Revenue Intelligence - Admin Panel | Reservatior",
-    description: "AI-powered revenue intelligence and optimization dashboard for the admin panel.",
-    type: "website",
-  },
-};
+import dynamic from "next/dynamic";
+import React from "react";
+import { Loader2 } from "lucide-react";
 
-export default function RevenueIntelligencePage() {
-  return <Dashboard />;
+const Component = dynamic(() => import("@/pages-spa/admin/intelligence/RevenueIntelligence"), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px] text-muted-foreground">
+      <Loader2 className="w-8 h-8 animate-spin text-brand mr-2" />
+      <span>Modül yükleniyor...</span>
+    </div>
+  ),
+  ssr: false
+});
+
+export default function RevenueIntelligenceAppPage() {
+  return <Component />;
 }

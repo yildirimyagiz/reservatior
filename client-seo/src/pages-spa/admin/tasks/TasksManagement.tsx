@@ -62,30 +62,30 @@ const TasksManagement = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
- {t("admin_tasks_title","Tasks & Workflow")}
+ {t("admin_tasks_title", "Görevler ve İş Akışı")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_tasks_subtitle","Centralized workflow management for internal teams and operations")}
+ {t("admin_tasks_subtitle", "Dahili ekipler ve operasyonlar için merkezi iş akışı yönetimi")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-slate-700 text-foreground shadow-lg shadow-slate-500/20">
+ <Button className="bg-muted hover:bg-muted text-foreground shadow-lg shadow-slate-500/20">
  <Plus className="w-4 h-4 mr-2" />
- {t("admin_tasks_add","New Task")}
+ {t("admin_tasks_add", "Yeni Görev")}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_tasks_add","New Task")}</DialogTitle>
+ <DialogTitle>{t("admin_tasks_add", "Yeni Görev")}</DialogTitle>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="title">{t("admin_auto_task_title", "Task Title")}</Label>
+ <Label htmlFor="title">{t("admin_auto_task_title", "Görev Başlığı")}</Label>
  <Input 
  id="title" 
  className="bg-card border-border" 
@@ -95,7 +95,7 @@ const TasksManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="description">{t("admin_auto_description", "Description")}</Label>
+ <Label htmlFor="description">{t("admin_auto_description", "Tanım")}</Label>
  <Input 
  id="description" 
  className="bg-card border-border" 
@@ -105,29 +105,29 @@ const TasksManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label htmlFor="priority">{t("admin_auto_priority", "Priority")}</Label>
+ <Label htmlFor="priority">{t("admin_auto_priority", "Öncelik")}</Label>
  <Input 
  id="priority" 
  className="bg-card border-border" 
  value={newTask.priority}
  onChange={e => setNewTask({...newTask, priority: e.target.value})}
- placeholder={t("admin_auto_low_medium_high", "LOW, MEDIUM, HIGH")}
+ placeholder={t("admin_auto_low_medium_high", "DÜŞÜK, ORTA, YÜKSEK")}
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="type">{t("admin_auto_task_type", "Task Type")}</Label>
+ <Label htmlFor="type">{t("admin_auto_task_type", "Görev Türü")}</Label>
  <Input 
  id="type" 
  className="bg-card border-border" 
  value={newTask.type}
  onChange={e => setNewTask({...newTask, type: e.target.value})}
- placeholder={t("admin_auto_admin_other", "ADMIN, OTHER")}
+ placeholder={t("admin_auto_admin_other", "YÖNETİCİ, DİĞER")}
  />
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
- <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
+ <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
+ <Button type="submit" className="bg-muted hover:bg-muted" disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Create Task"}
  </Button>
  </div>
@@ -140,71 +140,71 @@ const TasksManagement = () => {
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_metrics_totalTasks", "Total Tasks")}</CardTitle>
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_metrics_totalTasks", "Toplam Görevler")}</CardTitle>
  <Activity className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">4,291</div>
- <p className="text-xs text-green-400 mt-1">{t("admin_auto_12_from_last_week", "+12% from last week")}</p>
+ <p className="text-xs text-blue-400 mt-1">{t("admin_auto_12_from_last_week", "Geçen haftaya göre +%12")}</p>
  </CardContent>
  </Card>
  
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_ai_pending", "Pending")}</CardTitle>
- <Clock className="w-4 h-4 text-amber-400" />
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_ai_pending", "Bekliyor")}</CardTitle>
+ <Clock className="w-4 h-4 text-warning" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">842</div>
- <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_requires_action", "Requires action")}</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_requires_action", "Eylem gerektirir")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_financial_overdue", "Overdue")}</CardTitle>
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_financial_overdue", "Vadesi Geçmiş")}</CardTitle>
  <AlertCircle className="w-4 h-4 text-red-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">45</div>
- <p className="text-xs text-red-400 mt-1">{t("admin_auto_critical_priority", "Critical priority")}</p>
+ <p className="text-xs text-red-400 mt-1">{t("admin_auto_critical_priority", "Kritik öncelik")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_ai_completed", "Completed")}</CardTitle>
- <CheckSquare className="w-4 h-4 text-green-400" />
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_ai_completed", "Tamamlandı")}</CardTitle>
+ <CheckSquare className="w-4 h-4 text-blue-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">3,404</div>
- <p className="text-xs text-muted-foreground mt-1">{t("admin_financial_this_month", "This month")}</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_financial_this_month", "Bu Ay")}</p>
  </CardContent>
  </Card>
  </div>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader>
- <CardTitle className="text-foreground">{t("admin_tasks_list","Global Task Board")}</CardTitle>
+ <CardTitle className="text-foreground">{t("admin_tasks_list", "Küresel Görev Panosu")}</CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
  <div className="flex items-center justify-center py-20 text-muted-foreground">
- {t("common.loading","Loading workflow tasks...")}
+ {t("common.loading", "Yükleniyor")}
  </div>
  ) : tasks.length === 0 ? (
  <div className="flex items-center justify-center py-20 text-muted-foreground">
- {t("mobile.auto.no_tasks_found", "No tasks found.")}</div>
+ {t("mobile.auto.no_tasks_found", "Hiçbir görev bulunamadı.")}</div>
  ) : (
  <div className="rounded-xl border border-border">
  <Table>
  <TableHeader>
  <TableRow className="border-border hover:bg-transparent">
- <TableHead className="text-slate-300">{t("admin_auto_title", "Title")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_auto_type", "Type")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_ai_priority", "Priority")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_ai_status", "Status")}</TableHead>
- <TableHead className="text-slate-300 text-right">{t("admin_ai_actions", "Actions")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_auto_title", "Otomatik")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_auto_type", "Tip")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_ai_priority", "Öncelik Derecesi")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_ai_status", "Durum")}</TableHead>
+ <TableHead className="text-muted-foreground text-right">{t("admin_ai_actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -221,12 +221,12 @@ const TasksManagement = () => {
  </span>
  </TableCell>
  <TableCell className="text-right">
- <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} className="text-muted-foreground hover:text-foreground">
  <Edit className="w-4 h-4" />
  </Button>
  <Button 
  variant="ghost" 
- size="icon" 
+ size="icon" aria-label={t("common.delete")} 
  className="text-red-400 hover:text-red-300 hover:bg-red-400/10"
  onClick={() => deleteMutation.mutate(t.id)}
  disabled={deleteMutation.isPending}

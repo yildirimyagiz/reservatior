@@ -21,21 +21,21 @@ const performanceMetrics = [
     value: "$2.4M",
     change: "+12.5%",
     icon: DollarSign,
-    color: "text-green-400"
+    color: "text-blue-400"
   },
   {
     title: "Properties Sold",
     value: "24",
     change: "+8.3%",
     icon: Building2,
-    color: "text-blue-400"
+    color: "text-brand"
   },
   {
     title: "Active Clients",
     value: "45",
     change: "+15.2%",
     icon: Users,
-    color: "text-purple-400"
+    color: "text-brand"
   },
   {
     title: "Client Rating",
@@ -54,9 +54,9 @@ const recentActivity = [
 ];
 
 const ACTIVITY_COLORS: Record<string, string> = {
-  SALE: "bg-green-500/20 text-green-400",
-  VIEWING: "bg-blue-500/20 text-blue-400",
-  CONTRACT: "bg-purple-500/20 text-purple-400",
+  SALE: "bg-blue-500/20 text-blue-400",
+  VIEWING: "bg-brand/100/20 text-brand",
+  CONTRACT: "bg-brand/20 text-brand",
   MEETING: "bg-amber-500/20 text-amber-400"
 };
 
@@ -79,7 +79,7 @@ export default function AgentPerformancePage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("performance.agentperformancepage.auto_ext_3")}
@@ -94,11 +94,11 @@ export default function AgentPerformancePage() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
         >
           {performanceMetrics.map((metric, idx) => (
-            <Card key={idx} className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card key={idx} className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <metric.icon className={`w-6 h-6 ${metric.color}`} />
-                  <div className={`text-sm ${metric.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>
+                  <div className={`text-sm ${metric.change.startsWith('+') ? 'text-blue-400' : 'text-red-400'}`}>
                     {metric.change}
                   </div>
                 </div>
@@ -114,7 +114,7 @@ export default function AgentPerformancePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+          <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <TrendingUp className="w-5 h-5" />

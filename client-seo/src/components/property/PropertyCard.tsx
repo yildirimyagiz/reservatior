@@ -26,13 +26,13 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "AVAILABLE": return "bg-green-500/90 text-white border-green-400";
+      case "AVAILABLE": return "bg-blue-500/90 text-white border-blue-400";
       case "UNDER_CONTRACT": return "bg-amber-500/90 text-white border-amber-400";
       case "SOLD": return "bg-red-500/90 text-white border-red-400";
-      case "RENTED": return "bg-blue-500/90 text-white border-blue-400";
-      case "PENDING_APPROVAL": return "bg-purple-500/90 text-white border-purple-400";
-      case "VACANT": return "bg-emerald-500/90 text-white border-emerald-400";
-      case "RESERVED": return "bg-indigo-500/90 text-white border-indigo-400";
+      case "RENTED": return "bg-brand/100/90 text-white border-blue-400";
+      case "PENDING_APPROVAL": return "bg-brand/90 text-white border-purple-400";
+      case "VACANT": return "bg-success/90 text-white border-blue-400";
+      case "RESERVED": return "bg-brand/90 text-white border-brand/30";
       case "BOOKED": return "bg-pink-500/90 text-white border-pink-400";
       default: return "bg-black/60 text-white border-white/20";
     }
@@ -41,9 +41,9 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
   const getPromotionBadge = (promo: string) => {
     switch (promo) {
       case "FEATURED": return <Badge className="bg-yellow-500/90 backdrop-blur text-black border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]"><ShieldCheck className="w-3 h-3 mr-1"/> {t("client.src.featured", "FEATURED")}</Badge>;
-      case "URGENT": return <Badge className="bg-red-500/90 backdrop-blur text-white border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]"><Zap className="w-3 h-3 mr-1"/> {t("client.src.urgent", "URGENT")}</Badge>;
-      case "PRICE_REDUCED": return <Badge className="bg-blue-500/90 backdrop-blur text-white border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]">{t("client.src.price_reduced", "PRICE DROP")}</Badge>;
-      case "BEST_DEAL": return <Badge className="bg-emerald-500/90 backdrop-blur text-white border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]">{t("client.src.best_deal", "BEST DEAL")}</Badge>;
+      case "URGENT": return <Badge className="bg-red-500/90 backdrop-blur text-white border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]"><Zap className="w-3 h-3 mr-1"/> {t("common.urgent", "URGENT")}</Badge>;
+      case "PRICE_REDUCED": return <Badge className="bg-brand/100/90 backdrop-blur text-white border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]">{t("client.src.price_reduced", "PRICE DROP")}</Badge>;
+      case "BEST_DEAL": return <Badge className="bg-success/90 backdrop-blur text-white border-0 shadow-sm font-bold uppercase tracking-widest text-[9px]">{t("client.src.best_deal", "BEST DEAL")}</Badge>;
       default: return null;
     }
   };
@@ -148,7 +148,7 @@ export function PropertyCard({ property: p, index = 0 }: PropertyCardProps) {
             size="icon" 
             variant="ghost" 
             aria-label="Add to favorites"
-            className="h-10 w-10 rounded-full bg-black/20 backdrop-blur-md hover:bg-white text-white hover:text-red-500 border border-white/20 transition-all duration-300"
+            className="h-10 w-10 rounded-full bg-black/20 backdrop-blur-md hover:bg-card text-white hover:text-red-500 border border-white/20 transition-all duration-300"
           >
             <Heart className="w-4 h-4" />
           </Button>

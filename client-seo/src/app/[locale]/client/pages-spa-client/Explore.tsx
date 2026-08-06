@@ -335,7 +335,7 @@ export default function Explore() {
       ai: {
         title: t("explore.ai_engine", "AI Değerleme Motoru"),
         badge: "AGENT INSIGHTS: DEEP LEARNING",
-        color: "from-blue-500/20 to-cyan-500/20 border-blue-500/30 text-blue-600 dark:text-blue-400",
+        color: "from-blue-500/20 to-cyan-500/20 border-blue-500/30 text-brand dark:text-brand",
         desc: "Gayrimenkul sektörü için özel eğitilmiş derin öğrenme modellerimizle mülklerinizi analiz edin, fiyatlandırın ve piyasa trendlerini anlık tahminleyin.",
         features: [
           { icon: Brain, name: "Yapay Zeka Değerleme", detail: "%96 doğruluk oranı ile anlık piyasa değeri tahmini (Prisma AnalysisJob uyumlu)" },
@@ -359,7 +359,7 @@ export default function Explore() {
       management: {
         title: "Smart Rezervasyon & Görev SLA",
         badge: "BOOKING & TASK ENGINE",
-        color: "from-emerald-500/20 to-teal-500/20 border-emerald-500/30 text-emerald-600 dark:text-emerald-400",
+        color: "from-blue-500/20 to-blue-500/20 border-blue-500/30 text-success dark:text-success",
         desc: "Booking ve Task modellerimiz sayesinde rezervasyon risk taramalarını yapın, sahteciliği önleyin ve her rezervasyon için otomatik SLA'li operasyonel görevler oluşturun.",
         features: [
           { icon: CalendarCheck, name: "Rezervasyon Doğrulama", detail: "Mülk sahipliği kontrolü (PropertyOwnershipVerification) ve çakışmasız takvim bloklama" },
@@ -397,7 +397,7 @@ export default function Explore() {
       ai: {
         title: "Hızlı AI Mülk Değerleme",
         badge: "GUEST: FREE VALUATION TOOL",
-        color: "from-blue-500/20 to-cyan-500/20 border-blue-500/30 text-blue-600 dark:text-blue-400",
+        color: "from-blue-500/20 to-cyan-500/20 border-blue-500/30 text-brand dark:text-brand",
         desc: "Sahip olduğunuz veya kiralamak istediğiniz mülkün adil piyasa değerini ve kira karşılığını ücretsiz test edin.",
         features: [
           { icon: Brain, name: "Ücretsiz Fiyat Analizi", detail: "Metrekare ve lokasyon bazında hızlı pazar araştırması" },
@@ -421,7 +421,7 @@ export default function Explore() {
       management: {
         title: "Dijital Konaklama & IoT Rehberi",
         badge: "SMART STAY GUIDE & INTERACTION",
-        color: "from-emerald-500/20 to-teal-500/20 border-emerald-500/30 text-emerald-600 dark:text-emerald-400",
+        color: "from-blue-500/20 to-blue-500/20 border-blue-500/30 text-success dark:text-success",
         desc: "Rezervasyonunuz onaylandığı an akıllı ev sistemlerimizle doğrudan etkileşime geçin. Anahtar teslim, IoT ayarları ve Wi-Fi bilgilerinize anında ulaşın.",
         features: [
           { icon: KeyRound, name: "Akıllı Giriş Kodları (IoT)", detail: "Rezervasyon gününde aktif olan, telefondan açılabilir şifreli giriş anahtarları" },
@@ -459,7 +459,7 @@ export default function Explore() {
       ai: {
         title: "Ev Sahibi Gelir & AI Fiyat Analizi",
         badge: "LANDLORD: YIELD MAXIMIZER",
-        color: "from-blue-500/20 to-cyan-500/20 border-blue-500/30 text-blue-600 dark:text-blue-400",
+        color: "from-blue-500/20 to-cyan-500/20 border-blue-500/30 text-brand dark:text-brand",
         desc: "Mülkünüzün en hızlı ve en karlı şekilde kiralanması için yapay zeka destekli bölgesel getiri analizlerini inceleyin.",
         features: [
           { icon: Brain, name: "Getiri Optimizasyonu", detail: "Çevredeki benzer mülklerin doluluk ve kira analizlerine göre gelir artırma planı" },
@@ -483,7 +483,7 @@ export default function Explore() {
       management: {
         title: "Mülk Durumu & Kiracı Takip",
         badge: "PROPERTY MONITORING & STATUS",
-        color: "from-emerald-500/20 to-teal-500/20 border-emerald-500/30 text-emerald-600 dark:text-emerald-400",
+        color: "from-blue-500/20 to-blue-500/20 border-blue-500/30 text-success dark:text-success",
         desc: "Evinizin doluluk durumunu, kiracınızın kimlik doğrulama raporlarını ve mülkünüzde planlanan operasyonları şeffaf bir şekilde izleyin.",
         features: [
           { icon: UserCheck, name: "Kimlik Doğrulanmış Kiracılar", detail: "Yasal olarak sabıka kaydı, kredi skoru ve kimliği 100% onaylanmış güvenilir profiller." },
@@ -562,9 +562,9 @@ export default function Explore() {
         
         {/* Dynamic Glowing Backgrounds */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[5%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-radial from-blue-600/5 dark:from-blue-600/10 to-transparent blur-[160px]" />
+          <div className="absolute top-[5%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-radial from-brand/5 dark:from-brand/10 to-transparent blur-[160px]" />
           <div className="absolute top-[30%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-radial from-violet-600/4 dark:from-violet-600/8 to-transparent blur-[160px]" />
-          <div className="absolute bottom-[10%] left-[20%] w-[55vw] h-[55vw] rounded-full bg-radial from-emerald-600/3 dark:from-emerald-600/5 to-transparent blur-[160px]" />
+          <div className="absolute bottom-[10%] left-[20%] w-[55vw] h-[55vw] rounded-full bg-radial from-blue-600/3 dark:from-blue-600/5 to-transparent blur-[160px]" />
           <div className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03]" style={{
             backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)`,
             backgroundSize: "60px 60px"
@@ -593,7 +593,7 @@ export default function Explore() {
               className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] uppercase italic"
             >
               <span className="text-muted-foreground dark:text-white/40">GELİŞMİŞ VERİ TABANI</span><br />
-              <span className="bg-gradient-to-r from-blue-600 dark:from-blue-400 via-violet-600 dark:via-violet-400 to-indigo-600 dark:to-indigo-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand dark:from-brand via-violet-600 dark:via-violet-400 to-info dark:to-info bg-clip-text text-transparent">
                 YETENEKLERİNİ KEŞFEDİN
               </span>
             </m.h1>
@@ -617,7 +617,7 @@ export default function Explore() {
               <div className="space-y-1 text-left">
                 <span className="text-[9px] font-black uppercase tracking-widest text-primary italic block">ÇİFT TARAFLI ERİŞİM GÜVENLİĞİ VE GİZLİLİK SİMÜLASYONU</span>
                 <h1 className="text-sm font-black text-foreground uppercase italic flex items-center gap-1.5">
-                  <UserCheck className="w-4 h-4 text-emerald-500" />
+                  <UserCheck className="w-4 h-4 text-success" />
                   Aktif Görünüm Modu: <span className="text-primary italic font-black">
                     {perspective === "guest" ? "Kiracı Portalı" : perspective === "landlord" ? "Ev Sahibi Portalı" : "Platform Acentesi / Admin"}
                   </span>
@@ -685,7 +685,7 @@ export default function Explore() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center gap-3 px-5 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest italic transition-all duration-500 flex-1 justify-center cursor-pointer
                       ${isActive
-                        ? "bg-foreground text-background dark:bg-white dark:text-black shadow-2xl scale-102 font-black"
+                        ? "bg-foreground text-background dark:bg-card dark:text-black shadow-2xl scale-102 font-black"
                         : "text-muted-foreground hover:bg-muted dark:hover:bg-white/5 hover:text-foreground"
                       }`}
                   >
@@ -723,7 +723,7 @@ export default function Explore() {
                         className="flex items-start gap-4 p-4 rounded-2xl bg-muted/30 dark:bg-[#0d0e12] border border-border dark:border-white/5 hover:border-border/80 dark:hover:border-white/10 hover:bg-muted/80 dark:hover:bg-[#13151b] transition-all duration-300 group cursor-default"
                       >
                         <div className="w-11 h-11 rounded-xl bg-muted/60 dark:bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-primary/10 transition-colors">
-                          <f.icon className="w-5 h-5 text-blue-500 dark:text-blue-400 group-hover:scale-110 transition-transform" />
+                          <f.icon className="w-5 h-5 text-brand dark:text-brand group-hover:scale-110 transition-transform" />
                         </div>
                         <div>
                           <h3 className="font-black uppercase italic tracking-wider text-xs text-foreground group-hover:text-primary transition-colors">{f.name}</h3>
@@ -737,7 +737,7 @@ export default function Explore() {
                 {/* RIGHT SIDE: Interactive Real-Time Simulators */}
                 <div className="lg:col-span-6">
                   <div className="bg-card dark:bg-[#0b0c10] border border-border dark:border-white/10 rounded-4xl p-6 md:p-8 shadow-2xl relative overflow-hidden group/card">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500" />
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-violet-500 to-info" />
                     
                     <AnimatePresence mode="wait">
                       
@@ -752,7 +752,7 @@ export default function Explore() {
                         >
                           <div className="flex justify-between items-center">
                             <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase italic">RESERVATIOR NEURAL ENGINE v4</span>
-                            <Badge className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 font-black italic text-[9px]">SİMÜLATÖR</Badge>
+                            <Badge className="bg-brand/100/10 text-brand dark:text-brand border-blue-500/20 font-black italic text-[9px]">SİMÜLATÖR</Badge>
                           </div>
                           
                           <div className="space-y-4">
@@ -765,8 +765,8 @@ export default function Explore() {
                                     onClick={() => { setValPropertyType(t); setValuationResult(null); }}
                                     className={`px-3 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider italic border transition-all cursor-pointer ${
                                       valPropertyType === t 
-                                        ? "bg-blue-500/10 border-blue-500/50 text-blue-600 dark:text-blue-400"
-                                        : "bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground dark:text-slate-400 hover:bg-muted/80 dark:hover:bg-white/10"
+                                        ? "bg-brand/100/10 border-blue-500/50 text-brand dark:text-brand"
+                                        : "bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground dark:text-muted-foreground hover:bg-muted/80 dark:hover:bg-white/10"
                                     }`}
                                   >
                                     {t === "villa" ? "Villa" : t === "apartment" ? "Daire" : "Rezidans"}
@@ -784,8 +784,8 @@ export default function Explore() {
                                     onClick={() => { setValLocation(loc); setValuationResult(null); }}
                                     className={`px-3 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider italic border transition-all cursor-pointer ${
                                       valLocation === loc 
-                                        ? "bg-blue-500/10 border-blue-500/50 text-blue-600 dark:text-blue-400"
-                                        : "bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground dark:text-slate-400 hover:bg-muted/80 dark:hover:bg-white/10"
+                                        ? "bg-brand/100/10 border-blue-500/50 text-brand dark:text-brand"
+                                        : "bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground dark:text-muted-foreground hover:bg-muted/80 dark:hover:bg-white/10"
                                     }`}
                                   >
                                     {loc === "quasar" ? "Quasar" : loc === "buyukyali" ? "Büyükyalı" : "Validebağ"}
@@ -797,7 +797,7 @@ export default function Explore() {
                             <div className="space-y-2">
                               <div className="flex justify-between text-[10px] font-black tracking-widest text-muted-foreground uppercase italic">
                                 <span>MÜLK BÜYÜKLÜĞÜ</span>
-                                <span className="text-blue-500 dark:text-blue-400 font-black">{valArea} m²</span>
+                                <span className="text-brand dark:text-brand font-black">{valArea} m²</span>
                               </div>
                                <input 
                                 type="range" 
@@ -815,7 +815,7 @@ export default function Explore() {
                           <Button 
                             onClick={handleValuation}
                             disabled={isValuating}
-                            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black uppercase text-xs tracking-widest italic py-6 rounded-2xl shadow-lg shadow-blue-500/10 cursor-pointer"
+                            className="w-full bg-blue-600 hover:bg-brand/100 text-white font-black uppercase text-xs tracking-widest italic py-6 rounded-2xl shadow-lg shadow-blue-500/10 cursor-pointer"
                           >
                             {isValuating ? (
                               <div className="flex items-center gap-2">
@@ -846,17 +846,17 @@ export default function Explore() {
                                     <span className="text-[9px] font-black text-muted-foreground tracking-widest uppercase italic block">
                                       {perspective === "landlord" ? "ÖNERİLEN OPTİMAL KİRA" : "AYLIK KİRA TAHMİNİ"}
                                     </span>
-                                    <span className="text-xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight block mt-1">{valuationResult.rent}</span>
+                                    <span className="text-xl font-black text-success dark:text-success tracking-tight block mt-1">{valuationResult.rent}</span>
                                   </div>
                                 </div>
 
                                 <div className="border-t border-border dark:border-white/5 pt-3 space-y-2">
                                   <div className="flex justify-between text-[9px] font-black text-muted-foreground tracking-widest uppercase italic">
                                     <span>AI GÜVEN ENDEKSİ</span>
-                                    <span className="text-blue-600 dark:text-blue-400">%{valuationResult.confidence}</span>
+                                    <span className="text-brand dark:text-brand">%{valuationResult.confidence}</span>
                                   </div>
                                   <div className="w-full h-1 bg-muted dark:bg-white/5 rounded-full overflow-hidden">
-                                    <div className="h-full bg-blue-600 dark:bg-blue-500 rounded-full" style={{ width: `${valuationResult.confidence}%` }} />
+                                    <div className="h-full bg-blue-600 dark:bg-brand/100 rounded-full" style={{ width: `${valuationResult.confidence}%` }} />
                                   </div>
                                 </div>
                               </m.div>
@@ -914,7 +914,7 @@ export default function Explore() {
                                     className={`px-2 py-3 rounded-xl text-[9px] font-black uppercase tracking-wider italic border transition-all cursor-pointer ${
                                       depositSolution === sol.id 
                                         ? "bg-violet-500/10 border-violet-500/50 text-violet-600 dark:text-violet-400"
-                                        : "bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground dark:text-slate-400 hover:bg-muted/80 dark:hover:bg-white/10"
+                                        : "bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground dark:text-muted-foreground hover:bg-muted/80 dark:hover:bg-white/10"
                                     }`}
                                   >
                                     {sol.label}
@@ -945,7 +945,7 @@ export default function Explore() {
 
                               <div className="space-y-2">
                                 <label className="text-[10px] font-black tracking-widest text-muted-foreground uppercase italic">ACENTE BÖLÜŞÜMÜ</label>
-                                <div className="w-full bg-card dark:bg-[#14151a] border border-border dark:border-white/5 rounded-xl px-3 py-2 text-xs font-bold text-foreground italic flex items-center gap-1">
+                                <div className="w-full bg-card dark:bg-background border border-border dark:border-white/5 rounded-xl px-3 py-2 text-xs font-bold text-foreground italic flex items-center gap-1">
                                   <Sliders className="w-3.5 h-3.5 text-violet-500" />
                                   %{splitCommRate} + %{splitCommRate} Gizli
                                 </div>
@@ -993,7 +993,7 @@ export default function Explore() {
                                   <div>
                                     <span className="text-[8px] font-black text-muted-foreground tracking-widest uppercase italic block">ESCROW KASASI</span>
                                     <span className="text-xs font-black text-violet-500 tracking-tight block mt-0.5">{fintechResult.escrowVault}</span>
-                                    <span className="text-[7.5px] text-emerald-500 font-bold block mt-0.5">TDS Güvencesi</span>
+                                    <span className="text-[7.5px] text-success font-bold block mt-0.5">TDS Güvencesi</span>
                                   </div>
                                 </div>
 
@@ -1005,11 +1005,11 @@ export default function Explore() {
                                   <div className="grid grid-cols-2 gap-2 text-[9px] font-black tracking-wider uppercase italic pt-1">
                                     <div className="p-2.5 rounded-xl bg-card border border-border space-y-1">
                                       <span className="text-muted-foreground">KİRACI PAYI (%{splitCommRate}):</span>
-                                      <span className="text-emerald-500 block text-xs">{fintechResult.tenantFee}</span>
+                                      <span className="text-success block text-xs">{fintechResult.tenantFee}</span>
                                     </div>
                                     <div className="p-2.5 rounded-xl bg-card border border-border space-y-1">
                                       <span className="text-muted-foreground">EV SAHİBİ PAYI (%{splitCommRate}):</span>
-                                      <span className="text-emerald-500 block text-xs">{fintechResult.landlordFee}</span>
+                                      <span className="text-success block text-xs">{fintechResult.landlordFee}</span>
                                     </div>
                                   </div>
 
@@ -1041,7 +1041,7 @@ export default function Explore() {
 
                                 <div className="bg-card p-3.5 rounded-2xl border border-border space-y-2">
                                   <div className="flex items-center gap-2">
-                                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                                    <ShieldCheck className="w-4 h-4 text-success" />
                                     <span className="text-[10px] font-black uppercase italic tracking-wider text-foreground">
                                       {guestFintechResult.depositTitle}
                                     </span>
@@ -1049,12 +1049,12 @@ export default function Explore() {
                                   <p className="text-xs text-muted-foreground leading-normal">{guestFintechResult.depositDetails}</p>
                                 </div>
 
-                                <div className="p-3 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-between">
+                                <div className="p-3 rounded-2xl bg-success/5 border border-blue-500/10 flex items-center justify-between">
                                   <div className="space-y-0.5">
-                                    <span className="text-[8px] font-black text-emerald-600 dark:text-emerald-400 tracking-widest uppercase italic block">TOPLAM AYLIK FATURA</span>
-                                    <span className="text-base font-black text-emerald-600 dark:text-emerald-400">{guestFintechResult.totalMonthlyInvoice}</span>
+                                    <span className="text-[8px] font-black text-success dark:text-success tracking-widest uppercase italic block">TOPLAM AYLIK FATURA</span>
+                                    <span className="text-base font-black text-success dark:text-success">{guestFintechResult.totalMonthlyInvoice}</span>
                                   </div>
-                                  <Badge className="bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black italic text-[9px] py-1">GÜVENLİ İŞLEM</Badge>
+                                  <Badge className="bg-success/10 border-success/20 text-success dark:text-success font-black italic text-[9px] py-1">GÜVENLİ İŞLEM</Badge>
                                 </div>
                               </m.div>
                             )}
@@ -1079,18 +1079,18 @@ export default function Explore() {
 
                                 <div className="bg-card p-3.5 rounded-2xl border border-border space-y-1">
                                   <div className="flex items-center gap-2">
-                                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                                    <ShieldCheck className="w-4 h-4 text-success" />
                                     <span className="text-[9px] font-black uppercase italic tracking-wider text-foreground">GÜVENCE DURUMU</span>
                                   </div>
                                   <span className="text-xs text-muted-foreground leading-normal block mt-1 font-bold italic">{landlordFintechResult.depositStatus}</span>
                                 </div>
 
-                                <div className="p-3 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-between">
+                                <div className="p-3 rounded-2xl bg-success/5 border border-blue-500/10 flex items-center justify-between">
                                   <div className="space-y-0.5">
-                                    <span className="text-[8px] font-black text-emerald-600 dark:text-emerald-400 tracking-widest uppercase italic block">GARANTİLİ EV SAHİBİ ÖDEMESİ</span>
-                                    <span className="text-base font-black text-emerald-600 dark:text-emerald-400">{landlordFintechResult.netPayout}</span>
+                                    <span className="text-[8px] font-black text-success dark:text-success tracking-widest uppercase italic block">GARANTİLİ EV SAHİBİ ÖDEMESİ</span>
+                                    <span className="text-base font-black text-success dark:text-success">{landlordFintechResult.netPayout}</span>
                                   </div>
-                                  <Badge className="bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black italic text-[9px] py-1">LEASECARE+ AKTİF</Badge>
+                                  <Badge className="bg-success/10 border-success/20 text-success dark:text-success font-black italic text-[9px] py-1">LEASECARE+ AKTİF</Badge>
                                 </div>
                               </m.div>
                             )}
@@ -1112,7 +1112,7 @@ export default function Explore() {
                             <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase italic">
                               {perspective === "agent" ? "OPERATIONAL COMPLIANCE" : perspective === "landlord" ? "MÜLK VE DOLULUK TAKİBİ" : "DİJİTAL REZERVASYON REHBERİ"}
                             </span>
-                            <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 font-black italic text-[9px]">SİMÜLATÖR</Badge>
+                            <Badge className="bg-success/10 text-success dark:text-success border-success/20 font-black italic text-[9px]">SİMÜLATÖR</Badge>
                           </div>
 
                           <div className="space-y-4">
@@ -1132,7 +1132,7 @@ export default function Explore() {
                             <div className="space-y-2">
                               <div className="flex justify-between text-[10px] font-black tracking-widest text-muted-foreground uppercase italic">
                                 <span>REZERVASYON SÜRESİ</span>
-                                <span className="text-emerald-600 dark:text-emerald-400 font-black">{stayNights} Gece</span>
+                                <span className="text-success dark:text-success font-black">{stayNights} Gece</span>
                               </div>
                                <input 
                                 type="range" 
@@ -1141,7 +1141,7 @@ export default function Explore() {
                                 max="30" 
                                 value={stayNights}
                                 onChange={(e) => { setStayNights(Number(e.target.value)); setRiskResult(null); setGuestBookingResult(null); setLandlordBookingResult(null); }}
-                                className="w-full h-1 bg-muted dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-emerald-600 dark:accent-emerald-500"
+                                className="w-full h-1 bg-muted dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-blue-600 dark:accent-blue-500"
                               />
                             </div>
                           </div>
@@ -1149,7 +1149,7 @@ export default function Explore() {
                           <Button 
                             onClick={handleRiskScreening}
                             disabled={isRiskScreening}
-                            className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase text-xs tracking-widest italic py-6 rounded-2xl shadow-lg shadow-emerald-500/10 cursor-pointer"
+                            className="w-full bg-blue-600 hover:bg-success text-white font-black uppercase text-xs tracking-widest italic py-6 rounded-2xl shadow-lg shadow-blue-500/10 cursor-pointer"
                           >
                             {isRiskScreening ? (
                               <div className="flex items-center gap-2">
@@ -1180,13 +1180,13 @@ export default function Explore() {
                                   <div>
                                     <span className="text-[9px] font-black text-muted-foreground tracking-widest uppercase italic block">FRAUD / RİSK SKORU</span>
                                     <span className={`text-lg font-black tracking-tight block mt-1 ${
-                                      riskResult.riskScore > 50 ? "text-rose-500" : "text-emerald-600 dark:text-emerald-400"
+                                      riskResult.riskScore > 50 ? "text-rose-500" : "text-success dark:text-success"
                                     }`}>%{riskResult.riskScore}</span>
                                   </div>
                                   <Badge className={
                                     riskResult.riskScore > 50 
                                       ? "bg-rose-500/10 border-rose-500/20 text-rose-500 font-black italic text-[9px]"
-                                      : "bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black italic text-[9px]"
+                                      : "bg-success/10 border-success/20 text-success dark:text-success font-black italic text-[9px]"
                                   }>
                                     {riskResult.riskScore > 50 ? "ŞÜPHELİ REZERVASYON" : "GÜVENLİ TALEBİ"}
                                   </Badge>
@@ -1201,7 +1201,7 @@ export default function Explore() {
                                         className={`px-2 py-1 rounded-lg text-[8px] font-bold border ${
                                           riskResult.riskScore > 50 
                                             ? "bg-rose-500/5 border-rose-500/20 text-rose-600 dark:text-rose-300"
-                                            : "bg-card dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground dark:text-slate-300"
+                                            : "bg-card dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground dark:text-muted-foreground"
                                         }`}
                                       >
                                         {flag}
@@ -1217,7 +1217,7 @@ export default function Explore() {
                                       <div key={idx} className="flex justify-between items-center bg-card dark:bg-white/2 p-2 rounded-xl border border-border dark:border-white/2 text-[9px]">
                                         <div className="flex items-center gap-2">
                                           <div className={`w-1.5 h-1.5 rounded-full ${
-                                            t.priority === "HIGH" ? "bg-rose-500" : t.priority === "MEDIUM" ? "bg-amber-500" : "bg-blue-500"
+                                            t.priority === "HIGH" ? "bg-rose-500" : t.priority === "MEDIUM" ? "bg-amber-500" : "bg-brand/100"
                                           }`} />
                                           <span className="text-foreground dark:text-white font-bold">{t.title}</span>
                                         </div>
@@ -1239,11 +1239,11 @@ export default function Explore() {
                                 <div className="flex justify-between items-center border-b border-border dark:border-white/5 pb-3">
                                   <div>
                                     <span className="text-[9px] font-black text-muted-foreground tracking-widest uppercase italic block">REZERVASYON DURUMU</span>
-                                    <span className="text-sm font-black text-emerald-600 dark:text-emerald-400 tracking-tight block mt-1">
+                                    <span className="text-sm font-black text-success dark:text-success tracking-tight block mt-1">
                                       {guestBookingResult.bookingStatus}
                                     </span>
                                   </div>
-                                  <Badge className="bg-blue-500/10 border-blue-500/20 text-blue-600 dark:text-blue-400 font-black italic text-[9px] flex items-center gap-1">
+                                  <Badge className="bg-brand/100/10 border-blue-500/20 text-brand dark:text-brand font-black italic text-[9px] flex items-center gap-1">
                                     <KeyRound className="w-3.5 h-3.5 animate-bounce" /> ANAHTAR AKTİF
                                   </Badge>
                                 </div>
@@ -1262,7 +1262,7 @@ export default function Explore() {
                                 <div className="border-t border-border dark:border-white/5 pt-3 space-y-2">
                                   <div className="flex justify-between items-center text-[9px] font-black text-muted-foreground tracking-widest uppercase italic">
                                     <span>AKILLI EV ISISI (IoT)</span>
-                                    <span className="text-emerald-600 dark:text-emerald-400 font-black">{guestBookingResult.iotKlimaTemp} °C (Optimum)</span>
+                                    <span className="text-success dark:text-success font-black">{guestBookingResult.iotKlimaTemp} °C (Optimum)</span>
                                   </div>
                                   <div className="flex items-center gap-3">
                                     <button 
@@ -1272,7 +1272,7 @@ export default function Explore() {
                                       -
                                     </button>
                                     <div className="flex-1 h-1 bg-muted dark:bg-white/10 rounded-full overflow-hidden">
-                                      <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${(guestBookingResult.iotKlimaTemp / 35) * 100}%` }} />
+                                      <div className="h-full bg-success rounded-full" style={{ width: `${(guestBookingResult.iotKlimaTemp / 35) * 100}%` }} />
                                     </div>
                                     <button 
                                       onClick={() => setGuestBookingResult(prev => prev ? { ...prev, iotKlimaTemp: prev.iotKlimaTemp + 1 } : null)}
@@ -1299,7 +1299,7 @@ export default function Explore() {
                                       {landlordBookingResult.occupancyStatus}
                                     </span>
                                   </div>
-                                  <Badge className="bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black italic text-[9px] flex items-center gap-1">
+                                  <Badge className="bg-success/10 border-success/20 text-success dark:text-success font-black italic text-[9px] flex items-center gap-1">
                                     <UserCheck className="w-3.5 h-3.5" /> KİRACI ONAYLI
                                   </Badge>
                                 </div>
@@ -1308,19 +1308,19 @@ export default function Explore() {
                                   <div>
                                     <span className="text-[8px] font-black text-muted-foreground tracking-widest uppercase italic block">KİRACI PROFİL DOĞRULAMASI</span>
                                     <div className="text-xs font-bold text-foreground mt-0.5 flex items-center gap-1.5">
-                                      <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                                      <CheckCircle2 className="w-4 h-4 text-success" />
                                       Kimlik, Adli Sicil ve Finansal Skor 100% Doğrulandı
                                     </div>
                                   </div>
                                   <div>
                                     <span className="text-[8px] font-black text-muted-foreground tracking-widest uppercase italic block">OPERASYONEL TEMİZLİK BİLGİSİ</span>
-                                    <span className="text-xs font-medium text-slate-700 dark:text-slate-300 block mt-0.5">{landlordBookingResult.nextCleaningSchedule}</span>
+                                    <span className="text-xs font-medium text-muted-foreground dark:text-muted-foreground block mt-0.5">{landlordBookingResult.nextCleaningSchedule}</span>
                                   </div>
                                 </div>
 
                                 <div className="bg-violet-500/5 border border-violet-500/10 p-3.5 rounded-2xl">
                                   <span className="text-[8px] font-black text-violet-600 dark:text-violet-400 tracking-widest uppercase italic block">HAK EDİŞ TEMİNATI (LEASECARE+)</span>
-                                  <span className="text-xs font-black text-slate-800 dark:text-white block mt-1">{landlordBookingResult.guaranteedRentPayout}</span>
+                                  <span className="text-xs font-black text-foreground dark:text-white block mt-1">{landlordBookingResult.guaranteedRentPayout}</span>
                                 </div>
                               </m.div>
                             )}
@@ -1362,7 +1362,7 @@ export default function Explore() {
                                       className={`px-3 py-3 rounded-xl text-[10px] font-black uppercase tracking-wider italic border transition-all cursor-pointer ${
                                         reportType === r.id 
                                           ? "bg-amber-500/10 border-amber-500/50 text-amber-600 dark:text-amber-400"
-                                          : "bg-muted dark:bg-white/5 border border-border dark:border-white/10 text-muted-foreground dark:text-slate-400 hover:bg-muted/80 dark:hover:bg-white/10"
+                                          : "bg-muted dark:bg-white/5 border border-border dark:border-white/10 text-muted-foreground dark:text-muted-foreground hover:bg-muted/80 dark:hover:bg-white/10"
                                       }`}
                                     >
                                       {r.label}
@@ -1413,12 +1413,12 @@ export default function Explore() {
                                     <span className="text-[9px] font-black text-muted-foreground tracking-widest uppercase italic block">EXECUTION ID</span>
                                     <span className="text-xs font-mono font-bold text-foreground block mt-1">{reportResult.reportId}</span>
                                   </div>
-                                  <Badge className="bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black italic text-[9px]">
+                                  <Badge className="bg-success/10 border-success/20 text-success dark:text-success font-black italic text-[9px]">
                                     {reportResult.status}
                                   </Badge>
                                 </div>
 
-                                <div className="space-y-1.5 font-mono text-[9px] text-foreground dark:text-slate-300">
+                                <div className="space-y-1.5 font-mono text-[9px] text-foreground dark:text-muted-foreground">
                                   <span className="text-muted-foreground uppercase tracking-widest block font-sans font-black">MUTATION BLOCK HASH:</span>
                                   <span className="break-all block leading-normal bg-card dark:bg-white/2 p-2.5 rounded-xl border border-border dark:border-white/5 text-[8.5px]">
                                     {reportResult.hash}
@@ -1427,7 +1427,7 @@ export default function Explore() {
 
                                 <div className="flex items-center justify-between bg-card dark:bg-white/2 p-3 rounded-2xl border border-border dark:border-white/5 mt-2">
                                   <div className="flex items-center gap-2 text-xs font-bold text-foreground dark:text-white">
-                                    <Check className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+                                    <Check className="w-4 h-4 text-success dark:text-success" />
                                     <span>Rapor PDF Yayına Hazır</span>
                                   </div>
                                   <Button size="sm" variant="ghost" className="h-8 text-amber-600 dark:text-amber-400 hover:text-amber-500 p-0 text-[10px] font-black uppercase tracking-widest italic flex items-center gap-1.5 cursor-pointer">
@@ -1449,7 +1449,7 @@ export default function Explore() {
                                     <span className="text-[9px] font-black text-muted-foreground tracking-widest uppercase italic block">VERİ AUDIT KODU</span>
                                     <span className="text-xs font-mono font-bold text-foreground block mt-0.5">{guestReportResult.auditId}</span>
                                   </div>
-                                  <Badge className="bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black italic text-[9px] flex items-center gap-1">
+                                  <Badge className="bg-success/10 border-success/20 text-success dark:text-success font-black italic text-[9px] flex items-center gap-1">
                                     <ShieldCheck className="w-3.5 h-3.5" /> %100 UYUMLU
                                   </Badge>
                                 </div>
@@ -1459,7 +1459,7 @@ export default function Explore() {
                                   <div className="grid grid-cols-2 gap-1.5">
                                     {guestReportResult.dataLogged.map((data, idx) => (
                                       <div key={idx} className="bg-card p-2 rounded-xl border border-border text-[9px] font-bold text-foreground flex items-center gap-1.5">
-                                        <Check className="w-3.5 h-3.5 text-emerald-500" />
+                                        <Check className="w-3.5 h-3.5 text-success" />
                                         {data}
                                       </div>
                                     ))}
@@ -1473,7 +1473,7 @@ export default function Explore() {
                                   </div>
                                   <div className="flex justify-between">
                                     <span>Sıfır Bilgi Şifreleme (ZKP):</span>
-                                    <span className="font-bold text-emerald-600 dark:text-emerald-400">AKTİF (AES-256)</span>
+                                    <span className="font-bold text-success dark:text-success">AKTİF (AES-256)</span>
                                   </div>
                                 </div>
                               </m.div>
@@ -1491,7 +1491,7 @@ export default function Explore() {
                                     <span className="text-[9px] font-black text-muted-foreground tracking-widest uppercase italic block">FİNANSAL DÖNEM</span>
                                     <span className="text-xs font-bold text-foreground block mt-0.5">{landlordReportResult.statementPeriod}</span>
                                   </div>
-                                  <Badge className="bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black italic text-[9px] flex items-center gap-1">
+                                  <Badge className="bg-success/10 border-success/20 text-success dark:text-success font-black italic text-[9px] flex items-center gap-1">
                                     <ShieldCheck className="w-3.5 h-3.5" /> DEFTER ONAYLI
                                   </Badge>
                                 </div>
@@ -1499,7 +1499,7 @@ export default function Explore() {
                                 <div className="space-y-3">
                                   <div>
                                     <span className="text-[8px] font-black text-muted-foreground tracking-widest uppercase italic block">YILLIK NET PORTFÖY VERİMLİLİĞİ</span>
-                                    <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 block mt-0.5">{landlordReportResult.portfolioYield}</span>
+                                    <span className="text-xs font-black text-success dark:text-success block mt-0.5">{landlordReportResult.portfolioYield}</span>
                                   </div>
                                   <div>
                                     <span className="text-[8px] font-black text-muted-foreground tracking-widest uppercase italic block">UYGULANAN STOPAJ / VERGİ MUAFİYETİ</span>
@@ -1509,7 +1509,7 @@ export default function Explore() {
 
                                 <div className="flex items-center justify-between bg-card dark:bg-white/2 p-3 rounded-2xl border border-border dark:border-white/5 mt-2">
                                   <div className="flex items-center gap-2 text-xs font-bold text-foreground dark:text-white">
-                                    <Check className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+                                    <Check className="w-4 h-4 text-success dark:text-success" />
                                     <span>Stopaj Beyan Belgesi Hazır</span>
                                   </div>
                                   <Button size="sm" variant="ghost" className="h-8 text-amber-600 dark:text-amber-400 hover:text-amber-500 p-0 text-[10px] font-black uppercase tracking-widest italic flex items-center gap-1.5 cursor-pointer">
@@ -1538,7 +1538,7 @@ export default function Explore() {
           <div className="container mx-auto px-6">
             <div className="text-center mb-16 space-y-4">
               <h2 className="text-4xl lg:text-5xl font-black text-foreground italic uppercase tracking-tight">
-                Tüm <span className="bg-gradient-to-r from-blue-600 dark:from-blue-400 to-indigo-600 dark:to-indigo-400 bg-clip-text text-transparent">PLATFORM ÖZELLİKLERİ</span>
+                Tüm <span className="bg-gradient-to-r from-brand dark:from-brand to-info dark:to-info bg-clip-text text-transparent">PLATFORM ÖZELLİKLERİ</span>
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto font-medium">Uygulamamızın kurumsal standartlarda sunduğu entegre ve üst düzey tüm araçlar.</p>
             </div>
@@ -1568,7 +1568,7 @@ export default function Explore() {
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center shrink-0 group-hover:bg-primary/10 transition-colors">
-                      <f.icon className="w-5 h-5 text-blue-500 dark:text-blue-400 group-hover:scale-110 transition-transform" />
+                      <f.icon className="w-5 h-5 text-brand dark:text-brand group-hover:scale-110 transition-transform" />
                     </div>
                     <span className="text-xs font-black uppercase italic tracking-wider text-foreground">{f.name}</span>
                   </div>
@@ -1582,7 +1582,7 @@ export default function Explore() {
         {/* ══════════════ DYNAMIC CALL TO ACTION (CTA) ══════════════ */}
         <section className="py-28 relative z-10">
           <div className="container mx-auto px-6">
-            <div className="relative max-w-5xl mx-auto rounded-5xl overflow-hidden p-1 bg-gradient-to-r from-blue-500 via-violet-500 to-indigo-500">
+            <div className="relative max-w-5xl mx-auto rounded-5xl overflow-hidden p-1 bg-gradient-to-r from-blue-500 via-violet-500 to-info">
               <div className="bg-card dark:bg-[#0b0c11] rounded-[calc(2.5rem-1px)] p-12 md:p-16 text-center space-y-8 relative overflow-hidden">
                 <div className="absolute inset-0 bg-radial from-violet-500/10 to-transparent blur-2xl pointer-events-none" />
                 
@@ -1596,9 +1596,9 @@ export default function Explore() {
                 
                 <div className="flex flex-wrap justify-center gap-4 pt-4">
                   <Link to="/auth/signup">
-                    <Button size="lg" className="bg-foreground text-background dark:bg-white dark:text-black hover:bg-foreground/90 dark:hover:bg-slate-100 px-8 h-14 font-black uppercase text-xs tracking-widest italic rounded-2xl shadow-2xl transition-transform hover:-translate-y-0.5 cursor-pointer">
+                    <Button size="lg" className="bg-foreground text-background dark:bg-card dark:text-black hover:bg-foreground/90 dark:hover:bg-muted px-8 h-14 font-black uppercase text-xs tracking-widest italic rounded-2xl shadow-2xl transition-transform hover:-translate-y-0.5 cursor-pointer">
                       ÜCRETSİZ BAŞLA
-                      <ArrowRight className="ml-2 w-4 h-4 text-background dark:text-slate-900" />
+                      <ArrowRight className="ml-2 w-4 h-4 text-background dark:text-foreground" />
                     </Button>
                   </Link>
                 </div>

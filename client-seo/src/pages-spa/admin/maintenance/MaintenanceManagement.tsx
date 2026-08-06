@@ -87,30 +87,30 @@ const MaintenanceManagement = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-orange-400">
- {t("admin_maintenance_title","Maintenance & Repairs")}
+ {t("admin_maintenance_title", "Bakım ve Onarım")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_maintenance_subtitle","Track work orders, property damage, and predictive maintenance schedules")}
+ {t("admin_maintenance_subtitle", "İş emirlerini, maddi hasarı ve önleyici bakım programlarını takip edin")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export Report")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
  <Button className="bg-red-600 hover:bg-red-700 text-foreground shadow-lg shadow-red-500/20">
  <Plus className="w-4 h-4 mr-2" />
- {t("admin_maintenance_create","Create Work Order")}
+ {t("admin_maintenance_create", "İş Emri Oluştur")}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_maintenance_create","Create Work Order")}</DialogTitle>
+ <DialogTitle>{t("admin_maintenance_create", "İş Emri Oluştur")}</DialogTitle>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="title">{t("admin_auto_issue_title", "Issue Title")}</Label>
+ <Label htmlFor="title">{t("admin_auto_issue_title", "Talep Başlığı")}</Label>
  <Input 
  id="title" 
  className="bg-card border-border" 
@@ -120,7 +120,7 @@ const MaintenanceManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="description">{t("admin_auto_description", "Description")}</Label>
+ <Label htmlFor="description">{t("admin_auto_description", "Tanım")}</Label>
  <Input 
  id="description" 
  className="bg-card border-border" 
@@ -131,28 +131,28 @@ const MaintenanceManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label htmlFor="priority">{t("admin_auto_priority", "Priority")}</Label>
+ <Label htmlFor="priority">{t("admin_auto_priority", "Öncelik")}</Label>
  <Input 
  id="priority" 
  className="bg-card border-border" 
  value={newOrder.priority}
  onChange={e => setNewOrder({...newOrder, priority: e.target.value})}
- placeholder={t("admin_auto_e_g_high_medium", "e.g. HIGH, MEDIUM")}
+ placeholder={t("admin_auto_e_g_high_medium", "örneğin YÜKSEK, ORTA")}
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="category">{t("admin_auto_category", "Category")}</Label>
+ <Label htmlFor="category">{t("admin_auto_category", "Kategori")}</Label>
  <Input 
  id="category" 
  className="bg-card border-border" 
  value={newOrder.category}
  onChange={e => setNewOrder({...newOrder, category: e.target.value})}
- placeholder={t("admin_auto_e_g_plumbing", "e.g. PLUMBING")}
+ placeholder={t("admin_auto_e_g_plumbing", "örneğin TESİSAT")}
  />
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsAddModalOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button type="submit" className="bg-red-600 hover:bg-red-700" disabled={createMutation.isPending}>
  {createMutation.isPending ?"Creating..." :"Save Order"}
  </Button>
@@ -163,11 +163,11 @@ const MaintenanceManagement = () => {
  <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
  <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_maintenance_edit","Edit Work Order")}</DialogTitle>
+ <DialogTitle>{t("admin_maintenance_edit", "İş Emrini Düzenle")}</DialogTitle>
  </DialogHeader>
  <form onSubmit={handleEditSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label htmlFor="edit-title">{t("admin_auto_issue_title", "Issue Title")}</Label>
+ <Label htmlFor="edit-title">{t("admin_auto_issue_title", "Talep Başlığı")}</Label>
  <Input 
  id="edit-title" 
  className="bg-card border-border" 
@@ -177,7 +177,7 @@ const MaintenanceManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="edit-description">{t("admin_auto_description", "Description")}</Label>
+ <Label htmlFor="edit-description">{t("admin_auto_description", "Tanım")}</Label>
  <Input 
  id="edit-description" 
  className="bg-card border-border" 
@@ -188,28 +188,28 @@ const MaintenanceManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label htmlFor="edit-priority">{t("admin_auto_priority", "Priority")}</Label>
+ <Label htmlFor="edit-priority">{t("admin_auto_priority", "Öncelik")}</Label>
  <Input 
  id="edit-priority" 
  className="bg-card border-border" 
  value={editingOrder?.priority || ''}
  onChange={e => setEditingOrder({...editingOrder, priority: e.target.value})}
- placeholder={t("admin_auto_e_g_high_medium", "e.g. HIGH, MEDIUM")}
+ placeholder={t("admin_auto_e_g_high_medium", "örneğin YÜKSEK, ORTA")}
  />
  </div>
  <div className="space-y-2">
- <Label htmlFor="edit-category">{t("admin_auto_category", "Category")}</Label>
+ <Label htmlFor="edit-category">{t("admin_auto_category", "Kategori")}</Label>
  <Input 
  id="edit-category" 
  className="bg-card border-border" 
  value={editingOrder?.category || ''}
  onChange={e => setEditingOrder({...editingOrder, category: e.target.value})}
- placeholder={t("admin_auto_e_g_plumbing", "e.g. PLUMBING")}
+ placeholder={t("admin_auto_e_g_plumbing", "örneğin TESİSAT")}
  />
  </div>
  </div>
  <div className="pt-4 flex justify-end gap-2">
- <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button type="button" variant="ghost" onClick={() => setIsEditModalOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button type="submit" className="bg-red-600 hover:bg-red-700" disabled={updateMutation.isPending}>
  {updateMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -223,71 +223,71 @@ const MaintenanceManagement = () => {
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_open_tickets", "Open Tickets")}</CardTitle>
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_auto_open_tickets", "Açık Biletler")}</CardTitle>
  <Wrench className="w-4 h-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">312</div>
- <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_pending_dispatch", "Pending dispatch")}</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_auto_pending_dispatch", "Gönderim bekleniyor")}</p>
  </CardContent>
  </Card>
  
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("client.src.in_progress", "In Progress")}</CardTitle>
- <AlertTriangle className="w-4 h-4 text-amber-400" />
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("common.in_progress", "Devam ediyor")}</CardTitle>
+ <AlertTriangle className="w-4 h-4 text-warning" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">84</div>
- <p className="text-xs text-amber-400 mt-1">{t("admin_auto_actively_being_worked", "Actively being worked")}</p>
+ <p className="text-xs text-warning mt-1">{t("admin_auto_actively_being_worked", "Aktif olarak çalışılıyor")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_auto_emergency", "Emergency")}</CardTitle>
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_auto_emergency", "Acil durum")}</CardTitle>
  <ShieldAlert className="w-4 h-4 text-red-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">12</div>
- <p className="text-xs text-red-400 mt-1">{t("admin_auto_requires_immediate_action", "Requires immediate action")}</p>
+ <p className="text-xs text-red-400 mt-1">{t("admin_auto_requires_immediate_action", "Acil eylem gerektirir")}</p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_ai_resolved", "Resolved")}</CardTitle>
- <CheckCircle className="w-4 h-4 text-green-400" />
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_ai_resolved", "Çözümlendi")}</CardTitle>
+ <CheckCircle className="w-4 h-4 text-blue-400" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">1,402</div>
- <p className="text-xs text-muted-foreground mt-1">{t("admin_financial_this_month", "This month")}</p>
+ <p className="text-xs text-muted-foreground mt-1">{t("admin_financial_this_month", "Bu Ay")}</p>
  </CardContent>
  </Card>
  </div>
 
  <Card className="bg-card border-border backdrop-blur-sm">
  <CardHeader>
- <CardTitle className="text-foreground">{t("admin_maintenance_list","Work Orders Board")}</CardTitle>
+ <CardTitle className="text-foreground">{t("admin_maintenance_list", "İş Emirleri Panosu")}</CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
  <div className="flex items-center justify-center py-20 text-muted-foreground">
- {t("common.loading","Loading maintenance registry...")}
+ {t("common.loading", "Yükleniyor")}
  </div>
  ) : workOrders.length === 0 ? (
  <div className="flex items-center justify-center py-20 text-muted-foreground">
- {t("admin_maintenance_empty", "No work orders found.")}</div>
+ {t("admin_maintenance_empty", "İŞ Emri Bulunamadı.")}</div>
  ) : (
  <div className="rounded-xl border border-border">
  <Table>
  <TableHeader>
  <TableRow className="border-border hover:bg-transparent">
- <TableHead className="text-slate-300">{t("admin_auto_title", "Title")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_ai_priority", "Priority")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_auto_category", "Category")}</TableHead>
- <TableHead className="text-slate-300">{t("admin_ai_status", "Status")}</TableHead>
- <TableHead className="text-slate-300 text-right">{t("admin_ai_actions", "Actions")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_auto_title", "Otomatik")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_ai_priority", "Öncelik Derecesi")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_auto_category", "Kategori")}</TableHead>
+ <TableHead className="text-muted-foreground">{t("admin_ai_status", "Durum")}</TableHead>
+ <TableHead className="text-muted-foreground text-right">{t("admin_ai_actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -306,7 +306,7 @@ const MaintenanceManagement = () => {
  <TableCell className="text-right">
  <Button 
  variant="ghost" 
- size="icon" 
+ size="icon" aria-label={t("common.edit")} 
  className="text-muted-foreground hover:text-foreground"
  onClick={() => openEditModal(w)}
  >
@@ -314,7 +314,7 @@ const MaintenanceManagement = () => {
  </Button>
  <Button 
  variant="ghost" 
- size="icon" 
+ size="icon" aria-label={t("common.delete")} 
  className="text-red-400 hover:text-red-300 hover:bg-red-400/10"
  onClick={() => deleteMutation.mutate(w.id)}
  disabled={deleteMutation.isPending}

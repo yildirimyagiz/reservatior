@@ -43,7 +43,7 @@ const mockInvestors: Investor[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-green-500/20 text-green-400",
+  ACTIVE: "bg-blue-500/20 text-blue-400",
   INACTIVE: "bg-gray-500/20 text-gray-400",
   PENDING: "bg-yellow-500/20 text-yellow-400",
 };
@@ -109,7 +109,7 @@ export default function AdminInvestorsPage() {
                 <Briefcase className="w-5 h-5 text-muted-foreground" />
               </div>
               <div className="text-2xl font-bold text-foreground">${(totalPortfolio / 1000000).toFixed(1)}{t("client.src.m", "M")}</div>
-              <div className="text-green-400 text-sm flex items-center gap-1 mt-1">
+              <div className="text-blue-400 text-sm flex items-center gap-1 mt-1">
                 <ArrowUpRight className="w-4 h-4" />+{(totalPortfolio / totalInvested - 1) * 100}%
               </div>
             </CardContent>
@@ -118,7 +118,7 @@ export default function AdminInvestorsPage() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-muted-foreground text-sm">{t("admin_investors_total_invested")}</span>
-                <DollarSign className="w-5 h-5 text-green-400" />
+                <DollarSign className="w-5 h-5 text-blue-400" />
               </div>
               <div className="text-2xl font-bold text-foreground">${(totalInvested / 1000000).toFixed(1)}{t("client.src.m", "M")}</div>
             </CardContent>
@@ -130,7 +130,7 @@ export default function AdminInvestorsPage() {
                 <PieChart className="w-5 h-5 text-muted-foreground" />
               </div>
               <div className="text-2xl font-bold text-foreground">{avgReturn.toFixed(0)}%</div>
-              <div className="text-green-400 text-sm flex items-center gap-1 mt-1">
+              <div className="text-blue-400 text-sm flex items-center gap-1 mt-1">
                 <ArrowUpRight className="w-4 h-4" />+5.2% {t("admin_investors_vs_last_quarter")}
               </div>
             </CardContent>
@@ -189,7 +189,7 @@ export default function AdminInvestorsPage() {
                         <div className="text-xs text-muted-foreground">{t("admin_investors_portfolio")}</div>
                       </div>
                       <div className="text-right">
-                        <div className={`font-medium flex items-center gap-1 ${investor.returnRate >= 0 ? "text-green-400" : "text-red-400"}`}>
+                        <div className={`font-medium flex items-center gap-1 ${investor.returnRate >= 0 ? "text-blue-400" : "text-red-400"}`}>
                           {investor.returnRate >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                           {investor.returnRate}%
                         </div>
@@ -197,8 +197,8 @@ export default function AdminInvestorsPage() {
                       </div>
                       <Badge className={STATUS_COLORS[investor.status]}>{t("admin_status_" + String(investor.status).toLowerCase())}</Badge>
                       <div className="flex gap-2">
-                        <Button onClick={() => { setEditingItem(investor); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                        <Button onClick={() => { setDeletingItem(investor); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setEditingItem(investor); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                        <Button onClick={() => { setDeletingItem(investor); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                       </div>
                     </div>
                   </div>
@@ -235,51 +235,51 @@ function CreateInvestorDialog({ open, onOpenChange, onSubmit }: { open: boolean;
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_investors_add_investor", "Add Investor")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_investor_to_the_system", "Add a new investor to the system.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_investors_add_investor", "Yatırımcı Ekle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_investor_to_the_system", "Sisteme yeni bir yatırımcı ekleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_name", "Sistem Adı")}</Label>
             <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_email", "E-posta")}</Label>
             <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_total_invested", "Total Invested ($)")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_total_invested", "Toplam Yatırım ($)")}</Label>
             <Input type="number" value={totalInvested} onChange={e => setTotalInvested(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_portfolio_value", "Portfolio Value ($)")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_portfolio_value", "Portföy Değeri ($)")}</Label>
             <Input type="number" value={portfolioValue} onChange={e => setPortfolioValue(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_return_rate", "Return Rate (%)")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_return_rate", "Getiri Oranı (%)")}</Label>
             <Input type="number" value={returnRate} onChange={e => setReturnRate(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Investor["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
-                <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
-                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
+                <SelectItem value="ACTIVE">{t("admin_ai_active", "Aktif")}</SelectItem>
+                <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Pasif")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Bekliyor")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("client.src.join_date", "Join Date")}</Label>
+            <Label className="text-right text-foreground">{t("client.src.join_date", "Katılma Tarihi")}</Label>
             <Input type="date" value={joinDate} onChange={e => setJoinDate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ name, email, totalInvested, portfolioValue, returnRate, status, joinDate })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ name, email, totalInvested, portfolioValue, returnRate, status, joinDate })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -299,51 +299,51 @@ function EditInvestorDialog({ open, onOpenChange, item, onSubmit }: { open: bool
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_investor", "Edit Investor")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_investor_details", "Update investor details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_investor", "Yatırımcıyı Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_investor_details", "Yatırımcı detaylarını güncelleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_name", "Name")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_name", "Sistem Adı")}</Label>
             <Input value={name} onChange={e => setName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_email", "Email")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_email", "E-posta")}</Label>
             <Input value={email} onChange={e => setEmail(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_total_invested", "Total Invested ($)")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_total_invested", "Toplam Yatırım ($)")}</Label>
             <Input type="number" value={totalInvested} onChange={e => setTotalInvested(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_portfolio_value", "Portfolio Value ($)")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_portfolio_value", "Portföy Değeri ($)")}</Label>
             <Input type="number" value={portfolioValue} onChange={e => setPortfolioValue(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_auto_return_rate", "Return Rate (%)")}</Label>
+            <Label className="text-right text-foreground">{t("admin_auto_return_rate", "Getiri Oranı (%)")}</Label>
             <Input type="number" value={returnRate} onChange={e => setReturnRate(Number(e.target.value))} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as Investor["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ACTIVE">{t("admin_ai_active", "Active")}</SelectItem>
-                <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Inactive")}</SelectItem>
-                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
+                <SelectItem value="ACTIVE">{t("admin_ai_active", "Aktif")}</SelectItem>
+                <SelectItem value="INACTIVE">{t("admin_ai_inactive", "Pasif")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Bekliyor")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("client.src.join_date", "Join Date")}</Label>
+            <Label className="text-right text-foreground">{t("client.src.join_date", "Katılma Tarihi")}</Label>
             <Input type="date" value={joinDate} onChange={e => setJoinDate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ id: item.id, name, email, totalInvested, portfolioValue, returnRate, status, joinDate })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ id: item.id, name, email, totalInvested, portfolioValue, returnRate, status, joinDate })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -356,12 +356,12 @@ function DeleteInvestorDialog({ open, onOpenChange, item, onConfirm }: { open: b
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_investor", "Delete Investor")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_investor", "Yatırımcıyı Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete", "Silmek istediğinizden emin misiniz:")}{item.name}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

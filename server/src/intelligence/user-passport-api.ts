@@ -107,7 +107,7 @@ export class UserPassportAPI {
           analysisStatus: 'COMPLETED'
         },
         investmentInfo: userInvestmentProfile ? {
-          investmentStrategy: userInvestmentProfile.investmentStrategy || undefined,
+          investmentStrategy: (userInvestmentProfile as any).investmentStrategy || undefined,
           portfolioSize: userInvestmentProfile.portfolioValue || undefined,
           investmentCount: 0,
           totalROI: userInvestmentProfile.portfolioROI || undefined,

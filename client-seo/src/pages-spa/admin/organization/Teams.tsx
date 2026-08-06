@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Badge } from"@/components/ui/badge";
 import { Button } from"@/components/ui/button";
@@ -290,7 +290,7 @@ export default function Teams() {
  <Users className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{activeTeams}</div>
+ <div className="text-2xl font-bold text-blue-600">{activeTeams}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_currently_active")}</p>
  </CardContent>
  </Card>
@@ -301,7 +301,7 @@ export default function Teams() {
  <UserPlus className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{totalMembers}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{totalMembers}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_across_all_teams")}</p>
  </CardContent>
  </Card>
@@ -312,7 +312,7 @@ export default function Teams() {
  <Settings className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{avgTeamSize}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{avgTeamSize}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_members_per_team")}</p>
  </CardContent>
  </Card>
@@ -550,7 +550,7 @@ export default function Teams() {
  {team.members.length}
  {team.maxMembers && `/${team.maxMembers}`}
  </Badge>
- <Button variant="ghost" size="sm" onClick={() => openMemberDialog(team)}>
+ <Button variant="ghost" size="sm" onClick={() => openMemberDialog(team)} aria-label={t("common.add_member")}>
  <UserPlus className="h-3 w-3" />
  </Button>
  </div>
@@ -566,7 +566,7 @@ export default function Teams() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -625,7 +625,7 @@ export default function Teams() {
  {new Date(member.joinedAt).toLocaleDateString()}
  </TableCell>
  <TableCell className="text-right">
- <Button variant="ghost" size="sm" onClick={() => removeTeamMember(member.id)} className="text-red-600 hover:text-red-700">
+ <Button variant="ghost" size="sm" onClick={() => removeTeamMember(member.id)} className="text-red-600 hover:text-red-700" aria-label={t("common.remove_member")}>
  <UserMinus className="h-4 w-4" />
  </Button>
  </TableCell>

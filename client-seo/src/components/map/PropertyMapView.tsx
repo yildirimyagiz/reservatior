@@ -119,7 +119,7 @@ export default function PropertyMapView({
 
                   <div className="flex justify-between items-start mb-2">
                     <h4 className={cn("font-bold text-sm truncate flex-1 tracking-tight group-hover:translate-x-1 transition-transform", selectedProperty?.id === property.id ? "text-violet-400" : "text-white")}>{property.name}</h4>
-                    <Badge variant="outline" className={cn("text-[9px] font-black border-none px-2 h-5", property.listingStatus === "AVAILABLE" ? "bg-emerald-500/20 text-emerald-400" : "bg-slate-800 text-slate-400")}>
+                    <Badge variant="outline" className={cn("text-[9px] font-black border-none px-2 h-5", property.listingStatus === "AVAILABLE" ? "bg-blue-500/20 text-blue-400" : "bg-slate-800 text-slate-400")}>
                       {property.listingStatus}
                     </Badge>
                   </div>
@@ -140,7 +140,7 @@ export default function PropertyMapView({
                       ${parseInt(property.listingPrice?.toString() || "0").toLocaleString()}
                     </div>
                     <Button size="sm" variant="ghost" className="h-8 text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-white transition-colors">
-                      <Eye className="w-3.5 h-3.5 mr-1" />{t("client.src.view")}</Button>
+                      <Eye className="w-3.5 h-3.5 mr-1" />{t("common.view")}</Button>
                   </div>
                 </m.div>)}
             </div>

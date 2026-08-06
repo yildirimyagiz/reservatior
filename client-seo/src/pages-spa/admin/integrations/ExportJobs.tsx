@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import React, { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from"@/components/ui/table";
 import { Badge } from"@/components/ui/badge";
@@ -93,17 +93,17 @@ const EXPORT_TYPE_CONFIG = {
  USERS: {
  label: t("admin_integrations_users"),
  icon: Users,
- color:"bg-slate-100 text-slate-700"
+ color:"bg-muted text-muted-foreground"
  },
  PROPERTIES: {
  label: t("admin_integrations_properties"),
  icon: Building2,
- color:"bg-green-100 text-green-700"
+ color:"bg-blue-100 text-blue-700"
  },
  LISTINGS: {
  label: t("admin_integrations_listings"),
  icon: Home,
- color:"bg-slate-100 text-slate-700"
+ color:"bg-muted text-muted-foreground"
  },
  CONTRACTS: {
  label: t("admin_integrations_contracts"),
@@ -118,17 +118,17 @@ const EXPORT_TYPE_CONFIG = {
  REPORTS: {
  label: t("admin_integrations_reports"),
  icon: FileText,
- color:"bg-slate-100 text-slate-700"
+ color:"bg-muted text-muted-foreground"
  },
  AUDIT_LOGS: {
  label: t("admin_integrations_audit_logs"),
  icon: Settings,
- color:"bg-card text-slate-300"
+ color:"bg-card text-muted-foreground"
  },
  FINANCIAL_DATA: {
  label: t("admin_integrations_financial_data"),
  icon: Database,
- color:"bg-emerald-100 text-emerald-700"
+ color:"bg-blue-100 text-blue-700"
  },
  CUSTOM: {
  label: t("admin_integrations_custom"),
@@ -144,12 +144,12 @@ const STATUS_CONFIG = {
  },
  RUNNING: {
  label: t("admin_integrations_running"),
- color:"bg-slate-100 text-slate-700",
+ color:"bg-muted text-muted-foreground",
  icon: Play
  },
  COMPLETED: {
  label: t("admin_integrations_completed"),
- color:"bg-green-100 text-green-700",
+ color:"bg-blue-100 text-blue-700",
  icon: CheckCircle
  },
  FAILED: {
@@ -159,7 +159,7 @@ const STATUS_CONFIG = {
  },
  CANCELLED: {
  label: t("admin_integrations_cancelled"),
- color:"bg-card text-slate-300",
+ color:"bg-card text-muted-foreground",
  icon: XCircle
  },
  EXPIRED: {
@@ -345,7 +345,7 @@ export default function ExportJobs() {
  return config || {
  label: type,
  icon: Settings,
- color:"bg-card text-slate-300"
+ color:"bg-card text-muted-foreground"
  };
  };
  const getStatusConfig = (status: ExportStatus) => {
@@ -353,7 +353,7 @@ export default function ExportJobs() {
  return config || {
  label: status,
  icon: Clock,
- color:"bg-card text-slate-300"
+ color:"bg-card text-muted-foreground"
  };
  };
  return <PageShell title={t("admin_integrations_export_jobs")} description={t("admin_integrations_manage_data_export_jobs")}>
@@ -377,7 +377,7 @@ export default function ExportJobs() {
  <Play className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{runningJobs}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{runningJobs}</div>
  <p className="text-xs text-muted-foreground">{t("admin_integrations_currently_processing")}</p>
  </CardContent>
  </Card>
@@ -388,7 +388,7 @@ export default function ExportJobs() {
  <CheckCircle className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{completedJobs}</div>
+ <div className="text-2xl font-bold text-blue-600">{completedJobs}</div>
  <p className="text-xs text-muted-foreground">{t("admin_integrations_successfully_exported")}</p>
  </CardContent>
  </Card>
@@ -475,7 +475,7 @@ export default function ExportJobs() {
  <TypeIcon className="h-4 w-4" />
  <div>
  <div className="font-medium">{typeConfig.label}</div>
- <div className="text-sm text-muted-foreground">{job.parameters.format}</div>
+ <div className="text-sm text-muted-foreground">{job.parameters?.format}</div>
  </div>
  </div>
  </TableCell>
@@ -525,7 +525,7 @@ export default function ExportJobs() {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>

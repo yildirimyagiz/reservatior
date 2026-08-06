@@ -12,7 +12,7 @@ export function LoyaltyContent() {
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-[#060402] text-slate-50 selection:bg-amber-500 selection:text-white">
+    <div className="min-h-screen bg-[#060402] text-muted-foreground selection:bg-amber-500 selection:text-white">
       
       {/* ══════ HERO SECTION ══════ */}
       <section className="relative h-[80svh] w-full overflow-hidden flex items-center justify-center">
@@ -38,11 +38,11 @@ export function LoyaltyContent() {
             <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-tight">
               {t("client.loyalty.title", { defaultValue: "Unmatched Perks. Infinite Rewards." })}
             </h1>
-            <p className="text-lg md:text-2xl text-slate-300 mb-10 max-w-2xl font-light">
+            <p className="text-lg md:text-2xl text-muted-foreground mb-10 max-w-2xl font-light">
               {t("client.loyalty.subtitle", { defaultValue: "Earn Reservatior Coins with every booking. Redeem them for room upgrades, free spa vouchers, or local flights." })}
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="rounded-full px-8 h-14 bg-white text-black hover:bg-slate-200 font-bold transition-all hover:scale-105">
+              <Button size="lg" className="rounded-full px-8 h-14 bg-card text-black hover:bg-muted font-bold transition-all hover:scale-105">
                 {t("client.loyalty.cta_primary", { defaultValue: "My Membership" })}
               </Button>
               <Button size="lg" variant="outline" className="rounded-full px-8 h-14 border-white/20 hover:bg-white/10 font-bold backdrop-blur-md">
@@ -64,7 +64,7 @@ export function LoyaltyContent() {
               <div>
                 <Coins className="w-10 h-10 text-amber-400 mb-6 animate-spin" />
                 <h3 className="text-2xl font-bold mb-2">{t("client.loyalty.panel1_title", { defaultValue: "Reservatior Coins" })}</h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   {t("client.loyalty.panel1_desc", { defaultValue: "Use these coins to book stays, tours, or request luxury concierge services." })}
                 </p>
               </div>
@@ -77,11 +77,11 @@ export function LoyaltyContent() {
               <div>
                 <Gem className="w-10 h-10 text-amber-400 mb-6" />
                 <h3 className="text-2xl font-bold mb-2">{t("client.loyalty.panel2_title", { defaultValue: "Membership Level" })}</h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   {t("client.loyalty.panel2_desc", { defaultValue: "Unlock more privileges as your membership rank increases (Gold, Platinum, Black Edition)." })}
                 </p>
               </div>
-              <h4 className="text-3xl font-black mt-8 text-slate-200">{t("loyalty.loyaltycontent.auto_ext_2")}</h4>
+              <h4 className="text-3xl font-black mt-8 text-foreground">{t("loyalty.loyaltycontent.auto_ext_2")}</h4>
             </m.div>
 
             {/* Next Milestone */}
@@ -90,11 +90,11 @@ export function LoyaltyContent() {
               <div>
                 <Star className="w-10 h-10 text-amber-400 mb-6" />
                 <h3 className="text-2xl font-bold mb-2">{t("client.loyalty.panel3_title", { defaultValue: "Next Level Status" })}</h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   {t("client.loyalty.panel3_desc", { defaultValue: "Stays or coins required to advance to the next privileged membership level." })}
                 </p>
               </div>
-              <h4 className="text-xl font-bold mt-8 text-slate-300">{t("loyalty.loyaltycontent.auto_ext_3")}</h4>
+              <h4 className="text-xl font-bold mt-8 text-muted-foreground">{t("loyalty.loyaltycontent.auto_ext_3")}</h4>
             </m.div>
 
             {/* Benefits Bento */}
@@ -104,7 +104,7 @@ export function LoyaltyContent() {
               <div className="relative z-10">
                 <BadgeCheck className="w-12 h-12 text-amber-400 mb-6" />
                 <h3 className="text-3xl font-black mb-4">{t("client.loyalty.panel4_title", { defaultValue: "Elite Club Benefits" })}</h3>
-                <p className="text-slate-300 text-lg max-w-2xl leading-relaxed">
+                <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
                   {t("client.loyalty.panel4_desc", { defaultValue: "Gold level and above enjoy free early check-ins, late check-outs, airport VIP transfers, and bespoke welcome gifts directly inside their properties." })}
                 </p>
               </div>

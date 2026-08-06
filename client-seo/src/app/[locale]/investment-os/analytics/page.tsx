@@ -65,7 +65,7 @@ export default function AnalyticsPage() {
                   <p className="text-xs text-muted-foreground">{kpi.label}</p>
                   <p className="text-2xl font-bold mt-1">{kpi.value}</p>
                 </div>
-                <div className={`flex items-center gap-0.5 text-xs ${kpi.up ? "text-emerald-400" : "text-red-400"}`}>
+                <div className={`flex items-center gap-0.5 text-xs ${kpi.up ? "text-blue-400" : "text-red-400"}`}>
                   {kpi.up ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                   {kpi.change}
                 </div>
@@ -161,11 +161,11 @@ export default function AnalyticsPage() {
                     {CITY_COMPARISONS.sort((a, b) => b.totalReturn - a.totalReturn).map((city) => (
                       <tr key={city.city} className="border-b border-border/50">
                         <td className="py-2 font-medium">{city.city}</td>
-                        <td className="text-right py-2 text-emerald-400">{city.grossYield}%</td>
+                        <td className="text-right py-2 text-blue-400">{city.grossYield}%</td>
                         <td className="text-right py-2 text-blue-400">{city.appreciation}%</td>
                         <td className="text-right py-2 font-bold">{city.totalReturn}%</td>
                         <td className="text-right py-2">
-                          <Badge className="bg-emerald-500/20 text-emerald-400">
+                          <Badge className="bg-blue-500/20 text-blue-400">
                             <ArrowUpRight className="w-3 h-3 mr-1" />
                             Rising
                           </Badge>
@@ -184,7 +184,7 @@ export default function AnalyticsPage() {
             {[
               { stage: "Calculator Users", count: calculatorUsageCount || 156, pct: 100, color: "bg-blue-500" },
               { stage: "Report Requests", count: Math.round((calculatorUsageCount || 156) * 0.35), pct: 35, color: "bg-yellow-500" },
-              { stage: "Qualified Leads", count: Math.round((calculatorUsageCount || 156) * 0.12), pct: 12, color: "bg-emerald-500" },
+              { stage: "Qualified Leads", count: Math.round((calculatorUsageCount || 156) * 0.12), pct: 12, color: "bg-blue-500" },
             ].map((stage) => (
               <Card key={stage.stage}>
                 <CardContent className="p-4 text-center">

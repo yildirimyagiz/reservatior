@@ -66,25 +66,25 @@ export default function GovernanceOSDashboard() {
       title: "Active Policies",
       value: formatNumber(stats.policies),
       icon: FileText,
-      color: "text-blue-600",
+      color: "text-brand",
     },
     {
       title: "Compliance Score",
       value: formatPercent(stats.complianceScore),
       icon: CheckCircle,
-      color: "text-green-600",
+      color: "text-blue-600",
     },
     {
       title: "Audits Completed",
       value: formatNumber(stats.audits),
       icon: Shield,
-      color: "text-purple-600",
+      color: "text-brand",
     },
     {
       title: "Risk Level",
       value: formatDecimal(stats.riskLevel),
       icon: AlertCircle,
-      color: "text-orange-600",
+      color: "text-warning",
     },
   ];
 
@@ -101,7 +101,7 @@ export default function GovernanceOSDashboard() {
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
@@ -117,7 +117,7 @@ export default function GovernanceOSDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Compliance Trends</h2>
             <TrendingUp className="w-5 h-5 text-gray-500" />
@@ -131,7 +131,7 @@ export default function GovernanceOSDashboard() {
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Risk Assessment</h2>
             <BarChart3 className="w-5 h-5 text-gray-500" />

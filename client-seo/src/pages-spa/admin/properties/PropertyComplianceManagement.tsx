@@ -108,10 +108,10 @@ const PropertyComplianceManagement = () => {
 
  const getStatusBadge = (status: string) => {
  const statusConfig: Record<string, { icon: any; color: string; label: string }> = {
- 'PENDING': { icon: Clock, color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_compliance_pending', 'Pending') },
- 'VERIFIED': { icon: CheckCircle, color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', label: t('admin_compliance_verified', 'Verified') },
- 'FAILED': { icon: AlertTriangle, color: 'bg-red-500/10 text-red-400 border-red-500/20', label: t('admin_compliance_failed', 'Failed') },
- 'EXPIRED': { icon: AlertTriangle, color: 'bg-muted0/10 text-muted-foreground border-slate-500/20', label: t('admin_compliance_expired', 'Expired') }
+ 'PENDING': { icon: Clock, color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_compliance_pending', 'Askıda olması') },
+ 'VERIFIED': { icon: CheckCircle, color: 'bg-blue-500/10 text-success border-blue-500/20', label: t('admin_compliance_verified', 'Doğrulandı') },
+ 'FAILED': { icon: AlertTriangle, color: 'bg-red-500/10 text-red-400 border-red-500/20', label: t('admin_compliance_failed', 'Arızalı') },
+ 'EXPIRED': { icon: AlertTriangle, color: 'bg-muted0/10 text-muted-foreground border-slate-500/20', label: t('admin_compliance_expired', 'Günü geçmiş') }
  };
  const config = statusConfig[status] || statusConfig['PENDING'];
  const Icon = config.icon;
@@ -143,34 +143,34 @@ const PropertyComplianceManagement = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
- {t("admin_property_compliance_title","Property Compliance Management")}
+ {t("admin_property_compliance_title", "Mülkiyet Uygunluk Yönetimi")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_property_compliance_subtitle","Monitor and manage property compliance records and certifications")}
+ {t("admin_property_compliance_subtitle", "Mülk uyumluluk kayıtlarını ve sertifikalarını izleyin ve yönetin")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-white">
+ <Button className="bg-muted hover:bg-muted0 text-white">
  <Plus className="w-4 h-4 mr-2" />
- {t("common.add","Add Compliance")}
+ {t("common.add", "Ekle")}
  </Button>
  </DialogTrigger>
  <DialogContent className="bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_property_compliance_add_title","Add Property Compliance")}</DialogTitle>
- <DialogDescription>{t("admin_property_compliance_add_desc","Add a new compliance record for a property")}</DialogDescription>
+ <DialogTitle>{t("admin_property_compliance_add_title", "Özellik Uyumluluğu Ekle")}</DialogTitle>
+ <DialogDescription>{t("admin_property_compliance_add_desc", "Bir mülk için yeni bir uyumluluk kaydı ekleme")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 py-4">
  <div className="space-y-2">
- <Label>{t("admin_property_compliance_property","Property")}</Label>
+ <Label>{t("admin_property_compliance_property", "Mülk")}</Label>
  <Select value={newItem.propertyId} onValueChange={(v) => setNewItem({...newItem, propertyId: v})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder={t("admin_property_compliance_select_property","Select property")} />
+ <SelectValue placeholder={t("admin_property_compliance_select_property", "Mülk seçin")} />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
  {properties.map((p: any) => (
@@ -180,10 +180,10 @@ const PropertyComplianceManagement = () => {
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_property_compliance_type","Compliance Type")}</Label>
+ <Label>{t("admin_property_compliance_type", "Uyumluluk Türü")}</Label>
  <Select value={newItem.complianceType} onValueChange={(v) => setNewItem({...newItem, complianceType: v})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder={t("admin_property_compliance_select_type","Select compliance type")} />
+ <SelectValue placeholder={t("admin_property_compliance_select_type", "Uyumluluk türünü seçin")} />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
  {complianceTypes.map(type => (
@@ -193,21 +193,21 @@ const PropertyComplianceManagement = () => {
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_property_compliance_status","Status")}</Label>
+ <Label>{t("admin_property_compliance_status", "Durum")}</Label>
  <Select value={newItem.status} onValueChange={(v) => setNewItem({...newItem, status: v as any})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder={t("admin_property_compliance_select_status","Select status")} />
+ <SelectValue placeholder={t("admin_property_compliance_select_status", "Durum seç")} />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="PENDING">{t("admin_compliance_pending","Pending")}</SelectItem>
- <SelectItem value="VERIFIED">{t("admin_compliance_verified","Verified")}</SelectItem>
- <SelectItem value="FAILED">{t("admin_compliance_failed","Failed")}</SelectItem>
- <SelectItem value="EXPIRED">{t("admin_compliance_expired","Expired")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_compliance_pending", "Askıda olması")}</SelectItem>
+ <SelectItem value="VERIFIED">{t("admin_compliance_verified", "Doğrulandı")}</SelectItem>
+ <SelectItem value="FAILED">{t("admin_compliance_failed", "Arızalı")}</SelectItem>
+ <SelectItem value="EXPIRED">{t("admin_compliance_expired", "Günü geçmiş")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_property_compliance_expiry","Expiry Date")}</Label>
+ <Label>{t("admin_property_compliance_expiry", "Son kullanma tarihi")}</Label>
  <Input 
  type="date" 
  value={newItem.expiryDate} 
@@ -216,22 +216,22 @@ const PropertyComplianceManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_property_compliance_notes","Notes")}</Label>
+ <Label>{t("admin_property_compliance_notes", "Notlar")}</Label>
  <Textarea 
  value={newItem.notes} 
  onChange={(e) => setNewItem({...newItem, notes: e.target.value})}
  className="bg-card border-border"
- placeholder={t("admin_property_compliance_notes_placeholder","Optional notes")}
+ placeholder={t("admin_property_compliance_notes_placeholder", "İsteğe bağlı notlar")}
  rows={3}
  />
  </div>
  </form>
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleAddSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleAddSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>
@@ -243,25 +243,25 @@ const PropertyComplianceManagement = () => {
  <CardHeader>
  <CardTitle className="flex items-center gap-2">
  <ShieldCheck className="w-5 h-5" />
- {t("admin_property_compliance_list_title","Property Compliance Records")}
+ {t("admin_property_compliance_list_title", "Mülkiyet Uygunluk Kayıtları")}
  </CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
- <div className="text-center py-8 text-slate-500">{t("common.loading","Loading...")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("common.loading", "Yükleniyor")}</div>
  ) : complianceItems.length === 0 ? (
- <div className="text-center py-8 text-slate-500">{t("admin_property_compliance_empty","No compliance records found")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("admin_property_compliance_empty", "Uyumluluk kaydı bulunamadı")}</div>
  ) : (
  <Table>
  <TableHeader>
  <TableRow>
- <TableHead>{t("admin_property_compliance_property","Property")}</TableHead>
- <TableHead>{t("admin_property_compliance_type","Compliance Type")}</TableHead>
- <TableHead>{t("admin_property_compliance_status","Status")}</TableHead>
- <TableHead>{t("admin_property_compliance_expiry","Expiry Date")}</TableHead>
- <TableHead>{t("admin_property_compliance_verified","Verified By")}</TableHead>
- <TableHead>{t("admin_property_compliance_notes","Notes")}</TableHead>
- <TableHead className="text-right">{t("common.actions","Actions")}</TableHead>
+ <TableHead>{t("admin_property_compliance_property", "Mülk")}</TableHead>
+ <TableHead>{t("admin_property_compliance_type", "Uyumluluk Türü")}</TableHead>
+ <TableHead>{t("admin_property_compliance_status", "Durum")}</TableHead>
+ <TableHead>{t("admin_property_compliance_expiry", "Son kullanma tarihi")}</TableHead>
+ <TableHead>{t("admin_property_compliance_verified", "Doğrulayan")}</TableHead>
+ <TableHead>{t("admin_property_compliance_notes", "Notlar")}</TableHead>
+ <TableHead className="text-right">{t("common.actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -271,14 +271,14 @@ const PropertyComplianceManagement = () => {
  <TableCell>{item.complianceType.replace(/_/g, ' ')}</TableCell>
  <TableCell>{getStatusBadge(item.status)}</TableCell>
  <TableCell>{item.expiryDate ? new Date(item.expiryDate).toLocaleDateString() : '-'}</TableCell>
- <TableCell className="text-slate-500">{item.verifiedBy || '-'}</TableCell>
- <TableCell className="text-slate-500 max-w-xs truncate">{item.notes || '-'}</TableCell>
+ <TableCell className="text-muted-foreground">{item.verifiedBy || '-'}</TableCell>
+ <TableCell className="text-muted-foreground max-w-xs truncate">{item.notes || '-'}</TableCell>
  <TableCell className="text-right">
  <div className="flex justify-end gap-2">
- <Button variant="ghost" size="icon" onClick={() => openEditModal(item)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} onClick={() => openEditModal(item)}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(item.id)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} onClick={() => deleteMutation.mutate(item.id)}>
  <Trash2 className="w-4 h-4 text-red-500" />
  </Button>
  </div>
@@ -295,27 +295,27 @@ const PropertyComplianceManagement = () => {
  <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
  <DialogContent className="bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_property_compliance_edit_title","Edit Property Compliance")}</DialogTitle>
- <DialogDescription>{t("admin_property_compliance_edit_desc","Update compliance record details")}</DialogDescription>
+ <DialogTitle>{t("admin_property_compliance_edit_title", "Özellik Uyumluluğunu Düzenle")}</DialogTitle>
+ <DialogDescription>{t("admin_property_compliance_edit_desc", "Uyumluluk kaydı ayrıntılarını güncelleyin")}</DialogDescription>
  </DialogHeader>
  {editingItem && (
  <form onSubmit={handleEditSubmit} className="space-y-4 py-4">
  <div className="space-y-2">
- <Label>{t("admin_property_compliance_status","Status")}</Label>
+ <Label>{t("admin_property_compliance_status", "Durum")}</Label>
  <Select value={editingItem.status} onValueChange={(v) => setEditingItem({...editingItem, status: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="PENDING">{t("admin_compliance_pending","Pending")}</SelectItem>
- <SelectItem value="VERIFIED">{t("admin_compliance_verified","Verified")}</SelectItem>
- <SelectItem value="FAILED">{t("admin_compliance_failed","Failed")}</SelectItem>
- <SelectItem value="EXPIRED">{t("admin_compliance_expired","Expired")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_compliance_pending", "Askıda olması")}</SelectItem>
+ <SelectItem value="VERIFIED">{t("admin_compliance_verified", "Doğrulandı")}</SelectItem>
+ <SelectItem value="FAILED">{t("admin_compliance_failed", "Arızalı")}</SelectItem>
+ <SelectItem value="EXPIRED">{t("admin_compliance_expired", "Günü geçmiş")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_property_compliance_expiry","Expiry Date")}</Label>
+ <Label>{t("admin_property_compliance_expiry", "Son kullanma tarihi")}</Label>
  <Input 
  type="date" 
  value={editingItem.expiryDate || ''}
@@ -324,7 +324,7 @@ const PropertyComplianceManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_property_compliance_notes","Notes")}</Label>
+ <Label>{t("admin_property_compliance_notes", "Notlar")}</Label>
  <Textarea 
  value={editingItem.notes || ''}
  onChange={(e) => setEditingItem({...editingItem, notes: e.target.value})}
@@ -336,10 +336,10 @@ const PropertyComplianceManagement = () => {
  )}
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleEditSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleEditSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>

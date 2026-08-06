@@ -110,7 +110,7 @@ export function LeadsContent() {
           <p className="text-muted-foreground">{t("leads.sales_pipeline_desc")}</p>
         </div>
         
-        <Button onClick={simulateLead} disabled={isSimulating} className="bg-blue-600 hover:bg-blue-700 text-white gap-2">
+        <Button onClick={simulateLead} disabled={isSimulating} className="bg-blue-600 hover:bg-brand text-white gap-2">
           <Facebook className="w-4 h-4" />
           {t("leads.simulate_meta_ad")}
         </Button>
@@ -121,7 +121,7 @@ export function LeadsContent() {
         <div className="space-y-4">
           <div className="flex items-center justify-between border-b pb-2">
             <h3 className="font-semibold text-lg flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+              <span className="w-2 h-2 rounded-full bg-brand/100"></span>
               {t("leads.new_leads")}
             </h3>
             <Badge variant="secondary">{leads.filter(l => l.status === 'NEW').length}</Badge>
@@ -133,21 +133,21 @@ export function LeadsContent() {
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="font-bold flex items-center gap-2">
-                      <User className="w-4 h-4 text-slate-400" />
+                      <User className="w-4 h-4 text-muted-foreground" />
                       {lead.firstName} {lead.lastName}
                     </h4>
                     <p className="text-xs text-muted-foreground truncate">{lead.email}</p>
                   </div>
-                  <Badge variant="outline" className="text-[10px] bg-blue-50 text-blue-600 border-blue-200">{t("leads.ai_ads")}</Badge>
+                  <Badge variant="outline" className="text-[10px] bg-brand/10 text-brand border-border">{t("leads.ai_ads")}</Badge>
                 </div>
                 
-                <div className="flex items-center gap-2 text-xs text-slate-500">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <Clock className="w-3 h-3" />
                   {formatDistanceToNow(new Date(lead.createdAt), { addSuffix: true })}
                 </div>
 
                 <div className="pt-2 border-t flex justify-end">
-                  <Button size="sm" onClick={() => closeDeal(lead.id)} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white">
+                  <Button size="sm" onClick={() => closeDeal(lead.id)} className="w-full bg-blue-600 hover:bg-blue-700 text-white">
                     <DollarSign className="w-4 h-4 mr-1" /> {t("leads.close_deal")}
                   </Button>
                 </div>
@@ -155,7 +155,7 @@ export function LeadsContent() {
             </Card>
           ))}
           {leads.filter(l => l.status === 'NEW').length === 0 && (
-            <div className="text-center p-8 border border-dashed rounded-xl text-slate-400 text-sm">
+            <div className="text-center p-8 border border-dashed rounded-xl text-muted-foreground text-sm">
               {t("leads.waiting_for_interactions")}
             </div>
           )}
@@ -165,25 +165,25 @@ export function LeadsContent() {
         <div className="space-y-4">
           <div className="flex items-center justify-between border-b pb-2">
             <h3 className="font-semibold text-lg flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span className="w-2 h-2 rounded-full bg-success"></span>
               {t("leads.closed_won")}
             </h3>
             <Badge variant="secondary">{leads.filter(l => l.status === 'QUALIFIED').length}</Badge>
           </div>
           
           {leads.filter(l => l.status === 'QUALIFIED').map(lead => (
-            <Card key={lead.id} className="border-l-4 border-l-emerald-500 bg-emerald-50/50 opacity-80">
+            <Card key={lead.id} className="border-l-4 border-l-blue-500 bg-blue-50/50 opacity-80">
               <CardContent className="p-4 space-y-4">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="font-bold flex items-center gap-2 line-through text-slate-500">
-                      <User className="w-4 h-4 text-slate-400" />
+                    <h4 className="font-bold flex items-center gap-2 line-through text-muted-foreground">
+                      <User className="w-4 h-4 text-muted-foreground" />
                       {lead.firstName} {lead.lastName}
                     </h4>
                   </div>
-                  <Badge className="text-[10px] bg-emerald-500 hover:bg-emerald-600">{t("leads.won")}</Badge>
+                  <Badge className="text-[10px] bg-success hover:bg-blue-600">{t("leads.won")}</Badge>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-emerald-600 font-medium">
+                <div className="flex items-center gap-2 text-xs text-success font-medium">
                   <ShieldCheck className="w-4 h-4" />
                   {t("leads.commission_installments_offered")}
                 </div>

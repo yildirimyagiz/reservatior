@@ -48,9 +48,9 @@ export default function OwnershipVerification() {
  });
  const getStatusBadge = (status: string) => {
  switch (status) {
- case 'VERIFIED': return <Badge className="bg-emerald-500/10 text-emerald-400 border-none text-[9px] font-bold px-3 py-1 rounded-full"><CheckCircle className="w-3 h-3 mr-1" />{t("admin_property_verifiednode")}</Badge>;
+ case 'VERIFIED': return <Badge className="bg-blue-500/10 text-success border-none text-[9px] font-bold px-3 py-1 rounded-full"><CheckCircle className="w-3 h-3 mr-1" />{t("admin_property_verifiednode")}</Badge>;
  case 'REJECTED': return <Badge className="bg-red-500/10 text-red-500 border-none text-[9px] font-bold px-3 py-1 rounded-full"><XCircle className="w-3 h-3 mr-1" />{t("admin_property_terminated")}</Badge>;
- case 'PENDING': return <Badge className="bg-orange-500/10 text-orange-400 border-none text-[9px] font-bold px-3 py-1 rounded-full animate-pulse"><Clock className="w-3 h-3 mr-1" />{t("admin_property_pendingsync")}</Badge>;
+ case 'PENDING': return <Badge className="bg-orange-500/10 text-warning border-none text-[9px] font-bold px-3 py-1 rounded-full animate-pulse"><Clock className="w-3 h-3 mr-1" />{t("admin_property_pendingsync")}</Badge>;
  default: return <Badge variant="secondary" className="text-[9px] font-bold px-3 py-1 rounded-full">{status}</Badge>;
  }
  };
@@ -62,10 +62,10 @@ export default function OwnershipVerification() {
  </div>
 
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
- {[{ label: t('totalRequests'), value: verifications.length, icon: Shield, color:"text-slate-500" },
+ {[{ label: t('totalRequests'), value: verifications.length, icon: Shield, color:"text-muted-foreground" },
  { label: t('pendingReview'), value: verifications.filter((v: any) => v.verificationStatus === 'PENDING').length, icon: Clock, color:"text-orange-500" },
- { label: t('verifiedProperties'), value: verifications.filter((v: any) => v.verificationStatus === 'VERIFIED').length, icon: CheckCircle, color:"text-emerald-500" }
- ].map((stat, i) => <Card key={i} className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l-2 border-t-2 transition-all hover:bg-slate-100 dark:hover:bg-white/10 p-8">
+ { label: t('verifiedProperties'), value: verifications.filter((v: any) => v.verificationStatus === 'VERIFIED').length, icon: CheckCircle, color:"text-success" }
+ ].map((stat, i) => <Card key={i} className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l-2 border-t-2 transition-all hover:bg-muted dark:hover:bg-card/10 p-8">
  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
  <stat.icon className="w-10 h-10" />
  </div>
@@ -84,12 +84,12 @@ export default function OwnershipVerification() {
  </div>
  <div className="relative group min-w-[280px]">
  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
- <input placeholder={t("admin_property_filter_by_node_identity")} aria-label="Filter by node identity" className="bg-card border border-border rounded-xl pl-12 h-10 text-[10px] text-foreground w-full focus:ring-primary/20 focus:border-primary/40 transition-all font-bold" />
+ <input placeholder={t("admin_property_filter_by_node_identity")} aria-label={t("admin_property_filter_by_node_identity_aria", "Düğüm kimliğine göre filtrele")} className="bg-card border border-border rounded-xl pl-12 h-10 text-[10px] text-foreground w-full focus:ring-primary/20 focus:border-primary/40 transition-all font-bold" />
  </div>
  </CardHeader>
  <CardContent className="p-0">
  {isLoading ? <div className="py-24 text-center">
- <Activity className="w-12 h-12 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
+ <Activity className="w-12 h-12 text-muted-foreground animate-spin mx-auto mb-4 opacity-50" />
  <p className="text-[10px] font-bold text-muted-foreground animate-pulse">{t("admin_property_synchronizing_authenticity_matrix")}</p>
  </div> : <Table>
  <TableHeader className="bg-card border-b border-border">
@@ -133,7 +133,7 @@ export default function OwnershipVerification() {
  </TableCell>
  <TableCell className="px-8 text-center">
  {v.aiConfidenceScore ? <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-card border border-border">
- <span className={cn("text-xs font-bold leading-none", v.aiConfidenceScore > 0.8 ? 'text-emerald-400' : 'text-amber-400')}>
+ <span className={cn("text-xs font-bold leading-none", v.aiConfidenceScore > 0.8 ? 'text-success' : 'text-warning')}>
  {(v.aiConfidenceScore * 100).toFixed(1)}%
  </span>
  {v.aiConfidenceScore < 0.6 && <AlertTriangle className="w-3 h-3 text-red-500" />}
@@ -142,14 +142,14 @@ export default function OwnershipVerification() {
  <TableCell className="px-8">{getStatusBadge(v.verificationStatus)}</TableCell>
  <TableCell className="px-8 text-right">
  <div className="flex justify-end gap-2">
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground transition-all">
+ <Button variant="ghost" size="icon" aria-label={t("common.view")} className="h-10 w-10 rounded-xl hover:bg-card text-muted-foreground hover:text-foreground transition-all">
  <Eye className="w-4 h-4" />
  </Button>
  {v.verificationStatus === 'PENDING' && <>
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-emerald-500/10 text-emerald-500 transition-all border border-transparent hover:border-emerald-500/20" onClick={() => statusMutation.mutate({ id: v.id, status: 'VERIFIED' })}>
+ <Button variant="ghost" size="icon" aria-label={t("common.verify")} className="h-10 w-10 rounded-xl hover:bg-blue-500/10 text-success transition-all border border-transparent hover:border-blue-500/20" onClick={() => statusMutation.mutate({ id: v.id, status: 'VERIFIED' })}>
  <CheckCircle className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-red-500/10 text-red-500 transition-all border border-transparent hover:border-red-500/20" onClick={() => statusMutation.mutate({ id: v.id, status: 'REJECTED' })}>
+ <Button variant="ghost" size="icon" aria-label={t("common.close")} className="h-10 w-10 rounded-xl hover:bg-red-500/10 text-red-500 transition-all border border-transparent hover:border-red-500/20" onClick={() => statusMutation.mutate({ id: v.id, status: 'REJECTED' })}>
  <XCircle className="w-4 h-4" />
  </Button>
  </>}
@@ -165,7 +165,7 @@ export default function OwnershipVerification() {
  </Table>}
  </CardContent>
  <div className="p-4 bg-card border-t border-border flex justify-between items-center transition-all">
- <div className="text-[8px] font-bold text-slate-600 tracking-[0.3em] flex items-center gap-2">
+ <div className="text-[8px] font-bold text-muted-foreground tracking-[0.3em] flex items-center gap-2">
  <Activity className="w-3 h-3 animate-pulse" />{t("admin_property_coreauthenticationmatrixuptime_100")}</div>
  <Button variant="ghost" className="text-[9px] font-bold text-primary hover:text-foreground flex items-center gap-2 group">{t("admin_property_deepauditlogs")}<ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
  </Button>

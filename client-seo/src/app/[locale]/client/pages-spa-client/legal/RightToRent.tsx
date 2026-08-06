@@ -61,7 +61,7 @@ export default function RightToRent() {
       setNewCheckForm({ contactId: "", checkType: "Passport", reference: "", expiresAt: "" });
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -72,7 +72,7 @@ export default function RightToRent() {
       toast({ title: t("client.src.check_updated") });
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -98,7 +98,7 @@ export default function RightToRent() {
 
   const submitNewCheck = () => {
     if (!newCheckForm.contactId || !newCheckForm.reference) {
-      toast({ title: t("client.src.error"), description: t("client.src.please_fill_required"), variant: "destructive" });
+      toast({ title: t("common.error"), description: t("client.src.please_fill_required"), variant: "destructive" });
       return;
     }
     createMutation.mutate({
@@ -123,13 +123,13 @@ export default function RightToRent() {
   const getStatusBadge = (status: RightToRentRecord['status']) => {
     switch (status) {
       case 'verified':
-        return <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200 font-bold"><UserCheck className="w-3 h-3 mr-1" />{t("client.src.fully_verified")}</Badge>;
+        return <Badge className="bg-blue-100 text-blue-800 border-blue-200 font-bold"><UserCheck className="w-3 h-3 mr-1" />{t("client.src.fully_verified")}</Badge>;
       case 'pending':
-        return <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50 font-bold"><Clock className="w-3 h-3 mr-1" />{t("client.src.pending_check")}</Badge>;
+        return <Badge variant="outline" className="text-brand border-border bg-brand/10 font-bold"><Clock className="w-3 h-3 mr-1" />{t("client.src.pending_check")}</Badge>;
       case 'rejected':
-        return <Badge variant="destructive" className="font-bold"><UserX className="w-3 h-3 mr-1" />{t("client.src.rejected")}</Badge>;
+        return <Badge variant="destructive" className="font-bold"><UserX className="w-3 h-3 mr-1" />{t("common.rejected")}</Badge>;
       case 'expired':
-        return <Badge variant="destructive" className="bg-red-50 text-red-600 border-red-200 font-bold underline"><ShieldAlert className="w-3 h-3 mr-1" />{t("client.src.expired")}</Badge>;
+        return <Badge variant="destructive" className="bg-red-50 text-red-600 border-red-200 font-bold underline"><ShieldAlert className="w-3 h-3 mr-1" />{t("common.expired")}</Badge>;
       case 'conditional':
         return <Badge className="bg-amber-100 text-amber-800 border-amber-200 font-bold"><Calendar className="w-3 h-3 mr-1" />{t("client.src.limited_leave")}</Badge>;
     }
@@ -145,12 +145,12 @@ export default function RightToRent() {
   return <PageShell title={t("client.src.right_to_rent_checks")} description={t("client.src.verification_of_identity_and")}>
       <div className="space-y-6">
         {/* Compliance Meter */}
-        <Card className="bg-gradient-to-r from-emerald-600 to-indigo-500 text-white shadow-xl border-none">
+        <Card className="bg-gradient-to-r from-blue-600 to-info text-white shadow-xl border-none">
           <CardContent className="p-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-8">
               <div className="max-w-md">
                 <h2 className="text-3xl font-bold mb-2">{complianceRate}% {t("client.src.compliant")}</h2>
-                <p className="text-emerald-50 mb-4 opacity-90">{t("client.src.you_have")} {stats.total} {t("client.src.active_checks")}</p>
+                <p className="text-blue-50 mb-4 opacity-90">{t("client.src.you_have")} {stats.total} {t("client.src.active_checks")}</p>
                 <div className="flex gap-4">
                   <div className="bg-white/20 px-4 py-2 rounded-lg backdrop-blur-sm">
                     <p className="text-2xl font-bold">{stats.verified}</p>
@@ -168,7 +168,7 @@ export default function RightToRent() {
               </div>
 
               <div className="w-48 h-48 relative flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full border-12 border-emerald-400/30"></div>
+                <div className="absolute inset-0 rounded-full border-12 border-blue-400/30"></div>
                 <div className="absolute inset-0 rounded-full border-12 border-white border-t-transparent border-r-transparent transform -rotate-45"></div>
                 <ShieldCheck className="w-16 h-16 text-white drop-shadow-lg" />
               </div>
@@ -183,7 +183,7 @@ export default function RightToRent() {
             <Input placeholder={t("client.src.search_by_tenant_name")} className="pl-10" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
           </div>
           <div className="flex gap-2 w-full md:w-auto">
-             <Button className="bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-100" onClick={handleStartNewCheck}><Plus className="w-4 h-4 mr-2" />{t("client.src.start_new_check")}</Button>
+             <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-100" onClick={handleStartNewCheck}><Plus className="w-4 h-4 mr-2" />{t("client.src.start_new_check")}</Button>
           </div>
         </div>
 
@@ -197,17 +197,17 @@ export default function RightToRent() {
               </CardContent>
             </Card>
           ) : (
-            filteredChecks.map((check: RightToRentCheck) => <Card key={check.id} className="group hover:border-emerald-500 transition-all">
+            filteredChecks.map((check: RightToRentCheck) => <Card key={check.id} className="group hover:border-blue-500 transition-all">
               <CardContent className="p-0">
                 <div className="flex flex-col md:flex-row items-stretch">
                   <div className="p-6 flex-1">
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${check.status === 'verified' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${check.status === 'verified' ? 'bg-blue-50 text-success' : 'bg-red-50 text-red-600'}`}>
                           <UserCheck className="w-6 h-6" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-bold group-hover:text-emerald-700 transition-colors tracking-tight">{check.contactId || 'N/A'}</h3>
+                          <h3 className="text-lg font-bold group-hover:text-blue-700 transition-colors tracking-tight">{check.contactId || 'N/A'}</h3>
                           <p className="text-sm text-muted-foreground font-medium">{check.leaseId || 'No active lease attached'}</p>
                         </div>
                       </div>
@@ -218,7 +218,7 @@ export default function RightToRent() {
                       <div>
                         <p className="text-xs tracking-wider text-muted-foreground mb-1 font-bold">{t("client.src.document_type")}</p>
                         <p className="font-semibold text-foreground flex items-center">
-                          <FileText className="w-3.5 h-3.5 mr-1.5 text-emerald-600" />
+                          <FileText className="w-3.5 h-3.5 mr-1.5 text-success" />
                           {check.checkType}
                         </p>
                       </div>
@@ -231,12 +231,12 @@ export default function RightToRent() {
                       <div>
                         <p className="text-xs tracking-wider text-muted-foreground mb-1 font-bold">{t("client.src.checked_on")}</p>
                         <p className="font-semibold text-foreground flex items-center">
-                          <Calendar className="w-3.5 h-3.5 mr-1.5 text-blue-500" />
+                          <Calendar className="w-3.5 h-3.5 mr-1.5 text-brand" />
                           {check.checkedAt ? new Date(check.checkedAt as string).toLocaleDateString() : 'Scheduled'}
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs tracking-wider text-muted-foreground mb-1 font-bold">{t("client.src.expiry_date")}</p>
+                        <p className="text-xs tracking-wider text-muted-foreground mb-1 font-bold">{t("common.expiry_date")}</p>
                         <p className={`font-semibold flex items-center ${check.status === 'expired' ? 'text-red-600 font-bold' : 'text-foreground font-medium'}`}>
                           <Clock className="w-3.5 h-3.5 mr-1.5 opacity-60" />
                           {check.expiresAt ? new Date(check.expiresAt).toLocaleDateString() : 'Indefinite Leave'}
@@ -246,7 +246,7 @@ export default function RightToRent() {
                   </div>
 
                   <div className="bg-muted/30 p-4 flex md:flex-col justify-center gap-2 border-t md:border-t-0 md:border-l w-full md:w-56">
-                    <Button variant="default" size="sm" className="w-full bg-emerald-600 hover:bg-emerald-700 shadow-sm shadow-emerald-100" onClick={() => handleViewReport(check)}>{t("client.src.view_report")}</Button>
+                    <Button variant="default" size="sm" className="w-full bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-100" onClick={() => handleViewReport(check)}>{t("client.src.view_report")}</Button>
                     <Button variant="outline" size="sm" className="w-full" onClick={() => handleRecheckStatus(check)} disabled={updateMutation.isPending}>{t("client.src.recheck_status")}</Button>
                   </div>
                 </div>
@@ -297,12 +297,12 @@ export default function RightToRent() {
               <Input value={newCheckForm.reference} onChange={e => setNewCheckForm(prev => ({ ...prev, reference: e.target.value }))} placeholder="P1234567" />
             </div>
             <div className="space-y-2">
-              <Label>{t("client.src.expiry_date")}</Label>
+              <Label>{t("common.expiry_date")}</Label>
               <Input type="date" value={newCheckForm.expiresAt} onChange={e => setNewCheckForm(prev => ({ ...prev, expiresAt: e.target.value }))} />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsNewCheckOpen(false)}>{t("client.src.cancel")}</Button>
+            <Button variant="outline" onClick={() => setIsNewCheckOpen(false)}>{t("common.cancel")}</Button>
             <Button onClick={submitNewCheck} disabled={createMutation.isPending}>{t("client.src.start_check", "Start Check")}</Button>
           </DialogFooter>
         </DialogContent>
@@ -328,7 +328,7 @@ export default function RightToRent() {
                 <span>{selectedReport.reference}</span>
               </div>
               <div className="flex justify-between border-b pb-2">
-                <span className="font-semibold text-muted-foreground">{t("client.src.status")}:</span>
+                <span className="font-semibold text-muted-foreground">{t("common.status")}:</span>
                 <span>{getStatusBadge(selectedReport.status as any)}</span>
               </div>
               <div className="flex justify-between border-b pb-2">
@@ -336,13 +336,13 @@ export default function RightToRent() {
                 <span>{selectedReport.checkedAt ? new Date(selectedReport.checkedAt).toLocaleDateString() : 'N/A'}</span>
               </div>
               <div className="flex justify-between border-b pb-2">
-                <span className="font-semibold text-muted-foreground">{t("client.src.expiry_date")}:</span>
+                <span className="font-semibold text-muted-foreground">{t("common.expiry_date")}:</span>
                 <span>{selectedReport.expiresAt ? new Date(selectedReport.expiresAt).toLocaleDateString() : 'Indefinite'}</span>
               </div>
             </div>
           )}
           <DialogFooter>
-            <Button onClick={() => setIsReportOpen(false)}>{t("client.src.close")}</Button>
+            <Button onClick={() => setIsReportOpen(false)}>{t("common.close")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

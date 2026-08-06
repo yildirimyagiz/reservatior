@@ -106,8 +106,8 @@ export const GooglePlacesInsight: React.FC<GooglePlacesInsightProps> = ({
           <p className="text-xs font-bold leading-relaxed">{t("client.src.by_booking_through")}<span className="text-indigo-600">{t("client.src.reservatior_x_google")}</span>{t("client.src.we_eliminate_the_1520")}</p>
           <div className="grid grid-cols-1 gap-2">
              <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-indigo-100 shadow-sm">
-                <div className="p-2 bg-green-100 rounded-lg">
-                   <TrendingDown className="w-4 h-4 text-green-600" />
+                <div className="p-2 bg-blue-100 rounded-lg">
+                   <TrendingDown className="w-4 h-4 text-blue-600" />
                 </div>
                 <div className="flex-1">
                    <p className="text-[10px] text-slate-500 font-bold uppercase">{t("client.src.price_advantage")}</p>
@@ -182,9 +182,9 @@ export const GooglePlacesInsight: React.FC<GooglePlacesInsightProps> = ({
       </Card>
       
       {/* Reputation Shield */}
-      <div className="flex items-center gap-3 p-4 rounded-2xl bg-green-50/50 border border-green-100">
-         <ShieldCheck className="w-5 h-5 text-green-600" />
-         <p className="text-[11px] font-bold text-green-800 leading-tight">{t("client.src.google_verified_identity_location")}</p>
+      <div className="flex items-center gap-3 p-4 rounded-2xl bg-blue-50/50 border border-blue-100">
+         <ShieldCheck className="w-5 h-5 text-blue-600" />
+         <p className="text-[11px] font-bold text-blue-800 leading-tight">{t("client.src.google_verified_identity_location")}</p>
       </div>
     </div>;
 };

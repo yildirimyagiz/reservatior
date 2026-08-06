@@ -12,20 +12,6 @@ import {
 import { m } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 
-const DEMO_CHART = [
-  { name: "Mon", amount: 3200 }, { name: "Tue", amount: 5800 },
-  { name: "Wed", amount: 4100 }, { name: "Thu", amount: 7600 },
-  { name: "Fri", amount: 9200 }, { name: "Sat", amount: 6400 },
-  { name: "Sun", amount: 8100 },
-];
-
-const DEMO_ITEMS = [
-  { id: "1", name: "Chase Bank", status: "ACTIVE", date: new Date(Date.now() - 1000*60*40).toISOString(), revenue: 42500 },
-  { id: "2", name: "Acme Developers", status: "ACTIVE", date: new Date(Date.now() - 1000*60*120).toISOString(), revenue: 18200 },
-  { id: "3", name: "Global Suppliers Inc", status: "PENDING", date: new Date(Date.now() - 1000*60*210).toISOString(), revenue: 0 },
-  { id: "4", name: "TechVenture Partners", status: "ACTIVE", date: new Date(Date.now() - 1000*60*360).toISOString(), revenue: 31000 },
-];
-
 const fmt = (val: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(val);
 
@@ -47,11 +33,11 @@ export default function PartnerDashboard() {
     chartData: [],
   };
 
-  const chartData = stats.chartData?.length > 0 ? stats.chartData : DEMO_CHART;
-  const recentItems = stats.recentItems?.length > 0 ? stats.recentItems : DEMO_ITEMS;
-  const totalPartners = stats.totalPartners > 0 ? stats.totalPartners : 32;
-  const activeAgreements = stats.activeAgreements > 0 ? stats.activeAgreements : 19;
-  const totalRevenue = stats.totalRevenue > 0 ? stats.totalRevenue : 1847200;
+  const chartData = stats.chartData ?? [];
+  const recentItems = stats.recentItems ?? [];
+  const totalPartners = stats.totalPartners ?? 0;
+  const activeAgreements = stats.activeAgreements ?? 0;
+  const totalRevenue = stats.totalRevenue ?? 0;
 
   const { t } = useTranslation();
 
@@ -62,7 +48,7 @@ export default function PartnerDashboard() {
       icon: Users,
       color: "text-indigo-400",
       bg: "from-indigo-500/10 to-indigo-500/0",
-      sub: t("partner_os.partners_sub", { defaultValue: "Bank, Developer & Supplier" }),
+      sub: t("partner_os.partners_sub", { defaultValue: "Realtors, Brokers, Underwriters & Banks" }),
       trend: "+4 this month",
     },
     {
@@ -71,7 +57,7 @@ export default function PartnerDashboard() {
       icon: FileSignature,
       color: "text-indigo-400",
       bg: "from-indigo-500/10 to-indigo-500/0",
-      sub: t("partner_os.agreements_sub", { defaultValue: "Contracts in good standing" }),
+      sub: t("partner_os.agreements_sub", { defaultValue: "Co-Brokerage & Escrow Trust agreements" }),
       trend: "+2 new",
     },
     {
@@ -80,7 +66,7 @@ export default function PartnerDashboard() {
       icon: DollarSign,
       color: "text-indigo-400",
       bg: "from-indigo-500/10 to-indigo-500/0",
-      sub: t("partner_os.revenue_sub", { defaultValue: "Revenue generated via partners" }),
+      sub: t("partner_os.revenue_sub", { defaultValue: "Revenue generated via partner commission splits" }),
       trend: "+18.3%",
     },
   ];
@@ -90,11 +76,11 @@ export default function PartnerDashboard() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-100">{t("partner_os.title", { defaultValue: "Partner OS" })}</h1>
-          <p className="text-slate-400 mt-1">{t("partner_os.subtitle", { defaultValue: "Bank · Developer · Supplier Ecosystem" })}</p>
+          <p className="text-slate-400 mt-1">{t("partner_os.subtitle", { defaultValue: "Realtors · Brokers · %2 Rent Guarantee Underwriters · Bank Ecosystem" })}</p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20">
           <span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" />
-          <span className="text-xs font-semibold text-indigo-400">{t("partner_os.live", { defaultValue: "LIVE" })}</span>
+          <span className="text-xs font-semibold text-indigo-400">{t("partner_os.live", { defaultValue: "ESCROW PROTECTED" })}</span>
         </div>
       </div>
 

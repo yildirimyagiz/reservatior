@@ -5,6 +5,7 @@ import { Sparkles, ArrowRight, X, Percent, CheckCircle2, Shield, Home } from 'lu
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from '@/lib/react-router-shim';
+import { useTranslation } from 'react-i18next';
 
 interface AIUpsellBannerProps {
   data: {
@@ -27,6 +28,7 @@ interface AIUpsellBannerProps {
 }
 
 export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBannerProps) {
+  const { t } = useTranslation();
   if (!data) return null;
 
   return (
@@ -48,7 +50,7 @@ export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBann
 
             <Button 
               variant="ghost" 
-              size="icon" 
+              size="icon" aria-label={t("common.close")} 
               onClick={onClose}
               className="absolute top-3 right-3 h-8 w-8 rounded-full z-20 bg-black/20 hover:bg-black/40 text-white backdrop-blur-md transition-colors"
             >
@@ -82,7 +84,7 @@ export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBann
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="bg-emerald-500 text-white px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-lg border border-emerald-400/50"
+                    className="bg-success text-white px-3 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-lg border border-blue-400/50"
                   >
                     <Percent className="w-3.5 h-3.5" />
                     %{data.savingsPercent} Daha Ucuz
@@ -115,7 +117,7 @@ export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBann
                     <span className="text-3xl font-black text-foreground">
                       {new Intl.NumberFormat('en-US', { style: 'currency', currency: data.currency || 'USD' }).format(data.pricePerNight || 0)}
                     </span>
-                    <span className="text-xs text-emerald-500 font-semibold mt-0.5">
+                    <span className="text-xs text-success font-semibold mt-0.5">
                       {data.days} gece = {new Intl.NumberFormat('en-US', { style: 'currency', currency: data.currency || 'USD' }).format((data.pricePerNight || 0) * data.days)}
                     </span>
                   </div>
@@ -131,7 +133,7 @@ export function AIUpsellBanner({ data, onClose, isVisible = true }: AIUpsellBann
                 <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t border-border/30">
                   {(data.features || ['Tam Donanımlı Mutfak', 'Daha Geniş Alan']).slice(0, 4).map((feature, i) => (
                     <div key={i} className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> {feature}
+                      <CheckCircle2 className="w-3.5 h-3.5 text-success shrink-0" /> {feature}
                     </div>
                   ))}
                   <div className="flex items-center gap-1.5 text-xs text-violet-400 font-semibold">

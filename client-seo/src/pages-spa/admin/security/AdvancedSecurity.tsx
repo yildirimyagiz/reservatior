@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -15,7 +15,7 @@ import { Switch } from"@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from"@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from"@/components/ui/dropdown-menu";
 import { useToast } from"@/hooks/use-toast";
-import { Shield, ShieldAlert, Fingerprint, AlertTriangle, CheckCircle, XCircle, Clock, Users, Mail, Smartphone, Monitor, Eye, EyeOff, RefreshCw, Settings, Download, MoreHorizontal, Copy, QrCode, Zap, Activity, Lock, ArrowRight } from"lucide-react";
+import { Shield, ShieldAlert, Fingerprint, AlertTriangle, CheckCircle, XCircle, Clock, Users, Mail, Smartphone, Monitor, Eye, EyeOff, RefreshCw, Settings, Download, MoreHorizontal, Copy, QrCode, Zap, Activity, Lock, ArrowRight, PhoneIcon } from"lucide-react";
 import { Progress } from"@/components/ui/progress";
 import { cn } from"@/lib/utils";
 import { useQuery, useMutation, useQueryClient } from"@tanstack/react-query";
@@ -174,11 +174,11 @@ export default function AdvancedSecurity() {
  const getSeverityBadge = (severity: string) => {
  switch (severity) {
  case"LOW":
- return"bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+ return"bg-blue-500/10 text-success border-blue-500/20";
  case"MEDIUM":
  return"bg-muted0/10 text-muted-foreground border-slate-500/20";
  case"HIGH":
- return"bg-orange-500/10 text-orange-400 border-orange-500/20";
+ return"bg-orange-500/10 text-warning border-orange-500/20";
  case"CRITICAL":
  return"bg-rose-500/10 text-rose-400 border-rose-500/20";
  default:
@@ -188,11 +188,11 @@ export default function AdvancedSecurity() {
  const getEventIcon = (type: string) => {
  switch (type) {
  case"LOGIN_SUCCESS":
- return <CheckCircle className="w-4 h-4 text-emerald-400" />;
+ return <CheckCircle className="w-4 h-4 text-success" />;
  case"LOGIN_FAILED":
  return <XCircle className="w-4 h-4 text-rose-400" />;
  case"SUSPICIOUS_ACTIVITY":
- return <AlertTriangle className="w-4 h-4 text-orange-400" />;
+ return <AlertTriangle className="w-4 h-4 text-warning" />;
  default:
  return <Clock className="w-4 h-4 text-muted-foreground" />;
  }
@@ -213,7 +213,7 @@ export default function AdvancedSecurity() {
  val:"Minimal",
  sub:"0 Anomalies Detected",
  icon: ShieldAlert,
- color:"text-emerald-400"
+ color:"text-success"
  }, {
  label: t("admin_security_active_links"),
  val:"14",
@@ -225,7 +225,7 @@ export default function AdvancedSecurity() {
  val:"Low",
  sub:"Normal Cycle",
  icon: Activity,
- color:"text-orange-400"
+ color:"text-warning"
  }].map((stat, i) => <Card key={i} className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group">
  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
  <stat.icon className="w-12 h-12" />
@@ -249,7 +249,7 @@ export default function AdvancedSecurity() {
  <TabsContent value="policies" className="space-y-6">
  <div className="flex justify-between items-center px-4">
  <h4 className="text-xl font-bold text-foreground">{t("admin_security_security_protocols")}</h4>
- <Button onClick={() => setPolicyDialogOpen(true)} className="h-12 bg-slate-600 hover:bg-muted0 text-foreground rounded-2xl font-bold text-[10px] px-8 shadow-xl shadow-slate-600/20 gap-2">
+ <Button onClick={() => setPolicyDialogOpen(true)} className="h-12 bg-muted hover:bg-muted0 text-foreground rounded-2xl font-bold text-[10px] px-8 shadow-xl shadow-slate-600/20 gap-2">
  <Settings className="w-4 h-4" />{t("admin_security_configure_matrix")}</Button>
  </div>
  
@@ -265,14 +265,14 @@ export default function AdvancedSecurity() {
  <Badge variant="outline" className="text-[9px] font-bold text-muted-foreground border-border px-2">{policy.category}</Badge>
  </div>
  <p className="text-xs text-muted-foreground font-medium leading-relaxed mb-4 max-w-2xl">{policy.description}</p>
- <div className="flex items-center gap-6 text-[10px] font-bold text-slate-600">
+ <div className="flex items-center gap-6 text-[10px] font-bold text-muted-foreground">
  <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{t("admin_security_sync")}{policy.lastUpdated}</span>
  {policy.violations > 0 && <span className="text-rose-500 flex items-center gap-1 font-bold"><ShieldAlert className="w-3 h-3" /> {policy.violations}{t("admin_security_anomalies")}</span>}
  </div>
  </div>
  <div className="flex items-center gap-4">
- <Switch checked={policy.enabled} className="data-[state=checked]:bg-emerald-500" />
- <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground hover:text-foreground"><MoreHorizontal className="w-5 h-5" /></Button>
+ <Switch checked={policy.enabled} className="data-[state=checked]:bg-blue-500" />
+ <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-muted/50 text-muted-foreground hover:text-foreground" aria-label={t("common.more")}><MoreHorizontal className="w-5 h-5" /></Button>
  </div>
  </div>
  </Card>)}
@@ -307,7 +307,7 @@ export default function AdvancedSecurity() {
  <TableCell className="px-8">
  <div className="space-y-1">
  <p className="text-xs font-bold text-muted-foreground leading-none">{event.userId || 'SYSTEM_DAEMON'}</p>
- <p className="text-[9px] font-bold text-slate-600 mt-1">{event.ipAddress}</p>
+ <p className="text-[9px] font-bold text-muted-foreground mt-1">{event.ipAddress}</p>
  </div>
  </TableCell>
  <TableCell className="px-8">
@@ -328,8 +328,8 @@ export default function AdvancedSecurity() {
  <Card className="bg-card border-border rounded-4xl p-10 overflow-hidden shadow-2xl border-l border-t relative group">
  <div className="space-y-8 relative z-10">
  <div className="flex items-center gap-6">
- <div className="p-4 bg-emerald-600/10 border border-emerald-500/20 rounded-3xl">
- <Fingerprint className="w-10 h-10 text-emerald-400" />
+ <div className="p-4 bg-blue-600/10 border border-blue-500/20 rounded-3xl">
+ <Fingerprint className="w-10 h-10 text-success" />
  </div>
  <div>
  <h3 className="text-2xl font-bold text-foreground leading-none">{t("admin_security_biohandshake_status")}</h3>
@@ -360,11 +360,11 @@ export default function AdvancedSecurity() {
  <h5 className="font-bold text-foreground text-xs leading-none">{node.label}</h5>
  <p className="text-[10px] font-bold text-muted-foreground mt-1">{node.sub}</p>
  </div>
- <Switch checked={node.check} className="data-[state=checked]:bg-emerald-500" />
+ <Switch checked={node.check} className="data-[state=checked]:bg-blue-500" />
  </div>)}
  </div>
  </div>
- <Zap className="absolute -right-20 -bottom-20 w-64 h-64 text-emerald-500/5 group-hover:scale-110 transition-all duration-1000" />
+ <Zap className="absolute -right-20 -bottom-20 w-64 h-64 text-success/5 group-hover:scale-110 transition-all duration-1000" />
  </Card>
 
  <Card className="bg-gradient-to-br from-[#14151a]/60 to-transparent border-border rounded-4xl p-10 overflow-hidden shadow-2xl relative">
@@ -384,7 +384,7 @@ export default function AdvancedSecurity() {
  {['NX82-Y92K', 'L2P0-M10V', 'K7W3-R49X', 'Q5Z9-B12H', 'T8N1-P63L', 'D4G7-V82M'].map((code, i) => <div key={i} className="p-4 bg-muted/50 border border-border rounded-2xl font-mono text-xs text-foreground text-center">{code}</div>)}
  </div>
  {!showSecret && <div className="absolute inset-0 flex items-center justify-center">
- <Lock className="w-12 h-12 text-slate-700" />
+ <Lock className="w-12 h-12 text-muted-foreground" />
  </div>}
  </div>
 

@@ -113,10 +113,10 @@ export default function AdminProperties() {
  },
  onSuccess: () => {
  queryClient.invalidateQueries({ queryKey: ['admin-properties'] });
- toast({ title: t('success'), description: t('admin_property_archiveSuccess', 'Property has been archived successfully.') });
+ toast({ title: t('success'), description: t('admin_property_archiveSuccess', 'Mülk başarıyla arşivlendi.') });
  },
  onError: () => {
- toast({ title: t('error'), description: t('admin_property_archiveFailed', 'Failed to archive property.'), variant:"destructive" });
+ toast({ title: t('error'), description: t('admin_property_archiveFailed', 'Mülk arşivlenemedi.'), variant:"destructive" });
  }
  });
 
@@ -125,18 +125,18 @@ export default function AdminProperties() {
  await apiClient.post('/crm/generate-brochure', { propertyId });
  },
  onSuccess: () => {
- toast({ title: t('admin_brochure_title',"AI Brochure"), description: t('admin_brochure_success',"AI brochure generation triggered. You will be notified via email.") });
+ toast({ title: t('admin_brochure_title', "AI Broşür"), description: t('admin_brochure_success', "Yapay zeka broşür üretimi Python sunucusuna aktarıldı. Hazır olunca size e-posta ile bildirilecek.") });
  },
  onError: () => {
- toast({ title: t('error'), description: t('admin_brochure_error',"Failed to generate brochure."), variant:"destructive" });
+ toast({ title: t('error'), description: t('admin_brochure_error', "Broşür üretilemedi."), variant:"destructive" });
  }
  });
 
  const getStatusColor = (status: string) => {
  switch (status.toUpperCase()) {
- case 'AVAILABLE': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+ case 'AVAILABLE': return 'bg-blue-500/10 text-success border-blue-500/20';
  case 'SOLD': return 'bg-muted0/10 text-muted-foreground border-slate-500/20';
- case 'PENDING': return 'bg-orange-500/10 text-orange-400 border-orange-500/20';
+ case 'PENDING': return 'bg-orange-500/10 text-warning border-orange-500/20';
  case 'RENTED': return 'bg-muted0/10 text-muted-foreground border-slate-500/20';
  default: return 'bg-muted0/10 text-muted-foreground border-slate-500/20';
  }
@@ -158,8 +158,8 @@ export default function AdminProperties() {
  };
  const getComplianceBadge = (status: string) => {
  switch (status.toUpperCase()) {
- case 'VERIFIED': return <Badge className="bg-emerald-500/20 text-emerald-400 border-none gap-1 font-bold leading-none"><ShieldCheck className="w-3 h-3" /> {t('success')}</Badge>;
- case 'PENDING': return <Badge className="bg-orange-500/20 text-orange-400 border-none gap-1 font-bold leading-none"><Clock className="w-3 h-3" /> {t('admin_plans_status_pending')}</Badge>;
+ case 'VERIFIED': return <Badge className="bg-blue-500/20 text-success border-none gap-1 font-bold leading-none"><ShieldCheck className="w-3 h-3" /> {t('success')}</Badge>;
+ case 'PENDING': return <Badge className="bg-orange-500/20 text-warning border-none gap-1 font-bold leading-none"><Clock className="w-3 h-3" /> {t('admin_plans_status_pending')}</Badge>;
  case 'FAILED': return <Badge className="bg-red-500/20 text-red-400 border-none gap-1 font-bold leading-none"><AlertTriangle className="w-3 h-3" /> {t('failed')}</Badge>;
  default: return <Badge className="bg-muted0/20 text-muted-foreground border-none font-bold leading-none">{status}</Badge>;
  }
@@ -190,34 +190,34 @@ export default function AdminProperties() {
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('globalAssets')}</p>
  <h3 className="text-xl font-bold text-foreground leading-none">{stats.totalProperties}</h3>
- <p className="text-[10px] font-bold text-emerald-400 mt-4 flex items-center gap-1">
+ <p className="text-[10px] font-bold text-success mt-4 flex items-center gap-1">
  <TrendingUp className="w-3 h-3" /> {t('vsPrevMonth', { count: 2 })}
  </p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <DollarSign className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('projectedYield')}</p>
  <h3 className="text-xl font-bold text-foreground leading-none">{t("currency_symbol", "$")}{stats.totalRevenue.toLocaleString()}</h3>
- <p className="text-[10px] font-bold text-orange-400 mt-4 flex items-center gap-1">
+ <p className="text-[10px] font-bold text-warning mt-4 flex items-center gap-1">
  <Clock className="w-3 h-3" /> {t('propertyNextpayout', { days: 4 })}
  </p>
  </CardContent>
  </Card>
 
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Zap className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('propertyAvgoccupancy')}</p>
  <h3 className="text-xl font-bold text-foreground leading-none">{stats.avgOccupancy}%</h3>
- <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
- <div className="h-full bg-slate-600 rounded-full shadow-[0_0_10px_#7c3aed]" style={{ width: `${stats.avgOccupancy}%` }}></div>
+ <div className="mt-4 h-1.5 w-full bg-card/10 rounded-full overflow-hidden">
+ <div className="h-full bg-muted rounded-full shadow-[0_0_10px_#7c3aed]" style={{ width: `${stats.avgOccupancy}%` }}></div>
  </div>
  </CardContent>
  </Card>
@@ -270,7 +270,7 @@ export default function AdminProperties() {
  <p className="text-xs text-muted-foreground font-medium leading-relaxed">
  {t('admin_properties_ai_insight_description', { percent:"12.5" })}
  </p>
- <Button className="w-full bg-slate-600 hover:bg-muted0 text-foreground font-bold h-12 rounded-2xl text-[10px] shadow-xl shadow-slate-600/20">{t('viewAnalytics')}</Button>
+ <Button className="w-full bg-muted hover:bg-muted0 text-foreground font-bold h-12 rounded-2xl text-[10px] shadow-xl shadow-slate-600/20">{t('viewAnalytics')}</Button>
  </div>
  <Activity className="absolute -bottom-10 -right-10 w-40 h-40 text-muted-foreground/5 rotate-12" />
  </Card>
@@ -279,10 +279,10 @@ export default function AdminProperties() {
  <div className="xl:col-span-9 space-y-6">
  <Tabs defaultValue="ALL" value={listingFilter} onValueChange={setListingFilter} className="w-full">
  <TabsList className="bg-card border border-border p-1 rounded-2xl h-14 mb-4">
- <TabsTrigger value="ALL" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_t_m_i_lanlar", "TÜM İLANLAR")}</TabsTrigger>
- <TabsTrigger value="SALE" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_satilik", "SATILIK")}</TabsTrigger>
- <TabsTrigger value="RENT" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_ki_ralik", "KİRALIK")}</TabsTrigger>
- <TabsTrigger value="BOOKING" className="rounded-xl h-10 px-6 data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_g_nl_k_otel", "GÜNLÜK / OTEL")}</TabsTrigger>
+ <TabsTrigger value="ALL" className="rounded-xl h-10 px-6 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_t_m_i_lanlar", "TÜM İLANLAR")}</TabsTrigger>
+ <TabsTrigger value="SALE" className="rounded-xl h-10 px-6 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_satilik", "SATILIK")}</TabsTrigger>
+ <TabsTrigger value="RENT" className="rounded-xl h-10 px-6 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_ki_ralik", "KİRALIK")}</TabsTrigger>
+ <TabsTrigger value="BOOKING" className="rounded-xl h-10 px-6 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all text-xs font-bold tracking-widest text-muted-foreground">{t("admin_auto_g_nl_k_otel", "GÜNLÜK / OTEL")}</TabsTrigger>
  </TabsList>
  </Tabs>
 
@@ -292,10 +292,10 @@ export default function AdminProperties() {
  <Input placeholder={t('searchPlaceholder')} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-orange-500/20 focus:border-orange-500/40 transition-all font-medium shadow-2xl" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-foreground hover:bg-slate-100 dark:hover:bg-white/10 gap-2">
+ <Button variant="outline" className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-card/10 gap-2">
  <Filter className="w-4 h-4" /> {t('commonFilter')}
  </Button>
- <Button variant="outline" className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-foreground hover:bg-slate-100 dark:hover:bg-white/10 gap-2">
+ <Button variant="outline" className="h-14 px-6 rounded-2xl border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted dark:hover:bg-card/10 gap-2">
  <Download className="w-4 h-4" /> {t('commonExport')}
  </Button>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
@@ -306,25 +306,25 @@ export default function AdminProperties() {
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle className="text-foreground">{t("admin_auto_create_new_property", "Create New Property")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_property", "Enter the details for the new property.")}</DialogDescription>
+ <DialogTitle className="text-foreground">{t("admin_auto_create_new_property", "Yeni Mülk Oluştur")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_property", "Yeni mülkün ayrıntılarını girin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="title" className="text-right text-xs text-muted-foreground">{t("admin_auto_title", "Title")}</Label>
- <Input id="title" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder={t("admin_auto_enter_title", "Enter title")} />
+ <Label htmlFor="title" className="text-right text-xs text-muted-foreground">{t("admin_auto_title", "Otomatik")}</Label>
+ <Input id="title" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder={t("admin_auto_enter_title", "Başlığı girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_type", "Property Type")}</Label>
- <Input id="type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder={t("admin_auto_enter_property_type", "Enter property type")} />
+ <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_type", "Emlak Tipi")}</Label>
+ <Input id="type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder={t("admin_auto_enter_property_type", "Mülk türünü girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="price" className="text-right text-xs text-muted-foreground">{t("admin_auto_price", "Price")}</Label>
- <Input id="price" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder={t("admin_auto_enter_price", "Enter price")} />
+ <Label htmlFor="price" className="text-right text-xs text-muted-foreground">{t("admin_auto_price", "Fiyat")}</Label>
+ <Input id="price" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder={t("admin_auto_enter_price", "Fiyatı girin")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" className="border-border text-foreground bg-card" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" className="border-border text-foreground bg-card" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending} className="bg-orange-600 hover:bg-orange-500 text-foreground">
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -335,25 +335,25 @@ export default function AdminProperties() {
  <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle className="text-foreground">{t("admin_auto_edit_property", "Edit Property")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_update_the_property_details", "Update the property details.")}</DialogDescription>
+ <DialogTitle className="text-foreground">{t("admin_auto_edit_property", "Mülkü Düzenle")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_update_the_property_details", "Özellik ayrıntılarını güncelleyin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-title" className="text-right text-xs text-muted-foreground">{t("admin_auto_title", "Title")}</Label>
- <Input id="edit-title" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder={t("admin_auto_enter_title", "Enter title")} />
+ <Label htmlFor="edit-title" className="text-right text-xs text-muted-foreground">{t("admin_auto_title", "Otomatik")}</Label>
+ <Input id="edit-title" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder={t("admin_auto_enter_title", "Başlığı girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-type" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_type", "Property Type")}</Label>
- <Input id="edit-type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder={t("admin_auto_enter_property_type", "Enter property type")} />
+ <Label htmlFor="edit-type" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_type", "Emlak Tipi")}</Label>
+ <Input id="edit-type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder={t("admin_auto_enter_property_type", "Mülk türünü girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="edit-price" className="text-right text-xs text-muted-foreground">{t("admin_auto_price", "Price")}</Label>
- <Input id="edit-price" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder={t("admin_auto_enter_price", "Enter price")} />
+ <Label htmlFor="edit-price" className="text-right text-xs text-muted-foreground">{t("admin_auto_price", "Fiyat")}</Label>
+ <Input id="edit-price" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} placeholder={t("admin_auto_enter_price", "Fiyatı girin")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" className="border-border text-foreground bg-card" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" className="border-border text-foreground bg-card" onClick={() => setIsEditOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => updateMutation.mutate({ id: editingId, ...formData })} disabled={updateMutation.isPending} className="bg-orange-600 hover:bg-orange-500 text-foreground">
  {updateMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -391,7 +391,7 @@ export default function AdminProperties() {
  <TableCell className="py-8 px-8">
  <div className="flex items-center gap-6">
  <div className="w-16 h-16 bg-card border border-border rounded-2xl flex items-center justify-center group-hover:scale-105 transition-all overflow-hidden relative">
- <Building className="w-8 h-8 text-slate-600" />
+ <Building className="w-8 h-8 text-muted-foreground" />
  </div>
  <div className="space-y-1">
  <h4 className="text-lg font-bold text-foreground leading-tight">{property.name}</h4>
@@ -411,13 +411,13 @@ export default function AdminProperties() {
  <div className="space-y-3 min-w-[200px]">
  <div className="flex justify-between items-end">
  <span className="text-[10px] font-bold text-muted-foreground">{t("admin_property_yield_dna")}</span>
- <span className="text-sm font-bold text-emerald-400">{t("currency_symbol", "$")}{property.revenue?.toLocaleString()}</span>
+ <span className="text-sm font-bold text-success">{t("currency_symbol", "$")}{property.revenue?.toLocaleString()}</span>
  </div>
  <div className="flex justify-between items-end">
  <span className="text-[10px] font-bold text-muted-foreground">{t("admin_property_occupancy")}</span>
  <span className="text-xs font-bold text-foreground">{property.occupancyRate}%</span>
  </div>
- <Progress value={property.occupancyRate} className="h-1 bg-white/10 [&>div]:bg-emerald-500" />
+ <Progress value={property.occupancyRate} className="h-1 bg-card/10 [&>div]:bg-blue-500" />
  </div>
  </TableCell>
  <TableCell className="px-8 text-center">
@@ -438,7 +438,7 @@ export default function AdminProperties() {
  <TableCell className="px-8 text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground transition-all">
+ <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground transition-all" aria-label={t("common.more")}>
  <MoreHorizontal className="w-5 h-5" />
  </Button>
  </DropdownMenuTrigger>
@@ -451,15 +451,15 @@ export default function AdminProperties() {
  <Users className="w-4 h-4 mr-3 text-muted-foreground" /> {t('manageRequests')}
  </DropdownMenuItem>
  <DropdownMenuItem onClick={() => brochureMutation.mutate(property.id)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
- <FileText className="w-4 h-4 mr-3 text-[#C5A059]" /> {t('admin_brochure_generate', 'Generate AI Brochure')}
+ <FileText className="w-4 h-4 mr-3 text-[#C5A059]" /> {t('admin_brochure_generate', 'Yapay Zeka Broşürü Üret')}
  </DropdownMenuItem>
  <DropdownMenuItem onClick={() => navigate('/admin/financial-reports')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
- <DollarSign className="w-4 h-4 mr-3 text-emerald-400" /> {t('viewPL')}
+ <DollarSign className="w-4 h-4 mr-3 text-success" /> {t('viewPL')}
  </DropdownMenuItem>
  <DropdownMenuItem onClick={() => navigate('/admin/maintenance')} className="rounded-xl px-4 py-3 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-all cursor-pointer">
  <Calendar className="w-4 h-4 mr-3 text-muted-foreground" /> {t('scheduleMaintenance')}
  </DropdownMenuItem>
- <DropdownMenuSeparator className="bg-white/10" />
+ <DropdownMenuSeparator className="bg-card/10" />
  <DropdownMenuItem onClick={() => archiveMutation.mutate(property.id)} className="rounded-xl px-4 py-3 text-[10px] font-bold text-red-400 hover:text-red-300 hover:bg-red-400/5 transition-all cursor-pointer">
  {t('archiveAsset')}
  </DropdownMenuItem>
@@ -481,7 +481,7 @@ export default function AdminProperties() {
  <div className="relative z-10 space-y-8">
  <div className="flex items-center gap-4">
  <div className="p-4 bg-orange-600/10 border border-orange-500/20 rounded-3xl">
- <TrendingUp className="w-10 h-10 text-orange-400" />
+ <TrendingUp className="w-10 h-10 text-warning" />
  </div>
  <div>
  <h3 className="text-3xl font-bold text-foreground">{t('admin_properties_velocity_title')}</h3>
@@ -496,9 +496,9 @@ export default function AdminProperties() {
  </div>
  <div className="flex items-end gap-2">
  <span className="text-3xl font-bold text-foreground">142</span>
- <span className="text-[10px] font-bold text-emerald-400 mb-1">+12%</span>
+ <span className="text-[10px] font-bold text-success mb-1">+12%</span>
  </div>
- <Progress value={78} className="h-1 bg-white/10 [&>div]:bg-muted0" />
+ <Progress value={78} className="h-1 bg-card/10 [&>div]:bg-muted0" />
  </div>
  <div className="space-y-4">
  <div className="flex items-center gap-2">
@@ -507,20 +507,20 @@ export default function AdminProperties() {
  </div>
  <div className="flex items-end gap-2">
  <span className="text-3xl font-bold text-foreground">84</span>
- <span className="text-[10px] font-bold text-emerald-400 mb-1">+8%</span>
+ <span className="text-[10px] font-bold text-success mb-1">+8%</span>
  </div>
- <Progress value={62} className="h-1 bg-white/10 [&>div]:bg-muted0" />
+ <Progress value={62} className="h-1 bg-card/10 [&>div]:bg-muted0" />
  </div>
  <div className="space-y-4">
  <div className="flex items-center gap-2">
- <Clock className="w-4 h-4 text-orange-400" />
+ <Clock className="w-4 h-4 text-warning" />
  <span className="text-[10px] font-bold text-muted-foreground">{t('avgReplyTime')}</span>
  </div>
  <div className="flex items-end gap-2">
  <span className="text-3xl font-bold text-foreground">{t("admin_property_12m")}</span>
- <span className="text-[10px] font-bold text-emerald-400 mb-1">{t("admin_property_2m")}</span>
+ <span className="text-[10px] font-bold text-success mb-1">{t("admin_property_2m")}</span>
  </div>
- <Progress value={45} className="h-1 bg-white/10 [&>div]:bg-orange-500" />
+ <Progress value={45} className="h-1 bg-card/10 [&>div]:bg-orange-500" />
  </div>
  </div>
  <Button variant="ghost" className="text-[10px] font-bold text-muted-foreground hover:text-foreground flex items-center gap-2 px-0">
@@ -530,11 +530,11 @@ export default function AdminProperties() {
  </Card>
 
  <Card className="bg-card border-border rounded-4xl p-10 overflow-hidden shadow-2xl relative group">
- <CreditCard className="absolute -right-10 -top-10 w-48 h-48 text-emerald-500/5 group-hover:scale-110 transition-all duration-1000" />
+ <CreditCard className="absolute -right-10 -top-10 w-48 h-48 text-success/5 group-hover:scale-110 transition-all duration-1000" />
  <div className="relative z-10 space-y-8">
  <div className="flex items-center gap-4">
- <div className="p-4 bg-emerald-600/10 border border-emerald-500/20 rounded-3xl">
- <DollarSign className="w-10 h-10 text-emerald-400" />
+ <div className="p-4 bg-blue-600/10 border border-blue-500/20 rounded-3xl">
+ <DollarSign className="w-10 h-10 text-success" />
  </div>
  <div>
  <h3 className="text-3xl font-bold text-foreground">{t('admin_properties_financial_title')}</h3>
@@ -544,7 +544,7 @@ export default function AdminProperties() {
  <div className="space-y-6">
  <div className="flex justify-between items-center group">
  <div className="flex items-center gap-3">
- <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 border border-emerald-400/50"></div>
+ <div className="w-1.5 h-1.5 rounded-full bg-blue-500 border border-blue-400/50"></div>
  <span className="text-[10px] font-bold text-muted-foreground tracking-tight">{t('netOperatingIncome')}</span>
  </div>
  <span className="text-lg font-bold text-foreground leading-none font-mono">$842,000</span>
@@ -572,7 +572,7 @@ export default function AdminProperties() {
  </div>
  </div>
  <div className="pt-4 border-t border-border flex gap-4">
- <Button className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-foreground font-bold h-12 rounded-2xl text-[10px] shadow-xl shadow-emerald-600/20">{t('executeDisbursements')}</Button>
+ <Button className="flex-1 bg-blue-600 hover:bg-blue-500 text-foreground font-bold h-12 rounded-2xl text-[10px] shadow-xl shadow-blue-600/20">{t('executeDisbursements')}</Button>
  <Button variant="outline" className="flex-1 border-border text-muted-foreground hover:text-foreground h-12 rounded-2xl text-[10px] group">{t('viewFullLedger')}</Button>
  </div>
  </div>

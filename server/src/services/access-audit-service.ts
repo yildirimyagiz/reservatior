@@ -41,11 +41,11 @@ export class AccessAuditService extends BaseService<any, any, any> {
       },
     });
 
-    await eventBus.publish({
-      type: DomainEvents.ACCESS_LOG_RECORDED,
-      payload: { id: result.id, userId: data.userId, action: data.action, resource: data.resource },
-      source: "SecurityOS",
-    });
+    await eventBus.publish(
+      DomainEvents.ACCESS_LOG_RECORDED,
+      { id: result.id, userId: data.userId, action: data.action, resource: data.resource },
+      "SecurityOS",
+    );
 
     return result;
   }

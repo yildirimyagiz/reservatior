@@ -11,16 +11,35 @@ export const securityOSRoutes = new Elysia({ prefix: "/security-os" })
       const { orgId } = query;
       if (!orgId) { set.status = 400; return { error: "orgId is required" }; }
 
-      const [kycStats, fraudAlerts, recentAudits, activePolicies] = await Promise.all([
+      const [kycStats, fraudAlerts, recentAudits, activePolicies, allPolicies] = await Promise.all([
         kycVerificationService.getStats(orgId).catch(() => ({ total: 0, byStatus: [] })),
         fraudDetectionService.getActiveAlerts(orgId).catch(() => []),
         accessAuditService.getRecentActivity(orgId, 10).catch(() => []),
         securityPolicyService.getActivePolicies(orgId).catch(() => []),
+        securityPolicyService.getByOrg(orgId).catch(() => []),
       ]);
+
+      const activeThreats = fraudAlerts.filter((f: any) => f.status !== "RESOLVED").length;
+      const resolvedIncidents = fraudAlerts.filter((f: any) => f.status === "RESOLVED").length;
+      const policyCount = allPolicies.length || 1;
+      const compliance = Math.round((activePolicies.length / policyCount) * 100);
+      const securityScore = Math.max(
+        0,
+        Math.min(100, 100 - activeThreats * 5 + (kycStats.total ? 10 : 0) - (compliance < 60 ? 15 : 0))
+      );
 
       return {
         success: true,
-        data: { kycStats, fraudAlerts, recentAudits, activePolicies },
+        data: {
+          securityScore,
+          activeThreats,
+          resolvedIncidents,
+          compliance,
+          kycStats,
+          fraudAlerts,
+          recentAudits,
+          activePolicies,
+        },
       };
     } catch (error: any) {
       set.status = 500;
@@ -29,6 +48,71 @@ export const securityOSRoutes = new Elysia({ prefix: "/security-os" })
   }, {
     query: t.Object({ orgId: t.String() }),
     detail: { summary: "Security OS Dashboard", tags: ["Security OS"] },
+  })
+
+  .get("/threat-trends", async ({ query, set }) => {
+    try {
+      const { orgId } = query;
+      if (!orgId) { set.status = 400; return { error: "orgId is required" }; }
+
+      const [fraudAlerts, audits] = await Promise.all([
+        fraudDetectionService.getActiveAlerts(orgId).catch(() => []),
+        accessAuditService.getByOrg(orgId, { take: 1000 }).catch(() => []),
+      ]);
+
+      const months: { month: string; threats: number }[] = [];
+      const now = new Date();
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+        const monthLabel = d.toLocaleString("en-US", { month: "short" });
+        const fraudCount = fraudAlerts.filter((f: any) => {
+          const c = new Date(f.createdAt);
+          return `${c.getFullYear()}-${String(c.getMonth() + 1).padStart(2, "0")}` === key;
+        }).length;
+        const auditCount = audits.filter((a: any) => {
+          const c = new Date(a.createdAt);
+          return `${c.getFullYear()}-${String(c.getMonth() + 1).padStart(2, "0")}` === key;
+        }).length;
+        months.push({ month: monthLabel, threats: fraudCount + auditCount });
+      }
+
+      return { success: true, data: months };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  }, {
+    query: t.Object({ orgId: t.String() }),
+    detail: { summary: "Security Threat Trends", tags: ["Security OS"] },
+  })
+
+  .get("/security-events", async ({ query, set }) => {
+    try {
+      const { orgId } = query;
+      if (!orgId) { set.status = 400; return { error: "orgId is required" }; }
+
+      const audits = await accessAuditService.getByOrg(orgId, { take: 2000 }).catch(() => []);
+
+      const byType: Record<string, number> = {};
+      for (const a of audits) {
+        const type = a.action || a.resource || "unknown";
+        byType[type] = (byType[type] || 0) + 1;
+      }
+
+      const data = Object.entries(byType)
+        .map(([type, count]) => ({ type, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 12);
+
+      return { success: true, data };
+    } catch (error: any) {
+      set.status = 500;
+      return { success: false, error: error.message };
+    }
+  }, {
+    query: t.Object({ orgId: t.String() }),
+    detail: { summary: "Security Events Breakdown", tags: ["Security OS"] },
   })
 
   .get("/kyc", async ({ query, set }) => {

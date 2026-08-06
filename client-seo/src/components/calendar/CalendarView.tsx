@@ -154,7 +154,7 @@ export function CalendarView() {
       case "appointment":
         return "bg-blue-500/10 text-blue-500 border-blue-200";
       case "viewing":
-        return "bg-green-500/10 text-green-500 border-green-200";
+        return "bg-blue-500/10 text-blue-500 border-blue-200";
       case "meeting":
         return "bg-purple-500/10 text-purple-500 border-purple-200";
       case "deadline":
@@ -174,7 +174,7 @@ export function CalendarView() {
       case "medium":
         return "bg-yellow-500";
       case "low":
-        return "bg-green-500";
+        return "bg-blue-500";
       default:
         return "bg-gray-500";
     }
@@ -241,11 +241,11 @@ export function CalendarView() {
           <p className="text-muted-foreground">{t("client.src.manage_your_appointments_viewings")}</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => setCurrentDate(subMonths(currentDate, 1))}>
+          <Button variant="outline" size="sm" onClick={() => setCurrentDate(subMonths(currentDate, 1))} aria-label={t("common.previous")}>
             <ChevronLeft className="w-4 h-4" />
           </Button>
-          <Button variant="outline" size="sm" onClick={() => setCurrentDate(new Date())}>{t("client.src.today")}</Button>
-          <Button variant="outline" size="sm" onClick={() => setCurrentDate(addMonths(currentDate, 1))}>
+          <Button variant="outline" size="sm" onClick={() => setCurrentDate(new Date())}>{t("common.today")}</Button>
+          <Button variant="outline" size="sm" onClick={() => setCurrentDate(addMonths(currentDate, 1))} aria-label={t("common.next")}>
             <ChevronRight className="w-4 h-4" />
           </Button>
           <Button onClick={() => setShowEventDialog(true)}>
@@ -332,13 +332,13 @@ export function CalendarView() {
                               </div>}
                           </div>
                           <div className="flex gap-2">
-                            <Button size="sm" variant="outline">
+                            <Button size="sm" variant="outline" aria-label={t("common.view")}>
                               <Eye className="w-4 h-4" />
                             </Button>
-                            <Button size="sm" variant="outline">
+                            <Button size="sm" variant="outline" aria-label={t("common.edit")}>
                               <Edit className="w-4 h-4" />
                             </Button>
-                            <Button size="sm" variant="outline">
+                            <Button size="sm" variant="outline" aria-label={t("common.delete")}>
                               <Trash2 className="w-4 h-4" />
                             </Button>
                           </div>
@@ -374,7 +374,7 @@ export function CalendarView() {
                 </Select>
               </div>
               <div>
-                <label className="text-sm font-medium mb-2 block">{t("client.src.search")}</label>
+                <label className="text-sm font-medium mb-2 block">{t("common.search")}</label>
                 <div className="relative">
                   <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
                   <Input placeholder={t("client.src.search_events")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-10" />
@@ -424,7 +424,7 @@ export function CalendarView() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm">{t("client.src.viewings")}</span>
-                  <Badge className="bg-green-500/10 text-green-500">
+                  <Badge className="bg-blue-500/10 text-blue-500">
                     {events.filter(e => e.type === "viewing" && isSameDay(parseISO(e.date), new Date())).length}
                   </Badge>
                 </div>
@@ -463,7 +463,7 @@ export function CalendarView() {
                 <label className="text-sm font-medium mb-2 block">{t("client.src.event_type")}</label>
                 <Select>
                   <SelectTrigger>
-                    <SelectValue placeholder={t("client.src.select_type")} />
+                    <SelectValue placeholder={t("common.select_type")} />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="appointment">{t("client.src.appointment")}</SelectItem>
@@ -477,20 +477,20 @@ export function CalendarView() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium mb-2 block">{t("client.src.date")}</label>
+                <label className="text-sm font-medium mb-2 block">{t("common.date")}</label>
                 <Input type="date" />
               </div>
               <div>
-                <label className="text-sm font-medium mb-2 block">{t("client.src.priority")}</label>
+                <label className="text-sm font-medium mb-2 block">{t("common.priority")}</label>
                 <Select>
                   <SelectTrigger>
                     <SelectValue placeholder={t("client.src.select_priority")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="low">{t("client.src.low")}</SelectItem>
-                    <SelectItem value="medium">{t("client.src.medium")}</SelectItem>
-                    <SelectItem value="high">{t("client.src.high")}</SelectItem>
-                    <SelectItem value="urgent">{t("client.src.urgent")}</SelectItem>
+                    <SelectItem value="low">{t("common.low")}</SelectItem>
+                    <SelectItem value="medium">{t("common.medium")}</SelectItem>
+                    <SelectItem value="high">{t("common.high")}</SelectItem>
+                    <SelectItem value="urgent">{t("common.urgent")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -506,18 +506,18 @@ export function CalendarView() {
               </div>
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">{t("client.src.location")}</label>
+              <label className="text-sm font-medium mb-2 block">{t("common.location")}</label>
               <Input placeholder={t("client.src.enter_location")} />
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">{t("client.src.description")}</label>
+              <label className="text-sm font-medium mb-2 block">{t("common.description")}</label>
               <Textarea placeholder={t("client.src.enter_description")} rows={3} />
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">{t("client.src.property")}</label>
+              <label className="text-sm font-medium mb-2 block">{t("common.property")}</label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder={t("client.src.select_property")} />
+                  <SelectValue placeholder={t("common.select_property")} />
                 </SelectTrigger>
                 <SelectContent>
                   {properties.map(property => <SelectItem key={property.id} value={property.id}>
@@ -527,7 +527,7 @@ export function CalendarView() {
               </Select>
             </div>
             <div>
-              <label className="text-sm font-medium mb-2 block">{t("client.src.client")}</label>
+              <label className="text-sm font-medium mb-2 block">{t("common.client")}</label>
               <Select>
                 <SelectTrigger>
                   <SelectValue placeholder={t("client.src.select_client")} />
@@ -541,7 +541,7 @@ export function CalendarView() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowEventDialog(false)}>{t("client.src.cancel")}</Button>
+            <Button variant="outline" onClick={() => setShowEventDialog(false)}>{t("common.cancel")}</Button>
             <Button onClick={() => setShowEventDialog(false)}>{t("client.src.create_event")}</Button>
           </DialogFooter>
         </DialogContent>

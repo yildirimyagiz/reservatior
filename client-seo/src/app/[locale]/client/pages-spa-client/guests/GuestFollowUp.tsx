@@ -201,11 +201,11 @@ export default function GuestFollowUp() {
       case 'in_progress':
         return 'bg-blue-100 text-blue-800';
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'cancelled':
         return 'bg-red-100 text-red-800';
       case 'scheduled':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-brand/15 text-brand';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -245,7 +245,7 @@ export default function GuestFollowUp() {
   const getGuestStatusIcon = (status: string) => {
     switch (status) {
       case 'active':
-        return <UserCheck className="w-4 h-4 text-green-500" />;
+        return <UserCheck className="w-4 h-4 text-blue-500" />;
       case 'vip':
         return <Star className="w-4 h-4 text-yellow-500" />;
       case 'inactive':
@@ -257,7 +257,7 @@ export default function GuestFollowUp() {
     }
   };
   const getSatisfactionIcon = (score: number) => {
-    if (score >= 4) return <Smile className="w-4 h-4 text-green-500" />;
+    if (score >= 4) return <Smile className="w-4 h-4 text-blue-500" />;
     if (score >= 3) return <Meh className="w-4 h-4 text-yellow-500" />;
     return <Frown className="w-4 h-4 text-red-500" />;
   };
@@ -290,7 +290,7 @@ export default function GuestFollowUp() {
                     <p className="text-2xl font-bold">{analytics.total}</p>
                     <p className="text-xs text-muted-foreground">{t("client.src.completion")}{analytics.completionRate.toFixed(1)}%</p>
                   </div>
-                  <Users className="w-8 h-8 text-blue-500" />
+                  <Users className="w-8 h-8 text-brand" />
                 </div>
               </CardContent>
             </Card>
@@ -318,11 +318,11 @@ export default function GuestFollowUp() {
                     <p className="text-sm font-medium text-muted-foreground">{t("client.src.response_rate")}</p>
                     <p className="text-2xl font-bold">{analytics.responseRate.toFixed(1)}%</p>
                     <div className="flex items-center gap-1">
-                      {analytics.responseRate > 70 ? <TrendingUp className="w-3 h-3 text-green-500" /> : <TrendingDown className="w-3 h-3 text-red-500" />}
+                      {analytics.responseRate > 70 ? <TrendingUp className="w-3 h-3 text-blue-500" /> : <TrendingDown className="w-3 h-3 text-red-500" />}
                       <p className="text-xs text-muted-foreground">{t("client.src.good")}</p>
                     </div>
                   </div>
-                  <MessageSquare className="w-8 h-8 text-green-500" />
+                  <MessageSquare className="w-8 h-8 text-blue-500" />
                 </div>
               </CardContent>
             </Card>
@@ -335,7 +335,7 @@ export default function GuestFollowUp() {
                     <p className="text-2xl font-bold">{analytics.averageResponseTime.toFixed(1)}s</p>
                     <p className="text-xs text-muted-foreground">{t("client.src.seconds")}</p>
                   </div>
-                  <Clock className="w-8 h-8 text-purple-500" />
+                  <Clock className="w-8 h-8 text-brand" />
                 </div>
               </CardContent>
             </Card>
@@ -346,27 +346,27 @@ export default function GuestFollowUp() {
           {[{
           status: 'pending',
           count: analytics?.pending || 0,
-          label: t("client.src.pending"),
+          label: t("common.processing"),
           color: 'bg-yellow-100 text-yellow-800'
         }, {
           status: 'in_progress',
           count: analytics?.inProgress || 0,
-          label: t("client.src.in_progress"),
+          label: t("common.in_progress"),
           color: 'bg-blue-100 text-blue-800'
         }, {
           status: 'completed',
           count: analytics?.completed || 0,
-          label: t("client.src.completed"),
-          color: 'bg-green-100 text-green-800'
+          label: t("common.completed"),
+          color: 'bg-blue-100 text-blue-800'
         }, {
           status: 'scheduled',
           count: analytics?.scheduled || 0,
-          label: t("client.src.scheduled"),
-          color: 'bg-purple-100 text-purple-800'
+          label: t("common.scheduled"),
+          color: 'bg-brand/15 text-brand'
         }, {
           status: 'cancelled',
           count: analytics?.cancelled || 0,
-          label: t("client.src.cancelled"),
+          label: t("common.cancelled"),
           color: 'bg-red-100 text-red-800'
         }].map(({
           status,
@@ -401,10 +401,10 @@ export default function GuestFollowUp() {
                 queryClient.invalidateQueries({ queryKey: ['guest-follow-ups'] });
                 queryClient.invalidateQueries({ queryKey: ['guest-follow-up-analytics'] });
               }}>
-              <RefreshCw className="w-4 h-4 mr-2" />{t("client.src.refresh")}</Button>
+              <RefreshCw className="w-4 h-4 mr-2" />{t("common.refresh")}</Button>
 
             <Button variant="outline" size="sm" onClick={exportFollowUps}>
-              <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
+              <Download className="w-4 h-4 mr-2" />{t("common.download")}</Button>
           </div>
 
           <div className="flex items-center gap-2">
@@ -428,18 +428,18 @@ export default function GuestFollowUp() {
           status: e.target.value || undefined
         })}>
             <option value="">{t("client.src.all_statuses")}</option>
-            <option value="pending">{t("client.src.pending")}</option>
-            <option value="in_progress">{t("client.src.in_progress")}</option>
-            <option value="completed">{t("client.src.completed")}</option>
-            <option value="scheduled">{t("client.src.scheduled")}</option>
-            <option value="cancelled">{t("client.src.cancelled")}</option>
+            <option value="pending">{t("common.processing")}</option>
+            <option value="in_progress">{t("common.in_progress")}</option>
+            <option value="completed">{t("common.completed")}</option>
+            <option value="scheduled">{t("common.scheduled")}</option>
+            <option value="cancelled">{t("common.cancelled")}</option>
           </select>
 
           <select aria-label="Filter by follow-up type" className="px-3 py-1 border rounded-md text-sm" value={filter.type || ''} onChange={e => setFilter({
           ...filter,
           type: e.target.value || undefined
         })}>
-            <option value="">{t("client.src.all_types")}</option>
+            <option value="">{t("common.all_types")}</option>
             <option value="pre_arrival">{t("client.src.prearrival")}</option>
             <option value="post_stay">{t("client.src.poststay")}</option>
             <option value="special_occasion">{t("client.src.special_occasion")}</option>
@@ -453,10 +453,10 @@ export default function GuestFollowUp() {
           priority: e.target.value || undefined
         })}>
             <option value="">{t("client.src.all_priorities")}</option>
-            <option value="low">{t("client.src.low")}</option>
-            <option value="medium">{t("client.src.medium")}</option>
-            <option value="high">{t("client.src.high")}</option>
-            <option value="urgent">{t("client.src.urgent")}</option>
+            <option value="low">{t("common.low")}</option>
+            <option value="medium">{t("common.medium")}</option>
+            <option value="high">{t("common.high")}</option>
+            <option value="urgent">{t("common.urgent")}</option>
           </select>
 
           <div className="flex gap-2">
@@ -469,8 +469,8 @@ export default function GuestFollowUp() {
         <Tabs defaultValue="follow-ups" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="follow-ups">{t("client.src.followups")}</TabsTrigger>
-            <TabsTrigger value="analytics">{t("client.src.analytics")}</TabsTrigger>
-            <TabsTrigger value="templates">{t("client.src.templates")}</TabsTrigger>
+            <TabsTrigger value="analytics">{t("common.analytics")}</TabsTrigger>
+            <TabsTrigger value="templates">{t("common.templates")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="follow-ups" className="space-y-6">
@@ -526,7 +526,7 @@ export default function GuestFollowUp() {
                             <p className="font-medium">{followUp.assignedAgent}</p>
                           </div>
                           <div>
-                            <p className="text-muted-foreground">{t("client.src.scheduled")}</p>
+                            <p className="text-muted-foreground">{t("common.scheduled")}</p>
                             <p className="font-medium">
                               {followUp.scheduledDate ? followUp.scheduledDate.toLocaleDateString() : '-'}
                             </p>
@@ -540,7 +540,7 @@ export default function GuestFollowUp() {
                           </div>
                           <div className="flex items-center gap-1">
                             <Users className="w-3 h-3" />
-                            <span className="text-sm">{followUp.guest.totalBookings}{t("client.src.bookings")}</span>
+                            <span className="text-sm">{followUp.guest.totalBookings}{t("common.bookings")}</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <DollarSign className="w-3 h-3" />
@@ -730,7 +730,7 @@ export default function GuestFollowUp() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>{t("client.src.followup_detail")}{selectedFollowUp.guest.name}</CardTitle>
-                  <Button variant="ghost" size="sm" onClick={() => setSelectedFollowUp(null)}>
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedFollowUp(null)} aria-label={t("common.close")}>
                     ×
                   </Button>
                 </div>
@@ -806,20 +806,20 @@ export default function GuestFollowUp() {
                       <CardContent className="p-4">
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="text-sm font-medium text-muted-foreground">{t("client.src.type")}</span>
+                            <span className="text-sm font-medium text-muted-foreground">{t("common.type")}</span>
                             <div className="flex items-center gap-2">
                               {getFollowUpTypeIcon(selectedFollowUp.followUpType)}
                               <span className="font-medium">{selectedFollowUp.followUpType.replace('_', ' ')}</span>
                             </div>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-sm font-medium text-muted-foreground">{t("client.src.priority")}</span>
+                            <span className="text-sm font-medium text-muted-foreground">{t("common.priority")}</span>
                             <Badge className={getPriorityColor(selectedFollowUp.priority)}>
                               {selectedFollowUp.priority}
                             </Badge>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-sm font-medium text-muted-foreground">{t("client.src.status")}</span>
+                            <span className="text-sm font-medium text-muted-foreground">{t("common.status")}</span>
                             <Badge className={getStatusColor(selectedFollowUp.status)}>
                               {selectedFollowUp.status}
                             </Badge>
@@ -877,7 +877,7 @@ export default function GuestFollowUp() {
                               {getSatisfactionIcon(selectedFollowUp.feedback.rating)}
                               <span className="font-medium">{selectedFollowUp.feedback.rating.toFixed(1)}</span>
                             </div>
-                            <Badge className={selectedFollowUp.feedback.sentiment === 'positive' ? 'bg-green-100 text-green-800' : selectedFollowUp.feedback.sentiment === 'negative' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'}>
+                            <Badge className={selectedFollowUp.feedback.sentiment === 'positive' ? 'bg-blue-100 text-blue-800' : selectedFollowUp.feedback.sentiment === 'negative' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'}>
                               {selectedFollowUp.feedback.sentiment}
                             </Badge>
                           </div>
@@ -917,7 +917,7 @@ export default function GuestFollowUp() {
                   }}>
                     <Calendar className="w-4 h-4 mr-2" />{t("client.src.schedule")}</Button>
                   <Button variant="outline" onClick={() => toast({ title: t("client.src.export_started") })}>
-                    <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
+                    <Download className="w-4 h-4 mr-2" />{t("common.download")}</Button>
                 </div>
               </CardContent>
             </Card>
@@ -937,7 +937,7 @@ export default function GuestFollowUp() {
               <Textarea value={actionContent} onChange={e => setActionContent(e.target.value)} rows={4} placeholder={t("client.src.enter_details")} />
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsActionModalOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button variant="outline" onClick={() => setIsActionModalOpen(false)}>{t("common.cancel")}</Button>
               <Button onClick={() => {
                 toast({ title: t("client.src.action_completed") });
                 setIsActionModalOpen(false);

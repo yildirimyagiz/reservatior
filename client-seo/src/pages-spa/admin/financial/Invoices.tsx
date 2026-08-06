@@ -3,7 +3,7 @@ import { apiClient } from '@/lib/api/client';
 
 import { t } from"i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Badge } from"@/components/ui/badge";
 import { Button } from"@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from"@/components/ui/table";
@@ -29,7 +29,7 @@ const STATUS_CONFIG: Record<string, {
 }> = {
  paid: {
  label: t("admin_financial_paid"),
- cls:"bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+ cls:"bg-blue-500/10 text-success border-blue-500/20",
  icon: CheckCircle
  },
  pending: {
@@ -177,7 +177,7 @@ export default function FinancialInvoices() {
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_financial_outstanding")}</p>
- <h3 className="text-xl font-bold text-orange-400 leading-none">{t("currency_symbol", "$")}{stats.outstanding.toLocaleString()}</h3>
+ <h3 className="text-xl font-bold text-warning leading-none">{t("currency_symbol", "$")}{stats.outstanding.toLocaleString()}</h3>
  </CardContent>
  </Card>
  </m.div>
@@ -191,13 +191,13 @@ export default function FinancialInvoices() {
  }} transition={{
  delay: 0.3
  }}>
- <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t border-l-emerald-500/30 transition-all hover:bg-muted/50">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t border-l-blue-500/30 transition-all hover:bg-muted/50">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <CheckCircle className="w-10 h-10" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t("admin_financial_paidtotal")}</p>
- <h3 className="text-xl font-bold text-emerald-400 leading-none">{t("currency_symbol", "$")}{stats.paidThisMonth.toLocaleString()}</h3>
+ <h3 className="text-xl font-bold text-success leading-none">{t("currency_symbol", "$")}{stats.paidThisMonth.toLocaleString()}</h3>
  </CardContent>
  </Card>
  </m.div>
@@ -228,7 +228,7 @@ export default function FinancialInvoices() {
  <div className="flex flex-wrap items-center gap-4 flex-1">
  <div className="relative group min-w-[320px]">
  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
- <Input placeholder={t("admin_financial_search_invoices")} value={search} onChange={e => setSearch(e.target.value)} className="pl-12 w-full h-12 bg-muted/50 border-border rounded-xl text-foreground placeholder:text-slate-600 font-bold text-[10px] focus:ring-primary/20 transition-all" />
+ <Input placeholder={t("admin_financial_search_invoices")} value={search} onChange={e => setSearch(e.target.value)} className="pl-12 w-full h-12 bg-muted/50 border-border rounded-xl text-foreground placeholder:text-muted-foreground font-bold text-[10px] focus:ring-primary/20 transition-all" />
  </div>
  <div className="flex items-center gap-2">
  <Button variant="ghost" onClick={() => setFilterStatus("all")} className={cn("h-12 px-6 rounded-xl text-[10px] font-bold transition-all", filterStatus ==="all" ?"bg-primary text-foreground" :"text-muted-foreground hover:text-foreground hover:bg-muted/50")}>{t("admin_financial_all")}</Button>
@@ -239,7 +239,7 @@ export default function FinancialInvoices() {
  </div>
  </div>
  <div className="flex items-center gap-3">
- <Button variant="ghost" onClick={fetchData} className="h-12 w-12 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all flex items-center justify-center p-0">
+ <Button variant="ghost" onClick={fetchData} className="h-12 w-12 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all flex items-center justify-center p-0" aria-label={t("common.refresh")}>
  <RefreshCw className={cn("h-4 w-4", loading &&"animate-spin")} />
  </Button>
  
@@ -251,57 +251,57 @@ export default function FinancialInvoices() {
  
  <DialogContent className="sm:max-w-[500px] bg-card text-card-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_create_new_invoice", "Create New Invoice")}</DialogTitle>
- <DialogDescription>{t("admin_auto_fill_in_the_invoice_details_mapped_to_th", "Fill in the invoice details mapped to the backend.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_invoice", "Yeni Fatura Oluştur")}</DialogTitle>
+ <DialogDescription>{t("admin_auto_fill_in_the_invoice_details_mapped_to_th", "Arka uçla eşlenen fatura ayrıntılarını doldurun.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="customerName" className="text-right text-xs">{t("admin_auto_customer_name", "Customer Name")}</Label>
- <Input id="customerName" className="col-span-3 h-10" value={newInvoice.customerName} onChange={e => setNewInvoice({...newInvoice, customerName: e.target.value})} placeholder={t("admin_payments_john_doe", "John Doe")} />
+ <Label htmlFor="customerName" className="text-right text-xs">{t("admin_auto_customer_name", "Müşteri Adı")}</Label>
+ <Input id="customerName" className="col-span-3 h-10" value={newInvoice.customerName} onChange={e => setNewInvoice({...newInvoice, customerName: e.target.value})} placeholder={t("admin_payments_john_doe", "Ahmet Yılmaz")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="customerEmail" className="text-right text-xs">{t("admin_auto_email", "Email")}</Label>
- <Input id="customerEmail" type="email" className="col-span-3 h-10" value={newInvoice.customerEmail} onChange={e => setNewInvoice({...newInvoice, customerEmail: e.target.value})} placeholder={t("admin_payments_johnexamplecom", "john@example.com")} />
+ <Label htmlFor="customerEmail" className="text-right text-xs">{t("admin_auto_email", "E-posta")}</Label>
+ <Input id="customerEmail" type="email" className="col-span-3 h-10" value={newInvoice.customerEmail} onChange={e => setNewInvoice({...newInvoice, customerEmail: e.target.value})} placeholder={t("admin_payments_johnexamplecom", "Ahmet@ornek.com")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="customerId" className="text-right text-xs">{t("admin_auto_customer_id", "Customer ID")}</Label>
+ <Label htmlFor="customerId" className="text-right text-xs">{t("admin_auto_customer_id", "Müşteri Kimliği")}</Label>
  <Input id="customerId" className="col-span-3 h-10" value={newInvoice.customerId} onChange={e => setNewInvoice({...newInvoice, customerId: e.target.value})} placeholder={t("admin_auto_cust_123", "CUST-123")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="amount" className="text-right text-xs">{t("admin_auto_amount", "Amount")}</Label>
+ <Label htmlFor="amount" className="text-right text-xs">{t("admin_auto_amount", "Miktar")}</Label>
  <Input id="amount" type="number" className="col-span-3 h-10" value={newInvoice.amount} onChange={e => setNewInvoice({...newInvoice, amount: e.target.value})} placeholder="1000" />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="currency" className="text-right text-xs">{t("admin_auto_currency", "Currency")}</Label>
+ <Label htmlFor="currency" className="text-right text-xs">{t("admin_auto_currency", "Para birimi")}</Label>
  <Select value={newInvoice.currency} onValueChange={(v) => setNewInvoice({...newInvoice, currency: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_settings_select_currency", "Select Currency")} /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("admin_settings_select_currency", "Para Birimi Seçin")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="USD">{t("admin_organization_usd", "USD ($)")}</SelectItem>
- <SelectItem value="EUR">{t("admin_organization_eur", "EUR (€)")}</SelectItem>
- <SelectItem value="TRY">{t("mobile.settings.currTry", "TRY (₺)")}</SelectItem>
- <SelectItem value="GBP">{t("admin_organization_gbp", "GBP (£)")}</SelectItem>
+ <SelectItem value="USD">{t("admin_organization_usd", "Abd Doları ($)")}</SelectItem>
+ <SelectItem value="EUR">{t("admin_organization_eur", "Avro (€)")}</SelectItem>
+ <SelectItem value="TRY">{t("mobile.settings.currTry", "Tl (₺)")}</SelectItem>
+ <SelectItem value="GBP">{t("admin_organization_gbp", "Gbp (£)")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="dueDate" className="text-right text-xs">{t("admin_auto_due_date", "Due Date")}</Label>
+ <Label htmlFor="dueDate" className="text-right text-xs">{t("admin_auto_due_date", "İki Tarih")}</Label>
  <Input id="dueDate" type="date" className="col-span-3 h-10" value={newInvoice.dueDate} onChange={e => setNewInvoice({...newInvoice, dueDate: e.target.value})} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs">{t("admin_auto_status", "Status")}</Label>
+ <Label htmlFor="status" className="text-right text-xs">{t("admin_auto_status", "Durum")}</Label>
  <Select value={newInvoice.status} onValueChange={(v) => setNewInvoice({...newInvoice, status: v})}>
- <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("client.src.select_status", "Select Status")} /></SelectTrigger>
+ <SelectTrigger className="col-span-3 h-10"><SelectValue placeholder={t("client.src.select_status", "Durum Seç")} /></SelectTrigger>
  <SelectContent>
- <SelectItem value="DRAFT">{t("admin_contract_draft", "Draft")}</SelectItem>
- <SelectItem value="SENT">{t("admin_invoices_sent", "Sent")}</SelectItem>
- <SelectItem value="PAID">{t("admin_billing_paid", "Paid")}</SelectItem>
- <SelectItem value="OVERDUE">{t("admin_financial_overdue", "Overdue")}</SelectItem>
+ <SelectItem value="DRAFT">{t("admin_contract_draft", "Taslak")}</SelectItem>
+ <SelectItem value="SENT">{t("admin_invoices_sent", "Gönderildi")}</SelectItem>
+ <SelectItem value="PAID">{t("admin_billing_paid", "Paralı")}</SelectItem>
+ <SelectItem value="OVERDUE">{t("admin_financial_overdue", "Vadesi Geçmiş")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(newInvoice)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Create Invoice"}
  </Button>
@@ -369,7 +369,7 @@ export default function FinancialInvoices() {
  <TableCell className="px-8 text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
+ <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -377,7 +377,7 @@ export default function FinancialInvoices() {
  <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer">
  <Download className="w-4 h-4 mr-3 text-muted-foreground" />{t("admin_financial_downloadpdf")}</DropdownMenuItem>
  <DropdownMenuItem className="text-[10px] font-bold focus:bg-muted/50 focus:text-foreground rounded-xl py-3 cursor-pointer">
- <Send className="w-4 h-4 mr-3 text-emerald-400" />{t("admin_financial_resendpulse")}</DropdownMenuItem>
+ <Send className="w-4 h-4 mr-3 text-success" />{t("admin_financial_resendpulse")}</DropdownMenuItem>
  <DropdownMenuItem className="text-[10px] font-bold focus:bg-red-500/10 focus:text-red-500 rounded-xl py-3 cursor-pointer">
  <Trash2 className="w-4 h-4 mr-3" />{t("admin_financial_terminate")}</DropdownMenuItem>
  </DropdownMenuContent>

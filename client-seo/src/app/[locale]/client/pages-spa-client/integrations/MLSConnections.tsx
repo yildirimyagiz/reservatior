@@ -24,7 +24,7 @@ const STATUS_CONFIG: Record<string, {
 }> = {
   ACTIVE: {
     label: t("client.src.synchronized"),
-    cls: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]",
+    cls: "bg-success/10 text-success border-success/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]",
     icon: Zap
   },
   ERROR: {
@@ -34,12 +34,12 @@ const STATUS_CONFIG: Record<string, {
   },
   INACTIVE: {
     label: t("client.src.offline"),
-    cls: "bg-slate-500/10 text-slate-400 border-white/5",
+    cls: "bg-muted text-muted-foreground border-white/5",
     icon: History
   },
   SYNCING: {
     label: t("client.src.uplinking"),
-    cls: "bg-blue-500/10 text-blue-400 border-blue-500/20 animate-pulse",
+    cls: "bg-brand/100/10 text-brand border-blue-500/20 animate-pulse",
     icon: RefreshCw
   }
 };
@@ -142,25 +142,25 @@ export default function MLSConnections() {
           label: t("client.src.bandwidth"),
           value: "85%",
           icon: CloudLightning
-        }].map((stat, idx) => <Card key={idx} className="bg-[#1a1b1e]/60 border-white/5 border-l border-t rounded-[32px] p-10 shadow-3xl relative group hover:bg-white/5 transition-all">
-                <div className="absolute top-0 right-0 p-8 opacity-5 text-blue-500 group-hover:scale-110 transition-transform">
+        }].map((stat, idx) => <Card key={idx} className="bg-card/60 border-white/5 border-l border-t rounded-[32px] p-10 shadow-3xl relative group hover:bg-white/5 transition-all">
+                <div className="absolute top-0 right-0 p-8 opacity-5 text-brand group-hover:scale-110 transition-transform">
                    <stat.icon className="w-16 h-16" />
                 </div>
-                <p className="text-[10px] font-black text-slate-500 tracking-widest italic mb-2 leading-none">{stat.label}</p>
+                <p className="text-[10px] font-black text-muted-foreground tracking-widest italic mb-2 leading-none">{stat.label}</p>
                 <h3 className="text-4xl font-black text-white italic tracking-tighter leading-none">{stat.value}</h3>
              </Card>)}
         </div>
 
         {/* Global Search */}
         <div className="relative max-w-2xl mx-auto group">
-           <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-           <input type="text" aria-label="Search link clusters" placeholder={t("client.src.search_link_clusters")} className="w-full h-16 pl-16 pr-8 bg-[#1a1b1e]/60 border border-white/5 rounded-2xl text-[10px] font-black tracking-widest italic text-white placeholder:text-slate-700 focus:outline-none focus:border-blue-500/50 transition-all shadow-xl" value={search} onChange={e => setSearch(e.target.value)} />
+           <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-brand transition-colors" />
+           <input type="text" aria-label="Search link clusters" placeholder={t("client.src.search_link_clusters")} className="w-full h-16 pl-16 pr-8 bg-card/60 border border-white/5 rounded-2xl text-[10px] font-black tracking-widest italic text-white placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50 transition-all shadow-xl" value={search} onChange={e => setSearch(e.target.value)} />
         </div>
 
         {/* Tactical Feed Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {isLoading ? (
-             <div className="col-span-1 lg:col-span-2 flex justify-center py-20"><Loader2 className="w-12 h-12 animate-spin text-blue-500" /></div>
+             <div className="col-span-1 lg:col-span-2 flex justify-center py-20"><Loader2 className="w-12 h-12 animate-spin text-brand" /></div>
           ) : (
             <AnimatePresence mode="popLayout">
               {filtered.map((row, idx) => <m.div key={row.id || idx} initial={{
@@ -175,22 +175,22 @@ export default function MLSConnections() {
           }} transition={{
             duration: 0.4,
             delay: idx * 0.1
-          }} className="bg-[#1a1b1e]/40 border border-white/5 border-l border-t rounded-[40px] p-10 backdrop-blur-3xl shadow-3xl relative overflow-hidden group hover:bg-white/5 transition-all">
-                <div className="absolute top-0 right-0 p-12 opacity-0 group-hover:opacity-5 transition-opacity text-blue-500 pointer-events-none">
+          }} className="bg-card/40 border border-white/5 border-l border-t rounded-[40px] p-10 backdrop-blur-3xl shadow-3xl relative overflow-hidden group hover:bg-white/5 transition-all">
+                <div className="absolute top-0 right-0 p-12 opacity-0 group-hover:opacity-5 transition-opacity text-brand pointer-events-none">
                    <Database className="w-48 h-48" />
                 </div>
 
                 <div className="flex items-start justify-between mb-10 relative z-10">
                   <div className="flex items-center gap-6">
                     <div className="h-20 w-20 rounded-3xl bg-black/60 border border-white/10 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-                       <Fingerprint className="w-10 h-10 text-blue-500" />
+                       <Fingerprint className="w-10 h-10 text-brand" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-black text-white italic tracking-tighter leading-none mb-2">{row.name}</h3>
                       <div className="flex items-center gap-3">
-                         <span className="text-[10px] font-black text-blue-500 tracking-widest italic">{row.provider}</span>
-                         <span className="w-1 h-1 rounded-full bg-slate-700" />
-                         <span className="text-[10px] font-black text-slate-500 tracking-widest italic">{row.region}</span>
+                         <span className="text-[10px] font-black text-brand tracking-widest italic">{row.provider}</span>
+                         <span className="w-1 h-1 rounded-full bg-muted" />
+                         <span className="text-[10px] font-black text-muted-foreground tracking-widest italic">{row.region}</span>
                       </div>
                     </div>
                   </div>
@@ -201,22 +201,22 @@ export default function MLSConnections() {
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-10 pt-8 border-t border-white/5 relative z-10">
                    <div className="space-y-1">
-                     <p className="text-[8px] font-black text-slate-600 italic">{t("client.src.lastsyncepoch")}</p>
+                     <p className="text-[8px] font-black text-muted-foreground italic">{t("client.src.lastsyncepoch")}</p>
                      <p className="text-[11px] font-black text-white italic tracking-tight font-mono">{row.lastSync ? new Date(row.lastSync).toLocaleString() : "NEVER_SYNCED"}</p>
                    </div>
                    <div className="space-y-1">
-                     <p className="text-[8px] font-black text-slate-600 italic">{t("client.src.assetload")}</p>
-                     <p className="text-[11px] font-black text-blue-400 italic tracking-tight">{(row.listingCount || 0).toLocaleString()}{t("client.src.nodes")}</p>
+                     <p className="text-[8px] font-black text-muted-foreground italic">{t("client.src.assetload")}</p>
+                     <p className="text-[11px] font-black text-brand italic tracking-tight">{(row.listingCount || 0).toLocaleString()}{t("client.src.nodes")}</p>
                    </div>
                    <div className="space-y-1">
-                     <p className="text-[8px] font-black text-slate-600 italic">{t("client.src.encryptionlvl")}</p>
-                     <p className="text-[11px] font-black text-emerald-400 italic tracking-tight">{t("client.src.aes256v3")}</p>
+                     <p className="text-[8px] font-black text-muted-foreground italic">{t("client.src.encryptionlvl")}</p>
+                     <p className="text-[11px] font-black text-success italic tracking-tight">{t("client.src.aes256v3")}</p>
                    </div>
                 </div>
 
                 <div className="flex gap-4 relative z-10">
-                   <Button className="flex-2 h-14 rounded-2xl bg-white text-black hover:bg-slate-200 font-black italic tracking-widest text-[10px] transition-all" onClick={() => openEdit(row)}>{t("client.src.recalibrate_bandwidth")}</Button>
-                   <Button variant="outline" className="h-14 w-14 rounded-2xl border-white/10 bg-white/5 text-slate-500 hover:text-red-500 hover:bg-red-500/10 transition-all shrink-0" onClick={() => handleDelete(row.id)}>
+                   <Button className="flex-2 h-14 rounded-2xl bg-card text-black hover:bg-muted font-black italic tracking-widest text-[10px] transition-all" onClick={() => openEdit(row)}>{t("client.src.recalibrate_bandwidth")}</Button>
+                   <Button variant="outline" className="h-14 w-14 rounded-2xl border-white/10 bg-white/5 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-all shrink-0" onClick={() => handleDelete(row.id)} aria-label={t("common.delete")}>
                      <Trash2 className="w-5 h-5" />
                    </Button>
                 </div>
@@ -228,79 +228,79 @@ export default function MLSConnections() {
 
       {/* Modern Interface Dialogs */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="max-w-2xl bg-[#14151a] border-white/10 text-white rounded-[32px] p-10 font-display">
+        <DialogContent className="max-w-2xl bg-background border-white/10 text-white rounded-[32px] p-10 font-display">
            <DialogHeader>
              <DialogTitle className="text-3xl font-black italic tracking-tighter">{t("client.src.initialize_link_cluster")}</DialogTitle>
-             <DialogDescription className="text-[10px] font-black text-slate-500 tracking-widest italic">{t("client.src.provisioning_bidirectional_property_data")}</DialogDescription>
+             <DialogDescription className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t("client.src.provisioning_bidirectional_property_data")}</DialogDescription>
            </DialogHeader>
            <form onSubmit={handleCreate} className="space-y-10 py-10">
              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-3">
-                   <Label className="text-[10px] font-black text-slate-400 italic">{t("client.src.connectionalias")}</Label>
+                   <Label className="text-[10px] font-black text-muted-foreground italic">{t("client.src.connectionalias")}</Label>
                    <Input value={form.name} onChange={e => setForm({
                 ...form,
                 name: e.target.value
-              })} className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-white placeholder:text-slate-800" placeholder={t("client.src.eg_nationalgridsync")} />
+              })} className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-white placeholder:text-foreground" placeholder={t("client.src.eg_nationalgridsync")} />
                 </div>
                 <div className="space-y-3">
-                   <Label className="text-[10px] font-black text-slate-400 italic">{t("client.src.protocoltype")}</Label>
+                   <Label className="text-[10px] font-black text-muted-foreground italic">{t("client.src.protocoltype")}</Label>
                    <Select value={form.provider} onValueChange={v => setForm({
                 ...form,
                 provider: v
               })}>
-                     <SelectTrigger className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-slate-400">
+                     <SelectTrigger className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-muted-foreground">
                         <SelectValue />
                      </SelectTrigger>
-                     <SelectContent className="bg-[#1a1b1e] border-white/10 font-display">
-                        <SelectItem value="RETS" className="text-slate-400 font-bold italic">{t("client.src.rets_legacy_uplink")}</SelectItem>
-                        <SelectItem value="RESO" className="text-slate-400 font-bold italic">{t("client.src.reso_webapi_neural")}</SelectItem>
-                        <SelectItem value="IDX" className="text-slate-400 font-bold italic">{t("client.src.idx_stream")}</SelectItem>
+                     <SelectContent className="bg-card border-white/10 font-display">
+                        <SelectItem value="RETS" className="text-muted-foreground font-bold italic">{t("client.src.rets_legacy_uplink")}</SelectItem>
+                        <SelectItem value="RESO" className="text-muted-foreground font-bold italic">{t("client.src.reso_webapi_neural")}</SelectItem>
+                        <SelectItem value="IDX" className="text-muted-foreground font-bold italic">{t("client.src.idx_stream")}</SelectItem>
                      </SelectContent>
                    </Select>
                 </div>
                 <div className="space-y-3">
-                   <Label className="text-[10px] font-black text-slate-400 italic">{t("client.src.encryptionsecret")}</Label>
+                   <Label className="text-[10px] font-black text-muted-foreground italic">{t("client.src.encryptionsecret")}</Label>
                    <Input type="password" value={form.apiKey} onChange={e => setForm({
                 ...form,
                 apiKey: e.target.value
               })} className="h-14 bg-black/40 border-white/5 rounded-2xl text-xs font-black text-white font-mono" placeholder="****************" />
                 </div>
                 <div className="space-y-3">
-                   <Label className="text-[10px] font-black text-slate-400 italic">{t("client.src.geographicregion")}</Label>
+                   <Label className="text-[10px] font-black text-muted-foreground italic">{t("client.src.geographicregion")}</Label>
                    <Input value={form.region} onChange={e => setForm({
                 ...form,
                 region: e.target.value
-              })} className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-white placeholder:text-slate-800" />
+              })} className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-white placeholder:text-foreground" />
                 </div>
              </div>
              <DialogFooter className="gap-6 pt-6 border-t border-white/5">
-                <Button type="button" variant="ghost" onClick={() => setCreateOpen(false)} className="text-[10px] font-black italic text-slate-500 hover:text-white">{t("client.src.abort_protocol")}</Button>
-                <Button type="submit" className="h-16 px-12 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-[11px] italic tracking-[0.2em] shadow-2xl shadow-blue-600/30">{t("client.src.materialize_hub")}</Button>
+                <Button type="button" variant="ghost" onClick={() => setCreateOpen(false)} className="text-[10px] font-black italic text-muted-foreground hover:text-white">{t("client.src.abort_protocol")}</Button>
+                <Button type="submit" className="h-16 px-12 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black text-[11px] italic tracking-[0.2em] shadow-2xl shadow-blue-600/30">{t("client.src.materialize_hub")}</Button>
              </DialogFooter>
            </form>
         </DialogContent>
       </Dialog>
 
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent className="max-w-2xl bg-[#14151a] border-white/10 text-white rounded-[32px] p-10 font-display">
+        <DialogContent className="max-w-2xl bg-background border-white/10 text-white rounded-[32px] p-10 font-display">
            <DialogHeader>
-             <DialogTitle className="text-3xl font-black italic tracking-tighter text-blue-500">{t("client.src.recalibrate_hub_node")}</DialogTitle>
-             <DialogDescription className="text-[10px] font-black text-slate-500 tracking-widest italic">{t("client.src.synchronizing_tactical_parameters_with")}</DialogDescription>
+             <DialogTitle className="text-3xl font-black italic tracking-tighter text-brand">{t("client.src.recalibrate_hub_node")}</DialogTitle>
+             <DialogDescription className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t("client.src.synchronizing_tactical_parameters_with")}</DialogDescription>
            </DialogHeader>
            {form && <form onSubmit={handleEdit} className="space-y-10 py-10">
                <div className="space-y-3">
-                  <Label className="text-[10px] font-black text-slate-400 italic">{t("client.src.connectionalias")}</Label>
+                  <Label className="text-[10px] font-black text-muted-foreground italic">{t("client.src.connectionalias")}</Label>
                   <Input value={form.name} onChange={e => setForm({
               ...form,
               name: e.target.value
             })} className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-white" />
                </div>
                <div className="space-y-3">
-                  <Label className="text-[10px] font-black text-slate-400 italic">{t("client.src.protocoltype")}</Label>
-                  <Input readOnly value={form.provider} className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-slate-600" />
+                  <Label className="text-[10px] font-black text-muted-foreground italic">{t("client.src.protocoltype")}</Label>
+                  <Input readOnly value={form.provider} className="h-14 bg-black/40 border-white/5 rounded-2xl text-[10px] font-black italic text-muted-foreground" />
                </div>
                <DialogFooter className="pt-6 border-t border-white/5">
-                  <Button type="submit" className="w-full h-16 rounded-2xl bg-white text-black hover:bg-slate-200 font-black italic tracking-widest text-[11px]">{t("client.src.synchronize_parameters")}</Button>
+                  <Button type="submit" className="w-full h-16 rounded-2xl bg-card text-black hover:bg-muted font-black italic tracking-widest text-[11px]">{t("client.src.synchronize_parameters")}</Button>
                </DialogFooter>
              </form>}
         </DialogContent>

@@ -10,6 +10,7 @@ export interface PropertyDetails {
     netArea: string;
     citizenship: string;
     status: string;
+    price?: string;
     contactName: string;
     contactPhone: string;
 }

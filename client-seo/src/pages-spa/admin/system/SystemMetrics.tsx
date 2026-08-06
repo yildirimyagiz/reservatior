@@ -4,7 +4,7 @@ import { t } from"i18next";
 import React, { useState, useEffect } from"react";
 import { useTranslation } from"react-i18next";
 import { m } from"framer-motion";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
@@ -62,7 +62,7 @@ const CATEGORY_CONFIG = {
  },
  DATABASE: {
  label: t("admin_system_database"),
- color:"bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+ color:"bg-blue-500/10 text-success border-blue-500/20",
  icon: Database
  },
  NETWORK: {
@@ -72,7 +72,7 @@ const CATEGORY_CONFIG = {
  },
  APPLICATION: {
  label: t("admin_system_application"),
- color:"bg-orange-500/10 text-orange-400 border-orange-500/20",
+ color:"bg-orange-500/10 text-warning border-orange-500/20",
  icon: Server
  },
  SECURITY: {
@@ -89,12 +89,12 @@ const CATEGORY_CONFIG = {
 const STATUS_CONFIG = {
  HEALTHY: {
  label: t("admin_system_healthy"),
- color:"bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+ color:"bg-blue-500/10 text-success border-blue-500/20",
  icon: CheckCircle2
  },
  WARNING: {
  label: t("admin_system_warning"),
- color:"bg-orange-500/10 text-orange-400 border-orange-500/20",
+ color:"bg-orange-500/10 text-warning border-orange-500/20",
  icon: AlertTriangle
  },
  CRITICAL: {
@@ -241,7 +241,7 @@ export default function SystemMetrics() {
  const getTrendIcon = (direction?: string) => {
  switch (direction) {
  case"up":
- return <TrendingUp className="h-4 w-4 text-emerald-500" />;
+ return <TrendingUp className="h-4 w-4 text-success" />;
  case"down":
  return <TrendingDown className="h-4 w-4 text-red-500" />;
  default:
@@ -277,7 +277,7 @@ export default function SystemMetrics() {
  delay: 0.1
  }}>
  <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-slate-500">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-muted-foreground">
  <Monitor className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
@@ -297,14 +297,14 @@ export default function SystemMetrics() {
  }} transition={{
  delay: 0.2
  }}>
- <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t border-l-emerald-500/30">
- <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-emerald-500">
+ <Card className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group border-l border-t border-l-blue-500/30">
+ <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all text-success">
  <CheckCircle2 className="w-12 h-12" />
  </div>
  <CardContent className="p-8">
  <p className="text-[10px] font-bold text-muted-foreground mb-1">{t('healthy')}</p>
- <h3 className="text-xl font-bold text-emerald-500 leading-none">{healthyMetrics}</h3>
- <p className="text-[10px] font-bold text-emerald-500/60 mt-4 flex items-center gap-1">{t("admin_system_nominalstatus")}</p>
+ <h3 className="text-xl font-bold text-success leading-none">{healthyMetrics}</h3>
+ <p className="text-[10px] font-bold text-success/60 mt-4 flex items-center gap-1">{t("admin_system_nominalstatus")}</p>
  </CardContent>
  </Card>
  </m.div>
@@ -357,7 +357,7 @@ export default function SystemMetrics() {
  <div className="flex flex-wrap items-center gap-4">
  <div className="relative group">
  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
- <Input placeholder={t('systemMetricsSearch')} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="pl-12 w-72 h-12 bg-muted/50 border-border rounded-xl text-foreground placeholder:text-slate-600 font-bold text-[10px] focus:ring-primary/20 transition-all" />
+ <Input placeholder={t('systemMetricsSearch')} value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} className="pl-12 w-72 h-12 bg-muted/50 border-border rounded-xl text-foreground placeholder:text-muted-foreground font-bold text-[10px] focus:ring-primary/20 transition-all" />
  </div>
  
  <Select value={timeRange} onValueChange={setTimeRange}>
@@ -464,7 +464,7 @@ export default function SystemMetrics() {
  <TableCell className="px-8">
  <div className="flex items-center gap-2">
  {getTrendIcon(metric.trend?.direction)}
- {metric.trend && <span className={cn("text-[10px] font-bold", metric.trend.direction ==="up" ?"text-emerald-500" :"text-red-500")}>
+ {metric.trend && <span className={cn("text-[10px] font-bold", metric.trend.direction ==="up" ?"text-success" :"text-red-500")}>
  {metric.trend.percentage > 0 ? '+' : ''}{metric.trend.percentage}%
  </span>}
  </div>
@@ -476,7 +476,7 @@ export default function SystemMetrics() {
  </div>
  </TableCell>
  <TableCell className="px-8 text-right">
- <Button variant="ghost" size="icon" onClick={() => handleViewDetails(metric)} className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
+ <Button variant="ghost" size="icon" aria-label={t("common.expand")} onClick={() => handleViewDetails(metric)} className="h-10 w-10 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl transition-all">
  <Maximize2 className="h-4 w-4" />
  </Button>
  </TableCell>
@@ -529,7 +529,7 @@ export default function SystemMetrics() {
  <div className="bg-muted/50 p-6 rounded-3xl border border-border border-l border-t">
  <p className="text-[10px] font-bold text-muted-foreground mb-2">{t("admin_system_performancetrend")}</p>
  <div className="flex items-center gap-3">
- <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center bg-muted/50", selectedMetric.trend?.direction ==="up" ?"text-emerald-500" :"text-red-500")}>
+ <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center bg-muted/50", selectedMetric.trend?.direction ==="up" ?"text-success" :"text-red-500")}>
  {getTrendIcon(selectedMetric.trend?.direction)}
  </div>
  <div>
@@ -582,7 +582,7 @@ export default function SystemMetrics() {
  <div className="flex items-center justify-between pt-10 border-t border-border">
  <div className="flex items-center gap-4">
  <div className="flex flex-col">
- <span className="text-[9px] font-bold text-slate-600">{t("admin_system_lastsync")}</span>
+ <span className="text-[9px] font-bold text-muted-foreground">{t("admin_system_lastsync")}</span>
  <span className="text-[10px] font-bold text-muted-foreground">{formatDateTime(selectedMetric.recordedAt)}</span>
  </div>
  </div>

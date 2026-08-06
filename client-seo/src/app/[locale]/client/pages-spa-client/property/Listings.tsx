@@ -107,12 +107,12 @@ export default function Listings() {
   const queryClient = useQueryClient();
 
   const STATUS_MAP = {
-    ACTIVE: { label: t('active'), cls: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" },
-    DRAFT: { label: t('draft'), cls: "bg-slate-500/10 text-slate-400 border-slate-500/20" },
+    ACTIVE: { label: t('active'), cls: "bg-success/10 text-success border-success/20" },
+    DRAFT: { label: t('draft'), cls: "bg-muted text-muted-foreground border-slate-500/20" },
     INACTIVE: { label: t('inactive'), cls: "bg-amber-500/10 text-amber-400 border-amber-500/20" },
-    SOLD: { label: t('client.property.listings.status.sold'), cls: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20" },
+    SOLD: { label: t('client.property.listings.status.sold'), cls: "bg-brand/10 text-brand border-brand/20" },
     EXPIRED: { label: t('expired'), cls: "bg-rose-500/10 text-rose-400 border-rose-500/20" },
-    RENTED: { label: t('rented'), cls: "bg-blue-500/10 text-blue-400 border-blue-500/20" },
+    RENTED: { label: t('rented'), cls: "bg-brand/100/10 text-brand border-blue-500/20" },
   };
 
   const { data: activeSub } = useQuery({
@@ -170,11 +170,11 @@ export default function Listings() {
           amenities: ['real estate', 'property management', 'listings', 'portfolio']
         }}
       />
-      <div className="min-h-screen bg-[#14151a] p-8 lg:p-12 relative overflow-hidden">
+      <div className="min-h-screen bg-background p-8 lg:p-12 relative overflow-hidden">
       {/* Background Cybernetic Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/5 blur-[120px] rounded-full"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 blur-[120px] rounded-full"></div>
         <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       </div>
 
@@ -190,20 +190,20 @@ export default function Listings() {
               variant="ghost"
               size="sm"
               onClick={() => navigate(-1)}
-              className="h-14 px-8 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 font-black italic text-[10px] tracking-[0.25em] transition-all group"
+              className="h-14 px-8 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground font-black italic text-[10px] tracking-[0.25em] transition-all group"
             >
               <ArrowLeft className="w-4 h-4 mr-3 group-hover:-translate-x-1 transition-transform" />
               {t('back', { defaultValue: 'BACK' })}
             </Button>
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[9px] font-black tracking-[0.2em] italic">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/100/10 border border-blue-500/20 text-brand text-[9px] font-black tracking-[0.2em] italic">
                 <Rocket className="w-3.5 h-3.5" /> {t('campaignPanel')}
               </div>
               <h1 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-none">
                 {t('client.property.listings.title')}
               </h1>
-              <p className="text-slate-500 text-sm font-black tracking-widest italic">{t('client.property.listings.desc')}</p>
+              <p className="text-muted-foreground text-sm font-black tracking-widest italic">{t('client.property.listings.desc')}</p>
             </div>
           </div>
 
@@ -214,7 +214,7 @@ export default function Listings() {
                   onClick={() => setViewMode("visual")} 
                   className={cn(
                     "h-12 px-6 rounded-xl font-black  italic text-[10px] tracking-widest transition-all gap-3", 
-                    viewMode === "visual" ? "bg-white text-black shadow-xl" : "text-slate-500 hover:text-white"
+                    viewMode === "visual" ? "bg-card text-black shadow-xl" : "text-muted-foreground hover:text-white"
                   )}
                 >
                   <Sparkles className="w-4 h-4" /> {t('visual')}
@@ -224,13 +224,13 @@ export default function Listings() {
                   onClick={() => setViewMode("table")} 
                   className={cn(
                     "h-12 px-6 rounded-xl font-black  italic text-[10px] tracking-widest transition-all gap-3", 
-                    viewMode === "table" ? "bg-white text-black shadow-xl" : "text-slate-500 hover:text-white"
+                    viewMode === "table" ? "bg-card text-black shadow-xl" : "text-muted-foreground hover:text-white"
                   )}
                 >
                   <List className="w-4 h-4" /> {t('client.property.listings.views.list')}
                 </Button>
              </div>
-             <Button onClick={() => setCreateOpen(true)} className="h-16 px-10 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95">
+             <Button onClick={() => setCreateOpen(true)} className="h-16 px-10 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20 transition-all hover:scale-105 active:scale-95">
                <Plus className="w-5 h-5 mr-3" /> {t('client.property.listings.newListing')}
              </Button>
           </div>
@@ -239,10 +239,10 @@ export default function Listings() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
            {[
-             { label: t('liveListings'), value: `${listings.filter(l => l.status === "ACTIVE").length} / ${activeSub?.maxListings || 1}`, icon: Eye, color: "text-emerald-400", bg: "bg-emerald-500/10" },
+             { label: t('liveListings'), value: `${listings.filter(l => l.status === "ACTIVE").length} / ${activeSub?.maxListings || 1}`, icon: Eye, color: "text-success", bg: "bg-success/10" },
              { label: t('doped'), value: `${listings.filter(l => l.isDoped).length} / ${activeSub?.featuredListings || 0}`, icon: Zap, color: "text-amber-400", bg: "bg-amber-500/10" },
-             { label: t('leads'), value: listings.reduce((s, l) => s + (l.leads || 0), 0), icon: MessageSquare, color: "text-blue-400", bg: "bg-blue-500/10" },
-             { label: t('credits'), value: activeSub?.type || "BASIC", icon: Rocket, color: "text-purple-400", bg: "bg-purple-500/10" }
+             { label: t('leads'), value: listings.reduce((s, l) => s + (l.leads || 0), 0), icon: MessageSquare, color: "text-brand", bg: "bg-brand/100/10" },
+             { label: t('credits'), value: activeSub?.type || "BASIC", icon: Rocket, color: "text-brand", bg: "bg-brand/10" }
            ].map((s, i) => (
              <m.div
                key={i}
@@ -250,13 +250,13 @@ export default function Listings() {
                animate={{ opacity: 1, y: 0 }}
                transition={{ delay: i * 0.1 }}
              >
-               <Card className="bg-[#1a1b1e]/60 border-white/5 border-l border-t rounded-[32px] overflow-hidden p-8 hover:bg-white/5 transition-all shadow-2xl relative backdrop-blur-3xl group">
+               <Card className="bg-card/60 border-white/5 border-l border-t rounded-[32px] overflow-hidden p-8 hover:bg-white/5 transition-all shadow-2xl relative backdrop-blur-3xl group">
                  <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
                     <s.icon className="w-16 h-16" />
                  </div>
                  <div className="flex justify-between items-start relative z-10">
                    <div>
-                      <p className="text-[10px] font-black tracking-widest text-slate-500 mb-2 italic">{s.label}</p>
+                      <p className="text-[10px] font-black tracking-widest text-muted-foreground mb-2 italic">{s.label}</p>
                       <p className="text-4xl font-black text-white italic tracking-tighter leading-none">{s.value}</p>
                    </div>
                    <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center border border-white/5 shadow-inner backdrop-blur-md", s.bg)}>
@@ -273,14 +273,14 @@ export default function Listings() {
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
         >
-          <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
+          <Card className="bg-card/40 border-white/5 border-l border-t rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
             <div className="flex flex-col md:flex-row items-center gap-8">
                <div className="flex-1 w-full relative group">
-                  <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
+                  <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-brand transition-colors" />
                    <input 
                      placeholder={t('client.property.listings.search')}
                      aria-label="Search listings"
-                     className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800"
+                     className="w-full pl-16 h-16 bg-black/40 border border-white/5 rounded-[24px] text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-foreground"
                      value={search} onChange={(e) => setSearch(e.target.value)}
                    />
                </div>
@@ -288,7 +288,7 @@ export default function Listings() {
                   <SelectTrigger className="w-full md:w-64 h-16 bg-black/40 border-white/5 rounded-[24px] text-white font-black italic text-[10px] tracking-widest">
                     <SelectValue placeholder={t('client.property.listings.status')} />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#1a1b1e] border-white/10 text-white font-black italic">
+                  <SelectContent className="bg-card border-white/10 text-white font-black italic">
                     <SelectItem value="all" className="focus:bg-white/5">{t('client.property.listings.all')}</SelectItem>
                     <SelectItem value="ACTIVE" className="focus:bg-white/5">{t('active')}</SelectItem>
                     <SelectItem value="DRAFT" className="focus:bg-white/5">{t('draft')}</SelectItem>
@@ -303,15 +303,15 @@ export default function Listings() {
         <AnimatePresence mode="wait">
           {loading ? (
             <div className="h-64 flex flex-col items-center justify-center gap-6">
-              <Activity className="w-12 h-12 animate-spin text-blue-500 opacity-40" />
-              <p className="text-[10px] font-black tracking-[0.3em] italic text-slate-600">{t('client.property.listings.syncing')}</p>
+              <Activity className="w-12 h-12 animate-spin text-brand opacity-40" />
+              <p className="text-[10px] font-black tracking-[0.3em] italic text-muted-foreground">{t('client.property.listings.syncing')}</p>
             </div>
           ) : viewMode === "visual" ? (
             <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                {filtered.map((l, idx) => (
                   <m.div key={l.id} layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
                      <Card className={cn(
-                       "group relative bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl transition-all duration-500 hover:shadow-3xl h-full flex flex-col hover:border-blue-500/30 hover:bg-white/5",
+                       "group relative bg-card/40 border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl transition-all duration-500 hover:shadow-3xl h-full flex flex-col hover:border-blue-500/30 hover:bg-white/5",
                        l.isDoped ? "border-amber-500/30 shadow-amber-900/10 ring-1 ring-amber-500/20" : ""
                      )}>
                         <div className="aspect-video relative overflow-hidden">
@@ -329,8 +329,8 @@ export default function Listings() {
                           </div>
                           
                           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center gap-4">
-                             <Button className="rounded-[24px] h-16 w-16 bg-white text-black hover:bg-blue-600 hover:text-white shadow-3xl hover:scale-110 transition-all"><Play className="w-6 h-6 ml-1" /></Button>
-                             <Button onClick={() => handleDopingClick(l.id)} className={cn("rounded-[24px] h-16 w-16 border border-white/10 shadow-3xl hover:scale-110 transition-all", l.isDoped ? "bg-amber-500 text-black border-none" : "bg-white/5 backdrop-blur-xl text-white hover:bg-white/10")}>
+                             <Button className="rounded-[24px] h-16 w-16 bg-card text-black hover:bg-brand hover:text-white shadow-3xl hover:scale-110 transition-all" aria-label={t("common.play")}><Play className="w-6 h-6 ml-1" /></Button>
+                             <Button onClick={() => handleDopingClick(l.id)} className={cn("rounded-[24px] h-16 w-16 border border-white/10 shadow-3xl hover:scale-110 transition-all", l.isDoped ? "bg-amber-500 text-black border-none" : "bg-white/5 backdrop-blur-xl text-white hover:bg-white/10")} aria-label={t("common.automate")}>
                                <Zap className="w-6 h-6" />
                              </Button>
                           </div>
@@ -338,39 +338,39 @@ export default function Listings() {
 
                         <CardContent className="p-10 flex-1 space-y-8 flex flex-col">
                            <div className="space-y-2">
-                              <h3 className="font-black text-2xl text-white italic tracking-tighter leading-tight truncate group-hover:text-blue-400 transition-colors">{l.title}</h3>
-                              <p className="text-slate-500 text-[10px] font-black italic tracking-widest flex items-center gap-2 leading-none">
-                                <MapPin className="w-3.5 h-3.5 text-blue-500" /> {l.property?.city}, {l.property?.addressLine1}
+                              <h3 className="font-black text-2xl text-white italic tracking-tighter leading-tight truncate group-hover:text-brand transition-colors">{l.title}</h3>
+                              <p className="text-muted-foreground text-[10px] font-black italic tracking-widest flex items-center gap-2 leading-none">
+                                <MapPin className="w-3.5 h-3.5 text-brand" /> {l.property?.city}, {l.property?.addressLine1}
                               </p>
                            </div>
 
                            <div className="grid grid-cols-2 gap-px bg-white/5 rounded-[32px] overflow-hidden border border-white/5 backdrop-blur-xl">
                               <div className="p-6 text-center hover:bg-white/5 transition-colors">
-                                 <p className="text-[10px] font-black tracking-[0.2em] text-slate-500 mb-2 italic">{t('client.property.listings.views')}</p>
+                                 <p className="text-[10px] font-black tracking-[0.2em] text-muted-foreground mb-2 italic">{t('client.property.listings.views')}</p>
                                  <p className={cn("text-2xl font-black italic tracking-tighter  leading-none", l.isDoped ? "text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.3)]" : "text-white")}>{l.views || 0}</p>
                               </div>
                               <div className="p-6 text-center hover:bg-white/5 transition-colors border-l border-white/5">
-                                 <p className="text-[10px] font-black tracking-[0.2em] text-slate-500 mb-2 italic">{t('leads')}</p>
+                                 <p className="text-[10px] font-black tracking-[0.2em] text-muted-foreground mb-2 italic">{t('leads')}</p>
                                  <p className="text-2xl font-black text-white italic tracking-tighter leading-none">{l.leads || 0}</p>
                               </div>
                            </div>
 
                            <div className="flex items-center justify-between mt-auto">
                               <div className="space-y-1">
-                                 <p className="text-[9px] font-black text-slate-500 tracking-widest italic">{t('price')}</p>
-                                 <span className="text-3xl font-black text-blue-400 italic tracking-tighter leading-none">${l.price?.toLocaleString()}</span>
+                                 <p className="text-[9px] font-black text-muted-foreground tracking-widest italic">{t('price')}</p>
+                                 <span className="text-3xl font-black text-brand italic tracking-tighter leading-none">${l.price?.toLocaleString()}</span>
                               </div>
                               <div className="flex gap-2">
-                                 <Button size="icon" variant="ghost" className="h-12 w-12 rounded-[20px] bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all">
+                                 <Button size="icon" aria-label={t("common.edit")} variant="ghost" className="h-12 w-12 rounded-[20px] bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground hover:text-white transition-all">
                                    <Edit className="w-5 h-5" />
                                  </Button>
-                                 <Button onClick={() => handleDopingClick(l.id)} size="icon" variant="ghost" className={cn("h-12 w-12 rounded-[20px] border transition-all", l.isDoped ? "bg-amber-500/10 border-amber-500/20 text-amber-500" : "bg-white/5 border-white/5 text-slate-400 hover:text-white")}>
+                                 <Button onClick={() => handleDopingClick(l.id)} size="icon" aria-label={t("common.automate")} variant="ghost" className={cn("h-12 w-12 rounded-[20px] border transition-all", l.isDoped ? "bg-amber-500/10 border-amber-500/20 text-amber-500" : "bg-white/5 border-white/5 text-muted-foreground hover:text-white")}>
                                    <Zap className="w-5 h-5" />
                                  </Button>
                               </div>
                            </div>
 
-                           <Button className="w-full h-14 rounded-[24px] bg-white text-black hover:bg-slate-200 font-black italic text-[11px] tracking-widest gap-4 group/btn shadow-xl transition-all hover:scale-[1.02] active:scale-95">
+                           <Button className="w-full h-14 rounded-[24px] bg-card text-black hover:bg-muted font-black italic text-[11px] tracking-widest gap-4 group/btn shadow-xl transition-all hover:scale-[1.02] active:scale-95">
                                <Instagram className="w-5 h-5 text-pink-500" /> {t('prepareReel')} <ArrowUpRight className="w-4 h-4 ml-auto opacity-40 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-all" />
                            </Button>
                         </CardContent>
@@ -379,15 +379,15 @@ export default function Listings() {
                ))}
             </m.div>
           ) : (
-            <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-[#1a1b1e]/40 border border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl shadow-3xl">
+            <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-card/40 border border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl shadow-3xl">
                <Table>
                   <TableHeader className="bg-white/2 border-b border-white/5">
                      <TableRow className="hover:bg-transparent border-none">
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 py-8 italic">{t('client.property.listings.detail')}</TableHead>
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.listings.performance')}</TableHead>
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.listings.status')}</TableHead>
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 italic">{t('price')}</TableHead>
-                        <TableHead className="text-slate-500 text-[10px] font-black tracking-[0.2em] px-10 text-right italic">{t('action')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 py-8 italic">{t('client.property.listings.detail')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.listings.performance')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('client.property.listings.status')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 italic">{t('price')}</TableHead>
+                        <TableHead className="text-muted-foreground text-[10px] font-black tracking-[0.2em] px-10 text-right italic">{t('action')}</TableHead>
                      </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -401,23 +401,23 @@ export default function Listings() {
                                 </div>
                                 <div className="space-y-2">
                                   <div className="flex items-center gap-4">
-                                    <p className="font-black text-white text-xl italic tracking-tighter leading-none group-hover/row:text-blue-400 transition-colors">
+                                    <p className="font-black text-white text-xl italic tracking-tighter leading-none group-hover/row:text-brand transition-colors">
                                       {l.title} 
                                     </p>
                                     {l.isDoped && <Badge className="bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[8px] h-6 font-black tracking-widest px-3 rounded-full">{t('doped')}</Badge>}
                                   </div>
-                                  <p className="text-slate-500 text-[10px] font-black italic tracking-widest flex items-center gap-2 leading-none"><MapPin className="w-3.5 h-3.5 text-blue-500" /> {l.property?.city}</p>
+                                  <p className="text-muted-foreground text-[10px] font-black italic tracking-widest flex items-center gap-2 leading-none"><MapPin className="w-3.5 h-3.5 text-brand" /> {l.property?.city}</p>
                                 </div>
                              </div>
                           </TableCell>
                           <TableCell className="px-10">
                              <div className="flex items-center gap-8">
                                 <div className="space-y-1 text-center">
-                                   <p className="text-[9px] font-black text-slate-500 tracking-widest italic">{t('client.property.listings.views')}</p>
+                                   <p className="text-[9px] font-black text-muted-foreground tracking-widest italic">{t('client.property.listings.views')}</p>
                                    <span className={cn("text-lg font-black italic tracking-tighter  leading-none", l.isDoped ? "text-amber-400" : "text-white")}>{l.views || 0}</span>
                                 </div>
                                 <div className="space-y-1 text-center">
-                                   <p className="text-[9px] font-black text-slate-500 tracking-widest italic">{t('leads')}</p>
+                                   <p className="text-[9px] font-black text-muted-foreground tracking-widest italic">{t('leads')}</p>
                                    <span className="text-lg font-black text-white italic tracking-tighter leading-none">{l.leads || 0}</span>
                                 </div>
                              </div>
@@ -426,26 +426,26 @@ export default function Listings() {
                              <Badge className={cn("px-4 h-8  text-[8px] font-black tracking-widest rounded-full border shadow-lg backdrop-blur-xl", (STATUS_MAP as any)[l.status]?.cls)}>{(STATUS_MAP as any)[l.status]?.label || l.status}</Badge>
                           </TableCell>
                           <TableCell className="px-10">
-                             <p className="text-[9px] font-black text-slate-500 tracking-widest italic mb-1">{t('total', { defaultValue: 'TOTAL' })}</p>
+                             <p className="text-[9px] font-black text-muted-foreground tracking-widest italic mb-1">{t('total', { defaultValue: 'TOTAL' })}</p>
                              <span className="font-black text-white text-2xl italic tracking-tighter leading-none">${l.price?.toLocaleString()}</span>
                           </TableCell>
                           <TableCell className="px-10 text-right">
                              <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                   <Button variant="ghost" className="h-14 w-14 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all shadow-xl">
-                                      <MoreHorizontal className="w-6 h-6 text-slate-500" />
+                                   <Button variant="ghost" className="h-14 w-14 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground hover:text-white transition-all shadow-xl" aria-label={t("common.more")}>
+                                      <MoreHorizontal className="w-6 h-6 text-muted-foreground" />
                                    </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="bg-[#1a1b1e] border-white/10 text-white w-64 p-3 rounded-2xl shadow-3xl backdrop-blur-3xl">
-                                   <DropdownMenuLabel className="text-[10px] font-black text-slate-500 tracking-widest p-4 pb-2 italic">{t('action')}</DropdownMenuLabel>
+                                <DropdownMenuContent align="end" className="bg-card border-white/10 text-white w-64 p-3 rounded-2xl shadow-3xl backdrop-blur-3xl">
+                                   <DropdownMenuLabel className="text-[10px] font-black text-muted-foreground tracking-widest p-4 pb-2 italic">{t('action')}</DropdownMenuLabel>
                                    <DropdownMenuSeparator className="bg-white/5 mx-2" />
                                    <DropdownMenuItem onClick={() => handleDopingClick(l.id)} className="rounded-xl h-12 gap-4 font-black italic text-[10px] tracking-widest focus:bg-amber-500/10 focus:text-amber-500 cursor-pointer">
                                       <Zap className="w-4 h-4" /> {t('applyDoping')}
                                    </DropdownMenuItem>
-                                   <DropdownMenuItem className="rounded-xl h-12 gap-4 font-black italic text-[10px] tracking-widest focus:bg-white/5 focus:text-blue-400 cursor-pointer">
+                                   <DropdownMenuItem className="rounded-xl h-12 gap-4 font-black italic text-[10px] tracking-widest focus:bg-white/5 focus:text-brand cursor-pointer">
                                       <Edit className="w-4 h-4" /> {t('edit')}
                                    </DropdownMenuItem>
-                                   <DropdownMenuItem className="rounded-xl h-12 gap-4 font-black italic text-[10px] tracking-widest focus:bg-white/5 focus:text-purple-400 cursor-pointer">
+                                   <DropdownMenuItem className="rounded-xl h-12 gap-4 font-black italic text-[10px] tracking-widest focus:bg-white/5 focus:text-brand cursor-pointer">
                                       <Camera className="w-4 h-4" /> {t('media')}
                                    </DropdownMenuItem>
                                    <DropdownMenuItem className="rounded-xl h-12 gap-4 font-black italic text-[10px] tracking-widest focus:bg-pink-500/10 focus:text-pink-500 cursor-pointer">
@@ -467,34 +467,34 @@ export default function Listings() {
         </AnimatePresence>
 
         <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-          <DialogContent className="max-w-xl bg-[#1a1b1e] border-white/10 text-white rounded-[40px] p-0 overflow-hidden backdrop-blur-3xl shadow-3xl">
+          <DialogContent className="max-w-xl bg-card border-white/10 text-white rounded-[40px] p-0 overflow-hidden backdrop-blur-3xl shadow-3xl">
              <DialogHeader className="p-10 pb-0">
-                <DialogTitle className="text-3xl font-black italic tracking-tighter text-blue-400">{t('client.property.listings.dialog.create')}</DialogTitle>
-                <DialogDescription className="text-slate-500 font-black italic tracking-widest text-[10px] pt-4 leading-relaxed">
+                <DialogTitle className="text-3xl font-black italic tracking-tighter text-brand">{t('client.property.listings.dialog.create')}</DialogTitle>
+                <DialogDescription className="text-muted-foreground font-black italic tracking-widest text-[10px] pt-4 leading-relaxed">
                    {t('client.property.listings.dialog.createDesc')}
                 </DialogDescription>
              </DialogHeader>
              <form className="p-10 space-y-8" onSubmit={(e) => { e.preventDefault(); setCreateOpen(false); toast({ title: t('success') }); }}>
                 <div className="space-y-2">
-                   <label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.listings.dialog.category')}</label>
+                   <label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.listings.dialog.category')}</label>
                    <CategoryPicker selectedCategoryId={undefined} onChange={() => {}} lang="en" />
                 </div>
                 <div className="space-y-2">
-                   <label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.listings.dialog.title')}</label>
-                   <input aria-label="Listing title" className="w-full h-16 bg-black/40 border border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-slate-800" placeholder={t('client.property.listings.dialog.titlePlaceholder')} />
+                   <label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.listings.dialog.title')}</label>
+                   <input aria-label="Listing title" className="w-full h-16 bg-black/40 border border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-600/50 transition-all placeholder:text-foreground" placeholder={t('client.property.listings.dialog.titlePlaceholder')} />
                 </div>
                 <div className="grid grid-cols-2 gap-8">
                    <div className="space-y-2">
-                      <label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('price')}</label>
+                      <label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('price')}</label>
                       <input type="number" aria-label="Listing price" className="w-full h-16 bg-black/40 border border-white/5 rounded-[24px] px-6 text-white font-black italic text-xs tracking-widest" />
                    </div>
                    <div className="space-y-2">
-                      <label className="text-[10px] font-black tracking-widest text-slate-500 italic ml-2">{t('client.property.listings.dialog.type')}</label>
+                      <label className="text-[10px] font-black tracking-widest text-muted-foreground italic ml-2">{t('client.property.listings.dialog.type')}</label>
                       <Select defaultValue="SALE">
                          <SelectTrigger className="h-16 bg-black/40 border-white/5 rounded-[24px] text-white font-black italic text-[10px] tracking-widest px-6 shadow-inner">
                             <SelectValue />
                          </SelectTrigger>
-                         <SelectContent className="bg-[#1a1b1e] border-white/10 text-white font-black italic">
+                         <SelectContent className="bg-card border-white/10 text-white font-black italic">
                             <SelectItem value="SALE" className="focus:bg-white/5">{t('client.property.listings.dialog.forSale')}</SelectItem>
                             <SelectItem value="RENT" className="focus:bg-white/5">{t('forRent')}</SelectItem>
                          </SelectContent>
@@ -502,8 +502,8 @@ export default function Listings() {
                    </div>
                 </div>
                 <DialogFooter className="pt-8 flex gap-4">
-                   <Button type="button" variant="ghost" onClick={() => setCreateOpen(false)} className="h-16 px-8 text-[10px] font-black italic text-slate-500">{t('client.property.listings.dialog.cancel')}</Button>
-                   <Button type="submit" className="flex-1 h-16 rounded-[24px] bg-blue-600 hover:bg-blue-500 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20">
+                   <Button type="button" variant="ghost" onClick={() => setCreateOpen(false)} className="h-16 px-8 text-[10px] font-black italic text-muted-foreground">{t('client.property.listings.dialog.cancel')}</Button>
+                   <Button type="submit" className="flex-1 h-16 rounded-[24px] bg-blue-600 hover:bg-brand/100 text-white font-black italic text-xs tracking-widest shadow-xl shadow-blue-600/20">
                       {t('publish')}
                    </Button>
                 </DialogFooter>
@@ -513,13 +513,13 @@ export default function Listings() {
 
         {/* Doping Modal */}
         <Dialog open={dopingModalOpen} onOpenChange={setDopingModalOpen}>
-          <DialogContent className="max-w-lg bg-[#1a1b1e] border-white/10 text-white rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
+          <DialogContent className="max-w-lg bg-card border-white/10 text-white rounded-[40px] p-8 backdrop-blur-3xl shadow-3xl">
             <DialogHeader>
               <DialogTitle className="text-2xl font-black italic tracking-tighter text-amber-400 flex items-center gap-3">
                 <Zap className="w-6 h-6" />
                 {t('applyDoping', { defaultValue: 'Apply Doping' })}
               </DialogTitle>
-              <DialogDescription className="text-slate-400 text-xs italic tracking-widest mt-2">
+              <DialogDescription className="text-muted-foreground text-xs italic tracking-widest mt-2">
                 Boost your listing visibility by applying a tag.
               </DialogDescription>
             </DialogHeader>
@@ -543,28 +543,28 @@ export default function Listings() {
               </Button>
               <Button 
                 onClick={() => applyDopingMutation("PRICE_DROP")}
-                className="h-28 flex flex-col items-center justify-center gap-2 bg-blue-500/10 border border-blue-500/20 hover:bg-blue-500 hover:text-white text-blue-400 rounded-2xl transition-all"
+                className="h-28 flex flex-col items-center justify-center gap-2 bg-brand/100/10 border border-blue-500/20 hover:bg-brand/100 hover:text-white text-brand rounded-2xl transition-all"
               >
                 <TrendingDown className="w-6 h-6" />
                 <span className="text-[10px] font-black tracking-widest uppercase">Price Drop</span>
-                <span className="text-[8px] text-blue-400/60">$19.99 / 5 days</span>
+                <span className="text-[8px] text-brand/60">$19.99 / 5 days</span>
               </Button>
               <Button 
                 onClick={() => applyDopingMutation("DISCOUNT")}
-                className="h-28 flex flex-col items-center justify-center gap-2 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500 hover:text-white text-emerald-400 rounded-2xl transition-all"
+                className="h-28 flex flex-col items-center justify-center gap-2 bg-success/10 border border-success/20 hover:bg-success hover:text-white text-success rounded-2xl transition-all"
               >
                 <Tag className="w-6 h-6" />
                 <span className="text-[10px] font-black tracking-widest uppercase">Discount</span>
-                <span className="text-[8px] text-emerald-400/60">$14.99 / 7 days</span>
+                <span className="text-[8px] text-success/60">$14.99 / 7 days</span>
               </Button>
             </div>
 
             <div className="bg-white/5 rounded-xl p-4 border border-white/5">
               <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="w-4 h-4 text-purple-400" />
-                <span className="text-[9px] font-black tracking-widest text-slate-400 uppercase">Benefits</span>
+                <Sparkles className="w-4 h-4 text-brand" />
+                <span className="text-[9px] font-black tracking-widest text-muted-foreground uppercase">Benefits</span>
               </div>
-              <ul className="space-y-1 text-[9px] text-slate-500 italic">
+              <ul className="space-y-1 text-[9px] text-muted-foreground italic">
                 <li>• 3x more visibility in search results</li>
                 <li>• Priority placement in featured section</li>
                 <li>• Increased engagement by 40%</li>
@@ -573,7 +573,7 @@ export default function Listings() {
             </div>
 
             <DialogFooter>
-              <Button variant="ghost" onClick={() => setDopingModalOpen(false)} className="w-full h-12 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 text-xs font-black tracking-widest uppercase">
+              <Button variant="ghost" onClick={() => setDopingModalOpen(false)} className="w-full h-12 rounded-xl text-muted-foreground hover:text-white hover:bg-white/5 text-xs font-black tracking-widest uppercase">
                 {t('cancel', { defaultValue: 'Cancel' })}
               </Button>
             </DialogFooter>

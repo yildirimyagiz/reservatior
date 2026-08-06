@@ -33,10 +33,10 @@ const mockReservations: Reservation[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  CONFIRMED: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+  CONFIRMED: "bg-blue-500/10 text-success border-blue-500/20",
   PENDING: "bg-amber-500/10 text-amber-500 border-amber-500/20",
   CANCELLED: "bg-red-500/10 text-red-500 border-red-500/20",
-  COMPLETED: "bg-slate-500/10 text-slate-500 border-slate-500/20"
+  COMPLETED: "bg-muted text-muted-foreground border-slate-500/20"
 };
 
 const STATUS_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -50,12 +50,12 @@ const STATUS_ICONS: Record<string, React.ComponentType<{ className?: string }>> 
 function GlassModal({ open, onOpenChange, title, description, children, footer }: any) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-slate-900/90 backdrop-blur-xl border border-white/10 shadow-2xl">
+      <DialogContent className="sm:max-w-[425px] bg-card/90 backdrop-blur-xl border border-white/10 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">
             {title}
           </DialogTitle>
-          {description && <DialogDescription className="text-slate-400">{description}</DialogDescription>}
+          {description && <DialogDescription className="text-muted-foreground">{description}</DialogDescription>}
         </DialogHeader>
         <div className="py-4 space-y-4">
           {children}
@@ -76,43 +76,43 @@ function CreateReservationDialog({ open, onOpenChange, onSubmit }: any) {
     <GlassModal
       open={open}
       onOpenChange={onOpenChange}
-      title={t("admin_bookings_add", "Add Reservation")}
+      title={t("admin_bookings_add", "Rezervasyon Ekle")}
       footer={
         <div className="flex justify-end gap-2 w-full">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => onSubmit(formData)} className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20">
             <Check className="w-4 h-4 mr-2" />
-            {t("admin_action_create", "Create")}
+            {t("admin_action_create", "Oluştur")}
           </Button>
         </div>
       }
     >
       <div className="grid gap-4 text-white">
         <div className="grid gap-2">
-          <Label>{t("admin_ai_name", "Guest Name")}</Label>
+          <Label>{t("admin_ai_name", "Sistem Adı")}</Label>
           <Input value={formData.guestName} onChange={e => setFormData({ ...formData, guestName: e.target.value })} className="bg-white/5 border-white/10 focus:border-primary/50 transition-colors" />
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_ai_property", "Property")}</Label>
+          <Label>{t("admin_ai_property", "Mülk")}</Label>
           <Input value={formData.propertyName} onChange={e => setFormData({ ...formData, propertyName: e.target.value })} className="bg-white/5 border-white/10" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_ai_start_date", "Check In")}</Label>
+            <Label>{t("admin_ai_start_date", "Başlangıç Tarihi")}</Label>
             <Input type="date" value={formData.checkIn} onChange={e => setFormData({ ...formData, checkIn: e.target.value })} className="bg-white/5 border-white/10 [&::-webkit-calendar-picker-indicator]:invert" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_end_date", "Check Out")}</Label>
+            <Label>{t("admin_ai_end_date", "Bitiş Tarihi")}</Label>
             <Input type="date" value={formData.checkOut} onChange={e => setFormData({ ...formData, checkOut: e.target.value })} className="bg-white/5 border-white/10 [&::-webkit-calendar-picker-indicator]:invert" />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_auto_amount", "Amount")}</Label>
+            <Label>{t("admin_auto_amount", "Miktar")}</Label>
             <Input type="number" value={formData.totalAmount} onChange={e => setFormData({ ...formData, totalAmount: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_status", "Status")}</Label>
+            <Label>{t("admin_ai_status", "Durum")}</Label>
             <Select value={formData.status} onValueChange={(v: any) => setFormData({ ...formData, status: v })}>
               <SelectTrigger className="bg-white/5 border-white/10 text-white">
                 <SelectValue />
@@ -139,43 +139,43 @@ function EditReservationDialog({ open, onOpenChange, item, onSubmit }: any) {
     <GlassModal
       open={open}
       onOpenChange={onOpenChange}
-      title={t("admin_action_edit", "Edit Reservation")}
+      title={t("admin_action_edit", "Düzenle")}
       footer={
         <div className="flex justify-end gap-2 w-full">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => onSubmit(formData)} className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
             <Check className="w-4 h-4 mr-2" />
-            {t("admin_action_save", "Save")}
+            {t("admin_action_save", "Kaydet")}
           </Button>
         </div>
       }
     >
       <div className="grid gap-4 text-white">
         <div className="grid gap-2">
-          <Label>{t("admin_ai_name", "Guest Name")}</Label>
+          <Label>{t("admin_ai_name", "Sistem Adı")}</Label>
           <Input value={formData.guestName} onChange={e => setFormData({ ...formData, guestName: e.target.value })} className="bg-white/5 border-white/10 focus:border-primary/50 transition-colors" />
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_ai_property", "Property")}</Label>
+          <Label>{t("admin_ai_property", "Mülk")}</Label>
           <Input value={formData.propertyName} onChange={e => setFormData({ ...formData, propertyName: e.target.value })} className="bg-white/5 border-white/10" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_ai_start_date", "Check In")}</Label>
+            <Label>{t("admin_ai_start_date", "Başlangıç Tarihi")}</Label>
             <Input type="date" value={formData.checkIn} onChange={e => setFormData({ ...formData, checkIn: e.target.value })} className="bg-white/5 border-white/10 [&::-webkit-calendar-picker-indicator]:invert" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_end_date", "Check Out")}</Label>
+            <Label>{t("admin_ai_end_date", "Bitiş Tarihi")}</Label>
             <Input type="date" value={formData.checkOut} onChange={e => setFormData({ ...formData, checkOut: e.target.value })} className="bg-white/5 border-white/10 [&::-webkit-calendar-picker-indicator]:invert" />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_auto_amount", "Amount")}</Label>
+            <Label>{t("admin_auto_amount", "Miktar")}</Label>
             <Input type="number" value={formData.totalAmount} onChange={e => setFormData({ ...formData, totalAmount: Number(e.target.value) })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_status", "Status")}</Label>
+            <Label>{t("admin_ai_status", "Durum")}</Label>
             <Select value={formData.status} onValueChange={(v: any) => setFormData({ ...formData, status: v })}>
               <SelectTrigger className="bg-white/5 border-white/10 text-white">
                 <SelectValue />
@@ -198,20 +198,20 @@ function DeleteReservationDialog({ open, onOpenChange, item, onConfirm }: any) {
   const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-slate-900/90 backdrop-blur-xl border border-red-500/20 shadow-2xl">
+      <DialogContent className="sm:max-w-[425px] bg-card/90 backdrop-blur-xl border border-red-500/20 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-red-500">
             <AlertTriangle className="w-5 h-5" />
-            {t("admin_action_delete", "Delete")}
+            {t("admin_action_delete", "Sil")}
           </DialogTitle>
-          <DialogDescription className="pt-2 text-slate-300">
-            {t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")} <span className="font-bold text-white">{item?.guestName}</span>? {t("admin_auto_this_action_cannot_be_undone", "This action cannot be undone.")}
+          <DialogDescription className="pt-2 text-muted-foreground">
+            {t("admin_auto_are_you_sure_you_want_to_delete", "Silmek istediğinizden emin misiniz:")} <span className="font-bold text-white">{item?.guestName}</span>? {t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="pt-4 border-t border-white/5">
-          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-300 hover:text-white">{t("admin_action_cancel", "Cancel")}</Button>
+        <DialogFooter className="pt-4 border-t border-border">
+          <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-white">{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">
-            {t("admin_action_delete", "Delete")}
+            {t("admin_action_delete", "Sil")}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -255,12 +255,12 @@ export default function PropertyReservationsPage() {
         <m.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">{t("reservations.propertyreservationspage.auto_ext_1", "Property Reservations")}</h1>
-              <p className="text-gray-400">{t("reservations.propertyreservationspage.auto_ext_2", "Manage property reservations and bookings")}</p>
+              <h1 className="text-3xl font-bold text-white mb-2">{t("reservations.propertyreservationspage.auto_ext_1", "Mülk Rezervasyonları")}</h1>
+              <p className="text-gray-400">{t("reservations.propertyreservationspage.auto_ext_2", "Tesis rezervasyonlarını ve rezervasyonlarını yönetin")}</p>
             </div>
-            <Button onClick={() => router.push('/admin/dashboard')} className="bg-slate-600 hover:bg-slate-700">
+            <Button onClick={() => router.push('/admin/dashboard')} className="bg-muted hover:bg-muted">
               <ArrowUpRight className="w-4 h-4 mr-2" />
-              {t("admin_adminpage_auto_ext_3", "Dashboard")}
+              {t("admin_adminpage_auto_ext_3", "Kontrol Paneli")}
             </Button>
           </div>
         </m.div>
@@ -273,7 +273,7 @@ export default function PropertyReservationsPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
-                      placeholder={t("admin_auto_search_reservations", "Search reservations...")}
+                      placeholder={t("admin_auto_search_reservations", "Rezervasyonları ara...")}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10 bg-white/10 border-slate-500/30 text-white placeholder:text-gray-400 transition-colors focus:bg-white/10"
@@ -282,7 +282,7 @@ export default function PropertyReservationsPage() {
                 </div>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90 shadow-md">
                   <Plus className="w-4 h-4 mr-2" />
-                  {t("admin_bookings_add", "Add Reservation")}
+                  {t("admin_bookings_add", "Rezervasyon Ekle")}
                 </Button>
               </div>
             </CardContent>
@@ -294,7 +294,7 @@ export default function PropertyReservationsPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-primary" />
-                {t("reservations.propertyreservationspage.auto_ext_5", "All Reservations")} ({filteredReservations.length})
+                {t("reservations.propertyreservationspage.auto_ext_5", "Tüm Rezervasyonlar (")} ({filteredReservations.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -312,7 +312,7 @@ export default function PropertyReservationsPage() {
                         className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all border border-transparent hover:border-slate-500/30 group"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-500/20 to-slate-500/10 border border-slate-500/20 flex items-center justify-center text-slate-300 font-bold shadow-inner">
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-500/20 to-slate-500/10 border border-slate-500/20 flex items-center justify-center text-muted-foreground font-bold shadow-inner">
                             {reservation.guestName.split(' ').map(n => n[0]).join('')}
                           </div>
                           <div>
@@ -335,10 +335,10 @@ export default function PropertyReservationsPage() {
                             </Badge>
                           </div>
                           <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button onClick={() => setEditingItem(reservation)} variant="outline" size="icon" className="h-9 w-9 bg-white/5 hover:bg-white/10 border-slate-500/30">
+                            <Button onClick={() => setEditingItem(reservation)} variant="outline" size="icon" aria-label={t("common.edit")} className="h-9 w-9 bg-white/5 hover:bg-white/10 border-slate-500/30">
                               <Edit className="w-4 h-4 text-white/70" />
                             </Button>
-                            <Button onClick={() => setDeletingItem(reservation)} variant="outline" size="icon" className="h-9 w-9 bg-white/5 hover:bg-red-500/10 border-slate-500/30 hover:border-red-500/30 group/btn">
+                            <Button onClick={() => setDeletingItem(reservation)} variant="outline" size="icon" aria-label={t("common.delete")} className="h-9 w-9 bg-white/5 hover:bg-red-500/10 border-slate-500/30 hover:border-red-500/30 group/btn">
                               <Trash2 className="w-4 h-4 text-red-500/70 group-hover/btn:text-red-500" />
                             </Button>
                           </div>
@@ -348,8 +348,8 @@ export default function PropertyReservationsPage() {
                   })}
                 </AnimatePresence>
                 {filteredReservations.length === 0 && (
-                  <div className="py-12 text-center text-slate-500">
-                    {t("admin_auto_no_results_found", "No results found")}
+                  <div className="py-12 text-center text-muted-foreground">
+                    {t("admin_auto_no_results_found", "Sonuç bulunamadı")}
                   </div>
                 )}
               </div>

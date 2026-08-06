@@ -127,7 +127,7 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
       const data = await response.json();
       setAttachments(prev => [...prev, data.url]);
     } catch {
-      alert("Dosya yüklenirken hata oluştu");
+      console.error("Dosya yüklenirken hata oluştu");
     }
   };
 
@@ -138,21 +138,21 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
-          className="fixed bottom-24 right-6 z-[100] w-[380px] h-[500px] bg-white dark:bg-[#0a0a0c] rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-white/60 dark:border-slate-800"
+          className="fixed bottom-24 right-6 z-[100] w-[380px] h-[500px] bg-card dark:bg-[#0a0a0c] rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-white/60 dark:border-border"
         >
           {/* Header */}
-          <div className="flex-none p-4 flex justify-between items-center border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#14151a]">
+          <div className="flex-none p-4 flex justify-between items-center border-b border-border dark:border-border bg-muted dark:bg-background">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <div>
-                <span className="font-bold text-slate-900 dark:text-white">AI Support</span>
-                <p className="text-xs text-green-500 font-medium">● Online</p>
+                <span className="font-bold text-foreground dark:text-white">AI Support</span>
+                <p className="text-xs text-blue-500 font-medium">● Online</p>
               </div>
             </div>
-            <button onClick={onClose} aria-label="Close support chat" className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
-              <X className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+            <button onClick={onClose} aria-label="Close support chat" className="p-2 rounded-full hover:bg-muted dark:hover:bg-muted transition-colors">
+              <X className="w-5 h-5 text-muted-foreground dark:text-muted-foreground" />
             </button>
           </div>
 
@@ -161,11 +161,11 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
             {supportMessages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
                 <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                  <Sparkles className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                  <Sparkles className="w-8 h-8 text-brand dark:text-info" />
                 </div>
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">How can I help you?</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Describe your issue, share files</p>
+                  <p className="font-bold text-foreground dark:text-white">How can I help you?</p>
+                  <p className="text-sm text-muted-foreground dark:text-muted-foreground mt-1">Describe your issue, share files</p>
                 </div>
               </div>
             )}
@@ -174,10 +174,10 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
               <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div className={`max-w-[80%] rounded-2xl p-3 ${
                   msg.role === "user"
-                    ? "bg-blue-600 text-white rounded-br-md"
+                    ? "bg-primary text-primary-foreground text-white rounded-br-md"
                     : msg.role === "ai"
-                    ? "bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-bl-md"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-bl-md"
+                    ? "bg-gradient-to-br from-brand to-info text-white rounded-bl-md"
+                    : "bg-muted dark:bg-muted text-foreground dark:text-foreground rounded-bl-md"
                 }`}>
                   {msg.role === "ai" && (
                     <div className="flex items-center gap-2 mb-2">
@@ -208,7 +208,7 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
                           msg.metadata.priority === 'CRITICAL' ? 'bg-red-500/30' :
                           msg.metadata.priority === 'HIGH' ? 'bg-orange-500/30' :
                           msg.metadata.priority === 'MEDIUM' ? 'bg-yellow-500/30' :
-                          'bg-green-500/30'
+                          'bg-blue-500/30'
                         }`}>
                           Priority: <span className="font-semibold">{msg.metadata.priority}</span>
                         </div>
@@ -245,11 +245,11 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
 
             {supportIsLoading && (
               <div className="flex justify-start">
-                <div className="bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-bl-md p-3">
+                <div className="bg-muted dark:bg-muted rounded-2xl rounded-bl-md p-3">
                   <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-100" />
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-200" />
+                    <div className="w-2 h-2 bg-brand/100 rounded-full animate-bounce" />
+                    <div className="w-2 h-2 bg-brand/100 rounded-full animate-bounce delay-100" />
+                    <div className="w-2 h-2 bg-brand/100 rounded-full animate-bounce delay-200" />
                   </div>
                 </div>
               </div>
@@ -259,11 +259,11 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
           </div>
 
           {/* Input Area */}
-          <div className="flex-none p-4 border-t border-slate-200 dark:border-slate-800">
+          <div className="flex-none p-4 border-t border-border dark:border-border">
             {attachments.length > 0 && (
               <div className="flex gap-2 mb-2 overflow-x-auto">
                 {attachments.map((url, idx) => (
-                  <div key={idx} className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-full px-3 py-1 text-xs">
+                  <div key={idx} className="flex items-center gap-1 bg-muted dark:bg-muted rounded-full px-3 py-1 text-xs">
                     <span>📎 File</span>
                     <button aria-label="Remove file" onClick={() => setAttachments(prev => prev.filter((_, i) => i !== idx))} className="text-red-500 hover:text-red-700">×</button>
                   </div>
@@ -271,9 +271,9 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
               </div>
             )}
             <div className="flex gap-2">
-              <label aria-label="Attach file" className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+              <label aria-label="Attach file" className="p-2 rounded-full hover:bg-muted dark:hover:bg-muted transition-colors cursor-pointer">
                 <input type="file" onChange={handleFileUpload} className="hidden" />
-                <Paperclip className="w-5 h-5 text-slate-500" />
+                <Paperclip className="w-5 h-5 text-muted-foreground" />
               </label>
               <input
                 type="text"
@@ -282,13 +282,13 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
                 onChange={(e) => setSupportInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSupportSend()}
                 placeholder="Describe your issue..."
-                className="flex-1 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 px-4 py-2 rounded-full border border-slate-300 dark:border-border bg-card dark:bg-card text-foreground dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 onClick={handleSupportSend}
                 disabled={supportIsLoading}
                 aria-label="Send message"
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded-full transition-colors"
+                className="px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 disabled:bg-muted text-white rounded-full transition-colors"
               >
                 <Send className="w-4 h-4" />
               </button>

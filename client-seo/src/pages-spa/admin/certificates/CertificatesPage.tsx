@@ -76,7 +76,7 @@ export default function CertificatesPage() {
 
   return (
     <PageShell
-      title={t("admin_certificates_title", "Sertifikalar & Lisanslar")}
+      title={t("admin_certificates_title", "Sertifikalar ve Lisanslar")}
       description={t("admin_certificates_desc", "Yasal izin belgeleri, turizm lisansları, ISO standartları ve dijital sertifikalar")}
     >
       <div className="space-y-6">
@@ -87,7 +87,7 @@ export default function CertificatesPage() {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder={t("admin_certificates_search_placeholder", "Belge adı, seri no veya kurum ara...")}
+              placeholder={t("admin_certificates_search_placeholder", "Admin Yasal Uyumluluk Sertifikaları Akıllı Arama... Placeholder")}
               className="pl-9"
             />
           </div>
@@ -138,7 +138,7 @@ export default function CertificatesPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Award className="w-5 h-5 text-primary" />
-              {t("admin_certificates_list_title", "Sistem Lisansları ve Bakanlık İzin Belgeleri")}
+              {t("admin_certificates_list_title", "Admin Yasal Uyumluluk Sertifikaları List Title")}
             </CardTitle>
           </CardHeader>
           <CardContent>

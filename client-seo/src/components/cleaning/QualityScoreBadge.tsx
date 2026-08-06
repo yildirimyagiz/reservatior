@@ -10,7 +10,7 @@ interface QualityScoreBadgeProps {
 }
 
 const scoreColor = (score: number) => {
-  if (score >= 90) return "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
+  if (score >= 90) return "bg-blue-500/20 text-blue-400 border-blue-500/30";
   if (score >= 75) return "bg-amber-500/20 text-amber-400 border-amber-500/30";
   if (score >= 50) return "bg-orange-500/20 text-orange-400 border-orange-500/30";
   return "bg-red-500/20 text-red-400 border-red-500/30";
@@ -39,11 +39,11 @@ export function QualityScoreBadge({ score, size = "md", showLabel = true, classN
       <span className="relative flex h-1.5 w-1.5">
         <span className={cn(
           "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
-          score >= 90 ? "bg-emerald-400" : score >= 75 ? "bg-amber-400" : "bg-red-400"
+          score >= 90 ? "bg-blue-400" : score >= 75 ? "bg-amber-400" : "bg-red-400"
         )} />
         <span className={cn(
           "relative inline-flex h-1.5 w-1.5 rounded-full",
-          score >= 90 ? "bg-emerald-500" : score >= 75 ? "bg-amber-500" : "bg-red-500"
+          score >= 90 ? "bg-blue-500" : score >= 75 ? "bg-amber-500" : "bg-red-500"
         )} />
       </span>
       <span>{score}/100</span>

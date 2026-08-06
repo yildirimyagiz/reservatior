@@ -73,8 +73,8 @@ export function CustomerSupport() {
       }} onClick={() => setIsOpen(true)} className="w-16 h-16 bg-primary rounded-full shadow-2xl flex items-center justify-center text-primary-foreground group hover:scale-110 transition-transform duration-300">
             <MessageCircle className="w-8 h-8 group-hover:rotate-12 transition-transform" />
             <span className="absolute -top-1 -right-1 flex h-4 w-4">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-4 w-4 bg-blue-500"></span>
             </span>
           </m.button>}
 
@@ -101,7 +101,7 @@ export function CustomerSupport() {
                       <AvatarImage src="/api/placeholder/support-agent.jpg" />
                       <AvatarFallback className="bg-primary-foreground/10 text-primary-foreground">{t("client.src.rs")}</AvatarFallback>
                     </Avatar>
-                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-primary"></span>
+                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-blue-500 rounded-full border-2 border-primary"></span>
                   </div>
                   <div>
                     <CardTitle className="text-sm font-bold">{t("client.src.support_center")}</CardTitle>

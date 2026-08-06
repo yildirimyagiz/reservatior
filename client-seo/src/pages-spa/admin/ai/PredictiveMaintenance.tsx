@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"@/pages-spa/client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { cn } from"@/lib/utils";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from"@/components/ui/table";
@@ -65,7 +65,7 @@ enum PredictionStatus {
 const getRiskConfig = (t: any) => ({
  LOW: {
  label: t("admin_ai_low","Düşük"),
- color:"bg-green-100 text-green-700",
+ color:"bg-blue-100 text-blue-700",
  icon: CheckCircle
  },
  MEDIUM: {
@@ -79,7 +79,7 @@ const getRiskConfig = (t: any) => ({
  icon: AlertTriangle
  },
  CRITICAL: {
- label: t("admin_ai_critical","Kritik"),
+ label: t("admin_ai_critical", "eleştiri"),
  color:"bg-red-100 text-red-700",
  icon: AlertTriangle
  }
@@ -88,11 +88,11 @@ const getRiskConfig = (t: any) => ({
 const getUrgencyConfig = (t: any) => ({
  ROUTINE: {
  label: t("admin_ai_routine","Rutin"),
- color:"bg-slate-100 text-slate-700"
+ color:"bg-muted text-muted-foreground"
  },
  SCHEDULED: {
  label: t("admin_ai_scheduled","Planlı"),
- color:"bg-slate-100 text-slate-700"
+ color:"bg-muted text-muted-foreground"
  },
  URGENT: {
  label: t("admin_ai_urgent","Acil"),
@@ -214,11 +214,11 @@ export default function PredictiveMaintenance() {
  };
  const getRiskColor = (riskLevel: RiskLevel) => {
  const config = getRiskConfig(t)[riskLevel];
- return config ? config.color :"bg-card text-slate-300";
+ return config ? config.color :"bg-card text-muted-foreground";
  };
  const getUrgencyColor = (urgency: Urgency) => {
  const config = getUrgencyConfig(t)[urgency];
- return config ? config.color :"bg-card text-slate-300";
+ return config ? config.color :"bg-card text-muted-foreground";
  };
  return <PageShell title={t("admin_ai_predictive_maintenance")} description={t("admin_ai_aipowered_maintenance_predictions_and")}>
  <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6">
@@ -263,7 +263,7 @@ export default function PredictiveMaintenance() {
  <DollarSign className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{formatCurrency(totalEstimatedCost)}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{formatCurrency(totalEstimatedCost)}</div>
  <p className="text-xs text-muted-foreground">{t("admin_ai_total_estimated")}</p>
  </CardContent>
  </Card>
@@ -383,7 +383,7 @@ export default function PredictiveMaintenance() {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>

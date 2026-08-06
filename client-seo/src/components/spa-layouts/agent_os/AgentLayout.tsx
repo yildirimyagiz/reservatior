@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Link, useLocation } from "@/lib/react-router-shim";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { LayoutDashboard, Users, Activity, ArrowRightLeft, ChevronDown, ChevronRight, Briefcase } from "lucide-react";
+import { LayoutDashboard, Users, Activity, ArrowRightLeft, ChevronDown, ChevronRight, Briefcase, FileSignature } from "lucide-react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
@@ -46,6 +46,11 @@ export function AgentLayout({ children }: { children: React.ReactNode }) {
       title: "Client Relationships",
       href: "/agent-os/clients",
       icon: Briefcase
+    },
+    {
+      title: "Contracts",
+      href: "/agent-os/contracts",
+      icon: FileSignature
     }
   ];
 

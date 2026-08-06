@@ -32,29 +32,29 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'Properties',
       icon: Building2,
       children: [
-        { title: 'Portfolio Hub', href: '/property', icon: ShieldCheck },
+        { title: 'Portfolio Hub', href: '/admin/properties', icon: ShieldCheck },
         { title: 'All Properties', href: '/admin/properties', icon: Building2 },
-        { title: 'Listings', href: '/listings', icon: Package }
+        { title: 'Listings', href: '/client/listings', icon: Package }
       ]
     },
     {
       title: 'Financial',
       icon: DollarSign,
       children: [
-        { title: 'Transactions', href: '/financial/transactions', icon: DollarSign },
-        { title: 'Reports', href: '/financial/reports', icon: FileText },
-        { title: 'Invoices', href: '/financial/invoices', icon: FileText },
-        { title: 'Expenses', href: '/financial/expenses', icon: TrendingUp },
-        { title: 'Offers', href: '/offers', icon: Tag },
-        { title: 'Extra Charges', href: '/extra-charges', icon: Tag }
+        { title: 'Transactions', href: '/client/financial', icon: DollarSign },
+        { title: 'Reports', href: '/admin/reports', icon: FileText },
+        { title: 'Invoices', href: '/admin/invoices', icon: FileText },
+        { title: 'Expenses', href: '/admin/expenses', icon: TrendingUp },
+        { title: 'Offers', href: '/client/deals', icon: Tag },
+        { title: 'Extra Charges', href: '/admin/payments', icon: Tag }
       ]
     },
     {
       title: 'Tenants',
       icon: Users,
       children: [
-        { title: 'Applications', href: '/tenants/applications', icon: Users },
-        { title: 'Leases', href: '/leases', icon: FileText }
+        { title: 'Applications', href: '/client/tenants', icon: Users },
+        { title: 'Leases', href: '/client/leases', icon: FileText }
       ]
     },
     {
@@ -62,7 +62,7 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: Video,
       children: [
         { title: 'Videos', href: '/client/videos', icon: Video },
-        { title: 'Video Studio', href: '/client/video-studio', icon: Clapperboard },
+        { title: 'Video Studio', href: '/client/videos', icon: Clapperboard },
         { title: 'Agent Workspace', href: '/client/ai/studio', icon: Wand2 }
       ]
     },
@@ -70,9 +70,9 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'AI Analytics',
       icon: Brain,
       children: [
-        { title: 'AI Dashboard', href: '/ai/dashboard', icon: Brain },
-        { title: 'Analytics', href: '/analytics', icon: BarChart3 },
-        { title: 'Models', href: '/ai/models', icon: Brain }
+        { title: 'AI Dashboard', href: '/admin/ai', icon: Brain },
+        { title: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
+        { title: 'Models', href: '/admin/ai', icon: Brain }
       ]
     },
     {
@@ -82,8 +82,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
         { title: 'Project Dashboard', href: '/admin/projects', icon: BarChart3 },
         { title: 'Compliance Dashboard', href: '/admin/compliance', icon: ShieldCheck },
         { title: 'Property Inventory', href: '/admin/inventory', icon: ClipboardCheck },
-        { title: 'Documents', href: '/documents', icon: FileText },
-        { title: 'Signatures', href: '/signatures', icon: Edit }
+        { title: 'Documents', href: '/client/file-management', icon: FileText },
+        { title: 'Signatures', href: '/client/contracts', icon: Edit }
       ]
     },
     {
@@ -138,8 +138,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: MessageSquare,
       badge: 3,
       children: [
-        { title: 'Messages', href: '/messages', icon: MessageSquare },
-        { title: 'Notifications', href: '/notifications', icon: Bell }
+        { title: 'Messages', href: '/client/messages', icon: MessageSquare },
+        { title: 'Notifications', href: '/client/messages', icon: Bell }
       ]
     }
   ],
@@ -154,26 +154,26 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'Properties',
       icon: Building2,
       children: [
-        { title: 'Portfolio Hub', href: '/property', icon: ShieldCheck },
-        { title: 'Listings', href: '/listings', icon: Package }
+        { title: 'Portfolio Hub', href: '/admin/properties', icon: ShieldCheck },
+        { title: 'Listings', href: '/client/listings', icon: Package }
       ]
     },
     {
       title: 'Financial',
       icon: DollarSign,
       children: [
-        { title: 'Transactions', href: '/financial/transactions', icon: DollarSign },
-        { title: 'Reports', href: '/financial/reports', icon: FileText },
-        { title: 'Invoices', href: '/financial/invoices', icon: FileText },
-        { title: 'Expenses', href: '/financial/expenses', icon: TrendingUp }
+        { title: 'Transactions', href: '/client/financial', icon: DollarSign },
+        { title: 'Reports', href: '/admin/reports', icon: FileText },
+        { title: 'Invoices', href: '/admin/invoices', icon: FileText },
+        { title: 'Expenses', href: '/admin/expenses', icon: TrendingUp }
       ]
     },
     {
       title: 'Tenants',
       icon: Users,
       children: [
-        { title: 'Applications', href: '/tenants/applications', icon: Users },
-        { title: 'Leases', href: '/leases', icon: FileText }
+        { title: 'Applications', href: '/client/tenants', icon: Users },
+        { title: 'Leases', href: '/client/leases', icon: FileText }
       ]
     },
     {
@@ -181,7 +181,7 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: Video,
       children: [
         { title: 'Videos', href: '/client/videos', icon: Video },
-        { title: 'Video Studio', href: '/client/video-studio', icon: Clapperboard },
+        { title: 'Video Studio', href: '/client/videos', icon: Clapperboard },
         { title: 'Agent Workspace', href: '/client/ai/studio', icon: Wand2 }
       ]
     },
@@ -199,8 +199,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: MessageSquare,
       badge: 3,
       children: [
-        { title: 'Messages', href: '/messages', icon: MessageSquare },
-        { title: 'Notifications', href: '/notifications', icon: Bell }
+        { title: 'Messages', href: '/client/messages', icon: MessageSquare },
+        { title: 'Notifications', href: '/client/messages', icon: Bell }
       ]
     }
   ],
@@ -215,8 +215,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'Properties',
       icon: Building2,
       children: [
-        { title: 'Portfolio Hub', href: '/property', icon: ShieldCheck },
-        { title: 'Listings', href: '/listings', icon: Package }
+        { title: 'Portfolio Hub', href: '/admin/properties', icon: ShieldCheck },
+        { title: 'Listings', href: '/client/listings', icon: Package }
       ]
     },
     {
@@ -234,7 +234,7 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: Video,
       children: [
         { title: 'Videos', href: '/client/videos', icon: Video },
-        { title: 'Video Studio', href: '/client/video-studio', icon: Clapperboard },
+        { title: 'Video Studio', href: '/client/videos', icon: Clapperboard },
         { title: 'Agent Workspace', href: '/client/ai/studio', icon: Wand2 }
       ]
     },
@@ -242,18 +242,18 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'Financial',
       icon: DollarSign,
       children: [
-        { title: 'Transactions', href: '/financial/transactions', icon: DollarSign },
-        { title: 'Reports', href: '/financial/reports', icon: FileText },
-        { title: 'Invoices', href: '/financial/invoices', icon: FileText },
-        { title: 'Offers', href: '/offers', icon: Tag }
+        { title: 'Transactions', href: '/client/financial', icon: DollarSign },
+        { title: 'Reports', href: '/admin/reports', icon: FileText },
+        { title: 'Invoices', href: '/admin/invoices', icon: FileText },
+        { title: 'Offers', href: '/client/deals', icon: Tag }
       ]
     },
     {
       title: 'Tenants',
       icon: Users,
       children: [
-        { title: 'Applications', href: '/tenants/applications', icon: Users },
-        { title: 'Leases', href: '/leases', icon: FileText }
+        { title: 'Applications', href: '/client/tenants', icon: Users },
+        { title: 'Leases', href: '/client/leases', icon: FileText }
       ]
     },
     {
@@ -270,8 +270,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: MessageSquare,
       badge: 3,
       children: [
-        { title: 'Messages', href: '/messages', icon: MessageSquare },
-        { title: 'Notifications', href: '/notifications', icon: Bell }
+        { title: 'Messages', href: '/client/messages', icon: MessageSquare },
+        { title: 'Notifications', href: '/client/messages', icon: Bell }
       ]
     }
   ],
@@ -286,7 +286,7 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'Properties',
       icon: Building2,
       children: [
-        { title: 'Listings', href: '/listings', icon: Package }
+        { title: 'Listings', href: '/client/listings', icon: Package }
       ]
     },
     {
@@ -302,7 +302,7 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: Video,
       children: [
         { title: 'Videos', href: '/client/videos', icon: Video },
-        { title: 'Video Studio', href: '/client/video-studio', icon: Clapperboard },
+        { title: 'Video Studio', href: '/client/videos', icon: Clapperboard },
         { title: 'Agent Workspace', href: '/client/ai/studio', icon: Wand2 }
       ]
     },
@@ -310,16 +310,16 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'Financial',
       icon: DollarSign,
       children: [
-        { title: 'My Commission', href: '/financial/reports', icon: BarChart3 },
-        { title: 'Offers', href: '/offers', icon: Tag }
+        { title: 'My Commission', href: '/admin/reports', icon: BarChart3 },
+        { title: 'Offers', href: '/client/deals', icon: Tag }
       ]
     },
     {
       title: 'Tenants',
       icon: Users,
       children: [
-        { title: 'Applications', href: '/tenants/applications', icon: Users },
-        { title: 'Leases', href: '/leases', icon: FileText }
+        { title: 'Applications', href: '/client/tenants', icon: Users },
+        { title: 'Leases', href: '/client/leases', icon: FileText }
       ]
     },
     {
@@ -327,8 +327,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: MessageSquare,
       badge: 3,
       children: [
-        { title: 'Messages', href: '/messages', icon: MessageSquare },
-        { title: 'Notifications', href: '/notifications', icon: Bell }
+        { title: 'Messages', href: '/client/messages', icon: MessageSquare },
+        { title: 'Notifications', href: '/client/messages', icon: Bell }
       ]
     }
   ],
@@ -343,18 +343,18 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'Financial',
       icon: DollarSign,
       children: [
-        { title: 'Transactions', href: '/financial/transactions', icon: DollarSign },
-        { title: 'Reports', href: '/financial/reports', icon: FileText },
-        { title: 'Invoices', href: '/financial/invoices', icon: FileText },
-        { title: 'Expenses', href: '/financial/expenses', icon: TrendingUp }
+        { title: 'Transactions', href: '/client/financial', icon: DollarSign },
+        { title: 'Reports', href: '/admin/reports', icon: FileText },
+        { title: 'Invoices', href: '/admin/invoices', icon: FileText },
+        { title: 'Expenses', href: '/admin/expenses', icon: TrendingUp }
       ]
     },
     {
       title: 'Legal & Compliance',
       icon: Shield,
       children: [
-        { title: 'Documents', href: '/documents', icon: FileText },
-        { title: 'Signatures', href: '/signatures', icon: Edit }
+        { title: 'Documents', href: '/client/file-management', icon: FileText },
+        { title: 'Signatures', href: '/client/contracts', icon: Edit }
       ]
     },
     {
@@ -362,8 +362,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: MessageSquare,
       badge: 3,
       children: [
-        { title: 'Messages', href: '/messages', icon: MessageSquare },
-        { title: 'Notifications', href: '/notifications', icon: Bell }
+        { title: 'Messages', href: '/client/messages', icon: MessageSquare },
+        { title: 'Notifications', href: '/client/messages', icon: Bell }
       ]
     }
   ],
@@ -378,7 +378,7 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'Properties',
       icon: Building2,
       children: [
-        { title: 'Portfolio Hub', href: '/property', icon: ShieldCheck }
+        { title: 'Portfolio Hub', href: '/admin/properties', icon: ShieldCheck }
       ]
     },
     {
@@ -395,8 +395,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: MessageSquare,
       badge: 3,
       children: [
-        { title: 'Messages', href: '/messages', icon: MessageSquare },
-        { title: 'Notifications', href: '/notifications', icon: Bell }
+        { title: 'Messages', href: '/client/messages', icon: MessageSquare },
+        { title: 'Notifications', href: '/client/messages', icon: Bell }
       ]
     }
   ],
@@ -411,8 +411,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'My Properties',
       icon: Building2,
       children: [
-        { title: 'My Leases', href: '/leases', icon: FileText },
-        { title: 'Payments', href: '/financial/transactions', icon: DollarSign }
+        { title: 'My Leases', href: '/client/leases', icon: FileText },
+        { title: 'Payments', href: '/client/financial', icon: DollarSign }
       ]
     },
     {
@@ -420,8 +420,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: MessageSquare,
       badge: 3,
       children: [
-        { title: 'Messages', href: '/messages', icon: MessageSquare },
-        { title: 'Notifications', href: '/notifications', icon: Bell }
+        { title: 'Messages', href: '/client/messages', icon: MessageSquare },
+        { title: 'Notifications', href: '/client/messages', icon: Bell }
       ]
     }
   ],
@@ -436,28 +436,28 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'Properties',
       icon: Building2,
       children: [
-        { title: 'Portfolio Hub', href: '/property', icon: ShieldCheck },
+        { title: 'Portfolio Hub', href: '/admin/properties', icon: ShieldCheck },
         { title: 'All Properties', href: '/admin/properties', icon: Building2 },
-        { title: 'Listings', href: '/listings', icon: Package }
+        { title: 'Listings', href: '/client/listings', icon: Package }
       ]
     },
     {
       title: 'Financial',
       icon: DollarSign,
       children: [
-        { title: 'Transactions', href: '/financial/transactions', icon: DollarSign },
-        { title: 'Reports', href: '/financial/reports', icon: FileText },
-        { title: 'Invoices', href: '/financial/invoices', icon: FileText },
-        { title: 'Expenses', href: '/financial/expenses', icon: TrendingUp },
-        { title: 'Offers', href: '/offers', icon: Tag }
+        { title: 'Transactions', href: '/client/financial', icon: DollarSign },
+        { title: 'Reports', href: '/admin/reports', icon: FileText },
+        { title: 'Invoices', href: '/admin/invoices', icon: FileText },
+        { title: 'Expenses', href: '/admin/expenses', icon: TrendingUp },
+        { title: 'Offers', href: '/client/deals', icon: Tag }
       ]
     },
     {
       title: 'Tenants',
       icon: Users,
       children: [
-        { title: 'Applications', href: '/tenants/applications', icon: Users },
-        { title: 'Leases', href: '/leases', icon: FileText }
+        { title: 'Applications', href: '/client/tenants', icon: Users },
+        { title: 'Leases', href: '/client/leases', icon: FileText }
       ]
     },
     {
@@ -495,8 +495,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: MessageSquare,
       badge: 3,
       children: [
-        { title: 'Messages', href: '/messages', icon: MessageSquare },
-        { title: 'Notifications', href: '/notifications', icon: Bell }
+        { title: 'Messages', href: '/client/messages', icon: MessageSquare },
+        { title: 'Notifications', href: '/client/messages', icon: Bell }
       ]
     }
   ],
@@ -511,14 +511,14 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       title: 'Properties',
       icon: Building2,
       children: [
-        { title: 'Listings', href: '/listings', icon: Package }
+        { title: 'Listings', href: '/client/listings', icon: Package }
       ]
     },
     {
       title: 'Financial',
       icon: DollarSign,
       children: [
-        { title: 'Reports', href: '/financial/reports', icon: FileText }
+        { title: 'Reports', href: '/admin/reports', icon: FileText }
       ]
     },
     {
@@ -526,8 +526,8 @@ export const roleBasedMenus: Record<MemberRoleKey, SidebarItem[]> = {
       icon: MessageSquare,
       badge: 3,
       children: [
-        { title: 'Messages', href: '/messages', icon: MessageSquare },
-        { title: 'Notifications', href: '/notifications', icon: Bell }
+        { title: 'Messages', href: '/client/messages', icon: MessageSquare },
+        { title: 'Notifications', href: '/client/messages', icon: Bell }
       ]
     }
   ]
@@ -544,8 +544,8 @@ export const defaultMenu: SidebarItem[] = [
     title: 'Properties',
     icon: Building2,
     children: [
-      { title: 'Portfolio Hub', href: '/property', icon: ShieldCheck },
-      { title: 'Listings', href: '/listings', icon: Package }
+      { title: 'Portfolio Hub', href: '/admin/properties', icon: ShieldCheck },
+      { title: 'Listings', href: '/client/listings', icon: Package }
     ]
   },
   {
@@ -553,8 +553,8 @@ export const defaultMenu: SidebarItem[] = [
     icon: MessageSquare,
     badge: 3,
     children: [
-      { title: 'Messages', href: '/messages', icon: MessageSquare },
-      { title: 'Notifications', href: '/notifications', icon: Bell }
+      { title: 'Messages', href: '/client/messages', icon: MessageSquare },
+      { title: 'Notifications', href: '/client/messages', icon: Bell }
     ]
   }
 ];

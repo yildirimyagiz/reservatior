@@ -59,7 +59,7 @@ export default function MessagesPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("messages.messagespage.auto_ext_3")}
@@ -74,7 +74,7 @@ export default function MessagesPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardHeader>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -82,7 +82,7 @@ export default function MessagesPage() {
                     placeholder="Search messages..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                    className="pl-10 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                   />
                 </div>
               </CardHeader>
@@ -93,11 +93,11 @@ export default function MessagesPage() {
                       key={msg.id}
                       onClick={() => setSelectedMessage(msg)}
                       className={`p-4 rounded-lg cursor-pointer transition-colors ${
-                        selectedMessage?.id === msg.id ? 'bg-purple-600' : 'bg-white/5 hover:bg-white/10'
+                        selectedMessage?.id === msg.id ? 'bg-brand' : 'bg-white/5 hover:bg-white/10'
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold">
+                        <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center text-brand font-bold">
                           {msg.avatar}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -111,7 +111,7 @@ export default function MessagesPage() {
                           <div className="text-sm text-gray-400 truncate">{msg.lastMessage}</div>
                         </div>
                         {msg.unread > 0 && (
-                          <div className="w-5 h-5 bg-purple-600 rounded-full flex items-center justify-center text-xs text-white">
+                          <div className="w-5 h-5 bg-brand rounded-full flex items-center justify-center text-xs text-white">
                             {msg.unread}
                           </div>
                         )}
@@ -130,12 +130,12 @@ export default function MessagesPage() {
             transition={{ delay: 0.2 }}
             className="lg:col-span-2"
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20 h-full">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20 h-full">
               {selectedMessage ? (
                 <>
                   <CardHeader>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold">
+                      <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center text-brand font-bold">
                         {selectedMessage.avatar}
                       </div>
                       <div>
@@ -153,9 +153,9 @@ export default function MessagesPage() {
                         </div>
                       </div>
                       <div className="flex justify-end">
-                        <div className="bg-purple-600 p-3 rounded-lg max-w-xs">
+                        <div className="bg-brand p-3 rounded-lg max-w-xs">
                           <div className="text-white">{t("messages.messagespage.auto_ext_5")}</div>
-                          <div className="text-xs text-purple-200 mt-1 flex items-center gap-1 justify-end">
+                          <div className="text-xs text-brand mt-1 flex items-center gap-1 justify-end">
                             <CheckCheck className="w-3 h-3" />
                             {t("messages.messagespage.auto_ext_6")}
                                                                                 </div>
@@ -167,9 +167,9 @@ export default function MessagesPage() {
                         placeholder="Type a message..."
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
-                        className="flex-1 bg-white/10 border-purple-500/30 text-white placeholder:text-gray-400"
+                        className="flex-1 bg-white/10 border-brand/30 text-white placeholder:text-gray-400"
                       />
-                      <Button className="bg-purple-600 hover:bg-purple-700">
+                      <Button className="bg-brand hover:bg-brand" aria-label={t("common.send")}>
                         <Send className="w-4 h-4" />
                       </Button>
                     </div>

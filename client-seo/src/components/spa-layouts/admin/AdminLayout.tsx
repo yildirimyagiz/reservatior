@@ -8,7 +8,7 @@ import { AppHeader } from "@/components/layout/AppHeader";
 import { Footer } from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth/hooks";
-import Unauthorized from "@/pages-spa/client/Unauthorized";
+import Unauthorized from "@/app/[locale]/client/pages-spa-client/Unauthorized";
 interface NavItem {
   title: string;
   href?: string;
@@ -19,6 +19,7 @@ interface NavItem {
   superOnly?: boolean;
   requiredPermission?: string;
   children?: NavItem[];
+  colorClass?: string;
 }
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -39,235 +40,287 @@ export function AdminLayout({
   const adminNavigation: NavItem[] = [{
     title: t("admin.layout.switch_to_client_app"),
     href: "/dashboard",
-    icon: ArrowRightLeft
+    icon: ArrowRightLeft,
+    colorClass: "text-slate-400 dark:text-slate-400"
   }, {
     title: t("admin.layout.admin_dashboard"),
     href: "/admin/dashboard",
-    icon: LayoutDashboard
+    icon: LayoutDashboard,
+    colorClass: "text-emerald-500 dark:text-emerald-400"
   }, {
     title: t("admin.layout.property_inventory"),
     icon: Building2,
     requiredPermission: "PROPERTIES_VIEW_ALL",
+    colorClass: "text-blue-500 dark:text-blue-400",
     children: [{
       title: t("admin.layout.portfolio_neural_hub"),
       href: "/admin/properties",
       icon: Zap,
-      badge: "AI"
+      badge: "AI",
+      colorClass: "text-cyan-500 dark:text-cyan-400"
     }, {
       title: t("admin.layout.all_properties"),
       href: "/admin/inventory",
-      icon: Building2
+      icon: Building2,
+      colorClass: "text-blue-500 dark:text-blue-400"
     }, {
       title: t("admin.layout.ownership_verifications"),
       href: "/admin/ownership-verification",
       icon: ShieldCheck,
-      requiredPermission: "PROPERTIES_MANAGE_ALL"
+      requiredPermission: "PROPERTIES_MANAGE_ALL",
+      colorClass: "text-purple-500 dark:text-purple-400"
     }, {
       title: t("admin.layout.channel_manager"),
       href: "/admin/channels",
       icon: Share2,
-      requiredPermission: "ORG_MANAGE"
+      requiredPermission: "ORG_MANAGE",
+      colorClass: "text-amber-500 dark:text-amber-400"
     }, {
       title: t("admin.layout.facilities_management"),
       href: "/admin/inventory/facilities",
-      icon: Globe
+      icon: Globe,
+      colorClass: "text-teal-500 dark:text-teal-400"
     }]
   }, {
     title: t("admin.layout.bookings_guests"),
     icon: CalendarCheck,
     requiredPermission: "BOOKINGS_VIEW_ALL",
+    colorClass: "text-orange-500 dark:text-orange-400",
     children: [{
       title: t("admin.layout.all_bookings"),
       href: "/admin/bookings",
-      icon: CalendarCheck
+      icon: CalendarCheck,
+      colorClass: "text-orange-500 dark:text-orange-400"
     }, {
       title: t("admin.layout.guest_database"),
       href: "/admin/guests",
       icon: UsersRound,
-      requiredPermission: "USERS_MANAGE"
+      requiredPermission: "USERS_MANAGE",
+      colorClass: "text-indigo-500 dark:text-indigo-400"
     }]
   }, {
     title: t("admin.layout.users_security"),
     icon: Shield,
     requiredPermission: "USERS_MANAGE",
+    colorClass: "text-purple-500 dark:text-purple-400",
     children: [{
       title: t("admin.layout.system_users"),
       href: "/admin/users",
-      icon: UsersRound
+      icon: UsersRound,
+      colorClass: "text-purple-500 dark:text-purple-400"
     }, {
       title: t("admin.layout.agent_directory"),
       href: "/admin/agents",
-      icon: Star
+      icon: Star,
+      colorClass: "text-amber-500 dark:text-amber-400"
     }, {
       title: "Organizations/Agencies",
       href: "/admin/organizations",
       icon: Building2,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-blue-500 dark:text-blue-400"
     }, {
       title: t("admin.layout.roles_access"),
       href: "/admin/roles",
       icon: Shield,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-slate-400 dark:text-slate-400"
     }, {
       title: t("admin.layout.security_screenings"),
       href: "/admin/security-screening",
-      icon: ShieldCheck
+      icon: ShieldCheck,
+      colorClass: "text-green-500 dark:text-green-400"
     }, {
       title: t("admin.layout.security_events"),
       href: "/admin/security",
       icon: AlertTriangle,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-red-500 dark:text-red-400"
     }, {
       title: t("admin.layout.advanced_security"),
       href: "/admin/advanced-security",
       icon: Shield,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-indigo-500 dark:text-indigo-400"
     }, {
       title: t("admin.layout.audit_logs"),
       href: "/admin/audit-logs",
       icon: FileText,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-slate-500 dark:text-slate-400"
     }, {
       title: t("admin.layout.api_tokens"),
       href: "/admin/api-tokens",
       icon: Zap,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-yellow-500 dark:text-yellow-400"
     }, {
       title: t("admin.layout.active_sessions"),
       href: "/admin/sessions",
       icon: UsersRound,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-violet-500 dark:text-violet-400"
     }]
   }, {
     title: t("admin.layout.legal_compliance"),
     icon: Gavel,
     requiredPermission: "GOV_INTEGRATIONS_MANAGE",
+    colorClass: "text-slate-400 dark:text-slate-400",
     children: [{
       title: t("admin.layout.compliance_center"),
       href: "/admin/compliance",
-      icon: ShieldCheck
+      icon: ShieldCheck,
+      colorClass: "text-green-500 dark:text-green-400"
     }, {
       title: t("admin.layout.solicitor_management"),
       href: "/admin/solicitors",
-      icon: UsersRound
+      icon: UsersRound,
+      colorClass: "text-indigo-500 dark:text-indigo-400"
     }, {
       title: t("admin.layout.immigration_checks"),
       href: "/admin/immigration",
-      icon: Globe
+      icon: Globe,
+      colorClass: "text-blue-500 dark:text-blue-400"
     }, {
       title: t("admin.layout.right_to_rent"),
       href: "/admin/right-to-rent",
-      icon: FileText
+      icon: FileText,
+      colorClass: "text-amber-500 dark:text-amber-400"
     }]
   }, {
     title: t("admin.layout.tenants_leases"),
     icon: FileText,
     requiredPermission: "LEASES_MANAGE_ALL",
+    colorClass: "text-rose-500 dark:text-rose-400",
     children: [{
       title: t("admin.layout.tenant_directory"),
       href: "/admin/tenants",
-      icon: UsersRound
+      icon: UsersRound,
+      colorClass: "text-purple-500 dark:text-purple-400"
     }, {
       title: t("admin.layout.lease_management"),
       href: "/admin/leases",
-      icon: FileText
+      icon: FileText,
+      colorClass: "text-rose-500 dark:text-rose-400"
     }]
   }, {
     title: t("admin.layout.financials"),
     icon: DollarSign,
     requiredPermission: "FINANCE_MANAGE",
+    colorClass: "text-emerald-500 dark:text-emerald-400",
     children: [{
       title: t("admin.layout.financial_reports"),
       href: "/admin/financial-reports",
-      icon: DollarSign
+      icon: DollarSign,
+      colorClass: "text-emerald-500 dark:text-emerald-400"
     }, {
       title: t("admin.layout.payouts"),
       href: "/admin/payouts",
-      icon: Receipt
+      icon: Receipt,
+      colorClass: "text-amber-500 dark:text-amber-400"
     }, {
       title: t("admin.layout.investor_hub"),
       href: "/admin/investors",
-      icon: Brain
+      icon: Brain,
+      colorClass: "text-violet-500 dark:text-violet-400"
     }, {
       title: t("admin.layout.escrow"),
       href: "/admin/escrow",
-      icon: Shield
+      icon: Shield,
+      colorClass: "text-indigo-500 dark:text-indigo-400"
     }, {
       title: t("admin.layout.plans_tiers"),
       href: "/admin/plans",
       icon: Star,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-yellow-500 dark:text-yellow-400"
     }]
   }, {
     title: t("admin.layout.ai_automations"),
     icon: Brain,
     requiredPermission: "REPORTS_VIEW",
+    colorClass: "text-cyan-500 dark:text-cyan-400",
     children: [{
       title: t("admin.layout.ai_dashboard"),
       href: "/admin/ai-dashboard",
-      icon: LayoutDashboard
+      icon: LayoutDashboard,
+      colorClass: "text-cyan-500 dark:text-cyan-400"
     }, {
       title: t("admin.layout.ai_models"),
       href: "/admin/ai-models",
       icon: Brain,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-teal-500 dark:text-teal-400"
     }, {
       title: t("admin.layout.marketing_automation"),
       href: "/admin/marketing",
-      icon: Megaphone
+      icon: Megaphone,
+      colorClass: "text-pink-500 dark:text-pink-400"
     }, {
       title: t("admin.layout.scraping_status"),
       href: "/admin/scraping",
-      icon: Search
+      icon: Search,
+      colorClass: "text-yellow-500 dark:text-yellow-400"
     }]
   }, {
     title: t("admin.layout.integrations_export"),
     icon: Download,
     requiredPermission: "EXPORTS_MANAGE",
+    colorClass: "text-indigo-500 dark:text-indigo-400",
     children: [{
       title: t("admin.layout.mls_rules"),
       href: "/admin/mls",
       icon: Globe,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-blue-500 dark:text-blue-400"
     }, {
       title: t("admin.layout.export_jobs"),
       href: "/admin/export-jobs",
-      icon: Download
+      icon: Download,
+      colorClass: "text-slate-400 dark:text-slate-400"
     }, {
       title: t("admin.layout.data_exports"),
       href: "/admin/exports",
-      icon: FileDown
+      icon: FileDown,
+      colorClass: "text-green-500 dark:text-green-400"
     }]
   }, {
     title: t("admin.layout.system_setup"),
     icon: Settings,
     requiredPermission: "SETTINGS_MANAGE",
+    colorClass: "text-orange-500 dark:text-orange-400",
     children: [{
       title: t("admin.layout.documents_admin"),
       href: "/admin/document-management",
-      icon: FileText
+      icon: FileText,
+      colorClass: "text-slate-400 dark:text-slate-400"
     }, {
       title: t("admin.layout.communication_logs"),
       href: "/admin/communication-logs",
-      icon: Activity
+      icon: Activity,
+      colorClass: "text-blue-500 dark:text-blue-400"
     }, {
       title: t("admin.layout.location_db"),
       href: "/admin/location",
-      icon: Globe
+      icon: Globe,
+      colorClass: "text-green-500 dark:text-green-400"
     }, {
       title: t("admin.layout.metrics"),
       href: "/admin/metrics",
       icon: BarChart3,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-purple-500 dark:text-purple-400"
     }, {
       title: t("admin.layout.system_settings"),
       href: "/admin/system-settings",
       icon: Settings,
-      superOnly: true
+      superOnly: true,
+      colorClass: "text-orange-500 dark:text-orange-400"
     }, {
       title: t("admin.layout.audit_trail"),
       href: "/admin/audit-logs",
-      icon: Activity
+      icon: Activity,
+      colorClass: "text-red-500 dark:text-red-400"
     }]
   }];
   const location = useLocation();
@@ -307,7 +360,7 @@ export function AdminLayout({
           const anyChildActive = visibleChildren.some(c => isActive(c.href));
           return <div key={item.title}>
                 <button onClick={() => toggleGroup(item.title)} className={cn("w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors", anyChildActive ? "text-primary bg-primary/10 border border-primary/20" : "text-slate-400 hover:text-white hover:bg-white/5")}>
-                  <item.icon className="w-4 h-4 shrink-0" />
+                  <item.icon className={cn("w-4 h-4 shrink-0 transition-colors", !anyChildActive && item.colorClass)} />
                   {sidebarOpen && <>
                       <span className="flex-1 text-left">{item.title}</span>
                       {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -316,7 +369,7 @@ export function AdminLayout({
                 {isExpanded && sidebarOpen && <div className="ml-4 mt-0.5 space-y-0.5 border-l border-white/10 pl-2">
                     {visibleChildren.map(child => <Link key={child.href} to={child.href!}>
                         <button className={cn("w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors", isActive(child.href) ? "text-primary font-medium bg-primary/10 border border-primary/20" : "text-slate-400 hover:text-white hover:bg-white/5")}>
-                          <child.icon className="w-3.5 h-3.5 shrink-0" />
+                          <child.icon className={cn("w-3.5 h-3.5 shrink-0 transition-colors", !isActive(child.href) && child.colorClass)} />
                           <span className="flex-1 text-left">{child.title}</span>
                         </button>
                       </Link>)}
@@ -325,7 +378,7 @@ export function AdminLayout({
         }
         return <Link key={item.href} to={item.href!}>
               <button className={cn("w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors", isActive(item.href) ? "text-primary bg-primary/20 border border-primary/20" : "text-slate-400 hover:text-white hover:bg-white/5")}>
-                <item.icon className="w-4 h-4 shrink-0" />
+                <item.icon className={cn("w-4 h-4 shrink-0 transition-colors", !isActive(item.href) && item.colorClass)} />
                 {sidebarOpen && <span className="flex-1 text-left">{item.title}</span>}
               </button>
             </Link>;

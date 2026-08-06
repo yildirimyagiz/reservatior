@@ -55,7 +55,7 @@ export default function FinancialPage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("financial.financialpage.auto_ext_3")}
@@ -70,19 +70,19 @@ export default function FinancialPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm text-gray-400 mb-1">{t("financial.financialpage.auto_ext_4")}</div>
                     <div className="text-2xl font-bold text-white">${totalIncome.toLocaleString()}</div>
-                    <div className="flex items-center text-green-400 text-sm mt-1">
+                    <div className="flex items-center text-blue-400 text-sm mt-1">
                       <TrendingUp className="w-4 h-4 mr-1" />
                       +12.5%
                     </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-green-500/10">
-                    <DollarSign className="w-6 h-6 text-green-400" />
+                  <div className="p-3 rounded-lg bg-blue-500/10">
+                    <DollarSign className="w-6 h-6 text-blue-400" />
                   </div>
                 </div>
               </CardContent>
@@ -94,7 +94,7 @@ export default function FinancialPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -118,19 +118,19 @@ export default function FinancialPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm text-gray-400 mb-1">{t("financial.financialpage.auto_ext_6")}</div>
                     <div className="text-2xl font-bold text-white">${netProfit.toLocaleString()}</div>
-                    <div className="flex items-center text-green-400 text-sm mt-1">
+                    <div className="flex items-center text-blue-400 text-sm mt-1">
                       <TrendingUp className="w-4 h-4 mr-1" />
                       +8.7%
                     </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-purple-500/10">
-                    <Wallet className="w-6 h-6 text-purple-400" />
+                  <div className="p-3 rounded-lg bg-brand/10">
+                    <Wallet className="w-6 h-6 text-brand" />
                   </div>
                 </div>
               </CardContent>
@@ -142,7 +142,7 @@ export default function FinancialPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -161,10 +161,10 @@ export default function FinancialPage() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-white/5 border-purple-500/20">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-purple-600">{t("financial.financialpage.auto_ext_9")}</TabsTrigger>
-            <TabsTrigger value="transactions" className="data-[state=active]:bg-purple-600">{t("financial.financialpage.auto_ext_10")}</TabsTrigger>
-            <TabsTrigger value="reports" className="data-[state=active]:bg-purple-600">{t("financial.financialpage.auto_ext_11")}</TabsTrigger>
+          <TabsList className="bg-white/5 border-brand/20">
+            <TabsTrigger value="overview" className="data-[state=active]:bg-brand">{t("financial.financialpage.auto_ext_9")}</TabsTrigger>
+            <TabsTrigger value="transactions" className="data-[state=active]:bg-brand">{t("financial.financialpage.auto_ext_10")}</TabsTrigger>
+            <TabsTrigger value="reports" className="data-[state=active]:bg-brand">{t("financial.financialpage.auto_ext_11")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -172,14 +172,14 @@ export default function FinancialPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+              <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
                 <CardHeader>
                   <CardTitle className="text-white">{t("financial.financialpage.auto_ext_12")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Table>
                     <TableHeader>
-                      <TableRow className="border-purple-500/20">
+                      <TableRow className="border-brand/20">
                         <TableHead className="text-gray-400">{t("financial.financialpage.auto_ext_13")}</TableHead>
                         <TableHead className="text-gray-400">{t("financial.financialpage.auto_ext_14")}</TableHead>
                         <TableHead className="text-gray-400">{t("financial.financialpage.auto_ext_15")}</TableHead>
@@ -189,7 +189,7 @@ export default function FinancialPage() {
                     </TableHeader>
                     <TableBody>
                       {mockFinancials.map((record) => (
-                        <TableRow key={record.id} className="border-purple-500/10">
+                        <TableRow key={record.id} className="border-brand/10">
                           <TableCell className="text-white">{record.description}</TableCell>
                           <TableCell className="text-gray-300">{record.category}</TableCell>
                           <TableCell className="text-gray-300">{record.date}</TableCell>
@@ -198,14 +198,14 @@ export default function FinancialPage() {
                               variant="outline"
                               className={
                                 record.status === "completed"
-                                  ? "bg-green-500/20 text-green-400 border-green-500/30"
+                                  ? "bg-blue-500/20 text-blue-400 border-blue-500/30"
                                   : "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
                               }
                             >
                               {record.status}
                             </Badge>
                           </TableCell>
-                          <TableCell className={`text-right font-medium ${record.type === "income" ? "text-green-400" : "text-red-400"}`}>
+                          <TableCell className={`text-right font-medium ${record.type === "income" ? "text-blue-400" : "text-red-400"}`}>
                             {record.type === "income" ? "+" : "-"}${record.amount.toLocaleString()}
                           </TableCell>
                         </TableRow>
@@ -222,13 +222,13 @@ export default function FinancialPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+              <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
                 <CardHeader>
                   <CardTitle className="text-white">{t("financial.financialpage.auto_ext_18")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-12 text-gray-400">
-                    <PieChart className="w-12 h-12 mx-auto mb-4 text-purple-400" />
+                    <PieChart className="w-12 h-12 mx-auto mb-4 text-brand" />
                     <p>{t("financial.financialpage.auto_ext_19")}</p>
                   </div>
                 </CardContent>
@@ -241,13 +241,13 @@ export default function FinancialPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+              <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
                 <CardHeader>
                   <CardTitle className="text-white">{t("financial.financialpage.auto_ext_20")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-12 text-gray-400">
-                    <Receipt className="w-12 h-12 mx-auto mb-4 text-purple-400" />
+                    <Receipt className="w-12 h-12 mx-auto mb-4 text-brand" />
                     <p>{t("financial.financialpage.auto_ext_21")}</p>
                   </div>
                 </CardContent>

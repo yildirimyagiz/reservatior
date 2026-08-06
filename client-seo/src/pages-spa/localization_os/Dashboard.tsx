@@ -61,8 +61,8 @@ export default function LocalizationDashboard() {
       title: t("localization_os.total_countries", { defaultValue: "Total Countries" }),
       value: totalCountries,
       icon: Globe,
-      color: "text-emerald-500",
-      bg: "from-emerald-500/10 to-emerald-500/0",
+      color: "text-blue-500",
+      bg: "from-blue-500/10 to-blue-500/0",
       sub: t("localization_os.countries_sub", { defaultValue: "Supported regions" }),
       trend: "+3 this quarter",
     },
@@ -70,8 +70,8 @@ export default function LocalizationDashboard() {
       title: t("localization_os.active_currencies", { defaultValue: "Active Currencies" }),
       value: activeCurrencies,
       icon: Coins,
-      color: "text-emerald-400",
-      bg: "from-emerald-400/10 to-emerald-400/0",
+      color: "text-blue-400",
+      bg: "from-blue-400/10 to-blue-400/0",
       sub: t("localization_os.currencies_sub", { defaultValue: "Fiat and crypto supported" }),
       trend: "+2 this month",
     },
@@ -79,8 +79,8 @@ export default function LocalizationDashboard() {
       title: t("localization_os.active_languages", { defaultValue: "Active Languages" }),
       value: activeLanguages,
       icon: Languages,
-      color: "text-teal-400",
-      bg: "from-teal-400/10 to-teal-400/0",
+      color: "text-blue-400",
+      bg: "from-blue-400/10 to-blue-400/0",
       sub: t("localization_os.languages_sub", { defaultValue: "Locale translations live" }),
       trend: "+5 this quarter",
     },
@@ -88,8 +88,8 @@ export default function LocalizationDashboard() {
       title: t("localization_os.exchange_rates", { defaultValue: "Exchange Rates" }),
       value: exchangeRates,
       icon: TrendingUp,
-      color: "text-green-400",
-      bg: "from-green-400/10 to-green-400/0",
+      color: "text-blue-400",
+      bg: "from-blue-400/10 to-blue-400/0",
       sub: t("localization_os.rates_sub", { defaultValue: "Active rate pairs" }),
       trend: "+0.4% avg",
     },
@@ -102,9 +102,9 @@ export default function LocalizationDashboard() {
           <h1 className="text-3xl font-bold tracking-tight text-slate-100">{t("localization_os.title", { defaultValue: "Localization OS" })}</h1>
           <p className="text-slate-400 mt-1">{t("localization_os.subtitle", { defaultValue: "Country · Language · Regulation · Currency" })}</p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-          <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs font-semibold text-emerald-400">{t("localization_os.live", { defaultValue: "LIVE" })}</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20">
+          <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
+          <span className="text-xs font-semibold text-blue-400">{t("localization_os.live", { defaultValue: "LIVE" })}</span>
         </div>
       </div>
 
@@ -126,7 +126,7 @@ export default function LocalizationDashboard() {
                 <div className="text-2xl font-bold text-slate-100">{isLoading ? "—" : kpi.value}</div>
                 <div className="flex items-center gap-2 mt-1">
                   <p className="text-xs text-slate-500">{kpi.sub}</p>
-                  <span className="ml-auto text-xs font-semibold text-emerald-400 flex items-center gap-0.5">
+                  <span className="ml-auto text-xs font-semibold text-blue-400 flex items-center gap-0.5">
                     <ArrowUpRight className="h-3 w-3" />{kpi.trend}
                   </span>
                 </div>
@@ -140,7 +140,7 @@ export default function LocalizationDashboard() {
         <Card className="bg-slate-900/60 border-slate-800">
           <CardHeader>
             <CardTitle className="text-slate-100 flex items-center gap-2">
-              <Zap className="h-4 w-4 text-emerald-400" />
+              <Zap className="h-4 w-4 text-blue-400" />
               {t("localization_os.rate_trend", { defaultValue: "Exchange Rate Trend" })}
             </CardTitle>
             <CardDescription className="text-slate-400">
@@ -153,8 +153,8 @@ export default function LocalizationDashboard() {
                 <AreaChart data={chartData} margin={{ top: 5, right: 10, bottom: 0, left: -20 }}>
                   <defs>
                     <linearGradient id="locGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.25} />
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.25} />
+                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
@@ -162,11 +162,11 @@ export default function LocalizationDashboard() {
                   <YAxis stroke="#475569" fontSize={11} tickLine={false} axisLine={false} domain={["dataMin - 0.005", "dataMax + 0.005"]} tickFormatter={(v) => v.toFixed(3)} />
                   <Tooltip
                     contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #1e293b", borderRadius: "8px" }}
-                    itemStyle={{ color: "#10b981" }}
+                    itemStyle={{ color: "#3b82f6" }}
                     formatter={(v) => [Number(Array.isArray(v) ? v[0] : (v ?? 0)).toFixed(4), t("localization_os.rate", { defaultValue: "Rate" })] as [string, string]}
                   />
                   <ReferenceLine y={1.085} stroke="#334155" strokeDasharray="3 3" />
-                  <Area type="monotone" dataKey="rate" stroke="#10b981" strokeWidth={2} fill="url(#locGrad)" dot={false} activeDot={{ r: 4, fill: "#10b981" }} />
+                  <Area type="monotone" dataKey="rate" stroke="#3b82f6" strokeWidth={2} fill="url(#locGrad)" dot={false} activeDot={{ r: 4, fill: "#3b82f6" }} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -183,7 +183,7 @@ export default function LocalizationDashboard() {
               {rates.slice(0, 4).map((r: { id?: string; pair: string; rate: string; change: string; status: string; updated: string }, i: number) => (
                 <div key={r.id || i} className="flex items-center justify-between p-3 rounded-lg border border-slate-800 bg-slate-800/20">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-full bg-emerald-500/10 text-emerald-400">
+                    <div className="p-2 rounded-full bg-blue-500/10 text-blue-400">
                       <Coins className="h-4 w-4" />
                     </div>
                     <div>
@@ -193,7 +193,7 @@ export default function LocalizationDashboard() {
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold text-slate-200">{r.rate}</p>
-                    <p className={`text-xs font-semibold ${r.change.startsWith("+") ? "text-emerald-400" : "text-red-400"}`}>
+                    <p className={`text-xs font-semibold ${r.change.startsWith("+") ? "text-blue-400" : "text-red-400"}`}>
                       {r.change}
                     </p>
                   </div>

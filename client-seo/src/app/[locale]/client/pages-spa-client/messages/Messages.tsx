@@ -167,25 +167,25 @@ export default function Messages() {
   };
   return <div className="h-[calc(100vh-64px)] flex bg-[#0e0f13] overflow-hidden">
       {/* Sidebar */}
-      <div className="w-[320px] md:w-[400px] border-r border-slate-800/50 flex flex-col bg-[#16171d]">
+      <div className="w-[320px] md:w-[400px] border-r border-border flex flex-col bg-[#16171d]">
         {/* Sidebar Header */}
         <div className="p-4 space-y-4 shadow-sm relative z-10">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-white tracking-tight">{t("client.src.messages")}</h2>
-            <Button variant="ghost" size="icon" className="rounded-full text-slate-400">
+            <Button variant="ghost" size="icon" aria-label={t("common.settings")} className="rounded-full text-muted-foreground">
               <Settings className="w-5 h-5" />
             </Button>
           </div>
           
           <div className="relative group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-primary transition-colors" />
-            <Input placeholder={t("client.src.search")} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 bg-[#1b1c22] border-none text-slate-200 placeholder:text-slate-600 rounded-xl h-10 focus-visible:ring-1 focus-visible:ring-primary/50" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+            <Input placeholder={t("common.search")} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10 bg-[#1b1c22] border-none text-foreground placeholder:text-muted-foreground rounded-xl h-10 focus-visible:ring-1 focus-visible:ring-primary/50" />
           </div>
 
           <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar">
             {[{
             id: 'all',
-            label: t("client.src.all"),
+            label: t("common.all"),
             icon: FolderOpen
           }, {
             id: 'dm',
@@ -195,7 +195,7 @@ export default function Messages() {
             id: 'channels',
             label: t("client.src.channels"),
             icon: Users
-          }].map(tab => <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap", activeTab === tab.id ? "bg-primary text-white shadow-lg shadow-primary/20" : "text-slate-400 hover:text-slate-200 hover:bg-white/5")}>
+          }].map(tab => <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={cn("flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap", activeTab === tab.id ? "bg-primary text-white shadow-lg shadow-primary/20" : "text-muted-foreground hover:text-foreground hover:bg-white/5")}>
                 <tab.icon className="w-3.5 h-3.5" />
                 {tab.label}
               </button>)}
@@ -214,23 +214,23 @@ export default function Messages() {
           }} onClick={() => {
             setSelectedId(chat.id);
             navigate(`/messages/${chat.id}`);
-          }} className={cn("flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all relative group", selectedId === chat.id ? "bg-primary text-white shadow-xl shadow-primary/20" : "hover:bg-primary/5 text-slate-300")}>
+          }} className={cn("flex items-center gap-3 p-3 rounded-2xl cursor-pointer transition-all relative group", selectedId === chat.id ? "bg-primary text-white shadow-xl shadow-primary/20" : "hover:bg-primary/5 text-muted-foreground")}>
                 <div className="relative shrink-0">
                   <Avatar className={cn("h-12 w-12 rounded-2xl ring-2 transition-all", selectedId === chat.id ? "ring-white/20" : "ring-transparent group-hover:ring-primary/20")}>
                     <AvatarFallback className={cn("font-bold", selectedId === chat.id ? "bg-white/10 text-white" : "bg-primary/10 text-primary")}>
                       {chat.avatar}
                     </AvatarFallback>
                   </Avatar>
-                  {chat.online && <span className={cn("absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full ring-2", selectedId === chat.id ? "bg-white ring-primary" : "bg-emerald-500 ring-[#16171d]")} />}
+                  {chat.online && <span className={cn("absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full ring-2", selectedId === chat.id ? "bg-card ring-primary" : "bg-success ring-[#16171d]")} />}
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-0.5">
                     <span className="font-bold text-sm truncate">{chat.name}</span>
-                    <span className={cn("text-[10px]", selectedId === chat.id ? "text-white/70" : "text-slate-500")}>{chat.time}</span>
+                    <span className={cn("text-[10px]", selectedId === chat.id ? "text-white/70" : "text-muted-foreground")}>{chat.time}</span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <p className={cn("text-xs truncate", selectedId === chat.id ? "text-white/80" : "text-slate-400")}>
+                    <p className={cn("text-xs truncate", selectedId === chat.id ? "text-white/80" : "text-muted-foreground")}>
                       {chat.type === 'channel' && <span className="mr-1 opacity-50">#</span>}
                       {chat.lastMessage}
                     </p>
@@ -254,26 +254,26 @@ export default function Messages() {
         
         {selectedChat ? <>
             {/* Chat Header */}
-            <div className="h-[72px] px-6 border-b border-slate-800/50 flex items-center justify-between bg-[#16171d]/80 backdrop-blur-md relative z-10">
+            <div className="h-[72px] px-6 border-b border-border flex items-center justify-between bg-[#16171d]/80 backdrop-blur-md relative z-10">
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10 rounded-xl">
                   <AvatarFallback className="bg-primary/10 text-primary font-bold">{selectedChat.avatar}</AvatarFallback>
                 </Avatar>
                 <div>
                   <h3 className="font-bold text-white text-sm">{selectedChat.name}</h3>
-                  <p className="text-[11px] text-emerald-500 font-medium">
+                  <p className="text-[11px] text-success font-medium">
                     {selectedChat.online ? 'Online' : 'Offline'}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
-                <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white rounded-full">
+                <Button variant="ghost" size="icon" aria-label={t("common.search")} className="text-muted-foreground hover:text-white rounded-full">
                   <Search className="w-5 h-5" />
                 </Button>
-                <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white rounded-full">
+                <Button variant="ghost" size="icon" aria-label={t("common.call")} className="text-muted-foreground hover:text-white rounded-full">
                   <Phone className="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white rounded-full">
+                <Button variant="ghost" size="icon" aria-label={t("common.more")} className="text-muted-foreground hover:text-white rounded-full">
                   <MoreVertical className="w-5 h-5" />
                 </Button>
               </div>
@@ -292,9 +292,9 @@ export default function Messages() {
                 y: 0,
                 scale: 1
               }} className={cn("flex flex-col group", msg.senderId === 'me' ? "items-end" : "items-start")}>
-                      <div className={cn("max-w-[80%] md:max-w-[70%] p-3 md:p-4 rounded-2xl relative shadow-sm transition-all", msg.senderId === 'me' ? "bg-primary text-white rounded-tr-none" : "bg-[#1f2128] text-slate-200 rounded-tl-none border border-slate-800/50")}>
+                      <div className={cn("max-w-[80%] md:max-w-[70%] p-3 md:p-4 rounded-2xl relative shadow-sm transition-all", msg.senderId === 'me' ? "bg-primary text-white rounded-tr-none" : "bg-[#1f2128] text-foreground rounded-tl-none border border-border")}>
                         <p className="text-sm leading-relaxed">{msg.text}</p>
-                        <div className={cn("flex items-center gap-1.5 mt-2 text-[10px] font-medium", msg.senderId === 'me' ? "text-white/60" : "text-slate-500")}>
+                        <div className={cn("flex items-center gap-1.5 mt-2 text-[10px] font-medium", msg.senderId === 'me' ? "text-white/60" : "text-muted-foreground")}>
                           <span>{msg.time}</span>
                           {msg.senderId === 'me' && (msg.status === 'read' ? <CheckCheck className="w-3 h-3 text-white/90" /> : <Check className="w-3 h-3 text-white/50" />)}
                         </div>
@@ -307,21 +307,21 @@ export default function Messages() {
             {/* Input Area */}
             <div className="p-4 md:p-6 bg-transparent relative z-10">
               <div className="max-w-4xl mx-auto">
-                <div className="bg-[#1f2128] border border-slate-800/50 rounded-2xl p-2 flex items-end gap-2 shadow-2xl transition-all focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20">
-                  <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white rounded-xl shrink-0">
+                <div className="bg-[#1f2128] border border-border rounded-2xl p-2 flex items-end gap-2 shadow-2xl transition-all focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20">
+                  <Button variant="ghost" size="icon" aria-label={t("common.attach")} className="text-muted-foreground hover:text-white rounded-xl shrink-0">
                     <Paperclip className="w-5 h-5" />
                   </Button>
-                  <textarea aria-label="Type a message" rows={1} value={message} onChange={e => setMessage(e.target.value)} placeholder={t("client.src.type_a_message")} className="flex-1 bg-transparent border-none text-slate-200 placeholder:text-slate-600 focus:ring-0 text-sm py-2.5 resize-none min-h-[40px] max-h-[120px] custom-scrollbar" onKeyDown={e => {
+                  <textarea aria-label="Type a message" rows={1} value={message} onChange={e => setMessage(e.target.value)} placeholder={t("client.src.type_a_message")} className="flex-1 bg-transparent border-none text-foreground placeholder:text-muted-foreground focus:ring-0 text-sm py-2.5 resize-none min-h-[40px] max-h-[120px] custom-scrollbar" onKeyDown={e => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
                   handleSendMessage();
                 }
               }} />
                   <div className="flex items-center gap-1 px-1">
-                    <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white rounded-xl">
+                    <Button variant="ghost" size="icon" aria-label={t("common.emoji")} className="text-muted-foreground hover:text-white rounded-xl">
                       <Smile className="w-5 h-5" />
                     </Button>
-                    <Button onClick={handleSendMessage} disabled={!message.trim()} className={cn("h-10 w-10 rounded-xl p-0 transition-all", message.trim() ? "bg-primary text-white scale-100" : "bg-slate-800 text-slate-600 scale-90")}>
+                    <Button onClick={handleSendMessage} disabled={!message.trim()} className={cn("h-10 w-10 rounded-xl p-0 transition-all", message.trim() ? "bg-primary text-white scale-100" : "bg-muted text-muted-foreground scale-90")} aria-label={t("common.send")}>
                       <Send className="w-5 h-5" />
                     </Button>
                   </div>
@@ -333,7 +333,7 @@ export default function Messages() {
               <Send className="w-10 h-10 text-primary" />
             </div>
             <h3 className="text-2xl font-bold text-white mb-2 tracking-tight">{t("client.src.select_a_chat")}</h3>
-            <p className="text-slate-500 max-w-sm">{t("client.src.choose_a_contact_or")}</p>
+            <p className="text-muted-foreground max-w-sm">{t("client.src.choose_a_contact_or")}</p>
           </div>}
       </div>
     </div>;

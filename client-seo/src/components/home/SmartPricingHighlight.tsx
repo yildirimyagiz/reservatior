@@ -23,8 +23,8 @@ export const SmartPricingBadge = ({
   const {
     t
   } = useTranslation();
-  return <div className={cn("inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-emerald-500/20 to-blue-500/20 border border-emerald-500/30 backdrop-blur-md shadow-lg shadow-emerald-500/10 animate-pulse", className)}>
-    <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+  return <div className={cn("inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-500/20 to-info/20 border border-blue-500/30 backdrop-blur-md shadow-lg shadow-blue-500/10 animate-pulse", className)}>
+    <Sparkles className="w-3.5 h-3.5 text-success" />
     <span className="text-[10px] font-black text-white uppercase tracking-widest italic">{t("client.src.ai_smart_priced")}{score}{t("client.src.match")}</span>
   </div>;
 };
@@ -60,10 +60,10 @@ export function SmartPricingHighlight() {
           <div className="space-y-4">
             <Badge className="bg-violet-600/10 text-violet-400 border-none font-black text-[10px] tracking-widest uppercase">{t("client.src.neural_value_engine")}</Badge>
             <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-wide leading-tight">{t("client.src.strategic_ai_picks")}<br />
-               <span className="text-slate-500">{t("client.src.validated_yield")}</span>
+               <span className="text-muted-foreground">{t("client.src.validated_yield")}</span>
             </h2>
           </div>
-          <p className="text-slate-400 font-medium max-w-sm border-l border-white/5 pl-8 italic">{t("client.src.our_ai_compares_these")}</p>
+          <p className="text-muted-foreground font-medium max-w-sm border-l border-border pl-8 italic">{t("client.src.our_ai_compares_these")}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
@@ -76,7 +76,7 @@ export function SmartPricingHighlight() {
         }} transition={{
           delay: index * 0.1
         }}>
-              <Card className="group relative overflow-hidden bg-[#14151a]/40 border-white/5 rounded-[2.5rem] hover:border-emerald-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10 h-full">
+              <Card className="group relative overflow-hidden bg-background/40 border-border rounded-[2.5rem] hover:border-success/30 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 h-full">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image src={prop.image} alt={prop.title} fill className="object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b0d] via-transparent to-transparent" />
@@ -89,24 +89,24 @@ export function SmartPricingHighlight() {
                 <CardContent className="p-8 space-y-6">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                       <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{prop.tag}</span>
-                       <div className="flex items-center gap-1 text-slate-500">
+                       <span className="text-[10px] font-black text-success uppercase tracking-widest">{prop.tag}</span>
+                       <div className="flex items-center gap-1 text-muted-foreground">
                           <TrendingUp className="w-3 h-3" />
                           <span className="text-[9px] font-black">{t("client.src.sync_active")}</span>
                        </div>
                     </div>
-                    <h3 className="text-2xl font-black text-white italic tracking-tight group-hover:text-emerald-400 transition-colors">
+                    <h3 className="text-2xl font-black text-white italic tracking-tight group-hover:text-success transition-colors">
                        {prop.title}
                     </h3>
                   </div>
 
-                  <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                  <div className="flex items-center justify-between pt-6 border-t border-border">
                     <div className="space-y-1">
-                       <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">{t("client.src.direct_rate")}</p>
+                       <p className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em]">{t("client.src.direct_rate")}</p>
                        <p className="text-2xl font-black text-white italic">{prop.price}</p>
                     </div>
                     <Link to="/property" className="contents">
-                      <Button variant="ghost" aria-label="View property" className="h-14 w-14 rounded-2xl bg-white/5 hover:bg-emerald-600 group/btn transition-all">
+                      <Button variant="ghost" aria-label="View property" className="h-14 w-14 rounded-2xl bg-white/5 hover:bg-blue-600 group/btn transition-all">
                         <ArrowRight className="w-6 h-6 text-white group-hover/btn:translate-x-1 transition-all" />
                       </Button>
                     </Link>
@@ -118,7 +118,7 @@ export function SmartPricingHighlight() {
 
         <div className="flex justify-center pt-8">
            <Link to="/property" className="contents">
-             <Button className="h-16 px-12 bg-white text-black font-black rounded-3xl hover:bg-slate-200 transition-all uppercase tracking-widest text-[10px] italic shadow-2xl">{t("client.src.explore_all_strategic_assets")}<Zap className="ml-3 w-4 h-4" />
+             <Button className="h-16 px-12 bg-card text-black font-black rounded-3xl hover:bg-muted transition-all uppercase tracking-widest text-[10px] italic shadow-2xl">{t("client.src.explore_all_strategic_assets")}<Zap className="ml-3 w-4 h-4" />
              </Button>
            </Link>
         </div>

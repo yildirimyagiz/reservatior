@@ -36,7 +36,7 @@ export default function PropertyIntelligenceDashboard() {
 
   const scores = [
     { name: "Location Score", value: intel?.locationScore ?? 85, icon: MapPin, color: "text-blue-600", bg: "bg-blue-50", desc: "Transit, amenities, schools" },
-    { name: "Value Score", value: intel?.valueScore ?? 78, icon: DollarSign, color: "text-green-600", bg: "bg-green-50", desc: "Price vs comparable properties" },
+    { name: "Value Score", value: intel?.valueScore ?? 78, icon: DollarSign, color: "text-blue-600", bg: "bg-blue-50", desc: "Price vs comparable properties" },
     { name: "Investment Score", value: intel?.investmentScore ?? 82, icon: Target, color: "text-purple-600", bg: "bg-purple-50", desc: "ROI potential, appreciation" },
     { name: "Lifestyle Score", value: intel?.lifestyleScore ?? 90, icon: Heart, color: "text-pink-600", bg: "bg-pink-50", desc: "Quality of life indicators" },
     { name: "Growth Score", value: intel?.growthScore ?? 76, icon: TrendingUp, color: "text-orange-600", bg: "bg-orange-50", desc: "Area development forecast" },
@@ -86,7 +86,7 @@ export default function PropertyIntelligenceDashboard() {
             <div className="relative w-36 h-36 mx-auto">
               <svg className="w-36 h-36 transform -rotate-90" viewBox="0 0 144 144">
                 <circle cx="72" cy="72" r="62" stroke="#e5e7eb" strokeWidth="10" fill="none" />
-                <circle cx="72" cy="72" r="62" stroke={overallScore >= 80 ? "#10b981" : overallScore >= 60 ? "#f59e0b" : "#ef4444"} strokeWidth="10" fill="none"
+                <circle cx="72" cy="72" r="62" stroke={overallScore >= 80 ? "#3b82f6" : overallScore >= 60 ? "#f59e0b" : "#ef4444"} strokeWidth="10" fill="none"
                   strokeDasharray={`${overallScore * 3.9} 390`} strokeLinecap="round" />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -118,7 +118,7 @@ export default function PropertyIntelligenceDashboard() {
                     <span className="text-gray-500 text-sm mb-1">/ 100</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className={`h-2 rounded-full ${s.value >= 80 ? 'bg-green-500' : s.value >= 60 ? 'bg-yellow-500' : 'bg-red-500'}`} style={{ width: `${s.value}%` }} />
+                    <div className={`h-2 rounded-full ${s.value >= 80 ? 'bg-blue-500' : s.value >= 60 ? 'bg-yellow-500' : 'bg-red-500'}`} style={{ width: `${s.value}%` }} />
                   </div>
                 </div>
               );
@@ -131,9 +131,9 @@ export default function PropertyIntelligenceDashboard() {
               <Brain className="w-6 h-6 text-purple-600" /> AI Insights
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-green-50 rounded-xl border border-green-200">
-                <p className="font-medium text-green-800">✅ Strengths</p>
-                <p className="text-sm text-green-700 mt-2">Excellent transport connectivity with 3 tube stations within walking distance. High walkability score.</p>
+              <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                <p className="font-medium text-blue-800">✅ Strengths</p>
+                <p className="text-sm text-blue-700 mt-2">Excellent transport connectivity with 3 tube stations within walking distance. High walkability score.</p>
               </div>
               <div className="p-4 bg-orange-50 rounded-xl border border-orange-200">
                 <p className="font-medium text-orange-800">⚠️ Considerations</p>

@@ -5,6 +5,7 @@ import {
   PaymentInstallmentPlainInputCreate, 
   PaymentInstallmentPlainInputUpdate 
 } from "../../generated/prismabox/PaymentInstallment";
+import { prismaManager } from "../lib/prisma";
 
 export const paymentInstallmentRoutes = new Elysia({ prefix: "/payment-installments" })
   .use(authMiddleware)
@@ -30,7 +31,7 @@ export const paymentInstallmentRoutes = new Elysia({ prefix: "/payment-installme
   })
 
   /**
-   * POST /payment-installment
+   * POST /payment-installments
    * Creates a new PaymentInstallment.
    */
   .post("/", async ({ body, set }) => {
@@ -42,7 +43,48 @@ export const paymentInstallmentRoutes = new Elysia({ prefix: "/payment-installme
   })
 
   /**
-   * GET /payment-installment/:id
+   * GET /payment-installments/overdue
+   * Retrieves overdue payment installments.
+   */
+  .get("/overdue", async ({ query, set }) => {
+    try {
+      const db = prismaManager.getClient();
+      const { orgId } = query as any;
+      
+      const where: any = {
+        status: "UNPAID",
+        dueDate: { lt: new Date() }
+      };
+      
+      if (orgId) {
+        where.orgId = orgId;
+      }
+      
+      const overdueInstallments = await db.paymentInstallment.findMany({
+        where,
+        include: {
+          commission: {
+            include: {
+              agent: true
+            }
+          }
+        },
+        orderBy: { dueDate: "asc" }
+      });
+      
+      return { data: overdueInstallments };
+    } catch (e: any) {
+      set.status = 500;
+      return { error: e.message };
+    }
+  }, {
+    query: t.Partial(t.Object({
+      orgId: t.Optional(t.String())
+    }))
+  })
+
+  /**
+   * GET /payment-installments/:id
    * Retrieves a single PaymentInstallment by ID.
    */
   .get("/:id", async ({ params, set }) => {

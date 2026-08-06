@@ -9,7 +9,7 @@ import type {
   ClosedLoopSettlement,
 } from '@/types/creator-commerce';
 
-interface CreatorCommerceState {
+export interface CreatorCommerceState {
   creators: CreatorProfile[];
   contents: CreatorContent[];
   liquidityPool: AdLiquidityPool | null;

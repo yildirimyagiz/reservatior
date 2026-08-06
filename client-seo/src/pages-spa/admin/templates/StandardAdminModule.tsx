@@ -124,9 +124,9 @@ const StandardAdminModule = () => {
 
  const getStatusBadge = (status: string) => {
  const statusConfig: Record<string, { color: string; label: string }> = {
- 'ACTIVE': { color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', label: t('admin_status_active', 'Active') },
- 'INACTIVE': { color: 'bg-muted0/10 text-slate-400 border-slate-500/20', label: t('admin_status_inactive', 'Inactive') },
- 'PENDING': { color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_status_pending', 'Pending') }
+ 'ACTIVE': { color: 'bg-blue-500/10 text-success border-blue-500/20', label: t('admin_status_active', 'Aktif') },
+ 'INACTIVE': { color: 'bg-muted0/10 text-muted-foreground border-slate-500/20', label: t('admin_status_inactive', 'Etkin değil') },
+ 'PENDING': { color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_status_pending', 'Beklemede') }
  };
  const config = statusConfig[status] || statusConfig['ACTIVE'];
  return <Badge className={config.color}>{config.label}</Badge>;
@@ -153,31 +153,31 @@ const StandardAdminModule = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
- {t("admin_module_title","Module Management")}
+ {t("admin_module_title", "Modül Yönetimi")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_module_subtitle","Manage your module items")}
+ {t("admin_module_subtitle", "Modül öğelerinizi yönetin")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-white">
+ <Button className="bg-muted hover:bg-muted0 text-white">
  <Plus className="w-4 h-4 mr-2" />
- {t("common.add","Add Item")}
+ {t("common.add", "Ekle")}
  </Button>
  </DialogTrigger>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_module_add_title","Add New Item")}</DialogTitle>
- <DialogDescription>{t("admin_module_add_desc","Create a new item")}</DialogDescription>
+ <DialogTitle>{t("admin_module_add_title", "Yeni Öğe Ekle")}</DialogTitle>
+ <DialogDescription>{t("admin_module_add_desc", "Yeni bir öğe oluştur")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 py-4">
  <div className="space-y-2">
- <Label>{t("admin_module_name","Name")}</Label>
+ <Label>{t("admin_module_name", "İsim")}</Label>
  <Input 
  value={newItem.name} 
  onChange={(e) => setNewItem({...newItem, name: e.target.value})}
@@ -185,15 +185,15 @@ const StandardAdminModule = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_module_status","Status")}</Label>
+ <Label>{t("admin_module_status", "Durum")}</Label>
  <Select value={newItem.status} onValueChange={(v) => setNewItem({...newItem, status: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="ACTIVE">{t("admin_status_active","Active")}</SelectItem>
- <SelectItem value="INACTIVE">{t("admin_status_inactive","Inactive")}</SelectItem>
- <SelectItem value="PENDING">{t("admin_status_pending","Pending")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_status_active", "Aktif")}</SelectItem>
+ <SelectItem value="INACTIVE">{t("admin_status_inactive", "Etkin değil")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_status_pending", "Beklemede")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -201,10 +201,10 @@ const StandardAdminModule = () => {
  </form>
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleAddSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleAddSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>
@@ -217,9 +217,9 @@ const StandardAdminModule = () => {
  ============================================================================ */}
  <div className="flex gap-4">
  <div className="relative flex-1 max-w-md">
- <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+ <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
  <Input
- placeholder={t("common.search","Search...")}
+ placeholder={t("common.search", "Ara")}
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  className="pl-10 bg-card border-border"
@@ -230,10 +230,10 @@ const StandardAdminModule = () => {
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="ALL">{t("common.all","All")}</SelectItem>
- <SelectItem value="ACTIVE">{t("admin_status_active","Active")}</SelectItem>
- <SelectItem value="INACTIVE">{t("admin_status_inactive","Inactive")}</SelectItem>
- <SelectItem value="PENDING">{t("admin_status_pending","Pending")}</SelectItem>
+ <SelectItem value="ALL">{t("common.all", "Tümü")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_status_active", "Aktif")}</SelectItem>
+ <SelectItem value="INACTIVE">{t("admin_status_inactive", "Etkin değil")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_status_pending", "Beklemede")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -244,22 +244,22 @@ const StandardAdminModule = () => {
  <Card className="bg-card border-border">
  <CardHeader>
  <CardTitle className="text-foreground">
- {t("admin_module_list_title","Items")}
+ {t("admin_module_list_title", "Öğeler")}
  </CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
- <div className="text-center py-8 text-slate-500">{t("common.loading","Loading...")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("common.loading", "Yükleniyor")}</div>
  ) : filteredItems.length === 0 ? (
- <div className="text-center py-8 text-slate-500">{t("admin_module_empty","No items found")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("admin_module_empty", "Hiçbir öğe bulunamadı")}</div>
  ) : (
  <Table>
  <TableHeader>
  <TableRow>
- <TableHead className="text-foreground">{t("admin_module_name","Name")}</TableHead>
- <TableHead className="text-foreground">{t("admin_module_status","Status")}</TableHead>
- <TableHead className="text-foreground">{t("admin_module_created","Created")}</TableHead>
- <TableHead className="text-foreground text-right">{t("common.actions","Actions")}</TableHead>
+ <TableHead className="text-foreground">{t("admin_module_name", "İsim")}</TableHead>
+ <TableHead className="text-foreground">{t("admin_module_status", "Durum")}</TableHead>
+ <TableHead className="text-foreground">{t("admin_module_created", "Oluşturuldu")}</TableHead>
+ <TableHead className="text-foreground text-right">{t("common.actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -267,15 +267,15 @@ const StandardAdminModule = () => {
  <TableRow key={item.id}>
  <TableCell className="font-medium text-foreground">{item.name}</TableCell>
  <TableCell>{getStatusBadge(item.status)}</TableCell>
- <TableCell className="text-slate-500">
+ <TableCell className="text-muted-foreground">
  {new Date(item.createdAt).toLocaleDateString()}
  </TableCell>
  <TableCell className="text-right">
  <div className="flex justify-end gap-2">
- <Button variant="ghost" size="icon" onClick={() => openEditModal(item)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} onClick={() => openEditModal(item)}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(item.id)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} onClick={() => deleteMutation.mutate(item.id)}>
  <Trash2 className="w-4 h-4 text-red-500" />
  </Button>
  </div>
@@ -294,13 +294,13 @@ const StandardAdminModule = () => {
  <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_module_edit_title","Edit Item")}</DialogTitle>
- <DialogDescription>{t("admin_module_edit_desc","Update item details")}</DialogDescription>
+ <DialogTitle>{t("admin_module_edit_title", "Öğeyi Düzenle")}</DialogTitle>
+ <DialogDescription>{t("admin_module_edit_desc", "Öğe ayrıntılarını güncelle")}</DialogDescription>
  </DialogHeader>
  {editingItem && (
  <form onSubmit={handleEditSubmit} className="space-y-4 py-4">
  <div className="space-y-2">
- <Label>{t("admin_module_name","Name")}</Label>
+ <Label>{t("admin_module_name", "İsim")}</Label>
  <Input 
  value={editingItem.name}
  onChange={(e) => setEditingItem({...editingItem, name: e.target.value})}
@@ -308,15 +308,15 @@ const StandardAdminModule = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_module_status","Status")}</Label>
+ <Label>{t("admin_module_status", "Durum")}</Label>
  <Select value={editingItem.status} onValueChange={(v) => setEditingItem({...editingItem, status: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="ACTIVE">{t("admin_status_active","Active")}</SelectItem>
- <SelectItem value="INACTIVE">{t("admin_status_inactive","Inactive")}</SelectItem>
- <SelectItem value="PENDING">{t("admin_status_pending","Pending")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_status_active", "Aktif")}</SelectItem>
+ <SelectItem value="INACTIVE">{t("admin_status_inactive", "Etkin değil")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_status_pending", "Beklemede")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
@@ -325,10 +325,10 @@ const StandardAdminModule = () => {
  )}
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleEditSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleEditSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>

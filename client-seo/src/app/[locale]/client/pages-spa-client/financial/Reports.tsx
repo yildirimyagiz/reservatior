@@ -10,8 +10,8 @@ import { financialReportsApi } from "@/lib/api/financial-reports";
 
 const MOCK_REVENUE_BREAKDOWN = [
   { source: "Rental Income", amount: "$234,567", percentage: 51.4, growth: "+12.3%", icon: DollarSign, color: "bg-blue-600" },
-  { source: "Property Management Fees", amount: "$89,234", percentage: 19.5, growth: "+8.7%", icon: FileText, color: "bg-indigo-600" },
-  { source: "Infrastructure Add-ons", amount: "$45,098", percentage: 9.9, growth: "+28.4%", icon: Smartphone, color: "bg-emerald-600", isNew: true },
+  { source: "Property Management Fees", amount: "$89,234", percentage: 19.5, growth: "+8.7%", icon: FileText, color: "bg-brand" },
+  { source: "Infrastructure Add-ons", amount: "$45,098", percentage: 9.9, growth: "+28.4%", icon: Smartphone, color: "bg-blue-600", isNew: true },
   { source: "Maintenance Services", amount: "$67,890", percentage: 14.9, growth: "+15.2%", icon: Zap, color: "bg-amber-600" },
   { source: "Legal & Compliance", amount: "$20,000", percentage: 4.4, growth: "+23.1%", icon: Shield, color: "bg-rose-600" }
 ];
@@ -167,7 +167,7 @@ export default function FinancialReports() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("client.src.total_revenue")}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("common.total_revenue")}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -227,11 +227,11 @@ export default function FinancialReports() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border-none shadow-xl bg-white ring-1 ring-slate-100 overflow-hidden">
-          <CardHeader className="bg-slate-50 border-b border-slate-100">
+        <Card className="border-none shadow-xl bg-card ring-1 ring-slate-100 overflow-hidden">
+          <CardHeader className="bg-muted border-b border-border">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-black text-slate-900 tracking-widest">{t("client.src.revenue_breakdown")}</CardTitle>
-              <Badge variant="outline" className="bg-white text-[10px] font-bold">{t("client.src.live_data")}</Badge>
+              <CardTitle className="text-sm font-black text-foreground tracking-widest">{t("client.src.revenue_breakdown")}</CardTitle>
+              <Badge variant="outline" className="bg-card text-[10px] font-bold">{t("client.src.live_data")}</Badge>
             </div>
           </CardHeader>
           <CardContent className="p-0">
@@ -240,26 +240,26 @@ export default function FinancialReports() {
                 const IconComponent = item.icon || DollarSign;
                 const colorClass = item.color || "bg-blue-600";
                 return (
-                  <div key={i} className="p-4 hover:bg-slate-50/50 transition-colors group">
+                  <div key={i} className="p-4 hover:bg-muted/50 transition-colors group">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-3">
                         <div className={`p-2 rounded-lg ${colorClass.replace('600', '50')} ${colorClass.replace('bg-', 'text-')}`}>
                           <IconComponent className="w-4 h-4" />
                         </div>
                         <div>
-                          <p className="text-sm font-black text-slate-900 flex items-center gap-2">
+                          <p className="text-sm font-black text-foreground flex items-center gap-2">
                             {item.source}
-                            {item.isNew && <Badge className="h-4 text-[8px] bg-emerald-500 text-white font-black border-none px-1">{t("client.src.new_stream")}</Badge>}
+                            {item.isNew && <Badge className="h-4 text-[8px] bg-success text-white font-black border-none px-1">{t("client.src.new_stream")}</Badge>}
                           </p>
-                          <p className="text-[10px] text-slate-500 font-bold tracking-tight">{item.percentage}% {t("client.src.sector_weight")}</p>
+                          <p className="text-[10px] text-muted-foreground font-bold tracking-tight">{item.percentage}% {t("client.src.sector_weight")}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-black text-slate-900">{item.amount}</p>
-                        <p className="text-[10px] text-emerald-600 font-black">{item.growth}</p>
+                        <p className="text-sm font-black text-foreground">{item.amount}</p>
+                        <p className="text-[10px] text-success font-black">{item.growth}</p>
                       </div>
                     </div>
-                    <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
                       <div className={`${colorClass} h-full transition-all duration-1000 group-hover:opacity-80`} style={{ width: `${item.percentage}%` }}></div>
                     </div>
                   </div>
@@ -281,7 +281,7 @@ export default function FinancialReports() {
                     <p className="font-medium">{expense.category}</p>
                     <div className="text-right">
                       <p className="font-medium">{expense.amount}</p>
-                      <p className={`text-sm ${expense.change?.startsWith("-") ? "text-green-600" : "text-red-600"}`}>
+                      <p className={`text-sm ${expense.change?.startsWith("-") ? "text-blue-600" : "text-red-600"}`}>
                         {expense.change}
                       </p>
                     </div>
@@ -313,8 +313,8 @@ export default function FinancialReports() {
                 </div>
                 <div className="grid grid-cols-3 gap-8 text-right">
                   <div>
-                    <p className="font-medium text-green-600">{month.revenue}</p>
-                    <p className="text-xs text-muted-foreground">{t("client.src.revenue")}</p>
+                    <p className="font-medium text-blue-600">{month.revenue}</p>
+                    <p className="text-xs text-muted-foreground">{t("common.revenue")}</p>
                   </div>
                   <div>
                     <p className="font-medium text-red-600">{month.expenses}</p>
@@ -322,7 +322,7 @@ export default function FinancialReports() {
                   </div>
                   <div>
                     <p className="font-medium">{month.profit}</p>
-                    <p className="text-xs text-green-600">{month.growth}</p>
+                    <p className="text-xs text-blue-600">{month.growth}</p>
                   </div>
                 </div>
               </div>
@@ -344,7 +344,7 @@ export default function FinancialReports() {
                     <p className="font-medium">{prop.property}</p>
                     <p className="text-sm text-muted-foreground">{t("client.src.roi")} {prop.roi}</p>
                   </div>
-                  <p className="font-medium text-green-600">{prop.revenue}</p>
+                  <p className="font-medium text-blue-600">{prop.revenue}</p>
                 </div>
               ))}
             </div>

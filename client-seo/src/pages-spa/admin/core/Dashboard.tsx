@@ -76,7 +76,7 @@ interface RecentActivity {
  user?: string;
 }
 
-const CHART_COLORS = ["#3b82f6","#a855f7","#22c55e","#eab308","#ef4444","#06b6d4","#f97316"];
+const CHART_COLORS = ["#3b82f6","#a855f7","#3b82f6","#eab308","#ef4444","#06b6d4","#f97316"];
 
 const getSafeColor = (entry: any, index: number) => entry?.color || CHART_COLORS[index % CHART_COLORS.length];
 
@@ -286,7 +286,7 @@ export default function Dashboard() {
  </div>
  </div>
  <div className="text-right">
- <p className="text-sm font-semibold text-emerald-500">{t("currency_symbol", "$")}{(agent.totalRevenue / 1000).toFixed(1)}{t("admin_auto_k", "k")}</p>
+ <p className="text-sm font-semibold text-success">{t("currency_symbol", "$")}{(agent.totalRevenue / 1000).toFixed(1)}{t("admin_auto_k", "k")}</p>
  <div className="flex items-center gap-1 justify-end">
  <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
  <span className="text-xs font-medium text-muted-foreground">{agent.rating}</span>
@@ -338,8 +338,8 @@ export default function Dashboard() {
 function KPICard({ title, value, trend, trendType, icon: Icon, color }: any) {
  const colorMap: any = {
  slate:"text-muted-foreground bg-muted/30 border-border",
- emerald:"text-emerald-400 bg-emerald-950/20 border-emerald-500/20",
- amber:"text-amber-400 bg-amber-950/20 border-amber-500/20"
+ emerald:"text-success bg-blue-950/20 border-blue-500/20",
+ amber:"text-warning bg-amber-950/20 border-amber-500/20"
  };
  return (
  <Card className="bg-card border-border rounded-3xl p-6 shadow-sm relative overflow-hidden group hover:bg-muted/30 transition-all">
@@ -351,7 +351,7 @@ function KPICard({ title, value, trend, trendType, icon: Icon, color }: any) {
  <Icon className="w-6 h-6" />
  </div>
  <div className={cn("flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold",
- trendType === 'up' ?"text-emerald-400 bg-emerald-500/10" :"text-red-400 bg-red-500/10")}>
+ trendType === 'up' ?"text-success bg-blue-500/10" :"text-red-400 bg-red-500/10")}>
  {trendType === 'up' ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
  {trend}
  </div>

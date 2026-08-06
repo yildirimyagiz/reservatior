@@ -1,17 +1,19 @@
-import type { Metadata } from "next";
-import Dashboard from "./Dashboard";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Property Passport - Intelligence & AI | Reservatior",
-  description: "AI-powered property intelligence passport with 6-dimensional scoring, calibration tracking, and digital twin preview.",
-  keywords: ["property", "passport", "intelligence", "AI", "scoring", "digital twin"],
-  openGraph: {
-    title: "Property Passport - Intelligence & AI | Reservatior",
-    description: "AI-powered property intelligence passport with 6-dimensional scoring.",
-    type: "website",
-  },
-};
+import dynamic from "next/dynamic";
+import React from "react";
+import { Loader2 } from "lucide-react";
 
-export default function PropertyPassportPage() {
-  return <Dashboard />;
+const Component = dynamic(() => import("@/pages-spa/admin/intelligence/PropertyPassport"), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px] text-muted-foreground">
+      <Loader2 className="w-8 h-8 animate-spin text-brand mr-2" />
+      <span>Modül yükleniyor...</span>
+    </div>
+  ),
+  ssr: false
+});
+
+export default function PropertyPassportAppPage() {
+  return <Component />;
 }

@@ -5,17 +5,17 @@ const stats = [{
   icon: Building,
   label: t("client.src.properties_listed"),
   value: "50,000+",
-  color: "text-blue-500"
+  color: "text-brand"
 }, {
   icon: Users,
   label: t("client.src.active_users"),
   value: "10,000+",
-  color: "text-green-500"
+  color: "text-blue-500"
 }, {
   icon: Calendar,
   label: t("client.src.bookings_this_month"),
   value: "2,500+",
-  color: "text-purple-500"
+  color: "text-brand"
 }, {
   icon: TrendingUp,
   label: t("client.src.success_rate"),

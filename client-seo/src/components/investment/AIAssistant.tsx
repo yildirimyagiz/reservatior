@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MARKET_DATA, CITY_COMPARISONS } from "@/lib/seo/market-data";
+import { useTranslation } from "react-i18next";
 
 interface Message {
   role: "user" | "assistant";
@@ -161,6 +162,7 @@ Try asking about specific cities, investment strategies, or property comparisons
 }
 
 export function InvestmentAIAssistant() {
+  const { t } = useTranslation();
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
@@ -272,7 +274,7 @@ export function InvestmentAIAssistant() {
               placeholder="Ask about property investment..."
               disabled={isTyping}
             />
-            <Button onClick={() => handleSend()} disabled={isTyping || !input.trim()}>
+            <Button onClick={() => handleSend()} disabled={isTyping || !input.trim()} aria-label={t("common.send")}>
               <Send className="w-4 h-4" />
             </Button>
           </div>

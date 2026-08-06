@@ -88,10 +88,10 @@ export const HomeChatClient = () => {
   };
 
   const suggestions = [
-    t("client.src.suggestion_1", { defaultValue: "Modern 3-bedroom apartment with sea view" }),
-    t("client.src.suggestion_2", { defaultValue: "Cozy cabin in the woods for weekend getaway" }),
-    t("client.src.suggestion_3", { defaultValue: "Luxury villa with private pool in city center" }),
-    t("client.src.suggestion_4", { defaultValue: "Affordable studio near public transport" })
+    t("client.src.suggestion_1", { defaultValue: "🇹🇷 $400k+ SPK değerlemeli, Türk Vatandaşlığına ve krediye uygun İstanbul boğaz projeleri" }),
+    t("client.src.suggestion_2", { defaultValue: "🇦🇪 Dubai'de 2M AED üstü 10 Yıllık Golden Visa hediyeli marina daireleri ve ROI oranları" }),
+    t("client.src.suggestion_3", { defaultValue: "🇬🇧 Londra'da RICS değerlemeli, İngiltere mortgage kullanımına %100 uyumlu yatırımlık mülkler" }),
+    t("client.src.suggestion_4", { defaultValue: "🛡️ Antalya ve Bodrum'da SafeStay™ Escrow güvenceli günlük 250$ getirili tatil villaları" })
   ];
 
   return (
@@ -130,14 +130,14 @@ export const HomeChatClient = () => {
 
       {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-4 md:p-8 z-10 scroll-smooth">
-        <div className="max-w-4xl mx-auto space-y-8 pb-10">
+        <div className="max-w-5xl mx-auto space-y-8 pb-10">
           
           {messages.length === 0 && (
             <m.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="flex flex-col items-center justify-center h-[55vh] text-center space-y-8"
+              className="flex flex-col items-center justify-center min-h-[65vh] text-center space-y-8 py-4"
             >
               <div className="relative group">
                 <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur-xl opacity-30 group-hover:opacity-50 transition duration-1000 animate-pulse" />
@@ -146,16 +146,16 @@ export const HomeChatClient = () => {
                 </div>
               </div>
               
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-neutral-900 dark:text-white drop-shadow-sm">
-                  {t("client.src.what_kind_of_place_are_you_looking_for", { defaultValue: "What kind of place are you looking for?" }).split(" ")[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500 dark:from-indigo-400 dark:to-purple-400">{t("client.src.what_kind_of_place_are_you_looking_for", { defaultValue: "What kind of place are you looking for?" }).split(" ").slice(1).join(" ")}</span>
+                  {t("client.src.what_kind_of_place_are_you_looking_for", { defaultValue: "Hayalinizdeki Mülkü" }).split(" ")[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500 dark:from-indigo-400 dark:to-purple-400">{t("client.src.what_kind_of_place_are_you_looking_for", { defaultValue: "Doğal Dilde Tarif Edin" }).split(" ").slice(1).join(" ")}</span>
                 </h1>
-                <p className="text-neutral-500 dark:text-slate-400 text-xl max-w-2xl mx-auto font-medium">
-                  {t("client.src.dont_bother_with_filters_describe_your_dream_home", { defaultValue: "Don't bother with filters. Just describe your dream home." })}
+                <p className="text-neutral-500 dark:text-slate-400 text-lg max-w-2xl mx-auto font-medium">
+                  {t("client.src.dont_bother_with_filters_describe_your_dream_home", { defaultValue: "Filtrelerle zaman kaybetmeyin. SPK & RICS ekspertiz onaylı, Vatandaşlığa uygun veya SafeStay™ güvenceli mülkleri AI saniyeler içinde bulsun." })}
                 </p>
               </div>
               
-              <div className="flex flex-wrap justify-center gap-3 mt-8 max-w-3xl">
+              <div className="flex flex-wrap justify-center gap-2.5 mt-4 max-w-4xl">
                 {suggestions.map((suggestion, i) => (
                   <m.button 
                     key={suggestion}
@@ -163,11 +163,35 @@ export const HomeChatClient = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.1 }}
                     onClick={() => setInput(suggestion)}
-                    className="px-5 py-3 bg-white/60 dark:bg-slate-800/40 backdrop-blur-md border border-white dark:border-slate-700 hover:border-indigo-200 dark:hover:border-indigo-500/50 rounded-2xl text-sm font-semibold text-neutral-700 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-400 hover:bg-white/90 dark:hover:bg-slate-800/80 hover:shadow-lg hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5 transition-all active:scale-95"
+                    className="px-4 py-2.5 bg-white/70 dark:bg-slate-800/50 backdrop-blur-md border border-white dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-500/60 rounded-2xl text-xs sm:text-sm font-bold text-neutral-700 dark:text-slate-200 hover:text-indigo-700 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg hover:shadow-indigo-500/10 transition-all active:scale-95 text-left"
                   >
                     {suggestion}
                   </m.button>
                 ))}
+              </div>
+
+              {/* Reservatior OS Intelligence Ribbon */}
+              <div className="w-full max-w-4xl pt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-left">
+                <div className="p-4 rounded-3xl bg-white/50 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-sm hover:border-indigo-500/40 transition-all group">
+                  <div className="text-2xl mb-2">🏛️</div>
+                  <h4 className="font-bold text-xs text-neutral-900 dark:text-white uppercase tracking-wider mb-1 group-hover:text-indigo-500 transition-colors">23 Otorite Zırhı</h4>
+                  <p className="text-[11px] text-neutral-500 dark:text-muted-foreground leading-relaxed">SPK, RICS ve DLD Taqyoom resmi değerleme standartlarıyla anlık mülk tahkikatı.</p>
+                </div>
+                <div className="p-4 rounded-3xl bg-white/50 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-sm hover:border-emerald-500/40 transition-all group">
+                  <div className="text-2xl mb-2">🛡️</div>
+                  <h4 className="font-bold text-xs text-neutral-900 dark:text-white uppercase tracking-wider mb-1 group-hover:text-emerald-500 transition-colors">SafeStay™ Escrow</h4>
+                  <p className="text-[11px] text-neutral-500 dark:text-muted-foreground leading-relaxed">Kiralamalarda %2 sigorta fonu güvencesiyle depozito ve ödemelerin korunması.</p>
+                </div>
+                <div className="p-4 rounded-3xl bg-white/50 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-sm hover:border-amber-500/40 transition-all group">
+                  <div className="text-2xl mb-2">🎖️</div>
+                  <h4 className="font-bold text-xs text-neutral-900 dark:text-white uppercase tracking-wider mb-1 group-hover:text-amber-500 transition-colors">Golden Visa & CBI</h4>
+                  <p className="text-[11px] text-neutral-500 dark:text-muted-foreground leading-relaxed">Tapu tarihi ve beyan bedeli üzerinden otomatik istisnai vatandaşlık skoru.</p>
+                </div>
+                <div className="p-4 rounded-3xl bg-white/50 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-sm hover:border-purple-500/40 transition-all group">
+                  <div className="text-2xl mb-2">⚡</div>
+                  <h4 className="font-bold text-xs text-neutral-900 dark:text-white uppercase tracking-wider mb-1 group-hover:text-purple-500 transition-colors">ML Studio & OCR</h4>
+                  <p className="text-[11px] text-neutral-500 dark:text-muted-foreground leading-relaxed">Yapay zeka tapu tarama, sahtecilik koruması ve gerçek zamanlı ROI kestirimi.</p>
+                </div>
               </div>
             </m.div>
           )}
@@ -383,7 +407,7 @@ export const HomeChatClient = () => {
                   onClick={() => setSelectedPropertyForBooking(null)}
                   className="flex-1 py-3.5 rounded-xl font-bold text-neutral-600 dark:text-slate-400 bg-neutral-100 dark:bg-slate-800 hover:bg-neutral-200 dark:hover:bg-slate-700 transition-colors"
                 >
-                  {t("client.src.cancel", { defaultValue: "Cancel" })}
+                  {t("common.cancel", { defaultValue: "Cancel" })}
                 </button>
                 <button 
                   onClick={() => {

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { SpatialAnalysisResult, PropertyHealthReport, InsuranceRiskProfile } from '@/types/spatial-analysis';
 
-interface SpatialAnalysisState {
+export interface SpatialAnalysisState {
   analyses: SpatialAnalysisResult[];
   healthReports: PropertyHealthReport[];
   insuranceProfiles: Record<string, InsuranceRiskProfile>;

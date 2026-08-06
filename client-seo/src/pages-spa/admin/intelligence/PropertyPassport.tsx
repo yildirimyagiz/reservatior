@@ -82,11 +82,11 @@ export default function PropertyPassportDashboard() {
 
   return (
     <PageShell
-      title={t("admin_property_passport_title", "Mülk Karnesi")}
-      description={t("admin_property_passport_desc", "Her mülk için 6 boyutlu zeka ve karnesi profili")}
+      title={t("admin_property_passport_title", "Mülk Karnesi (Property Passport)")}
+      description={t("admin_property_passport_desc", "Her mülk için 6 boyutlu nöral zeka profili ve karnesi")}
       actions={
         <button className="px-4 py-2 bg-primary text-primary-foreground text-white rounded-lg hover:bg-primary/90 transition flex items-center gap-2">
-          <Download className="w-4 h-4" /> {t("admin_property_passport_export", "Export Passport")}
+          <Download className="w-4 h-4" /> {t("admin_property_passport_export", "Karneyi Dışa Aktar")}
         </button>
       }
     >
@@ -98,7 +98,7 @@ export default function PropertyPassportDashboard() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder={t("admin_property_passport_search_placeholder", "Search properties…")}
+              placeholder={t("admin_property_passport_search_placeholder", "Mülk Ara…")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-border rounded-lg"
@@ -109,7 +109,7 @@ export default function PropertyPassportDashboard() {
             onChange={(e) => setSelectedPropertyId(e.target.value)}
             className="px-4 py-2 border border-border rounded-lg bg-card min-w-[300px]"
           >
-            <option value="">{t("admin_property_passport_select_placeholder", "Select a property…")}</option>
+            <option value="">{t("admin_property_passport_select_placeholder", "Bir mülk seçin…")}</option>
             {(properties || [])
               .filter((p: any) => !searchQuery || p.title?.toLowerCase().includes(searchQuery.toLowerCase()))
               .map((p: any) => (
@@ -122,8 +122,8 @@ export default function PropertyPassportDashboard() {
       {!selectedPropertyId && (
         <div className="bg-card rounded-xl shadow-sm p-12 border border-border text-center">
           <Building2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-muted-foreground">{t("admin_property_passport_empty", "Select a property to view its Intelligence Passport")}</h2>
-          <p className="text-gray-400 mt-2">{t("admin_property_passport_empty_sub", "Choose from the dropdown above or search by name")}</p>
+          <h2 className="text-xl font-semibold text-muted-foreground">{t("admin_property_passport_empty", "Zeka Karnesini görmek için bir mülk seçin")}</h2>
+          <p className="text-gray-400 mt-2">{t("admin_property_passport_empty_sub", "Yukarıdaki listeden seçin veya isme göre arayın")}</p>
         </div>
       )}
 
@@ -138,7 +138,7 @@ export default function PropertyPassportDashboard() {
           {/* Overall Score + Calibration */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="bg-card rounded-xl shadow-sm p-6 border border-border col-span-1">
-              <h2 className="text-lg font-semibold text-card-foreground mb-4">{t("admin_property_passport_overall_score", "Overall Score")}</h2>
+              <h2 className="text-lg font-semibold text-card-foreground mb-4">{t("admin_property_passport_overall_score", "Genel Skor")}</h2>
               <div className="flex items-center justify-center">
                 <div className="relative w-40 h-40">
                   <svg className="w-40 h-40 transform -rotate-90" viewBox="0 0 160 160">
@@ -165,7 +165,7 @@ export default function PropertyPassportDashboard() {
                   {calibrationDirection === 'UPWARD' ? <ArrowUpRight className="w-3 h-3" /> :
                    calibrationDirection === 'DOWNWARD' ? <ArrowDownRight className="w-3 h-3" /> :
                    <Activity className="w-3 h-3" />}
-                  {tEnum(t, calibrationDirection)} {t("admin_property_passport_calibration", "Calibration")}: {(calibrationFactor * 100 - 100).toFixed(1)}%
+                  {tEnum(t, calibrationDirection)} {t("admin_property_passport_calibration", "Kalibrasyon")}: {(calibrationFactor * 100 - 100).toFixed(1)}%
                 </span>
               </div>
             </div>
@@ -205,12 +205,12 @@ export default function PropertyPassportDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-                <Zap className="w-5 h-5 text-orange-600" /> {t("admin_property_passport_investment_decision", "Investment Decision")}
+                <Zap className="w-5 h-5 text-orange-600" /> {t("admin_property_passport_investment_decision", "Yatırım Kararı")}
               </h2>
               <div className="space-y-3">
                 <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
                   <div className="flex items-center justify-between">
-                    <span className="font-medium text-blue-800">{t("admin_property_passport_recommendation", "Recommendation")}</span>
+                    <span className="font-medium text-blue-800">{t("admin_property_passport_recommendation", "Öneri")}</span>
                     <span className="px-3 py-1 bg-blue-600 text-white rounded-full text-sm font-medium">
                       {tEnum(t, passport?.decision?.recommendation || "STRONG BUY")}
                     </span>
@@ -221,19 +221,19 @@ export default function PropertyPassportDashboard() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-3 bg-blue-50 rounded-lg">
-                    <p className="text-xs text-muted-foreground">{t("admin_property_passport_expected_roi", "Expected ROI")}</p>
+                    <p className="text-xs text-muted-foreground">{t("admin_property_passport_expected_roi", "Beklenen ROI")}</p>
                     <p className="text-lg font-bold text-blue-700">{passport?.decision?.expectedROI || "12.4%"}</p>
                   </div>
                   <div className="p-3 bg-brand/10 rounded-lg">
-                    <p className="text-xs text-muted-foreground">{t("admin_property_passport_risk_level", "Risk Level")}</p>
+                    <p className="text-xs text-muted-foreground">{t("admin_property_passport_risk_level", "Risk Seviyesi")}</p>
                     <p className="text-lg font-bold text-brand">{tEnum(t, passport?.decision?.riskLevel || "MODERATE")}</p>
                   </div>
                   <div className="p-3 bg-orange-50 rounded-lg">
-                    <p className="text-xs text-muted-foreground">{t("admin_property_passport_confidence", "Confidence")}</p>
+                    <p className="text-xs text-muted-foreground">{t("admin_property_passport_confidence", "Güven")}</p>
                     <p className="text-lg font-bold text-orange-700">{passport?.decision?.confidence || "87%"}</p>
                   </div>
                   <div className="p-3 bg-blue-50 rounded-lg">
-                    <p className="text-xs text-muted-foreground">{t("admin_property_passport_payback_period", "Payback Period")}</p>
+                    <p className="text-xs text-muted-foreground">{t("admin_property_passport_payback_period", "Geri Ödeme Süresi")}</p>
                     <p className="text-lg font-bold text-blue-700">{passport?.decision?.paybackPeriod || "8.1 yrs"}</p>
                   </div>
                 </div>
@@ -242,7 +242,7 @@ export default function PropertyPassportDashboard() {
 
             <div className="bg-card rounded-xl shadow-sm p-6 border border-border">
               <h2 className="text-lg font-semibold text-card-foreground flex items-center gap-2 mb-4">
-                <Layers className="w-5 h-5 text-brand" /> {t("admin_property_passport_pipeline_status", "Pipeline Status")}
+                <Layers className="w-5 h-5 text-brand" /> {t("admin_property_passport_pipeline_status", "Hattı Durumu")}
               </h2>
               <div className="space-y-3">
                 {[

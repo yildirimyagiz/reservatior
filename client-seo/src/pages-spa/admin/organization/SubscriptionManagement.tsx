@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Badge } from"@/components/ui/badge";
 import { Button } from"@/components/ui/button";
@@ -37,10 +37,13 @@ interface OrgSubscription {
  currentPeriodEnd?: Date;
  createdAt: Date;
  updatedAt: Date;
- organization: {
- name: string;
- };
- plan: Plan;
+  organization: {
+  name: string;
+  };
+  plan: Plan;
+  boostedListings?: number;
+  socialMediaPosts?: number;
+  adCredits?: number;
 }
 interface Subscription {
  id: string;
@@ -252,16 +255,16 @@ export default function SubscriptionManagement() {
  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
  <div className="space-y-1">
  <div className="flex items-center gap-2">
- <Badge className="bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[9px] font-black uppercase">
- {t("admin_auto_opaque_shield_active", "Opaque Shield Active")}</Badge>
- <span className="text-[10px] text-muted-foreground font-mono">{t("admin_auto_aes_256_gcm_verified", "AES-256-GCM Verified")}</span>
+ <Badge className="bg-orange-500/10 text-warning border border-orange-500/20 text-[9px] font-black uppercase">
+ {t("admin_auto_opaque_shield_active", "Opak Kalkan Aktif")}</Badge>
+ <span className="text-[10px] text-muted-foreground font-mono">{t("admin_auto_aes_256_gcm_verified", "AES-256-GCM Onaylandı")}</span>
  </div>
  <h3 className="text-lg font-black text-foreground italic tracking-tight">
- {t("admin_auto_secure_partner_agreement_gateway", "Secure Partner Agreement Gateway")}</h3>
+ {t("admin_auto_secure_partner_agreement_gateway", "Güvenli İş Ortağı Anlaşması Ağ Geçidi")}</h3>
  <p className="text-xs text-muted-foreground max-w-3xl">
- {t("admin_auto_custom_negotiated_rates_time_decay_amort", "Custom negotiated rates, time-decay amortization schedules, and behavioral loyalty multipliers are encrypted. Core financial calculations are run internally on the server event stream to prevent competitive reverse-engineering.")}</p>
+ {t("admin_auto_custom_negotiated_rates_time_decay_amort", "Özel olarak anlaşılan oranlar, zamana bağlı amortisman programları ve davranışsal sadakat çarpanları şifrelenir. Rekabetçi tersine mühendisliği önlemek için temel finansal hesaplamalar dahili olarak sunucu olay akışında çalıştırılır.")}</p>
  </div>
- <Button variant="outline" className="border-orange-500/20 hover:border-orange-500/40 text-xs font-black text-orange-400 hover:text-orange-300 bg-orange-500/5 h-10 px-4 rounded-xl">{t("admin_auto_audit_contracts", "Audit Contracts")}</Button>
+ <Button variant="outline" className="border-orange-500/20 hover:border-orange-500/40 text-xs font-black text-warning hover:text-orange-300 bg-orange-500/5 h-10 px-4 rounded-xl">{t("admin_auto_audit_contracts", "Denetim Sözleşmeleri")}</Button>
  </div>
  </Card>
 
@@ -284,7 +287,7 @@ export default function SubscriptionManagement() {
  <TrendingUp className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{activeSubscriptions}</div>
+ <div className="text-2xl font-bold text-blue-600">{activeSubscriptions}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_currently_active")}</p>
  </CardContent>
  </Card>
@@ -295,7 +298,7 @@ export default function SubscriptionManagement() {
  <TrendingUp className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">
+ <div className="text-2xl font-bold text-muted-foreground">
  {t("currency_symbol", "$")}{(totalRevenue / 100).toLocaleString()}
  </div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_from_active_subscriptions")}</p>
@@ -308,7 +311,7 @@ export default function SubscriptionManagement() {
  <Users className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{totalUsers}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{totalUsers}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_individual_subscriptions")}</p>
  </CardContent>
  </Card>
@@ -363,7 +366,7 @@ export default function SubscriptionManagement() {
  </SelectTrigger>
  <SelectContent>
  {plans.map(plan => <SelectItem key={plan.id} value={plan.id}>
- {plan.name} - ${plan.priceMonthlyCents ? (plan.priceMonthlyCents / 100).toFixed(2) : 'Free'}{t("admin_auto_month", "/month")}</SelectItem>)}
+ {plan.name} - ${plan.priceMonthlyCents ? (plan.priceMonthlyCents / 100).toFixed(2) : 'Free'}{t("admin_auto_month", "/ay")}</SelectItem>)}
  </SelectContent>
  </Select>
  </div>
@@ -411,7 +414,7 @@ export default function SubscriptionManagement() {
  </SelectTrigger>
  <SelectContent>
  {plans.map(plan => <SelectItem key={plan.id} value={plan.id}>
- {plan.name} - ${plan.priceMonthlyCents ? (plan.priceMonthlyCents / 100).toFixed(2) : 'Free'}{t("admin_auto_month", "/month")}</SelectItem>)}
+ {plan.name} - ${plan.priceMonthlyCents ? (plan.priceMonthlyCents / 100).toFixed(2) : 'Free'}{t("admin_auto_month", "/ay")}</SelectItem>)}
  </SelectContent>
  </Select>
  </div>
@@ -483,17 +486,17 @@ export default function SubscriptionManagement() {
  {subscription.plan?.priceMonthlyCents ? `$${(subscription.plan.priceMonthlyCents / 100).toFixed(2)}` : 'Free'}
  </TableCell>
  <TableCell>
- <Badge variant="outline" className="bg-orange-500/10 text-orange-400 border-orange-500/20">
+ <Badge variant="outline" className="bg-orange-500/10 text-warning border-orange-500/20">
  {subscription.boostedListings || 0}
  </Badge>
  </TableCell>
  <TableCell>
- <Badge variant="outline" className="bg-blue-500/10 text-blue-400 border-blue-500/20">
+ <Badge variant="outline" className="bg-blue-500/10 text-info border-blue-500/20">
  {subscription.socialMediaPosts || 0}
  </Badge>
  </TableCell>
  <TableCell>
- <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+ <Badge variant="outline" className="bg-blue-500/10 text-success border-blue-500/20">
  {subscription.adCredits || 0}
  </Badge>
  </TableCell>
@@ -509,7 +512,7 @@ export default function SubscriptionManagement() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>

@@ -52,9 +52,9 @@ export function LeadCapture({
 
   if (submitted) {
     return (
-      <Card className="border-emerald-500/30 bg-emerald-500/5">
+      <Card className="border-blue-500/30 bg-success/5">
         <CardContent className="p-6 text-center">
-          <CheckCircle className="w-12 h-12 mx-auto mb-3 text-emerald-400" />
+          <CheckCircle className="w-12 h-12 mx-auto mb-3 text-success" />
           <p className="text-lg font-bold">Thank you!</p>
           <p className="text-muted-foreground">
             Your investment report has been sent to {formData.email}

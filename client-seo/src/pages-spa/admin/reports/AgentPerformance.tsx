@@ -52,12 +52,12 @@ interface AgentAggregate {
  id: string; name: string; agency: string;
  leads: number; showings: number; offers: number; deals: number; commission: number; status: string;
 }
-const AGENT_COLORS = ["#6366f1","#8b5cf6","#ec4899","#f59e0b","#10b981","#ef4444"];
+const AGENT_COLORS = ["#6366f1","#8b5cf6","#ec4899","#f59e0b","#3b82f6","#ef4444"];
 const $ = (v: number) => new Intl.NumberFormat("en-US", { style:"currency", currency:"USD", maximumFractionDigits: 0 }).format(v);
 const CustomTooltip = ({ active, payload, label }: any) => {
   const { t } = useTranslation();
  if (!active || !payload?.length) return null;
- return <div className="bg-[#1a1b1e] border border-border rounded-lg p-3 text-xs shadow-md space-y-1">
+ return <div className="bg-card border border-border rounded-lg p-3 text-xs shadow-md space-y-1">
  <p className="font-medium text-foreground">{label}</p>
  {payload.map((p: any) => <p key={p.name} style={{ color: p.color }}>
  {p.name}{t("mobile.leftovers.", ":")}{p.value > 1000 ? $(p.value) : `${p.value}%`}
@@ -176,7 +176,7 @@ export default function AgentPerformance() {
  <SelectItem value="all">{t("admin_reports_all_time")}</SelectItem>
  </SelectContent>
  </Select>
- <Button variant="outline" size="sm" disabled={isLoading} className="border-border text-foreground bg-card">
+ <Button variant="outline" size="sm" disabled={isLoading} className="border-border text-foreground bg-card" aria-label={t("common.refresh")}>
  <RefreshCw className={`w-4 h-4 ${isLoading ?"animate-spin" :""}`} />
  </Button>
  </div>
@@ -187,7 +187,7 @@ export default function AgentPerformance() {
  {[{ label: t("admin_reports_active_agents"), value: isLoading ?"—" : AGENTS.filter(a => a.status ==="ACTIVE").length },
  { label: t("admin_reports_total_deals"), value: isLoading ?"—" : totalDeals },
  { label: t("admin_reports_total_commission"), value: isLoading ?"—" : $(totalCommission) }].map((stat, idx) => <div key={stat.label}
- className="bg-[#1a1b1e]/60 border border-white/5 border-l border-t rounded-[32px] p-8 backdrop-blur-3xl shadow-2xl relative overflow-hidden group hover:bg-accent/10 transition-all"
+ className="bg-card/60 border border-border border-l border-t rounded-[32px] p-8 backdrop-blur-3xl shadow-2xl relative overflow-hidden group hover:bg-accent/10 transition-all"
  >
  <div className="absolute top-0 right-0 p-6 opacity-5 text-primary group-hover:scale-110 transition-transform">
  <Activity className="w-12 h-12" />
@@ -207,7 +207,7 @@ export default function AgentPerformance() {
  placeholder={t("admin_reports_search_agents","Temsilcilerde ara...")}
  value={search}
  onChange={(e) => setSearch(e.target.value)}
- className="h-11 pl-10 bg-[#1a1b1e]/60 border border-border rounded-lg text-sm text-foreground placeholder:text-slate-500 focus:border-primary/50 transition-all shadow-sm"
+ className="h-11 pl-10 bg-card/60 border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 transition-all shadow-sm"
  />
  </div>
  <div className="flex flex-wrap gap-4 w-full lg:w-auto items-center">
@@ -229,10 +229,10 @@ export default function AgentPerformance() {
  <div className="relative">
  <Tabs value={tab} onValueChange={setTab}>
  <TabsList className="mb-4 bg-card border border-border">
- <TabsTrigger value="leaderboard" className="text-muted-foreground data-[state=active]:bg-white/10 data-[state=active]:text-white">{t("admin_reports_leaderboard")}</TabsTrigger>
- <TabsTrigger value="trends" className="text-muted-foreground data-[state=active]:bg-white/10 data-[state=active]:text-white">{t("admin_reports_commission_trends")}</TabsTrigger>
- <TabsTrigger value="conversion" className="text-muted-foreground data-[state=active]:bg-white/10 data-[state=active]:text-white">{t("admin_reports_conversion_funnel")}</TabsTrigger>
- <TabsTrigger value="radar" className="text-muted-foreground data-[state=active]:bg-white/10 data-[state=active]:text-white">{t("admin_reports_comparison_radar")}</TabsTrigger>
+ <TabsTrigger value="leaderboard" className="text-muted-foreground data-[state=active]:bg-card/10 data-[state=active]:text-white">{t("admin_reports_leaderboard")}</TabsTrigger>
+ <TabsTrigger value="trends" className="text-muted-foreground data-[state=active]:bg-card/10 data-[state=active]:text-white">{t("admin_reports_commission_trends")}</TabsTrigger>
+ <TabsTrigger value="conversion" className="text-muted-foreground data-[state=active]:bg-card/10 data-[state=active]:text-white">{t("admin_reports_conversion_funnel")}</TabsTrigger>
+ <TabsTrigger value="radar" className="text-muted-foreground data-[state=active]:bg-card/10 data-[state=active]:text-white">{t("admin_reports_comparison_radar")}</TabsTrigger>
  </TabsList>
 
  <TabsContent value="leaderboard" className="space-y-4">
@@ -256,7 +256,7 @@ export default function AgentPerformance() {
  </Card>
 
  <div className="grid gap-3">
- {filtered.map((agent, idx) => <div key={agent.id} className="bg-[#1a1b1e]/60 border border-border rounded-xl p-4 flex items-center gap-4 hover:bg-card cursor-pointer transition-colors" onClick={() => setSelectedAgent(selectedAgent === agent.id ? null : agent.id)}>
+ {filtered.map((agent, idx) => <div key={agent.id} className="bg-card/60 border border-border rounded-xl p-4 flex items-center gap-4 hover:bg-card cursor-pointer transition-colors" onClick={() => setSelectedAgent(selectedAgent === agent.id ? null : agent.id)}>
  <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0" style={{
  background: idx < 3 ? AGENT_COLORS[idx] +"20" :"var(--color-background-secondary)",
  color: idx < 3 ? AGENT_COLORS[idx] :"var(--color-text-tertiary)"
@@ -272,7 +272,7 @@ export default function AgentPerformance() {
  <div className="flex items-center gap-2 flex-wrap">
  <p className="text-sm font-semibold text-foreground">{agent.name}</p>
  {idx === 0 && <Badge className="bg-amber-100 text-amber-700 border-0 text-[10px]">{t("admin_reports_top_agent")}</Badge>}
- <Badge className={`border-0 text-[10px] ${agent.status ==="ACTIVE" ?"bg-green-100 text-green-700" :"bg-slate-100 text-slate-500"}`}>
+ <Badge className={`border-0 text-[10px] ${agent.status ==="ACTIVE" ?"bg-blue-100 text-blue-700" :"bg-muted text-muted-foreground"}`}>
  {agent.status ==="ACTIVE" ? t("admin_reports_status_active","Aktif") : agent.status}
  </Badge>
  </div>
@@ -287,7 +287,7 @@ export default function AgentPerformance() {
  <p className="text-sm font-semibold text-foreground mt-0.5">{s.value}</p>
  </div>)}
  </div>
- <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 text-muted-foreground">
+ <Button variant="ghost" size="icon" aria-label={t("common.view")} className="h-8 w-8 shrink-0 text-muted-foreground">
  <Eye className="w-4 h-4" />
  </Button>
  </div>)}
@@ -333,13 +333,13 @@ export default function AgentPerformance() {
  <Tooltip formatter={(v: any) => `${v}%`} />
  <Bar dataKey="leadsToShowings" name={t("admin_reports_leads_to_showings","Adaylar→Gösterimler")} fill="#6366f1" radius={[0, 2, 2, 0]} maxBarSize={14} />
  <Bar dataKey="showingsToOffers" name={t("admin_reports_showings_to_offers","Gösterimler→Teklifler")} fill="#8b5cf6" radius={[0, 2, 2, 0]} maxBarSize={14} />
- <Bar dataKey="offersToDeals" name={t("admin_reports_offers_to_deals","Teklifler→Anlaşmalar")} fill="#10b981" radius={[0, 2, 2, 0]} maxBarSize={14} />
+ <Bar dataKey="offersToDeals" name={t("admin_reports_offers_to_deals","Teklifler→Anlaşmalar")} fill="#3b82f6" radius={[0, 2, 2, 0]} maxBarSize={14} />
  </BarChart>
  </ResponsiveContainer>
  <div className="flex flex-wrap gap-4 mt-2">
  {[["#6366f1", t("admin_reports_leads_to_showings","Adaylar→Gösterimler")],
  ["#8b5cf6", t("admin_reports_showings_to_offers","Gösterimler→Teklifler")],
- ["#10b981", t("admin_reports_offers_to_deals","Teklifler→Anlaşmalar")]].map(([c, l]) => <div key={l} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+ ["#3b82f6", t("admin_reports_offers_to_deals","Teklifler→Anlaşmalar")]].map(([c, l]) => <div key={l} className="flex items-center gap-1.5 text-xs text-muted-foreground">
  <span className="w-2 h-2 rounded-sm inline-block" style={{ background: c }} />{l}
  </div>)}
  </div>

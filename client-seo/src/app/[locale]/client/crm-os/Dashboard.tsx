@@ -66,25 +66,25 @@ export default function CrmOSDashboard() {
       title: "Total Contacts",
       value: formatNumber(stats.totalContacts),
       icon: Users,
-      color: "text-blue-600",
+      color: "text-brand",
     },
     {
       title: "Active Deals",
       value: formatNumber(stats.deals),
       icon: Briefcase,
-      color: "text-green-600",
+      color: "text-blue-600",
     },
     {
       title: "Pipeline Value",
       value: formatCurrency(stats.pipelineValue),
       icon: DollarSign,
-      color: "text-purple-600",
+      color: "text-brand",
     },
     {
       title: "Conversion Rate",
       value: formatPercent(stats.conversionRate),
       icon: TrendingUp,
-      color: "text-orange-600",
+      color: "text-warning",
     },
   ];
 
@@ -101,7 +101,7 @@ export default function CrmOSDashboard() {
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
@@ -117,7 +117,7 @@ export default function CrmOSDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Pipeline Overview</h2>
             <BarChart3 className="w-5 h-5 text-gray-500" />
@@ -131,7 +131,7 @@ export default function CrmOSDashboard() {
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Deal Sources</h2>
             <PieChart className="w-5 h-5 text-gray-500" />

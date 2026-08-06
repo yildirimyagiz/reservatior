@@ -12,7 +12,7 @@ export function ExperiencesContent() {
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   return (
-    <div className="min-h-screen bg-[#020502] text-slate-50 selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-[#020502] text-muted-foreground selection:bg-success selection:text-white">
       
       {/* ══════ HERO SECTION ══════ */}
       <section className="relative h-[80svh] w-full overflow-hidden flex items-center justify-center">
@@ -31,18 +31,18 @@ export function ExperiencesContent() {
 
         <div className="relative z-10 container mx-auto px-6 pt-24 flex flex-col items-start max-w-7xl">
           <m.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 mb-6 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-success/20 border border-blue-500/30 text-blue-300 mb-6 backdrop-blur-md">
               <Compass className="w-4 h-4" />
               <span className="text-xs font-bold tracking-widest uppercase">{t("client.experiences.badge", { defaultValue: "Curated Experiences" })}</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 leading-tight">
               {t("client.experiences.title", { defaultValue: "Live Unforgettable Moments." })}
             </h1>
-            <p className="text-lg md:text-2xl text-slate-300 mb-10 max-w-2xl font-light">
+            <p className="text-lg md:text-2xl text-muted-foreground mb-10 max-w-2xl font-light">
               {t("client.experiences.subtitle", { defaultValue: "Unique local tours, culinary masterclasses, outdoor expeditions, and exclusive activities designed by local experts." })}
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="rounded-full px-8 h-14 bg-white text-black hover:bg-slate-200 font-bold transition-all hover:scale-105">
+              <Button size="lg" className="rounded-full px-8 h-14 bg-card text-black hover:bg-muted font-bold transition-all hover:scale-105">
                 {t("client.experiences.cta_primary", { defaultValue: "Book Experience" })}
               </Button>
               <Button size="lg" variant="outline" className="rounded-full px-8 h-14 border-white/20 hover:bg-white/10 font-bold backdrop-blur-md">
@@ -62,9 +62,9 @@ export function ExperiencesContent() {
             <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
-                <Utensils className="w-10 h-10 text-emerald-400 mb-6" />
+                <Utensils className="w-10 h-10 text-success mb-6" />
                 <h3 className="text-2xl font-bold mb-2">{t("client.experiences.panel1_title", { defaultValue: "Gastronomy" })}</h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   {t("client.experiences.panel1_desc", { defaultValue: "Wine tastings, traditional cooking masterclasses, and hidden local restaurant tours." })}
                 </p>
               </div>
@@ -74,9 +74,9 @@ export function ExperiencesContent() {
             <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
-                <Map className="w-10 h-10 text-emerald-400 mb-6" />
+                <Map className="w-10 h-10 text-success mb-6" />
                 <h3 className="text-2xl font-bold mb-2">{t("client.experiences.panel2_title", { defaultValue: "Exploration" })}</h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   {t("client.experiences.panel2_desc", { defaultValue: "Helicopter rides, private island cruises, hiking trips, and hot air balloon adventures." })}
                 </p>
               </div>
@@ -86,9 +86,9 @@ export function ExperiencesContent() {
             <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
               className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
               <div>
-                <Camera className="w-10 h-10 text-emerald-400 mb-6" />
+                <Camera className="w-10 h-10 text-success mb-6" />
                 <h3 className="text-2xl font-bold mb-2">{t("client.experiences.panel3_title", { defaultValue: "Photography" })}</h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   {t("client.experiences.panel3_desc", { defaultValue: "Personal professional photographer details to capture your memories in high quality." })}
                 </p>
               </div>
@@ -96,12 +96,12 @@ export function ExperiencesContent() {
 
             {/* Quality Standard Bento */}
             <m.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
-              className="md:col-span-3 bg-gradient-to-br from-emerald-950/30 to-slate-950/40 border border-emerald-500/20 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px]" />
+              className="md:col-span-3 bg-gradient-to-br from-blue-950/30 to-slate-950/40 border border-success/20 rounded-[2.5rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden group flex flex-col justify-between">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-success/10 rounded-full blur-[120px]" />
               <div className="relative z-10">
-                <Award className="w-12 h-12 text-emerald-400 mb-6" />
+                <Award className="w-12 h-12 text-success mb-6" />
                 <h3 className="text-3xl font-black mb-4">{t("client.experiences.panel4_title", { defaultValue: "Tier-1 Quality Assurance" })}</h3>
-                <p className="text-slate-300 text-lg max-w-2xl leading-relaxed">
+                <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
                   {t("client.experiences.panel4_desc", { defaultValue: "All operators are fully vetted, background checked, and liability insured to ensure your tour experience is as safe as it is thrilling." })}
                 </p>
               </div>

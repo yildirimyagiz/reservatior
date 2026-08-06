@@ -14,21 +14,21 @@ export function LegalContent() {
       description: "Manage legal documents for properties and rentals",
       icon: FileText,
       href: "/client/legal/documents",
-      color: "text-blue-500"
+      color: "text-brand"
     },
     {
       title: "Compliance",
       description: "Manage legal compliance for properties and rentals",
       icon: Shield,
       href: "/client/legal/compliance",
-      color: "text-emerald-500"
+      color: "text-success"
     },
     {
       title: "Document Templates",
       description: "Create and manage legal document templates",
       icon: PenTool,
       href: "/client/legal/document-templates",
-      color: "text-purple-500"
+      color: "text-brand"
     },
     {
       title: "Document Workflow",
@@ -56,7 +56,7 @@ export function LegalContent() {
       description: "Manage security deposits and deposit protection schemes",
       icon: Scale,
       href: "/client/legal/deposit-protection",
-      color: "text-indigo-500"
+      color: "text-brand"
     },
     {
       title: "Solicitor Management",

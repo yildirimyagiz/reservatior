@@ -161,7 +161,7 @@ export default function AISearchPage() {
                       </div>
                       {!!property.price && (
                         <div className="text-right">
-                          <div className="text-2xl font-bold text-green-400">
+                          <div className="text-2xl font-bold text-blue-400">
                             ${Number(property.price as string).toLocaleString()}
                           </div>
                         </div>

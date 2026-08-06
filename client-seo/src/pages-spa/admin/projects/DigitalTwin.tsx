@@ -70,13 +70,13 @@ export default function DigitalTwinDashboard() {
 
  const getStatusColor = (status: string) => {
  switch (status) {
- case"sold": return"bg-green-500/20 border-green-500/50 text-green-400";
+ case"sold": return"bg-blue-500/20 border-blue-500/50 text-blue-400";
  case"dispute": return"bg-red-500/20 border-red-500/50 text-red-400";
- default: return"bg-muted /50 border-slate-700/50 text-slate-500";
+ default: return"bg-muted /50 border-border/50 text-muted-foreground";
  }
  };
 
- return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-[#0A0A0B] text-slate-200 pt-24 font-sans space-y-6">
+ return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 min-h-screen bg-[#0A0A0B] text-foreground pt-24 font-sans space-y-6">
  <div className="max-w-7xl mx-auto space-y-8">
  
  {/* Header Section */}
@@ -86,7 +86,7 @@ export default function DigitalTwinDashboard() {
  <div className="w-10 h-10 rounded-xl bg-muted0/10 border border-slate-500/20 flex items-center justify-center">
  <Building2 className="w-5 h-5 text-muted-foreground" />
  </div>
- <h1 className="text-3xl font-light tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_auto_digital_twin_matrix", "Digital Twin Matrix")}</h1>
+ <h1 className="text-3xl font-light tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">{t("admin_auto_digital_twin_matrix", "Dijital İkiz Matris")}</h1>
  </div>
  <p className="text-muted-foreground">{t("admin_auto_ger_ek_zamanl_bina_durumu_ve_mal_sahibi_", "Gerçek Zamanlı Bina Durumu ve Mal Sahibi Analizi")}</p>
  </div>
@@ -116,7 +116,7 @@ export default function DigitalTwinDashboard() {
  
  {/* Blocks Sidebar */}
  <div className="space-y-4">
- <h3 className="text-sm font-medium text-slate-500 uppercase tracking-wider mb-4">{t("admin_auto_bloklar", "Bloklar")}</h3>
+ <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4">{t("admin_auto_bloklar", "Bloklar")}</h3>
  <div className="flex flex-col gap-2">
  {activeProject.blocks.map((block) => (
  <button
@@ -125,32 +125,32 @@ export default function DigitalTwinDashboard() {
  className={`p-4 rounded-xl flex items-center justify-between border transition-all ${
  activeBlock === block
  ?"bg-[#1A1C20] border-slate-500/30 shadow-[0_0_15px_rgba(59,130,246,0.1)]"
- :"bg-[#111315] border-transparent hover:border-slate-800"
+ :"bg-[#111315] border-transparent hover:border-border"
  }`}
  >
  <div className="flex items-center gap-3">
- <Building2 className={`w-5 h-5 ${activeBlock === block ?"text-muted-foreground" :"text-slate-600"}`} />
+ <Building2 className={`w-5 h-5 ${activeBlock === block ?"text-muted-foreground" :"text-muted-foreground"}`} />
  <span className={`font-medium ${activeBlock === block ?"text-foreground" :"text-muted-foreground"}`}>
- {block} {t("admin_auto_blok", "Blok")}</span>
+ {block} {t("admin_auto_blok", "Engellemek")}</span>
  </div>
  {block ==="D" && activeProject.id ==="buyukyali" && (
- <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+ <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
  )}
  </button>
  ))}
  </div>
 
  <div className="mt-8 p-5 rounded-xl bg-gradient-to-b from-[#1A1C20] to-[#0A0A0B] border border-border/50">
- <h4 className="text-sm font-medium text-slate-300 mb-4">{t("admin_auto_g_sterge_tablosu", "Gösterge Tablosu")}</h4>
+ <h4 className="text-sm font-medium text-muted-foreground mb-4">{t("admin_auto_g_sterge_tablosu", "Gösterge Tablosu")}</h4>
  <div className="space-y-3">
  <div className="flex items-center gap-3 text-sm text-muted-foreground">
- <div className="w-3 h-3 rounded-lg bg-green-500/20 border border-green-500/50" />
+ <div className="w-3 h-3 rounded-lg bg-blue-500/20 border border-blue-500/50" />
  {t("admin_auto_sat_ld_sahipli", "Satıldı / Sahipli")}</div>
  <div className="flex items-center gap-3 text-sm text-muted-foreground">
  <div className="w-3 h-3 rounded-lg bg-red-500/20 border border-red-500/50" />
- {t("admin_auto_hukuki_i_htilaf_escrow_blokaj", "Hukuki İhtilaf (Escrow Blokajı)")}</div>
+ {t("admin_auto_hukuki_i_htilaf_escrow_blokaj", "Hukuki İhtilaf (SafeStay™ Escrow Güvencesi Blokajı)")}</div>
  <div className="flex items-center gap-3 text-sm text-muted-foreground">
- <div className="w-3 h-3 rounded-lg bg-muted border border-slate-700" />
+ <div className="w-3 h-3 rounded-lg bg-muted border border-border" />
  {t("admin_auto_bo_kiral_k", "Boş / Kiralık")}</div>
  </div>
  </div>
@@ -166,7 +166,7 @@ export default function DigitalTwinDashboard() {
  <h2 className="text-xl font-medium text-foreground flex items-center gap-2">
  <Home className="w-5 h-5 text-muted-foreground" />
  {activeProject.name} {t(" - ", "-")}{activeBlock} {t("admin_auto_blok_cephesi", "Blok Cephesi")}</h2>
- <div className="text-sm text-slate-500">{activeProject.totalFloors} {t("admin_auto_kat", "Kat")}</div>
+ <div className="text-sm text-muted-foreground">{activeProject.totalFloors} {t("admin_auto_kat", "Kat")}</div>
  </div>
 
  <div className="space-y-2 relative">
@@ -182,8 +182,8 @@ export default function DigitalTwinDashboard() {
  {generateApartmentMap.map((floor) => (
  <div key={`floor-${floor.floor}`} className="flex items-center gap-4 group">
  {/* Floor Number Indicator */}
- <div className="w-12 text-right text-xs font-medium text-slate-600 group-hover:text-slate-400 transition-colors">
- {floor.floor}{t("admin_auto_kat", ". Kat")}</div>
+ <div className="w-12 text-right text-xs font-medium text-muted-foreground group-hover:text-muted-foreground transition-colors">
+ {floor.floor}{t("admin_auto_kat", "Kat")}</div>
  
  {/* Apartments on this floor */}
  <div className="flex-1 flex flex-wrap gap-2">
@@ -200,7 +200,7 @@ export default function DigitalTwinDashboard() {
  </HoverCardTrigger>
  <HoverCardContent 
  side="top" 
- className="w-80 bg-[#1A1C20]/95 backdrop-blur-xl border-slate-700/50 p-4 shadow-2xl rounded-xl"
+ className="w-80 bg-[#1A1C20]/95 backdrop-blur-xl border-border/50 p-4 shadow-2xl rounded-xl"
  >
  <div className="space-y-4">
  <div className="flex justify-between items-start">
@@ -208,19 +208,19 @@ export default function DigitalTwinDashboard() {
  <h4 className="text-sm font-semibold text-foreground">{activeBlock}{t(" - ", "-")}{apt.aptNo} {t("admin_auto_numaral_daire", "Numaralı Daire")}</h4>
  <p className="text-xs text-muted-foreground">{activeProject.name}</p>
  </div>
- <div className={`px-2 py-1 rounded-lg text-[10px] font-bold uppercase ${apt.status === 'sold' ? 'bg-green-500/20 text-green-400' : apt.status === 'dispute' ? 'bg-red-500/20 text-red-400' : 'bg-slate-700 text-slate-300'}`}>
+ <div className={`px-2 py-1 rounded-lg text-[10px] font-bold uppercase ${apt.status === 'sold' ? 'bg-blue-500/20 text-blue-400' : apt.status === 'dispute' ? 'bg-red-500/20 text-red-400' : 'bg-muted text-muted-foreground'}`}>
  {apt.status}
  </div>
  </div>
  
  {apt.owner ? (
  <div className="bg-[#111315] p-3 rounded-lg border border-border space-y-2">
- <div className="flex items-center gap-2 text-sm text-slate-300">
+ <div className="flex items-center gap-2 text-sm text-muted-foreground">
  <User className="w-4 h-4 text-muted-foreground" />
  <span>{t("admin_auto_sahibi", "Sahibi:")}<strong className="text-foreground">{apt.owner}</strong></span>
  </div>
- <div className="flex items-center gap-2 text-sm text-slate-300">
- <FileText className="w-4 h-4 text-slate-500" />
+ <div className="flex items-center gap-2 text-sm text-muted-foreground">
+ <FileText className="w-4 h-4 text-muted-foreground" />
  <span>{t("admin_auto_tapu_s_zle_me_id_tr", "Tapu/Sözleşme ID: #TR-")}{apt.aptNo}{activeBlock}{t("admin_auto_yu", "YU")}</span>
  </div>
  </div>
@@ -231,9 +231,9 @@ export default function DigitalTwinDashboard() {
  )}
  
  {apt.status === 'sold' && apt.owner ==="MISHARI Z H ALKHALID" && (
- <div className="pt-2 border-t border-slate-700/50 flex justify-between items-center text-xs">
- <span className="text-muted-foreground">{t("admin_auto_escrow_durumu", "Escrow Durumu")}</span>
- <span className="text-green-400 flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/> {t("admin_auto_fon_onayland", "Fon Onaylandı")}</span>
+ <div className="pt-2 border-t border-border/50 flex justify-between items-center text-xs">
+ <span className="text-muted-foreground">{t("admin_auto_escrow_durumu", "SafeStay™ Escrow Güvencesi Durumu")}</span>
+ <span className="text-blue-400 flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/> {t("admin_auto_fon_onayland", "Fon Onaylandı")}</span>
  </div>
  )}
  </div>
@@ -247,7 +247,7 @@ export default function DigitalTwinDashboard() {
  </AnimatePresence>
  
  {/* Ground Line */}
- <div className="flex-1 h-3 bg-gradient-to-r from-green-500/20 via-slate-800 to-red-500/20 rounded-full overflow-hidden mt-4" />
+ <div className="flex-1 h-3 bg-gradient-to-r from-blue-500/20 via-slate-800 to-red-500/20 rounded-full overflow-hidden mt-4" />
  </div>
  </div>
  </div>

@@ -36,7 +36,7 @@ export default function Commissions() {
   const rules = rulesData || [];
   return <PageShell title={t("client.src.commission_management")} description={t("client.src.define_and_track_commission")} actions={<div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={() => fetchData()} disabled={loading}>
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("client.src.refresh")}</Button>
+            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />{t("common.refresh")}</Button>
           <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
             <Plus className="w-4 h-4 mr-2" />{t("client.src.new_rule")}</Button>
         </div>}>
@@ -50,13 +50,13 @@ export default function Commissions() {
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">12.4%</div>
-            <p className="text-xs text-green-600 mt-1 flex items-center font-medium">
+            <p className="text-xs text-blue-600 mt-1 flex items-center font-medium">
               <TrendingUp className="w-3 h-3 mr-1" />{t("client.src.08_from_last_month")}</p>
           </CardContent>
         </Card>
         
-        <Card className="bg-blue-50/50 border-blue-100 shadow-sm overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-3 opacity-10 text-blue-600">
+        <Card className="bg-brand/10/50 border-blue-100 shadow-sm overflow-hidden relative">
+          <div className="absolute top-0 right-0 p-3 opacity-10 text-brand">
             <DollarSign className="w-16 h-16" />
           </div>
           <CardHeader className="pb-2">
@@ -68,8 +68,8 @@ export default function Commissions() {
           </CardContent>
         </Card>
 
-        <Card className="bg-green-50/50 border-green-100 shadow-sm overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-3 opacity-10 text-green-600">
+        <Card className="bg-blue-50/50 border-blue-100 shadow-sm overflow-hidden relative">
+          <div className="absolute top-0 right-0 p-3 opacity-10 text-blue-600">
             <ShieldCheck className="w-16 h-16" />
           </div>
           <CardHeader className="pb-2">
@@ -90,8 +90,8 @@ export default function Commissions() {
               <TableHead className="font-bold text-xs">{t("client.src.rule_type")}</TableHead>
               <TableHead className="font-bold text-xs">{t("client.src.commission")}</TableHead>
               <TableHead className="font-bold text-xs">{t("client.src.min_volume")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("client.src.status")}</TableHead>
-              <TableHead className="font-bold text-xs">{t("client.src.created")}</TableHead>
+              <TableHead className="font-bold text-xs">{t("common.status")}</TableHead>
+              <TableHead className="font-bold text-xs">{t("common.created")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -117,8 +117,8 @@ export default function Commissions() {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-sm shadow-green-200"></div>
-                    <span className="text-xs font-medium">{t("client.src.active")}</span>
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-sm shadow-blue-200"></div>
+                    <span className="text-xs font-medium">{t("common.active")}</span>
                   </div>
                 </TableCell>
                 <TableCell className="text-xs text-muted-foreground font-mono">

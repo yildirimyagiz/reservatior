@@ -10,17 +10,17 @@ export default function IdentityOsAdminPage() {
   const { t } = useTranslation();
   
   return (
-    <PageShell title={t("admin_identity_os_title", "IdentityOs Management")}>
+    <PageShell title={t("admin_identity_os_title", "IdentityOs Yönetimi")}>
       <div className="space-y-6">
         <Card className="bg-card border-border">
           <CardHeader>
             <CardTitle className="text-card-foreground flex items-center gap-2">
               <Layers className="w-5 h-5 text-brand" />
-              {t("admin_identity_os_title", "IdentityOs Management")}
+              {t("admin_identity_os_title", "IdentityOs Yönetimi")}
             </CardTitle>
           </CardHeader>
           <CardContent className="text-muted-foreground text-sm space-y-2">
-            <p>{t("admin_identity_os_description", "Manage identityos settings, configurations, and records.")}</p>
+            <p>{t("admin_identity_os_description", "IDENTITYOS modülü ayarlarını, yapılandırmalarını ve sistem kayıtlarını yönetin.")}</p>
           </CardContent>
         </Card>
       </div>

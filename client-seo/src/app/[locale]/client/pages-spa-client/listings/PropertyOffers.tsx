@@ -29,9 +29,9 @@ interface PropertyOffer extends ApiPropertyOffer {
 }
 
 const STATUS_CONFIG = {
-  PENDING: { label: t("client.src.pending"), icon: Clock, cls: "bg-yellow-100 text-yellow-700" },
-  ACCEPTED: { label: t("client.src.accepted"), icon: CheckCircle, cls: "bg-green-100 text-green-700" },
-  REJECTED: { label: t("client.src.rejected"), icon: XCircle, cls: "bg-red-100 text-red-700" },
+  PENDING: { label: t("common.processing"), icon: Clock, cls: "bg-yellow-100 text-yellow-700" },
+  ACCEPTED: { label: t("common.accepted"), icon: CheckCircle, cls: "bg-blue-100 text-blue-700" },
+  REJECTED: { label: t("common.rejected"), icon: XCircle, cls: "bg-red-100 text-red-700" },
   WITHDRAWN: { label: t("client.src.withdrawn"), icon: AlertTriangle, cls: "bg-gray-100 text-gray-700" },
   COUNTERED: { label: t("client.src.countered"), icon: AlertTriangle, cls: "bg-orange-100 text-orange-700" }
 };
@@ -63,7 +63,7 @@ export default function PropertyOffers() {
       setFormData({});
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -76,7 +76,7 @@ export default function PropertyOffers() {
       setSelectedOffer(null);
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -87,7 +87,7 @@ export default function PropertyOffers() {
       toast({ title: t("client.src.offer_deleted") });
     },
     onError: () => {
-      toast({ title: t("client.src.error"), variant: "destructive" });
+      toast({ title: t("common.error"), variant: "destructive" });
     }
   });
 
@@ -141,9 +141,9 @@ export default function PropertyOffers() {
       onSearchChange={setSearch}
       searchPlaceholder="Search offers..."
       stats={[
-        { label: t("client.src.total"), value: offers.length },
-        { label: t("client.src.pending"), value: offers.filter((o: any) => o.status === 'PENDING').length },
-        { label: t("client.src.accepted"), value: offers.filter((o: any) => o.status === 'ACCEPTED').length },
+        { label: t("common.total"), value: offers.length },
+        { label: t("common.processing"), value: offers.filter((o: any) => o.status === 'PENDING').length },
+        { label: t("common.accepted"), value: offers.filter((o: any) => o.status === 'ACCEPTED').length },
         { label: t("client.src.total_value"), value: `$${offers.reduce((sum: number, o: any) => sum + (o.offerAmount || 0), 0).toLocaleString()}` }
       ]}
     >
@@ -152,13 +152,13 @@ export default function PropertyOffers() {
         <div className="flex items-center gap-4">
           <Select value={filterStatus} onValueChange={setFilterStatus}>
             <SelectTrigger className="w-40">
-              <SelectValue placeholder={t("client.src.status")} />
+              <SelectValue placeholder={t("common.status")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">{t("client.src.all")}</SelectItem>
-              <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
-              <SelectItem value="ACCEPTED">{t("client.src.accepted")}</SelectItem>
-              <SelectItem value="REJECTED">{t("client.src.rejected")}</SelectItem>
+              <SelectItem value="all">{t("common.all")}</SelectItem>
+              <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
+              <SelectItem value="ACCEPTED">{t("common.accepted")}</SelectItem>
+              <SelectItem value="REJECTED">{t("common.rejected")}</SelectItem>
               <SelectItem value="WITHDRAWN">{t("client.src.withdrawn")}</SelectItem>
             </SelectContent>
           </Select>
@@ -224,7 +224,7 @@ export default function PropertyOffers() {
                         size="sm"
                         variant="outline"
                         onClick={() => handleDelete(offer.id)}
-                      >
+                       aria-label={t("common.delete")}>
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
@@ -287,7 +287,7 @@ export default function PropertyOffers() {
                 />
               </div>
               <div>
-                <Label>{t("client.src.expiry_date")}</Label>
+                <Label>{t("common.expiry_date")}</Label>
                 <Input
                   type="date"
                   value={formData.expiryDate || ""}
@@ -306,7 +306,7 @@ export default function PropertyOffers() {
               <Button type="button" variant="outline" onClick={() => setCreateOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit">{t("client.src.create")}</Button>
+              <Button type="submit">{t("common.create")}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -320,7 +320,7 @@ export default function PropertyOffers() {
           </DialogHeader>
           <form onSubmit={handleEdit} className="space-y-4">
             <div>
-              <Label>{t("client.src.status")}</Label>
+              <Label>{t("common.status")}</Label>
               <Select
                 value={formData.status || "PENDING"}
                 onValueChange={v => setFormData({ ...formData, status: v as any })}
@@ -329,9 +329,9 @@ export default function PropertyOffers() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="PENDING">{t("client.src.pending")}</SelectItem>
-                  <SelectItem value="ACCEPTED">{t("client.src.accepted")}</SelectItem>
-                  <SelectItem value="REJECTED">{t("client.src.rejected")}</SelectItem>
+                  <SelectItem value="PENDING">{t("common.processing")}</SelectItem>
+                  <SelectItem value="ACCEPTED">{t("common.accepted")}</SelectItem>
+                  <SelectItem value="REJECTED">{t("common.rejected")}</SelectItem>
                   <SelectItem value="WITHDRAWN">{t("client.src.withdrawn")}</SelectItem>
                   <SelectItem value="COUNTERED">{t("client.src.countered")}</SelectItem>
                 </SelectContent>
@@ -363,7 +363,7 @@ export default function PropertyOffers() {
               />
             </div>
             <div>
-              <Label>{t("client.src.notes")}</Label>
+              <Label>{t("common.notes")}</Label>
               <Textarea
                 value={formData.notes || ""}
                 onChange={e => setFormData({ ...formData, notes: e.target.value })}

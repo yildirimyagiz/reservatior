@@ -18,32 +18,32 @@ const HEALTH_STREAM = [
 
 const SYNDICATION = [
   { channel: "Airbnb", status: "LIVE", listings: 24, icon: "🏠", color: "text-rose-400" },
-  { channel: "Booking.com", status: "LIVE", listings: 19, icon: "🌍", color: "text-blue-400" },
-  { channel: "MLS Network", status: "LIVE", listings: 31, icon: "🔗", color: "text-indigo-400" },
+  { channel: "Booking.com", status: "LIVE", listings: 19, icon: "🌍", color: "text-info" },
+  { channel: "MLS Network", status: "LIVE", listings: 31, icon: "🔗", color: "text-brand" },
   { channel: "Vrbo", status: "SYNCING", listings: 14, icon: "🏡", color: "text-yellow-400" },
-  { channel: "Google Homes", status: "LIVE", listings: 9, icon: "🔍", color: "text-green-400" },
+  { channel: "Google Homes", status: "LIVE", listings: 9, icon: "🔍", color: "text-blue-400" },
 ];
 
 export default function AdminListingOSDashboard() {
   const { t } = useTranslation();
 
   const kpis = [
-    { title: "Total Properties", value: 47, icon: Home, color: "text-emerald-500", trend: "+4 this month" },
-    { title: "Active Listings", value: 38, icon: Activity, color: "text-blue-400", trend: "Live on portals" },
-    { title: "Avg Health Score", value: "94%", icon: CheckCircle, color: "text-purple-400", trend: "Quality compliance" },
-    { title: "Network Views (30d)", value: "12,480", icon: Eye, color: "text-orange-400", trend: "+18.3% vs prev" },
+    { title: t("listing_os.total_properties", "Toplam Mülk"), value: 47, icon: Home, color: "text-success", trend: t("listing_os.trend_this_month", "+4 bu ay") },
+    { title: t("listing_os.active_listings", "Aktif İlanlar"), value: 38, icon: Activity, color: "text-info", trend: t("listing_os.trend_live_portals", "Portallarda canlı") },
+    { title: t("listing_os.avg_health_score", "Ortalama Sağlık Puanı"), value: "94%", icon: CheckCircle, color: "text-brand", trend: t("listing_os.trend_quality_compliance", "Kalite uyumu") },
+    { title: t("listing_os.network_views", "Ağ Görüntülemeleri"), value: "12,480", icon: Eye, color: "text-warning", trend: t("listing_os.trend_vs_prev", "+18,3% geçen döneme göre") },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-100">Listing OS Management</h1>
-          <p className="text-slate-400 mt-1">Property health, syndication, and digital asset management</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">{t("listing_os.title", "İlan OS")}</h1>
+          <p className="text-muted-foreground mt-1">{t("listing_os.subtitle", "Dijital Sağlık Kaydı · Varlık Zekası · Sendikasyon Motoru")}</p>
         </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700">
+        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
           <Upload className="h-4 w-4 mr-2" />
-          Import Listing
+          {t("listing_os.import_listing", "İlan İçe Aktar")}
         </Button>
       </div>
 
@@ -51,14 +51,14 @@ export default function AdminListingOSDashboard() {
       <div className="grid gap-4 md:grid-cols-4">
         {kpis.map((kpi, i) => (
           <m.div key={kpi.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-slate-400">{kpi.title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.title}</CardTitle>
                 <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-slate-100">{kpi.value}</div>
-                <p className="text-xs text-slate-500 mt-1">{kpi.trend}</p>
+                <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">{kpi.trend}</p>
               </CardContent>
             </Card>
           </m.div>
@@ -66,24 +66,24 @@ export default function AdminListingOSDashboard() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="bg-slate-900/60 border-slate-800">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="listings">Listings</TabsTrigger>
-          <TabsTrigger value="syndication">Syndication</TabsTrigger>
-          <TabsTrigger value="health">Health</TabsTrigger>
+        <TabsList className="bg-card border-border">
+          <TabsTrigger value="overview">{t("listing_os.tabs.overview", "Genel Bakış")}</TabsTrigger>
+          <TabsTrigger value="listings">{t("listing_os.tabs.listings", "İlanlar")}</TabsTrigger>
+          <TabsTrigger value="syndication">{t("listing_os.tabs.syndication", "Dağıtım")}</TabsTrigger>
+          <TabsTrigger value="health">{t("listing_os.tabs.health", "Sağlık")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             {/* Digital Health Record Stream */}
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-slate-100 flex items-center gap-2">
-                  <Radio className="h-4 w-4 text-emerald-400 animate-pulse" />
-                  Digital Health Record Stream
+                <CardTitle className="text-foreground flex items-center gap-2">
+                  <Radio className="h-4 w-4 text-success animate-pulse" />
+                  {t("listing_os.health_stream", "Sağlık Akışı")}
                 </CardTitle>
-                <CardDescription className="text-slate-400">
-                  Real-time property compliance and operational events
+                <CardDescription className="text-muted-foreground">
+                  {t("listing_os.health_stream_desc", "Gerçek zamanlı ilan sağlık metrikleri")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -94,16 +94,16 @@ export default function AdminListingOSDashboard() {
                       initial={{ opacity: 0, x: -8 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.05 }}
-                      className={`flex items-start gap-3 p-3 rounded-lg border-l-2 bg-slate-800/50 ${item.ok ? "border-emerald-500" : "border-yellow-500"}`}
+                      className={`flex items-start gap-3 p-3 rounded-lg border-l-2 bg-muted/50 ${item.ok ? "border-blue-500" : "border-yellow-500"}`}
                     >
-                      <div className={`mt-0.5 text-xs font-bold px-2 py-1 rounded-full ${item.ok ? "bg-emerald-500/15 text-emerald-400" : "bg-yellow-500/15 text-yellow-400"}`}>
+                      <div className={`mt-0.5 text-xs font-bold px-2 py-1 rounded-full ${item.ok ? "bg-blue-500/15 text-success" : "bg-yellow-500/15 text-yellow-400"}`}>
                         {item.score}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-slate-200 truncate">{item.property}</p>
-                        <p className="text-xs text-slate-500">{item.event}</p>
+                        <p className="text-sm font-medium text-foreground truncate">{item.property}</p>
+                        <p className="text-xs text-muted-foreground">{item.event}</p>
                       </div>
-                      <span className="text-xs text-slate-600 whitespace-nowrap">{item.time}</span>
+                      <span className="text-xs text-muted-foreground whitespace-nowrap">{item.time}</span>
                     </m.div>
                   ))}
                 </div>
@@ -111,14 +111,14 @@ export default function AdminListingOSDashboard() {
             </Card>
 
             {/* Platform Syndication Stats */}
-            <Card className="bg-slate-900/60 border-slate-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-slate-100 flex items-center gap-2">
-                  <Globe className="h-4 w-4 text-blue-400" />
-                  Platform Syndication
+                <CardTitle className="text-foreground flex items-center gap-2">
+                  <Globe className="h-4 w-4 text-info" />
+                  {t("listing_os.syndication", "İlan Dağıtımı")}
                 </CardTitle>
-                <CardDescription className="text-slate-400">
-                  Live distribution status across global OTAs and MLS networks
+                <CardDescription className="text-muted-foreground">
+                  {t("listing_os.syndication_desc", "Çoklu platform ilan yönetimi")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -129,17 +129,17 @@ export default function AdminListingOSDashboard() {
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.1 }}
-                      className="flex items-center justify-between p-3 rounded-lg border border-slate-800 bg-slate-800/20"
+                      className="flex items-center justify-between p-3 rounded-lg border border-border bg-muted/20"
                     >
                       <div className="flex items-center gap-3">
                         <span className="text-xl">{ch.icon}</span>
                         <div>
-                          <p className="text-sm font-medium text-slate-200">{ch.channel}</p>
-                          <p className="text-xs text-slate-500">{ch.listings} active listings</p>
+                          <p className="text-sm font-medium text-foreground">{ch.channel}</p>
+                          <p className="text-xs text-muted-foreground">{ch.listings} {t("admin_listing_os_active_listings_lower", "aktif ilan")}</p>
                         </div>
                       </div>
                       <div className={`text-xs font-bold px-2 py-1 rounded-full ${
-                        ch.status === "LIVE" ? "bg-emerald-500/10 text-emerald-400" : "bg-yellow-500/10 text-yellow-400"
+                        ch.status === "LIVE" ? "bg-blue-500/10 text-success" : "bg-yellow-500/10 text-yellow-400"
                       }`}>
                         {ch.status}
                       </div>
@@ -152,51 +152,51 @@ export default function AdminListingOSDashboard() {
         </TabsContent>
 
         <TabsContent value="listings">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Listing Management</CardTitle>
-              <CardDescription className="text-slate-400">
-                Manage all property listings and digital assets
+              <CardTitle className="text-foreground">{t("listing_os.listings", "İlan Yönetimi")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("listing_os.listings_desc", "Tüm mülk ilanlarını yönetin ve güncelleyin")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <Home className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Listing management interface</p>
+                <p>{t("listing_os.listings_placeholder", "İlan yönetim arayüzü")}</p>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="syndication">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Syndication Configuration</CardTitle>
-              <CardDescription className="text-slate-400">
-                Configure OTA and MLS channel integrations
+              <CardTitle className="text-foreground">{t("listing_os.syndication_config", "Dağıtım Yapılandırması")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("listing_os.syndication_config_desc", "Platform dağıtım ayarlarını yapılandırın")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <Globe className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Syndication configuration interface</p>
+                <p>{t("listing_os.syndication_placeholder", "Dağıtım yönetim arayüzü")}</p>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="health">
-          <Card className="bg-slate-900/60 border-slate-800">
+          <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-slate-100">Health Monitoring</CardTitle>
-              <CardDescription className="text-slate-400">
-                Monitor property health scores and compliance status
+              <CardTitle className="text-foreground">{t("listing_os.health_monitoring", "Sağlık Takibi")}</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t("listing_os.health_monitoring_desc", "İlan sağlık durumu izleme ve uyarılar")}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <CheckCircle className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Health monitoring interface</p>
+                <p>{t("listing_os.health_monitoring_placeholder", "Sağlık takip arayüzü")}</p>
               </div>
             </CardContent>
           </Card>

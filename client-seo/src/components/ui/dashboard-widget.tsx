@@ -86,17 +86,17 @@ export default function DashboardWidgetComponent({
           </div>
           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
             {isEditable && <>
-                <Button variant="ghost" size="sm" onClick={handleEdit}>
+                <Button variant="ghost" size="sm" onClick={handleEdit} aria-label={t("common.edit")}>
                   <Edit className="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleDelete}>
+                <Button variant="ghost" size="sm" onClick={handleDelete} aria-label={t("common.delete")}>
                   <Trash2 className="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleResize}>
+                <Button variant="ghost" size="sm" onClick={handleResize} aria-label={t("common.expand")}>
                   <Maximize2 className="w-4 h-4" />
                 </Button>
               </>}
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" aria-label={t("common.more")}>
               <MoreHorizontal className="w-4 h-4" />
             </Button>
           </div>
@@ -232,8 +232,8 @@ function FinancialSummaryWidget({
   return <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <p className="text-sm text-muted-foreground">{t("client.src.revenue")}</p>
-          <p className="text-lg font-bold text-green-600">
+          <p className="text-sm text-muted-foreground">{t("common.revenue")}</p>
+          <p className="text-lg font-bold text-blue-600">
             ${summary.totalRevenue.toLocaleString()}
           </p>
         </div>
@@ -253,7 +253,7 @@ function FinancialSummaryWidget({
       </div>
       <div className="text-center">
         <p className="text-sm text-muted-foreground">{t("client.src.net_profit")}</p>
-        <p className="text-2xl font-bold text-green-600">
+        <p className="text-2xl font-bold text-blue-600">
           ${summary.netProfit.toLocaleString()}
         </p>
       </div>

@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"@/pages-spa/client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from"@/components/ui/table";
 import { Badge } from"@/components/ui/badge";
@@ -300,7 +300,7 @@ export default function MLConfiguration() {
  <Zap className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">
+ <div className="text-2xl font-bold text-blue-600">
  {activeModels}
  </div>
  <p className="text-xs text-muted-foreground">
@@ -314,7 +314,7 @@ export default function MLConfiguration() {
  <Cpu className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">
+ <div className="text-2xl font-bold text-muted-foreground">
  {deployedModels}
  </div>
  <p className="text-xs text-muted-foreground">{t("admin_ai_in_production")}</p>
@@ -327,7 +327,7 @@ export default function MLConfiguration() {
  <Settings className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">
+ <div className="text-2xl font-bold text-muted-foreground">
  {activeConfigs}
  </div>
  <p className="text-xs text-muted-foreground">
@@ -555,15 +555,15 @@ export default function MLConfiguration() {
  </TableCell>
  <TableCell>
  <div className="flex items-center space-x-1">
- <Button variant="outline" size="sm" onClick={() => handleTrainModel(model.id)}>
+ <Button variant="outline" size="sm" onClick={() => handleTrainModel(model.id)} aria-label={t("common.play")}>
  <Play className="h-4 w-4" />
  </Button>
- <Button variant={model.isDeployed ?"secondary" :"default"} size="sm" onClick={() => handleDeployModel(model.id, !model.isDeployed)}>
+ <Button variant={model.isDeployed ?"secondary" :"default"} size="sm" onClick={() => handleDeployModel(model.id, !model.isDeployed)} aria-label={t("common.upload")}>
  <Upload className="h-4 w-4" />
  </Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -647,7 +647,7 @@ export default function MLConfiguration() {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>

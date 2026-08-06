@@ -141,6 +141,7 @@ export async function evaluateCommissionRules(context: CommissionContext): Promi
     marketAdjustment = FALLBACK_MARKET_ADJUSTMENTS[context.countryCode] || 0;
     agentTypeModifier = FALLBACK_AGENT_MODIFIERS[context.agentType];
     campaignIncentives = FALLBACK_CAMPAIGN_INCENTIVES;
+    volumeIncentives = {};
     appliedRules.push(`fallback_country_rate:${context.countryCode}=${(baseRate * 100).toFixed(2)}%`);
   }
 

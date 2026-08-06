@@ -162,16 +162,16 @@ export default function MarketingAutomation() {
  'PROSPECT': t('admin_marketing_status_prospect', 'Aday'),
  'CONTACTED': t('admin_marketing_status_contacted', 'Iletisime Gecildi'),
  'NEGOTIATING': t('admin_marketing_status_negotiating', 'Gorusuluyor'),
- 'SIGNED': t('admin_marketing_status_signed', 'Imzalandi'),
+ 'SIGNED': t('admin_marketing_status_signed', 'İmzalandı'),
  'INACTIVE': t('admin_marketing_status_inactive', 'Pasif'),
- 'RESTRICTED': t('admin_marketing_status_restricted', 'Kisitli'),
+ 'RESTRICTED': t('admin_marketing_status_restricted', 'Kısıtlı'),
  'REVIEW': t('admin_marketing_status_review', 'Incelemede'),
  'APPROVED': t('admin_marketing_status_approved', 'Onaylandi'),
  'SIGNING': t('admin_marketing_status_signing', 'Imza Asamasinda'),
- 'EXPIRING': t('admin_marketing_status_expiring', 'Suresi Doluyor'),
+ 'EXPIRING': t('admin_marketing_status_expiring', 'Süresi Doluyor'),
  'RENEWED': t('admin_marketing_status_renewed', 'Yenilendi'),
  'TERMINATED': t('admin_marketing_status_terminated', 'Feshedildi'),
- 'ARCHIVED': t('admin_marketing_status_archived', 'Arsivlendi')
+ 'ARCHIVED': t('admin_marketing_status_archived', 'Arşivlendi')
  };
  return map[status] || status;
  };
@@ -180,7 +180,7 @@ export default function MarketingAutomation() {
  switch (status) {
  case 'ACTIVE':
  case 'COMPLETED':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'DRAFT':
  case 'PLANNED':
  case 'PENDING':
@@ -193,7 +193,7 @@ export default function MarketingAutomation() {
  case 'INACTIVE':
  return 'bg-red-500';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
 
@@ -204,11 +204,11 @@ export default function MarketingAutomation() {
  case 'GOLD':
  return 'bg-yellow-500';
  case 'SILVER':
- return 'bg-white/10';
+ return 'bg-card/10';
  case 'BRONZE':
  return 'bg-orange-600';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
 
@@ -290,10 +290,10 @@ export default function MarketingAutomation() {
 
  <Tabs defaultValue="campaigns" className="space-y-4">
  <TabsList className="bg-card border border-border">
- <TabsTrigger value="campaigns" className="text-foreground data-[state=active]:bg-slate-600">{t("admin_marketing_campaigns")}</TabsTrigger>
- <TabsTrigger value="ambassadors" className="text-foreground data-[state=active]:bg-slate-600">{t("admin_marketing_ambassadors")}</TabsTrigger>
- <TabsTrigger value="contracts" className="text-foreground data-[state=active]:bg-slate-600">{t("admin_marketing_contracts")}</TabsTrigger>
- <TabsTrigger value="social-impact" className="text-foreground data-[state=active]:bg-slate-600">{t("admin_marketing_social_impact")}</TabsTrigger>
+ <TabsTrigger value="campaigns" className="text-foreground data-[state=active]:bg-muted">{t("admin_marketing_campaigns")}</TabsTrigger>
+ <TabsTrigger value="ambassadors" className="text-foreground data-[state=active]:bg-muted">{t("admin_marketing_ambassadors")}</TabsTrigger>
+ <TabsTrigger value="contracts" className="text-foreground data-[state=active]:bg-muted">{t("admin_marketing_contracts")}</TabsTrigger>
+ <TabsTrigger value="social-impact" className="text-foreground data-[state=active]:bg-muted">{t("admin_marketing_social_impact")}</TabsTrigger>
  </TabsList>
 
  <TabsContent value="campaigns" className="space-y-4">
@@ -318,31 +318,31 @@ export default function MarketingAutomation() {
  </div>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-foreground">
+ <Button className="bg-muted hover:bg-muted0 text-foreground">
  <Plus className="h-4 w-4 mr-2" />{t("admin_marketing_new_campaign")}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_create_new_campaign", "Create New Campaign")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_campaign", "Enter the details for the new campaign.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_campaign", "Yeni Kampanya Oluştur")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_campaign", "Yeni kampanyanın ayrıntılarını girin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_campaign_name", "Campaign Name")}</Label>
- <Input id="name" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder={t("admin_auto_enter_campaign_name", "Enter campaign name")} />
+ <Label htmlFor="name" className="text-right text-xs text-muted-foreground">{t("admin_auto_campaign_name", "Kampanya Adı")}</Label>
+ <Input id="name" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} placeholder={t("admin_auto_enter_campaign_name", "Kampanya adını girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Type")}</Label>
- <Input id="type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder={t("admin_auto_enter_type", "Enter type")} />
+ <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Tip")}</Label>
+ <Input id="type" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} placeholder={t("admin_auto_enter_type", "Türü girin")} />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Status")}</Label>
- <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Enter status")} />
+ <Label htmlFor="status" className="text-right text-xs text-muted-foreground">{t("admin_auto_status", "Durum")}</Label>
+ <Input id="status" className="col-span-3 h-10 bg-card border-border text-foreground" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value })} placeholder={t("admin_auto_enter_status", "Durumu girin")} />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -411,18 +411,18 @@ export default function MarketingAutomation() {
  </TableCell>
  <TableCell>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground"><Eye className="h-4 w-4" /></Button>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground"><BarChart3 className="h-4 w-4" /></Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" aria-label={t("common.view")}><Eye className="h-4 w-4" /></Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" aria-label={t("common.analytics")}><BarChart3 className="h-4 w-4" /></Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"><span className="sr-only">{t("admin_auto_open_menu", "Menüyü aç")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => {
+ <DropdownMenuItem className="cursor-pointer hover:bg-muted dark:hover:bg-card/10" onClick={() => {
  setFormData(campaign as any);
  setIsAddOpen(true);
- }}><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
- <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10" onClick={() => deleteMutation.mutate(campaign.id)}><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
+ }}><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Düzenle")}</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10" onClick={() => deleteMutation.mutate(campaign.id)}><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Sil")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </div>
@@ -437,7 +437,7 @@ export default function MarketingAutomation() {
 
  <TabsContent value="ambassadors" className="space-y-4">
  <div className="flex justify-end">
- <Button className="bg-slate-600 hover:bg-muted0 text-foreground">
+ <Button className="bg-muted hover:bg-muted0 text-foreground">
  <Plus className="h-4 w-4 mr-2" />{t("admin_marketing_add_ambassador")}
  </Button>
  </div>
@@ -504,17 +504,17 @@ export default function MarketingAutomation() {
  </TableCell>
  <TableCell>
  <div className="flex gap-1">
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground"><Eye className="h-4 w-4" /></Button>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground"><Edit className="h-4 w-4" /></Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" aria-label={t("common.view")}><Eye className="h-4 w-4" /></Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" aria-label={t("common.edit")}><Edit className="h-4 w-4" /></Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"><span className="sr-only">{t("admin_auto_open_menu", "Menüyü aç")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10" onClick={() => {
+ <DropdownMenuItem className="cursor-pointer hover:bg-muted dark:hover:bg-card/10" onClick={() => {
  // Add edit handler if needed
- }}><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
- <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
+ }}><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Düzenle")}</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Sil")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </div>
@@ -554,7 +554,7 @@ export default function MarketingAutomation() {
  </TableCell>
  <TableCell>
  <div className="text-foreground">
- {contract.equityPercent && `${contract.equityPercent}% ${t("admin_marketing_equity","hisse")}`}{contract.upfrontFee && ` + ${formatCurrency(contract.upfrontFee)} ${t("admin_marketing_upfront","pesin")}`}
+ {contract.equityPercent && `${contract.equityPercent}% ${t("admin_marketing_equity","hisse")}`}{contract.upfrontFee && ` + ${formatCurrency(contract.upfrontFee)} ${t("admin_marketing_upfront", "yıkadım")}`}
  </div>
  </TableCell>
  <TableCell>
@@ -571,14 +571,14 @@ export default function MarketingAutomation() {
  </TableCell>
  <TableCell className="text-foreground">{contract.upfrontFee ? formatCurrency(contract.upfrontFee) : '-'}</TableCell>
  <TableCell>
- <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground"><Eye className="h-4 w-4" /></Button>
+ <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" aria-label={t("common.view")}><Eye className="h-4 w-4" /></Button>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"><span className="sr-only">{t("admin_auto_open_menu", "Open menu")}</span><MoreHorizontal className="h-4 w-4" /></Button>
+ <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"><span className="sr-only">{t("admin_auto_open_menu", "Menüyü aç")}</span><MoreHorizontal className="h-4 w-4" /></Button>
  </DropdownMenuTrigger>
  <DropdownMenuContent align="end" className="bg-card border-border text-foreground">
- <DropdownMenuItem className="cursor-pointer hover:bg-slate-100 dark:hover:bg-white/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Edit")}</DropdownMenuItem>
- <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Delete")}</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer hover:bg-muted dark:hover:bg-card/10"><Edit className="mr-2 h-4 w-4" /> {t("admin_action_edit", "Düzenle")}</DropdownMenuItem>
+ <DropdownMenuItem className="cursor-pointer text-red-400 hover:bg-red-400/10"><Trash2 className="mr-2 h-4 w-4" /> {t("admin_action_delete", "Sil")}</DropdownMenuItem>
  </DropdownMenuContent>
  </DropdownMenu>
  </TableCell>

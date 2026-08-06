@@ -16,19 +16,19 @@ const STATUS: Record<string, {
   cls: string;
 }> = {
   PAID: {
-    label: t("client.src.paid"),
-    cls: "bg-green-100 text-green-700"
+    label: t("common.paid"),
+    cls: "bg-blue-100 text-blue-700"
   },
   PENDING: {
-    label: t("client.src.pending"),
+    label: t("common.processing"),
     cls: "bg-yellow-100 text-yellow-700"
   },
   SCHEDULED: {
-    label: t("client.src.scheduled"),
+    label: t("common.scheduled"),
     cls: "bg-blue-100 text-blue-700"
   },
   FAILED: {
-    label: t("client.src.failed"),
+    label: t("common.failed"),
     cls: "bg-red-100 text-red-700"
   }
 };
@@ -59,7 +59,7 @@ export default function Payouts() {
         }));
       } catch (error) {
         toast({
-          title: t("client.src.error"),
+          title: t("common.error"),
           description: t("client.src.failed_to_load_your"),
           variant: "destructive"
         });
@@ -84,7 +84,7 @@ export default function Payouts() {
           <Input placeholder={t("client.src.search_payouts")} value={search} onChange={e => setSearch(e.target.value)} className="max-w-sm" />
         </div>
         <Button variant="outline" onClick={() => fetchPayouts()} disabled={loading}>
-          {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <RefreshCw className="w-4 h-4 mr-2" />}{t("client.src.refresh")}</Button>
+          {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <RefreshCw className="w-4 h-4 mr-2" />}{t("common.refresh")}</Button>
       </div>
 
       <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
@@ -101,7 +101,7 @@ export default function Payouts() {
                   </div>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => handleViewDetails(row)}>
-                  <Eye className="w-4 h-4 mr-2" />{t("client.src.view")}</Button>
+                  <Eye className="w-4 h-4 mr-2" />{t("common.view")}</Button>
               </div>)}
         </div>
       </div>

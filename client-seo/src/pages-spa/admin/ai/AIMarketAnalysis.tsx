@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -152,7 +152,7 @@ export default function AIMarketAnalysisPage() {
  const getTrendIcon = (trend: AIMarketAnalysis['marketTrend']) => {
  switch (trend) {
  case 'RISING':
- return <TrendingUp className="h-4 w-4 text-green-500" />;
+ return <TrendingUp className="h-4 w-4 text-blue-500" />;
  case 'DECLINING':
  return <TrendingDown className="h-4 w-4 text-red-500" />;
  case 'STABLE':
@@ -162,11 +162,11 @@ export default function AIMarketAnalysisPage() {
  const getTrendColor = (trend: AIMarketAnalysis['marketTrend']) => {
  switch (trend) {
  case 'RISING':
- return 'bg-green-100 text-green-800';
+ return 'bg-blue-100 text-blue-800';
  case 'DECLINING':
  return 'bg-red-100 text-red-800';
  case 'STABLE':
- return 'bg-card text-slate-300';
+ return 'bg-card text-muted-foreground';
  }
  };
  const formatCurrency = (amount: number) => {
@@ -309,7 +309,7 @@ export default function AIMarketAnalysisPage() {
  {formatCurrency(analysis.averagePrice)}
  </TableCell>
  <TableCell>
- <div className={`flex items-center gap-1 ${analysis.priceChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+ <div className={`flex items-center gap-1 ${analysis.priceChange >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
  {analysis.priceChange >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
  {analysis.priceChange >= 0 ? '+' : ''}{analysis.priceChange.toFixed(1)}%
  </div>
@@ -326,7 +326,7 @@ export default function AIMarketAnalysisPage() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>

@@ -57,7 +57,7 @@ export default function ProfilePage() {
             </div>
             <Button
               onClick={() => router.push('/dashboard')}
-              className="bg-purple-600 hover:bg-purple-700"
+              className="bg-brand hover:bg-brand"
             >
               <ArrowUpRight className="w-4 h-4 mr-2" />
               {t("profile.profilepage.auto_ext_3")}
@@ -72,31 +72,31 @@ export default function ProfilePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center">
                   <div className="relative mb-4">
-                    <Avatar className="w-24 h-24 rounded-2xl border-4 border-purple-500/30">
+                    <Avatar className="w-24 h-24 rounded-2xl border-4 border-brand/30">
                       <AvatarImage src={user.imageUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`} />
-                      <AvatarFallback className="bg-purple-600/20 text-purple-400 font-bold text-2xl">
+                      <AvatarFallback className="bg-brand/20 text-brand font-bold text-2xl">
                         {user.name?.substring(0, 2).toUpperCase() || user.email.substring(0, 2).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                     <Button
-                      size="icon"
-                      className="absolute -bottom-2 -right-2 rounded-full bg-purple-600 hover:bg-purple-700"
+                      size="icon" aria-label={t("common.camera")}
+                      className="absolute -bottom-2 -right-2 rounded-full bg-brand hover:bg-brand"
                     >
                       <Camera className="w-4 h-4" />
                     </Button>
                   </div>
                   <h2 className="text-xl font-bold text-white mb-1">{user.name || 'User'}</h2>
                   <p className="text-gray-400 text-sm mb-4">{user.email}</p>
-                  <Badge variant="outline" className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+                  <Badge variant="outline" className="bg-brand/20 text-brand border-brand/30">
                     {user.role || 'USER'}
                   </Badge>
                 </div>
 
-                <div className="mt-6 pt-6 border-t border-purple-500/20 space-y-3">
+                <div className="mt-6 pt-6 border-t border-brand/20 space-y-3">
                   <div className="flex items-center gap-3 text-sm text-gray-400">
                     <MapPin className="w-4 h-4" />
                     <span>{t("profile.profilepage.auto_ext_4")}</span>
@@ -121,12 +121,12 @@ export default function ProfilePage() {
             transition={{ delay: 0.2 }}
             className="lg:col-span-2"
           >
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="bg-white/5 border-purple-500/20 w-full justify-start">
-                  <TabsTrigger value="profile" className="data-[state=active]:bg-purple-600">{t("profile.profilepage.auto_ext_7")}</TabsTrigger>
-                  <TabsTrigger value="security" className="data-[state=active]:bg-purple-600">{t("profile.profilepage.auto_ext_8")}</TabsTrigger>
-                  <TabsTrigger value="notifications" className="data-[state=active]:bg-purple-600">{t("profile.profilepage.auto_ext_9")}</TabsTrigger>
+                <TabsList className="bg-white/5 border-brand/20 w-full justify-start">
+                  <TabsTrigger value="profile" className="data-[state=active]:bg-brand">{t("profile.profilepage.auto_ext_7")}</TabsTrigger>
+                  <TabsTrigger value="security" className="data-[state=active]:bg-brand">{t("profile.profilepage.auto_ext_8")}</TabsTrigger>
+                  <TabsTrigger value="notifications" className="data-[state=active]:bg-brand">{t("profile.profilepage.auto_ext_9")}</TabsTrigger>
                 </TabsList>
 
                 <CardContent className="p-6">
@@ -137,14 +137,14 @@ export default function ProfilePage() {
                           <Label className="text-gray-400">{t("profile.profilepage.auto_ext_10")}</Label>
                           <Input
                             defaultValue={user.firstName || ''}
-                            className="bg-white/10 border-purple-500/30 text-white"
+                            className="bg-white/10 border-brand/30 text-white"
                           />
                         </div>
                         <div className="space-y-2">
                           <Label className="text-gray-400">{t("profile.profilepage.auto_ext_11")}</Label>
                           <Input
                             defaultValue={user.lastName || ''}
-                            className="bg-white/10 border-purple-500/30 text-white"
+                            className="bg-white/10 border-brand/30 text-white"
                           />
                         </div>
                       </div>
@@ -153,7 +153,7 @@ export default function ProfilePage() {
                         <Label className="text-gray-400">{t("profile.profilepage.auto_ext_12")}</Label>
                         <Input
                           defaultValue={user.email}
-                          className="bg-white/10 border-purple-500/30 text-white"
+                          className="bg-white/10 border-brand/30 text-white"
                         />
                       </div>
 
@@ -161,7 +161,7 @@ export default function ProfilePage() {
                         <Label className="text-gray-400">{t("profile.profilepage.auto_ext_13")}</Label>
                         <Input
                           placeholder="+1 (555) 000-0000"
-                          className="bg-white/10 border-purple-500/30 text-white"
+                          className="bg-white/10 border-brand/30 text-white"
                         />
                       </div>
 
@@ -169,14 +169,14 @@ export default function ProfilePage() {
                         <Label className="text-gray-400">{t("profile.profilepage.auto_ext_14")}</Label>
                         <Textarea
                           placeholder="Tell us about yourself..."
-                          className="bg-white/10 border-purple-500/30 text-white min-h-[100px]"
+                          className="bg-white/10 border-brand/30 text-white min-h-[100px]"
                         />
                       </div>
 
                       <Button
                         onClick={handleSave}
                         disabled={isLoading}
-                        className="bg-purple-600 hover:bg-purple-700 w-full"
+                        className="bg-brand hover:bg-brand w-full"
                       >
                         {isLoading ? (
                           <>
@@ -200,7 +200,7 @@ export default function ProfilePage() {
                         <Input
                           type="password"
                           placeholder="Enter current password"
-                          className="bg-white/10 border-purple-500/30 text-white"
+                          className="bg-white/10 border-brand/30 text-white"
                         />
                       </div>
 
@@ -209,7 +209,7 @@ export default function ProfilePage() {
                         <Input
                           type="password"
                           placeholder="Enter new password"
-                          className="bg-white/10 border-purple-500/30 text-white"
+                          className="bg-white/10 border-brand/30 text-white"
                         />
                       </div>
 
@@ -218,11 +218,11 @@ export default function ProfilePage() {
                         <Input
                           type="password"
                           placeholder="Confirm new password"
-                          className="bg-white/10 border-purple-500/30 text-white"
+                          className="bg-white/10 border-brand/30 text-white"
                         />
                       </div>
 
-                      <div className="pt-4 border-t border-purple-500/20">
+                      <div className="pt-4 border-t border-brand/20">
                         <h3 className="text-white font-medium mb-4">{t("profile.profilepage.auto_ext_20")}</h3>
                         <div className="flex items-center justify-between">
                           <div>
@@ -236,7 +236,7 @@ export default function ProfilePage() {
                       <Button
                         onClick={handleSave}
                         disabled={isLoading}
-                        className="bg-purple-600 hover:bg-purple-700 w-full"
+                        className="bg-brand hover:bg-brand w-full"
                       >
                         <Lock className="w-4 h-4 mr-2" />
                         {t("profile.profilepage.auto_ext_23")}
@@ -289,7 +289,7 @@ export default function ProfilePage() {
                       <Button
                         onClick={handleSave}
                         disabled={isLoading}
-                        className="bg-purple-600 hover:bg-purple-700 w-full"
+                        className="bg-brand hover:bg-brand w-full"
                       >
                         <Bell className="w-4 h-4 mr-2" />
                         {t("profile.profilepage.auto_ext_34")}

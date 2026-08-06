@@ -113,7 +113,7 @@ export default function Analytics() {
  }, {
  name:"Referral",
  value: 25,
- color:"#10b981"
+ color:"#3b82f6"
  }, {
  name:"Social Media",
  value: 20,
@@ -190,8 +190,8 @@ export default function Analytics() {
  <Card className="bg-card border-border">
  <CardContent className="p-6">
  <div className="flex items-center">
- <div className="p-2 bg-slate-100 /20 rounded-lg">
- <Home className="w-6 h-6 text-slate-600" />
+ <div className="p-2 bg-muted /20 rounded-lg">
+ <Home className="w-6 h-6 text-muted-foreground" />
  </div>
  <div className="ml-4">
  <p className="text-sm font-medium text-muted-foreground">{t("admin_analytics_total_properties")}</p>
@@ -206,8 +206,8 @@ export default function Analytics() {
  <Card className="bg-card border-border">
  <CardContent className="p-6">
  <div className="flex items-center">
- <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
- <Users className="w-6 h-6 text-green-600" />
+ <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+ <Users className="w-6 h-6 text-blue-600" />
  </div>
  <div className="ml-4">
  <p className="text-sm font-medium text-muted-foreground">{t("admin_analytics_total_contacts")}</p>
@@ -222,8 +222,8 @@ export default function Analytics() {
  <Card className="bg-card border-border">
  <CardContent className="p-6">
  <div className="flex items-center">
- <div className="p-2 bg-slate-100 /20 rounded-lg">
- <Target className="w-6 h-6 text-slate-600" />
+ <div className="p-2 bg-muted /20 rounded-lg">
+ <Target className="w-6 h-6 text-muted-foreground" />
  </div>
  <div className="ml-4">
  <p className="text-sm font-medium text-muted-foreground">{t("admin_analytics_total_deals")}</p>
@@ -272,7 +272,7 @@ export default function Analytics() {
  }} />
  <Legend />
  <Area type="monotone" dataKey="revenue" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} />
- <Area type="monotone" dataKey="deals" stroke="#10b981" fill="#10b981" fillOpacity={0.6} />
+ <Area type="monotone" dataKey="deals" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} />
  </AreaChart>
  </ResponsiveContainer>
  </CardContent>
@@ -340,7 +340,7 @@ export default function Analytics() {
  borderColor: '#334155',
  color: '#f8fafc'
  }} />
- <Bar dataKey="count" fill="#10b981" />
+ <Bar dataKey="count" fill="#3b82f6" />
  </BarChart>
  </ResponsiveContainer>
  </CardContent>
@@ -360,7 +360,7 @@ export default function Analytics() {
  <p className="text-sm text-muted-foreground mt-1">{t("admin_analytics_lead_to_deal_conversion")}</p>
  </div>
  <div className="text-center">
- <div className="text-3xl font-bold text-green-400">
+ <div className="text-3xl font-bold text-blue-400">
  {t("currency_symbol", "$")}{metrics.avgDealSize.toLocaleString()}
  </div>
  <p className="text-sm text-muted-foreground mt-1">{t("admin_analytics_average_deal_size")}</p>

@@ -88,57 +88,57 @@ export default function FinancialTransactions() {
  return (<div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 min-h-screen">
  <div className="flex justify-between items-center bg-card p-6 rounded-2xl border border-border">
  <div className="flex items-center gap-4">
- <div className="p-3 bg-slate-600 rounded-xl shadow-lg shadow-slate-600/20">
+ <div className="p-3 bg-muted rounded-xl shadow-lg shadow-slate-600/20">
  <DollarSign className="w-8 h-8 text-foreground" />
  </div>
  <div>
  <h1 className="text-3xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-slate-500">
- {t("admin_financial_financial_transactions","Financial Transactions")}
+ {t("admin_financial_financial_transactions", "Finansal İşlemler")}
  </h1>
  <p className="text-muted-foreground">
- {t("admin_financial_track_and_manage_all","Track and manage all financial transactions")}
+ {t("admin_financial_track_and_manage_all", "Tüm Finansal İşlemleri Takip Edin Ve Yönetin")}
  </p>
  </div>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10">
+ <Button variant="outline" className="bg-card border-border text-muted-foreground hover:bg-muted dark:hover:bg-card/10">
  <Filter className="w-4 h-4 mr-2" />
- {t("admin_financial_filter","Filter")}
+ {t("admin_financial_filter", "Filtrele")}
  </Button>
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-slate-700 text-foreground shadow-lg shadow-slate-500/20">
+ <Button className="bg-muted hover:bg-muted text-foreground shadow-lg shadow-slate-500/20">
  <Plus className="w-4 h-4 mr-2" />
- {t("admin_financial_new_transaction","New Transaction")}
+ {t("admin_financial_new_transaction", "Yeni İşlem")}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_financial_new_transaction","New Transaction")}</DialogTitle>
+ <DialogTitle>{t("admin_financial_new_transaction", "Yeni İşlem")}</DialogTitle>
  </DialogHeader>
  <form onSubmit={handleSubmit} className="space-y-4 pt-4">
  <div className="space-y-2">
- <Label>{t("admin_financial_type","Type")}</Label>
+ <Label>{t("admin_financial_type", "Tip")}</Label>
  <Select value={formData.type} onValueChange={(v:"INCOME" |"EXPENSE") => setFormData({ ...formData, type: v })}>
  <SelectTrigger className="bg-card border-border text-foreground"><SelectValue /></SelectTrigger>
  <SelectContent className="bg-background border-border text-foreground">
- <SelectItem value="INCOME">{t("admin_financial_income","Income")}</SelectItem>
- <SelectItem value="EXPENSE">{t("admin_financial_expense","Expense")}</SelectItem>
+ <SelectItem value="INCOME">{t("admin_financial_income", "Gelir")}</SelectItem>
+ <SelectItem value="EXPENSE">{t("admin_financial_expense", "Gider")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label htmlFor="amount">{t("admin_financial_amount","Amount")}</Label>
+ <Label htmlFor="amount">{t("admin_financial_amount", "Tutar")}</Label>
  <Input id="amount" type="number" className="bg-card border-border text-foreground" value={formData.amount} onChange={e => setFormData({ ...formData, amount: Number(e.target.value) })} required />
  </div>
  <div className="space-y-2">
- <Label htmlFor="description">{t("admin_financial_description","Description")}</Label>
+ <Label htmlFor="description">{t("admin_financial_description", "Finansal İşlemler, Komisyonlar Ve Nakit Akışı")}</Label>
  <Input id="description" className="bg-card border-border text-foreground" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
  </div>
  <DialogFooter>
- <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)} className="text-slate-300">{t("common.cancel","Cancel")}</Button>
- <Button type="submit" className="bg-slate-600 hover:bg-slate-700" disabled={createMutation.isPending}>
- {createMutation.isPending ? t("common.saving","Saving...") : t("common.create","Create")}
+ <Button type="button" variant="ghost" onClick={() => setIsAddOpen(false)} className="text-muted-foreground">{t("common.cancel", "İptal")}</Button>
+ <Button type="submit" className="bg-muted hover:bg-muted" disabled={createMutation.isPending}>
+ {createMutation.isPending ? t("common.saving", "Kaydediliyor") : t("common.create", "Oluştur")}
  </Button>
  </DialogFooter>
  </form>
@@ -150,16 +150,16 @@ export default function FinancialTransactions() {
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
  <Card className="bg-card border-border">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_financial_total_revenue","Total Revenue")}</CardTitle>
- <TrendingUp className="h-4 w-4 text-emerald-400" />
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_financial_total_revenue", "Toplam Gelir")}</CardTitle>
+ <TrendingUp className="h-4 w-4 text-success" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-emerald-400">{t("currency_symbol", "$")}{totalIncome.toLocaleString()}</div>
+ <div className="text-2xl font-bold text-success">{t("currency_symbol", "$")}{totalIncome.toLocaleString()}</div>
  </CardContent>
  </Card>
  <Card className="bg-card border-border">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_financial_total_expenses","Total Expenses")}</CardTitle>
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_financial_total_expenses", "Toplam Gider")}</CardTitle>
  <TrendingDown className="h-4 w-4 text-red-400" />
  </CardHeader>
  <CardContent>
@@ -168,7 +168,7 @@ export default function FinancialTransactions() {
  </Card>
  <Card className="bg-card border-border">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_financial_net_profit","Net Profit")}</CardTitle>
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_financial_net_profit", "Net Kâr")}</CardTitle>
  <DollarSign className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
@@ -177,12 +177,12 @@ export default function FinancialTransactions() {
  </Card>
  <Card className="bg-card border-border">
  <CardHeader className="flex flex-row items-center justify-between pb-2">
- <CardTitle className="text-sm font-medium text-slate-300">{t("admin_financial_transactions","Transactions")}</CardTitle>
+ <CardTitle className="text-sm font-medium text-muted-foreground">{t("admin_financial_transactions", "İşlemler")}</CardTitle>
  <Calendar className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
  <div className="text-2xl font-bold text-foreground">{records.length}</div>
- <p className="text-xs text-slate-500">{t("admin_financial_total","Total")}</p>
+ <p className="text-xs text-muted-foreground">{t("admin_financial_total", "Toplam")}</p>
  </CardContent>
  </Card>
  </div>
@@ -190,29 +190,29 @@ export default function FinancialTransactions() {
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
  <Card className="bg-card border-border">
  <CardHeader>
- <CardTitle className="text-foreground">{t("admin_financial_recent_transactions","Recent Transactions")}</CardTitle>
+ <CardTitle className="text-foreground">{t("admin_financial_recent_transactions", "Son İşlemler")}</CardTitle>
  </CardHeader>
  <CardContent>
  <div className="space-y-4">
  {isLoading ? (
  <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
  ) : records.length === 0 ? (
- <div className="text-center text-slate-500 p-8">{t("admin_financial_no_records_found","No records found")}</div>
+ <div className="text-center text-muted-foreground p-8">{t("admin_financial_no_records_found", "Kayıt Bulunamadı")}</div>
  ) : records.slice(0, 10).map((transaction) => (
  <div key={transaction.id} className="flex items-center justify-between border-b border-border pb-4 last:border-0">
  <div className="flex items-center gap-4">
- <div className={cn("w-2 h-2 rounded-full", transaction.type ==="INCOME" ?"bg-emerald-500" :"bg-red-500")} />
+ <div className={cn("w-2 h-2 rounded-full", transaction.type ==="INCOME" ?"bg-blue-500" :"bg-red-500")} />
  <div>
  <p className="font-medium text-foreground">{transaction.description || (transaction.type ==="INCOME" ?"Income" :"Expense")}</p>
- <p className="text-sm text-muted-foreground font-mono">{transaction.id.slice(0, 8)} {t("admin_auto_bull", "&bull;")}{new Date(transaction.occurredAt).toLocaleDateString()}</p>
+ <p className="text-sm text-muted-foreground font-mono">{transaction.id.slice(0, 8)} {t("admin_auto_bull", "&boğa;")}{new Date(transaction.occurredAt).toLocaleDateString()}</p>
  </div>
  </div>
  <div className="flex items-center gap-3">
  <div className="text-right">
- <p className={cn("font-medium", transaction.type ==="INCOME" ?"text-emerald-400" :"text-red-400")}>
+ <p className={cn("font-medium", transaction.type ==="INCOME" ?"text-success" :"text-red-400")}>
  {transaction.type ==="INCOME" ?"+" :"-"}{t("currency_symbol", "$")}{transaction.amount.toLocaleString()}
  </p>
- <Badge className={cn("border-0", transaction.paymentStatus ==="PAID" ?"bg-emerald-500/20 text-emerald-400" :"bg-amber-500/20 text-amber-400")}>
+ <Badge className={cn("border-0", transaction.paymentStatus ==="PAID" ?"bg-blue-500/20 text-success" :"bg-amber-500/20 text-warning")}>
  {transaction.paymentStatus ||"PENDING"}
  </Badge>
  </div>
@@ -225,17 +225,17 @@ export default function FinancialTransactions() {
 
  <Card className="bg-card border-border">
  <CardHeader>
- <CardTitle className="text-foreground">{t("admin_financial_transaction_categories","Categories")}</CardTitle>
+ <CardTitle className="text-foreground">{t("admin_financial_transaction_categories", "Kategoriler")}</CardTitle>
  </CardHeader>
  <CardContent>
  <div className="space-y-4">
  {categoryTotals.length === 0 ? (
- <p className="text-center text-slate-500 p-8">{t("admin_financial_no_categories","No categories")}</p>
+ <p className="text-center text-muted-foreground p-8">{t("admin_financial_no_categories", "Kategori yok")}</p>
  ) : categoryTotals.slice(0, 8).map((cat, i) => (
  <div key={cat.category} className="space-y-2">
  <div className="flex items-center justify-between">
  <p className="font-medium text-foreground text-sm capitalize">{cat.category.replace(/_/g,"").toLowerCase()}</p>
- <p className="font-medium text-emerald-400">{t("currency_symbol", "$")}{cat.amount.toLocaleString()}</p>
+ <p className="font-medium text-success">{t("currency_symbol", "$")}{cat.amount.toLocaleString()}</p>
  </div>
  <div className="w-full bg-card rounded-full h-2">
  <div

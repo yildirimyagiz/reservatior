@@ -66,25 +66,25 @@ export default function DevapiOSDashboard() {
       title: "API Calls",
       value: formatNumber(stats.apiCalls),
       icon: Activity,
-      color: "text-blue-600",
+      color: "text-brand",
     },
     {
       title: "Active API Keys",
       value: formatNumber(stats.activeKeys),
       icon: Key,
-      color: "text-green-600",
+      color: "text-blue-600",
     },
     {
       title: "Rate Limit Usage",
       value: formatPercent(stats.rateLimit),
       icon: Clock,
-      color: "text-orange-600",
+      color: "text-warning",
     },
     {
       title: "Avg Latency",
       value: `${formatDecimal(stats.avgLatency)}ms`,
       icon: Zap,
-      color: "text-purple-600",
+      color: "text-brand",
     },
   ];
 
@@ -101,7 +101,7 @@ export default function DevapiOSDashboard() {
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div key={index} className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">{kpi.title}</p>
@@ -117,7 +117,7 @@ export default function DevapiOSDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">API Usage Trends</h2>
             <TrendingUp className="w-5 h-5 text-gray-500" />
@@ -131,7 +131,7 @@ export default function DevapiOSDashboard() {
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div className="bg-card rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">Endpoint Distribution</h2>
             <BarChart3 className="w-5 h-5 text-gray-500" />

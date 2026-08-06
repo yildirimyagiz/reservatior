@@ -35,7 +35,7 @@ export default function RegionSelector() {
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-[#1a1b1e] border border-gray-200 dark:border-white/10 z-50">
+      <DropdownMenuContent align="end" className="w-48 bg-card dark:bg-card border border-gray-200 dark:border-white/10 z-50">
         {regions.map((region) => (
           <DropdownMenuItem
             key={region.countryCode}

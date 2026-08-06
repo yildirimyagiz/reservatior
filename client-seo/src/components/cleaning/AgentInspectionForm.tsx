@@ -86,7 +86,7 @@ export function AgentInspectionForm({ propertyName, className, onComplete }: Age
               variant="outline"
               className={cn(
                 "text-xs",
-                gpsStatus === "acquired" ? "border-emerald-500/30 text-emerald-400" :
+                gpsStatus === "acquired" ? "border-blue-500/30 text-blue-400" :
                 gpsStatus === "failed" ? "border-red-500/30 text-red-400" :
                 "border-slate-600 text-slate-400"
               )}
@@ -127,7 +127,7 @@ export function AgentInspectionForm({ propertyName, className, onComplete }: Age
               key={item.id}
               className={cn(
                 "flex items-center gap-3 p-2 rounded-lg border transition-colors",
-                item.result === "pass" ? "bg-emerald-500/5 border-emerald-500/20" :
+                item.result === "pass" ? "bg-blue-500/5 border-blue-500/20" :
                 item.result === "fail" ? "bg-red-500/5 border-red-500/20" :
                 "bg-slate-900/30 border-slate-800"
               )}
@@ -135,7 +135,7 @@ export function AgentInspectionForm({ propertyName, className, onComplete }: Age
               <div className="flex-1 min-w-0">
                 <p className={cn(
                   "text-sm font-medium",
-                  item.result === "pass" ? "text-emerald-300" :
+                  item.result === "pass" ? "text-blue-300" :
                   item.result === "fail" ? "text-red-300" : "text-slate-300"
                 )}>
                   {item.label}
@@ -155,7 +155,7 @@ export function AgentInspectionForm({ propertyName, className, onComplete }: Age
                   disabled={submitted || gpsStatus !== "acquired"}
                   className={cn(
                     "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
-                    item.result === "pass" ? "bg-emerald-500/20 text-emerald-400" : "bg-slate-800 text-slate-500 hover:bg-emerald-500/10 hover:text-emerald-400"
+                    item.result === "pass" ? "bg-blue-500/20 text-blue-400" : "bg-slate-800 text-slate-500 hover:bg-blue-500/10 hover:text-blue-400"
                   )}
                 >
                   <CheckCircle2 className="w-4 h-4" />
@@ -179,14 +179,14 @@ export function AgentInspectionForm({ propertyName, className, onComplete }: Age
           <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
             <MapPin className="w-3 h-3" />
             <span className="font-mono">{location.lat.toFixed(6)}, {location.lng.toFixed(6)}</span>
-            <Badge variant="outline" className="text-[9px] border-emerald-500/20 text-emerald-500">Geofenced</Badge>
+            <Badge variant="outline" className="text-[9px] border-blue-500/20 text-blue-500">Geofenced</Badge>
           </div>
         )}
 
         {allInspected && !submitted && gpsStatus === "acquired" && (
           <div className="mt-4 flex justify-between items-center">
             <div className="text-sm text-slate-400">
-              Score: <span className="text-emerald-400 font-bold">{score}/100</span>
+              Score: <span className="text-blue-400 font-bold">{score}/100</span>
             </div>
             <Button onClick={handleSubmit} className="bg-cyan-600 hover:bg-cyan-700 text-white">
               <CheckCircle2 className="w-4 h-4 mr-2" />
@@ -196,11 +196,11 @@ export function AgentInspectionForm({ propertyName, className, onComplete }: Age
         )}
 
         {submitted && (
-          <div className="mt-4 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+          <div className="mt-4 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
             <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-5 h-5 text-blue-400 shrink-0" />
               <div>
-                <p className="text-sm font-medium text-emerald-300">Inspection Submitted</p>
+                <p className="text-sm font-medium text-blue-300">Inspection Submitted</p>
                 <p className="text-xs text-slate-400">
                   Score: {score}/100 · {passCount}/{items.length} passed · GPS at {location?.lat.toFixed(4)}, {location?.lng.toFixed(4)}
                 </p>

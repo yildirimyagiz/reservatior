@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
@@ -273,7 +273,7 @@ export default function CustomReports() {
  },
  onError: (error: any) => {
  toast({
- title: t("admin_reports_error","Hata"),
+ title: t("admin_reports_error", "Eşit"),
  description: error.message,
  variant:"destructive"
  });
@@ -296,11 +296,11 @@ export default function CustomReports() {
  const getCategoryIcon = (category: string) => {
  switch (category) {
  case"Performance":
- return <TrendingUp className="w-4 h-4 text-green-600" />;
+ return <TrendingUp className="w-4 h-4 text-blue-600" />;
  case"Sales":
- return <DollarSign className="w-4 h-4 text-slate-600" />;
+ return <DollarSign className="w-4 h-4 text-muted-foreground" />;
  case"Properties":
- return <Home className="w-4 h-4 text-slate-600" />;
+ return <Home className="w-4 h-4 text-muted-foreground" />;
  case"Financial":
  return <DollarSign className="w-4 h-4 text-orange-600" />;
  default:
@@ -312,9 +312,9 @@ export default function CustomReports() {
  case"PDF":
  return <FileText className="w-4 h-4 text-red-600" />;
  case"EXCEL":
- return <FileText className="w-4 h-4 text-green-600" />;
+ return <FileText className="w-4 h-4 text-blue-600" />;
  case"CSV":
- return <FileText className="w-4 h-4 text-slate-600" />;
+ return <FileText className="w-4 h-4 text-muted-foreground" />;
  case"JSON":
  return <FileText className="w-4 h-4 text-muted-foreground" />;
  default:
@@ -443,7 +443,7 @@ export default function CustomReports() {
  <p className="text-2xl font-bold">{stats.totalReports}</p>
  <p className="text-xs text-muted-foreground">{t("admin_reports_all_reports")}</p>
  </div>
- <FileText className="w-8 h-8 text-slate-600" />
+ <FileText className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -452,10 +452,10 @@ export default function CustomReports() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_reports_active_reports")}</p>
- <p className="text-2xl font-bold text-green-600">{stats.activeReports}</p>
+ <p className="text-2xl font-bold text-blue-600">{stats.activeReports}</p>
  <p className="text-xs text-muted-foreground">{t("admin_reports_currently_running")}</p>
  </div>
- <Play className="w-8 h-8 text-green-600" />
+ <Play className="w-8 h-8 text-blue-600" />
  </div>
  </CardContent>
  </Card>
@@ -464,10 +464,10 @@ export default function CustomReports() {
  <div className="flex items-center justify-between">
  <div>
  <p className="text-sm font-medium text-muted-foreground">{t("admin_reports_scheduled_reports")}</p>
- <p className="text-2xl font-bold text-slate-600">{stats.scheduledReports}</p>
+ <p className="text-2xl font-bold text-muted-foreground">{stats.scheduledReports}</p>
  <p className="text-xs text-muted-foreground">{t("admin_reports_automated_reports")}</p>
  </div>
- <Calendar className="w-8 h-8 text-slate-600" />
+ <Calendar className="w-8 h-8 text-muted-foreground" />
  </div>
  </CardContent>
  </Card>
@@ -561,7 +561,7 @@ export default function CustomReports() {
  <Switch checked={report.isActive} onCheckedChange={() => toggleReport(report)} />
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="w-4 h-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -605,7 +605,7 @@ export default function CustomReports() {
  <h4 className="font-medium">{template.name}</h4>
  <div className="flex items-center gap-2 text-sm text-muted-foreground">
  <Badge variant="outline">{template.category}</Badge>
- {template.isPublic && <Badge className="bg-green-100 text-green-700">{t("admin_reports_public")}</Badge>}
+ {template.isPublic && <Badge className="bg-blue-100 text-blue-700">{t("admin_reports_public")}</Badge>}
  </div>
  </div>
  </div>
@@ -637,7 +637,7 @@ export default function CustomReports() {
  <div className="space-y-4">
  {reports.filter(r => r.schedule.enabled && r.nextRun).map(report => <div key={report.id} className="flex items-center justify-between p-3 border rounded-lg">
  <div className="flex items-center gap-3">
- <Calendar className="w-4 h-4 text-slate-600" />
+ <Calendar className="w-4 h-4 text-muted-foreground" />
  <div>
  <div className="font-medium">{report.name}</div>
  <div className="text-sm text-muted-foreground">

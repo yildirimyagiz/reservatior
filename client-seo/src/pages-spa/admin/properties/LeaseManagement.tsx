@@ -164,10 +164,10 @@ const LeaseManagement = () => {
 
  const getStatusBadge = (status: string) => {
  const statusConfig: Record<string, { icon: any; color: string; label: string }> = {
- 'ACTIVE': { icon: CheckCircle, color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', label: t('admin_lease_active', 'Active') },
- 'PENDING': { icon: AlertCircle, color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_lease_pending', 'Pending') },
- 'EXPIRED': { icon: AlertCircle, color: 'bg-muted0/10 text-muted-foreground border-slate-500/20', label: t('admin_lease_expired', 'Expired') },
- 'TERMINATED': { icon: AlertCircle, color: 'bg-red-500/10 text-red-400 border-red-500/20', label: t('admin_lease_terminated', 'Terminated') }
+ 'ACTIVE': { icon: CheckCircle, color: 'bg-blue-500/10 text-success border-blue-500/20', label: t('admin_lease_active', 'Aktif') },
+ 'PENDING': { icon: AlertCircle, color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', label: t('admin_lease_pending', 'Askıda olması') },
+ 'EXPIRED': { icon: AlertCircle, color: 'bg-muted0/10 text-muted-foreground border-slate-500/20', label: t('admin_lease_expired', 'Günü geçmiş') },
+ 'TERMINATED': { icon: AlertCircle, color: 'bg-red-500/10 text-red-400 border-red-500/20', label: t('admin_lease_terminated', 'Feshedildi') }
  };
  const config = statusConfig[status] || statusConfig['PENDING'];
  const Icon = config.icon;
@@ -188,35 +188,35 @@ const LeaseManagement = () => {
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
  <div>
  <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-400 to-slate-400">
- {t("admin_lease_title","Lease Management")}
+ {t("admin_lease_title", "Kira Yönetimi")}
  </h1>
  <p className="text-muted-foreground mt-2">
- {t("admin_lease_subtitle","Manage rental leases and tenant agreements")}
+ {t("admin_lease_subtitle", "Kira sözleşmelerini ve kiracı sözleşmelerini yönetin")}
  </p>
  </div>
  <div className="flex gap-2">
- <Button variant="outline" className="bg-card border-border hover:bg-slate-100 dark:hover:bg-white/10">
- {t("common.export","Export")}
+ <Button variant="outline" className="bg-card border-border hover:bg-muted dark:hover:bg-card/10">
+ {t("common.export", "Dışa aktar")}
  </Button>
  <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
  <DialogTrigger asChild>
- <Button className="bg-slate-600 hover:bg-muted0 text-white">
+ <Button className="bg-muted hover:bg-muted0 text-white">
  <Plus className="w-4 h-4 mr-2" />
- {t("common.add","Add Lease")}
+ {t("common.add", "Ekle")}
  </Button>
  </DialogTrigger>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_lease_add_title","Add New Lease")}</DialogTitle>
- <DialogDescription>{t("admin_lease_add_desc","Create a new lease agreement")}</DialogDescription>
+ <DialogTitle>{t("admin_lease_add_title", "Yeni Kira Ekle")}</DialogTitle>
+ <DialogDescription>{t("admin_lease_add_desc", "Yeni bir kira sözleşmesi oluşturun")}</DialogDescription>
  </DialogHeader>
  <form onSubmit={handleAddSubmit} className="space-y-4 py-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_lease_listing","Listing")}</Label>
+ <Label>{t("admin_lease_listing", "Listeleme")}</Label>
  <Select value={newItem.listingId} onValueChange={(v) => setNewItem({...newItem, listingId: v})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder={t("admin_lease_select_listing","Select listing")} />
+ <SelectValue placeholder={t("admin_lease_select_listing", "İlanı seçin")} />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
  {listings.map((l: any) => (
@@ -226,10 +226,10 @@ const LeaseManagement = () => {
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_lease_tenant","Tenant")}</Label>
+ <Label>{t("admin_lease_tenant", "Kiracı")}</Label>
  <Select value={newItem.tenantId} onValueChange={(v) => setNewItem({...newItem, tenantId: v})}>
  <SelectTrigger className="bg-card border-border">
- <SelectValue placeholder={t("admin_lease_select_tenant","Select tenant")} />
+ <SelectValue placeholder={t("admin_lease_select_tenant", "Kiracı seçin")} />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
  {tenants.map((t: any) => (
@@ -241,7 +241,7 @@ const LeaseManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_lease_start_date","Start Date")}</Label>
+ <Label>{t("admin_lease_start_date", "Başlangıç ​​Tarihi")}</Label>
  <Input 
  type="date" 
  value={newItem.startDate} 
@@ -250,7 +250,7 @@ const LeaseManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_lease_end_date","End Date")}</Label>
+ <Label>{t("admin_lease_end_date", "Bitiş Tarihi")}</Label>
  <Input 
  type="date" 
  value={newItem.endDate} 
@@ -261,7 +261,7 @@ const LeaseManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_lease_monthly_rent","Monthly Rent")}</Label>
+ <Label>{t("admin_lease_monthly_rent", "Aylık Kira")}</Label>
  <Input 
  type="number" 
  value={newItem.monthlyRent} 
@@ -270,23 +270,23 @@ const LeaseManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_lease_currency","Currency")}</Label>
+ <Label>{t("admin_lease_currency", "Para birimi")}</Label>
  <Select value={newItem.currency} onValueChange={(v) => setNewItem({...newItem, currency: v})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="USD">{t("admin_financial_usd", "USD")}</SelectItem>
- <SelectItem value="EUR">{t("admin_financial_eur", "EUR")}</SelectItem>
+ <SelectItem value="USD">{t("admin_financial_usd", "Usd")}</SelectItem>
+ <SelectItem value="EUR">{t("admin_financial_eur", "Eur")}</SelectItem>
  <SelectItem value="GBP">{t("admin_auto_gbp", "GBP")}</SelectItem>
- <SelectItem value="TRY">{t("admin_auto_try", "TRY")}</SelectItem>
+ <SelectItem value="TRY">{t("admin_auto_try", "DENEMEK")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_lease_deposit","Deposit Amount")}</Label>
+ <Label>{t("admin_lease_deposit", "Yatırma Tutarı")}</Label>
  <Input 
  type="number" 
  value={newItem.depositAmount} 
@@ -295,22 +295,22 @@ const LeaseManagement = () => {
  />
  </div>
  <div className="space-y-2">
- <Label>{t("admin_lease_payment_frequency","Payment Frequency")}</Label>
+ <Label>{t("admin_lease_payment_frequency", "Ödeme Sıklığı")}</Label>
  <Select value={newItem.paymentFrequency} onValueChange={(v) => setNewItem({...newItem, paymentFrequency: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="MONTHLY">{t("admin_lease_monthly","Monthly")}</SelectItem>
- <SelectItem value="QUARTERLY">{t("admin_lease_quarterly","Quarterly")}</SelectItem>
- <SelectItem value="ANNUALLY">{t("admin_lease_annually","Annually")}</SelectItem>
+ <SelectItem value="MONTHLY">{t("admin_lease_monthly", "Aylık")}</SelectItem>
+ <SelectItem value="QUARTERLY">{t("admin_lease_quarterly", "Üç ayda bir")}</SelectItem>
+ <SelectItem value="ANNUALLY">{t("admin_lease_annually", "Yıllık")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_lease_notice_period","Notice Period (days)")}</Label>
+ <Label>{t("admin_lease_notice_period", "İhbar Süresi (gün)")}</Label>
  <Input 
  type="number" 
  value={newItem.noticePeriod} 
@@ -326,26 +326,26 @@ const LeaseManagement = () => {
  onChange={(e) => setNewItem({...newItem, autoRenew: e.target.checked})}
  className="rounded"
  />
- <Label htmlFor="autoRenew">{t("admin_lease_auto_renew","Auto Renew")}</Label>
+ <Label htmlFor="autoRenew">{t("admin_lease_auto_renew", "Otomatik Yenileme")}</Label>
  </div>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_lease_terms","Terms and Conditions")}</Label>
+ <Label>{t("admin_lease_terms", "Şartlar ve koşullar")}</Label>
  <Textarea 
  value={newItem.terms} 
  onChange={(e) => setNewItem({...newItem, terms: e.target.value})}
  className="bg-card border-border"
- placeholder={t("admin_lease_terms_placeholder","Lease terms and conditions")}
+ placeholder={t("admin_lease_terms_placeholder", "Kiralama hüküm ve koşulları")}
  rows={3}
  />
  </div>
  </form>
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleAddSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleAddSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>
@@ -357,25 +357,25 @@ const LeaseManagement = () => {
  <CardHeader>
  <CardTitle className="flex items-center gap-2">
  <FileText className="w-5 h-5" />
- {t("admin_lease_list_title","Lease Agreements")}
+ {t("admin_lease_list_title", "Kira Sözleşmeleri")}
  </CardTitle>
  </CardHeader>
  <CardContent>
  {isLoading ? (
- <div className="text-center py-8 text-slate-500">{t("common.loading","Loading...")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("common.loading", "Yükleniyor")}</div>
  ) : leases.length === 0 ? (
- <div className="text-center py-8 text-slate-500">{t("admin_lease_empty","No leases found")}</div>
+ <div className="text-center py-8 text-muted-foreground">{t("admin_lease_empty", "Kiralama bulunamadı")}</div>
  ) : (
  <Table>
  <TableHeader>
  <TableRow>
- <TableHead>{t("admin_lease_property","Property")}</TableHead>
- <TableHead>{t("admin_lease_tenant","Tenant")}</TableHead>
- <TableHead>{t("admin_lease_period","Period")}</TableHead>
- <TableHead>{t("admin_lease_rent","Monthly Rent")}</TableHead>
- <TableHead>{t("admin_lease_status","Status")}</TableHead>
- <TableHead>{t("admin_lease_payment","Payment")}</TableHead>
- <TableHead className="text-right">{t("common.actions","Actions")}</TableHead>
+ <TableHead>{t("admin_lease_property", "Mülk")}</TableHead>
+ <TableHead>{t("admin_lease_tenant", "Kiracı")}</TableHead>
+ <TableHead>{t("admin_lease_period", "Dönem")}</TableHead>
+ <TableHead>{t("admin_lease_rent", "Aylık Kira")}</TableHead>
+ <TableHead>{t("admin_lease_status", "Durum")}</TableHead>
+ <TableHead>{t("admin_lease_payment", "Ödeme")}</TableHead>
+ <TableHead className="text-right">{t("common.actions", "İşlemler")}</TableHead>
  </TableRow>
  </TableHeader>
  <TableBody>
@@ -386,11 +386,11 @@ const LeaseManagement = () => {
  </TableCell>
  <TableCell>
  <div className="flex items-center gap-2">
- <User className="w-4 h-4 text-slate-500" />
+ <User className="w-4 h-4 text-muted-foreground" />
  {item.tenant?.name || '-'}
  </div>
  </TableCell>
- <TableCell className="text-slate-500">
+ <TableCell className="text-muted-foreground">
  <div className="flex items-center gap-1">
  <Calendar className="w-3 h-3" />
  {new Date(item.startDate).toLocaleDateString()} {t(" - ", "-")}{new Date(item.endDate).toLocaleDateString()}
@@ -403,16 +403,16 @@ const LeaseManagement = () => {
  </div>
  </TableCell>
  <TableCell>{getStatusBadge(item.status)}</TableCell>
- <TableCell className="text-slate-500">
+ <TableCell className="text-muted-foreground">
  {item.paymentFrequency}
- {item.autoRenew && <Badge variant="outline" className="ml-2">{t("admin_lease_auto","Auto")}</Badge>}
+ {item.autoRenew && <Badge variant="outline" className="ml-2">{t("admin_lease_auto", "Otomatik")}</Badge>}
  </TableCell>
  <TableCell className="text-right">
  <div className="flex justify-end gap-2">
- <Button variant="ghost" size="icon" onClick={() => openEditModal(item)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.edit")} onClick={() => openEditModal(item)}>
  <Edit className="w-4 h-4" />
  </Button>
- <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(item.id)}>
+ <Button variant="ghost" size="icon" aria-label={t("common.delete")} onClick={() => deleteMutation.mutate(item.id)}>
  <Trash2 className="w-4 h-4 text-red-500" />
  </Button>
  </div>
@@ -429,28 +429,28 @@ const LeaseManagement = () => {
  <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
  <DialogContent className="bg-card border-border text-foreground max-w-2xl">
  <DialogHeader>
- <DialogTitle>{t("admin_lease_edit_title","Edit Lease")}</DialogTitle>
- <DialogDescription>{t("admin_lease_edit_desc","Update lease agreement details")}</DialogDescription>
+ <DialogTitle>{t("admin_lease_edit_title", "Kiralamayı Düzenle")}</DialogTitle>
+ <DialogDescription>{t("admin_lease_edit_desc", "Kira sözleşmesi ayrıntılarını güncelleyin")}</DialogDescription>
  </DialogHeader>
  {editingItem && (
  <form onSubmit={handleEditSubmit} className="space-y-4 py-4">
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_lease_status","Status")}</Label>
+ <Label>{t("admin_lease_status", "Durum")}</Label>
  <Select value={editingItem.status} onValueChange={(v) => setEditingItem({...editingItem, status: v as any})}>
  <SelectTrigger className="bg-card border-border">
  <SelectValue />
  </SelectTrigger>
  <SelectContent className="bg-card border-border">
- <SelectItem value="ACTIVE">{t("admin_lease_active","Active")}</SelectItem>
- <SelectItem value="PENDING">{t("admin_lease_pending","Pending")}</SelectItem>
- <SelectItem value="EXPIRED">{t("admin_lease_expired","Expired")}</SelectItem>
- <SelectItem value="TERMINATED">{t("admin_lease_terminated","Terminated")}</SelectItem>
+ <SelectItem value="ACTIVE">{t("admin_lease_active", "Aktif")}</SelectItem>
+ <SelectItem value="PENDING">{t("admin_lease_pending", "Askıda olması")}</SelectItem>
+ <SelectItem value="EXPIRED">{t("admin_lease_expired", "Günü geçmiş")}</SelectItem>
+ <SelectItem value="TERMINATED">{t("admin_lease_terminated", "Feshedildi")}</SelectItem>
  </SelectContent>
  </Select>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_lease_monthly_rent","Monthly Rent")}</Label>
+ <Label>{t("admin_lease_monthly_rent", "Aylık Kira")}</Label>
  <Input 
  type="number" 
  value={editingItem.monthlyRent}
@@ -461,7 +461,7 @@ const LeaseManagement = () => {
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
- <Label>{t("admin_lease_end_date","End Date")}</Label>
+ <Label>{t("admin_lease_end_date", "Bitiş Tarihi")}</Label>
  <Input 
  type="date" 
  value={editingItem.endDate}
@@ -477,11 +477,11 @@ const LeaseManagement = () => {
  onChange={(e) => setEditingItem({...editingItem, autoRenew: e.target.checked})}
  className="rounded"
  />
- <Label htmlFor="editAutoRenew">{t("admin_lease_auto_renew","Auto Renew")}</Label>
+ <Label htmlFor="editAutoRenew">{t("admin_lease_auto_renew", "Otomatik Yenileme")}</Label>
  </div>
  </div>
  <div className="space-y-2">
- <Label>{t("admin_lease_terms","Terms and Conditions")}</Label>
+ <Label>{t("admin_lease_terms", "Şartlar ve koşullar")}</Label>
  <Textarea 
  value={editingItem.terms || ''}
  onChange={(e) => setEditingItem({...editingItem, terms: e.target.value})}
@@ -493,10 +493,10 @@ const LeaseManagement = () => {
  )}
  <DialogFooter>
  <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="bg-card border-border">
- {t("common.cancel","Cancel")}
+ {t("common.cancel", "İptal")}
  </Button>
- <Button onClick={handleEditSubmit} className="bg-slate-600 hover:bg-muted0 text-white">
- {t("common.save","Save")}
+ <Button onClick={handleEditSubmit} className="bg-muted hover:bg-muted0 text-white">
+ {t("common.save", "Kaydet")}
  </Button>
  </DialogFooter>
  </DialogContent>

@@ -106,7 +106,7 @@ export default function AIMigration() {
   const handleAnalyze = async () => {
     if (!url.trim()) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.please_enter_a_property"),
         variant: "destructive"
       });
@@ -193,24 +193,24 @@ export default function AIMigration() {
   };
   return <div className="space-y-8">
       {/* Hero Section */}
-      <div className="text-center space-y-4 py-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl">
+      <div className="text-center space-y-4 py-8 bg-gradient-to-r from-blue-50 to-brand rounded-2xl">
         <div className="flex items-center justify-center gap-2 mb-2">
-          <Gift className="w-8 h-8 text-purple-600" />
-          <Badge className="bg-purple-100 text-purple-700 text-lg px-4 py-1">{t("client.src.free_ai_migration")}</Badge>
+          <Gift className="w-8 h-8 text-brand" />
+          <Badge className="bg-brand/15 text-brand text-lg px-4 py-1">{t("client.src.free_ai_migration")}</Badge>
         </div>
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">{t("client.src.transform_your_property_listing")}</h1>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-brand to-brand bg-clip-text text-transparent">{t("client.src.transform_your_property_listing")}</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t("client.src.move_your_property_to")}</p>
         <div className="flex items-center justify-center gap-4 text-sm">
           <div className="flex items-center gap-1">
-            <CheckCircle2 className="w-4 h-4 text-green-500" />
+            <CheckCircle2 className="w-4 h-4 text-blue-500" />
             <span>{t("client.src.no_credit_card_required")}</span>
           </div>
           <div className="flex items-center gap-1">
-            <CheckCircle2 className="w-4 h-4 text-green-500" />
+            <CheckCircle2 className="w-4 h-4 text-blue-500" />
             <span>{t("client.src.instant_setup")}</span>
           </div>
           <div className="flex items-center gap-1">
-            <CheckCircle2 className="w-4 h-4 text-green-500" />
+            <CheckCircle2 className="w-4 h-4 text-blue-500" />
             <span>{t("client.src.cancel_anytime")}</span>
           </div>
         </div>
@@ -221,11 +221,11 @@ export default function AIMigration() {
         {AI_BENEFITS.map((benefit, index) => <Card key={index} className="relative overflow-hidden">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white">
+                <div className="p-2 bg-gradient-to-r from-blue-500 to-brand rounded-lg text-white">
                   {getIcon(benefit.icon)}
                 </div>
                 <div className="text-right">
-                  <Badge className="bg-green-100 text-green-700">{t("client.src.free")}</Badge>
+                  <Badge className="bg-blue-100 text-blue-700">{t("client.src.free")}</Badge>
                   <div className="text-sm text-muted-foreground line-through">
                     {benefit.value}
                   </div>
@@ -297,15 +297,15 @@ export default function AIMigration() {
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="text-3xl font-bold text-green-600">${analysis.migrationValue.totalValue}</div>
+                <div className="text-3xl font-bold text-blue-600">${analysis.migrationValue.totalValue}</div>
                 <div className="text-sm text-muted-foreground">{t("client.src.total_ai_value")}</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600">{analysis.migrationValue.roi}</div>
+                <div className="text-3xl font-bold text-brand">{analysis.migrationValue.roi}</div>
                 <div className="text-sm text-muted-foreground">{t("client.src.expected_roi")}</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600">{analysis.migrationValue.timeSaved}</div>
+                <div className="text-3xl font-bold text-brand">{analysis.migrationValue.timeSaved}</div>
                 <div className="text-sm text-muted-foreground">{t("client.src.time_saved")}</div>
               </div>
             </div>
@@ -321,16 +321,16 @@ export default function AIMigration() {
                       <div className="text-sm text-muted-foreground">{item.estimatedImpact}</div>
                     </div>
                     <Badge variant={item.priority === 'high' ? 'default' : 'secondary'}>
-                      {item.priority}{t("client.src.priority")}</Badge>
+                      {item.priority}{t("common.priority")}</Badge>
                   </div>)}
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-lg">
-              <h4 className="font-semibold text-green-800 mb-2">{t("client.src.your_free_benefits")}</h4>
+            <div className="bg-gradient-to-r from-blue-50 to-blue-50 p-4 rounded-lg">
+              <h4 className="font-semibold text-blue-800 mb-2">{t("client.src.your_free_benefits")}</h4>
               <ul className="space-y-1 text-sm">
                 {analysis.freeBenefits.map((benefit, index) => <li key={index} className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    <CheckCircle2 className="w-4 h-4 text-blue-600" />
                     {benefit}
                   </li>)}
               </ul>
@@ -354,7 +354,7 @@ export default function AIMigration() {
             </div>
             
             <div className="text-sm text-muted-foreground">
-              <div>{t("client.src.completed")}{migrationStatus.completedTasks || 0}/{migrationStatus.totalTasks || 0}{t("client.src.tasks")}</div>
+              <div>{t("common.completed")}{migrationStatus.completedTasks || 0}/{migrationStatus.totalTasks || 0}{t("client.src.tasks")}</div>
               <div>{t("client.src.estimated_time_remaining")}{migrationStatus.estimatedTimeRemaining || "Calculating..."}</div>
               <div>{t("client.src.current_task")}{migrationStatus.currentTask || "Initializing..."}</div>
             </div>

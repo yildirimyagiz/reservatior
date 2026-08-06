@@ -70,10 +70,10 @@ export default function InvestmentCalculatorDashboard() {
 
   const kpis = [
     { title: "Gross Yield", value: `${results.grossYield.toFixed(1)}%`, icon: BarChart3, color: "text-blue-600", bg: "bg-blue-50" },
-    { title: "Net Yield", value: `${results.netYield.toFixed(1)}%`, icon: Target, color: "text-green-600", bg: "bg-green-50" },
+    { title: "Net Yield", value: `${results.netYield.toFixed(1)}%`, icon: Target, color: "text-blue-600", bg: "bg-blue-50" },
     { title: "Cap Rate", value: `${results.capRate.toFixed(1)}%`, icon: TrendingUp, color: "text-purple-600", bg: "bg-purple-50" },
     { title: "Cash-on-Cash", value: `${results.cashOnCash.toFixed(1)}%`, icon: DollarSign, color: "text-orange-600", bg: "bg-orange-50" },
-    { title: "Monthly Cashflow", value: formatCurrency(results.monthlyCashflow), icon: PiggyBank, color: results.monthlyCashflow >= 0 ? "text-green-600" : "text-red-600", bg: results.monthlyCashflow >= 0 ? "bg-green-50" : "bg-red-50" },
+    { title: "Monthly Cashflow", value: formatCurrency(results.monthlyCashflow), icon: PiggyBank, color: results.monthlyCashflow >= 0 ? "text-blue-600" : "text-red-600", bg: results.monthlyCashflow >= 0 ? "bg-blue-50" : "bg-red-50" },
     { title: "Payback Period", value: results.paybackYears < 100 ? `${results.paybackYears.toFixed(1)} yrs` : "N/A", icon: Clock, color: "text-indigo-600", bg: "bg-indigo-50" },
   ];
 
@@ -134,7 +134,7 @@ export default function InvestmentCalculatorDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-2xl shadow-lg p-6">
           <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2 mb-4">
-            <DollarSign className="w-5 h-5 text-green-600" /> Monthly Breakdown
+            <DollarSign className="w-5 h-5 text-blue-600" /> Monthly Breakdown
           </h2>
           <div className="space-y-3">
             {[
@@ -145,14 +145,14 @@ export default function InvestmentCalculatorDashboard() {
             ].map((row, i) => (
               <div key={i} className="flex items-center justify-between py-2 border-b border-gray-50">
                 <span className="text-sm text-gray-600">{row.label}</span>
-                <span className={`text-sm font-mono font-bold ${row.positive ? 'text-green-600' : 'text-red-600'}`}>
+                <span className={`text-sm font-mono font-bold ${row.positive ? 'text-blue-600' : 'text-red-600'}`}>
                   {formatCurrency(row.value)}
                 </span>
               </div>
             ))}
             <div className="flex items-center justify-between py-3 border-t-2 border-gray-200">
               <span className="font-semibold text-gray-900">Net Monthly Cashflow</span>
-              <span className={`text-xl font-bold font-mono ${results.monthlyCashflow >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              <span className={`text-xl font-bold font-mono ${results.monthlyCashflow >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
                 {formatCurrency(results.monthlyCashflow)}
               </span>
             </div>
@@ -174,7 +174,7 @@ export default function InvestmentCalculatorDashboard() {
               <div key={i} className="flex items-center justify-between py-2">
                 <span className="text-sm text-gray-600">{r.label}</span>
                 <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                  r.level === "LOW" ? "bg-green-100 text-green-700" :
+                  r.level === "LOW" ? "bg-blue-100 text-blue-700" :
                   r.level === "MEDIUM" ? "bg-yellow-100 text-yellow-700" :
                   "bg-red-100 text-red-700"
                 }`}>{r.level}</span>
@@ -205,11 +205,11 @@ export default function InvestmentCalculatorDashboard() {
               <tr key={p.year} className="hover:bg-gray-50 transition">
                 <td className="px-4 py-3 text-sm font-medium text-gray-900">Year {p.year}</td>
                 <td className="px-4 py-3 text-sm text-gray-700">{formatCurrency(p.propertyValue)}</td>
-                <td className="px-4 py-3 text-sm font-mono text-green-600">{formatCurrency(p.yearCashflow)}</td>
+                <td className="px-4 py-3 text-sm font-mono text-blue-600">{formatCurrency(p.yearCashflow)}</td>
                 <td className="px-4 py-3 text-sm font-mono text-blue-600">{formatCurrency(p.cumulativeCashflow)}</td>
                 <td className="px-4 py-3 text-sm font-bold text-gray-900">{formatCurrency(p.equity)}</td>
                 <td className="px-4 py-3">
-                  <span className={`text-sm font-bold ${p.totalReturn >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <span className={`text-sm font-bold ${p.totalReturn >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
                     {p.totalReturn >= 0 ? '+' : ''}{p.totalReturn.toFixed(1)}%
                   </span>
                 </td>

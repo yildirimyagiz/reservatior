@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Badge } from"@/components/ui/badge";
 import { Button } from"@/components/ui/button";
@@ -202,15 +202,15 @@ export default function UserManagement() {
  const getStatusColor = (status: string) => {
  switch (status) {
  case 'ACTIVE':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'INACTIVE':
- return 'bg-white/10';
+ return 'bg-card/10';
  case 'SUSPENDED':
  return 'bg-red-500';
  case 'PENDING':
  return 'bg-yellow-500';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  const getRoleColor = (role: string) => {
@@ -222,11 +222,11 @@ export default function UserManagement() {
  case 'AGENT':
  return 'bg-muted0';
  case 'STAFF':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'CLIENT':
  return 'bg-orange-500';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  const filteredUsers = users.filter(user => {
@@ -265,7 +265,7 @@ export default function UserManagement() {
  <CheckCircle className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{activeUsers}</div>
+ <div className="text-2xl font-bold text-blue-600">{activeUsers}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_currently_active")}</p>
  </CardContent>
  </Card>
@@ -276,7 +276,7 @@ export default function UserManagement() {
  <Shield className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{verifiedUsers}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{verifiedUsers}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_email_verified")}</p>
  </CardContent>
  </Card>
@@ -287,7 +287,7 @@ export default function UserManagement() {
  <Shield className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{twoFactorUsers}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{twoFactorUsers}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_twofactor_auth")}</p>
  </CardContent>
  </Card>
@@ -550,8 +550,8 @@ export default function UserManagement() {
  </TableCell>
  <TableCell>
  <div className="flex gap-1">
- {user.emailVerified && <CheckCircle className="h-4 w-4 text-green-500" />}
- {user.twoFactorEnabled && <Shield className="h-4 w-4 text-slate-500" />}
+ {user.emailVerified && <CheckCircle className="h-4 w-4 text-blue-500" />}
+ {user.twoFactorEnabled && <Shield className="h-4 w-4 text-muted-foreground" />}
  </div>
  </TableCell>
  <TableCell>
@@ -560,7 +560,7 @@ export default function UserManagement() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -615,12 +615,12 @@ export default function UserManagement() {
  <div className="space-y-3">
  <div className="flex justify-between items-center">
  <span className="text-sm flex items-center gap-2">
- <div className="w-2 h-2 rounded-full bg-green-500" />{t("admin_organization_active")}</span>
+ <div className="w-2 h-2 rounded-full bg-blue-500" />{t("admin_organization_active")}</span>
  <span className="font-medium">{activeUsers}</span>
  </div>
  <div className="flex justify-between items-center">
  <span className="text-sm flex items-center gap-2">
- <div className="w-2 h-2 rounded-full bg-white/10" />{t("admin_organization_inactive")}</span>
+ <div className="w-2 h-2 rounded-full bg-card/10" />{t("admin_organization_inactive")}</span>
  <span className="font-medium">
  {users.filter(user => user.status === 'INACTIVE').length}
  </span>
@@ -650,7 +650,7 @@ export default function UserManagement() {
  <CardContent>
  <div className="space-y-4">
  <div className="text-center">
- <div className="text-2xl font-bold text-green-600">
+ <div className="text-2xl font-bold text-blue-600">
  {verifiedUsers}
  </div>
  <p className="text-sm text-muted-foreground">{t("admin_organization_email_verified")}</p>
@@ -658,7 +658,7 @@ export default function UserManagement() {
  {totalUsers > 0 ? (verifiedUsers / totalUsers * 100).toFixed(1) : 0}{t("admin_organization_of_users")}</div>
  </div>
  <div className="text-center">
- <div className="text-2xl font-bold text-slate-600">
+ <div className="text-2xl font-bold text-muted-foreground">
  {twoFactorUsers}
  </div>
  <p className="text-sm text-muted-foreground">{t("admin_organization_2fa_enabled")}</p>

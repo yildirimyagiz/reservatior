@@ -10,17 +10,17 @@ export default function NotificationOsAdminPage() {
   const { t } = useTranslation();
   
   return (
-    <PageShell title={t("admin_notification_os_title", "NotificationOs Management")}>
+    <PageShell title={t("admin_notification_os_title", "NotificationOs Yönetimi")}>
       <div className="space-y-6">
         <Card className="bg-card border-border">
           <CardHeader>
             <CardTitle className="text-card-foreground flex items-center gap-2">
               <Layers className="w-5 h-5 text-brand" />
-              {t("admin_notification_os_title", "NotificationOs Management")}
+              {t("admin_notification_os_title", "NotificationOs Yönetimi")}
             </CardTitle>
           </CardHeader>
           <CardContent className="text-muted-foreground text-sm space-y-2">
-            <p>{t("admin_notification_os_description", "Manage notificationos settings, configurations, and records.")}</p>
+            <p>{t("admin_notification_os_description", "NOTIFICATIONOS modülü ayarlarını, yapılandırmalarını ve sistem kayıtlarını yönetin.")}</p>
           </CardContent>
         </Card>
       </div>

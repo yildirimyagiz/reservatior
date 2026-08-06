@@ -22,15 +22,15 @@ import { Edit, Trash2, MoreHorizontal, Loader2 } from "lucide-react";
 
 const STATUS_CONFIG = {
   active: {
-    label: t("client.src.active"),
-    cls: "bg-green-100 text-green-700"
+    label: t("common.active"),
+    cls: "bg-blue-100 text-blue-700"
   },
   draft: {
-    label: t("client.src.draft"),
+    label: t("common.draft"),
     cls: "bg-gray-100 text-gray-500"
   },
   expired: {
-    label: t("client.src.expired"),
+    label: t("common.expired"),
     cls: "bg-yellow-100 text-yellow-700"
   },
   terminated: {
@@ -75,7 +75,7 @@ export default function Leases() {
       setTenants(tenantRes.data || []);
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_load_data"),
         variant: "destructive"
       });
@@ -105,7 +105,7 @@ export default function Leases() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_create_lease"),
         variant: "destructive"
       });
@@ -123,7 +123,7 @@ export default function Leases() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_update_lease"),
         variant: "destructive"
       });
@@ -139,7 +139,7 @@ export default function Leases() {
       fetchData();
     } catch (error) {
       toast({
-        title: t("client.src.error"),
+        title: t("common.error"),
         description: t("client.src.failed_to_delete_lease"),
         variant: "destructive"
       });
@@ -173,19 +173,19 @@ export default function Leases() {
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label>{t("client.src.property")}</Label>
+          <Label>{t("common.property")}</Label>
           <Select value={form.propertyId} onValueChange={v => setForm({
             ...form,
             propertyId: v
           })}>
-            <SelectTrigger><SelectValue placeholder={t("client.src.select_property")} /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder={t("common.select_property")} /></SelectTrigger>
             <SelectContent>
               {properties.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-1.5">
-          <Label>{t("client.src.tenant")}</Label>
+          <Label>{t("common.tenant")}</Label>
           <Select value={form.tenantId} onValueChange={v => setForm({
             ...form,
             tenantId: v
@@ -231,7 +231,7 @@ export default function Leases() {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label>{t("client.src.status")}</Label>
+          <Label>{t("common.status")}</Label>
           <Select value={form.status} onValueChange={v => setForm({
             ...form,
             status: v
@@ -260,10 +260,10 @@ export default function Leases() {
     label: t("client.src.total_leases"),
     value: leases.length
   }, {
-    label: t("client.src.active"),
+    label: t("common.active"),
     value: leases.filter(l => l.status === "active").length
   }, {
-    label: t("client.src.expired"),
+    label: t("common.expired"),
     value: leases.filter(l => l.status === "expired").length
   }, {
     label: t("client.src.terminated"),
@@ -273,10 +273,10 @@ export default function Leases() {
         <div className="flex items-center justify-between space-x-4">
           <Select value={filterStatus} onValueChange={setFilterStatus}>
             <SelectTrigger className="w-40 h-9">
-              <SelectValue placeholder={t("client.src.all_status")} />
+              <SelectValue placeholder={t("common.all_status")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">{t("client.src.all_status")}</SelectItem>
+              <SelectItem value="all">{t("common.all_status")}</SelectItem>
               {Object.keys(STATUS_CONFIG).map(status => <SelectItem key={status} value={status}>{STATUS_CONFIG[status as keyof typeof STATUS_CONFIG].label}</SelectItem>)}
             </SelectContent>
           </Select>
@@ -286,11 +286,11 @@ export default function Leases() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("client.src.tenant")}</TableHead>
-                <TableHead>{t("client.src.property")}</TableHead>
+                <TableHead>{t("common.tenant")}</TableHead>
+                <TableHead>{t("common.property")}</TableHead>
                 <TableHead>{t("client.src.period")}</TableHead>
                 <TableHead>{t("client.src.rent")}</TableHead>
-                <TableHead>{t("client.src.status")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -318,10 +318,10 @@ export default function Leases() {
                       </TableCell>
                       <TableCell>
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => openEdit(lease)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDeleteLease(lease.id)} className="text-destructive font-medium"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openEdit(lease)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDeleteLease(lease.id)} className="text-destructive font-medium"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
@@ -341,7 +341,7 @@ export default function Leases() {
         <Dialog open={editOpen} onOpenChange={setEditOpen}>
           <DialogContent className="sm:max-w-[600px]">
             <DialogHeader><DialogTitle>{t("client.src.edit_lease")}</DialogTitle></DialogHeader>
-            <LeaseForm onSubmit={handleUpdateLease} label={t("client.src.save_changes")} />
+            <LeaseForm onSubmit={handleUpdateLease} label={t("common.save")} />
           </DialogContent>
         </Dialog>
       </div>

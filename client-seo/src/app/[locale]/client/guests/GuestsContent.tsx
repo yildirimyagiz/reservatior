@@ -13,14 +13,14 @@ export function GuestsContent() {
       description: "View and manage all guests",
       icon: Users,
       href: "/client/guests/all",
-      color: "text-blue-500"
+      color: "text-brand"
     },
     {
       title: "Guest Follow-up",
       description: "Manage guest follow-ups and communications",
       icon: MessageSquare,
       href: "/client/guests/follow-up",
-      color: "text-purple-500"
+      color: "text-brand"
     }
   ];
 

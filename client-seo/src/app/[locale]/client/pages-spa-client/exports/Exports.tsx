@@ -34,7 +34,7 @@ export default function Exports() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("client.src.completed")}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("common.completed")}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -45,7 +45,7 @@ export default function Exports() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("client.src.processing")}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("common.processing")}</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -56,7 +56,7 @@ export default function Exports() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("client.src.downloads")}</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("common.downloads")}</CardTitle>
             <Download className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -102,7 +102,7 @@ export default function Exports() {
             downloads: 67
           }].map((item, i) => <div key={i} className="flex items-center justify-between border-b pb-4 last:border-0">
                 <div className="flex items-center gap-4">
-                  <div className={`w-2 h-2 rounded-full ${item.status === "completed" ? "bg-green-500" : item.status === "processing" ? "bg-blue-500" : "bg-red-500"}`}></div>
+                  <div className={`w-2 h-2 rounded-full ${item.status === "completed" ? "bg-blue-500" : item.status === "processing" ? "bg-brand/100" : "bg-red-500"}`}></div>
                   <div>
                     <p className="font-medium">{item.name}</p>
                     <p className="text-sm text-muted-foreground">{item.type} • {item.createdAt} • {item.size}</p>
@@ -110,13 +110,13 @@ export default function Exports() {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-right">
-                    <p className="font-medium">{item.downloads}{t("client.src.downloads")}</p>
-                    <p className="text-sm text-muted-foreground">{t("client.src.total")}</p>
+                    <p className="font-medium">{item.downloads}{t("common.downloads")}</p>
+                    <p className="text-sm text-muted-foreground">{t("common.total")}</p>
                   </div>
                   <Badge variant={item.status === "completed" ? "default" : "secondary"}>
                     {item.status}
                   </Badge>
-                  <Button size="sm" variant="outline" disabled={item.status !== "completed"}>
+                  <Button size="sm" variant="outline" disabled={item.status !== "completed"} aria-label={t("common.download")}>
                     <Download className="w-4 h-4" />
                   </Button>
                 </div>

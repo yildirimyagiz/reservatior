@@ -106,7 +106,6 @@ export const portfolioOSRoutes = new Elysia({ prefix: "/portfolio-os" })
         const holdings = await prisma.portfolioHolding.findMany({
           where,
           orderBy: { acquisitionDate: "desc" },
-          include: { property: true },
         });
         return { success: true, data: holdings };
       } catch (error: any) {

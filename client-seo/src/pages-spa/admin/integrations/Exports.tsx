@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import React, { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import { Input } from"@/components/ui/input";
@@ -79,17 +79,17 @@ const EXPORT_TYPE_CONFIG = {
  PROPERTIES: {
  label: t("admin_integrations_properties"),
  icon: Building2,
- color:"bg-green-100 text-green-700"
+ color:"bg-blue-100 text-blue-700"
  },
  LISTINGS: {
  label: t("admin_integrations_listings"),
  icon: Building2,
- color:"bg-slate-100 text-slate-700"
+ color:"bg-muted text-muted-foreground"
  },
  TENANTS: {
  label: t("admin_integrations_tenants"),
  icon: Users,
- color:"bg-slate-100 text-slate-700"
+ color:"bg-muted text-muted-foreground"
  },
  CONTRACTS: {
  label: t("admin_integrations_contracts"),
@@ -104,17 +104,17 @@ const EXPORT_TYPE_CONFIG = {
  FINANCIAL: {
  label: t("admin_integrations_financial"),
  icon: Database,
- color:"bg-emerald-100 text-emerald-700"
+ color:"bg-blue-100 text-blue-700"
  },
  REPORTS: {
  label: t("admin_integrations_reports"),
  icon: FileText,
- color:"bg-slate-100 text-slate-700"
+ color:"bg-muted text-muted-foreground"
  },
  USERS: {
  label: t("admin_integrations_users"),
  icon: Users,
- color:"bg-card text-slate-300"
+ color:"bg-card text-muted-foreground"
  },
  AUDIT_LOGS: {
  label: t("admin_integrations_audit_logs"),
@@ -130,12 +130,12 @@ const EXPORT_TYPE_CONFIG = {
 const STATUS_CONFIG = {
  COMPLETED: {
  label: t("admin_integrations_completed"),
- color:"bg-green-100 text-green-700",
+ color:"bg-blue-100 text-blue-700",
  icon: CheckCircle
  },
  PROCESSING: {
  label: t("admin_integrations_processing"),
- color:"bg-slate-100 text-slate-700",
+ color:"bg-muted text-muted-foreground",
  icon: RefreshCw
  },
  FAILED: {
@@ -150,7 +150,7 @@ const STATUS_CONFIG = {
  },
  CANCELLED: {
  label: t("admin_integrations_cancelled"),
- color:"bg-card text-slate-300",
+ color:"bg-card text-muted-foreground",
  icon: XCircle
  },
  EXPIRED: {
@@ -288,7 +288,7 @@ export default function Exports() {
  return config || {
  label: type,
  icon: Settings,
- color:"bg-card text-slate-300"
+ color:"bg-card text-muted-foreground"
  };
  };
  const getStatusConfig = (status: ExportStatus) => {
@@ -296,7 +296,7 @@ export default function Exports() {
  return config || {
  label: status,
  icon: Clock,
- color:"bg-card text-slate-300"
+ color:"bg-card text-muted-foreground"
  };
  };
  const isExpired = (export_: Export) => {
@@ -324,7 +324,7 @@ export default function Exports() {
  <CheckCircle className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{completedExports}</div>
+ <div className="text-2xl font-bold text-blue-600">{completedExports}</div>
  <p className="text-xs text-muted-foreground">{t("admin_integrations_ready_for_download")}</p>
  </CardContent>
  </Card>
@@ -335,7 +335,7 @@ export default function Exports() {
  <RefreshCw className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{processingExports}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{processingExports}</div>
  <p className="text-xs text-muted-foreground">{t("admin_integrations_being_generated")}</p>
  </CardContent>
  </Card>
@@ -346,7 +346,7 @@ export default function Exports() {
  <Database className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{formatFileSize(totalSize)}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{formatFileSize(totalSize)}</div>
  <p className="text-xs text-muted-foreground">{t("admin_integrations_storage_used")}</p>
  </CardContent>
  </Card>
@@ -478,7 +478,7 @@ export default function Exports() {
  <TableCell>
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" size="sm">
+ <Button variant="ghost" size="sm" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>

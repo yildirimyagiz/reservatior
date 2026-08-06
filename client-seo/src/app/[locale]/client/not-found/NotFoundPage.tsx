@@ -30,7 +30,7 @@ export default function NotFoundPage() {
         >
           <Button
             onClick={() => router.push('/')}
-            className="bg-purple-600 hover:bg-purple-700"
+            className="bg-brand hover:bg-brand"
           >
             <Home className="w-4 h-4 mr-2" />
             {t("not_found.notfoundpage.auto_ext_2")}
@@ -38,7 +38,7 @@ export default function NotFoundPage() {
           <Button
             onClick={() => router.back()}
             variant="outline"
-            className="bg-white/10 border-purple-500/30 text-white"
+            className="bg-white/10 border-brand/30 text-white"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             {t("not_found.notfoundpage.auto_ext_3")}

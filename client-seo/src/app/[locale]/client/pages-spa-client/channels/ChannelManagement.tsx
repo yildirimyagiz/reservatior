@@ -83,7 +83,7 @@ export default function ChannelManagement() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'inactive':
         return 'bg-gray-100 text-gray-800';
       case 'pending':
@@ -101,19 +101,19 @@ export default function ChannelManagement() {
   const getChannelIcon = (type: string) => {
     switch (type) {
       case 'google_hotels':
-        return <Globe className="w-5 h-5 text-blue-500" />;
+        return <Globe className="w-5 h-5 text-brand" />;
       case 'booking_com':
-        return <Hotel className="w-5 h-5 text-blue-600" />;
+        return <Hotel className="w-5 h-5 text-brand" />;
       case 'airbnb':
         return <Home className="w-5 h-5 text-pink-500" />;
       case 'expedia':
         return <Plane className="w-5 h-5 text-yellow-500" />;
       case 'tripadvisor':
-        return <Star className="w-5 h-5 text-green-500" />;
+        return <Star className="w-5 h-5 text-blue-500" />;
       case 'vrbo':
-        return <Globe className="w-5 h-5 text-purple-500" />;
+        return <Globe className="w-5 h-5 text-brand" />;
       case 'agoda':
-        return <Navigation className="w-5 h-5 text-blue-400" />;
+        return <Navigation className="w-5 h-5 text-brand" />;
       case 'hotels_dot_com':
         return <Hotel className="w-5 h-5 text-red-500" />;
       default:
@@ -153,9 +153,9 @@ export default function ChannelManagement() {
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">{t("client.src.total_channels")}</p>
                     <p className="text-2xl font-bold">{analytics.total}</p>
-                    <p className="text-xs text-muted-foreground">{analytics.active}{t("client.src.active")}</p>
+                    <p className="text-xs text-muted-foreground">{analytics.active}{t("common.active")}</p>
                   </div>
-                  <Globe className="w-8 h-8 text-blue-500" />
+                  <Globe className="w-8 h-8 text-brand" />
                 </div>
               </CardContent>
             </Card>
@@ -168,7 +168,7 @@ export default function ChannelManagement() {
                     <p className="text-2xl font-bold">{analytics.totalListings}</p>
                     <p className="text-xs text-muted-foreground">{t("client.src.across_all_channels")}</p>
                   </div>
-                  <Home className="w-8 h-8 text-green-500" />
+                  <Home className="w-8 h-8 text-blue-500" />
                 </div>
               </CardContent>
             </Card>
@@ -181,7 +181,7 @@ export default function ChannelManagement() {
                     <p className="text-2xl font-bold">{analytics.totalBookings}</p>
                     <p className="text-xs text-muted-foreground">{t("client.src.this_month")}</p>
                   </div>
-                  <Calendar className="w-8 h-8 text-purple-500" />
+                  <Calendar className="w-8 h-8 text-brand" />
                 </div>
               </CardContent>
             </Card>
@@ -190,10 +190,10 @@ export default function ChannelManagement() {
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">{t("client.src.total_revenue")}</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t("common.total_revenue")}</p>
                     <p className="text-2xl font-bold">{formatCurrency(analytics.totalRevenue, 'USD')}</p>
                     <div className="flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3 text-green-500" />
+                      <TrendingUp className="w-3 h-3 text-blue-500" />
                       <p className="text-xs text-muted-foreground">+12.5%</p>
                     </div>
                   </div>
@@ -208,17 +208,17 @@ export default function ChannelManagement() {
           {[{
           status: 'active',
           count: analytics?.active || 0,
-          label: t("client.src.active"),
-          color: 'bg-green-100 text-green-800'
+          label: t("common.active"),
+          color: 'bg-blue-100 text-blue-800'
         }, {
           status: 'inactive',
           count: analytics?.inactive || 0,
-          label: t("client.src.inactive"),
+          label: t("common.inactive"),
           color: 'bg-gray-100 text-gray-800'
         }, {
           status: 'pending',
           count: analytics?.pending || 0,
-          label: t("client.src.pending"),
+          label: t("common.processing"),
           color: 'bg-yellow-100 text-yellow-800'
         }, {
           status: 'suspended',
@@ -257,10 +257,10 @@ export default function ChannelManagement() {
             <Button variant="outline" size="sm" onClick={() => {
               queryClient.invalidateQueries({ queryKey: ['channel-management'] });
             }}>
-              <RefreshCw className="w-4 h-4 mr-2" />{t("client.src.refresh")}</Button>
+              <RefreshCw className="w-4 h-4 mr-2" />{t("common.refresh")}</Button>
 
             <Button variant="outline" size="sm" onClick={exportChannels}>
-              <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
+              <Download className="w-4 h-4 mr-2" />{t("common.download")}</Button>
           </div>
 
           <div className="flex items-center gap-2">
@@ -281,7 +281,7 @@ export default function ChannelManagement() {
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="channels">{t("client.src.channels")}</TabsTrigger>
             <TabsTrigger value="listings">{t("client.src.listings")}</TabsTrigger>
-            <TabsTrigger value="analytics">{t("client.src.analytics")}</TabsTrigger>
+            <TabsTrigger value="analytics">{t("common.analytics")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="channels" className="space-y-6">
@@ -292,9 +292,9 @@ export default function ChannelManagement() {
               status: e.target.value || undefined
             })}>
                 <option value="">{t("client.src.all_statuses")}</option>
-                <option value="active">{t("client.src.active")}</option>
-                <option value="inactive">{t("client.src.inactive")}</option>
-                <option value="pending">{t("client.src.pending")}</option>
+                <option value="active">{t("common.active")}</option>
+                <option value="inactive">{t("common.inactive")}</option>
+                <option value="pending">{t("common.processing")}</option>
                 <option value="suspended">{t("client.src.suspended")}</option>
               </select>
 
@@ -339,14 +339,14 @@ export default function ChannelManagement() {
                         </div>
                         <div className="text-right">
                           <p className="text-lg font-bold">{channel.performance ? formatCurrency(channel.performance.revenue, 'USD') : 'N/A'}</p>
-                          <p className="text-sm text-muted-foreground">{channel.performance ? channel.performance.bookings : 'N/A'}{t("client.src.bookings")}</p>
+                          <p className="text-sm text-muted-foreground">{channel.performance ? channel.performance.bookings : 'N/A'}{t("common.bookings")}</p>
                         </div>
                       </div>
 
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div>
                           <p className="text-muted-foreground">{t("client.src.listings")}</p>
-                          <p className="font-medium">{channel.listings ? channel.listings.total : 'N/A'} ({channel.listings ? channel.listings.active : 'N/A'}{t("client.src.active")}</p>
+                          <p className="font-medium">{channel.listings ? channel.listings.total : 'N/A'} ({channel.listings ? channel.listings.active : 'N/A'}{t("common.active")}</p>
                         </div>
                         <div>
                           <p className="text-muted-foreground">{t("client.src.views")}</p>
@@ -369,8 +369,8 @@ export default function ChannelManagement() {
                           <span className="text-muted-foreground">({channel.performance ? channel.performance.totalReviews : 'N/A'})</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Clock className="w-3 h-3 text-blue-500" />
-                          <span>{t("client.src.last_sync")}{channel.integration ? new Date(channel.integration.lastSync).toLocaleTimeString() : 'N/A'}</span>
+                          <Clock className="w-3 h-3 text-brand" />
+                          <span>{t("common.last_sync")}{channel.integration ? new Date(channel.integration.lastSync).toLocaleTimeString() : 'N/A'}</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Badge className={getStatusColor(channel.integration ? channel.integration.syncStatus : 'unknown')}>
@@ -419,11 +419,11 @@ export default function ChannelManagement() {
                           <p className="font-medium">{listing.performance ? listing.performance.views.toLocaleString() : 'N/A'}</p>
                         </div>
                         <div>
-                          <p className="text-muted-foreground">{t("client.src.bookings")}</p>
+                          <p className="text-muted-foreground">{t("common.bookings")}</p>
                           <p className="font-medium">{listing.performance ? listing.performance.bookings : 'N/A'}</p>
                         </div>
                         <div>
-                          <p className="text-muted-foreground">{t("client.src.revenue")}</p>
+                          <p className="text-muted-foreground">{t("common.revenue")}</p>
                           <p className="font-medium">{listing.performance && listing.pricing ? formatCurrency(listing.performance.revenue, listing.pricing.currency) : 'N/A'}</p>
                         </div>
                         <div>
@@ -434,12 +434,12 @@ export default function ChannelManagement() {
 
                       <div className="flex items-center gap-4 mt-3 text-sm">
                         <div className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3 text-blue-500" />
+                          <Calendar className="w-3 h-3 text-brand" />
                           <span>{listing.availability ? listing.availability.availableDays : 'N/A'}/{listing.availability ? listing.availability.totalDays : 'N/A'}{t("client.src.days_available")}</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <ExternalLink className="w-3 h-3 text-green-500" />
-                          <a href={listing.channelUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">{t("client.src.view_listing")}</a>
+                          <ExternalLink className="w-3 h-3 text-blue-500" />
+                          <a href={listing.channelUrl} target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">{t("client.src.view_listing")}</a>
                         </div>
                         <div className="flex items-center gap-1">
                           <Badge className={getStatusColor(listing.syncStatus)}>
@@ -481,7 +481,7 @@ export default function ChannelManagement() {
                         </div>
                         <div className="text-right">
                           <p className="text-sm font-medium">{performer.revenue !== undefined ? formatCurrency(performer.revenue, 'USD') : 'N/A'}</p>
-                          <p className="text-xs text-muted-foreground">{performer.bookings !== undefined ? performer.bookings : 'N/A'}{t("client.src.bookings")}</p>
+                          <p className="text-xs text-muted-foreground">{performer.bookings !== undefined ? performer.bookings : 'N/A'}{t("common.bookings")}</p>
                         </div>
                       </div>)}
                   </div>
@@ -521,7 +521,7 @@ export default function ChannelManagement() {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex justify-between">
-                      <span className="text-sm font-medium text-muted-foreground">{t("client.src.total_revenue")}</span>
+                      <span className="text-sm font-medium text-muted-foreground">{t("common.total_revenue")}</span>
                       <span className="font-medium">{formatCurrency(analytics?.totalRevenue || 0, 'USD')}</span>
                     </div>
                     <div className="flex justify-between">
@@ -545,7 +545,7 @@ export default function ChannelManagement() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>{t("client.src.channel_detail")}{selectedChannel.name}</CardTitle>
-                  <Button variant="ghost" size="sm" onClick={() => setSelectedChannel(null)}>
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedChannel(null)} aria-label={t("common.close")}>
                     ×
                   </Button>
                 </div>
@@ -559,7 +559,7 @@ export default function ChannelManagement() {
                       <CardContent className="p-4">
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="text-sm font-medium text-muted-foreground">{t("client.src.status")}</span>
+                            <span className="text-sm font-medium text-muted-foreground">{t("common.status")}</span>
                             <Badge className={getStatusColor(selectedChannel.status)}>
                               {selectedChannel.status}
                             </Badge>
@@ -612,11 +612,11 @@ export default function ChannelManagement() {
                         </div>
                         <div className="text-center">
                           <p className="text-2xl font-bold">{selectedChannel.performance ? selectedChannel.performance.bookings : 'N/A'}</p>
-                          <p className="text-sm text-muted-foreground">{t("client.src.bookings")}</p>
+                          <p className="text-sm text-muted-foreground">{t("common.bookings")}</p>
                         </div>
                         <div className="text-center">
                           <p className="text-2xl font-bold">{selectedChannel.performance ? formatCurrency(selectedChannel.performance.revenue, 'USD') : 'N/A'}</p>
-                          <p className="text-sm text-muted-foreground">{t("client.src.revenue")}</p>
+                          <p className="text-sm text-muted-foreground">{t("common.revenue")}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -632,7 +632,7 @@ export default function ChannelManagement() {
                   <Button variant="outline" onClick={() => setSelectedChannel(null)}>
                     <Eye className="w-4 h-4 mr-2" />{t("client.src.view_listings")}</Button>
                   <Button variant="outline" onClick={() => toast({ title: t("client.src.export_started") })}>
-                    <Download className="w-4 h-4 mr-2" />{t("client.src.download")}</Button>
+                    <Download className="w-4 h-4 mr-2" />{t("common.download")}</Button>
                 </div>
               </CardContent>
             </Card>
@@ -644,7 +644,7 @@ export default function ChannelManagement() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>{t("client.src.listing_detail")}{selectedListing.propertyName}</CardTitle>
-                  <Button variant="ghost" size="sm" onClick={() => setSelectedListing(null)}>
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedListing(null)} aria-label={t("common.close")}>
                     ×
                   </Button>
                 </div>
@@ -666,7 +666,7 @@ export default function ChannelManagement() {
                             <span className="font-medium">{selectedListing.channelListingId}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-sm font-medium text-muted-foreground">{t("client.src.status")}</span>
+                            <span className="text-sm font-medium text-muted-foreground">{t("common.status")}</span>
                             <Badge className={getStatusColor(selectedListing.status)}>
                               {selectedListing.status}
                             </Badge>
@@ -711,11 +711,11 @@ export default function ChannelManagement() {
                         </div>
                         <div className="text-center">
                           <p className="text-2xl font-bold">{selectedListing.performance ? selectedListing.performance.bookings : 'N/A'}</p>
-                          <p className="text-sm text-muted-foreground">{t("client.src.bookings")}</p>
+                          <p className="text-sm text-muted-foreground">{t("common.bookings")}</p>
                         </div>
                         <div className="text-center">
                           <p className="text-2xl font-bold">{selectedListing.performance && selectedListing.pricing ? formatCurrency(selectedListing.performance.revenue, selectedListing.pricing.currency) : 'N/A'}</p>
-                          <p className="text-sm text-muted-foreground">{t("client.src.revenue")}</p>
+                          <p className="text-sm text-muted-foreground">{t("common.revenue")}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -734,7 +734,7 @@ export default function ChannelManagement() {
                     });
                     setIsEditListingOpen(true);
                   }}>
-                    <Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</Button>
+                    <Edit className="w-4 h-4 mr-2" />{t("common.edit")}</Button>
                   <Button variant="outline" onClick={() => toast({ title: t("client.src.sync_started") })}>
                     <RefreshCw className="w-4 h-4 mr-2" />{t("client.src.sync")}</Button>
                   <Button variant="outline" onClick={() => toast({ title: t("client.src.listing_paused") })}>
@@ -765,11 +765,11 @@ export default function ChannelManagement() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsEditListingOpen(false)}>{t("client.src.cancel")}</Button>
+              <Button variant="outline" onClick={() => setIsEditListingOpen(false)}>{t("common.cancel")}</Button>
               <Button onClick={() => {
                 toast({ title: t("client.src.listing_updated") });
                 setIsEditListingOpen(false);
-              }}>{t("client.src.save_changes")}</Button>
+              }}>{t("common.save")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

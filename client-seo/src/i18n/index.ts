@@ -12,33 +12,11 @@ import HttpBackend from 'i18next-http-backend';
 
 const isBrowser = typeof window !== 'undefined';
 
-const SUPPORTED_LOCALES = new Set(['en','tr','ar','es','fr','de','ru','pt','zh','ja','ko','it','nl','pl','sv','da','fi','el','hi','id','gr','se','no']);
-
-function getLocaleFromUrl(): string {
-  if (!isBrowser) {
-    try {
-      const { headers } = require('next/headers');
-      const hdrs = headers();
-      const nextUrl = hdrs.get('x-next-url') || '';
-      if (nextUrl) {
-        const segments = nextUrl.split('/').filter(Boolean);
-        const first = segments[0] || 'en';
-        if (SUPPORTED_LOCALES.has(first)) return first;
-      }
-    } catch {}
-    return 'en';
-  }
-  const segments = window.location.pathname.split('/').filter(Boolean);
-  const first = segments[0] || 'en';
-  return SUPPORTED_LOCALES.has(first) ? first : 'en';
-}
-
-const FILE_MAP: Record<string, string> = {
-  el: 'gr',
-  sv: 'se',
-};
-
-const lng = getLocaleFromUrl();
+// Server (SSR) her zaman 'en' ile render eder; istemci tarafında hydration'dan
+// sonra LocalizationContext, URL'deki locale'e (ör. /tr) geçiş yapar.
+// Böylece sunucu HTML'i ile istemcinin ilk render'ı eşleşir ve hydration
+// hataları (text/placeholder mismatch) oluşmaz.
+const lng = 'en';
 
 if (!i18n.isInitialized) {
   i18n
@@ -62,6 +40,23 @@ if (!i18n.isInitialized) {
         },
       },
     });
+}
+
+// Hydration'dan sonra LocalizationContext URL locale'ine geçtiğinde veya doğrudan admin paneline
+// dil kodu olmadan girildiğinde anında doğru dilin servis edilmesini sağlar.
+if (isBrowser) {
+  const firstSegment = window.location.pathname.split('/').filter(Boolean)[0];
+  if (firstSegment && /^[a-z]{2}$/.test(firstSegment)) {
+    if (firstSegment !== 'en') {
+      i18n.changeLanguage(firstSegment);
+    }
+  } else {
+    // /admin/... gibi rotalara dil prefixi olmaksızın girildiyse hafızadan veya doğrudan 'tr' seç:
+    const savedLang = localStorage.getItem("reservatior_lang") || localStorage.getItem("language") || localStorage.getItem("i18nextLng") || "tr";
+    if (savedLang && savedLang !== "en") {
+      i18n.changeLanguage(savedLang);
+    }
+  }
 }
 
 export default i18n;

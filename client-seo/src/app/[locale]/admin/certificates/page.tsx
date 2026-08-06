@@ -1,17 +1,18 @@
-import type { Metadata } from "next";
-import CertificatesPage from "./CertificatesPage";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Income Certificates - Admin Panel | Reservatior",
-  description: "Issue and manage income-ready property certificates",
-  keywords: ["certificates", "income", "verification", "admin"],
-  openGraph: {
-    title: "Income Certificates - Admin Panel | Reservatior",
-    description: "Issue and manage income-ready property certificates",
-    type: "website",
-  },
-};
+import dynamic from "next/dynamic";
+import { Loader2 } from "lucide-react";
 
-export default function CertificatesPageWrapper() {
+const CertificatesPage = dynamic(() => import("@/pages-spa/admin/certificates/CertificatesPage"), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px] text-muted-foreground">
+      <Loader2 className="w-8 h-8 animate-spin text-brand mr-2" />
+      <span>Sertifikalar ve lisanslar yükleniyor...</span>
+    </div>
+  ),
+  ssr: false
+});
+
+export default function Page() {
   return <CertificatesPage />;
 }

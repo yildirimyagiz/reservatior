@@ -93,11 +93,11 @@ export default function SecurityEvents() {
  case"CRITICAL":
  return"bg-rose-500/10 text-rose-400 border-rose-500/20";
  case"HIGH":
- return"bg-orange-500/10 text-orange-400 border-orange-500/20";
+ return"bg-orange-500/10 text-warning border-orange-500/20";
  case"MEDIUM":
  return"bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
  default:
- return"bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+ return"bg-blue-500/10 text-success border-blue-500/20";
  }
  };
  const filteredEvents = events.filter(e => (e.title.toLowerCase().includes(search.toLowerCase()) || e.ipAddress.includes(search)) && (filterType ==="all" || e.type === filterType) && (filterSeverity ==="all" || e.severity === filterSeverity) && (filterStatus ==="all" || (filterStatus ==="resolved" ? e.isResolved : !e.isResolved)));
@@ -120,12 +120,12 @@ export default function SecurityEvents() {
  label: t("admin_security_pending_resolve"),
  val: events.filter(e => !e.isResolved).length,
  icon: Clock,
- color:"text-orange-400"
+ color:"text-warning"
  }, {
  label: t("admin_security_detection_pulse"),
  val:"Active",
  icon: Activity,
- color:"text-emerald-400"
+ color:"text-success"
  }].map((stat, i) => <Card key={i} className="bg-card border-border rounded-3xl overflow-hidden shadow-2xl relative group">
  <div className={cn("absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-all", stat.color)}>
  <stat.icon className="w-12 h-12" />
@@ -140,7 +140,7 @@ export default function SecurityEvents() {
  {/* TACTICAL FILTERS */}
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
  <div className="relative flex-1 max-w-md group">
- <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-slate-500 transition-colors" />
+ <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-muted-foreground transition-colors" />
  <Input placeholder={t("admin_security_search_audit_trail")} className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-slate-500/20 transition-all" value={search} onChange={e => setSearch(e.target.value)} />
  </div>
  <div className="flex flex-wrap gap-3">
@@ -148,7 +148,7 @@ export default function SecurityEvents() {
  <SelectTrigger className="w-40 bg-card border-border rounded-2xl h-14 text-muted-foreground">
  <SelectValue placeholder={t("admin_security_type_index")} />
  </SelectTrigger>
- <SelectContent className="bg-[#1a1b1e] border-border text-muted-foreground">
+ <SelectContent className="bg-card border-border text-muted-foreground">
  <SelectItem value="all">{t("admin_security_global_matrix")}</SelectItem>
  <SelectItem value="FAILED_LOGIN">{t("admin_security_failed_logins")}</SelectItem>
  <SelectItem value="SUSPICIOUS">{t("admin_security_suspicious")}</SelectItem>
@@ -158,7 +158,7 @@ export default function SecurityEvents() {
  <SelectTrigger className="w-40 bg-card border-border rounded-2xl h-14 text-muted-foreground">
  <SelectValue placeholder={t("admin_security_severity")} />
  </SelectTrigger>
- <SelectContent className="bg-[#1a1b1e] border-border text-muted-foreground">
+ <SelectContent className="bg-card border-border text-muted-foreground">
  <SelectItem value="all">{t("admin_security_all_severities")}</SelectItem>
  <SelectItem value="CRITICAL">{t("admin_security_critical")}</SelectItem>
  <SelectItem value="HIGH">{t("admin_security_high")}</SelectItem>
@@ -185,7 +185,7 @@ export default function SecurityEvents() {
  <TableBody>
  {loading ? <TableRow>
  <TableCell colSpan={5} className="py-20 text-center">
- <Activity className="w-8 h-8 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
+ <Activity className="w-8 h-8 text-muted-foreground animate-spin mx-auto mb-4 opacity-50" />
  <p className="text-xs font-bold text-muted-foreground animate-pulse">{t("admin_security_syncing_event_matrix")}</p>
  </TableCell>
  </TableRow> : filteredEvents.map(event => <TableRow key={event.id} className="border-b border-border hover:bg-card transition-all group">
@@ -213,8 +213,8 @@ export default function SecurityEvents() {
  </TableCell>
  <TableCell className="px-8">
  <div className="flex items-center gap-2">
- {event.isResolved ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Clock className="w-4 h-4 text-orange-500" />}
- <span className={cn("text-[10px] font-bold", event.isResolved ?"text-emerald-500" :"text-orange-500")}>
+ {event.isResolved ? <CheckCircle2 className="w-4 h-4 text-success" /> : <Clock className="w-4 h-4 text-orange-500" />}
+ <span className={cn("text-[10px] font-bold", event.isResolved ?"text-success" :"text-orange-500")}>
  {event.isResolved ?"SYNCED" :"PENDING"}
  </span>
  </div>
@@ -223,7 +223,7 @@ export default function SecurityEvents() {
  <Button variant="ghost" className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground" onClick={() => {
  setSelectedEvent(event);
  setDetailOpen(true);
- }}><Eye className="w-5 h-5" /></Button>
+ }} aria-label={t("common.view")}><Eye className="w-5 h-5" /></Button>
  </TableCell>
  </TableRow>)}
  </TableBody>

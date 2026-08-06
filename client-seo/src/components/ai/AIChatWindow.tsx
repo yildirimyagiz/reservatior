@@ -120,19 +120,19 @@ export default function AIChatWindow({
                 <Sparkles className="w-5 h-5" />
               </AvatarFallback>
             </Avatar>
-            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-purple-600 rounded-full"></div>
+            <div className="absolute bottom-0 right-0 w-3 h-3 bg-blue-400 border-2 border-purple-600 rounded-full"></div>
           </div>
           <div>
             <h3 className="font-bold text-sm">{t("client.src.ai_boutique")}</h3>
             <p className="text-[10px] text-purple-100 uppercase tracking-widest font-semibold flex items-center gap-1">
-              <span className="w-1 h-1 rounded-full bg-green-400"></span>{t("client.src.virtual_concierge")}</p>
+              <span className="w-1 h-1 rounded-full bg-blue-400"></span>{t("client.src.virtual_concierge")}</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="w-8 h-8 text-white hover:bg-white/10" onClick={() => setIsMinimized(true)}>
+          <Button variant="ghost" size="icon" aria-label={t("common.collapse")} className="w-8 h-8 text-white hover:bg-white/10" onClick={() => setIsMinimized(true)}>
             <Minimize2 className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="w-8 h-8 text-white hover:bg-white/10" onClick={onClose}>
+          <Button variant="ghost" size="icon" aria-label={t("common.close")} className="w-8 h-8 text-white hover:bg-white/10" onClick={onClose}>
             <X className="w-4 h-4" />
           </Button>
         </div>
@@ -170,7 +170,7 @@ export default function AIChatWindow({
       <div className="p-4 border-t bg-white">
         {/* Suggestion tags */}
         <div className="flex gap-2 mb-3 overflow-x-auto pb-1 scrollbar-hide">
-          <Badge variant="outline" className={`cursor-pointer transition-colors ${isEscalated ? 'bg-green-50 text-green-700 border-green-200' : 'hover:bg-purple-50 text-purple-600 border-purple-100'}`} onClick={!isEscalated ? handleEscalate : undefined}>
+          <Badge variant="outline" className={`cursor-pointer transition-colors ${isEscalated ? 'bg-blue-50 text-blue-700 border-blue-200' : 'hover:bg-purple-50 text-purple-600 border-purple-100'}`} onClick={!isEscalated ? handleEscalate : undefined}>
             {isEscalated ? 'Agent Notified' : 'Escalate to Agent'}
           </Badge>
           <Badge variant="outline" className="cursor-pointer hover:bg-purple-50 text-purple-600 border-purple-100" onClick={() => setInput("Schedule a viewing")}>{t("client.src.schedule_viewing")}</Badge>
@@ -178,20 +178,20 @@ export default function AIChatWindow({
         </div>
         
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="w-9 h-9 text-gray-400 hover:text-purple-600">
+          <Button variant="ghost" size="icon" aria-label={t("common.attach")} className="w-9 h-9 text-gray-400 hover:text-purple-600">
             <Paperclip className="w-5 h-5" />
           </Button>
           <div className="relative flex-1">
             <Input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSend()} placeholder={t("client.src.type_your_message")} className="pr-10 bg-gray-50 border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-purple-500 rounded-xl" />
             <Sparkles className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400 opacity-50" />
           </div>
-          <Button onClick={handleSend} disabled={!input.trim()} className="w-9 h-9 p-0 bg-purple-600 hover:bg-purple-700 rounded-xl shadow-lg shadow-purple-200">
+          <Button onClick={handleSend} disabled={!input.trim()} className="w-9 h-9 p-0 bg-purple-600 hover:bg-purple-700 rounded-xl shadow-lg shadow-purple-200" aria-label={t("common.send")}>
             <Send className="w-4 h-4" />
           </Button>
         </div>
         <div className="mt-3 flex items-center justify-between">
           <p className="text-[10px] text-muted-foreground">{t("client.src.powered_by_atlasvs_ai")}</p>
-          <Button variant="ghost" size="sm" className={`h-6 text-[10px] items-center gap-1 font-bold hover:bg-purple-50 ${isEscalated ? 'text-green-600' : 'text-purple-600'}`} onClick={!isEscalated ? handleEscalate : undefined} disabled={isEscalated}>
+          <Button variant="ghost" size="sm" className={`h-6 text-[10px] items-center gap-1 font-bold hover:bg-purple-50 ${isEscalated ? 'text-blue-600' : 'text-purple-600'}`} onClick={!isEscalated ? handleEscalate : undefined} disabled={isEscalated}>
             <ArrowRightLeft className="w-3 h-3" /> 
             {isEscalated ? 'Handoff Active' : 'Handoff to Human'}
           </Button>

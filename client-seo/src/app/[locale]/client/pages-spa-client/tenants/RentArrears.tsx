@@ -29,11 +29,11 @@ const STATUS: Record<string, {
   },
   RESOLVED: {
     label: t("client.src.resolved"),
-    cls: "bg-green-100 text-green-700"
+    cls: "bg-blue-100 text-blue-700"
   },
   LEGAL: {
     label: t("client.src.legal_action"),
-    cls: "bg-purple-100 text-purple-700"
+    cls: "bg-brand/15 text-brand"
   }
 };
 const MOCK: any[] = [{
@@ -124,14 +124,14 @@ export default function RentArrears() {
     } = useTranslation();
     return <form onSubmit={onSubmit} className="space-y-4 py-2">
       <div className="space-y-1.5">
-        <Label>{t("client.src.tenant")}</Label>
+        <Label>{t("common.tenant")}</Label>
         <Input type="text" value={form.tenantName} onChange={e => setForm({
           ...form,
           tenantName: e.target.value
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.property")}</Label>
+        <Label>{t("common.property")}</Label>
         <Input type="text" value={form.propertyName} onChange={e => setForm({
           ...form,
           propertyName: e.target.value
@@ -152,7 +152,7 @@ export default function RentArrears() {
         })} />
       </div>
       <div className="space-y-1.5">
-        <Label>{t("client.src.status")}</Label>
+        <Label>{t("common.status")}</Label>
         <Select value={form.status} onValueChange={v => setForm({
           ...form,
           status: v as any
@@ -188,7 +188,7 @@ export default function RentArrears() {
       label: t("client.src.total_owed"),
       value: `$${MOCK.reduce((s, r) => s + (r.arrearsAmount || 0), 0).toLocaleString()}`
     }]} filters={<div className="flex gap-2">
-          <Button variant={filterStatus === "all" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("all")}>{t("client.src.all")}</Button>
+          <Button variant={filterStatus === "all" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("all")}>{t("common.all")}</Button>
           <Button variant={filterStatus === "OUTSTANDING" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("OUTSTANDING")}>{t("client.src.outstanding")}</Button>
           <Button variant={filterStatus === "LEGAL" ? "default" : "outline"} size="sm" onClick={() => setFilterStatus("LEGAL")}>{t("client.src.legal_action")}</Button>
         </div>}>
@@ -196,11 +196,11 @@ export default function RentArrears() {
           <Table>
             <TableHeader>
               <TableRow>
-              <TableHead>{t("client.src.tenant")}</TableHead>
-              <TableHead>{t("client.src.property")}</TableHead>
+              <TableHead>{t("common.tenant")}</TableHead>
+              <TableHead>{t("common.property")}</TableHead>
               <TableHead>{t("client.src.arrears_amount")}</TableHead>
               <TableHead>{t("client.src.period_start")}</TableHead>
-              <TableHead>{t("client.src.status")}</TableHead>
+              <TableHead>{t("common.status")}</TableHead>
               <TableHead>{t("client.src.notice_sent")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
@@ -218,10 +218,10 @@ export default function RentArrears() {
                     <TableCell className="text-sm">{row.noticeSent ?? "—"}</TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
+                      <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-8 w-8"><MoreHorizontal className="w-4 h-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("client.src.edit")}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("client.src.delete")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => openEdit(row)}><Edit className="w-4 h-4 mr-2" />{t("common.edit")}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete()} className="text-destructive"><Trash2 className="w-4 h-4 mr-2" />{t("common.delete")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -234,13 +234,13 @@ export default function RentArrears() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.add_rentarrears")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleCreate} label={t("client.src.create")} />
+          <EntityForm onSubmit={handleCreate} label={t("common.create")} />
         </DialogContent>
       </Dialog>
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{t("client.src.edit_rentarrears")}</DialogTitle></DialogHeader>
-          <EntityForm onSubmit={handleEdit} label={t("client.src.save_changes")} />
+          <EntityForm onSubmit={handleEdit} label={t("common.save")} />
         </DialogContent>
       </Dialog>
     </>;

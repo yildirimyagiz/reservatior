@@ -7,6 +7,9 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MessageSquare, Send, Bell, Plus, Users, Clock, CheckCircle, XCircle, Star, Search, Settings, Zap, Activity, MoreVertical, Hash, Paperclip, Smile, Phone, Video } from "lucide-react";
 import { useAuth } from "@/lib/auth/hooks";
 import { m, AnimatePresence } from "framer-motion";
@@ -26,7 +29,9 @@ export function CommunicationsContent() {
   const [messageInput, setMessageInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType] = useState<string>("all");
-  const [, setShowNewMessageDialog] = useState(false);
+  const [showNewMessageDialog, setShowNewMessageDialog] = useState(false);
+  const [broadcastContent, setBroadcastContent] = useState("");
+  const [broadcastChannelId, setBroadcastChannelId] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -82,15 +87,15 @@ export function CommunicationsContent() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "SENT":
-        return <CheckCircle className="w-3 h-3 text-slate-500" />;
+        return <CheckCircle className="w-3 h-3 text-muted-foreground" />;
       case "DELIVERED":
-        return <CheckCircle className="w-3 h-3 text-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.3)]" />;
+        return <CheckCircle className="w-3 h-3 text-brand shadow-[0_0_8px_rgba(59,130,246,0.3)]" />;
       case "READ":
-        return <CheckCircle className="w-3 h-3 text-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.3)]" />;
+        return <CheckCircle className="w-3 h-3 text-success shadow-[0_0_8px_rgba(16,185,129,0.3)]" />;
       case "FAILED":
         return <XCircle className="w-3 h-3 text-red-500 shadow-[0_0_8px_rgba(239,68,68,0.3)]" />;
       default:
-        return <Clock className="w-3 h-3 text-slate-600" />;
+        return <Clock className="w-3 h-3 text-muted-foreground" />;
     }
   };
 
@@ -120,29 +125,44 @@ export function CommunicationsContent() {
     }
   };
 
+  const handleBroadcast = () => {
+    const targetId = broadcastChannelId || selectedChannel?.id;
+    if (!targetId || !broadcastContent.trim()) return;
+    sendMessageMutation.mutate({
+      channelId: targetId,
+      content: broadcastContent,
+      type: "SYSTEM_ANNOUNCEMENT"
+    }, {
+      onSuccess: () => {
+        setShowNewMessageDialog(false);
+        setBroadcastContent("");
+      }
+    });
+  };
+
   if (!mounted) return null;
 
-  return <div className="min-h-screen bg-[#14151a] p-8 lg:p-12 space-y-10 overflow-x-hidden">
+  return <div className="min-h-screen bg-background p-8 lg:p-12 space-y-10 overflow-x-hidden">
       
       {/* Cinematic Nexus Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 relative">
          <div className="absolute top-0 left-0 w-32 h-32 bg-blue-600/10 blur-[100px] pointer-events-none rounded-full"></div>
          <div className="relative z-10 flex items-center gap-6">
-            <div className="h-16 w-16 rounded-[24px] bg-[#1a1b1e]/60 border border-white/5 border-l border-t flex items-center justify-center shadow-3xl group">
-              <MessageSquare className="w-8 h-8 text-blue-500 group-hover:scale-110 transition-transform" />
+            <div className="h-16 w-16 rounded-[24px] bg-card/60 border border-white/5 border-l border-t flex items-center justify-center shadow-3xl group">
+              <MessageSquare className="w-8 h-8 text-brand group-hover:scale-110 transition-transform" />
             </div>
             <div>
               <h1 className="text-4xl font-black text-white italic tracking-tighter leading-none">{t("client.src.neural_signal_nexus")}</h1>
-              <p className="text-[10px] font-black text-slate-500 tracking-widest italic mt-2 flex items-center gap-2">
-                 <Activity className="w-3 h-3 text-emerald-500 animate-pulse" />{t("client.src.secure_commlink_cluster_active")}</p>
+              <p className="text-[10px] font-black text-muted-foreground tracking-widest italic mt-2 flex items-center gap-2">
+                 <Activity className="w-3 h-3 text-success animate-pulse" />{t("client.src.secure_commlink_cluster_active")}</p>
             </div>
          </div>
 
         <div className="flex items-center gap-4 relative z-10">
-          <Button variant="outline" className="h-14 w-14 rounded-2xl border-white/5 bg-white/5 text-slate-400 hover:text-white transition-all shadow-xl">
+          <Button variant="outline" className="h-14 w-14 rounded-2xl border-white/5 bg-white/5 text-muted-foreground hover:text-white transition-all shadow-xl" aria-label={t("common.settings")}>
             <Settings className="w-5 h-5" />
           </Button>
-          <Button onClick={() => setShowNewMessageDialog(true)} className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] tracking-widest italic shadow-xl shadow-blue-600/20 gap-3">
+          <Button onClick={() => { setBroadcastChannelId(selectedChannel?.id ?? ""); setShowNewMessageDialog(true); }} className="h-14 px-8 rounded-2xl bg-blue-600 hover:bg-brand/100 text-white font-black text-[10px] tracking-widest italic shadow-xl shadow-blue-600/20 gap-3">
             <Plus className="w-4 h-4" />{t("client.src.broadcast_signal")}
           </Button>
         </div>
@@ -154,12 +174,12 @@ export function CommunicationsContent() {
         label: t("client.src.connected_nodes"),
         value: channels.length,
         icon: Users,
-        color: "text-blue-400"
+        color: "text-brand"
       }, {
         label: t("client.src.unread_pulses"),
         value: notifications.length,
         icon: Bell,
-        color: "text-purple-400"
+        color: "text-brand"
       }, {
         label: t("client.src.starred_symbols"),
         value: "14",
@@ -169,13 +189,13 @@ export function CommunicationsContent() {
         label: t("client.src.signal_latency"),
         value: "24ms",
         icon: Zap,
-        color: "text-emerald-400"
-      }].map((stat, i) => <Card key={i} className="bg-[#1a1b1e]/60 border-white/5 rounded-[32px] p-6 shadow-2xl relative overflow-hidden group border-l border-t">
-            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-all text-blue-500">
+        color: "text-success"
+      }].map((stat, i) => <Card key={i} className="bg-card/60 border-white/5 rounded-[32px] p-6 shadow-2xl relative overflow-hidden group border-l border-t">
+            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-all text-brand">
                <stat.icon className="w-12 h-12" />
             </div>
             <div className="space-y-1">
-               <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{stat.label}</p>
+               <p className="text-[10px] font-black text-muted-foreground tracking-widest italic">{stat.label}</p>
                <h3 className="text-3xl font-black text-white italic tracking-tighter mt-1">{stat.value}</h3>
             </div>
           </Card>)}
@@ -184,33 +204,33 @@ export function CommunicationsContent() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-[750px]">
         {/* Signal Channels Sidebar */}
         <div className="lg:col-span-4 h-full">
-          <Card className="h-full bg-[#1a1b1e]/40 border-white/5 rounded-[40px] overflow-hidden shadow-3xl border-l border-t flex flex-col">
+          <Card className="h-full bg-card/40 border-white/5 rounded-[40px] overflow-hidden shadow-3xl border-l border-t flex flex-col">
             <CardHeader className="p-8 pb-4">
               <div className="relative group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-brand transition-colors" />
                 <Input placeholder={t("client.src.filtering_signals")} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="bg-black/40 border-white/5 rounded-2xl pl-12 h-14 text-white focus:ring-blue-500/20 text-[10px] font-black tracking-widest italic border-l border-t" />
               </div>
             </CardHeader>
             <CardContent className="flex-1 p-0 overflow-y-auto custom-scrollbar">
               <div className="px-4 space-y-2">
                 {isLoadingChannels ? <div className="p-10 text-center space-y-4 opacity-40">
-                     <Activity className="w-10 h-10 mx-auto text-slate-600 animate-spin" />
-                     <p className="text-[10px] font-black tracking-widest italic text-slate-500">{t("client.src.scanning_frequencies")}</p>
+                     <Activity className="w-10 h-10 mx-auto text-muted-foreground animate-spin" />
+                     <p className="text-[10px] font-black tracking-widest italic text-muted-foreground">{t("client.src.scanning_frequencies")}</p>
                   </div> : filteredChannels.map(channel => <m.div key={channel.id} layoutId={`channel-${channel.id}`} className={cn("p-5 rounded-[28px] cursor-pointer transition-all relative group flex items-start gap-5", selectedChannel?.id === channel.id ? "bg-blue-600/10 border border-blue-500/30 shadow-2xl" : "hover:bg-white/5 border border-transparent")} onClick={() => setSelectedChannel(channel)}>
                     <div className="relative">
                        <Avatar className="w-14 h-14 border-2 border-white/5 rounded-[18px] p-0.5 group-hover:scale-105 transition-transform">
-                          <AvatarFallback className="bg-slate-900 text-blue-500 font-black italic rounded-[16px]"><Users className="w-6 h-6" /></AvatarFallback>
+                          <AvatarFallback className="bg-card text-brand font-black italic rounded-[16px]"><Users className="w-6 h-6" /></AvatarFallback>
                        </Avatar>
-                       <div className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-blue-500 border-2 border-[#1a1b1e] shadow-[0_0_8px_#3b82f6]" />
+                       <div className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-brand/100 border-2 border-[#1a1b1e] shadow-[0_0_8px_#3b82f6]" />
                     </div>
                     <div className="flex-1 min-w-0 space-y-1">
                       <div className="flex items-center justify-between">
                         <h3 className="text-sm font-black text-white italic tracking-tighter truncate">{channel.name}</h3>
-                        <span className="text-[9px] font-black text-slate-600 italic whitespace-nowrap">{formatTimestamp(channel.updatedAt)}</span>
+                        <span className="text-[9px] font-black text-muted-foreground italic whitespace-nowrap">{formatTimestamp(channel.updatedAt)}</span>
                       </div>
-                      <p className="text-[10px] font-bold text-slate-500 tracking-widest italic truncate">{channel.type}{t("client.src.channel")}</p>
+                      <p className="text-[10px] font-bold text-muted-foreground tracking-widest italic truncate">{channel.type}{t("client.src.channel")}</p>
                     </div>
-                    {selectedChannel?.id === channel.id && <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-500 rounded-l-full shadow-[0_0_15px_#3b82f6]" />}
+                    {selectedChannel?.id === channel.id && <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand/100 rounded-l-full shadow-[0_0_15px_#3b82f6]" />}
                   </m.div>)}
               </div>
             </CardContent>
@@ -219,32 +239,32 @@ export function CommunicationsContent() {
 
         {/* Central Signal Processor (Chat) */}
         <div className="lg:col-span-8 h-full">
-          <Card className="h-full bg-[#1a1b1e]/60 border-white/5 rounded-[40px] shadow-3xl border-l border-t flex flex-col relative overflow-hidden">
+          <Card className="h-full bg-card/60 border-white/5 rounded-[40px] shadow-3xl border-l border-t flex flex-col relative overflow-hidden">
             {selectedChannel ? <>
                 <CardHeader className="p-8 border-b border-white/5 bg-black/20 backdrop-blur-3xl sticky top-0 z-10">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-6">
                       <div className="relative">
                          <Avatar className="w-16 h-16 border-2 border-white/5 rounded-[22px] p-0.5 animate-pulse-slow">
-                            <AvatarFallback className="bg-slate-900 text-blue-400 font-black italic rounded-[20px] text-xl">#</AvatarFallback>
+                            <AvatarFallback className="bg-card text-brand font-black italic rounded-[20px] text-xl">#</AvatarFallback>
                          </Avatar>
-                         <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-4 border-[#1a1b1e] shadow-[0_0_10px_#10b981]" />
+                         <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-success border-4 border-[#1a1b1e] shadow-[0_0_10px_#3b82f6]" />
                       </div>
                       <div>
                         <h3 className="text-2xl font-black text-white italic tracking-tighter leading-none">{selectedChannel.name}</h3>
-                        <p className="text-[10px] font-black text-slate-500 tracking-widest italic mt-2 flex items-center gap-2">
-                           <Hash className="w-3 h-3 text-blue-500" /> {selectedChannel.type}{t("client.src.protocol_secure")}</p>
+                        <p className="text-[10px] font-black text-muted-foreground tracking-widest italic mt-2 flex items-center gap-2">
+                           <Hash className="w-3 h-3 text-brand" /> {selectedChannel.type}{t("client.src.protocol_secure")}</p>
                       </div>
                     </div>
                     
                     <div className="flex items-center gap-3">
-                       <Button variant="outline" className="h-12 w-12 rounded-xl border-white/5 bg-white/5 text-slate-400 hover:text-white">
+                       <Button variant="outline" className="h-12 w-12 rounded-xl border-white/5 bg-white/5 text-muted-foreground hover:text-white" aria-label={t("common.call")}>
                           <Phone className="w-4 h-4" />
                        </Button>
-                       <Button variant="outline" className="h-12 w-12 rounded-xl border-white/5 bg-white/5 text-slate-400 hover:text-white">
+                       <Button variant="outline" className="h-12 w-12 rounded-xl border-white/5 bg-white/5 text-muted-foreground hover:text-white" aria-label={t("common.video_call")}>
                           <Video className="w-4 h-4" />
                        </Button>
-                       <Button variant="ghost" size="icon" className="h-12 w-12 rounded-xl text-slate-500 hover:text-white">
+                       <Button variant="ghost" size="icon" aria-label={t("common.more")} className="h-12 w-12 rounded-xl text-muted-foreground hover:text-white">
                           <MoreVertical className="w-5 h-5" />
                        </Button>
                     </div>
@@ -254,7 +274,7 @@ export function CommunicationsContent() {
                 <CardContent className="flex-1 p-8 overflow-y-auto custom-scrollbar space-y-8">
                   <div className="text-center py-10 opacity-20 relative">
                      <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-500 to-transparent absolute top-1/2 left-0 -translate-y-1/2"></div>
-                     <span className="bg-[#1a1b1e] px-6 relative z-10 text-[9px] font-black tracking-[0.3em] text-slate-500">{t("client.src.signal_uplink_established")}</span>
+                     <span className="bg-card px-6 relative z-10 text-[9px] font-black tracking-[0.3em] text-muted-foreground">{t("client.src.signal_uplink_established")}</span>
                   </div>
                   
                   <div className="space-y-10">
@@ -275,19 +295,19 @@ export function CommunicationsContent() {
                             <div className={cn("flex flex-col max-w-[75%]", isMe ? "items-end" : "items-start")}>
                               <div className="flex items-center gap-3 mb-2">
                                  {!isMe && <Avatar className="w-6 h-6 border border-white/10">
-                                       <AvatarFallback className="bg-slate-800 text-[8px] font-black italic">{message.sender?.firstName?.slice(0, 1) || "S"}</AvatarFallback>
+                                       <AvatarFallback className="bg-muted text-[8px] font-black italic">{message.sender?.firstName?.slice(0, 1) || "S"}</AvatarFallback>
                                     </Avatar>}
-                                 <span className="text-[10px] font-black text-slate-500 italic tracking-widest">
+                                 <span className="text-[10px] font-black text-muted-foreground italic tracking-widest">
                                     {isMe ? "IDENTITY_ME" : message.sender?.firstName || "SYSTEM_OPERATOR"}
                                  </span>
                               </div>
                               
-                              <div className={cn("p-5 rounded-[24px] shadow-2xl relative border-l border-t", isMe ? "bg-blue-600 text-white rounded-tr-none shadow-blue-500/20 border-white/10" : "bg-black/40 text-slate-200 rounded-tl-none border-white/5")}>
-                                <p className={cn("text-sm font-medium leading-relaxed italic tracking-tight", isMe ? "text-white" : "text-slate-200")}>{message.content}</p>
+                              <div className={cn("p-5 rounded-[24px] shadow-2xl relative border-l border-t", isMe ? "bg-blue-600 text-white rounded-tr-none shadow-blue-500/20 border-white/10" : "bg-black/40 text-foreground rounded-tl-none border-white/5")}>
+                                <p className={cn("text-sm font-medium leading-relaxed italic tracking-tight", isMe ? "text-white" : "text-foreground")}>{message.content}</p>
                               </div>
                               
                               <div className={cn("flex items-center gap-2 mt-2")}>
-                                <span className="text-[9px] font-black text-slate-600 italic tracking-tighter">{formatTimestamp(message.createdAt)}</span>
+                                <span className="text-[9px] font-black text-muted-foreground italic tracking-tighter">{formatTimestamp(message.createdAt)}</span>
                                 {isMe && getStatusIcon(message.status)}
                               </div>
                             </div>
@@ -300,15 +320,15 @@ export function CommunicationsContent() {
 
                 <div className="p-8 border-t border-white/5 bg-black/40 backdrop-blur-3xl relative">
                   <div className="flex items-center gap-4 bg-black/40 border border-white/5 rounded-[28px] p-2 pl-6 focus-within:border-blue-500/40 transition-all shadow-inner border-l border-t relative overflow-hidden">
-                     <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl text-slate-500 hover:text-white">
+                     <Button variant="ghost" size="icon" aria-label={t("common.attach")} className="h-10 w-10 rounded-xl text-muted-foreground hover:text-white">
                         <Paperclip className="w-5 h-5" />
                      </Button>
                     <Input placeholder={t("client.src.broadcast_signal_content")} value={messageInput} onChange={e => setMessageInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSendMessage()} className="flex-1 bg-transparent border-none text-white focus:ring-0 text-[11px] font-black italic tracking-widest" disabled={sendMessageMutation.isPending} />
                     <div className="flex items-center gap-2">
-                       <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl text-slate-500 hover:text-white">
+                       <Button variant="ghost" size="icon" aria-label={t("common.emoji")} className="h-10 w-10 rounded-xl text-muted-foreground hover:text-white">
                           <Smile className="w-5 h-5" />
                        </Button>
-                       <Button size="lg" onClick={handleSendMessage} disabled={sendMessageMutation.isPending || !messageInput.trim()} className="h-14 w-14 rounded-[22px] bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/20 active:scale-95 transition-all">
+                       <Button size="lg" onClick={handleSendMessage} disabled={sendMessageMutation.isPending || !messageInput.trim()} className="h-14 w-14 rounded-[22px] bg-blue-600 hover:bg-brand/100 text-white shadow-xl shadow-blue-600/20 active:scale-95 transition-all" aria-label={t("common.send")}>
                          <Send className="w-6 h-6" />
                        </Button>
                     </div>
@@ -317,18 +337,56 @@ export function CommunicationsContent() {
                 </div>
               </> : <CardContent className="flex-1 flex flex-col items-center justify-center p-20 space-y-8 opacity-40">
                 <div className="relative">
-                   <div className="absolute inset-0 bg-blue-600/20 blur-[60px] rounded-full animate-pulse-slow"></div>
+                   <div className="absolute inset-0 bg-blue-600/20 blur-[60px] rounded-full"></div>
                    <div className="w-24 h-24 rounded-[32px] bg-white/2 border border-white/5 flex items-center justify-center relative z-10">
-                      <MessageSquare className="w-10 h-10 text-slate-600" />
+                      <MessageSquare className="w-10 h-10 text-muted-foreground" />
                    </div>
                 </div>
                 <div className="text-center space-y-2">
                   <h3 className="text-xl font-black text-white italic tracking-tighter leading-none">{t("client.src.awaiting_signal_selection")}</h3>
-                  <p className="text-[10px] font-black text-slate-500 tracking-widest italic leading-relaxed">{t("client.src.choose_a_node_identifier")}</p>
+                  <p className="text-[10px] font-black text-muted-foreground tracking-widest italic leading-relaxed">{t("client.src.choose_a_node_identifier")}</p>
                 </div>
               </CardContent>}
           </Card>
         </div>
       </div>
+
+      <Dialog open={showNewMessageDialog} onOpenChange={setShowNewMessageDialog}>
+        <DialogContent className="sm:max-w-lg bg-card/95 border-white/10 backdrop-blur-xl">
+          <DialogHeader>
+            <DialogTitle className="font-black italic tracking-widest">{t("client.src.broadcast_signal")}</DialogTitle>
+            <DialogDescription className="text-[11px] font-bold text-muted-foreground tracking-wide">
+              {t("client.src.choose_a_node_identifier")}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <p className="text-[10px] font-black text-muted-foreground tracking-widest italic uppercase">{t("common.select_type")}</p>
+              <Select value={broadcastChannelId} onValueChange={setBroadcastChannelId}>
+                <SelectTrigger className="w-full bg-black/30 border-white/10 rounded-xl h-12">
+                  <SelectValue placeholder={t("client.src.filtering_signals")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {channels.map(channel => (
+                    <SelectItem key={channel.id} value={channel.id}>{channel.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Textarea
+              value={broadcastContent}
+              onChange={e => setBroadcastContent(e.target.value)}
+              placeholder={t("client.src.broadcast_signal_content")}
+              className="min-h-[120px] bg-black/30 border-white/10 rounded-xl text-white"
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowNewMessageDialog(false)}>{t("common.cancel")}</Button>
+            <Button onClick={handleBroadcast} disabled={sendMessageMutation.isPending || !broadcastContent.trim() || !broadcastChannelId} className="bg-blue-600 hover:bg-brand/100 text-white font-black italic">
+              <Send className="w-4 h-4" />{t("common.send")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>;
 }

@@ -53,7 +53,7 @@ export default function PropertyInventoryManagement() {
  switch (condition.toLowerCase()) {
  case"excellent":
  case"new":
- return"bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+ return"bg-blue-500/10 text-success border-blue-500/20";
  case"good":
  case"fair":
  return"bg-muted0/10 text-muted-foreground border-slate-500/20";
@@ -109,10 +109,10 @@ export default function PropertyInventoryManagement() {
  label: t("admin_inventory_excellent_condition"),
  val: inventories.filter((i: any) => i.overallCondition?.toLowerCase() === 'excellent' || i.overallCondition?.toLowerCase() === 'new').length,
  icon: Zap,
- color:"text-emerald-400"
+ color:"text-success"
  }, {
  label: t("admin_inventory_sync_status"),
- val: t("admin_inventory_optimal","Optimal"),
+ val: t("admin_inventory_optimal", "Optimum"),
  icon: Activity,
  color:"text-muted-foreground"
  }].map((stat, i) => (
@@ -131,7 +131,7 @@ export default function PropertyInventoryManagement() {
  {/* TACTICAL FILTERS */}
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-4">
  <div className="relative flex-1 max-w-md group">
- <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-slate-500 transition-colors" />
+ <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-muted-foreground transition-colors" />
  <Input
  placeholder={t("admin_inventory_search_inventory_cluster")}
  className="bg-card border-border rounded-2xl pl-12 h-14 text-foreground focus:ring-slate-500/20 transition-all font-medium"
@@ -142,49 +142,49 @@ export default function PropertyInventoryManagement() {
 
  <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
  <DialogTrigger asChild>
- <Button className="h-14 px-8 rounded-2xl bg-slate-600 hover:bg-muted0 text-foreground font-bold text-[10px] gap-2 shadow-xl shadow-slate-600/20">
+ <Button className="h-14 px-8 rounded-2xl bg-muted hover:bg-muted0 text-foreground font-bold text-[10px] gap-2 shadow-xl shadow-slate-600/20">
  <Plus className="w-4 h-4" />{t("admin_inventory_initialize_inventory")}
  </Button>
  </DialogTrigger>
  <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
  <DialogHeader>
- <DialogTitle>{t("admin_auto_create_new_inventory", "Create New Inventory")}</DialogTitle>
- <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_inventory", "Enter the details for the new inventory.")}</DialogDescription>
+ <DialogTitle>{t("admin_auto_create_new_inventory", "Yeni Envanter Oluştur")}</DialogTitle>
+ <DialogDescription className="text-muted-foreground">{t("admin_auto_enter_the_details_for_the_new_inventory", "Yeni envanterin ayrıntılarını girin.")}</DialogDescription>
  </DialogHeader>
  <div className="grid gap-4 py-4">
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="propertyId" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_id", "Property ID")}</Label>
+ <Label htmlFor="propertyId" className="text-right text-xs text-muted-foreground">{t("admin_auto_property_id", "Mülk Kimliği")}</Label>
  <Input
  id="propertyId"
  className="col-span-3 h-10 bg-card border-border text-foreground"
  value={formData.propertyId}
  onChange={e => setFormData({ ...formData, propertyId: e.target.value })}
- placeholder={t("admin_auto_enter_property_id", "Enter property id")}
+ placeholder={t("admin_auto_enter_property_id", "Mülk kimliğini girin")}
  />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Type")}</Label>
+ <Label htmlFor="type" className="text-right text-xs text-muted-foreground">{t("admin_auto_type", "Tip")}</Label>
  <Input
  id="type"
  className="col-span-3 h-10 bg-card border-border text-foreground"
  value={formData.type}
  onChange={e => setFormData({ ...formData, type: e.target.value })}
- placeholder={t("admin_auto_enter_type", "Enter type")}
+ placeholder={t("admin_auto_enter_type", "Türü girin")}
  />
  </div>
  <div className="grid grid-cols-4 items-center gap-4">
- <Label htmlFor="quantity" className="text-right text-xs text-muted-foreground">{t("admin_auto_quantity", "Quantity")}</Label>
+ <Label htmlFor="quantity" className="text-right text-xs text-muted-foreground">{t("admin_auto_quantity", "Miktar")}</Label>
  <Input
  id="quantity"
  className="col-span-3 h-10 bg-card border-border text-foreground"
  value={formData.quantity}
  onChange={e => setFormData({ ...formData, quantity: e.target.value })}
- placeholder={t("admin_auto_enter_quantity", "Enter quantity")}
+ placeholder={t("admin_auto_enter_quantity", "Miktarı girin")}
  />
  </div>
  </div>
  <DialogFooter>
- <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+ <Button variant="outline" onClick={() => setIsAddOpen(false)}>{t("admin_action_cancel", "İptal")}</Button>
  <Button onClick={() => createMutation.mutate(formData)} disabled={createMutation.isPending}>
  {createMutation.isPending ?"Saving..." :"Save Changes"}
  </Button>
@@ -210,7 +210,7 @@ export default function PropertyInventoryManagement() {
  {isLoading ? (
  <TableRow>
  <TableCell colSpan={5} className="py-20 text-center">
- <Activity className="w-8 h-8 text-slate-500 animate-spin mx-auto mb-4 opacity-50" />
+ <Activity className="w-8 h-8 text-muted-foreground animate-spin mx-auto mb-4 opacity-50" />
  <p className="text-xs font-bold text-muted-foreground animate-pulse">{t("admin_inventory_syncing_inventory_matrix")}</p>
  </TableCell>
  </TableRow>
@@ -253,16 +253,16 @@ export default function PropertyInventoryManagement() {
  <Camera className="w-5 h-5" />
  </Button>
  <Button variant="ghost" onClick={() => {
- toast({ title: t("admin_inventory_ai_staging_started","AI Staging Started"), description: t("admin_inventory_ai_processing","Visuals are being processed by AI models.") });
+ toast({ title: t("admin_inventory_ai_staging_started", "Yapay Zeka Aşamalandırması Başladı"), description: t("admin_inventory_ai_processing", "Görseller yapay zeka modelleri tarafından işleniyor.") });
  propertiesApi.runAIStaging(inventory.propertyId).then(() => {
- toast({ title: t("admin_inventory_ai_staging_complete","AI Staging Complete"), description: t("admin_inventory_ai_staging_success","Images have been successfully staged.") });
+ toast({ title: t("admin_inventory_ai_staging_complete", "Yapay Zeka Hazırlama Tamamlandı"), description: t("admin_inventory_ai_staging_success", "Görüntüler başarıyla sahnelendi.") });
  }).catch((err: any) => {
  toast({ title:"Error", description: err.message, variant:"destructive" });
  });
- }} className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-indigo-400" title={t("admin_inventory_run_ai_staging","Run AI Staging")}>
- <Sparkles className="w-5 h-5 text-indigo-400" />
+ }} className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-brand" title={t("admin_inventory_run_ai_staging", "AI Staging'i çalıştırın")}>
+ <Sparkles className="w-5 h-5 text-brand" />
  </Button>
- <Button variant="ghost" onClick={() => navigate(`/admin/inventory/${inventory.id}`)} className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground">
+ <Button variant="ghost" onClick={() => navigate(`/admin/inventory/${inventory.id}`)} className="h-12 w-12 rounded-2xl hover:bg-card text-muted-foreground hover:text-foreground" aria-label={t("common.view")}>
  <Eye className="w-5 h-5" />
  </Button>
  </div>

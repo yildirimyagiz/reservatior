@@ -29,33 +29,33 @@ export function DepositProtectionWidget({
     <Card className="bg-card border-border">
       <CardHeader>
         <CardTitle className="text-foreground flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-emerald-400" />
+          <ShieldCheck className="w-5 h-5 text-blue-400" />
           {t("widget_insurance_title", "Deposit Protection & Insurance")}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center gap-3 p-3 bg-card rounded-xl border border-border">
-          <div className={cn("w-10 h-10 rounded-full flex items-center justify-center", hasProtection ? "bg-emerald-500/20" : "bg-amber-500/20")}>
-            {hasProtection ? <CheckCircle2 className="w-5 h-5 text-emerald-400" /> : <AlertTriangle className="w-5 h-5 text-amber-400" />}
+          <div className={cn("w-10 h-10 rounded-full flex items-center justify-center", hasProtection ? "bg-blue-500/20" : "bg-amber-500/20")}>
+            {hasProtection ? <CheckCircle2 className="w-5 h-5 text-blue-400" /> : <AlertTriangle className="w-5 h-5 text-amber-400" />}
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-foreground">{t("widget_deposit_protection", "Deposit Protection")}</p>
             <p className="text-xs text-muted-foreground">{hasProtection ? t("widget_protection_active", "Active") : t("widget_protection_missing", "Not attached")}</p>
           </div>
-          <Badge className={cn("border-0 text-[10px]", hasProtection ? "bg-emerald-500/20 text-emerald-400" : "bg-amber-500/20 text-amber-400")}>
+          <Badge className={cn("border-0 text-[10px]", hasProtection ? "bg-blue-500/20 text-blue-400" : "bg-amber-500/20 text-amber-400")}>
             {hasProtection ? "✓" : "!"}
           </Badge>
         </div>
 
         <div className="flex items-center gap-3 p-3 bg-card rounded-xl border border-border">
-          <div className={cn("w-10 h-10 rounded-full flex items-center justify-center", hasLiability ? "bg-emerald-500/20" : "bg-blue-500/20")}>
-            {hasLiability ? <CheckCircle2 className="w-5 h-5 text-emerald-400" /> : <Lock className="w-5 h-5 text-blue-400" />}
+          <div className={cn("w-10 h-10 rounded-full flex items-center justify-center", hasLiability ? "bg-blue-500/20" : "bg-blue-500/20")}>
+            {hasLiability ? <CheckCircle2 className="w-5 h-5 text-blue-400" /> : <Lock className="w-5 h-5 text-blue-400" />}
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-foreground">{t("widget_liability_insurance", "Liability Insurance")}</p>
             <p className="text-xs text-muted-foreground">{hasLiability ? t("widget_liability_active", "Active") : t("widget_liability_missing", "Not attached")}</p>
           </div>
-          <Badge className={cn("border-0 text-[10px]", hasLiability ? "bg-emerald-500/20 text-emerald-400" : "bg-muted0/20 text-muted-foreground")}>
+          <Badge className={cn("border-0 text-[10px]", hasLiability ? "bg-blue-500/20 text-blue-400" : "bg-muted0/20 text-muted-foreground")}>
             {hasLiability ? "✓" : "—"}
           </Badge>
         </div>
@@ -74,7 +74,7 @@ export function DepositProtectionWidget({
         {riskScore !== undefined && (
           <div className="flex items-center justify-between p-3 bg-card rounded-xl border border-border">
             <span className="text-xs text-muted-foreground">{t("widget_risk_score", "Property Risk Score")}</span>
-            <span className={cn("text-sm font-bold", riskScore < 30 ? "text-emerald-400" : riskScore < 60 ? "text-amber-400" : "text-red-400")}>
+            <span className={cn("text-sm font-bold", riskScore < 30 ? "text-blue-400" : riskScore < 60 ? "text-amber-400" : "text-red-400")}>
               {riskScore}/100
             </span>
           </div>
@@ -82,7 +82,7 @@ export function DepositProtectionWidget({
 
         {!hasProtection && onAttach && (
           <Button
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
             size="sm"
             onClick={onAttach}
           >

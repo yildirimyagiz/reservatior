@@ -238,7 +238,7 @@ export default function MagicLinkInvitation({ corporateAccountId, onInvitationSe
               </button>
               <button
                 onClick={() => setCustomMessage("Your portfolio has been analyzed by our AI. We've identified significant yield optimization opportunities.")}
-                className="p-3 bg-white rounded-lg border border-green-200 hover:border-green-400 transition text-left"
+                className="p-3 bg-white rounded-lg border border-blue-200 hover:border-blue-400 transition text-left"
               >
                 <p className="font-medium text-gray-900">AI Insights</p>
                 <p className="text-sm text-gray-600">Highlight AI analysis</p>
@@ -256,18 +256,18 @@ export default function MagicLinkInvitation({ corporateAccountId, onInvitationSe
       ) : (
         <>
           {/* Success State */}
-          <div className="bg-green-50 rounded-xl p-6 border border-green-200">
+          <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-green-600" />
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <CheckCircle className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-green-900">Invitation Sent Successfully</h3>
-                <p className="text-sm text-green-700">Magic link has been generated and sent to {email}</p>
+                <h3 className="text-lg font-semibold text-blue-900">Invitation Sent Successfully</h3>
+                <p className="text-sm text-blue-700">Magic link has been generated and sent to {email}</p>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-4 border border-green-200 mb-4">
+            <div className="bg-white rounded-lg p-4 border border-blue-200 mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">Magic Link</label>
               <div className="flex gap-2">
                 <input
@@ -278,7 +278,7 @@ export default function MagicLinkInvitation({ corporateAccountId, onInvitationSe
                 />
                 <button
                   onClick={copyMagicLink}
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center gap-2"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
                 >
                   {copied ? <CheckCircle className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                   {copied ? 'Copied!' : 'Copy'}
@@ -318,7 +318,7 @@ export default function MagicLinkInvitation({ corporateAccountId, onInvitationSe
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Priority Access</span>
-                <span className={`font-medium ${priorityAccess ? 'text-green-600' : 'text-gray-600'}`}>
+                <span className={`font-medium ${priorityAccess ? 'text-blue-600' : 'text-gray-600'}`}>
                   {priorityAccess ? 'Enabled' : 'Disabled'}
                 </span>
               </div>

@@ -41,7 +41,7 @@ const mockRecords: RightToRentRecord[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  VERIFIED: "bg-green-500/20 text-green-400",
+  VERIFIED: "bg-blue-500/20 text-blue-400",
   PENDING: "bg-yellow-500/20 text-yellow-400",
   EXPIRED: "bg-red-500/20 text-red-400",
   FAILED: "bg-gray-500/20 text-gray-400",
@@ -105,7 +105,7 @@ export default function AdminRightToRentPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           {[
-            { label: t("admin_righttorent_verified"), value: "124", color: "text-green-400", icon: ShieldCheck },
+            { label: t("admin_righttorent_verified"), value: "124", color: "text-blue-400", icon: ShieldCheck },
             { label: t("admin_righttorent_pending"), value: "18", color: "text-yellow-400", icon: FileSearch },
             { label: t("admin_righttorent_expired"), value: "7", color: "text-red-400", icon: FileSearch },
             { label: t("admin_righttorent_failed"), value: "3", color: "text-muted-foreground", icon: FileSearch },
@@ -184,8 +184,8 @@ export default function AdminRightToRentPage() {
                           {t(`admin_status_${String(record.status).toLowerCase()}`)}
                         </Badge>
                         <div className="flex gap-2">
-                          <Button onClick={() => { setEditingItem(record); setIsEditOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
-                          <Button onClick={() => { setDeletingItem(record); setIsDeleteOpen(true); }} variant="ghost" size="icon" className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
+                          <Button onClick={() => { setEditingItem(record); setIsEditOpen(true); }} variant="ghost" size="icon" aria-label={t("common.edit")} className="min-h-10 min-w-10 h-10 w-10"><Edit className="w-4 h-4" /></Button>
+                          <Button onClick={() => { setDeletingItem(record); setIsDeleteOpen(true); }} variant="ghost" size="icon" aria-label={t("common.delete")} className="min-h-10 min-w-10 h-10 w-10 text-red-400"><Trash2 className="w-4 h-4" /></Button>
                         </div>
                       </div>
                     </div>
@@ -222,48 +222,48 @@ function CreateRightToRentDialog({ open, onOpenChange, onSubmit }: { open: boole
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_add_right_to_rent_record", "Add Right to Rent Record")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_right_to_rent_check_record", "Add a new right to rent check record.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_add_right_to_rent_record", "Kiralama Hakkı Kaydı Ekle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_add_a_new_right_to_rent_check_record", "Yeni bir kiralama hakkı kontrol kaydı ekleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("client.src.tenant_name", "Tenant Name")}</Label>
+            <Label className="text-right text-foreground">{t("client.src.tenant_name", "Kiracı Adı")}</Label>
             <Input value={tenantName} onChange={e => setTenantName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("client.src.property_address", "Property Address")}</Label>
+            <Label className="text-right text-foreground">{t("client.src.property_address", "Mülk Adresi")}</Label>
             <Input value={propertyAddress} onChange={e => setPropertyAddress(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("mobile.admin.field_check_date", "Check Date")}</Label>
+            <Label className="text-right text-foreground">{t("mobile.admin.field_check_date", "Tarihi Kontrol Et")}</Label>
             <Input type="date" value={checkDate} onChange={e => setCheckDate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("client.src.expiry_date", "Expiry Date")}</Label>
+            <Label className="text-right text-foreground">{t("common.expiry_date", "Son kullanma")}</Label>
             <Input type="date" value={expiryDate} onChange={e => setExpiryDate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as RightToRentRecord["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="VERIFIED">{t("admin_bookings_verification_verified", "Verified")}</SelectItem>
-                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
-                <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Expired")}</SelectItem>
-                <SelectItem value="FAILED">{t("admin_ai_failed", "Failed")}</SelectItem>
+                <SelectItem value="VERIFIED">{t("admin_bookings_verification_verified", "Doğrulandı")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Bekliyor")}</SelectItem>
+                <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Günü Geçmiş")}</SelectItem>
+                <SelectItem value="FAILED">{t("admin_ai_failed", "Başarısız")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_immigration_document_type", "Document Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_immigration_document_type", "Belge Türü")}</Label>
             <Input value={documentType} onChange={e => setDocumentType(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ tenantName, propertyAddress, checkDate, expiryDate, status, documentType })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Create")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ tenantName, propertyAddress, checkDate, expiryDate, status, documentType })} className="bg-primary hover:bg-primary/90">{t("admin_action_create", "Oluştur")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -282,48 +282,48 @@ function EditRightToRentDialog({ open, onOpenChange, item, onSubmit }: { open: b
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_right_to_rent_record", "Edit Right to Rent Record")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_right_to_rent_record_details", "Update right to rent record details.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_edit_right_to_rent_record", "Kiralama Hakkı Kaydını Düzenle")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_update_right_to_rent_record_details", "Kiralama hakkı kayıt detaylarını güncelleyin.")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("client.src.tenant_name", "Tenant Name")}</Label>
+            <Label className="text-right text-foreground">{t("client.src.tenant_name", "Kiracı Adı")}</Label>
             <Input value={tenantName} onChange={e => setTenantName(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("client.src.property_address", "Property Address")}</Label>
+            <Label className="text-right text-foreground">{t("client.src.property_address", "Mülk Adresi")}</Label>
             <Input value={propertyAddress} onChange={e => setPropertyAddress(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("mobile.admin.field_check_date", "Check Date")}</Label>
+            <Label className="text-right text-foreground">{t("mobile.admin.field_check_date", "Tarihi Kontrol Et")}</Label>
             <Input type="date" value={checkDate} onChange={e => setCheckDate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("client.src.expiry_date", "Expiry Date")}</Label>
+            <Label className="text-right text-foreground">{t("common.expiry_date", "Son kullanma")}</Label>
             <Input type="date" value={expiryDate} onChange={e => setExpiryDate(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_ai_status", "Status")}</Label>
+            <Label className="text-right text-foreground">{t("admin_ai_status", "Durum")}</Label>
             <Select value={status} onValueChange={v => setStatus(v as RightToRentRecord["status"])}>
               <SelectTrigger className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="VERIFIED">{t("admin_bookings_verification_verified", "Verified")}</SelectItem>
-                <SelectItem value="PENDING">{t("admin_ai_pending", "Pending")}</SelectItem>
-                <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Expired")}</SelectItem>
-                <SelectItem value="FAILED">{t("admin_ai_failed", "Failed")}</SelectItem>
+                <SelectItem value="VERIFIED">{t("admin_bookings_verification_verified", "Doğrulandı")}</SelectItem>
+                <SelectItem value="PENDING">{t("admin_ai_pending", "Bekliyor")}</SelectItem>
+                <SelectItem value="EXPIRED">{t("admin_compliance_status_expired", "Günü Geçmiş")}</SelectItem>
+                <SelectItem value="FAILED">{t("admin_ai_failed", "Başarısız")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label className="text-right text-foreground">{t("admin_immigration_document_type", "Document Type")}</Label>
+            <Label className="text-right text-foreground">{t("admin_immigration_document_type", "Belge Türü")}</Label>
             <Input value={documentType} onChange={e => setDocumentType(e.target.value)} className="col-span-3 bg-white/5 border-white/10 text-foreground focus:border-primary/50 transition-colors" />
           </div>
         </div>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={() => onSubmit({ id: item.id, tenantName, propertyAddress, checkDate, expiryDate, status, documentType })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Save")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={() => onSubmit({ id: item.id, tenantName, propertyAddress, checkDate, expiryDate, status, documentType })} className="bg-primary hover:bg-primary/90">{t("admin_action_save", "Kaydet")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -336,12 +336,12 @@ function DeleteRightToRentDialog({ open, onOpenChange, item, onConfirm }: { open
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-background/80 backdrop-blur-xl border border-white/10 shadow-2xl text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_right_to_rent_record", "Delete Right to Rent Record")}</DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete_the_reco", "Are you sure you want to delete the record for")}{item.tenantName}{t("admin_auto_this_action_cannot_be_undone", "? This action cannot be undone.")}</DialogDescription>
+          <DialogTitle className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">{t("admin_auto_delete_right_to_rent_record", "Kiralama Hakkı Kaydını Sil")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">{t("admin_auto_are_you_sure_you_want_to_delete_the_reco", "Kaydı silmek istediğinizden emin misiniz:")}{item.tenantName}{t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-4 border-t border-white/10">
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "Cancel")}</Button>
-          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Delete")}</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-border text-foreground">{t("admin_action_cancel", "İptal")}</Button>
+          <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">{t("admin_action_delete", "Sil")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

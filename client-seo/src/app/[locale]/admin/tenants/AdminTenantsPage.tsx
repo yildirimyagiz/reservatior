@@ -35,10 +35,10 @@ const mockTenants: Tenant[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20",
+  ACTIVE: "bg-blue-500/10 text-success border border-blue-500/20",
   NOTICE: "bg-amber-500/10 text-amber-500 border border-amber-500/20",
   PAST_DUE: "bg-red-500/10 text-red-500 border border-red-500/20",
-  TERMINATED: "bg-slate-500/10 text-slate-500 border border-slate-500/20",
+  TERMINATED: "bg-muted text-muted-foreground border border-slate-500/20",
 };
 
 // Generic Modal Container with Glassmorphism
@@ -74,45 +74,45 @@ function CreateTenantDialog({ open, onOpenChange, onSubmit }: any) {
       title={t("admin_tenants_add_tenant")}
       footer={
         <div className="flex justify-end gap-2 w-full">
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => onSubmit(formData)} className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20">
             <Check className="w-4 h-4 mr-2" />
-            {t("admin_action_create", "Create")}
+            {t("admin_action_create", "Oluştur")}
           </Button>
         </div>
       }
     >
       <div className="grid gap-4">
         <div className="grid gap-2">
-          <Label>{t("admin_ai_name", "Name")}</Label>
+          <Label>{t("admin_ai_name", "Sistem Adı")}</Label>
           <Input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="bg-white/5 border-white/10 focus:border-primary/50 transition-colors" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>Email</Label>
+            <Label>{t("admin_tenants_email", "E-posta")}</Label>
             <Input value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_phone", "Phone")}</Label>
+            <Label>{t("admin_ai_phone", "Telefon")}</Label>
             <Input value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="bg-white/5 border-white/10" />
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_ai_property", "Property")}</Label>
+          <Label>{t("admin_ai_property", "Mülk")}</Label>
           <Input value={formData.property} onChange={e => setFormData({ ...formData, property: e.target.value })} className="bg-white/5 border-white/10" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_ai_start_date", "Start Date")}</Label>
+            <Label>{t("admin_ai_start_date", "Başlangıç Tarihi")}</Label>
             <Input type="date" value={formData.leaseStart} onChange={e => setFormData({ ...formData, leaseStart: e.target.value })} className="bg-white/5 border-white/10 [&::-webkit-calendar-picker-indicator]:invert" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_end_date", "End Date")}</Label>
+            <Label>{t("admin_ai_end_date", "Bitiş Tarihi")}</Label>
             <Input type="date" value={formData.leaseEnd} onChange={e => setFormData({ ...formData, leaseEnd: e.target.value })} className="bg-white/5 border-white/10 [&::-webkit-calendar-picker-indicator]:invert" />
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_ai_status", "Status")}</Label>
+          <Label>{t("admin_ai_status", "Durum")}</Label>
           <Select value={formData.status} onValueChange={(v: any) => setFormData({ ...formData, status: v })}>
             <SelectTrigger className="bg-white/5 border-white/10">
               <SelectValue />
@@ -138,48 +138,48 @@ function EditTenantDialog({ open, onOpenChange, item, onSubmit }: any) {
     <GlassModal
       open={open}
       onOpenChange={onOpenChange}
-      title={t("admin_action_edit", "Edit")}
+      title={t("admin_action_edit", "Düzenle")}
       footer={
         <div className="flex justify-end gap-2 w-full">
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={() => onSubmit(formData)} className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
             <Check className="w-4 h-4 mr-2" />
-            {t("admin_action_save", "Save")}
+            {t("admin_action_save", "Kaydet")}
           </Button>
         </div>
       }
     >
       <div className="grid gap-4">
         <div className="grid gap-2">
-          <Label>{t("admin_ai_name", "Name")}</Label>
+          <Label>{t("admin_ai_name", "Sistem Adı")}</Label>
           <Input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="bg-white/5 border-white/10 focus:border-primary/50 transition-colors" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>Email</Label>
+            <Label>{t("admin_tenants_email", "E-posta")}</Label>
             <Input value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="bg-white/5 border-white/10" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_phone", "Phone")}</Label>
+            <Label>{t("admin_ai_phone", "Telefon")}</Label>
             <Input value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="bg-white/5 border-white/10" />
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_ai_property", "Property")}</Label>
+          <Label>{t("admin_ai_property", "Mülk")}</Label>
           <Input value={formData.property} onChange={e => setFormData({ ...formData, property: e.target.value })} className="bg-white/5 border-white/10" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label>{t("admin_ai_start_date", "Start Date")}</Label>
+            <Label>{t("admin_ai_start_date", "Başlangıç Tarihi")}</Label>
             <Input type="date" value={formData.leaseStart} onChange={e => setFormData({ ...formData, leaseStart: e.target.value })} className="bg-white/5 border-white/10 [&::-webkit-calendar-picker-indicator]:invert" />
           </div>
           <div className="grid gap-2">
-            <Label>{t("admin_ai_end_date", "End Date")}</Label>
+            <Label>{t("admin_ai_end_date", "Bitiş Tarihi")}</Label>
             <Input type="date" value={formData.leaseEnd} onChange={e => setFormData({ ...formData, leaseEnd: e.target.value })} className="bg-white/5 border-white/10 [&::-webkit-calendar-picker-indicator]:invert" />
           </div>
         </div>
         <div className="grid gap-2">
-          <Label>{t("admin_ai_status", "Status")}</Label>
+          <Label>{t("admin_ai_status", "Durum")}</Label>
           <Select value={formData.status} onValueChange={(v: any) => setFormData({ ...formData, status: v })}>
             <SelectTrigger className="bg-white/5 border-white/10">
               <SelectValue />
@@ -205,16 +205,16 @@ function DeleteTenantDialog({ open, onOpenChange, item, onConfirm }: any) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-red-500">
             <AlertTriangle className="w-5 h-5" />
-            {t("admin_action_delete", "Delete")}
+            {t("admin_action_delete", "Sil")}
           </DialogTitle>
           <DialogDescription className="pt-2 text-foreground/80">
-            {t("admin_auto_are_you_sure_you_want_to_delete", "Are you sure you want to delete")} <span className="font-bold text-foreground">{item?.name}</span>? {t("admin_auto_this_action_cannot_be_undone", "This action cannot be undone.")}
+            {t("admin_auto_are_you_sure_you_want_to_delete", "Silmek istediğinizden emin misiniz:")} <span className="font-bold text-foreground">{item?.name}</span>? {t("admin_auto_this_action_cannot_be_undone", "? Bu eylem geri alınamaz.")}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="pt-4 border-t border-white/5">
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>{t("admin_action_cancel", "Cancel")}</Button>
+        <DialogFooter className="pt-4 border-t border-border">
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>{t("admin_action_cancel", "İptal")}</Button>
           <Button onClick={onConfirm} className="bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/20">
-            {t("admin_action_delete", "Delete")}
+            {t("admin_action_delete", "Sil")}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -332,10 +332,10 @@ export default function AdminTenantsPage() {
                       <div className="flex flex-col sm:flex-row items-end sm:items-center gap-4">
                         <Badge className={STATUS_COLORS[tenant.status]}>{t("admin_status_" + String(tenant.status).toLowerCase())}</Badge>
                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Button onClick={() => setEditingItem(tenant)} variant="outline" size="icon" className="h-9 w-9 bg-background/50 hover:bg-background border-border">
+                          <Button onClick={() => setEditingItem(tenant)} variant="outline" size="icon" aria-label={t("common.edit")} className="h-9 w-9 bg-background/50 hover:bg-background border-border">
                             <Edit className="w-4 h-4 text-foreground/70" />
                           </Button>
-                          <Button onClick={() => setDeletingItem(tenant)} variant="outline" size="icon" className="h-9 w-9 bg-background/50 hover:bg-red-500/10 border-border hover:border-red-500/30 group/btn">
+                          <Button onClick={() => setDeletingItem(tenant)} variant="outline" size="icon" aria-label={t("common.delete")} className="h-9 w-9 bg-background/50 hover:bg-red-500/10 border-border hover:border-red-500/30 group/btn">
                             <Trash2 className="w-4 h-4 text-red-500/70 group-hover/btn:text-red-500" />
                           </Button>
                         </div>
@@ -345,7 +345,7 @@ export default function AdminTenantsPage() {
                 </AnimatePresence>
                 {filtered.length === 0 && (
                   <div className="py-12 text-center text-muted-foreground">
-                    {t("admin_auto_no_results_found", "No results found")}
+                    {t("admin_auto_no_results_found", "Sonuç bulunamadı")}
                   </div>
                 )}
               </div>

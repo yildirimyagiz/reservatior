@@ -79,15 +79,15 @@ const mockEvents: Event[] = [
 ];
 
 const STATUS_COLORS: Record<string, string> = {
-  scheduled: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  scheduled: "bg-brand/100/20 text-brand border-blue-500/30",
   in_progress: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  completed: "bg-green-500/20 text-green-400 border-green-500/30",
+  completed: "bg-blue-500/20 text-blue-400 border-blue-500/30",
   cancelled: "bg-red-500/20 text-red-400 border-red-500/30"
 };
 
 const PRIORITY_COLORS: Record<string, string> = {
   low: "bg-gray-500/20 text-gray-400",
-  medium: "bg-blue-500/20 text-blue-400",
+  medium: "bg-brand/100/20 text-brand",
   high: "bg-orange-500/20 text-orange-400",
   urgent: "bg-red-500/20 text-red-400"
 };
@@ -117,12 +117,12 @@ export default function EventsPage() {
             <div className="flex gap-3">
               <Button
                 onClick={() => router.push('/dashboard')}
-                className="bg-purple-600 hover:bg-purple-700"
+                className="bg-brand hover:bg-brand"
               >
                 <ArrowUpRight className="w-4 h-4 mr-2" />
                 {t("events.eventspage.auto_ext_3")}
                                             </Button>
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button className="bg-blue-600 hover:bg-brand">
                 <Plus className="w-4 h-4 mr-2" />
                 {t("events.eventspage.auto_ext_4")}
                                             </Button>
@@ -132,10 +132,10 @@ export default function EventsPage() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="bg-white/5 border-purple-500/20">
-            <TabsTrigger value="upcoming" className="data-[state=active]:bg-purple-600">{t("events.eventspage.auto_ext_5")}</TabsTrigger>
-            <TabsTrigger value="past" className="data-[state=active]:bg-purple-600">{t("events.eventspage.auto_ext_6")}</TabsTrigger>
-            <TabsTrigger value="calendar" className="data-[state=active]:bg-purple-600">{t("events.eventspage.auto_ext_7")}</TabsTrigger>
+          <TabsList className="bg-white/5 border-brand/20">
+            <TabsTrigger value="upcoming" className="data-[state=active]:bg-brand">{t("events.eventspage.auto_ext_5")}</TabsTrigger>
+            <TabsTrigger value="past" className="data-[state=active]:bg-brand">{t("events.eventspage.auto_ext_6")}</TabsTrigger>
+            <TabsTrigger value="calendar" className="data-[state=active]:bg-brand">{t("events.eventspage.auto_ext_7")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="upcoming">
@@ -147,7 +147,7 @@ export default function EventsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20 hover:bg-white/10 transition-colors">
+                  <Card className="bg-white/5 backdrop-blur-xl border-brand/20 hover:bg-white/10 transition-colors">
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -176,10 +176,10 @@ export default function EventsPage() {
                           </div>
                         </div>
                         <div className="flex gap-2">
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Button variant="ghost" size="icon" aria-label={t("common.edit")} className="h-8 w-8">
                             <Edit className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-red-400 hover:text-red-300">
+                          <Button variant="ghost" size="icon" aria-label={t("common.delete")} className="h-8 w-8 text-red-400 hover:text-red-300">
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
@@ -200,7 +200,7 @@ export default function EventsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20 opacity-60">
+                  <Card className="bg-white/5 backdrop-blur-xl border-brand/20 opacity-60">
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -228,13 +228,13 @@ export default function EventsPage() {
           </TabsContent>
 
           <TabsContent value="calendar">
-            <Card className="bg-white/5 backdrop-blur-xl border-purple-500/20">
+            <Card className="bg-white/5 backdrop-blur-xl border-brand/20">
               <CardHeader>
                 <CardTitle className="text-white">{t("events.eventspage.auto_ext_9")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-12 text-gray-400">
-                  <CalendarIcon className="w-12 h-12 mx-auto mb-4 text-purple-400" />
+                  <CalendarIcon className="w-12 h-12 mx-auto mb-4 text-brand" />
                   <p>{t("events.eventspage.auto_ext_10")}</p>
                 </div>
               </CardContent>

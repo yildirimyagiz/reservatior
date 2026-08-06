@@ -32,11 +32,11 @@ export default function Profile() {
     }, 1000);
   };
   if (!user) return null;
-  return <div className="min-h-screen bg-[#14151a] p-8 relative overflow-hidden">
+  return <div className="min-h-screen bg-background p-8 relative overflow-hidden">
       {/* Background Cybernetic Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/5 blur-[120px] rounded-full"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand/5 blur-[120px] rounded-full"></div>
         <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       </div>
 
@@ -51,7 +51,7 @@ export default function Profile() {
       }} className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="flex items-center gap-8">
             <Link to="/client/dashboard">
-              <Button variant="ghost" size="sm" className="h-14 px-8 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-slate-400 font-black italic text-[10px] tracking-[0.25em] transition-all group">
+              <Button variant="ghost" size="sm" className="h-14 px-8 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 text-muted-foreground font-black italic text-[10px] tracking-[0.25em] transition-all group">
                 <ArrowLeft className="w-4 h-4 mr-3 group-hover:-translate-x-1 transition-transform" />
                 {t('back')}
               </Button>
@@ -59,7 +59,7 @@ export default function Profile() {
             <div className="h-14 w-px bg-white/10 hidden md:block" />
             <div className="space-y-1">
               <h1 className="text-4xl font-black italic tracking-tighter leading-none text-white">{t('profileTitle')}</h1>
-              <p className="text-[10px] font-black text-slate-500 tracking-[0.3em] italic">{t('profileSubtitle')}</p>
+              <p className="text-[10px] font-black text-muted-foreground tracking-[0.3em] italic">{t('profileSubtitle')}</p>
             </div>
           </div>
         </m.div>
@@ -73,31 +73,31 @@ export default function Profile() {
           opacity: 1,
           x: 0
         }} className="lg:col-span-4 space-y-8">
-            <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl shadow-3xl">
+            <Card className="bg-card/40 border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl shadow-3xl">
               <CardContent className="p-12 text-center space-y-10">
                 <div className="relative inline-block group">
-                  <div className="absolute inset-0 bg-blue-600/20 blur-2xl group-hover:bg-blue-600/40 transition-all rounded-full animate-pulse-slow"></div>
+                  <div className="absolute inset-0 bg-blue-600/20 blur-2xl group-hover:bg-brand/40 transition-all rounded-full animate-pulse-slow"></div>
                   <Avatar className="w-40 h-40 mx-auto rounded-[40px] border-4 border-white/10 relative z-10 shadow-2xl">
                     <AvatarImage src="/placeholder-avatar.jpg" />
-                    <AvatarFallback className="bg-black/40 text-blue-400 text-5xl font-black italic">
+                    <AvatarFallback className="bg-black/40 text-brand text-5xl font-black italic">
                       {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <Button size="icon" className="absolute bottom-0 right-0 h-12 w-12 rounded-2xl bg-white text-black hover:bg-slate-200 shadow-xl z-20 border-4 border-[#1a1b1e]" aria-label="Change profile photo">
+                  <Button size="icon" className="absolute bottom-0 right-0 h-12 w-12 rounded-2xl bg-card text-black hover:bg-muted shadow-xl z-20 border-4 border-[#1a1b1e]" aria-label="Change profile photo">
                      <Camera className="w-5 h-5" />
                   </Button>
                 </div>
 
                 <div className="space-y-3">
                   <h2 className="text-3xl font-black text-white italic tracking-tighter leading-none">{user.name || "User"}</h2>
-                  <p className="text-[10px] font-black text-blue-500 tracking-widest italic">{user.email}</p>
+                  <p className="text-[10px] font-black text-brand tracking-widest italic">{user.email}</p>
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-3">
-                  <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-4 py-1.5 rounded-full text-[8px] font-black tracking-widest italic">
+                  <Badge className="bg-brand/100/10 text-brand border border-blue-500/20 px-4 py-1.5 rounded-full text-[8px] font-black tracking-widest italic">
                     {user.role.toLowerCase().replace("_", " ")}
                   </Badge>
-                  <Badge variant="outline" className="border-emerald-500/20 text-emerald-400 bg-emerald-500/5 px-4 py-1.5 rounded-full text-[8px] font-black tracking-widest italic flex items-center gap-2">
+                  <Badge variant="outline" className="border-success/20 text-success bg-success/5 px-4 py-1.5 rounded-full text-[8px] font-black tracking-widest italic flex items-center gap-2">
                     <CheckCircle className="w-3 h-3" /> {t('profileVerified')}
                   </Badge>
                 </div>
@@ -106,18 +106,18 @@ export default function Profile() {
                   {[{
                   icon: Briefcase,
                   text: t('role'),
-                  color: "text-blue-400"
+                  color: "text-brand"
                 }, {
                   icon: MapPin,
                   text: t("client.src.new_york_usa"),
-                  color: "text-purple-400"
+                  color: "text-brand"
                 }, {
                   icon: Calendar,
                   text: t('joined', {
                     date: "DEC 2023"
                   }),
-                  color: "text-slate-500"
-                }].map((item, i) => <div key={i} className="flex items-center gap-4 text-[10px] font-black text-slate-400 italic tracking-widest">
+                  color: "text-muted-foreground"
+                }].map((item, i) => <div key={i} className="flex items-center gap-4 text-[10px] font-black text-muted-foreground italic tracking-widest">
                        <item.icon className={cn("w-4 h-4", item.color)} />
                        {item.text}
                     </div>)}
@@ -138,10 +138,10 @@ export default function Profile() {
           opacity: 1,
           x: 0
         }} className="lg:col-span-8">
-            <Card className="bg-[#1a1b1e]/40 border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl shadow-3xl h-full flex flex-col">
+            <Card className="bg-card/40 border-white/5 border-l border-t rounded-[48px] overflow-hidden backdrop-blur-3xl shadow-3xl h-full flex flex-col">
               <div className="p-12 border-b border-white/5 space-y-2">
                 <h2 className="text-2xl font-black text-white italic tracking-tighter leading-none">{t('accountSettings')}</h2>
-                <p className="text-[10px] font-black text-slate-500 tracking-widest italic">{t('accountDesc')}</p>
+                <p className="text-[10px] font-black text-muted-foreground tracking-widest italic">{t('accountDesc')}</p>
               </div>
               
               <CardContent className="p-0 flex-1">
@@ -160,7 +160,7 @@ export default function Profile() {
                       val: "notifications",
                       label: t('profileNotifications'),
                       icon: Bell
-                    }].map(tab => <TabsTrigger key={tab.val} value={tab.val} className="flex-1 rounded-xl h-full data-[state=active]:bg-white/5 data-[state=active]:text-blue-400 text-[10px] font-black italic tracking-widest transition-all gap-2">
+                    }].map(tab => <TabsTrigger key={tab.val} value={tab.val} className="flex-1 rounded-xl h-full data-[state=active]:bg-white/5 data-[state=active]:text-brand text-[10px] font-black italic tracking-widest transition-all gap-2">
                           <tab.icon className="w-3.5 h-3.5" /> {tab.label}
                         </TabsTrigger>)}
                     </TabsList>
@@ -170,36 +170,36 @@ export default function Profile() {
                     <TabsContent value="personal" className="mt-0 space-y-8 animate-in fade-in slide-in-from-bottom-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-3">
-                          <Label className="text-[10px] font-black text-slate-500 tracking-widest italic ml-1">{t('firstName')}</Label>
+                          <Label className="text-[10px] font-black text-muted-foreground tracking-widest italic ml-1">{t('firstName')}</Label>
                           <Input className="bg-black/40 border-white/5 rounded-2xl h-14 text-[11px] font-black italic tracking-widest text-white shadow-inner focus:border-blue-500/50 transition-all font-mono" defaultValue="JOHN" />
                         </div>
                         <div className="space-y-3">
-                          <Label className="text-[10px] font-black text-slate-500 tracking-widest italic ml-1">{t('lastName')}</Label>
+                          <Label className="text-[10px] font-black text-muted-foreground tracking-widest italic ml-1">{t('lastName')}</Label>
                           <Input className="bg-black/40 border-white/5 rounded-2xl h-14 text-[11px] font-black italic tracking-widest text-white shadow-inner focus:border-blue-500/50 transition-all font-mono" defaultValue="DOE" />
                         </div>
                       </div>
                       
                       <div className="space-y-3">
-                        <Label className="text-[10px] font-black text-slate-500 tracking-widest italic ml-1">{t('profileEmail')}</Label>
+                        <Label className="text-[10px] font-black text-muted-foreground tracking-widest italic ml-1">{t('profileEmail')}</Label>
                         <Input className="bg-black/40 border-white/5 rounded-2xl h-14 text-[11px] font-black italic tracking-widest text-white shadow-inner focus:border-blue-500/50 transition-all font-mono" type="email" defaultValue={user.email} />
                       </div>
 
                       <div className="space-y-3">
-                        <Label className="text-[10px] font-black text-slate-500 tracking-widest italic ml-1">{t('phone')}</Label>
+                        <Label className="text-[10px] font-black text-muted-foreground tracking-widest italic ml-1">{t('phone')}</Label>
                         <Input className="bg-black/40 border-white/5 rounded-2xl h-14 text-[11px] font-black italic tracking-widest text-white shadow-inner focus:border-blue-500/50 transition-all font-mono" defaultValue="+1 (555) 123-4567" />
                       </div>
 
                       <div className="space-y-3">
-                        <Label className="text-[10px] font-black text-slate-500 tracking-widest italic ml-1">{t('bio')}</Label>
+                        <Label className="text-[10px] font-black text-muted-foreground tracking-widest italic ml-1">{t('bio')}</Label>
                         <Textarea className="bg-black/40 border-white/5 rounded-[24px] min-h-[120px] text-[11px] font-black italic tracking-widest text-white shadow-inner focus:border-blue-500/50 transition-all font-mono leading-loose resize-none" placeholder={t('placeholderBio')} />
                       </div>
 
                       <div className="space-y-3">
-                        <Label className="text-[10px] font-black text-slate-500 tracking-widest italic ml-1">{t('profileLocation')}</Label>
+                        <Label className="text-[10px] font-black text-muted-foreground tracking-widest italic ml-1">{t('profileLocation')}</Label>
                         <Input className="bg-black/40 border-white/5 rounded-2xl h-14 text-[11px] font-black italic tracking-widest text-white shadow-inner focus:border-blue-500/50 transition-all font-mono" defaultValue="NEW YORK, USA" />
                       </div>
 
-                      <Button onClick={handleSave} disabled={isLoading} className="w-full h-16 rounded-[24px] bg-white text-black hover:bg-slate-200 font-black italic tracking-widest text-[11px] shadow-xl transition-all group">
+                      <Button onClick={handleSave} disabled={isLoading} className="w-full h-16 rounded-[24px] bg-card text-black hover:bg-muted font-black italic tracking-widest text-[11px] shadow-xl transition-all group">
                         {isLoading ? <div className="flex items-center gap-3">
                               <div className="w-4 h-4 border-2 border-black/20 border-t-black rounded-full animate-spin" />
                               {t('saving')}
@@ -229,17 +229,17 @@ export default function Profile() {
                       icon: Briefcase
                     }].map((item, i) => <div key={i} className="flex items-center justify-between p-8 rounded-[32px] bg-black/40 border border-white/5 hover:bg-white/5 transition-all group">
                           <div className="flex items-center gap-6">
-                            <div className="h-14 w-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 group-hover:text-white transition-colors">
+                            <div className="h-14 w-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-muted-foreground group-hover:text-white transition-colors">
                                <item.icon className="w-6 h-6" />
                             </div>
                             <div className="space-y-1">
                               <Label className="text-xs font-black text-white italic tracking-widest">{item.label}</Label>
-                              <p className="text-[10px] font-black text-slate-500 tracking-wider italic">
+                              <p className="text-[10px] font-black text-muted-foreground tracking-wider italic">
                                 {item.desc}
                               </p>
                             </div>
                           </div>
-                          <Button variant="outline" size="sm" className="h-12 px-6 rounded-xl border-white/10 bg-white/5 text-slate-400 hover:text-white font-black italic text-[9px] tracking-widest">
+                          <Button variant="outline" size="sm" className="h-12 px-6 rounded-xl border-white/10 bg-white/5 text-muted-foreground hover:text-white font-black italic text-[9px] tracking-widest">
                             {t('profileConfigure')}
                           </Button>
                         </div>)}

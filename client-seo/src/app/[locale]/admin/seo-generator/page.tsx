@@ -1,17 +1,19 @@
-import type { Metadata } from "next";
-import SEOGeneratorPage from "./SEOGeneratorPage";
+"use client";
 
-export const metadata: Metadata = {
-  title: "SEO Data Generator - Admin Panel | Reservatior",
-  description: "Generate structured data, investment scores, and rental yields for properties",
-  keywords: ["SEO", "structured data", "JSON-LD", "investment score", "rental yield", "admin"],
-  openGraph: {
-    title: "SEO Data Generator - Admin Panel | Reservatior",
-    description: "Generate structured data, investment scores, and rental yields for properties",
-    type: "website",
-  },
-};
+import dynamic from "next/dynamic";
+import React from "react";
+import { Loader2 } from "lucide-react";
 
-export default function SEOGeneratorPageWrapper() {
-  return <SEOGeneratorPage />;
+const Component = dynamic(() => import("@/pages-spa/admin/intelligence/SEOGenerator"), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px] text-muted-foreground">
+      <Loader2 className="w-8 h-8 animate-spin text-brand mr-2" />
+      <span>Modül yükleniyor...</span>
+    </div>
+  ),
+  ssr: false
+});
+
+export default function SEOGeneratorAppPage() {
+  return <Component />;
 }

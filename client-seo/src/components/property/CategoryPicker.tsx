@@ -39,11 +39,11 @@ const CategoryPicker: React.FC<CategoryPickerProps> = ({
     };
     fetchCategories();
   }, [lang]);
-  if (loading) return <div className="p-4 text-slate-400">{t("client.src.loading_categories")}</div>;
+  if (loading) return <div className="p-4 text-muted-foreground">{t("client.src.loading_categories")}</div>;
   return <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {categories.map(category => <div key={category.id} onClick={() => onChange(category.id)} className={`
             cursor-pointer p-4 rounded-xl border-2 transition-all flex flex-col items-center justify-center gap-2
-            ${selectedCategoryId === category.id ? 'border-indigo-500 bg-indigo-500/10' : 'border-slate-800 bg-slate-900/50 hover:border-slate-700'}
+            ${selectedCategoryId === category.id ? 'border-brand/30 bg-brand/10' : 'border-border bg-card/50 hover:border-border'}
           `}>
           {category.icon && <span className="text-2xl">{category.icon}</span>}
           <span className="text-sm font-medium text-white truncate w-full text-center">

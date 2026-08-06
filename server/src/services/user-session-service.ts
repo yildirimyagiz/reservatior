@@ -5,7 +5,7 @@ import { DomainEvents } from "../core/events/domain-events";
 
 export class UserDeviceService extends BaseService<any, any, any> {
   constructor() {
-    super(prisma.userDevice, "userDevice");
+    super((prisma as any).userDevice, "userDevice");
   }
 
   async getByUser(userId: string) {
@@ -23,7 +23,7 @@ export class UserDeviceService extends BaseService<any, any, any> {
 
 export class UserSessionService extends BaseService<any, any, any> {
   constructor() {
-    super(prisma.userSession, "userSession");
+    super((prisma as any).userSession, "userSession");
   }
 
   async getByUser(userId: string) {

@@ -1,17 +1,19 @@
-import type { Metadata } from "next";
-import Dashboard from "./Dashboard";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Feedback Loop - Intelligence & AI | Reservatior",
-  description: "Intelligence feedback loop monitor with prediction accuracy, calibration events, and model health indicators.",
-  keywords: ["feedback", "loop", "calibration", "prediction", "accuracy"],
-  openGraph: {
-    title: "Feedback Loop - Intelligence & AI | Reservatior",
-    description: "Intelligence feedback loop monitor with prediction accuracy.",
-    type: "website",
-  },
-};
+import dynamic from "next/dynamic";
+import React from "react";
+import { Loader2 } from "lucide-react";
 
-export default function FeedbackLoopPage() {
-  return <Dashboard />;
+const Component = dynamic(() => import("@/pages-spa/admin/intelligence/FeedbackLoop"), {
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[400px] text-muted-foreground">
+      <Loader2 className="w-8 h-8 animate-spin text-brand mr-2" />
+      <span>Modül yükleniyor...</span>
+    </div>
+  ),
+  ssr: false
+});
+
+export default function FeedbackLoopAppPage() {
+  return <Component />;
 }

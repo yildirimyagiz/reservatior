@@ -89,12 +89,12 @@ export const bookingOSRoutes = new Elysia({ prefix: "/booking-os" })
           smartLock: {
             include: {
               property: {
-                select: { id: true, title: true }
+                select: { id: true, name: true }
               }
             }
           }
         },
-        orderBy: { accessedAt: 'desc' },
+        orderBy: { createdAt: 'desc' },
         take: 10,
       });
 
@@ -150,23 +150,28 @@ export const bookingOSRoutes = new Elysia({ prefix: "/booking-os" })
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      const pricingData = await prisma.aIPriceOptimization.findMany({
+      const pricingDataRaw = await prisma.aIPriceOptimization.findMany({
         where: {
-          property: {
-            orgId,
-          },
-          targetDate: {
+          orgId,
+          generatedAt: {
             gte: thirtyDaysAgo,
           },
         },
-        orderBy: { targetDate: 'asc' },
+        orderBy: { generatedAt: 'asc' },
         select: {
-          targetDate: true,
-          baseRate: true,
-          optimizedRate: true,
-          demandScore: true,
+          generatedAt: true,
+          currentPrice: true,
+          recommendedPrice: true,
+          marketDemandScore: true,
         },
       });
+
+      const pricingData = pricingDataRaw.map(d => ({
+        targetDate: d.generatedAt,
+        baseRate: Number(d.currentPrice),
+        optimizedRate: Number(d.recommendedPrice),
+        demandScore: d.marketDemandScore,
+      }));
 
       if (pricingData.length === 0) {
         const mockData = Array.from({ length: 7 }).map((_, i) => {
@@ -200,8 +205,9 @@ export const bookingOSRoutes = new Elysia({ prefix: "/booking-os" })
 
       const result = await prisma.booking.create({
         data: {
+          listingId: "default-listing",
           propertyId: data.propertyId,
-          guestId: data.guestId,
+          contactId: data.guestId,
           startDate: new Date(data.startDate),
           endDate: new Date(data.endDate),
           orgId: data.orgId,
@@ -225,7 +231,7 @@ export const bookingOSRoutes = new Elysia({ prefix: "/booking-os" })
 
       const result = await prisma.booking.update({
         where: { id },
-        data: { status: data.status },
+        data: { status: data.status as any },
       });
 
       await eventBus.publish(DomainEvents.BOOKING_STATUS_CHANGED, { id, status: data.status }, "BookingOS");

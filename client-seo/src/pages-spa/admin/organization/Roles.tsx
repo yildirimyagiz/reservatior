@@ -3,7 +3,7 @@
 import { t } from"i18next";
 import { useTranslation } from"react-i18next";
 import { useState, useEffect } from"react";
-import { PageShell } from"../../client/layout/PageShell";
+import { PageShell } from "@/pages-spa/admin/layout/PageShell";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Badge } from"@/components/ui/badge";
 import { Button } from"@/components/ui/button";
@@ -192,19 +192,19 @@ export default function Roles() {
  case 'AGENCY_ADMIN':
  return 'bg-muted0';
  case 'VENDOR_MANAGER':
- return 'bg-green-500';
+ return 'bg-blue-500';
  case 'AGENT':
  return 'bg-orange-500';
  case 'ACCOUNTANT':
  return 'bg-yellow-500';
  case 'MAINTENANCE':
- return 'bg-white/10';
+ return 'bg-card/10';
  case 'TENANT_GUEST':
  return 'bg-pink-500';
  case 'READ_ONLY':
  return 'bg-muted0';
  default:
- return 'bg-white/10';
+ return 'bg-card/10';
  }
  };
  const filteredRoles = roles.filter(role => {
@@ -243,7 +243,7 @@ export default function Roles() {
  <Shield className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-green-600">{activeRoles}</div>
+ <div className="text-2xl font-bold text-blue-600">{activeRoles}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_not_deleted")}</p>
  </CardContent>
  </Card>
@@ -265,7 +265,7 @@ export default function Roles() {
  <Shield className="h-4 w-4 text-muted-foreground" />
  </CardHeader>
  <CardContent>
- <div className="text-2xl font-bold text-slate-600">{customRoles}</div>
+ <div className="text-2xl font-bold text-muted-foreground">{customRoles}</div>
  <p className="text-xs text-muted-foreground">{t("admin_organization_userdefined")}</p>
  </CardContent>
  </Card>
@@ -481,7 +481,7 @@ export default function Roles() {
  <TableCell className="text-right">
  <DropdownMenu>
  <DropdownMenuTrigger asChild>
- <Button variant="ghost" className="h-8 w-8 p-0">
+ <Button variant="ghost" className="h-8 w-8 p-0" aria-label={t("common.more")}>
  <MoreHorizontal className="h-4 w-4" />
  </Button>
  </DropdownMenuTrigger>
@@ -535,13 +535,13 @@ export default function Roles() {
  <CardContent>
  <div className="space-y-4">
  <div className="text-center">
- <div className="text-2xl font-bold text-slate-600">
+ <div className="text-2xl font-bold text-muted-foreground">
  {permissions.length}
  </div>
  <p className="text-sm text-muted-foreground">{t("admin_organization_total_permissions")}</p>
  </div>
  <div className="text-center">
- <div className="text-2xl font-bold text-green-600">
+ <div className="text-2xl font-bold text-blue-600">
  {roles.reduce((acc, role) => acc + role.permissions.length, 0)}
  </div>
  <p className="text-sm text-muted-foreground">{t("admin_organization_permission_assignments")}</p>
@@ -558,7 +558,7 @@ export default function Roles() {
  <div className="space-y-3">
  <div className="flex justify-between items-center">
  <span className="text-sm flex items-center gap-2">
- <div className="w-2 h-2 rounded-full bg-green-500" />{t("admin_organization_active")}</span>
+ <div className="w-2 h-2 rounded-full bg-blue-500" />{t("admin_organization_active")}</span>
  <span className="font-medium">{activeRoles}</span>
  </div>
  <div className="flex justify-between items-center">
