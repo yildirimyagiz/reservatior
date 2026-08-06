@@ -433,7 +433,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const slide = slides[currentSlide] || slides[0];
 
   const bgVideo = useMemo(() => {
-    const videos = ["/videos/ozak-bg.mp4", "/videos/ozak-dragos-bg.mp4", "/videos/ozak-buyukyali-bg.mp4", "/videos/ozak-duyu-bg.mp4"];
+    const videos = ["ozak-bg", "ozak-dragos-bg", "ozak-buyukyali-bg", "ozak-duyu-bg"];
     return videos[currentSlide % videos.length];
   }, [currentSlide]);
 
@@ -452,8 +452,8 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               loop
               muted
               playsInline
-              preload="none"
-              poster="/poster.webp"
+              preload="metadata"
+              poster="/videos/poster.webp"
               onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
               initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1, scale: 1.05 }}
@@ -461,7 +461,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               transition={{ duration: 1.5, ease: "easeOut" }}
               className="w-full h-full object-cover"
             >
-              <source src={`${bgVideo}#t=2`} type="video/mp4" />
+              <source src={`/videos/webm/${bgVideo}-low.webm`} type="video/webm" />
+              <source src={`/videos/webm/${bgVideo}.webm`} type="video/webm" />
+              <source src={`/videos/${bgVideo}.mp4`} type="video/mp4" />
             </m.video>
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/50" />

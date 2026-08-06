@@ -109,7 +109,7 @@ export default function RootLayout({
   return (
     <html lang={locale || "en"} dir={locale === "ar" ? "rtl" : "ltr"} suppressHydrationWarning>
       <head>
-        <link rel="preload" href="/poster.webp" as="image" fetchPriority="high" />
+        <link rel="preload" href="/videos/poster.webp" as="image" fetchPriority="high" />
         <link rel="preload" href="/llms.txt" as="text" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

@@ -26,10 +26,10 @@ export function UserMenu() {
     return (
       <div className="flex items-center gap-2">
         <Button asChild variant="ghost" size="sm" className="rounded-full">
-          <Link href="/client/login">{t("public.nav.login")}</Link>
+          <Link href="/client/login">{t("public.nav.login", { defaultValue: "Log in" })}</Link>
         </Button>
         <Button asChild size="sm" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground">
-          <Link href="/client/signup">{t("public.nav.signup")}</Link>
+          <Link href="/client/signup">{t("public.nav.signup", { defaultValue: "Sign up" })}</Link>
         </Button>
       </div>
     );
