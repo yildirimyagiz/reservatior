@@ -21,8 +21,14 @@ class HomeAIPicksWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('mobile.auto.ai_strategic_picks'.tr(), style: GoogleFonts.outfit(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
-                  TextButton(onPressed: () => context.go('/search'), child: Text('mobile.auto.view_all'.tr(), style: TextStyle(color: AppColors.primary))),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('home.curated_property_collection'.tr(defaultValue: 'Curated Property Collection'), style: GoogleFonts.outfit(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text('common.smart_comfort_investment'.tr(defaultValue: 'Smart comfort, high investment value.'), style: TextStyle(fontSize: 12, color: Colors.white54)),
+                    ],
+                  ),
+                  TextButton(onPressed: () => context.go('/search'), child: Text('common.view_all'.tr(defaultValue: 'View All'), style: TextStyle(color: AppColors.primary))),
                 ],
               ),
             ),
@@ -78,7 +84,7 @@ class HomeAIPicksWidget extends StatelessWidget {
                       children: [
                         const Icon(Icons.auto_awesome, color: AppColors.primary, size: 10),
                         SizedBox(width: 4),
-                        Text('mobile.auto.ai_priced'.tr(), style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
+                        Text('os.digital_twin.ready'.tr(defaultValue: '3D Ready'), style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
