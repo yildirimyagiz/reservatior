@@ -739,6 +739,10 @@ initAllSagas().catch((err) =>
 // Initialize AI Intelligence Graph (subscribes to all domain events)
 import { intelligenceGraph } from "./core/ai/intelligence-graph";
 import { OutboxWorker } from "./core/events/outbox-worker";
+import { LearningLoopEventHandlers } from "./intelligence/learning-loop-event-handlers";
+
+// Initialize Learning Loop
+LearningLoopEventHandlers.initialize();
 
 const outboxWorker = new OutboxWorker(5000); // Poll every 5s
 outboxWorker.start();

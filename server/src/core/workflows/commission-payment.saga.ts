@@ -1,7 +1,10 @@
 import { BaseSaga } from "./saga-orchestrator";
-import { LocalizationContext, EventMessage, DomainEvents } from "../events/domain-events";
+import { LocalizationContext, EventMessage } from "../domain/events/event-schema";
+import { EventCatalog, RevenueEvents } from "../domain/events/event-catalog";
 import { eventBus } from "../events/event-bus";
 import { evaluateCommissionRules, CommissionContext } from "../../services/financial/commission-rule-engine";
+import { PolicyOSClient } from "../policy/policy-os.client";
+import { DomainEvents } from "../events/domain-events";
 
 export class CommissionPaymentSaga extends BaseSaga {
   public dealId: string;
@@ -59,10 +62,19 @@ export class CommissionPaymentSaga extends BaseSaga {
       listingOptimizationStatus: this.listingOptimizationStatus as any,
     };
 
+    // Query Policy OS for the dynamic commission rate
+    const policyRate = await PolicyOSClient.getCommissionRate({
+      countryCode: context.countryCode,
+      userId: this.agentId,
+      transactionAmount: this.amount
+    });
+
     const result = await evaluateCommissionRules(context);
+    // Override the hardcoded rule engine with Policy OS decision
+    result.finalRate = policyRate;
 
     console.log(
-      `[CommissionPaymentSaga] Commission evaluated: rate=${(result.finalRate * 100).toFixed(2)}%, ` +
+      `[CommissionPaymentSaga] Commission evaluated via Policy OS: rate=${(result.finalRate * 100).toFixed(2)}%, ` +
         `type=${result.calculationType}, rules=[${result.appliedRules.join(", ")}]`
     );
 
@@ -72,7 +84,7 @@ export class CommissionPaymentSaga extends BaseSaga {
 
     await this.transition({ step: "CREATING_COMMISSION" });
     this.registerCompensation('void_commission', async () => {
-      eventBus.publish(DomainEvents.COMMISSION_VOIDED, { dealId: this.dealId, reason: 'saga_compensation' }, 'CommissionPaymentSaga', this.sagaId);
+      eventBus.publish(RevenueEvents.COMMISSION_VOIDED, { dealId: this.dealId, reason: 'saga_compensation' }, 'CommissionPaymentSaga', this.sagaId);
     });
 
     const effectiveRate = result.finalRate;
@@ -81,7 +93,7 @@ export class CommissionPaymentSaga extends BaseSaga {
 
     setTimeout(() => {
       eventBus.publish(
-        DomainEvents.COMMISSION_CREATED,
+        RevenueEvents.COMMISSION_CREATED,
         {
           dealId: this.dealId,
           agentId: this.agentId,
@@ -113,7 +125,7 @@ export class CommissionPaymentSaga extends BaseSaga {
     setTimeout(() => {
       if (eligibleForInstallments) {
         eventBus.publish(
-          DomainEvents.COMMISSION_INSTALLMENT_OFFERED,
+          RevenueEvents.COMMISSION_INSTALLMENT_OFFERED,
           {
             dealId: this.dealId,
             agentId: this.agentId,
@@ -129,7 +141,7 @@ export class CommissionPaymentSaga extends BaseSaga {
         );
       } else {
         eventBus.publish(
-          DomainEvents.COMMISSION_PAID,
+          RevenueEvents.COMMISSION_PAID,
           {
             dealId: this.dealId,
             agentId: this.agentId,
@@ -171,7 +183,7 @@ export class CommissionPaymentSaga extends BaseSaga {
 const activeSagas = new Map<string, CommissionPaymentSaga>();
 
 export function registerCommissionPaymentListeners() {
-  eventBus.subscribe(DomainEvents.DEAL_CLOSED, (msg) => {
+  eventBus.subscribe(RevenueEvents.DEAL_CLOSED, (msg) => {
     const { dealId, agentId, amount, agentType, listingOptimizationStatus, campaignTag, isFirstTransaction, volumeYtd } =
       msg.payload;
     const localization = msg.localization || {
@@ -193,17 +205,17 @@ export function registerCommissionPaymentListeners() {
     console.log(`[CommissionPaymentSaga] Started for Deal ${dealId}`);
   });
 
-  eventBus.subscribe(DomainEvents.COMMISSION_CREATED, (msg) => {
+  eventBus.subscribe(RevenueEvents.COMMISSION_CREATED, (msg) => {
     const saga = activeSagas.get(msg.correlationId!);
     if (saga) saga.onCommissionCreated(msg);
   });
 
-  eventBus.subscribe(DomainEvents.COMMISSION_INSTALLMENT_OFFERED, (msg) => {
+  eventBus.subscribe(RevenueEvents.COMMISSION_INSTALLMENT_OFFERED, (msg) => {
     const saga = activeSagas.get(msg.correlationId!);
     if (saga) saga.onInstallmentOffered(msg);
   });
 
-  eventBus.subscribe(DomainEvents.COMMISSION_INSTALLMENT_STARTED, (msg) => {
+  eventBus.subscribe(RevenueEvents.COMMISSION_INSTALLMENT_STARTED, (msg) => {
     const saga = activeSagas.get(msg.correlationId!);
     if (saga) saga.onInstallmentStarted(msg);
   });
