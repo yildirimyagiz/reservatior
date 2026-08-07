@@ -25,20 +25,21 @@ Kampanya 4 faz halinde yürütüldü. **Kritik öncelikli bulgular giderildi**, 
 | Bulgu | Önem | Çözüm |
 |---|---|---|
 | **3000 Easypanel paneli** dışarıdan açıktı (herkese) | **Kritik** | `iptables DOCKER-USER` guard ile kapatıldı |
-| **2377/7946 Swarm yönetim portları** dışarıdan açıktı | **Yüksek** | Aynı guard ile kapatıldı |
-| **UFW yoktu** (tüm portlar default açık) | Yüksek | UFW kuruldu: `22,25,80,443,465,587` dışında hepsi deny |
+| **2377 Swarm yönetim portu** dışarıdan **erişilebilirdi** (gRPC 415 yanıtı veriyordu) | **Kritik** | UFW `deny` ile kapatıldı (DOCKER-USER, dockerd'ın host socket bind'ini engellemiyor — sadece UFW INPUT kuralı kesiyor) |
+| **UFW kurulu değildi** (önceki kayıtta "kuruldu" denmişti; 2026-08-07 doğrulamasında yoktu) | **Kritik** | UFW 0.36.2 kuruldu + yapılandırıldı |
 | **fail2ban yoktu** — 7 günde 150 başarısız SSH denemesi | Yüksek | fail2ban kuruldu (sshd/postfix/postfix-sasl jail'leri) |
 | **Swap yoktu** — 3 günde 60 OOM olayı (`bun`/`node` öldürülüyor) | Yüksek | 4Gi swap eklendi |
 | `*.reservatior.com` wildcard tümü IP'ye çözüyor, sadece ana alan sertifikalı | Orta | Alt alanlarda panel yok; izleniyor |
 
 ### Alınan önlemler
-1. **UFW** aktif: `allow 22,25,80,443,465,587` + `default deny incoming`.
-2. **Docker guard** (kalıcı): `/etc/systemd/system/docker-port-guard.service` → `iptables -I DOCKER-USER -p tcp --dport {3000,2377,7946} -j DROP`. `systemctl enable` ile açılışta çalışıyor. Dış 3000/2377/7946 kapalı, site 200, container egress çalışıyor.
+1. **UFW 0.36.2** kuruldu + aktif: `allow 22,25,80,443,465,587` + `deny 2377,7946,3000` + `default deny incoming`, `deny routed`. (Doğrulama: 2377/7946/3000 dışarıdan kapalı, site 200, container'lar healthy.)
+2. **Docker guard** (kalıcı): `/etc/systemd/system/docker-port-guard.service` → `iptables -I DOCKER-USER -p tcp --dport {3000,2377,7946} -j DROP`. `systemctl enable` ile açılışta çalışıyor.
+   ⚠️ **Ders:** DOCKER-USER guard yalnızca **container yayınlanan (published)** portları korur; `dockerd` swarm'ın host'a doğrudan bağladığı portlar (2377/7946) bu zincirden geçmediği için **UFW INPUT kuralı şarttır** — bu bulgu sayesinde keşfedildi ve UFW ile kapatıldı.
 3. **fail2ban** v1.0.2: `sshd`, `postfix`, `postfix-sasl` jail'leri aktif. bantime 15m, maxretry 3.
 4. **4Gi swap** (`/swapfile` + fstab) — OOM koruması.
 
-### Dışa açık portlar (denetim sonrası)
-`22 (SSH) · 25 (SMTP) · 80 (HTTP) · 443 (HTTPS) · 465 (SMTPS) · 587 (Submission)` — tamamı kasıtlı.
+### Dışa açık portlar (denetim sonrası, 2026-08-07 teyitli)
+`22 (SSH) · 25 (SMTP) · 80 (HTTP) · 443 (HTTPS) · 465 (SMTPS) · 587 (Submission)` — tamamı kasıtlı. Kapalı ve dışarıdan teyitli: `2377, 7946, 3000`.
 
 ---
 
@@ -79,6 +80,11 @@ sk_live_ / sk_test_ / ghp_ / AIza / AKIA / xoxb- / BEGIN PRIVATE KEY
    API aynı, kaynak kodda değişiklik gerekmedi. Smoke test: `aoa_to_sheet` → `write` → `read` döngüsü ✓
 2. **valibot** `1.4.1` → `1.4.2` (moderate fix). Üretilen şemalar (`schemas/generated/*`) uyumlu doğrulandı ✓
 
+### 4.4 Deploy sırasında bulunan ve düzeltilen üretim hatası
+**pgbouncer crash-loop ("main section missing from config file"):** compose `DATABASES_*` (eski env API'si) kullanıyordu; `edoburu/pgbouncer:latest` imajı yeni `DATABASE_URL(S)` API'sine geçmişti. Env eşleşmediği için entrypoint `[pgbouncer]` bölümünü üretemiyor, container sürekli restartlanıyordu (server bu yüzden başlatılamıyordu).
+- **Çözüm:** `docker-compose.yml` pgbouncer env'ine `LISTEN_PORT=6432` + 24 bölge DB'sini içeren `DATABASE_URLS` eklendi. (`e7c56853`)
+- Doğrulama: pgbouncer **healthy**, server **healthy**, site **200**.
+
 ### 4.4 Doğrulanan mevcut kontroller (sorun değil)
 - **Rate limit mevcut ve global bağlı:** `server/src/index.ts:162` → auth 10/dk, heavy (AI/search) 30/dk, genel 200/dk, read 500/dk; in-memory fallback + isteğe bağlı Redis; `429` + `Retry-After` dönüyor. `X-Forwarded-For`'un yalnızca nginx arkasında güvenilir olduğu doğrulandı.
 - **Güvenlik header'ları:** HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy mevcut.
@@ -114,4 +120,5 @@ sk_live_ / sk_test_ / ghp_ / AIza / AKIA / xoxb- / BEGIN PRIVATE KEY
 
 ## 6. İletişim / Kayıtlar
 - Önceki denetim düzeltmeleri `9b326e72b` ile deploy edildi ve e-posta ile `yagizyildirim@icloud.com` + `info@reservatior.com` adreslerine iletildi (Postfix log onaylı).
-- Bu raporun commit'inde yer alan değişiklikler: `server/package.json`, `server/bun.lock`, `SECURITY_HARDENING_REPORT.md`.
+- Bu raporun commit'inde yer alan değişiklikler: `server/package.json`, `server/bun.lock`, `SECURITY_HARDENING_REPORT.md` (`d56d19918` → `54d438275`), i18n çeviri restorasyonu (`f233105f1`), pgbouncer fix (`e7c56853`).
+- **Canlıya alındı (2026-08-07):** xlsx 0.20.3 + valibot 1.4.2 sunucuda container içinde teyit edildi; pgbouncer + server healthy; UFW aktif; 2377/7946/3000 dışarıdan kapalı.
