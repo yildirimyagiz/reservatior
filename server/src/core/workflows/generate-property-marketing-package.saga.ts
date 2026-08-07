@@ -321,23 +321,35 @@ export class GeneratePropertyMarketingPackageSaga extends BaseSaga {
 
 // --- Bootstrap: listen for PropertyCreated events ---
 
+import { getTemporalClient } from './temporal/client';
+
 export function registerMarketingPackageSagaListeners() {
   eventBus.subscribe(PropertyPipelineEvents.PROPERTY_CREATED, async (msg) => {
     const { tenantId, propertyId, agentId, title, rawImageUrls, language, pipelineType } = msg.payload;
     const sagaId = `marketing-${propertyId}-${Date.now()}`;
 
-    const saga = new GeneratePropertyMarketingPackageSaga(sagaId, {
-      tenantId: tenantId ?? 'default',
-      propertyId,
-      agentId,
-      listingTitle: title ?? 'Property',
-      rawImageUrls: rawImageUrls ?? [],
-      language: language ?? 'EN',
-      pipelineType: pipelineType ?? 'STANDARD',
-      credits: 10,
-    });
+    console.log(`[MarketingPackageSaga] 🚀 Triggering Temporal Workflow for ${propertyId}`);
 
-    const result = await saga.execute();
-    console.log(`[MarketingPackageSaga] Final status for ${propertyId}: ${result.status}`);
+    try {
+      const client = await getTemporalClient();
+      
+      const handle = await client.workflow.start('generatePropertyMarketingPackageWorkflow', {
+        taskQueue: process.env.TEMPORAL_TASK_QUEUE ?? 'reos-marketing-package',
+        workflowId: sagaId,
+        args: [{
+          jobId: sagaId,
+          tenantId: tenantId ?? 'default',
+          propertyId,
+          agentId,
+          language: language ?? 'EN',
+          pipelineType: pipelineType ?? 'STANDARD',
+          credits: 10,
+        }],
+      });
+
+      console.log(`[MarketingPackageSaga] Started Temporal Workflow with ID: ${handle.workflowId}`);
+    } catch (err) {
+      console.error(`[MarketingPackageSaga] ❌ Failed to start Temporal Workflow:`, err);
+    }
   });
 }

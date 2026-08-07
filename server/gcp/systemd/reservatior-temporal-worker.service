@@ -1,0 +1,21 @@
+[Unit]
+Description=Reservatior Temporal Worker
+After=network.target
+
+[Service]
+Type=simple
+User=os2026
+WorkingDirectory=/opt/reservatior/server
+Environment=NODE_ENV=production
+Environment=TEMPORAL_ADDRESS=localhost:7233
+Environment=TEMPORAL_NAMESPACE=default
+Environment=TEMPORAL_TASK_QUEUE=reos-marketing-package
+# Uncomment and set these to enable mTLS
+# Environment=TEMPORAL_MTLS_CERT=/opt/reservatior/server/certs/client.pem
+# Environment=TEMPORAL_MTLS_KEY=/opt/reservatior/server/certs/client.key
+ExecStart=/usr/bin/bun run src/core/workflows/temporal/worker.ts
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

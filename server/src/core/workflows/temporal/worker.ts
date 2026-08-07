@@ -14,6 +14,7 @@
 
 import { Worker, NativeConnection } from '@temporalio/worker';
 import * as activities from './marketing-package.activities';
+import fs from 'fs';
 
 const TEMPORAL_ADDRESS   = process.env.TEMPORAL_ADDRESS   ?? 'localhost:7233';
 const TEMPORAL_NAMESPACE = process.env.TEMPORAL_NAMESPACE ?? 'default';
@@ -28,12 +29,33 @@ async function run() {
   console.log(`║  Task Queue: ${TASK_QUEUE.padEnd(32)} ║`);
   console.log('╚════════════════════════════════════════════════╝\n');
 
+  const certPath = process.env.TEMPORAL_MTLS_CERT;
+  const keyPath = process.env.TEMPORAL_MTLS_KEY;
+
+  let connectionOptions: any = {
+    address: TEMPORAL_ADDRESS,
+  };
+
+  if (certPath && keyPath) {
+    try {
+      connectionOptions.tls = {
+        clientCertPair: {
+          crt: fs.readFileSync(certPath),
+          key: fs.readFileSync(keyPath),
+        },
+      };
+      console.log(`[Temporal Worker] mTLS enabled`);
+    } catch (err) {
+      console.error('[Temporal Worker] Error reading mTLS certificates:', err);
+    }
+  }
+
   let connection: NativeConnection;
   try {
-    connection = await NativeConnection.connect({ address: TEMPORAL_ADDRESS });
+    connection = await NativeConnection.connect(connectionOptions);
   } catch (err) {
     console.error(`[Temporal Worker] ❌ Cannot connect to Temporal at ${TEMPORAL_ADDRESS}`);
-    console.error('  → Start Temporal dev server: npx @temporalio/cli server start-dev');
+    console.error('  → Ensure Temporal server is running, or check mTLS paths.');
     process.exit(1);
   }
 
