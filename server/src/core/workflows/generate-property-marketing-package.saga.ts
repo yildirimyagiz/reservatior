@@ -87,7 +87,7 @@ export class GeneratePropertyMarketingPackageSaga extends BaseSaga {
       return this.result as MarketingPackageResult;
 
     } catch (error) {
-      console.error(`[MarketingPackageSaga] ❌ Failed at step: ${this.currentStep}`, error);
+      console.error(`[MarketingPackageSaga] ❌ Failed at step: ${this.state?.step || 'unknown'}`, error);
       await this.compensate();
       this.result.status = 'COMPENSATED';
       return this.result as MarketingPackageResult;

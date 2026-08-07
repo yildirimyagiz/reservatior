@@ -1,4 +1,4 @@
-import { EventEnvelope } from '../events/base/event-envelope';
+import { EventMessage } from '../core/domain/events/event-schema';
 import { RevenueEvents, ContractEvents, CognitiveEvents } from '../core/domain/events/event-catalog';
 import { outcomeStore } from '../learning/outcome-store-v2';
 import { eventBus } from '../core/events/event-bus';
@@ -18,12 +18,12 @@ export class LearningLoopEventHandlers {
     console.log('[KnowledgeOS] Initializing Learning Loop Event Handlers...');
 
     // Listen for closed deals (Sales)
-    eventBus.subscribe(RevenueEvents.DEAL_CLOSED, async (envelope: EventEnvelope) => {
+    eventBus.subscribe(RevenueEvents.DEAL_CLOSED, async (envelope: EventMessage<any>) => {
       await this.handleDealClosed(envelope);
     });
 
     // Listen for signed leases (Rentals)
-    eventBus.subscribe(ContractEvents.LEASE_SIGNED, async (envelope: EventEnvelope) => {
+    eventBus.subscribe(ContractEvents.LEASE_SIGNED, async (envelope: EventMessage<any>) => {
       await this.handleLeaseSigned(envelope);
     });
   }
@@ -31,7 +31,7 @@ export class LearningLoopEventHandlers {
   /**
    * Handles a DEAL_CLOSED event to verify sale price predictions
    */
-  private static async handleDealClosed(envelope: EventEnvelope) {
+  private static async handleDealClosed(envelope: EventMessage<any>) {
     try {
       const payload = envelope.payload;
       const propertyId = payload.property_id || payload.propertyId;
@@ -74,7 +74,7 @@ export class LearningLoopEventHandlers {
   /**
    * Handles a LEASE_SIGNED event to verify rental yield and time-to-rent predictions
    */
-  private static async handleLeaseSigned(envelope: EventEnvelope) {
+  private static async handleLeaseSigned(envelope: EventMessage<any>) {
     try {
       const payload = envelope.payload;
       const propertyId = payload.property_id || payload.propertyId;
