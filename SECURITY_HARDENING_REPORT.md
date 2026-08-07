@@ -85,6 +85,10 @@ sk_live_ / sk_test_ / ghp_ / AIza / AKIA / xoxb- / BEGIN PRIVATE KEY
 - **Çözüm:** `docker-compose.yml` pgbouncer env'ine `LISTEN_PORT=6432` + 24 bölge DB'sini içeren `DATABASE_URLS` eklendi. (`e7c56853`)
 - Doğrulama: pgbouncer **healthy**, server **healthy**, site **200**.
 
+**Canlı denetimde bulunan ikinci auth hatası ("wrong password type"):** postgres 15 rollerinde şifre `scram-sha-256` (`SCRA` prefix) saklanıyor, pgbouncer ise varsayılan `md5` ile doğruluyordu → tüm property API sorguları `FATAL: server login failed: wrong password type` ile 500 dönüyordu.
+- **Çözüm:** pgbouncer env'ine `AUTH_TYPE=scram-sha-256` eklendi (userlist plaintext olarak yeniden üretildi). `select 1` → pgbouncer üzerinden başarılı; API ardışık çağrılar 200.
+- **Ek:** bayat Prisma/pgbouncer bağlantı havuzlarını temizlemek için server container'ı restart edildi; ilk çağrı da dahil tüm API çağrıları 200, console hatası yok.
+
 ### 4.4 Doğrulanan mevcut kontroller (sorun değil)
 - **Rate limit mevcut ve global bağlı:** `server/src/index.ts:162` → auth 10/dk, heavy (AI/search) 30/dk, genel 200/dk, read 500/dk; in-memory fallback + isteğe bağlı Redis; `429` + `Retry-After` dönüyor. `X-Forwarded-For`'un yalnızca nginx arkasında güvenilir olduğu doğrulandı.
 - **Güvenlik header'ları:** HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy mevcut.
