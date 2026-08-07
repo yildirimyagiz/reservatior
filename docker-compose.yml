@@ -62,6 +62,8 @@ services:
       - MAX_CLIENT_CONN=1000
       - DEFAULT_POOL_SIZE=50
       - SERVER_IDLE_TIMEOUT=600
+      - LISTEN_PORT=6432
+      - DATABASE_URLS=postgresql://elysia:elysia_pass@db:5432/realestate,postgresql://elysia:elysia_pass@db:5432/realestate_us,postgresql://elysia:elysia_pass@db:5432/realestate_uk,postgresql://elysia:elysia_pass@db:5432/realestate_tr,postgresql://elysia:elysia_pass@db:5432/realestate_de,postgresql://elysia:elysia_pass@db:5432/realestate_fr,postgresql://elysia:elysia_pass@db:5432/realestate_es,postgresql://elysia:elysia_pass@db:5432/realestate_it,postgresql://elysia:elysia_pass@db:5432/realestate_nl,postgresql://elysia:elysia_pass@db:5432/realestate_ca,postgresql://elysia:elysia_pass@db:5432/realestate_mx,postgresql://elysia:elysia_pass@db:5432/realestate_br,postgresql://elysia:elysia_pass@db:5432/realestate_ar,postgresql://elysia:elysia_pass@db:5432/realestate_au,postgresql://elysia:elysia_pass@db:5432/realestate_nz,postgresql://elysia:elysia_pass@db:5432/realestate_jp,postgresql://elysia:elysia_pass@db:5432/realestate_kr,postgresql://elysia:elysia_pass@db:5432/realestate_cn,postgresql://elysia:elysia_pass@db:5432/realestate_in,postgresql://elysia:elysia_pass@db:5432/realestate_sg,postgresql://elysia:elysia_pass@db:5432/realestate_my,postgresql://elysia:elysia_pass@db:5432/realestate_th,postgresql://elysia:elysia_pass@db:5432/realestate_ae,postgresql://elysia:elysia_pass@db:5432/realestate_sa
     ports:
       - "127.0.0.1:6432:6432"
     depends_on:
