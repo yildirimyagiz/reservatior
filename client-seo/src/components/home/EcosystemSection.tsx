@@ -127,10 +127,10 @@ function EcosystemPreview() {
 
       <div className="h-24 bg-gradient-to-r from-brand/15 via-brand/15 to-transparent rounded-2xl border border-border flex items-center justify-between p-6">
         <div>
-          <div className="text-muted-foreground font-medium mb-1.5">Global Operasyonel Sistem Durumu</div>
+          <div className="text-muted-foreground font-medium mb-1.5">Global Operations Status</div>
           <div className="text-foreground font-bold flex items-center gap-3 text-lg">
             <div className="w-3 h-3 rounded-full bg-success animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-            Tüm FinTech, Güvenlik ve AI Modülleri 7/24 Devrede
+            All FinTech, Security and AI modules running 24/7
           </div>
         </div>
         <Sparkles className="w-8 h-8 text-muted-foreground/30" />
@@ -160,9 +160,9 @@ export default function EcosystemSection() {
 
             <div className="space-y-6">
               {[
-                { icon: Monitor, title: "Danışman İşletim Sistemi (OS)", desc: "Komisyon paylaşım planlarını, sözleşme süreçlerini ve ofis içi operasyonları tam otomatikleştirin." },
-                { icon: Gem, title: "%0 Kesintili Finans Altyapısı", desc: "Açık bankacılık (A2A) transferleri ve 21 günlük Escrow depozito güvence mekanizması ile doğrudan tahsilat yapın." },
-                { icon: ShieldCheck, title: "Akıllı Yapay Zeka Stüdyosu", desc: "Anlam odaklı nöral arama motoru ile doğru alıcıyı bulun ve portföyünüze özel ilan pazarlama materyalleri hazırlayın." },
+                { icon: Monitor, title: "Advisor Operating System (OS)", desc: "Fully automate commission sharing plans, contract workflows, and in-office operations." },
+                { icon: Gem, title: "0% Fee Financial Infrastructure", desc: "Collect directly with Open Banking (A2A) transfers and a 21-day Escrow deposit guarantee mechanism." },
+                { icon: ShieldCheck, title: "Smart AI Studio", desc: "Find the right buyer with a meaning-aware neural search engine and create listing marketing assets for your portfolio." },
               ].map((feature, i) => (
                 <div key={i} className="flex gap-4">
                   <div className="w-12 h-12 rounded-2xl bg-muted/50 flex items-center justify-center shrink-0 border border-border">

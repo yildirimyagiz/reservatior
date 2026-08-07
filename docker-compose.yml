@@ -93,6 +93,7 @@ services:
     networks:
       - reservatior-db-net
       - reservatior-api-net
+      - easypanel
 
   web:
     build:
@@ -134,6 +135,7 @@ services:
     networks:
       - reservatior-api-net
       - reservatior-frontend-net
+      - easypanel
 
   nginx-ssl:
     profiles: ["ssl"]
@@ -191,6 +193,8 @@ networks:
     driver: bridge
   reservatior-frontend-net:
     driver: bridge
+  easypanel:
+    external: true
 
 volumes:
   pgdata:

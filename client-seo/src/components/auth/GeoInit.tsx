@@ -31,10 +31,15 @@ export function GeoInit() {
 
         // 3. Set the region based on IP
         setSelectedRegion(detectedCountry);
-        
-        // 4. Update language based on region only if not explicitly set by user
+
+        // 4. Update language based on region only if URL'de açık bir locale yoksa.
+        // URL'deki dil önceliklidir (ör. /en İngilizce kalmalı, TR kullanıcıda
+        // bile Türkçeye çevrilmemeli). Orta katman (middleware) kök rota için
+        // IP bazlı dil seçimini zaten yapar; burada sadece bölge kaydı yeterlidir.
+        const pathSegment = (typeof window !== "undefined" ? window.location.pathname.split("/").filter(Boolean)[0] : "") || "";
+        const urlHasLocale = /^[a-z]{2}$/.test(pathSegment);
         const savedLang = localStorage.getItem("reservatior_lang") || localStorage.getItem("i18nextLng");
-        if (!savedLang) {
+        if (!savedLang && !urlHasLocale) {
           if (detectedCountry === "TR") i18n.changeLanguage("tr");
           else if (detectedCountry === "US") i18n.changeLanguage("en");
         }

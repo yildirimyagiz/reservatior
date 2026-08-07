@@ -72,8 +72,8 @@ export function VideoFeed({
   return <section className={`bg-background text-white overflow-hidden relative ${isFullPage ? 'h-full py-0' : 'py-20 h-[calc(100vh+200px)]'}`}>
       <SEOMetadata data={{
         type: 'LISTING',
-        title: 'Video Keşfet: Lüks Rezidanslar ve Oteller | ',
-        description: 'En popüler B2B otel indirimleri ve AI Arbitraj destekli ucuz konaklama fırsatlarını video akışımızla keşfedin. Direkt rezervasyon avantajı.',
+        title: 'Video Discovery: Luxury Residences and Hotels | ',
+        description: 'Explore popular B2B hotel discounts and AI arbitrage-backed affordable stays through our video feed. Direct booking advantage.',
         url: typeof window !== 'undefined' ? window.location.href : 'https://reservatior.com/feed',
         amenities: ['Direct Booking Hotel', 'Cheap Luxury Residence', 'Best Deal Accommodations', 'AI Travel Deals', 'B2B Wholesale Prices']
       }} />

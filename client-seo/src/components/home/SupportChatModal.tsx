@@ -64,7 +64,7 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
       setSupportMessages((prev) => [...prev, {
         id: (Date.now() + 1).toString(),
         role: "ai",
-        text: data.suggestion || "Sorununuzu anladım. Size yardımcı olmak için bir destek talebi oluşturuluyor...",
+        text: data.suggestion || "I understand your issue. Creating a support ticket to help you...",
         metadata: {
           category: data.category,
           priority: data.priority,
@@ -95,14 +95,14 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
         setSupportMessages((prev) => [...prev, {
           id: (Date.now() + 2).toString(),
           role: "support",
-          text: `Talebiniz oluşturuldu. Ticket ID: ${ticketData.data?.id || ticketData.id}. En kısa sürede size dönüş yapacağız.`
+          text: `Your ticket has been created. Ticket ID: ${ticketData.data?.id || ticketData.id}. We will get back to you as soon as possible.`
         }]);
       }
     } catch {
       setSupportMessages((prev) => [...prev, {
         id: (Date.now() + 1).toString(),
         role: "support",
-        text: "Şu anda bağlantı sorunu yaşıyoruz. Lütfen daha sonra tekrar deneyin veya destek@reservatior.com adresine e-posta gönderin."
+        text: "We are currently experiencing a connection issue. Please try again later or email us at support@reservatior.com."
       }]);
     } finally {
       setSupportIsLoading(false);
@@ -127,7 +127,7 @@ export function SupportChatModal({ isOpen, onClose }: { isOpen: boolean; onClose
       const data = await response.json();
       setAttachments(prev => [...prev, data.url]);
     } catch {
-      console.error("Dosya yüklenirken hata oluştu");
+      console.error("Error uploading file");
     }
   };
 

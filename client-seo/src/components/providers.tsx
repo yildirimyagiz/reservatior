@@ -8,7 +8,8 @@ import { useRegionsStore } from "@/lib/store/regions-store";
 import { ThemeProvider } from "next-themes";
 import dynamic from "next/dynamic";
 import { LazyMotion, domAnimation } from "framer-motion";
-import "@/i18n";
+import { I18nextProvider } from "react-i18next";
+import i18n from "@/i18n";
 
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 
@@ -37,7 +38,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-        <AuthProvider>
+        <I18nextProvider i18n={i18n}>
+          <AuthProvider>
           <MapProviderWrapper>
             <LazyMotion features={domAnimation}>
               <RegionBootstrap />
@@ -45,7 +47,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
             </LazyMotion>
             <Toaster />
           </MapProviderWrapper>
-        </AuthProvider>
+          </AuthProvider>
+        </I18nextProvider>
       </ThemeProvider>
       {process.env.NODE_ENV === "development" && (
         <Suspense fallback={null}>

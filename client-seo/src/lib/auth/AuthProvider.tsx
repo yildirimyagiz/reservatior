@@ -34,17 +34,20 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const auth = useAuth();
-  const [initializing, setInitializing] = useState(true);
+  const [initializing, setInitializing] = useState(false);
 
-  // Initialize auth state from token on mount
+  // Initialize auth state from token on mount. Only blocks rendering while a
+  // stored token is being validated against the backend; anonymous visitors
+  // (and SSR) render children immediately so the marketing site can SSR.
   useEffect(() => {
     const initAuth = async () => {
       const token = auth.token;
       if (token) {
+        setInitializing(true);
         try {
           // Sync with backend /me
           const response = await apiClient.get<any>("/auth/me");
-          
+
           if (response.data?.user) {
             auth.setUser(response.data.user);
           }
@@ -54,8 +57,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
           }
           console.error("Auth initialization failed:", error);
         }
+        setInitializing(false);
       }
-      setInitializing(false);
     };
 
     initAuth();

@@ -18,6 +18,15 @@ const COUNTRY_TO_LOCALE: Record<string, string> = {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Locale JSON'ları her istekte ETag ile yeniden doğrulanmalı; aksi halde
+  // tarayıcı eski (eksik anahtarlı) çevirileri günlerce önbelleğe alır ve
+  // sayfada ham i18n anahtarları görünür (max-age=86400 + stale copy).
+  if (pathname.startsWith("/locales/")) {
+    const localeRes = NextResponse.next();
+    localeRes.headers.set("Cache-Control", "no-cache, max-age=0, must-revalidate");
+    return localeRes;
+  }
+
   // Statik dosyalar, API ve Next.js internal yollarını atla
   if (
     pathname.startsWith("/_next") ||
@@ -68,5 +77,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|.*\\..*).*)"],
+  matcher: ["/((?!_next|api|.*\\..*).*)", "/locales/:path*"],
 };

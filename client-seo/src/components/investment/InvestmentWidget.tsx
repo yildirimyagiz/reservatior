@@ -16,11 +16,11 @@ export function InvestmentWidget() {
   const getRiskLabel = (level: string) => {
     switch (level.toUpperCase()) {
       case "LOW":
-        return "Düşük Risk (Güvenli Portföy)";
+        return "Low Risk (Safe Portfolio)";
       case "MEDIUM":
-        return "Dengeli Getiri & Risk";
+        return "Balanced Yield & Risk";
       case "HIGH":
-        return "Yüksek Sermaye Kazanç Potansiyeli";
+        return "High Capital Growth Potential";
       default:
         return level;
     }
@@ -31,18 +31,18 @@ export function InvestmentWidget() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10">
           <Badge variant="outline" className="mb-3 px-4 py-1 font-bold tracking-wide border-primary/40 text-primary">
-            {t("investment.badge", { defaultValue: "Yatırım Analitiği ve Finansal Raporlama" })}
+            {t("investment.badge", { defaultValue: "Investment Analytics & Financial Reporting" })}
           </Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
-            {t("investment.title_1", { defaultValue: "Veri Odaklı Gayrimenkul" })}{" "}
+            {t("investment.title_1", { defaultValue: "Data-Driven Real Estate" })}{" "}
             <span className="bg-gradient-to-r from-primary via-emerald-500 to-indigo-500 bg-clip-text text-transparent">
-              {t("investment.title_2", { defaultValue: "Yatırım Karar Motoru" })}
+              {t("investment.title_2", { defaultValue: "Investment Decision Engine" })}
             </span>
           </h2>
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             {t("investment.subtitle", {
               defaultValue:
-                "Ücretsiz ROI ve amortisman hesaplayıcılar, kira verimliliği karşılaştırmaları ve yapay zeka destekli piyasa trend analiz raporları. Yatırım kararlarınızı varsayımlara değil, somut gayrimenkul verilerine dayandırın.",
+                "Free ROI and depreciation calculators, rental-yield comparisons, and AI-powered market trend analysis reports. Base your investment decisions on concrete property data, not assumptions.",
             })}
           </p>
         </div>
@@ -70,18 +70,18 @@ export function InvestmentWidget() {
                     </div>
                     <div className="grid grid-cols-2 gap-3 mb-4 pt-2 border-t border-border/60">
                       <div>
-                        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Yıllık Kira Getiri</p>
+                        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Annual Rental Yield</p>
                         <p className="text-xl font-extrabold text-emerald-500">%{city.grossYield}</p>
                       </div>
                       <div>
-                        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Değer Kazancı</p>
+                        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Value Appreciation</p>
                         <p className="text-xl font-extrabold text-primary">%{city.totalReturn}</p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground pt-3 border-t border-border/40">
-                    {city.residencyByInvestment && <span className="bg-muted px-2 py-0.5 rounded text-foreground">Vatandaşlık / Oturum</span>}
-                    {city.taxRate === 0 && <span className="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">%0 Vergi Avantajı</span>}
+                    {city.residencyByInvestment && <span className="bg-muted px-2 py-0.5 rounded text-foreground">Citizenship / Residence</span>}
+                    {city.taxRate === 0 && <span className="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">0% Tax Advantage</span>}
                     <ArrowRight className="w-4 h-4 ml-auto group-hover:text-primary transition-transform group-hover:translate-x-1" />
                   </div>
                 </CardContent>
@@ -94,20 +94,20 @@ export function InvestmentWidget() {
         <div className="grid md:grid-cols-3 gap-5 mb-12">
           {[
             {
-              title: "Amortisman ve Net Getiri Hesaplayıcı",
-              desc: "Mortgage kredisi, aidat giderleri, doluluk oranı ve 10 yıllık sermaye değerleme projeksiyonu ile net dönüş sürenizi hesaplayın.",
+              title: "Depreciation & Net Return Calculator",
+              desc: "Calculate your net payback period with mortgage payments, service fees, occupancy rate, and a 10-year capital appreciation projection.",
               href: "/en/invest/dubai/property-investment-calculator",
               icon: Calculator,
             },
             {
-              title: "Bölgesel Kira Verimlilik Kıyaslaması",
-              desc: "Farklı ilçe, semt ve mahalleler arasındaki m² başı ortalama kira gelirlerini gerçek zamanlı piyasa endeksleriyle karşılaştırın.",
+              title: "Regional Rental Yield Benchmark",
+              desc: "Compare average rental income per m² across districts and neighborhoods with real-time market indices.",
               href: "/en/invest/dubai/dubai-rental-yield-calculator",
               icon: Percent,
             },
             {
-              title: "Global Metropol Yatırım Karşılaştırması",
-              desc: "İstanbul, Dubai, Miami ve Lizbon gibi global piyasalardaki vergi avantajları, oturum izinleri ve sermaye kazancı oranlarını inceleyin.",
+              title: "Global Metropolis Investment Comparison",
+              desc: "Compare tax advantages, residence permits, and capital gains rates across global markets like Istanbul, Dubai, Miami, and Lisbon.",
               href: "/en/invest/dubai/dubai-vs-istanbul-investment-comparison",
               icon: Globe,
             },
@@ -130,7 +130,7 @@ export function InvestmentWidget() {
         <div className="text-center">
           <Link href="/en/invest/dubai/property-investment-calculator">
             <Button size="lg" className="rounded-full px-8 py-6 font-bold text-base bg-gradient-to-r from-primary to-indigo-600 hover:opacity-95 transition-transform hover:scale-[1.02] shadow-lg shadow-primary/25">
-              <span>Veri Odaklı Yatırımlara Başla</span>
+              <span>{t("investment.cta_button", { defaultValue: "Start Data-Driven Investments" })}</span>
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </Link>

@@ -4,6 +4,7 @@ import { Providers } from "@/components/providers";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/SchemaScript";
 import { inter, outfit } from "@/lib/fonts";
 import { LocalizationProvider } from "@/contexts/LocalizationContext";
+import { loadLocaleOnServer } from "@/i18n/server-preload";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://reservatior.com';
 const siteName = "Reservatior";
@@ -106,11 +107,11 @@ export default function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }>) {
+  loadLocaleOnServer(locale || "en");
   return (
     <html lang={locale || "en"} dir={locale === "ar" ? "rtl" : "ltr"} suppressHydrationWarning>
       <head>
         <link rel="preload" href="/videos/poster.webp" as="image" fetchPriority="high" />
-        <link rel="preload" href="/llms.txt" as="fetch" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preload" href={`/locales/${locale || "en"}.json`} as="fetch" crossOrigin="anonymous" />

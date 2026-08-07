@@ -171,12 +171,12 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                     const currentLocale = params?.locale ? `/${params.locale}` : "";
                     router.push(`${currentLocale}/chat`);
                   }}
-                  title={t("ai_modal_maximize_hint", { defaultValue: "Tam Ekran Özel Sayfaya Geç" }) as string}
+                  title={t("ai_modal_maximize_hint", { defaultValue: "Open Fullscreen View" }) as string}
                   aria-label="Maximize to dedicated AI page"
                   className="p-2.5 rounded-2xl bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-400 border border-indigo-500/30 transition-all flex items-center gap-2 font-bold text-xs px-4 shadow-sm group"
                 >
                   <Maximize2 className="w-4 h-4 transition-transform group-hover:scale-110 text-indigo-400" />
-                  <span className="hidden sm:inline-block tracking-wide">Tam Ekranda Aç</span>
+                  <span className="hidden sm:inline-block tracking-wide">Open Fullscreen</span>
                 </button>
                 <button 
                   onClick={onClose} 
@@ -202,23 +202,22 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
 
                     <div className="space-y-4">
                       <h2 className="text-5xl md:text-6xl font-extrabold tracking-tight text-neutral-900 dark:text-white drop-shadow-sm">
-                        Hayalinizdeki Evi <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-brand dark:from-brand dark:to-brand">AI ile Bulun</span>
-                      </h2>
+                        Find Your Dream Home <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-brand dark:from-brand dark:to-brand">with AI</span>                      </h2>
                       <p className="text-neutral-500 dark:text-muted-foreground text-xl max-w-2xl mx-auto font-medium">
-                        Filtrelerle uğraşmayın. İhtiyaçlarınızı doğal dilde tarif edin, AI sizin için mükemmel seçenekleri bulsun.
+                        Skip the filters. Describe your needs in natural language and let AI find the perfect options for you.
                       </p>
                     </div>
 
                     <div className="space-y-3 mt-8 max-w-3xl">
-                      <p className="text-sm font-bold text-neutral-400 dark:text-muted-foreground uppercase tracking-widest">Örnek sorular:</p>
+                      <p className="text-sm font-bold text-neutral-400 dark:text-muted-foreground uppercase tracking-widest">Example questions:</p>
                       <div className="flex flex-wrap justify-center gap-3">
                         {[
-                          "İstanbul'da deniz manzaralı 2+1 daire",
-                          "Ankara'da site içinde 3+1 ev",
-                          "İzmir'de bahçeli müstakil villa",
-                          "Antalya'da lüks tatil villası",
-                          "Merkezi konumda modern ofis",
-                          "Yatırımlık uygun fiyatlı daire"
+                          "2+1 apartment with sea view in Istanbul",
+                          "3+1 house in a gated community in Ankara",
+                          "Detached villa with a garden in Izmir",
+                          "Luxury holiday villa in Antalya",
+                          "Modern office in a central location",
+                          "Affordable apartment for investment"
                         ].map((suggestion) => (
                           <button
                             key={suggestion}
@@ -260,16 +259,16 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                             </button>
                             <button onClick={() => shareMessage(msg.text)} className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-muted dark:hover:bg-muted/50 transition-colors text-left">
                               <Share2 className="w-4 h-4 text-neutral-500 dark:text-muted-foreground" />
-                              <span className="text-sm font-medium text-neutral-700 dark:text-muted-foreground">Paylaş</span>
+                              <span className="text-sm font-medium text-neutral-700 dark:text-muted-foreground">Share</span>
                             </button>
                             <button onClick={() => archiveMessage(msg.id)} className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-muted dark:hover:bg-muted/50 transition-colors text-left">
                               <Archive className="w-4 h-4 text-neutral-500 dark:text-muted-foreground" />
-                              <span className="text-sm font-medium text-neutral-700 dark:text-muted-foreground">Arşivle</span>
+                              <span className="text-sm font-medium text-neutral-700 dark:text-muted-foreground">Archive</span>
                             </button>
                             {msg.role === "user" && (
                               <button onClick={() => startEditMessage(msg.id, msg.text)} className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-muted dark:hover:bg-muted/50 transition-colors text-left">
                                 <Edit2 className="w-4 h-4 text-neutral-500 dark:text-muted-foreground" />
-                                <span className="text-sm font-medium text-neutral-700 dark:text-muted-foreground">Düzenle</span>
+                                <span className="text-sm font-medium text-neutral-700 dark:text-muted-foreground">Edit</span>
                               </button>
                             )}
                             <button onClick={() => deleteMessage(msg.id)} className="w-full px-4 py-2.5 flex items-center gap-3 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-left">
@@ -297,10 +296,10 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                             />
                             <div className="flex gap-2">
                               <button onClick={saveEdit} className="px-4 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-bold transition-colors">
-                                Kaydet
+                                Save
                               </button>
                               <button onClick={cancelEdit} className="px-4 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold transition-colors">
-                                İptal
+                                Cancel
                               </button>
                             </div>
                           </div>
@@ -382,7 +381,7 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                         handleAISend();
                       }
                     }}
-                    placeholder="Aradığınız özellikleri Türkçe olarak tarif edin..."
+                    placeholder="Describe the property you are looking for..."
                     className="flex-1 max-h-32 min-h-[60px] bg-transparent border-none focus:ring-0 resize-none py-4 px-2 text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-muted-foreground font-medium text-[17px]"
                     rows={1}
                   />
@@ -398,7 +397,7 @@ export function AIChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                 </div>
               </div>
               <p className="text-center text-[11px] font-medium text-neutral-400 dark:text-muted-foreground mt-4 tracking-wide uppercase">
-                Reservatior AI hata yapabilir. Bilgileri doğrulayınız.
+                Reservatior AI may make mistakes. Please verify the information.
               </p>
             </div>
           </m.div>

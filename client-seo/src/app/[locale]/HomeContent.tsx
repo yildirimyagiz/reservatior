@@ -68,10 +68,10 @@ export function formatAreaByCountry(areaVal: number | string | undefined, countr
 
 /* ───── Fallback Slides for Hero & Properties ───── */
 const FALLBACK_SLIDES = [
-  { title: "Hayat City", location: "Bağcılar, Mahmutbey", price: "%50 Peşinat Fırsatı", beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80", tag: "YENİ PROJE" },
-  { title: "Özak Dragos", location: "Maltepe, İstanbul", price: "Adalar & Deniz Manzaralı", beds: "1+1 - 3+1", baths: "2 - 4", sqm: "16,000 m²", areaVal: 16000, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80", tag: "DENİZ MANZARALI" },
-  { title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: "Hemen Teslim", beds: "2+1 - 5.5+1", baths: "2 - 5", sqm: "111,000 m²", areaVal: 111000, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80", tag: "OTURUMA HAZIR" },
-  { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrad Ormanı", price: "Orman Manzaralı", beds: "1+1 - 4.5+1", baths: "2 - 4", sqm: "12,000 m²", areaVal: 12000, image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", tag: "DOĞA İÇİNDE" },
+  { title: "Hayat City", location: "Bağcılar, Mahmutbey", price: "50% Down Payment Opportunity", beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80", tag: "NEW PROJECT" },
+  { title: "Özak Dragos", location: "Maltepe, İstanbul", price: "Islands & Sea View", beds: "1+1 - 3+1", baths: "2 - 4", sqm: "16,000 m²", areaVal: 16000, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80", tag: "SEA VIEW" },
+  { title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: "Ready to Move", beds: "2+1 - 5.5+1", baths: "2 - 5", sqm: "111,000 m²", areaVal: 111000, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80", tag: "READY TO OCCUPY" },
+  { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrad Ormanı", price: "Forest View", beds: "1+1 - 4.5+1", baths: "2 - 4", sqm: "12,000 m²", areaVal: 12000, image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", tag: "AMID NATURE" },
 ];
 
 
