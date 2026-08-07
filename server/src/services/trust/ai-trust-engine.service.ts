@@ -16,6 +16,21 @@ interface TrustCalculationResult {
   timestamp: Date;
 }
 
+const TIER_THRESHOLDS = [
+  { min: 90, tier: "DIAMOND" },
+  { min: 75, tier: "PLATINUM" },
+  { min: 55, tier: "GOLD" },
+  { min: 35, tier: "SILVER" },
+  { min: 0, tier: "BRONZE" },
+];
+
+function assignTier(score: number): string {
+  for (const { min, tier } of TIER_THRESHOLDS) {
+    if (score >= min) return tier;
+  }
+  return "BRONZE";
+}
+
 interface TrustInsight {
   type: "RISK" | "OPPORTUNITY" | "WARNING" | "INFO";
   message: string;
@@ -35,7 +50,7 @@ export const aiTrustEngineService = {
             entityType: "TENANT",
             entityId,
             overallScore: tenantProfile.overallScore,
-            tier: "BRONZE",
+            tier: assignTier(tenantProfile.overallScore),
             riskFactors: (tenantProfile.riskFactors as any) as string[] || [],
             positiveFactors: [],
             timestamp: tenantProfile.lastCalculatedAt,
@@ -48,7 +63,7 @@ export const aiTrustEngineService = {
             entityType: "LANDLORD",
             entityId,
             overallScore: landlordProfile.overallScore,
-            tier: "BRONZE",
+            tier: assignTier(landlordProfile.overallScore),
             riskFactors: (landlordProfile.riskFactors as any) as string[] || [],
             positiveFactors: [],
             timestamp: landlordProfile.lastCalculatedAt,
@@ -61,7 +76,7 @@ export const aiTrustEngineService = {
             entityType: "AGENT",
             entityId,
             overallScore: agentProfile.overallScore,
-            tier: "BRONZE",
+            tier: assignTier(agentProfile.overallScore),
             riskFactors: [],
             positiveFactors: [],
             timestamp: agentProfile.lastCalculatedAt,
@@ -74,7 +89,7 @@ export const aiTrustEngineService = {
             entityType: "PROPERTY",
             entityId,
             overallScore: propertyProfile.overallScore,
-            tier: "BRONZE",
+            tier: assignTier(propertyProfile.overallScore),
             riskFactors: [],
             positiveFactors: [],
             timestamp: propertyProfile.lastCalculatedAt,
@@ -87,7 +102,7 @@ export const aiTrustEngineService = {
             entityType: "TRANSACTION",
             entityId,
             overallScore: transactionProfile.overallScore,
-            tier: "BRONZE",
+            tier: assignTier(transactionProfile.overallScore),
             riskFactors: (transactionProfile.riskFactors as any) as string[] || [],
             positiveFactors: [],
             timestamp: transactionProfile.lastCalculatedAt,

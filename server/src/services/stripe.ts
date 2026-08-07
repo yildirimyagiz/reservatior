@@ -1,9 +1,18 @@
 import Stripe from 'stripe';
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY || 'sk_test_51Px9zX2Lv1q6q1X1' // Dummy key if not provided;
-const stripe = new Stripe(stripeSecretKey, {
-  apiVersion: '2025-01-27' as any,
-});
+// Secret removed from source (audit §6.H.30): a literal test key was committed
+// here. The Stripe client is now created lazily and only from the environment,
+// so the app never constructs a client with a fake key.
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+
+function getStripe(): Stripe {
+  if (!stripeSecretKey) {
+    throw new Error("STRIPE_SECRET_KEY is not configured. Stripe is unavailable.");
+  }
+  return new Stripe(stripeSecretKey, {
+    apiVersion: '2025-01-27' as any,
+  });
+}
 
 export const stripeService = {
   createCheckoutSession: async ({
@@ -21,7 +30,7 @@ export const stripeService = {
     metadata: any;
     customerEmail?: string;
   }) => {
-    return await stripe.checkout.sessions.create({
+    return await getStripe().checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
@@ -48,7 +57,7 @@ export const stripeService = {
     let event: Stripe.Event;
 
     try {
-      event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
+      event = getStripe().webhooks.constructEvent(payload, sig, webhookSecret);
     } catch (err: any) {
       throw new Error(`Webhook Error: ${err.message}`);
     }

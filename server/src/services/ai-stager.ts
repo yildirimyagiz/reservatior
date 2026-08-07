@@ -21,7 +21,9 @@ export enum RoomType {
 }
 
 export class AIStagerService {
-  private static RUNPOD_API_KEY = process.env.RUNPOD_API_KEY || "sk_JqCnrFFRh8FHqgwJYNRe9XQfwdmJwhvACSDCCgtTMEezDq6wXfbWVJkRCvJW7TC1";
+  // Secret removed from source (audit §6.H.30): a hardcoded RUNPOD API key was
+  // committed here. It must only come from the environment.
+  private static RUNPOD_API_KEY = process.env.RUNPOD_API_KEY;
   private static SD15_ENDPOINT_ID = process.env.SD15_ENDPOINT_ID || "uxd88z8vzgrr7r";
   
   private static STAGING_PROMPTS = {
@@ -100,7 +102,11 @@ export class AIStagerService {
 
       const input = task.inputData as any;
       const prompt = (this.STAGING_PROMPTS as any)[input.style]?.[input.roomType] || "professionally staged room";
-      
+
+      if (!this.RUNPOD_API_KEY) {
+        throw new Error("RUNPOD_API_KEY is not configured. RunPod staging is unavailable.");
+      }
+
       console.log(`[AI-STAGER] Sending to RunPod ${this.SD15_ENDPOINT_ID}: ${prompt}`);
       
       // 1. Submit Job to RunPod
