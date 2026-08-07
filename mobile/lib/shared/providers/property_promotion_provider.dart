@@ -19,6 +19,11 @@ final propertyPromotionListProvider = FutureProvider.autoDispose.family<List<Pro
   return repository.getAll(filters: {'propertyId': propertyId});
 });
 
+final propertyPromotionAllListProvider = FutureProvider.autoDispose<List<PropertyPromotion>>((ref) async {
+  final repository = ref.watch(propertyPromotionRepositoryProvider);
+  return repository.getAll();
+});
+
 final propertyPromotionCreateProvider = StateProvider<PropertyPromotion?>((ref) => null);
 final propertyPromotionUpdateProvider = StateProvider<Map<String, dynamic>>((ref) => {});
 final propertyPromotionDeleteProvider = StateProvider<String?>((ref) => null);

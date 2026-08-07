@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reservatior/core/network/dio_client.dart';
-import 'package:reservatior/core/network/api_endpoints.dart';
 import 'package:reservatior/shared/models/user.dart';
 import 'package:reservatior/shared/providers/auth_provider.dart';
 import 'package:reservatior/shared/providers/dio_client_provider.dart';
@@ -49,6 +49,7 @@ class SystemTriggerState {
   final bool isLoading;
   final String? errorMessage;
   final bool isConnected;
+  final bool isOffline;
 
   SystemTriggerState({
     required this.tasks,
@@ -56,6 +57,7 @@ class SystemTriggerState {
     required this.isLoading,
     this.errorMessage,
     required this.isConnected,
+    required this.isOffline,
   });
 
   SystemTriggerState copyWith({
@@ -64,6 +66,7 @@ class SystemTriggerState {
     bool? isLoading,
     String? errorMessage,
     bool? isConnected,
+    bool? isOffline,
   }) {
     return SystemTriggerState(
       tasks: tasks ?? this.tasks,
@@ -71,6 +74,7 @@ class SystemTriggerState {
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage,
       isConnected: isConnected ?? this.isConnected,
+      isOffline: isOffline ?? this.isOffline,
     );
   }
 }
@@ -79,7 +83,9 @@ class SystemTriggerNotifier extends StateNotifier<SystemTriggerState> {
   final DioClient _dioClient;
   final SseTriggerService _sseService;
   final User? _user;
+  final Connectivity _connectivity = Connectivity();
   StreamSubscription<SseEvent>? _sseSubscription;
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
   Timer? _pollingTimer;
 
   SystemTriggerNotifier(this._dioClient, this._sseService, this._user)
@@ -88,12 +94,44 @@ class SystemTriggerNotifier extends StateNotifier<SystemTriggerState> {
           liveEvents: [],
           isLoading: true,
           isConnected: false,
+          isOffline: false,
         )) {
     fetchTasks();
     _startSseListening();
-    
+
     // Fallback polling every 10 seconds in case SSE drops
     _pollingTimer = Timer.periodic(const Duration(seconds: 10), (_) => fetchTasks(showLoading: false));
+
+    // Initial connectivity check + listen for changes
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
+      _onConnectivityChanged,
+      onError: (_) {},
+    );
+    _checkInitialConnectivity();
+  }
+
+  Future<void> _checkInitialConnectivity() async {
+    try {
+      final results = await _connectivity.checkConnectivity();
+      await _onConnectivityChanged(results);
+    } catch (e) {
+      debugPrint('ℹ️ Initial connectivity check failed: $e');
+    }
+  }
+
+  Future<void> _onConnectivityChanged(List<ConnectivityResult> results) async {
+    final isOffline = results.contains(ConnectivityResult.none) || results.isEmpty;
+    if (isOffline == state.isOffline) return;
+
+    state = state.copyWith(isOffline: isOffline, isConnected: isOffline ? false : state.isConnected);
+    if (isOffline) {
+      debugPrint('ℹ️ Device offline — pausing SSE stream');
+      _sseService.stopConnection();
+    } else {
+      debugPrint('ℹ️ Device online — resuming SSE stream');
+      _startSseListening();
+      fetchTasks(showLoading: false);
+    }
   }
 
   Future<void> fetchTasks({bool showLoading = true}) async {
@@ -138,7 +176,11 @@ class SystemTriggerNotifier extends StateNotifier<SystemTriggerState> {
 
   void _startSseListening() {
     _sseSubscription?.cancel();
-    
+    if (state.isOffline) {
+      debugPrint('ℹ️ Skipping SSE start — device offline');
+      return;
+    }
+
     _sseSubscription = _sseService.eventStream.listen(
       (event) {
         // Update connection status
@@ -185,6 +227,7 @@ class SystemTriggerNotifier extends StateNotifier<SystemTriggerState> {
   void dispose() {
     _sseSubscription?.cancel();
     _pollingTimer?.cancel();
+    _connectivitySubscription?.cancel();
     _sseService.stopConnection();
     super.dispose();
   }

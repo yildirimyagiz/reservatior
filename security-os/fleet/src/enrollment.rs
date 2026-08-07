@@ -35,6 +35,7 @@ pub struct EnrollmentResponse {
 pub struct EnrollmentManager {
     pending: DashMap<String, EnrollmentRequest>,
     ca_cert: Option<String>,
+    #[allow(dead_code)]
     ca_key: Option<String>,
 }
 

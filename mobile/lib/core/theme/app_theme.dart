@@ -41,6 +41,8 @@ class AppColors {
   static const goldLight = primaryLight;
   static const goldDark  = primaryDark;
   static const aiAccent  = primary;
+  static const cardBg    = darkCard;
+  static const border    = darkBorder;
 }
 
 class AppRadius {

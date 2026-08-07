@@ -969,6 +969,10 @@ class _FilterSheet extends ConsumerWidget {
                 _buildSortSection(filterState, filterNotifier, colors),
                 const SizedBox(height: 32),
                 _buildAmenitiesSection(filterState, filterNotifier, colors),
+                const SizedBox(height: 32),
+                _buildComplianceSection(filterState, filterNotifier, colors),
+                const SizedBox(height: 32),
+                _buildRoiSection(filterState, filterNotifier, colors),
               ],
             ),
           ),
@@ -1140,6 +1144,60 @@ class _FilterSheet extends ConsumerWidget {
         border: Border.all(color: isSelected ? AppColors.primary : colors.border),
       ),
       child: Text(label, style: TextStyle(color: isSelected ? AppColors.primary : colors.textSecondary, fontWeight: isSelected ? FontWeight.bold : FontWeight.w500, fontSize: 13)),
+    );
+  }
+
+  Widget _buildComplianceSection(PropertyFilterState state, PropertyFilterNotifier notifier, ThemeAwareColors colors) {
+    final complianceItems = [
+      '7464 Konut Kiralama İzin Belgesi',
+      'Yangın Güvenlik Belgesi',
+      'Enerji Kimlik Belgesi',
+      'İskan Ruhsatı Alınmış',
+      'Tapu Temizliği Doğrulanmış',
+      'Deprem Yönetmeliğine Uyumlu',
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Yasal Uygunluk ve Ekspertiz', style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.bold, color: colors.textPrimary)),
+        const SizedBox(height: 16),
+        Wrap(
+          spacing: 8, runSpacing: 8,
+          children: complianceItems.map((c) {
+            final isSelected = (state.compliance ?? []).contains(c);
+            return GestureDetector(
+              onTap: () => notifier.toggleCompliance(c),
+              child: _buildChip(c, isSelected, colors),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRoiSection(PropertyFilterState state, PropertyFilterNotifier notifier, ThemeAwareColors colors) {
+    const roiOptions = [
+      ('Tüm Getiri Oranları', 'all'),
+      ('%6+ Dövize Endeksli', '6-plus'),
+      ('%8 - %10 Yüksek Getiri', '8-10'),
+      ('%12+ Değer Artış Odaklı', '12-plus'),
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Minimum Yıllık Kira Getirisi (ROI)', style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.bold, color: colors.textPrimary)),
+        const SizedBox(height: 16),
+        Wrap(
+          spacing: 8, runSpacing: 8,
+          children: roiOptions.map((option) {
+            final isSelected = (state.minRoi ?? 'all') == option.$2;
+            return GestureDetector(
+              onTap: () => notifier.setMinRoi(option.$2),
+              child: _buildChip(option.$1, isSelected, colors),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }

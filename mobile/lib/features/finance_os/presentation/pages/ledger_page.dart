@@ -5,12 +5,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:reservatior/shared/enums/ledger_event_type.dart';
+import 'package:reservatior/shared/providers/ledger_entry_provider.dart';
+import 'package:reservatior/features/os_dashboards/presentation/os_live_widgets.dart';
 
 class LedgerPage extends ConsumerWidget {
   const LedgerPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final entriesAsync = ref.watch(ledgerEntryListProvider);
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: CustomScrollView(
@@ -40,11 +44,19 @@ class LedgerPage extends ConsumerWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _LedgerSummaryRow(
-                totalCredits: '\$4,230,000',
-                totalDebits: '\$3,890,000',
-                netBalance: '\$340,000',
-                entryCount: 1248,
+              child: entriesAsync.when(
+                loading: () => const OsLiveLoading(),
+                error: (e, _) => OsLiveErrorCard(message: 'Failed to load ledger entries: $e'),
+                data: (entries) {
+                  final credits = entries.where((e) => e.type == LedgerEventType.INCOME).fold<double>(0, (sum, e) => sum + (e.amount ?? 0));
+                  final debits = entries.where((e) => e.type != LedgerEventType.INCOME).fold<double>(0, (sum, e) => sum + (e.amount ?? 0));
+                  return _LedgerSummaryRow(
+                    totalCredits: r'$' + _fmtAmount(credits),
+                    totalDebits: r'$' + _fmtAmount(debits),
+                    netBalance: r'$' + _fmtAmount(credits - debits),
+                    entryCount: entries.length,
+                  );
+                },
               ),
             ),
           ),
@@ -62,13 +74,20 @@ class LedgerPage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                ...List.generate(12, (i) => _LedgerEntryTile(
-                  description: i.isEven ? 'Commission Payout - Listing #${2400 + i}' : 'Escrow Release - Deposit #${1800 + i}',
-                  amount: '\$${(8500 + i * 1200).toStringAsFixed(0)}',
-                  type: i.isEven ? 'Credit' : 'Debit',
-                  date: '2026-06-${15 + i}',
-                  category: i % 3 == 0 ? 'finance.ledger.commission_cat'.tr() : i % 3 == 1 ? 'finance.ledger.escrow_cat'.tr() : 'finance.ledger.fee_cat'.tr(),
-                )),
+                ...entriesAsync.when(
+                  loading: () => [const OsLiveLoading()],
+                  error: (e, _) => [OsLiveErrorCard(message: 'Failed to load ledger entries: $e')],
+                  data: (entries) => entries.take(12).map((e) {
+                    final isCredit = e.type == LedgerEventType.INCOME;
+                    return _LedgerEntryTile(
+                      description: e.note ?? e.type.name,
+                      amount: r'$' + _fmtAmount(e.amount ?? 0),
+                      type: isCredit ? 'Credit' : 'Debit',
+                      date: e.occurredAt.toIso8601String().substring(0, 10),
+                      category: e.type.name,
+                    );
+                  }).toList(),
+                ),
               ]),
             ),
           ),
@@ -76,6 +95,12 @@ class LedgerPage extends ConsumerWidget {
       ),
     );
   }
+}
+
+String _fmtAmount(double v) {
+  if (v >= 1000000) return '${(v / 1000000).toStringAsFixed(1)}M';
+  if (v >= 1000) return '${(v / 1000).toStringAsFixed(1)}K';
+  return v.toStringAsFixed(0);
 }
 
 class _LedgerSummaryRow extends StatelessWidget {
@@ -255,7 +280,7 @@ class _LedgerEntryTile extends StatelessWidget {
             ),
           ),
           Text(
-            '$amount',
+            amount,
             style: GoogleFonts.outfit(
               color: isCredit ? AppColors.success : AppColors.error,
               fontWeight: FontWeight.w700,
@@ -264,6 +289,6 @@ class _LedgerEntryTile extends StatelessWidget {
           ),
         ],
       ),
-    ).animate().fadeIn(delay: Duration(milliseconds: 40));
+    ).animate().fadeIn(delay: const Duration(milliseconds: 40));
   }
 }

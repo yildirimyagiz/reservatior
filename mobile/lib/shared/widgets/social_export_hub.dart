@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
-import 'package:reservatior/shared/models/models.dart';
 
 class SocialExportHub extends StatelessWidget {
   final String title;
@@ -95,6 +95,17 @@ class SocialExportHub extends StatelessWidget {
                 label: 'mobile.auto.linkedin'.tr(),
                 color: const Color(0xFF0077B5),
                 onTap: () => _launchSocial('https://www.linkedin.com/sharing/share-offsite/?url=${Uri.encodeComponent(mediaUrl ?? "")}'),
+              ),
+              _SocialCard(
+                icon: Icons.more_horiz,
+                label: 'More',
+                color: Colors.white70,
+                onTap: () => SharePlus.instance.share(
+                  ShareParams(
+                    text: '$title\n\n$description',
+                    subject: title,
+                  ),
+                ),
               ),
             ],
           ),

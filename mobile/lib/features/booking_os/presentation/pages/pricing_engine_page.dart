@@ -162,7 +162,7 @@ class _PricingChartCard extends StatelessWidget {
                     ],
                     isCurved: true,
                     color: AppColors.primary,
-                    strokeWidth: 3,
+                    barWidth: 3,
                     dotData: FlDotData(show: false),
                   ),
                   LineChartBarData(
@@ -177,7 +177,7 @@ class _PricingChartCard extends StatelessWidget {
                     ],
                     isCurved: true,
                     color: AppColors.success,
-                    strokeWidth: 3,
+                    barWidth: 3,
                     dotData: FlDotData(show: false),
                     dashArray: [5, 5],
                   ),

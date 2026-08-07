@@ -59,6 +59,7 @@ const SHELL_BINARIES: &[&str] = &[
 ];
 
 pub struct WebShellEngine {
+    #[allow(dead_code)]
     known_web_files: DashMap<String, String>,
     suspicious_modifications: DashMap<String, u32>,
     web_server_pids: DashMap<u32, String>,
@@ -358,7 +359,6 @@ impl WebShellEngine {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::collections::HashMap;
 
     fn make_source() -> EventSource {
         EventSource {

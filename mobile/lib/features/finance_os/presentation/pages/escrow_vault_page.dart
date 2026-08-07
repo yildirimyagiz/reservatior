@@ -5,12 +5,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:reservatior/shared/enums/escrow_status.dart';
+import 'package:reservatior/shared/providers/escrow_account_provider.dart';
+import 'package:reservatior/features/os_dashboards/presentation/os_live_widgets.dart';
 
 class EscrowVaultPage extends ConsumerWidget {
   const EscrowVaultPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final accountsAsync = ref.watch(escrowAccountListProvider);
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: CustomScrollView(
@@ -41,11 +45,19 @@ class EscrowVaultPage extends ConsumerWidget {
             padding: const EdgeInsets.all(16),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                _SummaryCard(
-                  totalLocked: '\$2,450,000',
-                  totalAccounts: 128,
-                  pendingReleases: 14,
-                  disputedAmount: '\$124,500',
+                accountsAsync.when(
+                  loading: () => const OsLiveLoading(),
+                  error: (e, _) => OsLiveErrorCard(message: 'Failed to load escrow accounts: $e'),
+                  data: (accounts) {
+                    final locked = accounts.where((a) => a.status == EscrowStatus.HOLDING || a.status == EscrowStatus.PARTIALLY_RELEASED).fold<double>(0, (s, a) => s + a.totalAmount);
+                    final disputed = accounts.where((a) => a.status == EscrowStatus.DISPUTED).fold<double>(0, (s, a) => s + a.totalAmount);
+                    return _SummaryCard(
+                      totalLocked: r'$' + _fmtAmount(locked),
+                      totalAccounts: accounts.length,
+                      pendingReleases: accounts.where((a) => a.status == EscrowStatus.PARTIALLY_RELEASED).length,
+                      disputedAmount: r'$' + _fmtAmount(disputed),
+                    );
+                  },
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -57,13 +69,17 @@ class EscrowVaultPage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                ...List.generate(8, (i) => _EscrowTransactionTile(
-                  id: 'ESC-${2024000 + i}',
-                  amount: '\$${(15000 + i * 3200).toStringAsFixed(0)}',
-                  status: i < 2 ? 'Released' : i < 5 ? 'Held' : 'Pending',
-                  date: '2026-06-${10 + i}',
-                  party: i.isEven ? 'finance.escrow.property_purchase'.tr() : 'finance.escrow.rental_deposit'.tr(),
-                )),
+                ...accountsAsync.when(
+                  loading: () => [const OsLiveLoading()],
+                  error: (e, _) => [OsLiveErrorCard(message: 'Failed to load escrow accounts: $e')],
+                  data: (accounts) => accounts.take(8).map((a) => _EscrowTransactionTile(
+                    id: a.id.toUpperCase().startsWith('ESC-') ? a.id : 'ESC-${a.id.substring(0, a.id.length.clamp(0, 6))}',
+                    amount: r'$' + a.totalAmount.toStringAsFixed(0),
+                    status: a.status,
+                    date: a.heldAt.toIso8601String().substring(0, 10),
+                    party: a.reservationId,
+                  )).toList(),
+                ),
               ]),
             ),
           ),
@@ -71,6 +87,12 @@ class EscrowVaultPage extends ConsumerWidget {
       ),
     );
   }
+}
+
+String _fmtAmount(double v) {
+  if (v >= 1000000) return '${(v / 1000000).toStringAsFixed(1)}M';
+  if (v >= 1000) return '${(v / 1000).toStringAsFixed(1)}K';
+  return v.toStringAsFixed(0);
 }
 
 class _SummaryCard extends StatelessWidget {
@@ -180,7 +202,7 @@ class _StatItem extends StatelessWidget {
 class _EscrowTransactionTile extends StatelessWidget {
   final String id;
   final String amount;
-  final String status;
+  final EscrowStatus status;
   final String date;
   final String party;
 
@@ -194,12 +216,15 @@ class _EscrowTransactionTile extends StatelessWidget {
 
   Color _statusColor() {
     switch (status) {
-      case 'Released':
+      case EscrowStatus.FULLY_RELEASED:
         return AppColors.success;
-      case 'Held':
+      case EscrowStatus.HOLDING:
         return AppColors.warning;
-      case 'Pending':
+      case EscrowStatus.PARTIALLY_RELEASED:
         return AppColors.info;
+      case EscrowStatus.DISPUTED:
+      case EscrowStatus.CANCELLED:
+        return AppColors.error;
       default:
         return AppColors.textSecondaryDark;
     }
@@ -207,14 +232,14 @@ class _EscrowTransactionTile extends StatelessWidget {
 
   String get _translatedStatus {
     switch (status) {
-      case 'Released':
+      case EscrowStatus.FULLY_RELEASED:
         return 'finance.escrow.released'.tr();
-      case 'Held':
+      case EscrowStatus.HOLDING:
         return 'finance.escrow.held'.tr();
-      case 'Pending':
+      case EscrowStatus.PARTIALLY_RELEASED:
         return 'finance.escrow.status_pending'.tr();
       default:
-        return status;
+        return status.name;
     }
   }
 
@@ -292,6 +317,6 @@ class _EscrowTransactionTile extends StatelessWidget {
           ),
         ],
       ),
-    ).animate().fadeIn(delay: Duration(milliseconds: 50));
+    ).animate().fadeIn(delay: const Duration(milliseconds: 50));
   }
 }

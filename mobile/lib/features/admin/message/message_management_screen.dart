@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:reservatior/core/providers/admin/message_provider.dart';
 import 'package:reservatior/core/providers/admin/ai_sentiment_provider.dart';
 
 class MessageManagementScreen extends ConsumerWidget {

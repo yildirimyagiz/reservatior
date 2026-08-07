@@ -5,12 +5,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:reservatior/shared/providers/auth_provider.dart';
+import 'package:reservatior/shared/providers/agent_os_providers.dart';
+import 'package:reservatior/features/os_dashboards/presentation/os_live_widgets.dart';
 
 class BehavioralScoringPage extends ConsumerWidget {
   const BehavioralScoringPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final orgId = ref.watch(authProvider).user?.organizationId ?? '';
+    final scoringAsync = ref.watch(agentScoringProvider(orgId));
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: CustomScrollView(
@@ -40,12 +45,16 @@ class BehavioralScoringPage extends ConsumerWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _ScoreOverview(
-                overallScore: 84,
-                responseLatency: 2.3,
-                conversionRate: 8.4,
-                avgRating: 4.7,
-                dealsClosed: 28,
+              child: scoringAsync.when(
+                loading: () => const OsLiveLoading(),
+                error: (e, _) => OsLiveErrorCard(message: 'Failed to load scoring: $e'),
+                data: (data) => _ScoreOverview(
+                  overallScore: data.overallScore,
+                  responseLatency: data.responseLatency,
+                  conversionRate: data.conversionRate,
+                  avgRating: data.avgRating,
+                  dealsClosed: data.dealsClosed,
+                ),
               ),
             ),
           ),
@@ -63,14 +72,18 @@ class BehavioralScoringPage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                ...List.generate(10, (i) => _AgentScoreTile(
-                  rank: i + 1,
-                  name: ['Sarah Johnson', 'Michael Chen', 'Anna Williams', 'James Rodriguez', 'Emma Thompson', 'Robert Kim', 'Lisa Anderson', 'David Miller', 'Olivia Brown', 'Daniel Wilson'][i],
-                  score: (95 - i * 4 - (i % 3) * 2),
-                  deals: 42 - i * 3,
-                  responseTime: '${(1.2 + i * 0.4).toStringAsFixed(1)}m',
-                  trend: i < 3 ? 'up' : i < 7 ? 'stable' : 'down',
-                )),
+                ...scoringAsync.when(
+                  loading: () => [const OsLiveLoading()],
+                  error: (e, _) => [OsLiveErrorCard(message: 'Failed to load scoring: $e')],
+                  data: (data) => data.rankings.take(10).map((r) => _AgentScoreTile(
+                    rank: r.rank,
+                    name: r.name,
+                    score: r.score,
+                    deals: r.deals,
+                    responseTime: '${r.responseTime}m',
+                    trend: r.trend,
+                  )).toList(),
+                ),
               ]),
             ),
           ),

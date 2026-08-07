@@ -27,6 +27,63 @@ services:
     networks:
       - reservatior-db-net
 
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redisdata:/data
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - reservatior-db-net
+
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    environment:
+      - DATABASES_HOST=db
+      - DATABASES_PORT=5432
+      - DATABASES_USER=elysia
+      - DATABASES_PASSWORD=elysia_pass
+      - DATABASES_DB=realestate
+      - POOL_MODE=transaction
+      - MAX_CLIENT_CONN=1000
+      - DEFAULT_POOL_SIZE=50
+      - SERVER_IDLE_TIMEOUT=600
+    ports:
+      - "127.0.0.1:6432:6432"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -p 6432 -U elysia"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - reservatior-db-net
+
   server:
     build:
       context: .
@@ -40,33 +97,37 @@ services:
       - RATE_LIMIT_READ=${RATE_LIMIT_READ:-500}
       - RATE_LIMIT_AUTH=${RATE_LIMIT_AUTH:-10}
       - RATE_LIMIT_HEAVY=${RATE_LIMIT_HEAVY:-30}
-      - REDIS_URL=${REDIS_URL:-}
-      - DATABASE_URL=postgresql://elysia:elysia_pass@db:5432/realestate
-      - DATABASE_URL_US=postgresql://elysia:elysia_pass@db:5432/realestate_us
-      - DATABASE_URL_UK=postgresql://elysia:elysia_pass@db:5432/realestate_uk
-      - DATABASE_URL_TR=postgresql://elysia:elysia_pass@db:5432/realestate_tr
-      - DATABASE_URL_DE=postgresql://elysia:elysia_pass@db:5432/realestate_de
-      - DATABASE_URL_FR=postgresql://elysia:elysia_pass@db:5432/realestate_fr
-      - DATABASE_URL_ES=postgresql://elysia:elysia_pass@db:5432/realestate_es
-      - DATABASE_URL_IT=postgresql://elysia:elysia_pass@db:5432/realestate_it
-      - DATABASE_URL_NL=postgresql://elysia:elysia_pass@db:5432/realestate_nl
-      - DATABASE_URL_CA=postgresql://elysia:elysia_pass@db:5432/realestate_ca
-      - DATABASE_URL_MX=postgresql://elysia:elysia_pass@db:5432/realestate_mx
-      - DATABASE_URL_BR=postgresql://elysia:elysia_pass@db:5432/realestate_br
-      - DATABASE_URL_AR=postgresql://elysia:elysia_pass@db:5432/realestate_ar
-      - DATABASE_URL_AU=postgresql://elysia:elysia_pass@db:5432/realestate_au
-      - DATABASE_URL_NZ=postgresql://elysia:elysia_pass@db:5432/realestate_nz
-      - DATABASE_URL_JP=postgresql://elysia:elysia_pass@db:5432/realestate_jp
-      - DATABASE_URL_KR=postgresql://elysia:elysia_pass@db:5432/realestate_kr
-      - DATABASE_URL_CN=postgresql://elysia:elysia_pass@db:5432/realestate_cn
-      - DATABASE_URL_IN=postgresql://elysia:elysia_pass@db:5432/realestate_in
-      - DATABASE_URL_SG=postgresql://elysia:elysia_pass@db:5432/realestate_sg
-      - DATABASE_URL_MY=postgresql://elysia:elysia_pass@db:5432/realestate_my
-      - DATABASE_URL_TH=postgresql://elysia:elysia_pass@db:5432/realestate_th
-      - DATABASE_URL_AE=postgresql://elysia:elysia_pass@db:5432/realestate_ae
-      - DATABASE_URL_SA=postgresql://elysia:elysia_pass@db:5432/realestate_sa
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate
+      - DATABASE_URL_US=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_us
+      - DATABASE_URL_UK=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_uk
+      - DATABASE_URL_TR=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_tr
+      - DATABASE_URL_DE=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_de
+      - DATABASE_URL_FR=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_fr
+      - DATABASE_URL_ES=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_es
+      - DATABASE_URL_IT=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_it
+      - DATABASE_URL_NL=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_nl
+      - DATABASE_URL_CA=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_ca
+      - DATABASE_URL_MX=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_mx
+      - DATABASE_URL_BR=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_br
+      - DATABASE_URL_AR=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_ar
+      - DATABASE_URL_AU=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_au
+      - DATABASE_URL_NZ=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_nz
+      - DATABASE_URL_JP=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_jp
+      - DATABASE_URL_KR=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_kr
+      - DATABASE_URL_CN=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_cn
+      - DATABASE_URL_IN=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_in
+      - DATABASE_URL_SG=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_sg
+      - DATABASE_URL_MY=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_my
+      - DATABASE_URL_TH=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_th
+      - DATABASE_URL_AE=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_ae
+      - DATABASE_URL_SA=postgresql://elysia:elysia_pass@pgbouncer:6432/realestate_sa
     depends_on:
       db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      pgbouncer:
         condition: service_healthy
     restart: unless-stopped
     healthcheck:
@@ -198,3 +259,4 @@ networks:
 
 volumes:
   pgdata:
+  redisdata:

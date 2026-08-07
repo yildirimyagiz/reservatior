@@ -45,4 +45,31 @@ class ContractService {
   Future<void> deleteContract(String id) async {
     await _dioClient.delete('${ApiEndpoints.contracts}/$id');
   }
+
+  /// Fetch the full contract template catalog (countries, types, languages).
+  Future<Map<String, dynamic>> getContractTemplates() async {
+    final response = await _dioClient.get(ApiEndpoints.contractTemplates);
+    return Map<String, dynamic>.from(response.data['data'] ?? {});
+  }
+
+  /// Generate a localized contract via the server Contract Engine.
+  Future<Map<String, dynamic>> generateContract({
+    required String type,
+    required String region,
+    String? language,
+    required Map<String, dynamic> data,
+    bool persist = false,
+  }) async {
+    final response = await _dioClient.post(
+      ApiEndpoints.contractGenerate,
+      data: {
+        'type': type,
+        'region': region,
+        if (language != null) 'language': language,
+        'data': data,
+        'persist': persist,
+      },
+    );
+    return Map<String, dynamic>.from(response.data ?? {});
+  }
 }

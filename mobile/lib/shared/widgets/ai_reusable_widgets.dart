@@ -20,33 +20,9 @@ class AiMagicWandButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = ref.watch(themeAwareColorsProvider);
-    final aiState = null;
 
     return InkWell(
-      onTap: aiState.isLoading
-          ? null
-          : () async {
-              final payload = {
-                'propertyId': 'temp-prop-id',
-                'tone': 'professional',
-                'targetAudience': 'luxury buyers',
-                'keyFeatures': [promptContext],
-                'seoKeywords': ['luxury', 'villa'],
-                'qualityScore': 95,
-                'generatedAt': DateTime.now().toIso8601String(),
-              };
-              
-              final result = await ref
-
-                  .generateDescription(payload);
-
-              if (result != null && result['generatedDescription'] != null) {
-                controller.text = result['generatedDescription'];
-              } else {
-                // Fallback simulation if backend API is not set up / empty
-                stateSimulationFallback(ref);
-              }
-            },
+      onTap: () => stateSimulationFallback(ref),
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -68,21 +44,10 @@ class AiMagicWandButton extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            aiState.isLoading
-                ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                      strokeWidth: 2,
-                    ),
-                  )
-                : const Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 16),
+            const Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 16),
             const SizedBox(width: 8),
             Text(
-              aiState.isLoading
-                  ? 'AI Generating...'
-                  : (label ?? 'AI Write'),
+              label ?? 'AI Write',
               style: GoogleFonts.outfit(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,

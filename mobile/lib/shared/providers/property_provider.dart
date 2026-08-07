@@ -173,6 +173,20 @@ class PropertyFilterNotifier extends StateNotifier<PropertyFilterState> {
     state = state.copyWith(amenities: currentAmenities);
   }
 
+  void toggleCompliance(String compliance) {
+    final currentCompliance = List<String>.from(state.compliance ?? []);
+    if (currentCompliance.contains(compliance)) {
+      currentCompliance.remove(compliance);
+    } else {
+      currentCompliance.add(compliance);
+    }
+    state = state.copyWith(compliance: currentCompliance);
+  }
+
+  void setMinRoi(String? minRoi) {
+    state = state.copyWith(minRoi: minRoi);
+  }
+
   void resetFilters() {
     state = const PropertyFilterState();
   }
@@ -223,6 +237,8 @@ class PropertyFilterState {
   final String? promotion;
   final String? sortBy;
   final List<String>? amenities;
+  final List<String>? compliance;
+  final String? minRoi;
 
   const PropertyFilterState({
     this.category,
@@ -236,6 +252,8 @@ class PropertyFilterState {
     this.promotion,
     this.sortBy,
     this.amenities,
+    this.compliance,
+    this.minRoi,
   });
 
   PropertyFilterState copyWith({
@@ -250,6 +268,8 @@ class PropertyFilterState {
     String? promotion,
     String? sortBy,
     List<String>? amenities,
+    List<String>? compliance,
+    String? minRoi,
   }) {
     return PropertyFilterState(
       category: category ?? this.category,
@@ -263,6 +283,8 @@ class PropertyFilterState {
       promotion: promotion ?? this.promotion,
       sortBy: sortBy ?? this.sortBy,
       amenities: amenities ?? this.amenities,
+      compliance: compliance ?? this.compliance,
+      minRoi: minRoi ?? this.minRoi,
     );
   }
 
@@ -280,7 +302,9 @@ class PropertyFilterState {
         other.listingStatus == listingStatus &&
         other.promotion == promotion &&
         other.sortBy == sortBy &&
-        _listEquals(other.amenities, amenities);
+        _listEquals(other.amenities, amenities) &&
+        _listEquals(other.compliance, compliance) &&
+        other.minRoi == minRoi;
   }
 
   bool _listEquals(List<String>? a, List<String>? b) {
@@ -304,7 +328,9 @@ class PropertyFilterState {
         listingStatus.hashCode ^
         promotion.hashCode ^
         sortBy.hashCode ^
-        amenities.hashCode;
+        amenities.hashCode ^
+        compliance.hashCode ^
+        minRoi.hashCode;
   }
 }
 
@@ -396,6 +422,22 @@ List<Property> _applyFilters(List<Property> properties, PropertyFilterState filt
       final propertyFeatures = property.amenities.map((e) => e.amenity?.name ?? '').toList();
       for (final amenity in filter.amenities!) {
         if (!propertyFeatures.contains(amenity)) {
+          return false;
+        }
+      }
+    }
+
+    // Compliance
+    if (filter.compliance != null && filter.compliance!.isNotEmpty) {
+      for (final compliance in filter.compliance!) {
+        final matched = property.compliance.any((c) {
+          final typeMatches = c.type.toLowerCase().contains(compliance.toLowerCase());
+          final isFailing = c.status.toUpperCase() == 'FAILED' ||
+              c.status.toUpperCase() == 'NON_COMPLIANT' ||
+              c.status.toUpperCase() == 'ERROR';
+          return typeMatches && !isFailing;
+        });
+        if (!matched) {
           return false;
         }
       }

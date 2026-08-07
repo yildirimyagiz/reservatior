@@ -6,10 +6,9 @@ import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'escrow_vault_page.dart';
-import 'ledger_page.dart';
-import 'payout_page.dart';
-import 'settlement_page.dart';
+import 'package:reservatior/shared/providers/auth_provider.dart';
+import 'package:reservatior/shared/providers/os_dashboard_providers.dart';
+import 'package:reservatior/features/os_dashboards/presentation/os_live_widgets.dart';
 
 class FinanceDashboardPage extends ConsumerWidget {
   const FinanceDashboardPage({super.key});
@@ -46,7 +45,7 @@ class FinanceDashboardPage extends ConsumerWidget {
             padding: const EdgeInsets.all(16),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                _MetricGrid(),
+                const _MetricGrid(),
                 const SizedBox(height: 24),
                 _FinanceModuleCard(
                   title: 'finance.os.escrow_vault'.tr(),
@@ -92,76 +91,90 @@ class FinanceDashboardPage extends ConsumerWidget {
   }
 }
 
-class _MetricGrid extends StatelessWidget {
+class _MetricGrid extends ConsumerWidget {
+  const _MetricGrid();
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final orgId = ref.watch(authProvider).user?.organizationId ?? '';
+    final statsAsync = ref.watch(financeOsStatsProvider(orgId));
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.cardBg.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border.withOpacity(0.3)),
+        border: Border.all(color: AppColors.border.withValues(alpha: 0.3)),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'finance_os.kpi_title'.tr(),
-            style: GoogleFonts.outfit(
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
+      child: statsAsync.when(
+        loading: () => const OsLiveLoading(),
+        error: (e, _) => OsLiveErrorCard(message: 'Failed to load finance OS data: $e'),
+        data: (s) {
+          final escrowValue = s.kpi('totalEscrowValue');
+          final pendingPayouts = s.kpi('pendingPayouts');
+          final activeContracts = s.kpi('activeContracts');
+          final recentCount = s.recentActivity.length;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: _FinanceMetric(
-                  label: 'finance_os.total_revenue'.tr(),
-                  value: '\$328K',
-                  trend: '+12.5%',
-                  color: AppColors.success,
-                  icon: Icons.trending_up,
+              Text(
+                'finance_os.kpi_title'.tr(),
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Colors.white,
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _FinanceMetric(
-                  label: 'finance_os.total_expenses'.tr(),
-                  value: '\$213K',
-                  trend: '+8.3%',
-                  color: AppColors.error,
-                  icon: Icons.credit_card,
-                ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: _FinanceMetric(
+                      label: 'Escrow Value',
+                      value: osFormatCompact(escrowValue, prefix: r'$'),
+                      trend: 'holding',
+                      color: AppColors.success,
+                      icon: Icons.trending_up,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _FinanceMetric(
+                      label: 'Pending Payouts',
+                      value: osFormatCompact(pendingPayouts, prefix: r'$'),
+                      trend: 'to settle',
+                      color: AppColors.error,
+                      icon: Icons.payments,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: _FinanceMetric(
+                      label: 'Active Contracts',
+                      value: osFormatCompact(activeContracts),
+                      trend: 'escrow active',
+                      color: AppColors.primary,
+                      icon: Icons.account_balance,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _FinanceMetric(
+                      label: 'Recent Transactions',
+                      value: '$recentCount',
+                      trend: 'releases',
+                      color: AppColors.warning,
+                      icon: Icons.history,
+                    ),
+                  ),
+                ],
               ),
             ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _FinanceMetric(
-                  label: 'finance_os.net_profit'.tr(),
-                  value: '\$115K',
-                  trend: '+18.7%',
-                  color: AppColors.primary,
-                  icon: Icons.account_balance_wallet,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _FinanceMetric(
-                  label: 'finance_os.pending_commissions'.tr(),
-                  value: '\$41K',
-                  trend: '4 pending',
-                  color: AppColors.warning,
-                  icon: Icons.payments,
-                ),
-              ),
-            ],
-          ),
-        ],
+          );
+        },
       ),
     ).animate().fadeIn().slideY();
   }
@@ -189,7 +202,7 @@ class _FinanceMetric extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -309,7 +322,7 @@ class _FinanceModuleCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios, color: AppColors.textSecondaryDark, size: 14),
+                const Icon(Icons.arrow_forward_ios, color: AppColors.textSecondaryDark, size: 14),
               ],
             ),
           ),

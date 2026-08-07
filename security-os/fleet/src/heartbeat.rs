@@ -5,6 +5,7 @@ use std::time::Duration as StdDuration;
 pub struct HeartbeatTracker {
     last_heartbeats: DashMap<String, DateTime<Utc>>,
     timeout_secs: u64,
+    #[allow(dead_code)]
     check_interval_secs: u64,
 }
 

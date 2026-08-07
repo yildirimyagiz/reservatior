@@ -5,12 +5,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:reservatior/shared/enums/payout_status_usa.dart';
+import 'package:reservatior/shared/providers/payout_provider.dart';
+import 'package:reservatior/features/os_dashboards/presentation/os_live_widgets.dart';
 
 class PayoutPage extends ConsumerWidget {
   const PayoutPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final payoutsAsync = ref.watch(payoutListProvider);
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: CustomScrollView(
@@ -40,11 +44,20 @@ class PayoutPage extends ConsumerWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _PayoutSummaryCard(
-                pendingAmount: '\$187,400',
-                processingCount: 14,
-                completedThisMonth: 89,
-                totalPaid: '\$1,240,000',
+              child: payoutsAsync.when(
+                loading: () => const OsLiveLoading(),
+                error: (e, _) => OsLiveErrorCard(message: 'Failed to load payouts: $e'),
+                data: (payouts) {
+                  final pending = payouts.where((p) => p.payoutStatus == PayoutStatusUSA.PENDING || p.payoutStatus == PayoutStatusUSA.APPROVED).fold<double>(0, (s, p) => s + p.amount);
+                  final processing = payouts.where((p) => p.payoutStatus == PayoutStatusUSA.PROCESSING).length;
+                  final completed = payouts.where((p) => p.payoutStatus == PayoutStatusUSA.COMPLETED);
+                  return _PayoutSummaryCard(
+                    pendingAmount: r'$' + _fmtAmount(pending),
+                    processingCount: processing,
+                    completedThisMonth: completed.length,
+                    totalPaid: r'$' + _fmtAmount(completed.fold<double>(0, (s, p) => s + p.amount)),
+                  );
+                },
               ),
             ),
           ),
@@ -75,13 +88,20 @@ class PayoutPage extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                ...List.generate(10, (i) => _PayoutTile(
-                  recipient: i.isEven ? 'John Smith (Agent)' : 'ABC Property Management',
-                  amount: '\$${(12400 + i * 3400).toStringAsFixed(0)}',
-                  status: i < 3 ? 'Pending' : i < 6 ? 'Processing' : 'Completed',
-                  date: '2026-06-${20 + i}',
-                  method: i.isEven ? 'finance.payout.bank_transfer'.tr() : 'finance.payout.card'.tr(),
-                )),
+                ...payoutsAsync.when(
+                  loading: () => [const OsLiveLoading()],
+                  error: (e, _) => [OsLiveErrorCard(message: 'Failed to load payouts: $e')],
+                  data: (payouts) => payouts.take(10).map((p) {
+                    final date = (p.completedDate ?? p.processedDate ?? p.scheduledDate);
+                    return _PayoutTile(
+                      recipient: p.referenceNumber ?? p.recipientId ?? p.id,
+                      amount: r'$' + p.amount.toStringAsFixed(0),
+                      status: p.payoutStatus,
+                      date: date?.toIso8601String().substring(0, 10) ?? '—',
+                      method: p.paymentMethod.name,
+                    );
+                  }).toList(),
+                ),
               ]),
             ),
           ),
@@ -89,6 +109,12 @@ class PayoutPage extends ConsumerWidget {
       ),
     );
   }
+}
+
+String _fmtAmount(double v) {
+  if (v >= 1000000) return '${(v / 1000000).toStringAsFixed(1)}M';
+  if (v >= 1000) return '${(v / 1000).toStringAsFixed(1)}K';
+  return v.toStringAsFixed(0);
 }
 
 class _PayoutSummaryCard extends StatelessWidget {
@@ -182,7 +208,7 @@ class _PayoutStat extends StatelessWidget {
 class _PayoutTile extends StatelessWidget {
   final String recipient;
   final String amount;
-  final String status;
+  final PayoutStatusUSA status;
   final String date;
   final String method;
 
@@ -196,12 +222,17 @@ class _PayoutTile extends StatelessWidget {
 
   Color _statusColor() {
     switch (status) {
-      case 'Completed':
+      case PayoutStatusUSA.COMPLETED:
         return AppColors.success;
-      case 'Processing':
+      case PayoutStatusUSA.PROCESSING:
         return AppColors.info;
-      case 'Pending':
+      case PayoutStatusUSA.PENDING:
+      case PayoutStatusUSA.APPROVED:
         return AppColors.warning;
+      case PayoutStatusUSA.FAILED:
+      case PayoutStatusUSA.CANCELLED:
+      case PayoutStatusUSA.REVERSED:
+        return AppColors.error;
       default:
         return AppColors.textSecondaryDark;
     }
@@ -209,14 +240,14 @@ class _PayoutTile extends StatelessWidget {
 
   String get _translatedStatus {
     switch (status) {
-      case 'Pending':
+      case PayoutStatusUSA.PENDING:
         return 'finance.payout.status_pending'.tr();
-      case 'Processing':
+      case PayoutStatusUSA.PROCESSING:
         return 'finance.payout.status_processing'.tr();
-      case 'Completed':
+      case PayoutStatusUSA.COMPLETED:
         return 'finance.payout.status_completed'.tr();
       default:
-        return status;
+        return status.name;
     }
   }
 
@@ -295,6 +326,6 @@ class _PayoutTile extends StatelessWidget {
           ),
         ],
       ),
-    ).animate().fadeIn(delay: Duration(milliseconds: 50));
+    ).animate().fadeIn(delay: const Duration(milliseconds: 50));
   }
 }

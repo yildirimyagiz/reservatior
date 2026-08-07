@@ -6,11 +6,15 @@ import 'package:sizer/sizer.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:reservatior/shared/models/property.dart';
 import 'package:reservatior/shared/widgets/ai_reusable_widgets.dart';
+import 'package:reservatior/shared/widgets/social_export_hub.dart';
 import 'package:reservatior/features/client/booking/presentation/widgets/booking_calendar_widget.dart';
 import 'package:reservatior/features/client/property/presentation/widgets/detail/video_player_widget.dart';
 import 'package:reservatior/features/client/property/presentation/widgets/detail/photos_grid_widget.dart';
 import 'package:reservatior/features/client/property/presentation/widgets/detail/property_overview_widget.dart';
+import 'package:reservatior/features/seo/data/seo_data_service.dart';
+import 'package:reservatior/shared/providers/dio_client_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
 
 class PropertyDetailScreen extends ConsumerStatefulWidget {
   final Property property;
@@ -25,11 +29,25 @@ class _PropertyDetailScreenState extends ConsumerState<PropertyDetailScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
   bool _isLiked = false;
+  InvestmentScoreData? _seoScore;
+  PropertySeoData? _seoMeta;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadSeo());
+  }
+
+  Future<void> _loadSeo() async {
+    final service = SeoDataService(ref.read(dioClientProvider));
+    final score = await service.getInvestmentScore(widget.property.id);
+    final meta = await service.getPropertySeo(widget.property.id);
+    if (!mounted) return;
+    setState(() {
+      _seoScore = score;
+      _seoMeta = meta;
+    });
   }
 
   @override
@@ -286,8 +304,10 @@ class _PropertyDetailScreenState extends ConsumerState<PropertyDetailScreen>
 
   Widget _buildAIInsights() {
     final rentalYield = widget.property.rentalYield ?? 6.2;
-    // Calculate a yield score out of 100
-    final yieldScore = (rentalYield * 10).clamp(0.0, 100.0);
+    final yieldScore = _seoScore?.overallScore ??
+        (rentalYield * 10).clamp(0.0, 100.0);
+    final grade = _seoScore?.grade ??
+        (_seoMeta?.investmentGrade ?? 'B');
     
     // Check property risks
     final isFloodZone = widget.property.floodZone != null && 
@@ -325,6 +345,23 @@ class _PropertyDetailScreenState extends ConsumerState<PropertyDetailScreen>
                           fontSize: 16,
                         ),
                       ),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.gold.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'Grade $grade',
+                          style: GoogleFonts.outfit(
+                            color: AppColors.gold,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 11,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(height: 2.h),
@@ -335,13 +372,55 @@ class _PropertyDetailScreenState extends ConsumerState<PropertyDetailScreen>
                         'mobile.property.investmentScore'.tr(),
                         style: GoogleFonts.outfit(color: Colors.white54, fontSize: 14),
                       ),
-                      AiScoreBadge(score: yieldScore, label: 'ROI Yield'),
+                      AiScoreBadge(
+                        score: yieldScore,
+                        label: _seoScore != null ? 'SEO Score' : 'ROI Yield',
+                      ),
                     ],
                   ),
+                  if (_seoScore != null) ...[
+                    const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _miniScore('Yield', _seoScore!.yieldScore),
+                        _miniScore('Location', _seoScore!.locationScore),
+                        _miniScore('Demand', _seoScore!.demandScore),
+                        _miniScore('Risk', _seoScore!.riskScore),
+                      ],
+                    ),
+                  ],
                   const Divider(color: Colors.white10, height: 24),
                   Text(
-                    'mobile.property.aiDesc'.tr(),
+                    _seoScore?.recommendation.isNotEmpty == true
+                        ? _seoScore!.recommendation
+                        : (_seoMeta?.description.isNotEmpty == true
+                            ? _seoMeta!.description
+                            : 'mobile.property.aiDesc'.tr()),
                     style: GoogleFonts.outfit(color: Colors.white70, height: 1.5, fontSize: 13),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      TextButton.icon(
+                        onPressed: () => context.push('/invest/yield'),
+                        icon: const Icon(Icons.trending_up, size: 16),
+                        label: Text('Yield calc',
+                            style: GoogleFonts.outfit(fontSize: 12)),
+                      ),
+                      TextButton.icon(
+                        onPressed: () => context.push('/invest/roi'),
+                        icon: const Icon(Icons.calculate_outlined, size: 16),
+                        label: Text('ROI calc',
+                            style: GoogleFonts.outfit(fontSize: 12)),
+                      ),
+                      TextButton.icon(
+                        onPressed: () => context.push('/invest/compare'),
+                        icon: const Icon(Icons.compare_arrows, size: 16),
+                        label: Text('Compare',
+                            style: GoogleFonts.outfit(fontSize: 12)),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -391,6 +470,25 @@ class _PropertyDetailScreenState extends ConsumerState<PropertyDetailScreen>
     );
   }
 
+  Widget _miniScore(String label, double score) {
+    return Column(
+      children: [
+        Text(
+          score.toStringAsFixed(0),
+          style: GoogleFonts.outfit(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+            fontSize: 14,
+          ),
+        ),
+        Text(
+          label,
+          style: GoogleFonts.outfit(color: Colors.white38, fontSize: 10),
+        ),
+      ],
+    );
+  }
+
   Widget _buildTopActions(BuildContext context) {
     return Positioned(
       top: 50,
@@ -407,7 +505,22 @@ class _PropertyDetailScreenState extends ConsumerState<PropertyDetailScreen>
             children: [
               IconButton(
                 icon: const Icon(Icons.share_outlined, color: Colors.white),
-                onPressed: () {},
+                onPressed: () {
+                  final title = _seoMeta?.title.isNotEmpty == true
+                      ? _seoMeta!.title
+                      : widget.property.name;
+                  final desc = _seoMeta?.description.isNotEmpty == true
+                      ? _seoMeta!.description
+                      : '${widget.property.addressLine1}, ${widget.property.city}';
+                  final url = _seoMeta?.url ??
+                      'https://reservatior.com/property/${widget.property.id}';
+                  SocialExportHub.show(
+                    context,
+                    title: title,
+                    description: '$desc\n$url',
+                    mediaUrl: _seoMeta?.image,
+                  );
+                },
               ),
               IconButton(
                 icon: Icon(

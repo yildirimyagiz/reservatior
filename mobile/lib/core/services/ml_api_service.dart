@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 
 class MlApiService {
   // Base URL for your Python FastAPI backend
@@ -19,6 +18,20 @@ class MlApiService {
       return jsonDecode(response.body);
     } else {
       throw Exception('Failed to generate contract: ${response.body}');
+    }
+  }
+
+  /// 1b. Contract template catalog from the ML service.
+  Future<Map<String, dynamic>> getContractTemplates() async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/contracts/templates'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to fetch contract templates: ${response.body}');
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reservatior/shared/models/listing.dart';
 import '../data/ai_search_repository.dart';
 
 class AISearchScreen extends ConsumerStatefulWidget {
@@ -21,6 +22,9 @@ class _AISearchScreenState extends ConsumerState<AISearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final resultsAsync = _currentQuery.isEmpty
+        ? const AsyncData<List<Listing>>(<Listing>[])
+        : ref.watch(aiSearchResultsProvider(_currentQuery));
     return Scaffold(
       appBar: AppBar(
         title: const Text('AI Property Search'),
@@ -72,7 +76,20 @@ class _AISearchScreenState extends ConsumerState<AISearchScreen> {
           ),
           if (_currentQuery.isNotEmpty)
             Expanded(
-              child: _buildSearchResults(),
+              child: resultsAsync.when(
+                data: (results) => _buildSearchResults(results),
+                loading: () => const Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircularProgressIndicator(color: Colors.deepPurple),
+                      SizedBox(height: 16),
+                      Text('Analyzing properties via AI...'),
+                    ],
+                  ),
+                ),
+                error: (error, _) => Center(child: Text('Error: $error')),
+              ),
             )
           else
             const Expanded(
@@ -89,51 +106,31 @@ class _AISearchScreenState extends ConsumerState<AISearchScreen> {
     );
   }
 
-  Widget _buildSearchResults() {
-    final searchResults = ref.watch(aiSearchProvider(_currentQuery));
-
-    return searchResults.when(
-      data: (results) {
-        if (results.isEmpty) {
-          return const Center(child: Text('No matching properties found.'));
-        }
-        return ListView.builder(
-          itemCount: results.length,
-          itemBuilder: (context, index) {
-            final result = results[index];
-            return Card(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.deepPurple[100],
-                  child: Text(
-                    '${(result.matchScore * 100).toInt()}%',
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                title: Text(result.title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text('${result.location} • ${result.price}\n${result.description}'),
-                isThreeLine: true,
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  // Navigate to listing detail
-                },
-              ),
-            );
-          },
+  Widget _buildSearchResults(List<Listing> results) {
+    if (results.isEmpty) {
+      return const Center(child: Text('No matching properties found.'));
+    }
+    return ListView.builder(
+      itemCount: results.length,
+      itemBuilder: (context, index) {
+        final result = results[index];
+        return Card(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.deepPurple[100],
+              child: const Icon(Icons.apartment, color: Colors.deepPurple),
+            ),
+            title: Text(result.title ?? result.property.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text('${result.property.city} • ${result.price != null ? '\$${result.price!.toStringAsFixed(0)}' : '—'}\n${result.description ?? ''}'),
+            isThreeLine: true,
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              // Navigate to listing detail
+            },
+          ),
         );
       },
-      loading: () => const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CircularProgressIndicator(color: Colors.deepPurple),
-            SizedBox(height: 16),
-            Text('Analyzing properties via AI...'),
-          ],
-        ),
-      ),
-      error: (error, stack) => Center(child: Text('Error: $error')),
     );
   }
 }

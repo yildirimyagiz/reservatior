@@ -4,7 +4,7 @@ use dashmap::DashMap;
 use security_os_core::{
     Entity, EntityType, EventAction, EventCategory, EventSource, SecurityEvent, Severity,
 };
-use tracing::{debug, warn};
+use tracing::warn;
 
 const SUSPICIOUS_REGISTRY_PATTERNS: &[&str] = &[
     "registry.npmjs.org",
@@ -18,6 +18,7 @@ const SUSPICIOUS_REGISTRY_PATTERNS: &[&str] = &[
     "cargo install",
 ];
 
+#[allow(dead_code)]
 const BUILD_TOOLS: &[&str] = &[
     "make", "cmake", "gcc", "g++", "clang", "rustc", "cargo",
     "gradle", "maven", "mvn", "npm", "yarn", "pnpm", "pip",
@@ -50,6 +51,7 @@ const PACKAGE_LOCK_FILES: &[&str] = &[
     "composer.lock",
 ];
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 struct PackageVersion {
     name: String,
@@ -59,6 +61,7 @@ struct PackageVersion {
     known_vulnerable: bool,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 struct BuildRecord {
     tool: String,
@@ -69,6 +72,7 @@ struct BuildRecord {
 
 pub struct SupplyChainEngine {
     package_versions: DashMap<String, Vec<PackageVersion>>,
+    #[allow(dead_code)]
     build_records: DashMap<String, Vec<BuildRecord>>,
     known_vulnerable_packages: DashMap<String, Vec<String>>,
     ci_cd_modifications: DashMap<String, u32>,
@@ -492,7 +496,6 @@ impl SupplyChainEngine {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::collections::HashMap;
 
     fn make_source() -> EventSource {
         EventSource {

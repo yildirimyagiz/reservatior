@@ -45,6 +45,12 @@ class ApiEndpoints {
   static String get leases => '$_apiPrefix/lease';
   static String get reservations => '$_apiPrefix/reservation';
   static String get contracts => '$_apiPrefix/contract';
+  // Document OS — contract templates & generation
+  static String get documentOsBase => '$_apiPrefix/document-os';
+  static String get contractTemplates => '$documentOsBase/contract-templates';
+  static String contractTemplatesByCountry(String country) => '$documentOsBase/contract-templates/$country';
+  static String contractTemplatesByCountryType(String country, String type) => '$documentOsBase/contract-templates/$country/$type';
+  static String get contractGenerate => '$documentOsBase/contracts/generate';
   static String get accounts => '$_apiPrefix/accounts';
   static String get roles => '$_apiPrefix/roles';
   static String get amenities => '$_apiPrefix/amenities';
@@ -106,6 +112,7 @@ class ApiEndpoints {
   static String get aiChatbotSessions => '$_apiPrefix/ai-chatbot-sessions';
   static String get aiChatHandoffs => '$_apiPrefix/ai-chat-handoffs';
   static String get aiChatMessages => '$_apiPrefix/ai-chat-messages';
+  static String get aiSearchStream => '$_apiPrefix/ai-search/stream';
   static String get aiFraudDetections => '$_apiPrefix/ai-fraud-detections';
   static String get aiImageAnalyses => '$_apiPrefix/ai-ext/image-analyses';
   static String get aiInvestmentAnalyses => '$_apiPrefix/ai-investment-analyses';
@@ -123,6 +130,14 @@ class ApiEndpoints {
   static String get aiTenantScreenings => '$_apiPrefix/ai-tenant-screenings';
   static String get aiValuationModels => '$_apiPrefix/ai-valuation-models';
   static String get aiVideos => '$_apiPrefix/video';
+  static String get aiServiceTasks => '$_apiPrefix/ai-service-task';
+  static String aiServiceTaskById(String id) => '$aiServiceTasks/$id';
+  static String get seo => '$_apiPrefix/seo';
+  static String seoProperty(String propertyId) => '$seo/property/$propertyId';
+  static String seoInvestmentScore(String propertyId) =>
+      '$seo/property/$propertyId/investment-score';
+  static String seoRentalYield(String propertyId) =>
+      '$seo/property/$propertyId/rental-yield';
   
   // B2B Hotel Aggregator endpoints
   static String get b2bHotels => '$_apiPrefix/b2b-hotels';
@@ -160,6 +175,46 @@ class ApiEndpoints {
   static String get escrowDisputes => '$_apiPrefix/escrow-dispute';
   static String get escrowReleases => '$_apiPrefix/escrow-release';
   static String get escrowStatusHistories => '$_apiPrefix/escrow-status-history';
+
+  // Rental Finance OS endpoints
+  static String get rentalFinance => '$_apiPrefix/rental-finance';
+  static String get rentalFinancePlans => '$rentalFinance/plans';
+  static String get rentalFinancePayments => '$rentalFinance/payments';
+  static String get rentalFinanceEscrow => '$rentalFinance/escrow';
+  static String get rentalFinanceOsDashboard => '$_apiPrefix/rental-finance-os/dashboard';
+  static String get landlordFinance => '$_apiPrefix/landlord-finance';
+  static String get tenantFinance => '$_apiPrefix/tenant-finance';
+  static String get aiMatching => '$_apiPrefix/matching/score';
+  static String get rentalRisk => '$_apiPrefix/risk';
+
+  // Insurance Integration OS endpoints
+  static String get insurance => '$_apiPrefix/insurance';
+  static String get insuranceQuotes => '$insurance/quotes';
+  static String get insurancePolicies => '$insurance/policies';
+  static String get insuranceClaims => '$insurance/claims';
+  static String get insurancePricingPreview => '$insurance/pricing/preview';
+  static String get insuranceOsDashboard => '$_apiPrefix/insurance-os/dashboard';
+
+  // OS Dashboard endpoints (flat GenericOSDashboard contract consumers)
+  static String get adsOsDashboard => '$_apiPrefix/ads-os/dashboard';
+  static String get aiOsDashboard => '$_apiPrefix/ai-os/dashboard';
+  static String get commerceOsDashboard => '$_apiPrefix/commerce-os/dashboard';
+  static String get consentOsStats => '$_apiPrefix/consent-os/stats';
+  static String get devApiOsDashboard => '$_apiPrefix/devapi-os/dashboard';
+  static String get developerOsDashboard => '$_apiPrefix/developer-os/dashboard';
+  static String get governanceOsDashboard => '$_apiPrefix/governance-os/dashboard';
+  static String get notificationOsDashboard => '$_apiPrefix/notification-os/dashboard';
+  static String get partnerOsDashboard => '$_apiPrefix/partner-os/dashboard';
+  static String get securityOsDashboard => '$_apiPrefix/security-os/dashboard';
+  static String get trustOsDashboard => '$_apiPrefix/trust-os/dashboard';
+  static String get userOsDashboard => '$_apiPrefix/user-os/dashboard';
+  static String get localizationOsDashboard => '$_apiPrefix/localization-os/dashboard';
+  static String get financeOsDashboard => '$_apiPrefix/finance-os/dashboard';
+  static String get agentOsDashboard => '$_apiPrefix/agent-os/dashboard';
+  static String get agentOsVerifications => '$_apiPrefix/agent-os/verifications';
+  static String get agentOsCompliance => '$_apiPrefix/agent-os/compliance';
+  static String get agentOsScoring => '$_apiPrefix/agent-os/scoring';
+  static String get agentOsVacancyAlerts => '$_apiPrefix/agent-os/vacancy-alerts';
   
   // Legal endpoints
   static String get legal => '$_apiPrefix/legal';
@@ -176,6 +231,12 @@ class ApiEndpoints {
   static String get auditLogs => '$_apiPrefix/audit-logs';
   static String get systemMetrics => '$_apiPrefix/system-metrics';
   static String get geoConfig => '$_apiPrefix/config/geo';
+
+  // Saga workflow observability
+  static String get sagaStats => '$system/saga/stats';
+  static String get sagaTimelines => '$system/saga/timelines';
+  static String get sagaTimelineDetail => '$system/saga/timelines';
+  static String get sagaTypes => '$system/saga/types';
   
   // Most used endpoints
   static String get notifications => '$_apiPrefix/notification';

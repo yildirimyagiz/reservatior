@@ -6,12 +6,17 @@ import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reservatior/shared/providers/auth_provider.dart';
+import 'package:reservatior/shared/providers/agent_os_providers.dart';
+import 'package:reservatior/features/os_dashboards/presentation/os_live_widgets.dart';
 
 class AgentDashboardPage extends ConsumerWidget {
   const AgentDashboardPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final orgId = ref.watch(authProvider).user?.organizationId ?? '';
+    final vacancyAsync = ref.watch(agentVacancyAlertsProvider(orgId));
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: CustomScrollView(
@@ -42,7 +47,28 @@ class AgentDashboardPage extends ConsumerWidget {
             padding: const EdgeInsets.all(16),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                _AgentKPICard(),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF3B82F6).withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFF3B82F6).withOpacity(0.35)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.real_estate_agent, color: Color(0xFF60A5FA), size: 24),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'Realtor Advantage: Close listings 4x faster via Reservatior\'s 2% Rent Guarantee Fund & guaranteed escrow commission payouts.',
+                          style: GoogleFonts.outfit(color: const Color(0xFFDBEAFE), fontSize: 12, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const _AgentKPICard(),
                 const SizedBox(height: 24),
                 _AgentModuleCard(
                   title: 'agent_os.commissions'.tr(),
@@ -85,13 +111,17 @@ class AgentDashboardPage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                ...List.generate(5, (i) => _AgentOpportunityTile(
-                  title: i == 0 ? 'Luxury Villa - Bodrum' : 'Apartment #${2400 + i}',
-                  value: '\$${(1250000 - i * 180000).toStringAsFixed(0)}',
-                  probability: '${88 - i * 7}%',
-                  daysOnMarket: 12 + i * 3,
-                  client: i.isEven ? 'John & Sarah M.' : 'Ali Y.',
-                )),
+                ...vacancyAsync.when(
+                  loading: () => [const OsLiveLoading()],
+                  error: (e, _) => [OsLiveErrorCard(message: 'Failed to load vacancy alerts: $e')],
+                  data: (alerts) => alerts.take(5).map((a) => _AgentOpportunityTile(
+                    title: a.listingTitle,
+                    value: '${a.currency == 'USD' ? r'$' : a.currency + ' '}${a.currentPrice.toStringAsFixed(0)}',
+                    probability: '${a.projectedOccupancy.round()}%',
+                    daysOnMarket: a.vacancyDays,
+                    client: a.marketPosition,
+                  )).toList(),
+                ),
               ]),
             ),
           ),
@@ -101,9 +131,13 @@ class AgentDashboardPage extends ConsumerWidget {
   }
 }
 
-class _AgentKPICard extends StatelessWidget {
+class _AgentKPICard extends ConsumerWidget {
+  const _AgentKPICard();
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final orgId = ref.watch(authProvider).user?.organizationId ?? '';
+    final statsAsync = ref.watch(agentOsStatsProvider(orgId));
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -111,66 +145,76 @@ class _AgentKPICard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: AppColors.border.withOpacity(0.3)),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'agent_os.kpi_title'.tr(),
-            style: GoogleFonts.outfit(
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
+      child: statsAsync.when(
+        loading: () => const OsLiveLoading(),
+        error: (e, _) => OsLiveErrorCard(message: 'Failed to load agent OS data: $e'),
+        data: (s) {
+          final closedDeals = s.kpi('closedDeals');
+          final totalLeads = s.kpi('totalLeads');
+          final conversion = s.kpi('avgConversionRate');
+          final revenue = s.kpi('totalCommissionValue');
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: _AgentKPI(
-                  label: 'agent_os.total_agents'.tr(),
-                  value: '156',
-                  trend: '+12 this month',
-                  color: AppColors.success,
-                  icon: Icons.people,
+              Text(
+                'agent_os.kpi_title'.tr(),
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Colors.white,
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _AgentKPI(
-                  label: 'agent_os.active_leads'.tr(),
-                  value: '342',
-                  trend: '+28 this week',
-                  color: AppColors.primary,
-                  icon: Icons.person_search,
-                ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: _AgentKPI(
+                      label: 'Closed Deals',
+                      value: '${closedDeals.round()}',
+                      trend: 'last 30d',
+                      color: AppColors.success,
+                      icon: Icons.people,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _AgentKPI(
+                      label: 'agent_os.active_leads'.tr(),
+                      value: '${totalLeads.round()}',
+                      trend: 'active',
+                      color: AppColors.primary,
+                      icon: Icons.person_search,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: _AgentKPI(
+                      label: 'agent_os.avg_conversion'.tr(),
+                      value: '${conversion.toStringAsFixed(1)}%',
+                      trend: 'rate',
+                      color: AppColors.warning,
+                      icon: Icons.trending_up,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _AgentKPI(
+                      label: 'Total Commission',
+                      value: osFormatCompact(revenue, prefix: r'$'),
+                      trend: '30d',
+                      color: AppColors.info,
+                      icon: Icons.attach_money,
+                    ),
+                  ),
+                ],
               ),
             ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _AgentKPI(
-                  label: 'agent_os.avg_conversion'.tr(),
-                  value: '34.2%',
-                  trend: 'vs 28% avg',
-                  color: AppColors.warning,
-                  icon: Icons.trending_up,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _AgentKPI(
-                  label: 'agent_os.total_revenue'.tr(),
-                  value: '\$410K',
-                  trend: '+14.7%',
-                  color: AppColors.info,
-                  icon: Icons.attach_money,
-                ),
-              ),
-            ],
-          ),
-        ],
+          );
+        },
       ),
     ).animate().fadeIn().slideY();
   }
@@ -247,89 +291,6 @@ class _AgentKPI extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _AgentMetricRow extends StatelessWidget {
-  final int leadsActive;
-  final double conversionRate;
-  final String responseLatency;
-  final double avgRating;
-
-  const _AgentMetricRow({
-    required this.leadsActive,
-    required this.conversionRate,
-    required this.responseLatency,
-    required this.avgRating,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.darkCard,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.darkBorder),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'agent.os.data_intake'.tr(),
-            style: GoogleFonts.outfit(
-              fontWeight: FontWeight.w700,
-              fontSize: 16,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'agent.os.telemetry_desc'.tr(),
-            style: GoogleFonts.outfit(color: AppColors.textSecondaryDark, fontSize: 13),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _AgentMetric(label: 'agent.os.active_leads'.tr(), value: '$leadsActive', color: AppColors.primary),
-              _AgentMetric(label: 'agent.os.conversion'.tr(), value: '$conversionRate%', color: AppColors.success),
-              _AgentMetric(label: 'agent.os.response'.tr(), value: responseLatency, color: AppColors.warning),
-              _AgentMetric(label: 'agent.os.rating'.tr(), value: '$avgRating', color: AppColors.info),
-            ],
-          ),
-        ],
-      ),
-    ).animate().fadeIn().slideY(begin: 0.1);
-  }
-}
-
-class _AgentMetric extends StatelessWidget {
-  final String label;
-  final String value;
-  final Color color;
-
-  const _AgentMetric({required this.label, required this.value, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: GoogleFonts.outfit(
-            fontWeight: FontWeight.w800,
-            fontSize: 20,
-            color: color,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: GoogleFonts.outfit(color: AppColors.textSecondaryDark, fontSize: 11),
-        ),
-      ],
     );
   }
 }

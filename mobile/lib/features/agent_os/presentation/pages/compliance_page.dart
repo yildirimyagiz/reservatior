@@ -5,12 +5,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:reservatior/shared/providers/auth_provider.dart';
+import 'package:reservatior/shared/providers/agent_os_providers.dart';
+import 'package:reservatior/features/os_dashboards/presentation/os_live_widgets.dart';
 
 class CompliancePage extends ConsumerWidget {
   const CompliancePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final orgId = ref.watch(authProvider).user?.organizationId ?? '';
+    final complianceAsync = ref.watch(agentComplianceProvider(orgId));
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: CustomScrollView(
@@ -40,11 +45,15 @@ class CompliancePage extends ConsumerWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _ComplianceSummary(
-                totalRecords: 156,
-                pendingReview: 12,
-                compliant: 144,
-                flaggedIssues: 4,
+              child: complianceAsync.when(
+                loading: () => const OsLiveLoading(),
+                error: (e, _) => OsLiveErrorCard(message: 'Failed to load compliance: $e'),
+                data: (data) => _ComplianceSummary(
+                  totalRecords: data.totalRecords,
+                  pendingReview: data.pendingReview,
+                  compliant: data.compliant,
+                  flaggedIssues: data.flaggedIssues,
+                ),
               ),
             ),
           ),
@@ -71,7 +80,7 @@ class CompliancePage extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        'agent.compliance.pending_count'.tr(namedArgs: {'count': '12'}),
+                        'agent.compliance.pending_count'.tr(namedArgs: {'count': '${complianceAsync.valueOrNull?.pendingReview ?? 0}'}),
                         style: GoogleFonts.outfit(
                           color: AppColors.warning,
                           fontSize: 11,
@@ -82,13 +91,17 @@ class CompliancePage extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                ...List.generate(6, (i) => _ComplianceTile(
-                  agentName: i.isEven ? 'Emily Carter' : 'David Kim',
-                  documentType: i % 3 == 0 ? 'License' : i % 3 == 1 ? 'Background Check' : 'Certification',
-                  status: i < 2 ? 'Approved' : i < 4 ? 'Pending' : 'Flagged',
-                  date: '2026-06-${10 + i * 2}',
-                  score: i == 0 ? 98 : i == 1 ? 95 : i == 2 ? 72 : i == 3 ? 88 : 45,
-                )),
+                ...complianceAsync.when(
+                  loading: () => [const OsLiveLoading()],
+                  error: (e, _) => [OsLiveErrorCard(message: 'Failed to load compliance: $e')],
+                  data: (data) => data.records.take(6).map((r) => _ComplianceTile(
+                    agentName: r.agentName,
+                    documentType: r.documentType,
+                    status: r.status,
+                    date: r.date,
+                    score: r.score,
+                  )).toList(),
+                ),
               ]),
             ),
           ),

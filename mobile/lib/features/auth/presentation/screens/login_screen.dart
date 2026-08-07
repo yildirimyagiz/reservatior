@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:reservatior/shared/services/local_auth_service.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -23,6 +24,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
   bool _rememberMe = false;
+  bool _canUseBiometrics = false;
 
   @override
   void initState() {
@@ -30,6 +32,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     _emailController = TextEditingController(text: 'info@reservatior.com');
     _passwordController = TextEditingController(text: 'Parola341');
     _loadSavedCredentials();
+    _checkBiometrics();
+  }
+
+  Future<void> _checkBiometrics() async {
+    final localAuth = ref.read(localAuthProvider);
+    final isAvailable = await localAuth.isBiometricAvailable();
+    if (mounted) {
+      setState(() {
+        _canUseBiometrics = isAvailable;
+      });
+    }
   }
 
   Future<void> _loadSavedCredentials() async {
@@ -79,6 +92,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     await ref
         .read(authProvider.notifier)
         .login(_emailController.text.trim(), _passwordController.text.trim());
+  }
+
+  Future<void> _handleBiometricLogin() async {
+    final localAuth = ref.read(localAuthProvider);
+    final authenticated = await localAuth.authenticate();
+    
+    if (authenticated && mounted) {
+      // For now, if authenticated via biometrics, we trigger standard login with the saved credentials.
+      // In a real production scenario, you would swap a secure biometric token for an access token.
+      if (_emailController.text.isNotEmpty && _passwordController.text.isNotEmpty) {
+        await ref
+            .read(authProvider.notifier)
+            .login(_emailController.text.trim(), _passwordController.text.trim());
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('No saved credentials found for biometric login.'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -360,6 +395,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             begin: const Offset(0.95, 0.95),
                             end: const Offset(1.0, 1.0),
                           ),
+
+                      if (_canUseBiometrics) ...[
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 60,
+                          child: OutlinedButton.icon(
+                            onPressed: _handleBiometricLogin,
+                            icon: Icon(Icons.fingerprint, size: 28, color: colors.primary),
+                            label: Text(
+                              'Login with Face ID / Touch ID',
+                              style: GoogleFonts.outfit(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: colors.primary,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(color: colors.primary.withOpacity(0.5), width: 1.5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                          ),
+                        ).animate().fadeIn(delay: 1.2.seconds),
+                      ],
 
                       const SizedBox(height: 32),
 

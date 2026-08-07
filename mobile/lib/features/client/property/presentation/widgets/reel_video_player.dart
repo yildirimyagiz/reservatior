@@ -29,8 +29,8 @@ class ReelVideoPlayer extends StatefulWidget {
 class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
   VideoPlayerController? _controller;
   bool _isInitialized = false;
-  bool _isMuted = false;
-  bool _showControls = false;
+  bool _isMuted = true;
+  bool _showControls = true;
   bool _showHeartAnimation = false;
   bool _showSeekIndicator = false;
   String _seekDirection = '';
@@ -63,10 +63,17 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
 
   Future<void> _initializePlayer() async {
     try {
-      _controller = VideoPlayerController.networkUrl(
-        Uri.parse(widget.videoUrl),
-        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-      );
+      if (widget.videoUrl.startsWith('assets/')) {
+        _controller = VideoPlayerController.asset(
+          widget.videoUrl,
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+        );
+      } else {
+        _controller = VideoPlayerController.networkUrl(
+          Uri.parse(widget.videoUrl),
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+        );
+      }
 
       await _controller!.initialize();
       _controller!.setLooping(true);
@@ -360,7 +367,7 @@ class _ReelVideoPlayerState extends State<ReelVideoPlayer> {
 
             // ─── Mute button (top-right) ───
             Positioned(
-              top: 16,
+              top: MediaQuery.of(context).padding.top + 64,
               right: 16,
               child: GestureDetector(
                 onTap: _toggleMute,

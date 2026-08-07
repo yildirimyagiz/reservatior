@@ -575,18 +575,52 @@ class DashboardScreen extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: (triggerState.isConnected ? Colors.green : Colors.amber).withOpacity(0.15),
+                  color: (triggerState.isOffline
+                          ? Colors.red
+                          : triggerState.isConnected
+                              ? Colors.green
+                              : Colors.amber)
+                      .withOpacity(0.15),
                   shape: BoxShape.circle,
                 ),
                 child: Container(
                   width: 8,
                   height: 8,
                   decoration: BoxDecoration(
-                    color: triggerState.isConnected ? Colors.green : Colors.amber,
+                    color: triggerState.isOffline
+                        ? Colors.red
+                        : triggerState.isConnected
+                            ? Colors.green
+                            : Colors.amber,
                     shape: BoxShape.circle,
                   ),
                 ),
               ).animate(onPlay: (c) => c.repeat(reverse: true)).fade(begin: 0.4, end: 1.0, duration: 1.seconds),
+              if (triggerState.isOffline) ...[
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.cloud_off, color: Colors.red, size: 11),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Çevrimdışı',
+                        style: GoogleFonts.outfit(
+                          color: Colors.red,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -674,14 +708,16 @@ class DashboardScreen extends ConsumerWidget {
                     Container(
                       width: 6,
                       height: 6,
-                      decoration: const BoxDecoration(
-                        color: Colors.white24,
+                      decoration: BoxDecoration(
+                        color: triggerState.isOffline ? Colors.red : Colors.white24,
                         shape: BoxShape.circle,
                       ),
                     ).animate(onPlay: (c) => c.repeat(reverse: true)).fade(begin: 0.3, end: 1.0, duration: 800.ms),
                     const SizedBox(width: 8),
                     Text(
-                      'Canlı olay akışı bekleniyor...',
+                      triggerState.isOffline
+                          ? 'Çevrimdışısınız — bağlantı kurulunca akış devam edecek'
+                          : 'Canlı olay akışı bekleniyor...',
                       style: GoogleFonts.outfit(color: colors.textSecondary.withOpacity(0.5), fontSize: 11),
                     ),
                   ],

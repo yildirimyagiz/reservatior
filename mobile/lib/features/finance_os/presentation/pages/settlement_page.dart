@@ -5,12 +5,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:reservatior/shared/enums/escrow_release_status.dart';
+import 'package:reservatior/shared/enums/escrow_trigger_event.dart';
+import 'package:reservatior/shared/models/escrow_release.dart';
+import 'package:reservatior/shared/providers/escrow_release_provider.dart';
+import 'package:reservatior/features/os_dashboards/presentation/os_live_widgets.dart';
 
 class SettlementPage extends ConsumerWidget {
   const SettlementPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final releasesAsync = ref.watch(escrowReleaseListProvider);
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: CustomScrollView(
@@ -77,21 +83,43 @@ class SettlementPage extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                ...List.generate(6, (i) => _SettlementTile(
-                  propertyId: 'PRP-${4200 + i}',
-                  guestName: i.isEven ? 'Alice Johnson' : 'Bob Williams',
-                  amount: '\$${(8500 + i * 2200).toStringAsFixed(0)}',
-                  stage: i < 2 ? 'Check-In' : i < 4 ? 'Risk Window' : 'Ready to Settle',
-                  daysRemaining: i < 2 ? 3 : i < 4 ? 1 : 0,
-                  checkInDate: '2026-06-${15 + i}',
-                  hasDispute: i == 2,
-                )),
+                ...releasesAsync.when(
+                  loading: () => [const OsLiveLoading()],
+                  error: (e, _) => [OsLiveErrorCard(message: 'Failed to load settlements: $e')],
+                  data: (releases) => releases.take(6).map((r) {
+                    final hasDispute = r.escrow.disputes.isNotEmpty;
+                    final scheduled = r.scheduledAt?.difference(DateTime.now()).inDays ?? 0;
+                    return _SettlementTile(
+                      propertyId: r.escrowId,
+                      guestName: r.escrow.reservationId,
+                      amount: r'$' + r.amount.toStringAsFixed(0),
+                      stage: _settlementStage(r),
+                      daysRemaining: scheduled > 0 ? scheduled : 0,
+                      checkInDate: r.escrow.heldAt.toIso8601String().substring(0, 10),
+                      hasDispute: hasDispute,
+                    );
+                  }).toList(),
+                ),
               ]),
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+String _settlementStage(EscrowRelease r) {
+  if (r.status == EscrowReleaseStatus.COMPLETED) return 'Ready to Settle';
+  switch (r.triggerEvent) {
+    case EscrowTriggerEvent.CHECK_IN_COMPLETED:
+      return 'Check-In';
+    case EscrowTriggerEvent.CHECK_OUT_COMPLETED:
+    case EscrowTriggerEvent.SURVEY_COMPLETED:
+    case EscrowTriggerEvent.DISPUTE_RESOLVED:
+      return 'Ready to Settle';
+    default:
+      return 'Risk Window';
   }
 }
 
@@ -342,7 +370,7 @@ class _SettlementTile extends StatelessWidget {
           ),
         ],
       ),
-    ).animate().fadeIn(delay: Duration(milliseconds: 50));
+    ).animate().fadeIn(delay: const Duration(milliseconds: 50));
   }
 }
 

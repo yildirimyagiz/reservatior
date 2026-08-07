@@ -187,9 +187,18 @@ class _PropertyFeedState extends ConsumerState<PropertyFeed> {
       ),
     );
   }
-
   Widget _buildReelItem(Property property, int index) {
-    final hasVideo = property.videoContents.isNotEmpty;
+    final localVideos = [
+      'assets/videos/ozak-buyukyali-bg.mp4',
+      'assets/videos/ozak-dragos-bg.mp4',
+      'assets/videos/ozak-duyu-bg.mp4',
+      'assets/videos/ozak-bg.mp4',
+    ];
+    final String videoUrl = property.videoContents.isNotEmpty
+        ? (property.videoContents.first.url ?? '')
+        : localVideos[index % localVideos.length];
+    final hasVideo = true;
+
     final primaryImageUrl = property.photos.isNotEmpty
         ? property.photos.first.url
         : property.propertyPhotos.isNotEmpty
@@ -203,45 +212,12 @@ class _PropertyFeedState extends ConsumerState<PropertyFeed> {
       fit: StackFit.expand,
       children: [
         // ===== MEDIA LAYER =====
-        if (hasVideo)
-          ReelVideoPlayer(
-            videoUrl: property.videoContents.first.url ?? '',
-            thumbnailUrl: primaryImageUrl,
-            isActive: _currentPage == index,
-            onDoubleTap: () => _toggleLike(property.id),
-          )
-        else
-          // Animated photo with Ken Burns effect
-          GestureDetector(
-            onDoubleTap: () => _toggleLike(property.id),
-            child: Container(
-              color: Colors.black,
-              child:
-                  Image.network(
-                        primaryImageUrl,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                        errorBuilder: (_, __, ___) => Container(
-                          color: const Color(0xFF1A1A2E),
-                          child: Center(
-                            child: Icon(
-                              Icons.image_not_supported_rounded,
-                              color: Colors.white.withOpacity(0.2),
-                              size: 64,
-                            ),
-                          ),
-                        ),
-                      )
-                      .animate(onPlay: (c) => c.repeat(reverse: true))
-                      .scale(
-                        begin: const Offset(1.0, 1.0),
-                        end: const Offset(1.15, 1.15),
-                        duration: 15.seconds,
-                        curve: Curves.easeInOut,
-                      ),
-            ),
-          ),
+        ReelVideoPlayer(
+          videoUrl: videoUrl,
+          thumbnailUrl: primaryImageUrl,
+          isActive: _currentPage == index,
+          onDoubleTap: () => _toggleLike(property.id),
+        ),
 
         // ===== GRADIENT OVERLAY =====
         Positioned.fill(

@@ -5,12 +5,30 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:reservatior/core/providers/saga_flow_provider.dart';
+import 'package:reservatior/features/saga_flow/domain/entities/saga_timeline.dart';
 
-class SagaHistoryPage extends ConsumerWidget {
+class SagaHistoryPage extends ConsumerStatefulWidget {
   const SagaHistoryPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SagaHistoryPage> createState() => _SagaHistoryPageState();
+}
+
+class _SagaHistoryPageState extends ConsumerState<SagaHistoryPage> {
+  String? _selectedType;
+
+  @override
+  Widget build(BuildContext context) {
+    final timelines = ref.watch(sagaTimelinesProvider);
+    final sagaTypes = ref.watch(sagaTypesProvider);
+
+    final filtered = timelines.whenData(
+      (items) => _selectedType == null || _selectedType == 'ALL'
+          ? items
+          : items.where((t) => t.sagaType == _selectedType).toList(),
+    );
+
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       appBar: AppBar(
@@ -23,150 +41,187 @@ class SagaHistoryPage extends ConsumerWidget {
             color: Colors.white,
           ),
         ),
-      ),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: _DateFilterCard(),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: _FilterChips(),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return _HistoryCard(index: index);
-                },
-                childCount: 15,
-              ),
-            ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh, color: Colors.white70),
+            onPressed: () => ref.read(sagaTimelinesProvider.notifier).refresh(),
           ),
         ],
+      ),
+      body: RefreshIndicator(
+        color: AppColors.primary,
+        backgroundColor: AppColors.cardBg,
+        onRefresh: () async =>
+            ref.read(sagaTimelinesProvider.notifier).refresh(),
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: sagaTypes.when(
+                  data: (types) => _TypeChips(
+                    types: types,
+                    selected: _selectedType,
+                    onSelected: (t) => setState(() => _selectedType = t),
+                  ),
+                  loading: () => const SizedBox.shrink(),
+                  error: (_, __) => const SizedBox.shrink(),
+                ),
+              ),
+            ),
+            filtered.when(
+              loading: () => const SliverFillRemaining(
+                child: Center(
+                  child: CircularProgressIndicator(color: AppColors.primary),
+                ),
+              ),
+              error: (err, __) => SliverFillRemaining(
+                child: Center(
+                  child: Text(
+                    '$err',
+                    style: const TextStyle(color: Colors.white54),
+                  ),
+                ),
+              ),
+              data: (items) {
+                if (items.isEmpty) {
+                  return const SliverFillRemaining(
+                    child: Center(
+                      child: Text(
+                        'No saga history yet',
+                        style: TextStyle(color: Colors.white54),
+                      ),
+                    ),
+                  );
+                }
+                return SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => _HistoryCard(timeline: items[index]),
+                      childCount: items.length,
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 24)),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _DateFilterCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.cardBg.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border.withOpacity(0.3)),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.calendar_today, color: AppColors.primary, size: 18),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'saga_flow.date_range'.tr(),
-                  style: GoogleFonts.outfit(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                    color: Colors.white70,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'Jan 1, 2024 - Jan 18, 2024',
-                  style: GoogleFonts.outfit(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Icon(Icons.arrow_forward_ios, color: Colors.white38, size: 16),
-        ],
-      ),
-    ).animate().fadeIn().slideY();
-  }
-}
+class _TypeChips extends StatelessWidget {
+  final List<String> types;
+  final String? selected;
+  final ValueChanged<String> onSelected;
 
-class _FilterChips extends StatelessWidget {
+  const _TypeChips({
+    required this.types,
+    required this.selected,
+    required this.onSelected,
+  });
+
   @override
   Widget build(BuildContext context) {
+    final labels = ['ALL', ...types];
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [
-          _FilterChip(label: 'All Types', isSelected: true),
-          const SizedBox(width: 8),
-          _FilterChip(label: 'BOOKING', isSelected: false),
-          const SizedBox(width: 8),
-          _FilterChip(label: 'PAYMENT', isSelected: false),
-          const SizedBox(width: 8),
-          _FilterChip(label: 'COMMISSION', isSelected: false),
-          const SizedBox(width: 8),
-          _FilterChip(label: 'VERIFICATION', isSelected: false),
-        ],
+        children: labels.map((label) {
+          final isSelected = (selected ?? 'ALL') == label;
+          return Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: GestureDetector(
+              onTap: () => onSelected(label),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? AppColors.primary
+                      : AppColors.cardBg.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: isSelected
+                        ? AppColors.primary
+                        : AppColors.border.withOpacity(0.3),
+                  ),
+                ),
+                child: Text(
+                  label,
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    color: isSelected ? Colors.white : Colors.white70,
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
 }
 
-class _FilterChip extends StatelessWidget {
-  final String label;
-  final bool isSelected;
+class _HistoryCard extends ConsumerWidget {
+  final SagaTimeline timeline;
 
-  const _FilterChip({required this.label, required this.isSelected});
+  const _HistoryCard({required this.timeline});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: isSelected ? AppColors.primary : AppColors.cardBg.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isSelected ? AppColors.primary : AppColors.border.withOpacity(0.3),
-        ),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.outfit(
-          fontWeight: FontWeight.w500,
-          fontSize: 13,
-          color: isSelected ? Colors.white : Colors.white70,
-        ),
-      ),
+  Color get _statusColor {
+    switch (timeline.status.toUpperCase()) {
+      case 'RUNNING':
+        return AppColors.success;
+      case 'FAILED':
+        return AppColors.error;
+      case 'COMPENSATED':
+        return AppColors.warning;
+      default:
+        return AppColors.info;
+    }
+  }
+
+  String _formatDuration(int ms) {
+    if (ms < 1000) return '${ms}ms';
+    final seconds = ms ~/ 1000;
+    if (seconds < 60) return '${seconds}s';
+    return '${seconds ~/ 60}m ${seconds % 60}s';
+  }
+
+  void _showDetails(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.darkSurface,
+      isScrollControlled: true,
+      builder: (context) => _TimelineDetailSheet(timeline: timeline),
     );
   }
-}
 
-class _HistoryCard extends StatelessWidget {
-  final int index;
-
-  const _HistoryCard({required this.index});
+  Future<void> _retry(BuildContext context, WidgetRef ref) async {
+    try {
+      await ref.read(sagaRepositoryProvider).retrySaga(timeline.sagaId);
+      await ref.read(sagaTimelinesProvider.notifier).refresh();
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Saga retry scheduled')),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Retry failed: $e')),
+        );
+      }
+    }
+  }
 
   @override
-  Widget build(BuildContext context) {
-    final sagaTypes = ['BOOKING', 'PAYMENT', 'COMMISSION', 'VERIFICATION'];
-    final sagaType = sagaTypes[index % sagaTypes.length];
-    final statuses = ['completed', 'failed', 'completed', 'completed'];
-    final status = statuses[index % statuses.length];
-    final statusColors = {
-      'completed': AppColors.success,
-      'failed': AppColors.error,
-      'cancelled': AppColors.warning,
-    };
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFailed = timeline.status.toUpperCase() == 'FAILED';
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -184,7 +239,7 @@ class _HistoryCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: statusColors[status]!.withValues(alpha: 0.2),
+                  color: _statusColor.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -193,17 +248,17 @@ class _HistoryCard extends StatelessWidget {
                       width: 6,
                       height: 6,
                       decoration: BoxDecoration(
-                        color: statusColors[status],
+                        color: _statusColor,
                         shape: BoxShape.circle,
                       ),
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      status.toUpperCase(),
+                      timeline.status.toUpperCase(),
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w600,
                         fontSize: 11,
-                        color: statusColors[status],
+                        color: _statusColor,
                       ),
                     ),
                   ],
@@ -217,7 +272,7 @@ class _HistoryCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  sagaType,
+                  timeline.sagaType,
                   style: GoogleFonts.outfit(
                     fontWeight: FontWeight.w600,
                     fontSize: 11,
@@ -227,7 +282,9 @@ class _HistoryCard extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                'Jan ${18 - index}',
+                timeline.sagaId.length <= 8
+                    ? timeline.sagaId
+                    : timeline.sagaId.substring(0, 8),
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
@@ -238,7 +295,7 @@ class _HistoryCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            '${['Booking Creation', 'Payment Processing', 'Commission Payout', 'Identity Verification'][index % 4]} #${1000 + index}',
+            '${timeline.currentStep} · ${timeline.steps.length} steps',
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.w600,
               fontSize: 15,
@@ -251,7 +308,7 @@ class _HistoryCard extends StatelessWidget {
               Icon(Icons.timer, size: 14, color: Colors.white54),
               const SizedBox(width: 6),
               Text(
-                'Duration: ${5 + index}m',
+                'Duration: ${_formatDuration(timeline.totalDurationMs)}',
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w400,
                   fontSize: 12,
@@ -259,10 +316,10 @@ class _HistoryCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              Icon(Icons.check_circle, size: 14, color: statusColors[status]),
+              Icon(Icons.account_tree, size: 14, color: Colors.white54),
               const SizedBox(width: 6),
               Text(
-                '${8 + index} steps completed',
+                '${timeline.steps.length} steps',
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w400,
                   fontSize: 12,
@@ -271,33 +328,6 @@ class _HistoryCard extends StatelessWidget {
               ),
             ],
           ),
-          if (status == 'failed') ...[
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: AppColors.error.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.error.withOpacity(0.3)),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.error_outline, color: AppColors.error, size: 16),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      'Payment gateway timeout - Step 3 failed',
-                      style: GoogleFonts.outfit(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                        color: AppColors.error,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
           const SizedBox(height: 12),
           Row(
             children: [
@@ -306,15 +336,17 @@ class _HistoryCard extends StatelessWidget {
                   label: 'View Details',
                   icon: Icons.visibility,
                   color: AppColors.primary,
+                  onTap: () => _showDetails(context),
                 ),
               ),
               const SizedBox(width: 8),
-              if (status == 'failed')
+              if (isFailed)
                 Expanded(
                   child: _HistoryActionButton(
                     label: 'Retry',
                     icon: Icons.refresh,
                     color: AppColors.warning,
+                    onTap: () => _retry(context, ref),
                   ),
                 ),
             ],
@@ -325,40 +357,181 @@ class _HistoryCard extends StatelessWidget {
   }
 }
 
+class _TimelineDetailSheet extends StatelessWidget {
+  final SagaTimeline timeline;
+
+  const _TimelineDetailSheet({required this.timeline});
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      expand: false,
+      initialChildSize: 0.6,
+      maxChildSize: 0.9,
+      builder: (context, scrollController) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: const BoxDecoration(
+            color: AppColors.darkSurface,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: AppColors.border,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '${timeline.sagaType} · ${timeline.status.toUpperCase()}',
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Saga ID: ${timeline.sagaId}',
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: Colors.white54,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.separated(
+                  controller: scrollController,
+                  itemCount: timeline.steps.length,
+                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  itemBuilder: (context, index) {
+                    final step = timeline.steps[index];
+                    final color = switch (step.outcome) {
+                      'SUCCESS' => AppColors.success,
+                      'FAILED' => AppColors.error,
+                      'COMPENSATED' => AppColors.warning,
+                      'RETRY' => AppColors.warning,
+                      _ => AppColors.border,
+                    };
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: color.withValues(alpha: 0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${index + 1}',
+                                style: GoogleFonts.outfit(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12,
+                                  color: color,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  step.step,
+                                  style: GoogleFonts.outfit(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                if (step.error != null) ...[
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    step.error!,
+                                    style: GoogleFonts.outfit(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11,
+                                      color: AppColors.error,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                          if (step.retryCount > 0)
+                            Text(
+                              '${step.retryCount}x retry',
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 11,
+                                color: AppColors.warning,
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _HistoryActionButton extends StatelessWidget {
   final String label;
   final IconData icon;
   final Color color;
+  final VoidCallback onTap;
 
   const _HistoryActionButton({
     required this.label,
     required this.icon,
     required this.color,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withOpacity(0.5)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 16, color: color),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: GoogleFonts.outfit(
-              fontWeight: FontWeight.w500,
-              fontSize: 11,
-              color: color,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.2),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: color.withOpacity(0.5)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 16, color: color),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: GoogleFonts.outfit(
+                fontWeight: FontWeight.w500,
+                fontSize: 11,
+                color: color,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

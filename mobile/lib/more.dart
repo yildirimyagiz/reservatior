@@ -79,6 +79,14 @@ class MoreScreen extends ConsumerWidget {
               color: Colors.green,
               route: '/ai-studio',
             ),
+            _MenuEntry(
+              icon: Icons.public_outlined,
+              label: 'Global Rental OS',
+              subtitle: '23 Countries · Revenue DAG · Neural Swarm',
+              color: const Color(0xFF10B981),
+              route: '/global-rental-os',
+              isNew: true,
+            ),
           ]).animate().fadeIn(duration: 400.ms),
 
           // ── AGENCY OPERATIONS (ROLE-BASED) ───────────────────

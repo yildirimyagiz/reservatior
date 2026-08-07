@@ -5,12 +5,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:reservatior/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:reservatior/shared/providers/auth_provider.dart';
+import 'package:reservatior/shared/providers/agent_os_providers.dart';
+import 'package:reservatior/features/os_dashboards/presentation/os_live_widgets.dart';
 
 class VerificationPage extends ConsumerWidget {
   const VerificationPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final orgId = ref.watch(authProvider).user?.organizationId ?? '';
+    final verificationsAsync = ref.watch(agentVerificationsProvider(orgId));
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: CustomScrollView(
@@ -40,11 +45,15 @@ class VerificationPage extends ConsumerWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _VerificationSummary(
-                verified: 8,
-                pending: 3,
-                expired: 1,
-                totalAgents: 12,
+              child: verificationsAsync.when(
+                loading: () => const OsLiveLoading(),
+                error: (e, _) => OsLiveErrorCard(message: 'Failed to load verifications: $e'),
+                data: (data) => _VerificationSummary(
+                  verified: data.verified,
+                  pending: data.pending,
+                  expired: data.expired,
+                  totalAgents: data.totalAgents,
+                ),
               ),
             ),
           ),
@@ -62,14 +71,18 @@ class VerificationPage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                ...List.generate(8, (i) => _VerificationTile(
-                  agentName: ['Sarah Johnson', 'Michael Chen', 'Anna Williams', 'James Rodriguez', 'Emma Thompson', 'Robert Kim', 'Lisa Anderson', 'David Miller'][i],
-                  status: i < 4 ? 'Verified' : i < 6 ? 'Pending' : 'Expired',
-                  idType: i % 2 == 0 ? 'Government ID' : 'Professional License',
-                  verifiedDate: i < 4 ? '2026-0${5 + i}-15' : null,
-                  expiryDate: '2027-0${5 + i}-15',
-                  score: i == 0 ? 100 : i == 1 ? 98 : i == 2 ? 95 : i == 3 ? 92 : i == 4 ? 65 : i == 5 ? 55 : 30,
-                )),
+                ...verificationsAsync.when(
+                  loading: () => [const OsLiveLoading()],
+                  error: (e, _) => [OsLiveErrorCard(message: 'Failed to load verifications: $e')],
+                  data: (data) => data.agents.take(8).map((a) => _VerificationTile(
+                    agentName: a.agentName,
+                    status: a.status,
+                    idType: a.idType,
+                    verifiedDate: a.verifiedDate,
+                    expiryDate: a.expiryDate ?? '—',
+                    score: a.score,
+                  )).toList(),
+                ),
               ]),
             ),
           ),

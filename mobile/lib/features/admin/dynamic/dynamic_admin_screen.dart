@@ -21,8 +21,6 @@ class _DynamicAdminScreenState extends ConsumerState<DynamicAdminScreen> {
   List<dynamic> data = [];
   String? error;
 
-  @override
-  
   String _formatValue(String fieldName, dynamic val, BuildContext context) {
     if (val == null) return 'null';
     final strVal = val.toString();

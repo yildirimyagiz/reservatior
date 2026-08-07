@@ -31,6 +31,7 @@ import 'package:reservatior/features/client/home/presentation/widgets/home_neura
 import 'package:reservatior/features/client/home/presentation/widgets/home_ai_picks_widget.dart';
 import 'package:reservatior/features/client/home/presentation/widgets/home_features_grid_widget.dart';
 import 'package:reservatior/features/client/home/presentation/widgets/home_cta_widget.dart';
+import 'package:reservatior/features/client/home/presentation/widgets/home_ecosystem_preview_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -221,6 +222,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           
           if (isB2B) const HomeNeuralHubWidget(),
+          const HomeEcosystemPreviewWidget(),
           if (isB2B || isTenant) const HomeAIPicksWidget(),
           if (isB2B) const HomeFeaturesGridWidget(),
           if (isB2B || isTenant) const HomeCtaWidget(),
