@@ -16,11 +16,11 @@ export function InvestmentWidget() {
   const getRiskLabel = (level: string) => {
     switch (level.toUpperCase()) {
       case "LOW":
-        return "Low Risk (Safe Portfolio)";
+        return t("investment.risk.low", { defaultValue: "Low Risk (Safe Portfolio)" });
       case "MEDIUM":
-        return "Balanced Yield & Risk";
+        return t("investment.risk.medium", { defaultValue: "Balanced Yield & Risk" });
       case "HIGH":
-        return "High Capital Growth Potential";
+        return t("investment.risk.high", { defaultValue: "High Capital Growth Potential" });
       default:
         return level;
     }
@@ -70,18 +70,18 @@ export function InvestmentWidget() {
                     </div>
                     <div className="grid grid-cols-2 gap-3 mb-4 pt-2 border-t border-border/60">
                       <div>
-                        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Annual Rental Yield</p>
+                        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">{t("investment.stats.annual_rental_yield", { defaultValue: "Annual Rental Yield" })}</p>
                         <p className="text-xl font-extrabold text-emerald-500">%{city.grossYield}</p>
                       </div>
                       <div>
-                        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Value Appreciation</p>
+                        <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">{t("investment.stats.value_appreciation", { defaultValue: "Value Appreciation" })}</p>
                         <p className="text-xl font-extrabold text-primary">%{city.totalReturn}</p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground pt-3 border-t border-border/40">
-                    {city.residencyByInvestment && <span className="bg-muted px-2 py-0.5 rounded text-foreground">Citizenship / Residence</span>}
-                    {city.taxRate === 0 && <span className="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">0% Tax Advantage</span>}
+                    {city.residencyByInvestment && <span className="bg-muted px-2 py-0.5 rounded text-foreground">{t("investment.tags.citizenship", { defaultValue: "Citizenship / Residence" })}</span>}
+                    {city.taxRate === 0 && <span className="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">{t("investment.tags.tax_advantage", { defaultValue: "0% Tax Advantage" })}</span>}
                     <ArrowRight className="w-4 h-4 ml-auto group-hover:text-primary transition-transform group-hover:translate-x-1" />
                   </div>
                 </CardContent>
@@ -94,20 +94,20 @@ export function InvestmentWidget() {
         <div className="grid md:grid-cols-3 gap-5 mb-12">
           {[
             {
-              title: "Depreciation & Net Return Calculator",
-              desc: "Calculate your net payback period with mortgage payments, service fees, occupancy rate, and a 10-year capital appreciation projection.",
+              title: t("investment.tools.depreciation.title", { defaultValue: "Depreciation & Net Return Calculator" }),
+              desc: t("investment.tools.depreciation.desc", { defaultValue: "Calculate your net payback period with mortgage payments, service fees, occupancy rate, and a 10-year capital appreciation projection." }),
               href: "/en/invest/dubai/property-investment-calculator",
               icon: Calculator,
             },
             {
-              title: "Regional Rental Yield Benchmark",
-              desc: "Compare average rental income per m² across districts and neighborhoods with real-time market indices.",
+              title: t("investment.tools.regional.title", { defaultValue: "Regional Rental Yield Benchmark" }),
+              desc: t("investment.tools.regional.desc", { defaultValue: "Compare average rental income per m² across districts and neighborhoods with real-time market indices." }),
               href: "/en/invest/dubai/dubai-rental-yield-calculator",
               icon: Percent,
             },
             {
-              title: "Global Metropolis Investment Comparison",
-              desc: "Compare tax advantages, residence permits, and capital gains rates across global markets like Istanbul, Dubai, Miami, and Lisbon.",
+              title: t("investment.tools.global.title", { defaultValue: "Global Metropolis Investment Comparison" }),
+              desc: t("investment.tools.global.desc", { defaultValue: "Compare tax advantages, residence permits, and capital gains rates across global markets like Istanbul, Dubai, Miami, and Lisbon." }),
               href: "/en/invest/dubai/dubai-vs-istanbul-investment-comparison",
               icon: Globe,
             },

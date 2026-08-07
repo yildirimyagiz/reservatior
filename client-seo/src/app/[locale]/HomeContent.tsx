@@ -25,6 +25,7 @@ import { Footer } from "@/components/layout/Footer";
 import { m, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { AppHeader } from "@/components/layout/AppHeader";
 import dynamic from 'next/dynamic';
+import { t } from "i18next";
 
 const AIChatModal = dynamic(() => import('@/components/home/AIChatModal').then(mod => mod.AIChatModal), { ssr: false });
 const SupportChatModal = dynamic(() => import('@/components/home/SupportChatModal').then(mod => mod.SupportChatModal), { ssr: false });
@@ -67,12 +68,12 @@ export function formatAreaByCountry(areaVal: number | string | undefined, countr
 }
 
 /* ───── Fallback Slides for Hero & Properties ───── */
-const FALLBACK_SLIDES = [
-  { title: "Hayat City", location: "Bağcılar, Mahmutbey", price: "50% Down Payment Opportunity", beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80", tag: "NEW PROJECT" },
-  { title: "Özak Dragos", location: "Maltepe, İstanbul", price: "Islands & Sea View", beds: "1+1 - 3+1", baths: "2 - 4", sqm: "16,000 m²", areaVal: 16000, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80", tag: "SEA VIEW" },
-  { title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: "Ready to Move", beds: "2+1 - 5.5+1", baths: "2 - 5", sqm: "111,000 m²", areaVal: 111000, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80", tag: "READY TO OCCUPY" },
-  { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrad Ormanı", price: "Forest View", beds: "1+1 - 4.5+1", baths: "2 - 4", sqm: "12,000 m²", areaVal: 12000, image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", tag: "AMID NATURE" },
-];
+  const getFallbackSlides = (t: (key: string) => string) => [
+    { title: "Hayat City", location: "Bağcılar, Mahmutbey", price: t("home.slides.hayat_price"), beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80", tag: t("home.slides.hayat_tag") },
+    { title: "Özak Dragos", location: "Maltepe, İstanbul", price: t("home.slides.dragos_price"), beds: "1+1 - 3+1", baths: "2 - 4", sqm: "16,000 m²", areaVal: 16000, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80", tag: t("home.slides.dragos_tag") },
+    { title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: t("home.slides.buyukyali_price"), beds: "2+1 - 5.5+1", baths: "2 - 5", sqm: "111,000 m²", areaVal: 111000, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80", tag: t("home.slides.buyukyali_tag") },
+    { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrad Ormanı", price: t("home.slides.gokturk_price"), beds: "1+1 - 4.5+1", baths: "2 - 4", sqm: "12,000 m²", areaVal: 12000, image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", tag: t("home.slides.gokturk_tag") },
+  ];
 
 
 
@@ -295,14 +296,14 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const response = rawResponse as { data?: Property[] } | null;
 
   const slides = useMemo(() => {
-    if (!response?.data || response.data.length === 0) return FALLBACK_SLIDES;
-    return response.data.slice(0, 4).map((p: Property, i: number) => {
-      const fallback = FALLBACK_SLIDES[i % FALLBACK_SLIDES.length];
-      const rawImg = p.listings?.[0]?.pricingRules?.[0]?.discountRules?.image;
+    if (!response?.data || response.data.length === 0) return getFallbackSlides(t);
+    return response.data.map((prop: any, i: number) => {
+      const fallback = getFallbackSlides(t)[i % getFallbackSlides(t).length];
+      const rawImg = prop.listings?.[0]?.pricingRules?.[0]?.discountRules?.image;
       const finalImage = (rawImg && typeof rawImg === 'string' && rawImg.length > 10) ? rawImg : fallback.image;
-      return { ...fallback, title: p.name || fallback.title, location: p.address || fallback.location, price: p.price ? formatCurrency(Number(p.price), currency, locale) : fallback.price, image: finalImage };
+      return { ...fallback, title: prop.name || fallback.title, location: prop.address || fallback.location, price: prop.price ? formatCurrency(Number(prop.price), currency, locale) : fallback.price, image: finalImage };
     });
-  }, [response, currency, locale]);
+  }, [response, currency, locale, t]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   useEffect(() => { const iv = setInterval(() => setCurrentSlide(c => (c + 1) % Math.max(slides.length, 4)), 6000); return () => clearInterval(iv); }, [slides.length]);

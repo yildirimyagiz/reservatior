@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { m, AnimatePresence } from "framer-motion";
-import { Monitor, Gem, ShieldCheck, Sparkles, CheckCircle2, Mouse } from "lucide-react";
+import { Monitor, Gem, ShieldCheck, Sparkles, CheckCircle2, Mouse, Brain, CircleDollarSign } from "lucide-react";
 import { useLocalization } from "@/contexts/LocalizationContext";
 import { formatCurrency } from "@/lib/utils/localization";
 
@@ -127,10 +127,10 @@ function EcosystemPreview() {
 
       <div className="h-24 bg-gradient-to-r from-brand/15 via-brand/15 to-transparent rounded-2xl border border-border flex items-center justify-between p-6">
         <div>
-          <div className="text-muted-foreground font-medium mb-1.5">Global Operations Status</div>
+          <div className="text-muted-foreground font-medium mb-1.5">{t("ecosystem.global_status.title")}</div>
           <div className="text-foreground font-bold flex items-center gap-3 text-lg">
             <div className="w-3 h-3 rounded-full bg-success animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-            All FinTech, Security and AI modules running 24/7
+            {t("ecosystem.global_status.desc")}
           </div>
         </div>
         <Sparkles className="w-8 h-8 text-muted-foreground/30" />
@@ -160,9 +160,9 @@ export default function EcosystemSection() {
 
             <div className="space-y-6">
               {[
-                { icon: Monitor, title: "Advisor Operating System (OS)", desc: "Fully automate commission sharing plans, contract workflows, and in-office operations." },
-                { icon: Gem, title: "0% Fee Financial Infrastructure", desc: "Collect directly with Open Banking (A2A) transfers and a 21-day Escrow deposit guarantee mechanism." },
-                { icon: ShieldCheck, title: "Smart AI Studio", desc: "Find the right buyer with a meaning-aware neural search engine and create listing marketing assets for your portfolio." },
+                { icon: Monitor, title: t("ecosystem.advisor_os.title"), desc: t("ecosystem.advisor_os.desc") },
+                { icon: Gem, title: t("ecosystem.fintech.title"), desc: t("ecosystem.fintech.desc") },
+                { icon: ShieldCheck, title: t("ecosystem.ai_studio.title"), desc: t("ecosystem.ai_studio.desc") },
               ].map((feature, i) => (
                 <div key={i} className="flex gap-4">
                   <div className="w-12 h-12 rounded-2xl bg-muted/50 flex items-center justify-center shrink-0 border border-border">

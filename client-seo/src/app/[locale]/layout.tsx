@@ -122,7 +122,7 @@ export default function RootLayout({
         </a>
         <OrganizationSchema />
         <WebsiteSchema />
-        <LocalizationProvider>
+        <LocalizationProvider initialLocale={locale}>
           <Providers><div id="main-content">{children}</div></Providers>
         </LocalizationProvider>
       </body>

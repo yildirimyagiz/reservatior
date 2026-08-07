@@ -17666,24 +17666,26 @@
   "high": "高的",
   "home": {
     "curated": {
-      "subtitle": "Handpicked properties that redefine luxury living and smart hospitality.",
-      "title": "Curated Collections",
-      "view_all": "View All Collection",
+      "title": "Curated Property Collection",
+      "subtitle": "Smart comfort, high investment value and premium living standards in a curated real estate selection.",
       "collection": "{{vibe}} Collection",
       "active_listings": "active listings",
+      "view_all": "View All Collection",
       "view_all_vibe": "View {{vibe}} Collection"
     },
     "ecosystem": {
-      "badge": "Hospitality OS",
-      "cta": "Explore The Platform",
-      "desc": "A complete ecosystem powered by AI. From smart locks to loyalty programs, manage everything from one beautiful dashboard.",
-      "title": "More Than Just Bookings."
+      "badge": "Real Estate Technology & OS",
+      "cta": "Explore Platform Features",
+      "desc": "FinTech and AI-integrated real estate ecosystem. From commission-free open banking transfers to passive income partnership networks, manage your real estate business and portfolio from a single control center.",
+      "title": "An Operating System for Advisors and Property Managers."
     },
     "hero": {
-      "scroll": "Scroll to explore",
-      "tagline": "Global Luxury Real Estate OS"
+      "tagline": "Premium Real Estate, Reimagined",
+      "scroll": "Scroll to explore"
     },
     "search": {
+      "country_search": "Country search",
+      "ai_search_tooltip": "Search with AI",
       "modes": {
         "stay": "Stay",
         "buy": "Buy",
@@ -17736,13 +17738,12 @@
       "filters_tags": "Tags",
       "explore_ai": "Explore AI Assistant",
       "neural_match": "Neural Match",
-      "bath_unit": "Bath",
-      "country_search": "Search country and region..."
+      "bath_unit": "Bath"
     },
     "carousel": {
-      "go_to_slide": "Go to slide",
+      "prev": "Prev",
       "next": "Next",
-      "prev": "Previous"
+      "go_to_slide": "Go to slide"
     },
     "global_os_badge": "Global OS",
     "global_os_cta": "Explore Global OS",
@@ -17774,7 +17775,17 @@
       "zero_commission": "0% Commission"
     },
     "support": {
-      "open_chat": "Open Chat"
+      "open_chat": "Open chat"
+    },
+    "slides": {
+      "hayat_price": "50% Down Payment Opportunity",
+      "hayat_tag": "NEW PROJECT",
+      "dragos_price": "Islands & Sea View",
+      "dragos_tag": "SEA VIEW",
+      "buyukyali_price": "Ready to Move",
+      "buyukyali_tag": "READY TO OCCUPY",
+      "gokturk_price": "Forest View",
+      "gokturk_tag": "AMID NATURE"
     }
   },
   "home.cta.button1": "开始免费试用",
@@ -31247,5 +31258,79 @@
   "home.carousel.prev": "上一步",
   "home.carousel.next": "下一步",
   "home.carousel.go_to_slide": "转到幻灯片",
-  "home.support.open_chat": "打开聊天"
+  "home.support.open_chat": "打开聊天",
+  "chat_meta_title": "AI Chat Assistant | Reservatior",
+  "chat_meta_description": "Chat with Reservatior AI to find your dream property without filters. Just describe what you are looking for in natural language.",
+  "ecosystem": {
+    "advisor_os": {
+      "title": "Advisor Operating System (OS)",
+      "desc": "Fully automate commission sharing plans, contract workflows, and in-office operations."
+    },
+    "fintech": {
+      "title": "0% Fee Financial Infrastructure",
+      "desc": "Collect directly with Open Banking (A2A) transfers and a 21-day Escrow deposit guarantee mechanism."
+    },
+    "ai_studio": {
+      "title": "Smart AI Studio",
+      "desc": "Find the right buyer with a meaning-aware neural search engine and create listing marketing assets for your portfolio."
+    },
+    "global_status": {
+      "title": "Global Operations Status",
+      "desc": "All FinTech, Security and AI modules running 24/7"
+    }
+  },
+  "investment": {
+    "badge": "Badge",
+    "title_1": "Smart Property Matching",
+    "title_2": "Automated Valuation",
+    "cta_button": "Start Data-Driven Investments",
+    "tools": {
+      "depreciation": {
+        "title": "Depreciation & Net Return Calculator",
+        "desc": "Calculate your net payback period with mortgage payments, service fees, occupancy rate, and a 10-year capital appreciation projection."
+      },
+      "regional": {
+        "title": "Regional Rental Yield Benchmark",
+        "desc": "Compare average rental income per m² across districts and neighborhoods with real-time market indices."
+      },
+      "global": {
+        "title": "Global Metropolis Investment Comparison",
+        "desc": "Compare tax advantages, residence permits, and capital gains rates across global markets like Istanbul, Dubai, Miami, and Lisbon."
+      }
+    },
+    "stats": {
+      "annual_rental_yield": "Annual Rental Yield",
+      "value_appreciation": "Value Appreciation"
+    },
+    "tags": {
+      "citizenship": "Citizenship / Residence",
+      "tax_advantage": "0% Tax Advantage"
+    },
+    "risk": {
+      "low": "Low Risk (Safe Portfolio)",
+      "medium": "Balanced Yield & Risk",
+      "high": "High Capital Growth Potential"
+    }
+  },
+  "os": {
+    "storage": {
+      "authorizing": "Authorizing Media Request...",
+      "failed": "Failed to securely load media. You may not have permission.",
+      "unavailable": "Media unavailable",
+      "stream_active": "[Storage OS HLS Stream Active]",
+      "expires": "URL Expires in 5m",
+      "secure_doc": "Secure Document (Watermarked)",
+      "open_viewer": "Open Viewer"
+    },
+    "digital_twin": {
+      "connected": "Digital Twin Connected",
+      "model": "Model",
+      "floorplan": "Floorplan Mode",
+      "measurements": "Measurements",
+      "initializing": "Initializing WebGL Engine...",
+      "loading_geometry": "Loading Model Geometry",
+      "canvas_simulated": "[WebGL Canvas Simulated]",
+      "ready_threejs": "Ready for Three.js / model-viewer integration"
+    }
+  }
 }

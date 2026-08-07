@@ -50,19 +50,24 @@ const LocalizationContext = createContext<LocalizationContextType>({
   setLocalization: () => {},
 });
 
-export function LocalizationProvider({ children }: { children: ReactNode }) {
+export function LocalizationProvider({ children, initialLocale }: { children: ReactNode; initialLocale?: string }) {
   const { currentLang } = useLanguage();
-  const language = currentLang.code;
-  const dir = currentLang.dir;
+  // If initialLocale is provided and different from currentLang, use it for initialization
+  const effectiveLang = initialLocale && initialLocale !== currentLang.code 
+    ? initialLocale 
+    : currentLang.code;
+    
+  const language = effectiveLang;
+  const dir = LANGUAGES.find(l => l.code === effectiveLang)?.dir || "ltr";
 
   useEffect(() => {
     const segments = window.location.pathname.split("/").filter(Boolean);
-    const urlLocale = segments[0] || "en";
+    const urlLocale = segments[0] || initialLocale || "en";
     const state = useLanguage.getState();
     if (LANGUAGES.some((l) => l.code === urlLocale) && state.currentLang.code !== urlLocale) {
       state.setLanguage(urlLocale);
     }
-  }, []);
+  }, [initialLocale]);
 
   useEffect(() => {
     const mapping = LOCALE_MAP[language] || LOCALE_MAP.en;
@@ -82,6 +87,17 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
     if (typeof window !== "undefined") return localStorage.getItem("currency") || LOCALE_MAP[language]?.currency || "USD";
     return LOCALE_MAP[language]?.currency || "USD";
   });
+
+  // Keep countryCode and currency in sync if language changes and they aren't manually set
+  useEffect(() => {
+    const mapping = LOCALE_MAP[language] || LOCALE_MAP.en;
+    if (typeof window !== "undefined" && !localStorage.getItem("countryCode")) {
+      setCountryCode(mapping.countryCode);
+    }
+    if (typeof window !== "undefined" && !localStorage.getItem("currency")) {
+      setCurrency(mapping.currency);
+    }
+  }, [language]);
 
   const setLocalization = (update: LocalizationUpdate) => {
     if (update.language) {

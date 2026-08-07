@@ -20145,6 +20145,16 @@
       "passive_income": "Pasif Gelir",
       "per_month": "/ ay",
       "zero_commission": "0% Komisyon"
+    },
+    "slides": {
+      "hayat_price": "%50 Peşinat Fırsatı",
+      "hayat_tag": "YENİ PROJE",
+      "dragos_price": "Adalar ve Deniz Manzaralı",
+      "dragos_tag": "DENİZ MANZARALI",
+      "buyukyali_price": "Hemen Teslim",
+      "buyukyali_tag": "OTURUMA HAZIR",
+      "gokturk_price": "Orman Manzaralı",
+      "gokturk_tag": "DOĞA İÇİNDE"
     }
   },
   "home.cta.button1": "Ücretsiz Denemeye Başla",
@@ -20496,9 +20506,36 @@
   "international": "Uluslararası",
   "investment": {
     "badge": "Badge Yönetimi",
-    "title_1": "Title 1 Yönetimi",
-    "title_2": "Title 2 Yönetimi",
-    "cta_button": "Veri Odaklı Yatırımlara Başla"
+    "title_1": "Akıllı Emlak Eşleştirme",
+    "title_2": "Otomatik Değerleme",
+    "cta_button": "Veri Odaklı Yatırımlara Başla",
+    "tools": {
+      "depreciation": {
+        "title": "Amortisman ve Net Getiri Hesaplayıcı",
+        "desc": "Kredi ödemeleri, aidatlar, doluluk oranı ve 10 yıllık değer artış projeksiyonu ile net geri dönüş sürenizi hesaplayın."
+      },
+      "regional": {
+        "title": "Bölgesel Kira Getiri Karşılaştırması",
+        "desc": "Gerçek zamanlı piyasa endeksleri ile ilçe ve mahallelere göre m² başına ortalama kira gelirini karşılaştırın."
+      },
+      "global": {
+        "title": "Küresel Metropol Yatırım Karşılaştırması",
+        "desc": "İstanbul, Dubai, Miami ve Lizbon gibi küresel pazarlar arasında vergi avantajlarını, oturum izinlerini ve değer artış oranlarını karşılaştırın."
+      }
+    },
+    "stats": {
+      "annual_rental_yield": "Yıllık Kira Getirisi",
+      "value_appreciation": "Değer Artışı"
+    },
+    "tags": {
+      "citizenship": "Vatandaşlık / Oturum",
+      "tax_advantage": "%0 Vergi Avantajı"
+    },
+    "risk": {
+      "low": "Düşük Risk (Güvenli Portföy)",
+      "medium": "Dengeli Getiri ve Risk",
+      "high": "Yüksek Sermaye Büyüme Potansiyeli"
+    }
   },
   "investmentAnalysis": "Yatırım Analizi",
   "investmentInsights": "Yatırım Öngörüleri",
@@ -27667,7 +27704,7 @@
   "tiers": "Aşamalar",
   "time": "Zaman",
   "timeTrace": "Saat",
-  "title": "Title Yönetimi",
+  "title": "Tapu Yönetimi",
   "title1": "Reservatior Ağı",
   "title2": "Gelişmiş Yapay Zeka Mimarisi",
   "today": "Bugün",
@@ -28129,8 +28166,8 @@
   "pricing.features.dynamic.basicSupport": "Standart E-posta Desteği (TR)",
   "hotel.alternatives.cheaperFound": "✅ Daha ucuz konaklama seçenekleri bulundu! (TR)",
   "investment.badge": "Badge Yönetimi",
-  "investment.title_1": "Title 1 Yönetimi",
-  "investment.title_2": "Title 2 Yönetimi",
+  "investment.title_1": "Akıllı Emlak Eşleştirme",
+  "investment.title_2": "Otomatik Değerleme",
   "admin.killSignal": "KillSignal Yönetimi",
   "socket.io-client": "Io-client Yönetimi",
   "document_os.contract_generated": "Contract generated Yönetimi",
@@ -28301,5 +28338,46 @@
     "support": "Destek",
     "terms": "Koşullar",
     "terms_of_service": "Hizmet Koşulları"
+  },
+  "chat_meta_title": "Yapay Zeka Sohbet Asistanı | Reservatior",
+  "chat_meta_description": "Filtrelerle uğraşmadan hayalinizdeki mülkü bulmak için Reservatior AI ile sohbet edin. Sadece ne aradığınızı doğal bir dille anlatın.",
+  "ecosystem": {
+    "advisor_os": {
+      "title": "Danışman İşletim Sistemi (OS)",
+      "desc": "Komisyon paylaşım planlarını, sözleşme iş akışlarını ve ofis içi operasyonları tamamen otomatikleştirin."
+    },
+    "fintech": {
+      "title": "%0 Kesintili Finansal Altyapı",
+      "desc": "Açık Bankacılık (A2A) transferleri ve 21 günlük Escrow teminat garantisi mekanizması ile doğrudan tahsilat yapın."
+    },
+    "ai_studio": {
+      "title": "Akıllı Yapay Zeka Stüdyosu",
+      "desc": "Anlam farkındalıklı nöral arama motoru ile doğru alıcıyı bulun ve portföyünüz için ilan pazarlama materyalleri oluşturun."
+    },
+    "global_status": {
+      "title": "Küresel Operasyon Durumu",
+      "desc": "Tüm FinTech, Güvenlik ve Yapay Zeka modülleri 7/24 aktif"
+    }
+  },
+  "os": {
+    "storage": {
+      "authorizing": "Medya İsteği Yetkilendiriliyor...",
+      "failed": "Medya güvenli bir şekilde yüklenemedi. İzniniz olmayabilir.",
+      "unavailable": "Medya kullanılamıyor",
+      "stream_active": "[Storage OS HLS Yayını Aktif]",
+      "expires": "URL 5 dk içinde sona erecek",
+      "secure_doc": "Güvenli Belge (Filigranlı)",
+      "open_viewer": "Görüntüleyiciyi Aç"
+    },
+    "digital_twin": {
+      "connected": "Dijital İkiz Bağlandı",
+      "model": "Model",
+      "floorplan": "Kat Planı Modu",
+      "measurements": "Ölçümler",
+      "initializing": "WebGL Motoru Başlatılıyor...",
+      "loading_geometry": "Model Geometrisi Yükleniyor",
+      "canvas_simulated": "[WebGL Tuvali Simüle Edildi]",
+      "ready_threejs": "Three.js / model-viewer entegrasyonuna hazır"
+    }
   }
 }
