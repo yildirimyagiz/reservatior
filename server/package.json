@@ -164,7 +164,7 @@
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
-    "@abcx3/prisma-generator-dart": "^3.0.5",
+    "@abcx3/prisma-generator-dart": "^3.0.6",
     "@types/amqplib": "^0.10.8",
     "@types/axios": "^0.14.4",
     "@types/bun": "latest",
