@@ -69,7 +69,7 @@ export function formatAreaByCountry(areaVal: number | string | undefined, countr
 
 /* ───── Fallback Slides for Hero & Properties ───── */
   const getFallbackSlides = (t: (key: string) => string) => [
-    { id: "prop_hayat_city_mahmutbey", title: "Hayat City Mahmutbey", location: "Bağcılar, Mahmutbey", price: t("home.slides.hayat_price"), beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Mahmutbey/Projeler/Hayat%20City%20Mahmutbey/A%202%2B1/hayat-city-2-1a-BX7WI.webp", tag: t("home.slides.hayat_tag") },
+    { id: "prop_hayat_city_mahmutbey", title: "Hayat City Mahmutbey", location: "Bağcılar, Mahmutbey", price: t("home.slides.hayat_price"), beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Mahmutbey/Projeler/Hayat%20City%20Mahmutbey/A%202+1/hayat-city-2-1a-BX7WI.webp", tag: t("home.slides.hayat_tag") },
     { id: "prop_buyukyali_istanbul", title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: t("home.slides.buyukyali_price"), beds: "2+1 - 5.5+1", baths: "2 - 5", sqm: "111,000 m²", areaVal: 111000, image: "/videos/istanbul/Zeytinburnu/B%C3%BCy%C3%BCkyal%C4%B1/cover.jpg", tag: t("home.slides.buyukyali_tag") },
     { id: "prop_avrupa_konutlari_gunesli", title: "Avrupa Konutları Güneşli", location: "Güneşli, Bağcılar", price: t("home.slides.gunesli_price"), beds: "1+1 - 5+1", baths: "2 - 5", sqm: "6,500 m²", areaVal: 6500, image: "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Projeler/Avrupa%20Konutlar%C4%B1%20G%C3%BCne%C5%9Fli/cover-exterior.jpeg", tag: t("home.slides.gunesli_tag") },
     { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrad Ormanı", price: t("home.slides.gokturk_price"), beds: "1+1 - 4.5+1", baths: "2 - 4", sqm: "12,000 m²", areaVal: 12000, image: "/videos/istanbul/Ey%C3%BCp/G%C3%B6kt%C3%BCrk/cover.jpg", tag: t("home.slides.gokturk_tag") },
@@ -77,7 +77,7 @@ export function formatAreaByCountry(areaVal: number | string | undefined, countr
 
   // Real project cover images served from /videos/istanbul (matched by property name)
   const PROJECT_COVERS: Record<string, string> = {
-    "Hayat City": "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Mahmutbey/Projeler/Hayat%20City%20Mahmutbey/A%202%2B1/hayat-city-2-1a-BX7WI.webp",
+    "Hayat City": "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Mahmutbey/Projeler/Hayat%20City%20Mahmutbey/A%202+1/hayat-city-2-1a-BX7WI.webp",
     "Avrupa Konutları Güneşli": "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Projeler/Avrupa%20Konutlar%C4%B1%20G%C3%BCne%C5%9Fli/cover-exterior.jpeg",
     "Büyükyalı": "/videos/istanbul/Zeytinburnu/B%C3%BCy%C3%BCkyal%C4%B1/cover.jpg",
     "Göktürk": "/videos/istanbul/Ey%C3%BCp/G%C3%B6kt%C3%BCrk/cover.jpg",
