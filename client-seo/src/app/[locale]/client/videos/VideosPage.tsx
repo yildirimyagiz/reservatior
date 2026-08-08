@@ -21,7 +21,7 @@ import {
 import { m } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import ReelsFeed, { ReelProperty } from "@/components/videos/ReelsFeed";
-import { propertiesApi } from "@/lib/api/properties-eden";
+import { apiClient } from "@/lib/api/client";
 
 interface DiscoverProperty {
   id: string;
@@ -92,7 +92,7 @@ export default function VideosPage() {
     setLoading(true);
     setError(null);
     try {
-      const raw: any = await propertiesApi.getAll({ limit: 60 });
+      const raw: any = await apiClient.get("/property?limit=60");
       const arr: unknown = Array.isArray(raw)
         ? raw
         : Array.isArray(raw?.data)
