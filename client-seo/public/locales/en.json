@@ -19821,7 +19821,9 @@
       "buyukyali_price": "Ready to Move",
       "buyukyali_tag": "READY TO OCCUPY",
       "gokturk_price": "Forest View",
-      "gokturk_tag": "AMID NATURE"
+      "gokturk_tag": "AMID NATURE",
+      "gunesli_price": "1+1 to 5+1 Units",
+      "gunesli_tag": "NEWLY LISTED"
     }
   },
   "home.cta.button1": "Start Free Trial",
@@ -28379,5 +28381,34 @@
       "canvas_simulated": "[WebGL Canvas Simulated]",
       "ready_threejs": "Ready for Three.js / model-viewer integration"
     }
-  }
+  },
+  "home.slides.buyukyali_tag": "READY TO OCCUPY",
+  "home.slides.buyukyali_price": "Immediate Delivery",
+  "home.slides.hayat_tag": "NEW PROJECT",
+  "home.slides.hayat_price": "50% Down Payment Opportunity",
+  "home.slides.dragos_tag": "SEA VIEW",
+  "home.slides.dragos_price": "Islands & Sea View",
+  "home.slides.gokturk_tag": "AMID NATURE",
+  "home.slides.gokturk_price": "Forest View",
+  "ecosystem.advisor_os.title": "Advisor Operating System (OS)",
+  "ecosystem.advisor_os.desc": "Fully automate commission sharing plans, contract workflows, and in-office operations.",
+  "ecosystem.fintech.title": "0% Commission Financial Infrastructure",
+  "ecosystem.fintech.desc": "Collect directly with Open Banking (A2A) transfers and a 21-day Escrow collateral guarantee mechanism.",
+  "ecosystem.ai_studio.title": "Intelligent AI Studio",
+  "ecosystem.ai_studio.desc": "Find the right buyer with a semantic-aware neural search engine and generate listing marketing materials for your portfolio.",
+  "ecosystem.global_status.title": "Global Operation Status",
+  "ecosystem.global_status.desc": "All FinTech, Security, and AI modules are active 24/7",
+  "home.search.modes.stay": "Stay",
+  "home.search.modes.buy": "Buy",
+  "home.search.modes.rent": "Rent",
+  "home.search.modes.invest": "Invest",
+  "investment.tools.depreciation.title": "Depreciation & Net Return Calculator",
+  "investment.tools.depreciation.desc": "Calculate your net payback period with mortgage payments, service fees, occupancy rate, and a 10-year capital appreciation projection.",
+  "investment.tools.regional.title": "Regional Rental Yield Benchmark",
+  "investment.tools.regional.desc": "Compare average rental income per m² across districts and neighborhoods with real-time market indices.",
+  "investment.tools.global.title": "Global Metropolis Investment Comparison",
+  "investment.tools.global.desc": "Compare tax advantages, residence permits, and capital gains rates across global markets like Istanbul, Dubai, Miami, and Lisbon.",
+  "investment.cta_button": "Start Data-Driven Investments",
+  "investment.tags.citizenship": "Citizenship / Residence",
+  "investment.tags.tax_advantage": "0% Tax Advantage"
 }

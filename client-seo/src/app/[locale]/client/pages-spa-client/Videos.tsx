@@ -157,7 +157,7 @@ export default function Videos() {
       }
       
       return {
-        id: String(p.id || `video-${i}`),
+        id: String(fileDetails?.id || p.id || `video-${i}`),
         title: title,
         location: location,
         price: priceStr,

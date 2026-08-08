@@ -20154,7 +20154,9 @@
       "buyukyali_price": "Hemen Teslim",
       "buyukyali_tag": "OTURUMA HAZIR",
       "gokturk_price": "Orman Manzaralı",
-      "gokturk_tag": "DOĞA İÇİNDE"
+      "gokturk_tag": "DOĞA İÇİNDE",
+      "gunesli_price": "1+1 - 5+1 Daireler",
+      "gunesli_tag": "YENİ LİSTELENDİ"
     }
   },
   "home.cta.button1": "Ücretsiz Denemeye Başla",
@@ -28379,5 +28381,34 @@
       "canvas_simulated": "[WebGL Tuvali Simüle Edildi]",
       "ready_threejs": "Three.js / model-viewer entegrasyonuna hazır"
     }
-  }
+  },
+  "home.slides.buyukyali_tag": "OTURUMA HAZIR",
+  "home.slides.buyukyali_price": "Hemen Teslim",
+  "home.slides.hayat_tag": "YENİ PROJE",
+  "home.slides.hayat_price": "%50 Peşinat Fırsatı",
+  "home.slides.dragos_tag": "DENİZ MANZARALI",
+  "home.slides.dragos_price": "Adalar ve Deniz Manzaralı",
+  "home.slides.gokturk_tag": "DOĞA İÇİNDE",
+  "home.slides.gokturk_price": "Orman Manzaralı",
+  "ecosystem.advisor_os.title": "Danışman İşletim Sistemi (OS)",
+  "ecosystem.advisor_os.desc": "Komisyon paylaşım planlarını, sözleşme iş akışlarını ve ofis içi operasyonları tamamen otomatikleştirin.",
+  "ecosystem.fintech.title": "%0 Kesintili Finansal Altyapı",
+  "ecosystem.fintech.desc": "Açık Bankacılık (A2A) transferleri ve 21 günlük Escrow teminat garantisi mekanizması ile doğrudan tahsilat yapın.",
+  "ecosystem.ai_studio.title": "Akıllı Yapay Zeka Stüdyosu",
+  "ecosystem.ai_studio.desc": "Anlam farkındalıklı nöral arama motoru ile doğru alıcıyı bulun ve portföyünüz için ilan pazarlama materyalleri oluşturun.",
+  "ecosystem.global_status.title": "Küresel Operasyon Durumu",
+  "ecosystem.global_status.desc": "Tüm FinTech, Güvenlik ve Yapay Zeka modülleri 7/24 aktif",
+  "home.search.modes.stay": "Konakla",
+  "home.search.modes.buy": "Satın Al",
+  "home.search.modes.rent": "Kirala",
+  "home.search.modes.invest": "Yatırım Yap",
+  "investment.tools.depreciation.title": "Amortisman ve Net Getiri Hesaplayıcı",
+  "investment.tools.depreciation.desc": "Mortgage ödemeleri, hizmet bedelleri, doluluk oranı ve 10 yıllık sermaye artışı projeksiyonu ile net geri ödeme sürenizi hesaplayın.",
+  "investment.tools.regional.title": "Bölgesel Kira Getirisi Karşılaştırması",
+  "investment.tools.regional.desc": "Gerçek zamanlı piyasa endeksleriyle ilçeler ve mahalleler arasındaki ortalama m² başına kira gelirini karşılaştırın.",
+  "investment.tools.global.title": "Küresel Metropol Yatırım Karşılaştırması",
+  "investment.tools.global.desc": "İstanbul, Dubai, Miami ve Lizbon gibi küresel pazarlardaki vergi avantajlarını, oturma izinlerini ve sermaye kazancı oranlarını karşılaştırın.",
+  "investment.cta_button": "Veri Odaklı Yatırımlara Başlayın",
+  "investment.tags.citizenship": "Vatandaşlık / Oturma İzni",
+  "investment.tags.tax_advantage": "%0 Vergi Avantajı"
 }

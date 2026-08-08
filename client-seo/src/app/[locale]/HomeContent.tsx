@@ -69,11 +69,19 @@ export function formatAreaByCountry(areaVal: number | string | undefined, countr
 
 /* ───── Fallback Slides for Hero & Properties ───── */
   const getFallbackSlides = (t: (key: string) => string) => [
-    { title: "Hayat City", location: "Bağcılar, Mahmutbey", price: t("home.slides.hayat_price"), beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80", tag: t("home.slides.hayat_tag") },
-    { title: "Özak Dragos", location: "Maltepe, İstanbul", price: t("home.slides.dragos_price"), beds: "1+1 - 3+1", baths: "2 - 4", sqm: "16,000 m²", areaVal: 16000, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80", tag: t("home.slides.dragos_tag") },
-    { title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: t("home.slides.buyukyali_price"), beds: "2+1 - 5.5+1", baths: "2 - 5", sqm: "111,000 m²", areaVal: 111000, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80", tag: t("home.slides.buyukyali_tag") },
-    { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrad Ormanı", price: t("home.slides.gokturk_price"), beds: "1+1 - 4.5+1", baths: "2 - 4", sqm: "12,000 m²", areaVal: 12000, image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", tag: t("home.slides.gokturk_tag") },
+    { id: "prop_hayat_city_mahmutbey", title: "Hayat City Mahmutbey", location: "Bağcılar, Mahmutbey", price: t("home.slides.hayat_price"), beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Mahmutbey/Projeler/Hayat%20City%20Mahmutbey/A%202%2B1/hayat-city-2-1a-BX7WI.webp", tag: t("home.slides.hayat_tag") },
+    { id: "prop_buyukyali_istanbul", title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: t("home.slides.buyukyali_price"), beds: "2+1 - 5.5+1", baths: "2 - 5", sqm: "111,000 m²", areaVal: 111000, image: "/videos/istanbul/Zeytinburnu/B%C3%BCy%C3%BCkyal%C4%B1/cover.jpg", tag: t("home.slides.buyukyali_tag") },
+    { id: "prop_avrupa_konutlari_gunesli", title: "Avrupa Konutları Güneşli", location: "Güneşli, Bağcılar", price: t("home.slides.gunesli_price"), beds: "1+1 - 5+1", baths: "2 - 5", sqm: "6,500 m²", areaVal: 6500, image: "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Projeler/Avrupa%20Konutlar%C4%B1%20G%C3%BCne%C5%9Fli/cover-exterior.jpeg", tag: t("home.slides.gunesli_tag") },
+    { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrad Ormanı", price: t("home.slides.gokturk_price"), beds: "1+1 - 4.5+1", baths: "2 - 4", sqm: "12,000 m²", areaVal: 12000, image: "/videos/istanbul/Ey%C3%BCp/G%C3%B6kt%C3%BCrk/cover.jpg", tag: t("home.slides.gokturk_tag") },
   ];
+
+  // Real project cover images served from /videos/istanbul (matched by property name)
+  const PROJECT_COVERS: Record<string, string> = {
+    "Hayat City": "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Mahmutbey/Projeler/Hayat%20City%20Mahmutbey/A%202%2B1/hayat-city-2-1a-BX7WI.webp",
+    "Avrupa Konutları Güneşli": "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Projeler/Avrupa%20Konutlar%C4%B1%20G%C3%BCne%C5%9Fli/cover-exterior.jpeg",
+    "Büyükyalı": "/videos/istanbul/Zeytinburnu/B%C3%BCy%C3%BCkyal%C4%B1/cover.jpg",
+    "Göktürk": "/videos/istanbul/Ey%C3%BCp/G%C3%B6kt%C3%BCrk/cover.jpg",
+  };
 
 
 
@@ -300,8 +308,10 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
     return response.data.map((prop: any, i: number) => {
       const fallback = getFallbackSlides(t)[i % getFallbackSlides(t).length];
       const rawImg = prop.listings?.[0]?.pricingRules?.[0]?.discountRules?.image;
-      const finalImage = (rawImg && typeof rawImg === 'string' && rawImg.length > 10) ? rawImg : fallback.image;
-      return { ...fallback, title: prop.name || fallback.title, location: prop.address || fallback.location, price: prop.price ? formatCurrency(Number(prop.price), currency, locale) : fallback.price, image: finalImage };
+      const coverKey = Object.keys(PROJECT_COVERS).find((k) => String(prop.name || "").includes(k));
+      const coverImg = coverKey ? PROJECT_COVERS[coverKey] : null;
+      const finalImage = coverImg || ((rawImg && typeof rawImg === "string" && rawImg.length > 10) ? rawImg : fallback.image);
+      return { ...fallback, id: String(prop.id || ""), title: prop.name || fallback.title, location: prop.address || fallback.location, price: prop.price ? formatCurrency(Number(prop.price), currency, locale) : fallback.price, image: finalImage };
     });
   }, [response, currency, locale, t]);
 
@@ -934,7 +944,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 function BentoCard({ prop, countryCode = "TR", className, large = false }: { prop: { id?: string; image: string; title: string; location: string; price: string; tag?: string; beds?: string; baths?: string; sqm?: string; sqft?: string; areaVal?: number }; countryCode?: string; className?: string; large?: boolean }) {
   if (!prop) return null;
   return (
-    <Link href={`/properties/${prop.id || "#"}`} className={`group relative rounded-3xl overflow-hidden block always-dark h-[350px] md:h-full w-full ${className}`}>
+    <Link href={prop.id ? `/client/property/${prop.id}` : "#"} className={`group relative rounded-3xl overflow-hidden block always-dark h-[350px] md:h-full w-full ${className}`}>
       <Image src={prop.image} alt={prop.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-1000 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10 transition-opacity duration-500 group-hover:opacity-80" />
       
