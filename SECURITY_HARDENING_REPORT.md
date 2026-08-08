@@ -126,3 +126,26 @@ sk_live_ / sk_test_ / ghp_ / AIza / AKIA / xoxb- / BEGIN PRIVATE KEY
 - Önceki denetim düzeltmeleri `9b326e72b` ile deploy edildi ve e-posta ile `yagizyildirim@icloud.com` + `info@reservatior.com` adreslerine iletildi (Postfix log onaylı).
 - Bu raporun commit'inde yer alan değişiklikler: `server/package.json`, `server/bun.lock`, `SECURITY_HARDENING_REPORT.md` (`d56d19918` → `54d438275`), i18n çeviri restorasyonu (`f233105f1`), pgbouncer fix (`e7c56853`).
 - **Canlıya alındı (2026-08-07):** xlsx 0.20.3 + valibot 1.4.2 sunucuda container içinde teyit edildi; pgbouncer + server healthy; UFW aktif; 2377/7946/3000 dışarıdan kapalı.
+
+---
+
+## 7. Üretim Veri İmportu ve Sahiplik Katmanı (2026-08-08)
+
+**Amaç:** Canlı denetimde boş olduğu tespit edilen üretim TR DB'sine gerçek mülk verisi aktarmak ve "mülkünüzü sahiplenin" (İntent OS / sahiplik) akışının veri katmanını kurmak.
+
+### 7.1 Büyükyalı Istanbul (`import-buyukyali.ts`)
+- **Kaynak:** `datalar/buyukyali_2019/sold_units.json` (742 sözleşme kaydı) + `PRICE_LIST_2026` (USD).
+- **Sonuç (üretim `realestate_tr`):** 625 birim Property, 1 Master Property + Facility, 14 Blok, **510 sahip Contact** (`OWNER_CONTACT`, `invitationPending: true`, birim listeleri `notes` içinde).
+- **Veri notu:** Kaynakta **105 blok+kapı çakışması** var (742 kayıt → 624 benzersiz fiziksel birim). Aynı blok+kapı iki farklı daireyi (farklı kat/m²) veya iki sahibi temsil ediyor. Ayrıştırma **claim akışında** yapılacak: kullanıcı blok/kat bilgisini ve tapu/sözleşme belgesini (opsiyonel) vererek sahipliğini doğrulayacak → `PropertyOwnershipVerification` + birim split'i. Bu, eksik veri import'u bloklamadan portföy kazanımını hızlandırır.
+- **Sahiplik envanteri:** 510 sahip (104'ü çoklu birim), 494 gerçek telefon, 477 gerçek e-posta (eksik olanlara `owner_N@buyukyali.import` yer tutucu atandı).
+- **Bilinen script notu:** `salePriceTRY` ayrıştırması binlik ayracı nedeniyle hatalı (`1,727,100` → `1727.1`); `marketValueEstUSD` gross m²'den doğru hesaplanıyor. Fiyatlar claim akışında güncellenecek.
+
+### 7.2 Avrupa Konutları Güneşli (`import-avrupa-konutlari-gunesli.ts`)
+- **Kaynak:** `datalar/tr/istanbul/bagcilar/merkez/projeler/Avrupa Konutları Güneşli` (198 medya dosyası).
+- **Sonuç:** Proje Property + Facility + 5 blok (1+1..5+1) + **198 `PropertyDocument` medya kaydı** (49 foto, 139 kat planı, 4 video, 3 sunum, 1 fiyat listesi, 2 harita). Birim fiyatları fiyat listesi JPG OCR'ı sonrası eklenecek.
+
+### 7.3 Doğrulama
+- Üretim TR DB: Property **626** (625 Büyükyalı + 1 Güneşli), FacilityBlock 19, Contact 510, PropertyDocument 198.
+- Canlı API `X-Region: TR` ile her iki projeyi döndürüyor (`total: 626`).
+- Varsayılan (headersız) API US DB'yi döndürüyor — sitenin TR içeriği region header'ı ile geliyor.
+- İşlemler yerel Makina'dan üretim pgbouncer'ına **SSH tüneli** (container IP `172.19.0.4:6432`) ile yapıldı; host 6432 portu yayınlanmıyor (güvenli).
