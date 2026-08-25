@@ -24,6 +24,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
   const { locale } = params;
   const region = LOCALE_TO_REGION[locale] || "US";
 
+  console.log(`[Home SSR] locale=${locale} region=${region} backendUrl=${process.env.BACKEND_INTERNAL_URL}`);
   let initialProperties: Record<string, unknown>[] = [];
   try {
     const backendUrl = process.env.BACKEND_INTERNAL_URL || "http://localhost:3000";
@@ -33,6 +34,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
       headers: { "X-Region": region },
       signal: controller.signal,
     });
+    console.log(`[Home SSR] fetch status=${res.status} ok=${res.ok}`);
     clearTimeout(timeout);
     if (res.ok) {
       const json = await res.json();
