@@ -24,17 +24,15 @@ export default async function Home({ params }: { params: { locale: string } }) {
   const { locale } = params;
   const region = LOCALE_TO_REGION[locale] || "US";
 
-  console.log(`[Home SSR] locale=${locale} region=${region} backendUrl=${process.env.BACKEND_INTERNAL_URL}`);
   let initialProperties: Record<string, unknown>[] = [];
   try {
     const backendUrl = process.env.BACKEND_INTERNAL_URL || "http://localhost:3000";
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 2500);
-    const res = await fetch(`${backendUrl}/api/v1/property?limit=4&sortBy=size_desc`, {
+    const res = await fetch(`${backendUrl}/api/v1/property?limit=4&sortBy=size_desc&region=${region}`, {
       headers: { "X-Region": region },
       signal: controller.signal,
     });
-    console.log(`[Home SSR] fetch status=${res.status} ok=${res.ok}`);
     clearTimeout(timeout);
     if (res.ok) {
       const json = await res.json();
