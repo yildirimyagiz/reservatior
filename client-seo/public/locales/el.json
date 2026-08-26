@@ -17902,7 +17902,11 @@
       "buyukyali_price": "Ready to Move",
       "buyukyali_tag": "READY TO OCCUPY",
       "gokturk_price": "Forest View",
-      "gokturk_tag": "AMID NATURE"
+      "gokturk_tag": "AMID NATURE",
+      "almond_price": "1+1 to 3+2 Units",
+      "almond_tag": "NEWLY LISTED",
+      "delta_price": "50% Down Payment Opportunity",
+      "delta_tag": "NEW PROJECT"
     }
   },
   "home.cta.button1": "Έναρξη δωρεάν δοκιμής",
@@ -17929,11 +17933,11 @@
   "home.hero.badge": "Πλατφόρμα ακίνητης περιουσίας με τεχνητή νοημοσύνη",
   "home.hero.subtitle": "Ανακαλύψτε εξαιρετικές ιδιότητες σε όλο τον κόσμο με πληροφορίες τεχνητής νοημοσύνης, καθηλωτικές εικονικές περιηγήσεις και δεδομένα εταιρικής ποιότητας.",
   "home.hero.title1": "Βρείτε το δικό σας",
-  "home.hero.title2": "Home Dream",
+  "home.hero.title2": "Αριστουργήματα",
   "home.search.button": "Αναζήτηση",
-  "home.search.cond_any": "Cond Οποιοδήποτε",
+  "home.search.cond_any": "Οποιαδήποτε κατάσταση",
   "home.search.cond_new": "Νέο",
-  "home.search.cond_second": "Κατά δεύτερον",
+  "home.search.cond_second": "Μεταχειρισμένο",
   "home.search.condition": "Κατάσταση",
   "home.search.dates": "Ημερομηνίες",
   "home.search.dates_hint": "ηη.μμ.εεεε",
@@ -17943,11 +17947,11 @@
   "home.search.guest_4": "Επισκέπτης 4",
   "home.search.mode_buy": "Αγορά",
   "home.search.mode_experiences": "Εμπειρίες",
-  "home.search.mode_rent": "Mode Rent",
-  "home.search.mode_stays": "Στήριγμα",
+  "home.search.mode_rent": "Αποκλειστικές Ενοικιάσεις",
+  "home.search.mode_stays": "Διαμονές",
   "home.search.property_type": "Τύπος ιδιότητας",
   "home.search.pt_adu_guest_house": "ADU / ξενώνας",
-  "home.search.pt_any": "Pt Οποιοδήποτε",
+  "home.search.pt_any": "Οποιοσδήποτε τύπος",
   "home.search.pt_apartment": "Διαμέρισμα",
   "home.search.pt_bungalow": "Μπανγκαλόου",
   "home.search.pt_cabin_tiny_house": "Καμπίνα / μικροσπίτι",
@@ -17973,7 +17977,7 @@
   "home.search.when_hint": "Προσθήκη ημερομηνιών",
   "home.search.where": "Πού",
   "home.search.where_hint": "Πόλη, γειτονιά ή διεύθυνση",
-  "home.search.who": "ΠΟΥ",
+  "home.search.who": "Ποιος",
   "home.stats.active_users": "Ενεργοί χρήστες",
   "home.stats.ai_accuracy": "Ακρίβεια AI",
   "home.stats.managed_properties": "Διαχειριζόμενα Ακίνητα",
@@ -25689,21 +25693,21 @@
   "features.global_os_revenue_dag": "Revenue DAG Pipeline",
   "features.global_os_revenue_dag_desc": "8-node directed acyclic graph splits every dollar across tax, owner payout, partner commission, and platform margin — in 15+ currencies.",
   "public.nav.about": "About",
-  "home.vibes.beachfront_desc": "Luxury beachfront villas and marina properties • SafeStay™ 21-day Escrow protected",
+  "home.vibes.beachfront_desc": "Πολυτελείς βίλες στην παραλία και ακίνητα μαρίνας • SafeStay™ 21 ημερών προστασίας",
   "home.vibes.beachfront_badge": "Παραθαλάσσιο",
-  "home.vibes.mountains_desc": "Alpine & Uludağ mountain houses for accommodation and investment wooden chalets",
-  "home.vibes.mountains_badge": "Nature & Peak",
-  "home.vibes.mansions_desc": "Bosphorus waterfront and historical mansion exclusive properties • SPK/RICS evaluated",
-  "home.vibes.mansions_badge": "Historical Mansion & Estate",
-  "home.vibes.penthouses_desc": "Metropolitan skyline penthouse duplex residences • $400k+ citizenship compatible",
+  "home.vibes.mountains_desc": "Ορεινά σπίτια Άλπεων και Ουλούνταγ για διαμονή και επένδυση • Ξύλινα σπιτιά με 12%+ ετήσιο",
+  "home.vibes.mountains_badge": "Φύση και κορυφή",
+  "home.vibes.mansions_desc": "Αποκλειστικά ακίνητα στην προκυμαία του Βοσπόρου και ιστορικά αρχοντικά • Εκτιμήσεις SPK/RICS",
+  "home.vibes.mansions_badge": "Ιστορικό αρχοντικό και κτήμα",
+  "home.vibes.penthouses_desc": "Ρετιρέ-μεζονέτες με θέα στον αστικό ορίζοντα • Συμβατό με ιθαγένεια $400k+",
   "home.vibes.penthouses_badge": "Πολυτελής κατοικία",
-  "home.vibes.cabins_desc": "Forest detached stone & wooden houses • %12+ annual currency-indexed rental yield",
+  "home.vibes.cabins_desc": "Μεμονωμένα πέτρινα και ξύλινα σπίτια στο δάσος • 12%+ ετήσιο νόμισμα προσαρμοσμένο ενοίκιο",
   "home.vibes.cabins_badge": "Δάσος και οικολογική κατοικία",
   "home.vibes.castles_desc": "Εξαιρετικά κάστρα και παλάτια στη Σκωτία, τη Γαλλία και τον Βόσπορο • εγκεκριμένα από private banking",
   "home.vibes.castles_badge": "Παλάτι και κάστρο",
-  "home.vibes.islands_desc": "Private islands for sale in Aegean, Caribbean and Maldives with title deed in your name",
+  "home.vibes.islands_desc": "Ιδιωτικά νησιά προς πώληση στο Αιγαίο, την Καραϊβική και τις Μαλδίβες • Ιδιοκτησία στο όνομά σας",
   "home.vibes.islands_badge": "Χαρτοφυλάκιο ιδιωτικών νησιών",
-  "home.vibes.modern_desc": "Courtyard lit and Smart Home AI integrated ultra-modern residences",
+  "home.vibes.modern_desc": "Υπερσύγχρονες κατοικίες με φωτισμένη αυλή και ενσωμάτωση Smart Home AI",
   "home.vibes.modern_badge": "Έξυπνο σπίτι και ιδέα",
   "public.nav.add_listing": "Add listing",
   "home.global_os_badge": "Παγκόσμιο υβριδικό σύστημα ενοικίασης",
@@ -31468,5 +31472,375 @@
       "canvas_simulated": "[WebGL Canvas Simulated]",
       "ready_threejs": "Ready for Three.js / model-viewer integration"
     }
-  }
+  },
+  "ecosystem.advisor_os.desc": "Fully automate commission sharing plans, contract workflows, and in-office operations.",
+  "ecosystem.advisor_os.title": "Advisor Operating System (OS)",
+  "ecosystem.ai_studio.desc": "Find the right buyer with a meaning-aware neural search engine and create listing marketing assets for your portfolio.",
+  "ecosystem.ai_studio.title": "Smart AI Studio",
+  "ecosystem.fintech.desc": "Collect directly with Open Banking (A2A) transfers and a 21-day Escrow deposit guarantee mechanism.",
+  "ecosystem.fintech.title": "0% Fee Financial Infrastructure",
+  "ecosystem.global_status.desc": "All FinTech, Security and AI modules running 24/7",
+  "ecosystem.global_status.title": "Global Operations Status",
+  "footer.ai_studio": "AI Studio",
+  "footer.all_systems_operational": "All systems operational",
+  "footer.analytics": "Analytics",
+  "footer.bookings": "Bookings",
+  "footer.by_team": "By the Reservatior team",
+  "footer.compliance": "Compliance",
+  "footer.connect": "Connect",
+  "footer.cookies": "Cookies",
+  "footer.global_os": "Global OS",
+  "footer.help_center": "Help Center",
+  "footer.inventory": "Inventory",
+  "footer.made_with": "Made with",
+  "footer.mission": "Our Mission",
+  "footer.privacy": "Privacy",
+  "footer.privacy_policy": "Privacy Policy",
+  "footer.status_system": "Global Operations Status",
+  "footer.support": "Support",
+  "footer.terms": "Terms",
+  "footer.terms_of_service": "Terms of Service",
+  "home.search.modes.buy": "Buy",
+  "home.search.modes.invest": "Invest",
+  "home.search.modes.rent": "Rent",
+  "home.search.modes.stay": "Stay",
+  "home.search.slide.50% Down Payment Opportunity": "50% Down Payment Opportunity",
+  "home.search.slide.AMID NATURE": "Amid Nature",
+  "home.search.slide.Forest View": "Forest View",
+  "home.search.slide.Islands & Sea View": "Islands & Sea View",
+  "home.search.slide.NEW PROJECT": "New Project",
+  "home.search.slide.READY TO OCCUPY": "Ready to Occupy",
+  "home.search.slide.Ready to Move": "Ready to Move",
+  "home.search.slide.SEA VIEW": "Sea View",
+  "home.slides.buyukyali_price": "Ready to Move",
+  "home.slides.buyukyali_tag": "READY TO OCCUPY",
+  "home.slides.dragos_price": "Islands & Sea View",
+  "home.slides.dragos_tag": "SEA VIEW",
+  "home.slides.gokturk_price": "Forest View",
+  "home.slides.gokturk_tag": "AMID NATURE",
+  "home.slides.hayat_price": "50% Down Payment Opportunity",
+  "home.slides.hayat_tag": "NEW PROJECT",
+  "investment.badge": "Badge",
+  "investment.cta_button": "Start Data-Driven Investments",
+  "investment.risk.high": "High Capital Growth Potential",
+  "investment.risk.low": "Low Risk (Safe Portfolio)",
+  "investment.risk.medium": "Balanced Yield & Risk",
+  "investment.stats.annual_rental_yield": "Annual Rental Yield",
+  "investment.stats.value_appreciation": "Value Appreciation",
+  "investment.tags.citizenship": "Citizenship / Residence",
+  "investment.tags.tax_advantage": "0% Tax Advantage",
+  "investment.title_1": "Smart Property Matching",
+  "investment.title_2": "Automated Valuation",
+  "investment.tools.depreciation.desc": "Calculate your net payback period with mortgage payments, service fees, occupancy rate, and a 10-year capital appreciation projection.",
+  "investment.tools.depreciation.title": "Depreciation & Net Return Calculator",
+  "investment.tools.global.desc": "Compare tax advantages, residence permits, and capital gains rates across global markets like Istanbul, Dubai, Miami, and Lisbon.",
+  "investment.tools.global.title": "Global Metropolis Investment Comparison",
+  "investment.tools.regional.desc": "Compare average rental income per m² across districts and neighborhoods with real-time market indices.",
+  "investment.tools.regional.title": "Regional Rental Yield Benchmark",
+  "os.digital_twin.canvas_simulated": "[WebGL Canvas Simulated]",
+  "os.digital_twin.connected": "Digital Twin Connected",
+  "os.digital_twin.floorplan": "Floorplan Mode",
+  "os.digital_twin.initializing": "Initializing WebGL Engine...",
+  "os.digital_twin.loading_geometry": "Loading Model Geometry",
+  "os.digital_twin.measurements": "Measurements",
+  "os.digital_twin.model": "Model",
+  "os.digital_twin.ready_threejs": "Ready for Three.js / model-viewer integration",
+  "os.storage.authorizing": "Authorizing Media Request...",
+  "os.storage.expires": "URL Expires in 5m",
+  "os.storage.failed": "Failed to securely load media. You may not have permission.",
+  "os.storage.open_viewer": "Open Viewer",
+  "os.storage.secure_doc": "Secure Document (Watermarked)",
+  "os.storage.stream_active": "[Storage OS HLS Stream Active]",
+  "os.storage.unavailable": "Media unavailable",
+  "home.slides.gunesli_tag": "NEWLY LISTED",
+  "home.slides.gunesli_price": "1+1 to 5+1 Units",
+  "admin.killSignal": "KillSignal",
+  "activeSession": "ACTIVE SESSION",
+  "ai_modal_maximize_hint": "Ai modal maximize hint",
+  "client.src.more_options": "More options",
+  "client.src.open_messages": "Open messages",
+  "client.src.no_messages_yet": "No messages yet",
+  "home.slides.almond_price": "1+1 to 3+2 Units",
+  "home.slides.almond_tag": "NEWLY LISTED",
+  "home.slides.delta_price": "50% Down Payment Opportunity",
+  "home.slides.delta_tag": "NEW PROJECT",
+  "reos": {
+    "hero": {
+      "headline": "Real Estate, Operated.",
+      "subheadline": "REOS connects property discovery, verification, intelligence, transactions, finance and operations into one real estate operating system.",
+      "roleSelectorText": "What brings you to Reservatior?"
+    },
+    "roles": {
+      "UNKNOWN": {
+        "heroSupporting": "Select your role to explore the Real Estate Operating System.",
+        "primaryCTA": "Select Role"
+      },
+      "OWNER": {
+        "heroSupporting": "Turn your property into an intelligently managed asset.",
+        "primaryCTA": "Evaluate My Property"
+      },
+      "AGENT": {
+        "heroSupporting": "Turn every lead into a connected transaction.",
+        "primaryCTA": "Build My Pipeline"
+      },
+      "OPERATOR": {
+        "heroSupporting": "Operate properties through one intelligent workspace.",
+        "primaryCTA": "Operate My Portfolio"
+      },
+      "INVESTOR": {
+        "heroSupporting": "Discover opportunities. Model the economics. Execute with confidence.",
+        "primaryCTA": "Explore Investment Opportunities"
+      },
+      "TENANT": {
+        "heroSupporting": "Find a home with a clearer path to move-in.",
+        "primaryCTA": "Find a Home"
+      },
+      "GUEST": {
+        "heroSupporting": "Discover stays with connected booking and secure operations.",
+        "primaryCTA": "Find a Stay"
+      },
+      "DEVELOPER": {
+        "heroSupporting": "Bring developments from project to market through one operating layer.",
+        "primaryCTA": "List a Development"
+      },
+      "CORPORATE": {
+        "heroSupporting": "Manage corporate housing and real estate needs through one platform.",
+        "primaryCTA": "Explore Corporate Solutions"
+      }
+    },
+    "features": {
+      "architecture": "The REOS Architecture",
+      "storageOS_title": "Enterprise Storage OS",
+      "storageOS_desc": "Your property data stays structured while heavy media is delivered securely. Support for 4K video, HLS streams, 3D models, BIM/CAD, Drone imagery, Contracts, and Inspection reports — with built-in access control, versioning, and auditability.",
+      "autonomy_title": "Human-Controlled Autonomy",
+      "autonomy_desc": "REOS separates decision-making from execution. AI can recommend, Policy determines what is permitted, Decision OS selects the action, and Workflow OS monitors it. You remain in control of legally consequential actions.",
+      "hero": {
+        "badge": "REAL ESTATE OPERATING SYSTEM",
+        "title1": "The Engine",
+        "title2": "Powering Modern Real Estate",
+        "description": "REOS connects discovery, verification, compliance, transactions, contracts, payments, operations, revenue and intelligence into one platform."
+      },
+      "modules": {
+        "discover": {
+          "category": "DISCOVER",
+          "item1": {
+            "title": "Discovery & Knowledge OS",
+            "desc": "Connect global property discovery with deep market intelligence and connected workflows."
+          },
+          "item2": {
+            "title": "Intent-Aware Matching",
+            "desc": "Find properties tailored for buying, renting, corporate stays, or investment returns."
+          }
+        },
+        "verify": {
+          "category": "VERIFY",
+          "item1": {
+            "title": "Identity & Trust OS",
+            "desc": "Digital KYC, AML workflows, and corporate sponsorship verification for secure onboarding."
+          },
+          "item2": {
+            "title": "Compliance OS",
+            "desc": "Regulation-aware infrastructure applying jurisdiction-specific rules and licensing checks."
+          }
+        },
+        "decide": {
+          "category": "DECIDE",
+          "item1": {
+            "title": "Policy OS",
+            "desc": "Converts applicable policies and regulatory requirements into workflow checks so eligible transactions can be identified before execution."
+          },
+          "item2": {
+            "title": "Human-Controlled Autonomy",
+            "desc": "AI OS analyzes and recommends, Policy OS applies rules. You retain control over consequential decisions."
+          }
+        },
+        "transact": {
+          "category": "TRANSACT",
+          "item1": {
+            "title": "Finance & Revenue OS",
+            "desc": "Multi-currency ledgers, local payment gateways, escrow deposits, and automated settlements."
+          },
+          "item2": {
+            "title": "Contract OS",
+            "desc": "Digital offer and contract workflows spanning NDAs to master corporate leases."
+          }
+        },
+        "operate": {
+          "category": "OPERATE",
+          "item1": {
+            "title": "Property & Listing OS",
+            "desc": "Manage long-term, corporate, and eligible short-term operations from one workspace."
+          },
+          "item2": {
+            "title": "Workflow OS",
+            "desc": "Automate repetitive operational tasks while keeping human oversight on critical approvals."
+          }
+        }
+      },
+      "architecture_section": {
+        "title": "The REOS Architecture",
+        "flow": {
+          "intent": "USER / BUSINESS INTENT",
+          "experience": "EXPERIENCE OS",
+          "discovery": "DISCOVERY / INTENT",
+          "knowledge": "KNOWLEDGE / TRUST / POLICY",
+          "decision": "DECISION OS",
+          "workflow": "WORKFLOW OS",
+          "modules": "BUSINESS OS MODULES",
+          "finance": "FINANCE / CONTRACT / REVENUE",
+          "storage": "STORAGE / COMMUNICATION / ANALYTICS",
+          "auditable": "AUDITABLE TRANSACTION"
+        }
+      },
+      "storage": {
+        "title": "Enterprise Storage OS",
+        "desc": "Your property data stays structured while heavy media is delivered securely. Support for 4K video, HLS streams, 3D models, BIM/CAD, Drone imagery, Contracts, and Inspection reports — with built-in access control, versioning, and auditability."
+      },
+      "autonomy": {
+        "title": "Human-Controlled Autonomy",
+        "desc": "REOS separates decision-making from execution. AI can recommend, Policy determines what is permitted, Decision OS selects the action, and Workflow OS monitors it. You remain in control of legally consequential actions."
+      }
+    }
+  },
+  "videos.portal.title": "RESERVATIOR VIDEO PORTAL",
+  "videos.portal.subtitle": "4K Real Estate Tours, Live Agent Reels Stories & AI Investment Analytics",
+  "videos.portal.live_tv": "LIVE TV",
+  "videos.portal.generate_pitch_link": "AGENCY CLIENT PITCH LINK",
+  "videos.portal.live_reels": "LIVE AGENT REELS STORIES",
+  "videos.portal.agents_live": "4 AGENTS LIVE",
+  "videos.portal.ai_search_placeholder": "AI Natural Language Search (e.g., Find luxury penthouse under $2M in Istanbul with high yield)...",
+  "videos.portal.ai_search_button": "SEARCH",
+  "videos.portal.trending_prompts": "TRENDING PROMPTS:",
+  "videos.portal.country_selection": "COUNTRY SELECTION (MULTI-COUNTRY):",
+  "videos.portal.all_countries": "ALL COUNTRIES",
+  "videos.portal.turkey": "TURKEY (TRY)",
+  "videos.portal.uae": "UAE / DUBAI (AED)",
+  "videos.portal.spain": "SPAIN (EUR)",
+  "videos.portal.uk": "UNITED KINGDOM (GBP)",
+  "videos.portal.usa": "UNITED STATES (USD)",
+  "videos.portal.netherlands": "NETHERLANDS (EUR)",
+  "videos.portal.advanced_filters": "ADVANCED FILTERS",
+  "videos.portal.all_portfolios": "All Portfolios",
+  "videos.portal.sale": "For Sale (SALE)",
+  "videos.portal.rent": "For Rent (RENT)",
+  "videos.portal.booking": "Διαμονή & Βραχυπρόθεσμη",
+  "videos.portal.ai_arbitrage": "AI Arbitrage Opportunity",
+  "videos.portal.all_categories": "All Categories (PropertyCategory)",
+  "videos.portal.residential": "RESIDENTIAL (Home)",
+  "videos.portal.commercial": "COMMERCIAL (Office / Plaza)",
+  "videos.portal.industrial": "INDUSTRIAL (Warehouse)",
+  "videos.portal.land": "LAND (Plot)",
+  "videos.portal.hospitality": "HOSPITALITY (Hotel / Tourism)",
+  "videos.portal.special_purpose": "SPECIAL_PURPOSE",
+  "videos.portal.all_types": "All Types (PropertyType)",
+  "videos.portal.detached_house": "DETACHED_HOUSE",
+  "videos.portal.villa": "VILLA",
+  "videos.portal.penthouse": "PENTHOUSE",
+  "videos.portal.apartment": "APARTMENT",
+  "videos.portal.studio": "STUDIO",
+  "videos.portal.loft": "LOFT",
+  "videos.portal.townhouse": "TOWNHOUSE",
+  "videos.portal.adu_guest_house": "ADU_GUEST_HOUSE",
+  "videos.portal.cabin_tiny_house": "CABIN_TINY_HOUSE",
+  "videos.portal.citizenship": "Citizenship Eligible",
+  "videos.portal.mortgage": "Mortgage Eligible",
+  "videos.portal.exchange": "Exchange Available",
+  "videos.portal.high_roi": "High ROI %9+",
+  "videos.portal.featured_videos": "FEATURED REAL ESTATE VIDEOS",
+  "videos.portal.listings_count": "Listings",
+  "videos.portal.theater_mode_hint": "Click video to inspect in AI Theater / Cinema Mode",
+  "videos.portal.ai_score": "AI Score",
+  "videos.portal.roi": "ROI",
+  "videos.portal.whatsapp": "WHATSAPP",
+  "videos.portal.live_tour": "LIVE TOUR",
+  "videos.portal.qr_share": "SHARE QR",
+  "videosx": {
+    "badge": "RESERVATIOR MEDIA",
+    "title": "RESERVATIOR MEDIA",
+    "subtitle": "See Real Estate, Operated.",
+    "tagline": "Explore properties, products and the intelligence behind the world's new real estate operating system.",
+    "subnav": {
+      "tours": "Property Tours",
+      "reels": "Reels",
+      "stories": "Product Stories",
+      "ai": "AI Studio",
+      "intelligence": "Market Intelligence"
+    },
+    "cta": {
+      "explore_properties": "Explore Properties",
+      "watch_reels": "Watch Reels",
+      "see_in_action": "See Reservatior in Action",
+      "discover": "Discover Reservatior"
+    },
+    "hero_telemetry": {
+      "buy_dream_see_data": "Buy the dream, then see the data.",
+      "estimated_yield": "Estimated Yield",
+      "ai_valuation": "AI Valuation",
+      "rental_potential": "Annual Rental Potential",
+      "verified_node": "Verified Telemetry Node"
+    },
+    "featured": {
+      "badge": "FEATURED MEDIA",
+      "title": "The Future of Real Estate Is Operated.",
+      "subtitle": "Watch how Reservatior transforms static listings into automated, high-yielding yield assets.",
+      "ai_studio": "AI Studio",
+      "ai_studio_desc": "Predictive valuation & yield forecasting models.",
+      "rental_os": "Global Rental OS",
+      "rental_os_desc": "Cross-border automated property management.",
+      "intelligence": "Property Intelligence",
+      "intelligence_desc": "Real-time market analytics & cap rate tracker."
+    },
+    "reels": {
+      "title": "Reservatior Reels",
+      "subtitle": "Real estate, in motion.",
+      "badge": "15-45 SEC REELS",
+      "watch": "Watch Reel",
+      "funnel_cta": "Explore Full Property Intelligence → Reservatior"
+    },
+    "tours": {
+      "title": "Property Video Tours",
+      "subtitle": "Verified 4K Video Turları & AI Veri Katmanı",
+      "badge": "60-180 SEC TOURS"
+    },
+    "matrix": {
+      "title": "Content Formats & Purpose",
+      "subtitle": "Every video format connected to operational intelligence.",
+      "cinematic": "Cinematic Tour (60-180s)",
+      "reel": "Instagram Reel (15-45s)",
+      "demo": "Product Demo (30-90s)",
+      "ai_demo": "AI Demo (30-90s)",
+      "insight": "Market Insight (30-60s)",
+      "deep_dive": "Deep Dive (2-5m)"
+    },
+    "social_funnel": {
+      "title": "Instagram as Acquisition, Reservatior as Conversion",
+      "subtitle": "Instagram catches attention; Reservatior provides the operational data.",
+      "step1": "Instagram Reel (Watch this)",
+      "step2": "Reservatior Media (Understand this property)",
+      "step3": "AI Valuation & Telemetry",
+      "step4": "Book / Inquire"
+    },
+    "footer": {
+      "headline": "Real estate is no longer just discovered.",
+      "subheadline": "It's operated.",
+      "cta": "Discover Reservatior"
+    }
+  },
+  "videos.feed.connectionError": "Failed to load videos",
+  "videos.feed.details": "Details",
+  "videos.feed.discover": "Discover",
+  "videos.feed.emptyDesc": "New property video tours will appear here.",
+  "videos.feed.emptyTitle": "No videos yet",
+  "videos.feed.follow": "Follow",
+  "videos.feed.following": "Following",
+  "videos.feed.noComments": "No comments yet. Be the first to comment!",
+  "videos.feed.phoneNumberBlocked": "Please don't share phone numbers in comments",
+  "videos.feed.searchPlaceholder": "Search properties...",
+  "videos.feed.tabFollowing": "Following",
+  "videos.feed.tabForYou": "For You",
+  "videos.feed.tabTrend": "Trending",
+  "videos.feed.writeComment": "Add a comment...",
+  "videos.ai_search_description": "Describe what you are looking for and our AI will find the matching property videos.",
+  "videos.ai_search_placeholder": "Try: luxury villa with sea view in Bodrum...",
+  "videos.view_details": "View Details"
 }

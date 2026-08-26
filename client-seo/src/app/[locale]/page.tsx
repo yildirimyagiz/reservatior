@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { propertiesApi } from "@/lib/api/properties-eden";
 import { HomeContent } from "./HomeContent";
 
 export const metadata: Metadata = {
@@ -15,15 +14,31 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
-export default async function Home() {
+const LOCALE_TO_REGION: Record<string, string> = {
+  tr: "TR", ar: "AE", de: "DE", fr: "FR", es: "ES", it: "IT",
+  nl: "NL", pt: "BR", ja: "JP", ko: "KR", zh: "CN", ru: "RU",
+  pl: "PL", hi: "IN", nb: "NO", sv: "SE", da: "DK", fi: "FI", el: "GR",
+};
+
+export default async function Home({ params }: { params: { locale: string } }) {
+  const { locale } = params;
+  const region = LOCALE_TO_REGION[locale] || "US";
+
   let initialProperties: Record<string, unknown>[] = [];
   try {
-    const apiPromise = propertiesApi.getAll({ limit: 4 }).catch(() => null);
-    const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 2500));
-    const result = await Promise.race([apiPromise, timeoutPromise]);
-    const { data, error } = (result as { data?: Record<string, unknown>[]; error?: unknown }) || {};
-    if (!error && data) {
-      initialProperties = data;
+    const backendUrl = process.env.BACKEND_INTERNAL_URL || "http://localhost:3000";
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2500);
+    const res = await fetch(`${backendUrl}/api/v1/property?limit=4&sortBy=size_desc&region=${region}`, {
+      headers: { "X-Region": region },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (res.ok) {
+      const json = await res.json();
+      if (json.data?.length > 0) {
+        initialProperties = json.data;
+      }
     }
   } catch (error) {
     console.error("Failed to fetch initial properties for home page:", error);

@@ -42,6 +42,20 @@ class ApiClient {
           console.error("Failed to parse regions-store", e);
         }
       }
+
+      // Fallback: detect region from URL path (e.g., /tr/client/property → TR)
+      if (!regionCode) {
+        const pathLocale = window.location.pathname.split('/')[1];
+        if (pathLocale) {
+          const localeToRegion: Record<string, string> = {
+            tr: 'TR', us: 'US', gb: 'GB', de: 'DE', es: 'ES', fr: 'FR',
+            it: 'IT', nl: 'NL', ae: 'AE', sa: 'SA', br: 'BR', mx: 'MX',
+            ca: 'CA', au: 'AU', nz: 'NZ', jp: 'JP', kr: 'KR', in: 'IN',
+            cn: 'CN', sg: 'SG', my: 'MY', th: 'TH', za: 'ZA', ar: 'AR',
+          };
+          regionCode = localeToRegion[pathLocale.toLowerCase()] || pathLocale.toUpperCase();
+        }
+      }
     }
 
     // Get localization context
@@ -72,8 +86,13 @@ class ApiClient {
       headers["Content-Type"] = "application/json";
     }
 
+    let finalUrl = url;
+    if (regionCode && !url.includes('region=')) {
+      finalUrl += (url.includes('?') ? '&' : '?') + `region=${regionCode}`;
+    }
+
     try {
-      const response = await fetch(url, {
+      const response = await fetch(finalUrl, {
         ...options,
         headers,
       });
@@ -148,7 +167,7 @@ class ApiClient {
     }
   }
 
-  async get<T>(
+  async get<T = any>(
     endpoint: string,
     params?: Record<string, any>
   ): Promise<T> {
@@ -179,7 +198,7 @@ class ApiClient {
     return response.data;
   }
 
-  async post<T>(
+  async post<T = any>(
     endpoint: string,
     data?: any,
     options: any = {}
@@ -193,7 +212,7 @@ class ApiClient {
     return response.data;
   }
 
-  async patch<T>(endpoint: string, data?: any, options: any = {}): Promise<T> {
+  async patch<T = any>(endpoint: string, data?: any, options: any = {}): Promise<T> {
     const response = await this.request<T>(endpoint, {
       method: "PATCH",
       body: data ? JSON.stringify(data) : undefined,
@@ -211,7 +230,7 @@ class ApiClient {
     return response.data;
   }
 
-  async delete<T>(endpoint: string, options: any = {}): Promise<T> {
+  async delete<T = any>(endpoint: string, options: any = {}): Promise<T> {
     const response = await this.request<T>(endpoint, {
       method: "DELETE",
       ...options
