@@ -17,17 +17,17 @@ export const propertyRoutes = new Elysia({ prefix: "/property" })
    * Retrieves all Property with pagination, sorting, and basic filtering.
    */
   .get("/", async ({ query, db }) => {
-    const { page = "1", limit = "20", sortBy, ...where } = query as any;
+    const { page = "1", limit = "20", sortBy, region: _region, ...where } = query as any;
     delete where.sortBy;
     const regionDb = db as any;
 
     let orderBy: any = { createdAt: "desc" };
     switch (sortBy) {
       case "price_asc":
-        orderBy = { price: "asc" };
+        orderBy = { listingPrice: "asc" };
         break;
       case "price_desc":
-        orderBy = { price: "desc" };
+        orderBy = { listingPrice: "desc" };
         break;
       case "date_asc":
         orderBy = { createdAt: "asc" };
@@ -40,6 +40,9 @@ export const propertyRoutes = new Elysia({ prefix: "/property" })
         break;
       case "size_desc":
         orderBy = { areaSqm: "desc" };
+        break;
+      case "featured":
+        orderBy = [{ areaSqm: { sort: "desc", nulls: "last" } }, { createdAt: "desc" }];
         break;
     }
 
@@ -209,6 +212,11 @@ export const propertyRoutes = new Elysia({ prefix: "/property" })
       where: { propertyId: params.id },
     });
     
+    const documents = await regionDb.propertyDocument.findMany({
+      where: { propertyId: params.id },
+      orderBy: { createdAt: 'asc' },
+    });
+    
     const data = {
       ...property,
       photos,
@@ -218,6 +226,7 @@ export const propertyRoutes = new Elysia({ prefix: "/property" })
       listings,
       org,
       floorPlans,
+      documents,
     };
     
     return { data };
