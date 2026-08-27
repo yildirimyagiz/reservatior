@@ -8,22 +8,20 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { propertyApi, Property } from "@/lib/api/property";
-import { propertiesApi } from "@/lib/api/properties-eden";
 import { useMapProvider } from "@/components/map/MapProvider";
 import { useRegionsStore } from "@/lib/store/regions-store";
 import { useLocalization } from "@/contexts/LocalizationContext";
 import { formatCurrency } from "@/lib/utils/localization";
+import GeminiClient from "@/lib/ai/gemini-client";
 // Lazy-loaded to avoid bundling 1.7 MB react-country-state-city in the main chunk
 const loadCountryCityData = () => import("react-country-state-city");
 interface Country { iso2: string; name: string; id?: number; }
 interface City { name: string; id?: number; latitude?: string; longitude?: string; countryCode?: string; }
 import {
   Sparkles, Search, MapPin, ChevronRight, ChevronLeft,
-  ArrowRight, ChevronDown, SlidersHorizontal, Mouse, CheckCircle2, Building,
-  Volume2, VolumeX
+  ArrowRight, ChevronDown, SlidersHorizontal, Mouse, CheckCircle2
 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
-import { useChatNotification } from "@/hooks/useChatNotification";
 import { m, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { AppHeader } from "@/components/layout/AppHeader";
 import dynamic from 'next/dynamic';
@@ -71,44 +69,20 @@ export function formatAreaByCountry(areaVal: number | string | undefined, countr
 
 /* ───── Fallback Slides for Hero & Properties ───── */
   const getFallbackSlides = (t: (key: string) => string) => [
-    { id: "prop_hayat_city_mahmutbey", title: "Hayat City Mahmutbey", location: "Bağcılar, Mahmutbey", price: t("home.slides.hayat_price"), beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "/videos/istanbul/Bağcılar/Mahmutbey/Projeler/Hayat City Mahmutbey/A 2+1/hayat-city-2-1a-BX7WI.webp", tag: t("home.slides.hayat_tag"), video: "ozak-bg" },
-    { id: "prop_buyukyali_istanbul", title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: t("home.slides.buyukyali_price"), beds: "2+1 - 5.5+1", baths: "2 - 5", sqm: "111,000 m²", areaVal: 111000, image: "/videos/istanbul/Zeytinburnu/Büyükyalı/cover.jpg", tag: t("home.slides.buyukyali_tag"), video: "ozak-buyukyali-bg" },
-    { id: "prop_avrupa_konutlari_gunesli", title: "Avrupa Konutları Güneşli", location: "Güneşli, Bağcılar", price: t("home.slides.gunesli_price"), beds: "1+1 - 5+1", baths: "2 - 5", sqm: "6,500 m²", areaVal: 6500, image: "/videos/istanbul/Bağcılar/Projeler/Avrupa Konutları Güneşli/cover-exterior.jpeg", tag: t("home.slides.gunesli_tag"), video: "ozak-dragos-bg" },
-    { id: "prop_ozak_gokturk_doa", title: "Özak Göktürk Doa", location: "Göktürk, Belgrad Ormanı", price: t("home.slides.gokturk_price"), beds: "3+1 - 5.5+2", baths: "2 - 5", sqm: "12,000 m²", areaVal: 12000, image: "/videos/istanbul/Eyüp/Göktürk/cover.jpg", tag: t("home.slides.gokturk_tag"), video: "ozak-duyu-bg" },
-    { id: "prop_almond_garden_acibadem", title: "The Almond Garden Acıbadem", location: "Ünalan, Üsküdar", price: t("home.slides.almond_price"), beds: "1+1 - 3+2", baths: "2 - 4", sqm: "32,000 m²", areaVal: 32000, image: "/videos/istanbul/Üsküdar/THE ALMOND GARDEN - ACIBADEM/cover-exterior.jpeg", tag: t("home.slides.almond_tag"), video: "ozak-bg" },
-    { id: "prop_delta_bahcelievler", title: "Delta Bahçelievler", location: "Bahçelievler Merkez, İstanbul", price: t("home.slides.delta_price"), beds: "1+1 - 5+1", baths: "1 - 3", sqm: "8,500 m²", areaVal: 8500, image: "/videos/istanbul/Bağcılar/Projeler/Avrupa Konutları Güneşli/cover-exterior.jpeg", tag: t("home.slides.delta_tag"), video: "ozak-dragos-bg" },
+    { id: "prop_hayat_city_mahmutbey", title: "Hayat City Mahmutbey", location: "Bağcılar, Mahmutbey", price: t("home.slides.hayat_price"), beds: "1+1 - 3+1", baths: "2 - 3", sqm: "6,500 m²", areaVal: 6500, image: "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Mahmutbey/Projeler/Hayat%20City%20Mahmutbey/A%202+1/hayat-city-2-1a-BX7WI.webp", tag: t("home.slides.hayat_tag") },
+    { id: "prop_buyukyali_istanbul", title: "Büyükyalı İstanbul", location: "Zeytinburnu, Sahil Yolu", price: t("home.slides.buyukyali_price"), beds: "2+1 - 5.5+1", baths: "2 - 5", sqm: "111,000 m²", areaVal: 111000, image: "/videos/istanbul/Zeytinburnu/B%C3%BCy%C3%BCkyal%C4%B1/cover.jpg", tag: t("home.slides.buyukyali_tag") },
+    { id: "prop_avrupa_konutlari_gunesli", title: "Avrupa Konutları Güneşli", location: "Güneşli, Bağcılar", price: t("home.slides.gunesli_price"), beds: "1+1 - 5+1", baths: "2 - 5", sqm: "6,500 m²", areaVal: 6500, image: "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Projeler/Avrupa%20Konutlar%C4%B1%20G%C3%BCne%C5%9Fli/cover-exterior.jpeg", tag: t("home.slides.gunesli_tag") },
+    { title: "Özak Duyu Göktürk", location: "Göktürk, Belgrad Ormanı", price: t("home.slides.gokturk_price"), beds: "1+1 - 4.5+1", baths: "2 - 4", sqm: "12,000 m²", areaVal: 12000, image: "/videos/istanbul/Ey%C3%BCp/G%C3%B6kt%C3%BCrk/cover.jpg", tag: t("home.slides.gokturk_tag") },
+    { id: "prop_delta_bahcelievler", title: "Delta Bahçelievler", location: "Bahçelievler Merkez, İstanbul", price: t("home.slides.delta_price"), beds: "1+1 - 5+1", baths: "1 - 3", sqm: "8,500 m²", areaVal: 8500, image: "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Projeler/Avrupa%20Konutlar%C4%B1%20G%C3%BCne%C5%9Fli/cover-exterior.jpeg", tag: t("home.slides.delta_tag") },
   ];
 
   // Real project cover images served from /videos/istanbul (matched by property name)
-  const PROJECT_COVERS: Record<string, string> = {};
-
-  const PROJECT_VIDEOS: Record<string, string> = {
-    "Hayat City": "ozak-bg",
-    "Avrupa Konutları Güneşli": "ozak-dragos-bg",
-    "Büyükyalı": "ozak-buyukyali-bg",
-    "Göktürk": "ozak-duyu-bg",
-    "Almond": "ozak-bg",
-    "Delta": "ozak-dragos-bg",
-    "Uphill": "ozak-buyukyali-bg",
-    "Upcity Residence": "ozak-bg",
-    "Upcity Flats": "ozak-duyu-bg"
-  };
-
-  const PROJECT_TITLES: Record<string, string> = {
-    "Hayat City": "Hayat City Mahmutbey",
-    "Avrupa Konutları Güneşli": "Avrupa Konutları Güneşli",
-    "Büyükyalı": "Büyükyalı İstanbul",
-    "Göktürk": "Özak Göktürk Doa",
-    "Almond": "The Almond Garden Acıbadem",
-    "Delta": "Delta Bahçelievler",
-    "Uphill": "Uphill Court Bahçeşehir",
-    "Upcity Residence": "Upcity Residence Kartal",
-    "Upcity Flats": "Upcity Flats Kartal",
-    "Nish Adalar": "Nish Adalar",
-    "Skyland": "Skyland İstanbul",
-    "Sapphire": "İstanbul Sapphire",
-    "Metropol": "Metropol İstanbul",
-    "Savoy": "Savoy",
+  const PROJECT_COVERS: Record<string, string> = {
+    "Hayat City": "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Mahmutbey/Projeler/Hayat%20City%20Mahmutbey/A%202+1/hayat-city-2-1a-BX7WI.webp",
+    "Avrupa Konutları Güneşli": "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Projeler/Avrupa%20Konutlar%C4%B1%20G%C3%BCne%C5%9Fli/cover-exterior.jpeg",
+    "Büyükyalı": "/videos/istanbul/Zeytinburnu/B%C3%BCy%C3%BCkyal%C4%B1/cover.jpg",
+    "Göktürk": "/videos/istanbul/Ey%C3%BCp/G%C3%B6kt%C3%BCrk/cover.jpg",
+    "Delta": "/videos/istanbul/Ba%C4%9Fc%C4%B1lar/Projeler/Avrupa%20Konutlar%C4%B1%20G%C3%BCne%C5%9Fli/cover-exterior.jpeg",
   };
 
 
@@ -158,7 +132,7 @@ function getVibesForLocale(currentLocale: string): Vibe[] {
   const region = LOCALE_TO_REGION[currentLocale] || 'USA';
   return region === 'TR' ? TURKEY_VIBES : USA_VIBES;
 }
-// Role config will be inside the component to use useTranslation hooks.
+
 
 export function HomeContent({ initialProperties = [] }: { initialProperties?: Record<string, unknown>[] }) {
   const { t } = useTranslation();
@@ -167,59 +141,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const { currency, locale } = useLocalization();
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const [supportModalOpen, setSupportModalOpen] = useState(false);
-  const { soundEnabled, toggleSound, notifyNewMessage, requestNotificationPermission } = useChatNotification();
   const [heroRevealed, setHeroRevealed] = useState(false);
-  const [userRole, setUserRole] = useState<string>("UNKNOWN");
-  
-  const ROLE_CONFIG: Record<string, any> = {
-    UNKNOWN: {
-      heroSupporting: t("reos.roles.UNKNOWN.heroSupporting", { defaultValue: "Select your role to explore the Real Estate Operating System." }),
-      primaryCTA: t("reos.roles.UNKNOWN.primaryCTA", { defaultValue: "Select Role" }),
-      features: []
-    },
-    OWNER: {
-      heroSupporting: t("reos.roles.OWNER.heroSupporting", { defaultValue: "Turn your property into an intelligently managed asset." }),
-      primaryCTA: t("reos.roles.OWNER.primaryCTA", { defaultValue: "Evaluate My Property" }),
-      features: ["Property Intelligence", "Legal & Policy Checks", "Revenue Options", "Transaction Control"]
-    },
-    AGENT: {
-      heroSupporting: t("reos.roles.AGENT.heroSupporting", { defaultValue: "Turn every lead into a connected transaction." }),
-      primaryCTA: t("reos.roles.AGENT.primaryCTA", { defaultValue: "Build My Pipeline" }),
-      features: ["Lead Intelligence", "Property Verification", "Deal Workspace", "Commission Automation", "Network Distribution"]
-    },
-    OPERATOR: {
-      heroSupporting: t("reos.roles.OPERATOR.heroSupporting", { defaultValue: "Operate properties through one intelligent workspace." }),
-      primaryCTA: t("reos.roles.OPERATOR.primaryCTA", { defaultValue: "Operate My Portfolio" }),
-      features: ["Portfolio Operations", "Lease & Stay Management", "Payments & Escrow", "Compliance Workflows", "Automation"]
-    },
-    INVESTOR: {
-      heroSupporting: t("reos.roles.INVESTOR.heroSupporting", { defaultValue: "Discover opportunities. Model the economics. Execute with confidence." }),
-      primaryCTA: t("reos.roles.INVESTOR.primaryCTA", { defaultValue: "Explore Investment Opportunities" }),
-      features: ["Opportunity Discovery", "Investment Analytics", "Risk Intelligence", "Digital Due Diligence", "Transaction Workflow"]
-    },
-    TENANT: {
-      heroSupporting: t("reos.roles.TENANT.heroSupporting", { defaultValue: "Find a home with a clearer path to move-in." }),
-      primaryCTA: t("reos.roles.TENANT.primaryCTA", { defaultValue: "Find a Home" }),
-      features: ["Verified property information", "Eligibility-aware discovery", "Digital application", "Identity verification"]
-    },
-    GUEST: {
-      heroSupporting: t("reos.roles.GUEST.heroSupporting", { defaultValue: "Discover stays with connected booking and secure operations." }),
-      primaryCTA: t("reos.roles.GUEST.primaryCTA", { defaultValue: "Find a Stay" }),
-      features: ["Availability", "Anti-double-booking controls", "Secure payments", "Guest verification"]
-    },
-    DEVELOPER: {
-      heroSupporting: t("reos.roles.DEVELOPER.heroSupporting", { defaultValue: "Bring developments from project to market through one operating layer." }),
-      primaryCTA: t("reos.roles.DEVELOPER.primaryCTA", { defaultValue: "List a Development" }),
-      features: ["Project Distribution", "Investor Matching", "Digital Project Data", "Partner Network"]
-    },
-    CORPORATE: {
-      heroSupporting: t("reos.roles.CORPORATE.heroSupporting", { defaultValue: "Manage corporate housing and real estate needs through one platform." }),
-      primaryCTA: t("reos.roles.CORPORATE.primaryCTA", { defaultValue: "Explore Corporate Solutions" }),
-      features: ["Corporate housing discovery", "Employee/tenant workflows", "Master lease workflows", "Portfolio management"]
-    }
-  };
-  
-  const roleData = ROLE_CONFIG[userRole];
 
   // Get country-specific vibes based on locale
   const [vibes, setVibes] = useState(getVibesForLocale(locale));
@@ -346,7 +268,6 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 
     setIsAiLoading(true);
     try {
-      const { default: GeminiClient } = await import("@/lib/ai/gemini-client");
       const suggestions = await GeminiClient.getSearchSuggestions(input);
       setAiSuggestions(suggestions);
       setShowAiSuggestions(suggestions.length > 0);
@@ -378,34 +299,8 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   };
 
   const { data: rawResponse } = useQuery({
-    queryKey: ["properties", "featured", selectedCountry],
-    queryFn: async () => {
-      const regionToFetch = selectedCountry || "TR";
-      // Fetch the best TR properties with the most images for the featured bento grid
-      const featuredIds = [
-        "cmsxglvdb001dpj2mrbp5hngl",  // Nish Adalar (45 imgs)
-        "tr_prop_tr-res-skyland",      // Skyland Istanbul (23 imgs)
-        "tr_prop_tr-res-sapphire",     // Istanbul Sapphire (22 imgs)
-        "cmsxglvbp0019pj2mywvk8fe5",  // Metropol Istanbul (20 imgs)
-        "cmsxglvgd001npj2mebd33whg",  // Savoy (19 imgs)
-      ];
-      const allResults: any[] = [];
-      for (const id of featuredIds.slice(0, 4)) {
-        try {
-          const res = await propertiesApi.getById(id, regionToFetch);
-          if (res?.data) allResults.push(res.data);
-        } catch {}
-      }
-      if (allResults.length === 0) {
-        // Fallback to normal query
-        const res = await propertiesApi.getAll({ limit: 4, sortBy: "date_desc" }, regionToFetch);
-        const inner = (res as any)?.data?.data;
-        if (inner) return { data: inner };
-        if ((res as any)?.data && Array.isArray((res as any).data)) return { data: (res as any).data };
-        return res;
-      }
-      return { data: allResults };
-    },
+    queryKey: ["properties", "featured", selectedRegion?.countryCode],
+    queryFn: () => propertyApi.getProperties(),
     initialData: initialProperties.length > 0 ? { data: initialProperties } : undefined,
   });
   const response = rawResponse as { data?: Property[] } | null;
@@ -413,56 +308,12 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const slides = useMemo(() => {
     if (!response?.data || response.data.length === 0) return getFallbackSlides(t);
     return response.data.map((prop: any, i: number) => {
-      // Determine a smart fallback index based on the property name to keep tags/formatting consistent
-      let fallbackIndex = i % getFallbackSlides(t).length;
-      if (String(prop.name || "").includes("Delta")) fallbackIndex = 5;
-      else if (String(prop.name || "").includes("Uphill")) fallbackIndex = 1;
-      else if (String(prop.name || "").includes("Upcity Residence")) fallbackIndex = 2;
-      else if (String(prop.name || "").includes("Upcity Flats")) fallbackIndex = 3;
-      
-      const fallback = getFallbackSlides(t)[fallbackIndex];
-      
-      if (!prop.name) return fallback;
-
-      const rawImg = prop.photos?.[0]?.url || prop.listings?.[0]?.pricingRules?.[0]?.discountRules?.image || (Array.isArray(prop.scrapedImages) && prop.scrapedImages.length > 0 ? (typeof prop.scrapedImages[0] === "string" ? prop.scrapedImages[0] : prop.scrapedImages[0]?.url) : null);
+      const fallback = getFallbackSlides(t)[i % getFallbackSlides(t).length];
+      const rawImg = prop.listings?.[0]?.pricingRules?.[0]?.discountRules?.image;
       const coverKey = Object.keys(PROJECT_COVERS).find((k) => String(prop.name || "").includes(k));
       const coverImg = coverKey ? PROJECT_COVERS[coverKey] : null;
-
-      const videoKey = Object.keys(PROJECT_VIDEOS).find((k) => String(prop.name || "").includes(k));
-      const finalVideo = videoKey ? PROJECT_VIDEOS[videoKey] : (fallback as any).video;
-
-      const titleKey = Object.keys(PROJECT_TITLES).find((k) => String(prop.name || "").includes(k));
-      const finalTitle = titleKey ? PROJECT_TITLES[titleKey] : (prop.name || fallback.title);
-      
-      const genericPlaceholders = [
-        "",
-        "",
-        "",
-        ""
-      ];
-      
-      const finalImage = coverImg || ((rawImg && typeof rawImg === "string" && rawImg.length > 10) ? rawImg : null);
-      
-      const locationStr = [prop.address, prop.city, prop.stateCode || prop.state, prop.country].filter(Boolean).join(", ");
-      
-      // Parse rooms from DB if available (e.g. from attributes)
-      const beds = prop.attributes?.find((a: any) => a.key === 'rooms')?.value || fallback.beds;
-      const baths = prop.attributes?.find((a: any) => a.key === 'bathrooms')?.value || fallback.baths;
-      const sqm = prop.attributes?.find((a: any) => a.key === 'sqm')?.value || fallback.sqm;
-      
-        return { 
-        ...fallback, 
-        id: String(prop.id || ""), 
-        title: finalTitle, 
-        location: locationStr || fallback.location, 
-        price: prop.price ? formatCurrency(Number(prop.price), currency, locale) : fallback.price, 
-        image: finalImage,
-        video: finalVideo,
-        beds,
-        baths,
-        sqm,
-        areaVal: prop.attributes?.find((a: any) => a.key === 'sqm')?.value ? parseFloat(prop.attributes.find((a: any) => a.key === 'sqm').value) : fallback.areaVal
-      } as any;
+      const finalImage = coverImg || ((rawImg && typeof rawImg === "string" && rawImg.length > 10) ? rawImg : fallback.image);
+      return { ...fallback, id: String(prop.id || ""), title: prop.name || fallback.title, location: prop.address || fallback.location, price: prop.price ? formatCurrency(Number(prop.price), currency, locale) : fallback.price, image: finalImage };
     });
   }, [response, currency, locale, t]);
 
@@ -471,8 +322,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
   const slide = slides[currentSlide] || slides[0];
 
   const bgVideo = useMemo(() => {
-    return slide?.video || "ozak-bg";
-  }, [slide]);
+    const videos = ["ozak-bg", "ozak-dragos-bg", "ozak-buyukyali-bg", "ozak-duyu-bg"];
+    return videos[currentSlide % videos.length];
+  }, [currentSlide]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-card dark:selection:text-black">
@@ -497,8 +349,6 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               muted
               playsInline
               preload="metadata"
-              aria-hidden="true"
-              tabIndex={-1}
               poster="/videos/poster.webp"
               onLoadedMetadata={(e) => { e.currentTarget.currentTime = 2; }}
               initial={{ opacity: 0, scale: 1.1 }}
@@ -507,10 +357,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="w-full h-full object-cover"
             >
-              <source src={`/videos/${bgVideo}.mp4`} type="video/mp4" />
-              <source src={`/videos/webm/${bgVideo}.webm`} type="video/webm" />
               <source src={`/videos/webm/${bgVideo}-low.webm`} type="video/webm" />
-              <track kind="captions" srcLang="tr" label="Türkçe" default src="/videos/webm/captions.vtt" />
+              <source src={`/videos/webm/${bgVideo}.webm`} type="video/webm" />
+              <source src={`/videos/${bgVideo}.mp4`} type="video/mp4" />
             </m.video>
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/50" />
@@ -531,53 +380,14 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 initial={{ opacity: 1, scale: 1 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="text-center w-full"
+                className="text-center"
               >
-                <h1 className="text-5xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-100 to-slate-400 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-                  {t("reos.hero.headline", { defaultValue: "Real Estate, Operated." })}
+                <h1 className="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-100 to-slate-400 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+                  Reservatior
                 </h1>
-                <p className="text-white/90 text-base md:text-lg font-medium max-w-3xl mx-auto mt-6 leading-relaxed">
-                  {t("reos.hero.subheadline", { defaultValue: "REOS connects property discovery, verification, intelligence, transactions, finance and operations into one real estate operating system." })}
+                <p className="text-white/50 text-sm md:text-base font-medium tracking-[0.3em] uppercase mt-4">
+                  {t("home.hero.tagline", { defaultValue: "Yeni Nesil Gayrimenkul İşletim Sistemi" })}
                 </p>
-
-                {/* Role Selector UI */}
-                <div className="mt-8 flex flex-col items-center">
-                  <p className="text-white/60 text-sm mb-4 uppercase tracking-widest">{t("reos.hero.roleSelectorText", { defaultValue: "What brings you to Reservatior?" })}</p>
-                  <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-                    {["OWNER", "AGENT", "OPERATOR", "INVESTOR", "TENANT", "GUEST", "DEVELOPER", "CORPORATE"].map((role) => (
-                      <button
-                        key={role}
-                        onClick={() => setUserRole(role)}
-                        className={`px-4 py-2 rounded-full text-sm font-bold tracking-wider transition-all border ${
-                          userRole === role 
-                            ? "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.5)] scale-105" 
-                            : "bg-black/40 text-white/70 border-white/20 hover:bg-white/10 hover:text-white"
-                        }`}
-                      >
-                        I&apos;m an {role === "TENANT" || role === "GUEST" ? "Explorer" : role.charAt(0) + role.slice(1).toLowerCase()}
-                      </button>
-                    ))}
-                  </div>
-                  
-                  {/* Dynamic Role Content */}
-                  {userRole !== "UNKNOWN" && (
-                    <m.div 
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-8 bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl p-6 max-w-3xl mx-auto"
-                    >
-                      <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{roleData.heroSupporting}</h3>
-                      <div className="flex flex-wrap justify-center gap-2 mb-6 mt-4">
-                        {roleData.features.map((feat: string, idx: number) => (
-                          <span key={idx} className="bg-white/10 text-white/80 px-3 py-1 text-xs rounded-full">{feat}</span>
-                        ))}
-                      </div>
-                      <Button className="bg-white text-black hover:bg-slate-200 rounded-full px-8 py-6 text-lg font-bold">
-                        {roleData.primaryCTA}
-                      </Button>
-                    </m.div>
-                  )}
-                </div>
               </m.div>
 
               {/* Scroll Down Indicator */}
@@ -585,7 +395,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer px-6 py-4"
+                className="absolute bottom-12 flex flex-col items-center gap-3 cursor-pointer"
                 role="button"
                 tabIndex={0}
                 aria-label={t("home.hero.scroll", { defaultValue: "Keşfetmek için kaydırın" })}
@@ -595,9 +405,9 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
                   animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <Mouse className="w-6 h-6 text-white/70" />
+                  <Mouse className="w-6 h-6 text-white/60" />
                 </m.div>
-                <span className="text-white/70 text-[10px] font-bold tracking-[0.3em] uppercase">
+                <span className="text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
                   {t("home.hero.scroll", { defaultValue: "Keşfetmek için kaydırın" })}
                 </span>
               </m.div>
@@ -606,7 +416,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
         </AnimatePresence>
 
         {/* ─── FAZ 2 & 3: SEARCH + PROJECT INFO (Reveal sonrası) ─── */}
-        <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 flex flex-col justify-end h-full pb-12 md:pb-20">
+        <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 flex flex-col justify-end h-full pb-12 md:pb-20">
 
           {/* FLOATING SEARCH PILL (Faz 2) */}
           <AnimatePresence>
@@ -1012,7 +822,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 
       {/* ══════ VIBES / CATEGORIES (HORIZONTAL SCROLL & INTERACTIVE BAR) ══════ */}
       <section className="py-10 border-b border-border bg-background">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1800px] mx-auto px-6 md:px-12">
           <div className="flex gap-6 sm:gap-10 overflow-x-auto no-scrollbar snap-x pb-4 pt-2">
             {vibes.map((vibe, i) => {
               const isActive = selectedVibe === vibe.englishName;
@@ -1078,7 +888,7 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
 
       {/* ══════ BENTO GRID (FEATURED) ══════ */}
       <section className="py-24 bg-background">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1800px] mx-auto px-6 md:px-12">
           <m.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex justify-between items-end mb-16">
             <div>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">{t("home.curated.title", { defaultValue: "Seçilmiş Mülk Koleksiyonu" })}</h2>
@@ -1104,69 +914,40 @@ export function HomeContent({ initialProperties = [] }: { initialProperties?: Re
         </div>
       </section>
 
-      {/* ══════ ECOSYSTEM & INVESTMENT & GLOBAL OS — lazy layout calculation ══════ */}
-      <div className="cv-auto">
-        <EcosystemSection />
-        <InvestmentSection />
-        <GlobalOSSection />
-      </div>
+      {/* ══════ ECOSYSTEM (HOSPITALITY OS) — lazy chunk ══════ */}
+      <EcosystemSection />
+
+      {/* ══════ INVESTMENT INTELLIGENCE — lazy chunk ══════ */}
+      <InvestmentSection />
+
+      {/* ══════ GLOBAL HYBRID RENTAL OS PROMOTION — lazy chunk ══════ */}
+      <GlobalOSSection />
 
       {/* ══════ FOOTER (Minimal Premium) ══════ */}
       <Footer />
       
-      <AIChatModal isOpen={aiModalOpen} onClose={() => setAiModalOpen(false)} onNewMessage={notifyNewMessage} />
-      <SupportChatModal isOpen={supportModalOpen} onClose={() => setSupportModalOpen(false)} onNewMessage={notifyNewMessage} />
+      <AIChatModal isOpen={aiModalOpen} onClose={() => setAiModalOpen(false)} />
+      <SupportChatModal isOpen={supportModalOpen} onClose={() => setSupportModalOpen(false)} />
       <AdvancedFilterModal isOpen={advancedFilterOpen} onClose={() => setAdvancedFilterOpen(false)} searchMode={searchMode} selectedCountry={selectedCountry} />
       
-      {/* Floating Support Button + Sound Toggle */}
-      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
-        <button
-          onClick={() => {
-            toggleSound();
-            requestNotificationPermission();
-          }}
-          aria-label={soundEnabled ? "Ses bildirimlerini kapat" : "Ses bildirimlerini aç"}
-          className="w-12 h-12 min-w-[48px] min-h-[48px] bg-white/90 dark:bg-[#14151a]/90 backdrop-blur-md rounded-full shadow-xl flex items-center justify-center hover:scale-110 transition-all border border-white/20 dark:border-white/10"
-          title={soundEnabled ? "Ses Açık" : "Ses Kapalı"}
-        >
-          {soundEnabled ? (
-            <Volume2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-          ) : (
-            <VolumeX className="w-5 h-5 text-neutral-400 dark:text-muted-foreground" />
-          )}
-        </button>
-        <button
-          onClick={() => setSupportModalOpen(true)}
-          aria-label={t('home.support.open_chat', { defaultValue: 'Open support chat' })}
-          className="w-14 h-14 min-w-[48px] min-h-[48px] bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform"
-        >
-          <Sparkles className="w-6 h-6 text-white" />
-        </button>
-      </div>
+      {/* Floating Support Button */}
+      <button
+        onClick={() => setSupportModalOpen(true)}
+        aria-label={t('home.support.open_chat', { defaultValue: 'Open support chat' })}
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 min-w-[48px] min-h-[48px] bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform"
+      >
+        <Sparkles className="w-6 h-6 text-white" />
+      </button>
     </div>
   );
 }
 
 /* ───── Bento Card Component ───── */
-function BentoCard({ prop, countryCode = "TR", className, large = false }: { prop: { id?: string; image: string | null; title: string; location: string; price: string; tag?: string; beds?: string; baths?: string; sqm?: string; sqft?: string; areaVal?: number; video?: string }; countryCode?: string; className?: string; large?: boolean }) {
+function BentoCard({ prop, countryCode = "TR", className, large = false }: { prop: { id?: string; image: string; title: string; location: string; price: string; tag?: string; beds?: string; baths?: string; sqm?: string; sqft?: string; areaVal?: number }; countryCode?: string; className?: string; large?: boolean }) {
   if (!prop) return null;
   return (
     <Link href={prop.id ? `/client/property/${prop.id}` : "#"} className={`group relative rounded-3xl overflow-hidden block always-dark h-[350px] md:h-full w-full ${className}`}>
-      {prop.video ? (
-        <video 
-          autoPlay loop muted playsInline 
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-        >
-          <source src={`/videos/${prop.video}.mp4`} type="video/mp4" />
-          <source src={`/videos/webm/${prop.video}.webm`} type="video/webm" />
-        </video>
-      ) : prop.image ? (
-        <Image src={encodeURI(prop.image)} alt={prop.title} fill sizes="(max-width: 768px) 100vw, 50vw" unoptimized className="object-cover transition-transform duration-1000 group-hover:scale-105" />
-      ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950 flex items-center justify-center">
-          <Building className="w-16 h-16 text-white/20" />
-        </div>
-      )}
+      <Image src={prop.image} alt={prop.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-1000 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10 transition-opacity duration-500 group-hover:opacity-80" />
       
       {/* Tag */}

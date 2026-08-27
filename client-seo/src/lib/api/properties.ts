@@ -91,6 +91,16 @@ export interface Property {
   propertyTaxRate?: number;
   yearRenovated?: number;
   isDoped?: boolean;
+  
+  // AI & Advanced Filter Fields
+  aiSummary?: string;
+  aiOpportunityScore?: number;
+  aiWhyScore?: number;
+  aiRecommendedStrategy?: string;
+  aiOpportunityTier?: string;
+  aiAcquisitionUrgency?: string;
+  aiRiskLevel?: string;
+  legalComplianceStatus?: string;
 
   // Relations (will be populated by API)
   photos?: PropertyPhoto[];
@@ -233,8 +243,11 @@ export const propertiesApi = {
     city?: string;
     state?: string;
   }): Promise<Property[]> => {
-    const { data } = await apiClient.get<{ data: Property[] }>("/api/v1/property", params);
-    return data;
+    const res: any = await apiClient.get("/api/v1/property", params);
+    if (Array.isArray(res)) return res;
+    if (Array.isArray(res?.data)) return res.data;
+    if (Array.isArray(res?.data?.data)) return res.data.data;
+    return [];
   },
 
   getById: async (id: string): Promise<Property> => {
