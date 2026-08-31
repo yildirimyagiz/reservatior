@@ -38,14 +38,14 @@
     "zod": "^4.1.13"
   },
   "devDependencies": {
-    "@faker-js/faker": "^10.3.0",
-    "@types/node": "^25.5.0",
+    "@faker-js/faker": "^10.6.0",
+    "@types/node": "^26.4.0",
     "@types/pg": "^8.20.0",
     "@zenstackhq/cli": "^3.5.2",
     "bun-types": "latest",
     "bunx": "^0.1.0",
     "init": "^0.1.2",
-    "prisma": "6.19.2"
+    "prisma": "7.10.0"
   },
   "module": "src/index.js"
 }
